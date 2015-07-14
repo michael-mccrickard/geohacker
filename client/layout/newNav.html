@@ -1,0 +1,34 @@
+<template name="newNav">
+
+  <div class="navbar navbar-inverse navbar-fixed-top">
+        <ul class="nav navbar-nav navbar-left ">
+          <li class="dropdown menuFont">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">GEOHACKER <span class="caret"></span></a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="javascript:void(0);" onclick="hack.autoHack()">Auto-hack ...</a></li>
+              <li><a href="javascript:void(0);" onclick="hack.startNewFromMenu()">Hack a different message ...</a></li>
+              <li><a href="/missionSelect">Start a new mission ...</a></li>
+              <li class="divider"></li>
+   
+              <li><a href="javascript:void(0);" onclick="game.stopMusic()">Music off</a></li>
+              <li><a href="javascript:void(0);" onclick="game.startMusic()">Music on</a></li>    
+
+              {{#if displayIsReady}}
+                <li class="divider"></li>
+                <li><a href="/selectCountry">Edit database</a></li> 
+                <li><a href="/editor">Edit this country</a></li>  
+              {{/if}}
+
+            </ul>
+          </li>
+        </ul>
+
+      {{#if currentUser}}
+        <ul class="nav navbar-right">
+          <li role="button" class="active"><a class="menuFont" href="javascript:void(0);" onclick="game.logout()">CLOCK OUT</a></li>
+        </ul>
+      {{/if}}
+  
+  </div>
+
+</template>

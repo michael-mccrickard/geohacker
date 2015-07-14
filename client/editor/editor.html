@@ -1,0 +1,133 @@
+<template name="editor">
+
+<h3 class="centered editor"  style="margin-top: 52px;">Editing {{getThisCountryName}} ({{getThisCountryCode}}) -- {{getEditControlName}}</h3> 
+
+<span>
+	<button class="btn btn-success" id="addRecord" style="margin-left: 70px; margin-top: 10px;"><strong>+</strong></button> 
+	<button class="btn btn-default pull-right" style="margin-right: 70px; margin-top: 10px;" id="closeEditor"><strong>X</strong></button>    
+</span>
+
+
+
+	<div class="container editor">
+
+		<div class="centered" style="margin-top: 10px;">
+
+			  <button type="button" class="btn btn-primary" id="editSound">Sound</button>
+			  <button type="button" class="btn btn-success" id="editText">Text</button>
+			  <button type="button" class="btn btn-danger" id="editImage">Image</button>
+
+			  <button type="button" class="btn btn-warning" id="editVideo">Video</button>
+			  <button type="button" class="btn btn-info" id="editWeb">Web</button>
+			  <button type="button" class="btn btn-default" id="editDebrief">Debrief</button>
+			
+		</div>
+
+		<div class="centered"> 
+
+			<table class="dataTable" border="2">
+
+				{{#if debriefIsSelected}}
+
+				  <tr>
+				    <th>Update</th>
+				    <th>File</th> 
+				    <th>Text</th> 
+				    <th>Debrief type</th> 
+				    <th>Delete</th> 
+				  </tr>
+
+			  	  {{#each dataRecord}}
+
+					  <tr class="dataRow">
+					    <td><button class="btn btn-success updateRecord" id="{{this._id}}" size="2">SAV</button></td>
+					    <td><input type="text" class="f" id="{{this._id}}" size="40" value="{{this.f}}"></td> 
+					    <td><input type="text" class="t" id="{{this._id}}" size="40" value="{{this.t}}"></td> 
+					    <td><input type="text" class="dt" id="{{this._id}}" size="5" value="{{this.dt}}"></td>
+						<td><button class="btn btn-danger deleteRecord" id="{{this._id}}" size="2">DEL</button></td>
+					  </tr>
+
+				  {{/each}}
+
+				{{else}}
+
+					<col width="13%">
+					<col width="54%">
+					<col width="13%">
+					<col width="13%"> 
+
+					<tr>
+					<th>Update</th> 
+					<th>File or Text</th> 
+					<th>Debrief type</th> 
+					<th>Delete</th> 
+					</tr>
+
+					  {{#each dataRecord}}
+
+					  <tr class="dataRow">
+						<td><button class="btn btn-success updateRecord" id="{{this._id}}">SAV</button></td>
+					    <td><input type="text" class="f" id="{{this._id}}" size="80" value="{{this.f}}"></td> 
+					    <td><input type="text" class="dt" id="{{this._id}}" value="{{this.dt}}"></td>
+						<td><button class="btn btn-danger deleteRecord" id="{{this._id}}">DEL</button></td>
+					  </tr>
+
+					{{/each}}
+
+				  {{/if}}
+
+			  </table>
+		</div>
+
+		<div class="centered dataTable">
+
+		  {{#with selectedDataRecord}}
+
+			  	{{#if soundIsSelected}}
+		  	    
+		  	      <audio controls autoplay id="editorSoundPlayer">
+			        <source src="" type="audio/mpeg">  
+			        Your browser does not support the audio element.
+			      </audio>
+			    
+			    {{/if}}
+
+			    {{#if textIsSelected}}
+            
+	              <div class="editFrame">
+
+	                <h1><span class="editFeaturedInterceptedText">{{this.f}}</span></h1>
+	              
+	              </div>
+
+			    {{/if}}
+
+			    {{#if debriefIsSelected}}
+
+					<div class="debriefBoxEdit hackerFont">
+
+						<img class="debriefPicFrameEdit" src="{{getImage this.f}}" />
+
+						<h3 class="geoFont uppercase centered">{{getText}}</h3>
+
+					</div>
+
+			    {{/if}}
+
+			    {{#if otherIsSelected}}
+
+					<div class="bigPicFrame editFrame">
+
+						<img class="bigPic" id="editFeaturedControlPic" src="{{getNonYouTubeFile this.f}}" /> 
+
+					</div>	
+
+				{{/if}}
+
+			{{/with}}
+
+	    </div>  <!-- data display area -->
+
+	</div>	<!-- container div -->
+
+</template>

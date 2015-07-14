@@ -1,0 +1,63 @@
+
+<template name="layout">
+
+    <audio autoplay id="musicPlayer">
+    <source src="" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
+
+    <audio id="effectsPlayer">
+    <source src="" type="audio/mpeg">  
+    Your browser does not support the audio element.
+    </audio>
+
+    <audio id="soundPlayer">
+    <source src="" type="audio/mpeg">  
+    Your browser does not support the audio element.
+    </audio>
+
+    {{> newNav}}
+
+    {{> yield}}
+
+    {{> youtube}}
+
+	<div class="invisible" id="preloadMain">
+
+        <img id="pMAP" src="" />
+    	<img id="pWEB" src="" />
+    	<img id="pIMAGE" src="" />
+        <img id="pTEXT" src="" />
+        <img id="pSOUND" src="" />
+        <img id="pVIDEO" src="" />
+
+        <img id="pMAP2" src="" />
+        <img id="pWEB2" src="" />
+        <img id="pIMAGE2" src="" />
+        <img id="pTEXT2" src="" />
+        <img id="pSOUND2" src="" />
+        <img id="pVIDEO2" src="" />
+
+        <img id="pSCAN" src="tvScannerYellow.png" />
+        <img id="pSCAN2" src="tvScannerGreen.png" />   
+
+        <img id="pFEATURE" src="geohacker_background.png" />   
+        <img id="pFEATURE2" src="spinning_globe.gif" />
+
+        <img id="pBACKDROP" src="screenBackdrop.jpg" />   
+        <img id="pBACKDROP2" src="featuredBackdrop.jpg" />
+
+	</div>
+
+
+	<div class="invisible" id="preloadFeature">
+		<img id="pFEATURE3" src="" />
+	</div>
+
+    <div class="invisible" id="preloadCountryMap">
+        <img id="imgCountryMap" src="" />
+    </div>
+
+</template>
+
+

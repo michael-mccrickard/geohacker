@@ -1,0 +1,629 @@
+.frankieBox {
+    
+    position: absolute;
+
+    width: 500px;
+    height: 455px;
+
+    top: 15%; 
+    margin-left: 4%;
+
+    border-radius: 7px;
+
+    border-width: 4px;
+
+    border-color: CornflowerBlue;
+
+    border-style: solid;
+
+    background-color: DarkBlue;
+
+}
+
+.frankiePic {
+    
+    position: absolute;
+
+    width: 188px;
+    height: 128px;
+
+    top: 310px; 
+    margin-left: 10px;
+
+    border-radius: 7px;
+
+/*
+    border-width: 7px;
+
+    border-color: CornflowerBlue;
+
+    border-style: solid;
+
+    background-color: DarkBlue;
+*/
+
+}
+
+  
+/* top-level elements */
+
+
+html,body {
+	background-color: black;
+	color: white;
+	font-family: geoFont;
+    height: 100%;
+}
+
+body {
+    font-size: 16px;
+}
+
+@font-face {
+    font-family: geoFont;
+    src: url("BMmini.TTF");
+}
+
+.menuFont {
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #9d9d9d;
+}
+
+.navbar-right {
+
+    margin-right: 1%;
+}
+
+
+
+ /******************************/
+
+/*  MAIN SCREEN */
+
+/******************************/
+
+/*  full screen area */
+
+div.newWrapper {
+        margin-left: auto;
+        margin-right: auto;
+        width: 98%;
+        height: 98%;
+    }
+
+
+img.backdrop {
+
+    width: 100%;
+    height: 100%;
+}
+
+/*  featured area */
+
+div.displayWaiting {
+
+    position: absolute;
+
+    top: 38%;
+    left: 44%;
+
+}
+
+img.featuredBackdrop {
+
+    position: absolute;
+
+    top: 0px;
+    left: 0px;
+
+    left: 2%;
+    top: 6%;
+
+    width: 83.3%;
+    height: 63.75%;
+
+    z-index: 5;
+}
+
+.featuredPic {
+    position: absolute;
+    top: 6%;
+    z-index: 50;
+}
+
+.featuredText {
+
+    position: absolute;
+
+    top: 15%;
+    left: 5%;
+
+    width: 75%;
+    color: white;  
+
+    z-index: 50;
+}
+
+.featuredTextFont {
+
+    font-size: 7.0vh; 
+
+    font-family: Arial;
+}
+
+.featuredMessageFont {
+
+    font-size: 4.0vh; 
+    font-family: geoFont;
+}
+
+.featuredYouTubeVideo {
+
+    top: 0px;
+    left: 0px;
+
+    z-index: 50;
+
+}
+
+.navButton {
+
+    position: absolute;
+    top: 37%;  
+    z-index: 60;
+    cursor:pointer;
+}
+
+.navPrev {
+    
+    left: 2.75%;
+}
+
+.navNext {
+    left: 82.25%;
+}   
+
+/* map and scanner */
+
+.mainButton {
+    z-index: 10;
+    position: absolute;
+    left: 85.75%; 
+    width: 12.8%;
+    height: 20%;
+}
+
+.clsMapButton {
+    top: 62px;
+}
+
+.clsScanButton {
+    top: 71%;
+}
+
+.arrow {
+    z-index: 10;
+    position: absolute;
+    left: 89.25%; 
+    width: 6%;
+    height: 12%;
+}
+
+#scanArrow {
+    top: 62%;
+}
+
+#mapArrow {
+    top: 27%;
+}
+
+/* headline and footer */
+
+.divStatus {
+    position: absolute;
+    top: 2%;
+    z-index: 1050;
+    text-transform: uppercase;
+    pointer-events: none;
+    font-size: 2.5vh;
+}
+
+.divCue {
+    position: absolute;
+    top: 94.19%;
+    z-index: 15;
+    text-transform: uppercase;
+    pointer-events: none;
+    font-size: 2.5vh;
+}
+
+
+ /******************************/
+
+/*  CONTROLS */
+
+/******************************/
+
+div.control {
+
+    position: absolute;
+
+    top: 71.25%;
+
+    width: 15.8%;
+    height: 20.75%;
+
+}
+
+#SOUND {
+    left: 2%;      
+}
+
+#TEXT {
+    left: 18.8%;      
+}
+
+#IMAGE {
+    left: 35.7%;      
+}
+
+#VIDEO {
+    left: 52.6%;      
+}
+
+#WEB {
+    left: 69.5%;      
+}
+
+.controlPic {
+    position: absolute;
+}
+
+.controlLabel {
+    position: relative;
+    text-align: center;
+    font-size: 3.0vh;
+    top: -20%;
+    pointer-events: none;
+}
+
+.controlText {
+
+    position: absolute;
+
+    top: 0.5%;
+    left: 5%;
+
+   font-family: Arial;
+    font-size: 3.0vh; 
+    color: white;  
+}
+
+
+
+
+ /******************************/
+
+/*  Debriefing  and Congrats */
+
+/******************************/
+
+.debriefHeadline {
+  position: absolute;
+  font-size: 4.0vh;
+}
+
+.debriefText {
+    
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    color: black;
+}
+
+.debriefBox {
+    
+    position: absolute;
+
+    width: 92%;
+    height: 80%;
+
+    top: 15%; 
+    margin-left: 4%;
+
+    border-radius: 7px;
+
+    background-color: #A9A9A9;
+
+}
+
+.debriefPicFrame {
+
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+    border-radius: 7px;
+
+}
+
+/*  congrats screen */
+
+.darkButton {
+  color: white;
+  background-color: black; 
+  border-radius: 5px;
+  border: 2px solid;
+  border-color: yellow;
+  font-family: geoFont;
+  font-size: 18px;
+  padding-top: 6px;
+}
+
+#closeupBox {
+    
+    position: absolute;
+
+    width: 98%;
+    height: 98%;
+/*
+    top: 1%;
+    margin-left: 1%;
+*/
+    border-radius: 7px;
+
+    background-color: #A9A9A9;
+
+}
+
+ /******************************/
+
+/*  Editor   */
+
+/******************************/
+
+.menuBarBtn {
+
+    position: fixed;
+    z-index: 5000;
+    top: 5px;
+}
+
+.menuBarBtnCont {
+
+    font-size: 14px;
+}
+
+.menuBarBtnContSel {
+
+    font-size: 20px;
+}
+
+
+.editor {
+
+    font-family: Arial;
+    background-color: white;
+    color: black;
+    width: 100%;
+    margin-top: 55px;
+}
+
+
+.control-label {
+  color: black;
+}
+
+
+th,td {
+    padding: 15px;
+}
+
+.editForm {
+
+  width: 768px;
+}
+
+.dataTable {
+  
+  margin-top: 20px;
+  width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.editFeaturedInterceptedText {
+   color: black;
+  margin: 10px;
+}
+
+.editFrame {
+
+  width: 50%;
+  height: 50%;
+
+  border: 2px solid;
+  border-radius: 7px;
+  border-color: black;
+  
+  margin: 20px;
+}
+
+
+.debriefBoxEdit {
+    border-radius: 7px;
+    padding: 10px;
+    margin: 10px;
+    width: 85%;
+    background-color: #A9A9A9;
+    display: block; 
+    margin: auto;
+
+    font-family: geoFont;
+}
+
+.debriefPicFrameEdit {
+
+  max-height: 450px;
+  min-width: 300px;
+  max-width: 600px;
+  vertical-align: middle;
+
+    border-radius: 7px;
+    display: block; 
+    margin: auto;
+}
+
+.ytVideoEditFrame {
+
+    margin-top: 1%;
+    margin-left: 2.5%;
+}
+
+ /******************************/
+
+/*  START SCREEN */
+
+/******************************/
+
+.loginStatus {
+
+    margin-top: -7.5vh;
+
+    margin-bottom: 2.0vh;
+}
+
+.applyForJob {
+
+    margin-top: 2.0vh;
+
+    border-style: solid;
+    border-width: 4px;
+    border-radius: 7px;
+    border-color: yellow;
+
+    text-align: center;
+}
+
+.applyForJobButton {
+
+    margin-bottom: 2.0vh;
+}
+
+.loginPrompt {
+
+    font-size: 18px;
+    margin-bottom: 2.0vh;
+}
+
+.badPasswordLink {
+
+    float: right;
+}
+
+
+.bigButton {
+  font-family: geoFont;
+      font-size: 10.0vh;
+  background-color: #808080;
+  color: #FFFF33;
+    border-style: solid;
+    border-width: 10px;
+    border-radius: 10px;
+    border-color: #808080;
+    text-align: center;
+    margin-top: 2.0vh;
+}
+
+.jumbotron {
+  background-color: black;
+}
+
+
+#bigBGText {
+
+    font-size: 20.0vh;
+
+    color: #808080 ;
+}
+
+.mediumBGText {
+
+    font-size: 7.0vh;
+
+    color: #D0D0D0;
+
+    position: relative;
+
+    top: 15px;
+}
+
+ /******************************/
+
+/*  General use styles */
+
+/******************************/
+
+
+.yellowText {
+
+    color: yellow;
+}
+
+.whiteText {
+    
+    color: white;
+}
+
+.greenText {
+
+  color: #33CC00;
+}
+
+.redText {
+    
+    color: red;
+}
+
+.hackerFont {
+
+    font-family: geoFont;
+}
+
+.hidden {
+    display: hidden;
+}
+
+
+.invisible {
+    display: none;
+}
+
+.uppercase {
+
+    text-transform: uppercase;
+}
+
+.stretch {
+    width: 100%;
+    height: 100%;
+}
+
+.faded {
+  opacity: 0.6;
+}
+
+.darkGreyText {
+
+  color: #A9A9A9;
+}
+
+.centered  {
+  text-align: center;
+}
+
+.noCaret {
+    cursor:pointer;
+}

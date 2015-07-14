@@ -1,0 +1,94 @@
+   
+<template name="login">
+
+	<div class="mediumBGText uppercase loginStatus">{{loginStatus}}</div>
+
+	{{#if currentUser}}
+
+		<p><button type="button" class="btn bigButton {{startButtonClass}}" id="goHack">START</button></p>
+
+	 {{else}}
+
+		{{#if resetPassword}}
+
+		    <form id="resetPassword-form" action="action">
+
+		    	<p class="greenText">ENTER YOUR NEW PASSWORD AND CLICK UPDATE.</p>
+		    	
+				<div class="form-group">
+					<label for="inputNewPasswordLogin">NEW PASSWORD</label>
+					<input type="password" class="form-control" id="new-password" placeholder="Password">
+				</div>
+
+				<button type="submit" id="updatePassword" class="btn btn-default">UPDATE</button>
+
+		   </form>
+
+		{{else}}
+
+		 	{{#if loginNow}}
+				
+				<div class="loginPrompt {{loginPromptTextColor}}">
+
+					{{loginPrompt}}
+
+					{{#if badPasswordEntered}}
+
+						<a class="greenText badPasswordLink" display="inline-block" href="javascript:void(0);" onclick="game.doResetPassword()">RESET MY PASSWORD</a>
+
+					{{/if}}
+				</div>
+			    
+			    <form id="login-form" action="action">
+
+					<div class="form-group">
+						<label for="inputEmailLogin">EMAIL ADDRESS</label>
+						<input type="email" class="form-control" id="login-email" placeholder="Enter email">
+					</div>
+					<div class="form-group">
+						<label for="inputPasswordLogin">PASSWORD</label>
+						<input type="password" class="form-control" id="login-password" placeholder="Password">
+					</div>
+
+					<button type="submit" class="btn btn-default">CLOCK IN</button>
+
+			   </form>
+
+				<div class="applyForJob">
+				  <p class="help-block redText">NOT WORKING AS A GEOHACKER AGENT YET?</p>
+				  <button type="button" class="btn btn-primary applyForJobButton" id="goRegistration">APPLY FOR A JOB</button>
+				</div>
+
+			{{else}}
+
+				<p class={{registrationPromptTextColor}}>{{registrationPrompt}}</p>
+
+			    <form id="registration-form" action="action">
+			      
+					<form>
+					  <div class="form-group">
+					    <label for="inputNameRegistration">AGENT NAME</label>
+					    <input type="text" class="form-control" id="registration-name" placeholder="Enter name">
+					  </div>
+
+					  <div class="form-group">
+					    <label for="inputEmailRegistration">EMAIL ADDRESS</label>
+					    <input type="email" class="form-control" id="registration-email" placeholder="Enter email">
+					  </div>
+					  <div class="form-group">
+					    <label for="inputPasswordRegistration">PASSWORD</label>
+					    <input type="password" class="form-control" id="registration-password" placeholder="Password">
+					  </div>
+
+					  <button type="submit" class="btn btn-default" id="submitApplication">SUBMIT APPLICATION</button>
+					</form>
+			   
+			   	</form> 	
+
+			{{/if}}
+
+		{{/if}}
+
+	 {{/if}}
+
+</template>

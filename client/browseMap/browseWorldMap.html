@@ -1,0 +1,45 @@
+<template name="browseWorldMap">
+
+
+
+	<div style="position: absolute; top: 55px; width:10%;">
+
+		<div id="browseWorldIcon">
+			<img class="topMapIcon" src="all_icon.png">
+		</div>
+
+		<div id="browseContinentIcon" class="mapLevel" >
+			<img class="mapIcon" id="mapIconContinent" src="{{continentIcon}}"> 
+			<div class="areaLabel" id="continentLabel">{{continentName}}</div>
+		</div>
+
+		<div id="browseRegionIcon" class="mapLevel">
+			<img class="mapIcon" id="mapIconRegion" src="{{regionIcon}}"> 
+			<span class="areaLabel" id="regionLabel" style="top: {{labelYCorrection}}">{{regionName}}</span>
+		</div>
+
+	</div>
+
+
+	<div id="browseDivMap"  style="position: absolute; top: 55px; left: 10%; width: {{mapWidth}}px; height: {{mapHeight}}px; border-radius: 7px; border: 4px solid; border-color: gray;">
+	</div>  
+
+
+	<div class="mapMessages" id="browseMapMessageBox"></div>
+
+	<button class="btn btn-default mapCloseButton" id="browseMapClose">X</button>
+
+	{{#if showMapSpinner}}
+
+		{{> spinner}}
+
+	{{/if}}
+
+	<a href="/closeup"> <img id="browseMapImage" src="" style="position: absolute; border-radius: 7px; border: 4px solid; border-color: gray;"></a>
+
+</template>
+
+
+
+
+ 

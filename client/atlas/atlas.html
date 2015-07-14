@@ -1,0 +1,21 @@
+<template name="atlas">
+
+<div id="stats" class="masonry js-masonry" data-masonry-options='{ "itemSelector": ".item", "columnWidth": 60 }'>
+  
+  {{#each country}}
+
+	  <div class="item" id="{{this}}">
+
+	  	<img class="atlasPic" src={{flagPic}} />
+
+         <span class="atlasNameText">{{countryName}}</span>
+
+         <div class="atlasHackedText">{{hackedText}}</div>
+
+	  </div>
+  
+  {{/each}}
+
+</div>
+
+</template>

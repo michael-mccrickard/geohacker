@@ -1,0 +1,35 @@
+<template name = "start">
+
+	{{#if isIOS}}
+
+		<div style="margin-top: 75px; margin-left: 50px; font-size: 3.0vh">
+			<p>THE GEOHACKER SYSTEM IS NOT YET FUNCTIONAL ON iOS DEVICES.
+			PLEASE TRY US USING YOUR LAPTOP OR DESKTOP COMPUTER.
+			</p>
+		</div>
+
+	{{else}}
+
+		{{#if waitingOnCoreData}} 
+
+			{{> waiting}}
+
+		{{else}}
+
+			<div class="container">
+
+				<div class="jumbotron">
+					
+				  <span id="bigBGText">GEOHACKER</span>
+
+				  {{> login}}
+
+				</div>
+
+			</div>
+
+		{{/if}}
+
+	{{/if}}
+
+</template>

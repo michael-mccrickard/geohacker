@@ -1,0 +1,103 @@
+#missionList {
+
+    position: absolute;
+    top: 55px;
+    left: 55px;
+    color: white;
+    background-color: black;
+
+}
+
+.missionItem {
+
+  border: 2px solid;
+  border-color: gray;
+  border-radius: 5px;
+
+  float: left; 
+  width: 95%;
+  background: #383838;
+
+  margin-right: 8px;
+  margin-bottom: 16px;
+  cursor: pointer;
+
+}
+
+
+.missionIcon {
+
+    float: left;   
+}
+
+.selectAMission {
+
+    font-size: 8.0vh;
+    text-align: left;
+    color: yellow;
+    pointer-events: none;
+}
+
+.missionInfo {
+
+    font-size: 8.0vh;
+     float: left;   
+      text-transform: uppercase;
+}
+
+.missionStats {
+
+     float: left;   
+}
+
+
+.missionIconImg {
+
+    height: 128px;
+    width: 128px;
+}
+
+.missionButtonDiv {
+
+   float: left;
+   position: relative;
+   left: 75px;
+   top: 30px;
+}
+
+.missionButton {
+
+    font-size: 4.0vh;
+}
+
+.missionCompletionCount {
+
+  font-family: Arial;
+  font-size: 2.0vh;
+  
+  color: yellow;
+  padding: 4px;
+}
+
+
+.countryCount {
+
+    font-size: 3.5vh;
+    position: relative;
+    left: 48px;
+    top: 24px;
+    color: yellow;
+}
+
+.countryProgress {
+
+    position: relative;
+    left: 48px;
+    top: 36px;
+}
+
+.countryProgressBar {
+
+    font-family: Arial; 
+    width: 300px;
+}

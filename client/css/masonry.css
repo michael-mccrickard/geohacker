@@ -1,0 +1,130 @@
+.masonry {
+  background: #EEE;
+  max-width: 1200px;
+}
+
+.masonry .item {
+  width:  128px;
+  height: 128px;
+  float: left;
+  background: #383838;
+  border: 2px solid #333;
+  border-color: white;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  margin-left: 8px;
+}
+
+.item.w2 { width:  256px; }
+.item.w3 { width:  384px; }
+.item.w4 { width:  512px; }
+
+.item.h2 { height: 256px; }
+.item.h3 { height: 384px; }
+.item.h4 { height: 512px; }
+
+
+.missionEnd {
+
+    position: relative;
+    left: -50px;
+}
+
+.atlasPic {
+
+	max-width: 100px;
+
+	padding: 4px;
+}
+
+
+.congratsCountryCount {
+
+    font-size: 3.5vh;
+}
+
+
+.hackReportLeftText {
+
+	font-family: geoFont;
+	font-size: 24px;
+	padding: 8px;
+  color: yellow;
+}
+
+.atlasNameText {
+
+  font-family: Arial;
+  font-size: 12px;
+  color: white;
+  padding: 8px;
+}
+
+.atlasHackedText {
+
+	font-family: Arial;
+	font-size: 12px;
+	
+	color: yellow;
+	padding: 4px;
+}
+
+.statsHeadline {
+
+
+  font-family: geoFont;
+  font-size: 24px;
+  color: #C0C0C0;
+  margin-left: 8px;  
+
+    position: relative;
+    top: 6px;
+}
+
+.congratsFlag {
+
+    max-width: 384px;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 8px;
+}
+
+
+.hackReportRight {
+  
+  float: left; 
+  width: 48%;
+  height: 85%;
+  margin: 8px;
+}
+
+.hackReportLeft {
+  
+  border: 2px solid;
+  border-color: yellow;
+  border-radius: 5px;
+
+  float: left; 
+  width: 48%;
+  background: #383838;
+
+  margin-right: 8px;
+  margin-bottom: 16px;
+}
+
+.missionEndButtons {
+  margin: 8px;
+  height: 13%;
+
+}
+
+.clear {
+    clear: both;
+}
+
+
+
+
+
+

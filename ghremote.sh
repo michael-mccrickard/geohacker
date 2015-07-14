@@ -1,0 +1,1 @@
+MONGO_URL=$(meteor mongo --url http://agentlingo.meteor.com) meteor

@@ -1,0 +1,73 @@
+<template name="main">
+
+
+	<div class="newWrapper">
+		
+		<img class="backdrop" src="screenBackdrop.jpg" width="622" height="335"><br>
+
+		<div class="divStatus" id="headlineStatus">{{status}}</div>
+
+		<img class="featuredBackdrop" src="featuredBackdrop.jpg" />
+
+		{{#if TextIsDisplayed}}
+
+			<span class="featuredText {{featuredAreaFont}}">{{displayTextContent}}</span>			
+		
+		{{else}}
+
+			{{#if youTubeNotFeatured}}
+
+				<a href="/closeup"><img class="featuredPic"  src="" /></a>
+			
+			{{/if}}
+
+		{{/if}}
+
+
+		{{#if youTubeWaiting}}
+
+			<div class="displayWaiting">
+				{{> spinner}}
+			</div>
+		
+		{{/if}}
+
+		<img class="navButton navPrev {{navButtonPrevVisible}}"  src="nav_prev.jpg" />	
+
+		<img class="navButton navNext {{navButtonNextVisible}}"  src="nav_next.jpg" />				
+
+		{{#each control}}
+
+			<div  class="box control" id="{{this}}">
+
+				<img class="stretch" id="ctlBG_{{this}}"  src="{{controlBackdrop this}}" />
+				
+				{{#if displayTextControlText}}
+					
+					<span class="controlText">{{textControlContent}}</span>
+
+				{{else}}
+
+					<img class="controlPic  {{opacityClass}}" id="pic{{this}}" src="{{controlPic}}" />	
+
+				{{/if}}	
+
+				<div class="controlLabel whiteText {{opacityClass}}">{{this}}</div>		
+			</div>	
+		
+		{{/each}}
+	
+		<div><img class="mainButton clsMapButton" id="mapButton" src="./newGlobeIconYellow.png" /></div>
+
+		<div><img class="arrow invisible" id="mapArrow" src="./up-arrow.png" /></div>
+
+		<div><img class="arrow invisible" id="scanArrow" src="./down-arrow.png" /></div>
+
+		<div><img class="mainButton clsScanButton" id="scanButton" src="./tvScannerYellow.png" /></div>
+
+		<div class="divCue invisible"></div>
+
+	</div>
+
+
+</template>

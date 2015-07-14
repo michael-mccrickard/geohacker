@@ -1,0 +1,59 @@
+<template name="selectCountry">
+
+	<div style="font-family: Arial">
+
+		  <button type="button" class="btn btn-primary menuBarBtn menuBarBtnContSel" style="left: 12%" id="editAllMode">All</button>
+		  <button type="button" class="btn btn-success menuBarBtn menuBarBtnContSel"  style="left: 17%" id="dataMode">Data</button>
+		  <button type="button" class="btn btn-danger menuBarBtn menuBarBtnCont" style="left: 24%;" id="editAmerica">America</button>
+
+		  <button type="button" class="btn btn-warning menuBarBtn menuBarBtnCont"  style="left: 32%;" id="editAsia">Asia</button>
+		  <button type="button" class="btn btn-info menuBarBtn menuBarBtnCont"  style="left: 38%;" id="editEurope">Europe</button>
+		  <button type="button" class="btn btn-default menuBarBtn menuBarBtnCont"  style="left: 46%;" id="editAfrica">Africa</button>
+
+		  <button type="button" class="btn btn-primary menuBarBtn menuBarBtnCont" style="left: 53%;" id="editOceania">Oceania</button>
+		
+	</div>
+
+	<div>
+		<button class="btn btn-warning" style="position: fixed; left: 95%;" id="closeSelectCountry"><strong>X</strong></button>
+	</div>
+
+	<div class="editor">
+		<table border="2">
+
+		<tr>
+			<th>Save</th>
+			<th>Name</th>
+			<th>Code</th> 
+			
+			<th>Region</th>
+			<th>Color</th>
+			
+			<th>Ready?</th>
+			<th>Edit</th>
+
+		</tr>
+
+			{{#each country}}
+
+				<tr class="dataRow">
+					<td><button class="btn updateCountryButton" name="updateCountry" id="{{this._id}}" size="5">SAV</button></td>
+					<td><input type="text" class="n" id="{{this._id}}" value="{{this.n}}" size="30"></td>
+					<td><input type="text" class="c" id="{{this._id}}" value="{{this.c}}" size="10"></td> 
+
+					<td><input type="text" class="r" id="{{this._id}}" value="{{this.r}}" size="10"></td>
+					<td><input type="text" class="co" id="{{this._id}}" value="{{this.co}}" size="10"></td>
+					
+					<td><input type="checkbox" class="d" id="{{this._id}}" checked="{{getCheckedVal this.d}}" size="5"></td>		
+					<td><button class="btn editCountryButton" name="editCountry" id="{{this._id}}" size="5">EDT</button></td>
+
+				</tr>
+
+			{{/each}}
+
+		</table>
+
+	</div>
+
+</template>
+
