@@ -284,6 +284,11 @@ Database = function() {
   //          DATABASE UPDATES
   //************************************************************
 
+this.addRecord = function( _ID, _type) {
+
+  Meteor.call("addRecord", _ID, _type);
+}
+
 this.updateRecord2 = function (_type, field, ID, value) {
 
     Meteor.call("updateRecordOnServer", field, _type, ID, value)
@@ -347,7 +352,7 @@ this.saveScroll = function(_val) {
 
           //res = col.update( {_id: ID }, { $set: data  }); 
 
-          if (res) console.log("Fields updated: " + res);   
+          //if (res) console.log("Fields updated: " + res);   
         }
 
         

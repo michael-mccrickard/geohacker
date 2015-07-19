@@ -146,11 +146,14 @@ Template.editor.events = {
 
 	'click #addRecord': function() {
 
-    	var ID = hack.countryCode;
+      if (editor.controlType == 0) {
 
-    	var control = editor.controlType;
+        alert("No control type selected.");
 
-    	var recID = editor.addThisRecord(ID, control);
+        return;
+      }
+
+    	var recID = editor.addThisRecord(hack.countryCode, editor.controlType);
    
     	editor.recordID = recID;
     },
@@ -158,21 +161,21 @@ Template.editor.events = {
 
   'click #editSound' : function(evt, template) {
 
-    Session.set("sYouTubeOn", false);
+    stopVideo();
 
   	editor.controlType = cSound;
   },
 
   'click #editText' : function(evt, template) {
 
-         Session.set("sYouTubeOn", false);
+    stopVideo();
 
   	editor.controlType = cText;
   },
 
   'click #editImage' : function(evt, template) {
 
-         Session.set("sYouTubeOn", false);
+    stopVideo();
 
   	editor.controlType = cImage;
   },
@@ -184,23 +187,21 @@ Template.editor.events = {
 
   'click #editWeb' : function(evt, template) {
 
-         Session.set("sYouTubeOn", false);
+    stopVideo();
 
   	editor.controlType = cWeb;
   },
 
   'click #editDebrief' : function(evt, template) {
 
-         Session.set("sYouTubeOn", false);
+    stopVideo();
 
 	   editor.controlType = cDebrief;
   },
 
   'click #closeEditor' : function(evt, template) {
 
-    if (ytplayer) ytplayer.pauseVideo();
-
-    Session.set("sYouTubeOn", false);
+    stopVideo();
 
     hack.mode = mNone;
 
@@ -256,7 +257,7 @@ Template.editor.events = {
 
   'click .deleteRecord' : function(evt, template) {
 
-	   editor.deleteCurrentRecord(evt.target.id);
+	   editor.deleteCurrentRecord(evt.target.id, editor.controlType);
 
   },
 
@@ -275,3 +276,10 @@ Template.editor.events = {
   },
 
 };
+
+function stopVideo() {
+
+      if (ytplayer) ytplayer.pauseVideo();
+
+    Session.set("sYouTubeOn", false);
+}

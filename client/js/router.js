@@ -102,6 +102,16 @@ Router.route('/debrief', function () {
 
 Router.route('/closeup', function () {
 
+  //if there is no control featured, then don't jump to
+  //a close-up view
+
+  if (display.feature.getName().length == 0) {
+
+    Control.playEffect( display.locked_sound_file );
+
+    return;
+  }
+
   name: "closeup"
 
   pageRefreshed = false;
@@ -283,6 +293,11 @@ function refreshDebriefWindow() {
 }
 
 function doRefreshCloseupWindow() {
+
+  //if there is no control featured, then don't refresh
+  //the close-up view
+
+  if (display.feature.getName().length == 0) return;
 
   var _src = display.feature.imageSrc;
 

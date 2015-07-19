@@ -60,16 +60,12 @@ Editor = function() {
 
 	this.addThisRecord = function(_ID, _type)  {
 
-		var col = db.getCollectionForType(_type);
-
-		return ( col.insert( { cc: _ID } ) );
+		db.addRecord(_ID, _type);
 	}
 
-	this.deleteCurrentRecord = function(_ID)  {
+	this.deleteCurrentRecord = function(_ID, _type)  {
 
-		var col = db.getCollectionForType( this.controlType );
-
-		var res = col.remove( _ID );
+		Meteor.call("deleteRecord", _ID, _type);
 	}
 
 	this.doUpdateRecord = function(ID) {
