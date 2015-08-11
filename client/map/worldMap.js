@@ -160,14 +160,14 @@ c("doMap")
 
         var state = this.mapCtl.getState();
 
-        //After the user has made a selection, they can test it or back up to the previous level; 
-        //in this case, we lock down the map until they do one or the other
-
         //For the case of an area being featured (from "intercepted" map data) they can only click OK or X to close.  We also lock down
         //the map in this instance.
 
-        if (state == sTestContinent || state == sTestRegion || state == sTestCountry || state == sContinentFeatured || state == sRegionFeatured) lockMap = true;
+//*******NOT LOCKING DOWN DURING THE TEST MODE, EXPERIMENTALLY (since testing is instantaneous now)**********//
 
+        //if (state == sTestContinent || state == sTestRegion || state == sTestCountry || state == sContinentFeatured || state == sRegionFeatured) lockMap = true;
+
+        if (state == sContinentFeatured || state == sRegionFeatured) lockMap = true;
 
         //initialize the map object and basic map variables
 
@@ -406,7 +406,7 @@ c("map is locked b/c state is " + state);
     //in case the user wants to "drill down"
 
     this.checkSelectedArea = function() {
-c("checkSelectedArea")
+
         var state = this.mapCtl.getState();
 
         var theContinent = hack.continentCode;
@@ -727,7 +727,9 @@ c("doMapSuccess")
 
 
 function handleClick(_event) {
+
 c("handleClick");
+    
     Control.playEffect( worldMap.map_sound );
 
     worldMap.zoomDone = false;
@@ -890,7 +892,7 @@ c("handleZoomCompleted");
 
     //User's 3rd click; trying to pick the right country
 
-    //We do the same routine as above, but at the region level
+    //We do the same routine as above, but at the country level
 
     if (state == sIDCountry) {
 

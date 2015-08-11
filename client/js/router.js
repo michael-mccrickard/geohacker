@@ -102,16 +102,6 @@ Router.route('/debrief', function () {
 
 Router.route('/closeup', function () {
 
-  //if there is no control featured, then don't jump to
-  //a close-up view
-
-  if (display.feature.getName().length == 0) {
-
-    Control.playEffect( display.locked_sound_file );
-
-    return;
-  }
-
   name: "closeup"
 
   pageRefreshed = false;
@@ -242,6 +232,12 @@ Router.onAfterAction(playDebriefSound, {
 
 //  CLOSEUP
 
+Router.onBeforeAction(checkForFeature, {
+  
+  only: ['closeup']
+
+});
+
 Router.onAfterAction(doRefreshCloseupWindow, {
   
   only: ['closeup']
@@ -290,6 +286,19 @@ function startMusic() {
 function refreshDebriefWindow() {
 
   Meteor.setTimeout(function () {refreshWindow("router-debrief"); 100} );
+}
+
+function checkForFeature() {
+
+  //if there is no control featured, then don't jump to
+  //a close-up view
+
+  if (display.feature.getName().length == 0) {
+
+    Control.playEffect( display.locked_sound_file );
+
+    this.redirect("/main");
+  }
 }
 
 function doRefreshCloseupWindow() {
