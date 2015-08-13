@@ -19,7 +19,7 @@ User = function( _name, _scroll ) {  //name, id, scroll pos (for content editors
 	/*			ASSIGNS   		
 	/*
 	/*	An assign is a mission assigned to an individual user; it includes
-	/*	the data tracking that mission for that user: pool, hacks, completions.	
+	/*	the vars tracking that mission for that user: pool, hacks, completions.	
 	/*
 	/*	The user has an array of assigns and a current assign object (taken from the array).
 	/*

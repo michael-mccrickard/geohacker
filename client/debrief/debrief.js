@@ -11,6 +11,8 @@ Debrief = function() {
 
 	this.rec = null;
 
+	this.index = 0;
+
 	this.image = "";
 
 	this.text = "";
@@ -19,21 +21,101 @@ Debrief = function() {
 
 	this.arr = [];
 
-	//need a way for the editor to get back data from a specific (not random) record
-
 	this.init = function() {
 
 		this.countryCode = hack.countryCode;
 
-		var arr = db.ghD.find( { cc: this.countryCode } ).fetch();
+		this.arr = db.ghD.find( { cc: this.countryCode } ).fetch();
 
-		this.rec = Database.getRandomElement(arr);
+		this.index = Database.getRandomValue(this.arr.length);
+	}
+
+	this.draw = function() {
+
+		$("#debriefText").text( this.text );
+
+
+		 this.imageSrc = Control.getImageFromFile( this.image );  
+
+		 Meteor.setTimeout( function() { hack.debrief.finishDraw(); }, 100);
+	}
+
+	this.finishDraw = function() {
+
+c("hack.debrief.imageSrc follows ")
+c(this.imageSrc)
+
+	    var fullScreenWidth = $(window).width();
+
+	    var fullScreenHeight = $(window).height();
+
+	    var container = "div.debriefBox"
+
+	    var maxWidth = $( container ).width() * 0.85;
+
+	    var fullHeight = $( container ).height() * 0.85;
+
+	    var _width = (fullHeight / this.getImageHeight() ) * this.getImageWidth(); 
+
+c("fullHeight is " + fullHeight)
+c("getImageHeight is " + this.getImageHeight())
+c("getImageWidth is " + this.getImageWidth())
+c("width is " + _width)
+
+	    if (_width > maxWidth) _width = maxWidth;
+
+	    var _top = $(container).offset().top;
+
+	    var _left = ($( container ).width()/2) - (_width / 2 );
+
+		var container = "img.debriefPicFrame";
+
+		$( container ).css("left",  _left.toString() + "px" );  
+
+		$( container ).css("top", "5%");
+
+		$( container ).attr("height", fullHeight );
+
+c("2 width is " + _width)
+
+		$( container ).attr("width", _width );    
+
+		$( container ).attr("src", this.image );    	
+
+		//headline
+
+		container = "div.debriefHeadline";
+
+		_width = $( container ).width();
+
+		$( container ).css("left",  fullScreenWidth/2 - _width/2 );
+
+		$( container ).css("top",  (fullScreenHeight - display.menuHeight) * 0.095 );  	
+
+
+		//footer
+
+		container = "h3.geoFont.debriefText";
+
+		_width = $( container ).width();
+
+		$( container ).css("left",  fullScreenWidth/2 - _width/2 );
+
+		$( container ).css("top",  (fullScreenHeight - display.menuHeight) * 0.93 );  	
+
+	}
+
+	this.set = function( _index ) {
+
+		this.rec = this.arr[ _index ];
 
 		this.code = this.rec.dt.substr(0,3);	
 
+		this.setText();
+
 		this.setImage();
 
-		this.setText();
+		this.preloadImage();
 	}
 
 	this.initForEditor = function( _type ) {
@@ -67,8 +149,6 @@ Debrief = function() {
 
 		if (!this.image.length) this.image = this.rec.f;
 
-		this.imageSrc = Control.getImageFromFile( this.image ); 
-
 	} 
 
 	this.getImageHeight = function() {
@@ -80,6 +160,19 @@ Debrief = function() {
 
 		return this.imageSrc.width;
 	}	
+
+	this.preloadImage = function() {
+
+		$("#preloadDebrief").attr("src", this.image );
+
+        imagesLoaded( document.querySelector('#preloadDebrief'), function( instance ) {
+    
+          //now that the image is loaded ...
+		  
+		  hack.debrief.draw();
+
+        });
+	}
 
 	this.setText = function() {
 
@@ -126,6 +219,7 @@ Debrief = function() {
 		if (!this.text.length) this.text = this.rec.t;
 
 	}
+
 }
 
 Template.debrief.events = {
@@ -136,23 +230,54 @@ Template.debrief.events = {
 
   		Control.playEffect("new_feedback.mp3");
 
-  		Meteor.setTimeout( function() { Router.go("/congrats") }, 100 ) ;
-  	}
+  		//Meteor.setTimeout( function() { Router.go("/congrats") }, 100 ) ;
+  	},
+
+  'click #debriefNavPrev': function (e) { 
+
+  		e.preventDefault();
+
+  		Control.playEffect("new_feedback.mp3");
+
+  		hack.debrief.index--;
+
+  		hack.debrief.set( hack.debrief.index );
+  	},
+
+  'click #debriefNavNext': function (e) { 
+
+  		e.preventDefault();
+
+  		Control.playEffect("new_feedback.mp3");
+
+  		hack.debrief.index++;
+
+  		hack.debrief.set( hack.debrief.index );
+  	},
+
+
 }
 
 Template.debrief.helpers({
 
-	debriefImage: function() {
+    navButtonPrevVisible: function() { 
 
-		return hack.debrief.image;
-	},
+      if ( hack.debrief.index == 0 ) return "invisible"; 
 
-	debriefText: function() {
+      return "";
 
-		return hack.debrief.text;
-	},
+    },
+
+    navButtonNextVisible: function() { 
+
+      if ( hack.debrief.index == hack.debrief.arr.length - 1 ) return "invisible"; 
+
+      return "";
+
+    },
 
 })
+
 
 
 refreshDebriefWindow = function() {

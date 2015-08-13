@@ -391,8 +391,12 @@ Database.getRandomElement = function(arr) {
     var ele = arr[num];
 
     return ele;
-
   }
+
+Database.getRandomValue = function( _limit ) {
+
+    return ( Math.floor( Math.random() * _limit ) );
+}
 
 Database.shuffle = function(array) {
   
