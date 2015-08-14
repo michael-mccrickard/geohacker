@@ -34,16 +34,12 @@ Debrief = function() {
 
 		$("#debriefText").text( this.text );
 
-
 		 this.imageSrc = Control.getImageFromFile( this.image );  
 
 		 Meteor.setTimeout( function() { hack.debrief.finishDraw(); }, 100);
 	}
 
 	this.finishDraw = function() {
-
-c("hack.debrief.imageSrc follows ")
-c(this.imageSrc)
 
 	    var fullScreenWidth = $(window).width();
 
@@ -56,11 +52,6 @@ c(this.imageSrc)
 	    var fullHeight = $( container ).height() * 0.85;
 
 	    var _width = (fullHeight / this.getImageHeight() ) * this.getImageWidth(); 
-
-c("fullHeight is " + fullHeight)
-c("getImageHeight is " + this.getImageHeight())
-c("getImageWidth is " + this.getImageWidth())
-c("width is " + _width)
 
 	    if (_width > maxWidth) _width = maxWidth;
 
@@ -75,8 +66,6 @@ c("width is " + _width)
 		$( container ).css("top", "5%");
 
 		$( container ).attr("height", fullHeight );
-
-c("2 width is " + _width)
 
 		$( container ).attr("width", _width );    
 
@@ -241,6 +230,8 @@ Template.debrief.events = {
 
   		hack.debrief.index--;
 
+  		if (hack.debrief.index == -1) hack.debrief.index = hack.debrief.arr.length - 1;
+
   		hack.debrief.set( hack.debrief.index );
   	},
 
@@ -252,86 +243,11 @@ Template.debrief.events = {
 
   		hack.debrief.index++;
 
+  		if (hack.debrief.index == hack.debrief.arr.length) hack.debrief.index =  0;
+
   		hack.debrief.set( hack.debrief.index );
   	},
 
-
-}
-
-Template.debrief.helpers({
-
-    navButtonPrevVisible: function() { 
-
-      if ( hack.debrief.index == 0 ) return "invisible"; 
-
-      return "";
-
-    },
-
-    navButtonNextVisible: function() { 
-
-      if ( hack.debrief.index == hack.debrief.arr.length - 1 ) return "invisible"; 
-
-      return "";
-
-    },
-
-})
-
-
-
-refreshDebriefWindow = function() {
-
-    var fullScreenWidth = $(window).width();
-
-    var fullScreenHeight = $(window).height();
-
-    var container = "div.debriefBox"
-
-    var maxWidth = $( container ).width() * 0.85;
-
-    var fullHeight = $( container ).height() * 0.85;
-
-    var _width = (fullHeight / hack.debrief.getImageHeight() ) * hack.debrief.getImageWidth(); 
-
-    if (_width > maxWidth) _width = maxWidth;
-
-    var _top = $(container).offset().top;
-
-    var _left = ($( container ).width()/2) - (_width / 2 );
-
-	var container = "img.debriefPicFrame";
-
-	$( container ).css("left",  _left );  
-
-	$( container ).css("top", "5%");
-
-	$( container ).attr("height", fullHeight );
-
-	$( container ).attr("width", _width );    
-
-	$( container ).attr("src", hack.debrief.image );    	
-
-	//headline
-
-	container = "div.debriefHeadline";
-
-	_width = $( container ).width();
-
-	$( container ).css("left",  fullScreenWidth/2 - _width/2 );
-
-	$( container ).css("top",  (fullScreenHeight - display.menuHeight) * 0.095 );  	
-
-
-	//footer
-
-	container = "h3.geoFont.debriefText";
-
-	_width = $( container ).width();
-
-	$( container ).css("left",  fullScreenWidth/2 - _width/2 );
-
-	$( container ).css("top",  (fullScreenHeight - display.menuHeight) * 0.93 );  	
 
 }
 
