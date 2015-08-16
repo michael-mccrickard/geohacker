@@ -131,6 +131,15 @@ img.featuredBackdrop {
     cursor:pointer;
 }
 
+.navPrev {
+    
+    left: 2.75%;
+}
+
+.navNext {
+    left: 82.25%;
+}  
+
 .navButtonDebrief {
 
     position: absolute;

@@ -219,7 +219,7 @@ Template.debrief.events = {
 
   		Control.playEffect("new_feedback.mp3");
 
-  		//Meteor.setTimeout( function() { Router.go("/congrats") }, 100 ) ;
+  		Meteor.setTimeout( function() { Router.go("/congrats") }, 100 ) ;
   	},
 
   'click #debriefNavPrev': function (e) { 

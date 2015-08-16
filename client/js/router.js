@@ -299,6 +299,8 @@ function checkForFeature() {
 
     this.redirect("/main");
   }
+
+  this.next();
 }
 
 function doRefreshCloseupWindow() {
