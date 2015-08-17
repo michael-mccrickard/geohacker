@@ -59,6 +59,12 @@
 	
 		<div><img class="mainButton clsMapButton" id="mapButton" src="./newGlobeIconYellow.png" /></div>
 
+		{{#if isBrowseMode}}
+
+			<div class="mainButton clsDebriefButton" id="debriefButton">{{> miniDebrief}}</div>
+		
+		x{{/if}}
+
 		<div><img class="arrow invisible" id="mapArrow" src="./up-arrow.png" /></div>
 
 		<div><img class="arrow invisible" id="scanArrow" src="./down-arrow.png" /></div>

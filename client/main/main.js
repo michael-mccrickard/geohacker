@@ -39,6 +39,14 @@ Template.main.helpers({
       return "featuredBackdrop.jpg";
     },
 
+    isBrowseMode: function() {
+
+      if (hack.mode == mBrowse) return true;
+
+      return false;
+
+    },
+
     opacityClass: function() {
 
       if (display.ctl[ this ].getState() <= sIcon) return "faded";
@@ -319,6 +327,13 @@ c("click control is setting media state to play")
         Meteor.setTimeout( function() { display.cue.type() }, 500);
       }
     },
+
+    'click #divMiniDebrief': function(e) {
+
+      e.preventDefault;
+
+      Router.go("/debrief");
+    }
 
 });
 
