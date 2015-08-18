@@ -100,6 +100,8 @@ Debrief = function() {
 
 		this.code = this.rec.dt.substr(0,3);	
 
+		if (this.code == "lng") hack.playLanguageFile();	
+
 		this.setText();
 
 		this.setImage();
@@ -115,7 +117,9 @@ Debrief = function() {
 
 		this.rec = db.ghD.findOne( { cc: this.countryCode, dt: _type } );
 
-		this.code = _type.substr(0,3);	
+		this.code = _type.substr(0,3);
+
+		if (this.code == "lng") hack.playLanguageFile();	
 
 		this.setImage();
 
@@ -126,7 +130,9 @@ Debrief = function() {
 
 		this.image = "";
 
-		if (this.code == "flg" || this.code == "lng")  this.image = hack.getFlagPic();
+		if (this.code == "lng") this.image = display.ctl["SOUND"].soundPlayingPic;
+
+		if (this.code == "flg")  this.image = hack.getFlagPic();
 
 		if (this.code == "hq")  this.image = hack.getHeadquartersPic();
 
@@ -257,6 +263,14 @@ Template.debrief.events = {
 
 
 }
+
+Template.miniDebrief.helpers({
+
+    leaderPic: function() {
+
+        return hack.getLeaderPic();  
+    },
+})
 
 
 //temporary editing hacks

@@ -482,30 +482,49 @@ fixrecs2 = function() {
     console.log(i + " fields updated.");
 }
 
+var arr;
+var count = 0;
+
+var _index = 0;
 
 fixrecs = function() {
 
   //var arr = db.ghC.find( { d: { $exists: false } } ).fetch();
 
-var arr = db.ghR.find().fetch();
+      arr = db.ghS.find().fetch();
 
-var c = 0;
+      fixRecNow( _index );
+}
 
-      for (var i = 0; i < arr.length; i++) {
+fixRecNow = function( _index ) {
 
-        var ID = arr[i]._id;
+console.log("index = " + _index);
 
-        var _name = arr[i].n[0];
+console.log("arr len is " + arr.length)
 
-          res = db.ghR.update( {_id: ID }, { $set: {n2: _name}  }); 
+    if (_index == arr.length) {
 
-          res = db.ghR.update( {_id: ID }, { $unset: {n:""}  }); 
+return;
 
-          c = c + res;
-        }
+    }
 
+    var res;
 
-    console.log(c + " fields updated.");
+    var ID = arr[ _index ]._id;
+
+    var _dt = arr[ _index ].dt;
+
+    if (_dt != "ant")  {
+
+      res = Meteor.call("updateRecordOnServer", "dt", cSound, ID, "lng", function() { _index++; fixRecNow( _index )}); 
+    }
+    else {
+
+      _index++;
+
+      fixRecNow( _index );
+    }
+
 }
 
 

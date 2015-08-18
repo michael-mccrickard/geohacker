@@ -199,10 +199,17 @@ Hack = function() {
           display = new Display();
         }
 
+        if (this.debrief == null) {
+
+          this.debrief = new Debrief();
+        }
+
+        this.debrief.init();
+
         var map = display.ctl["MAP"].browseWorldMap;
 
         map.selectedContinent = this.continentCode;
-c("cc in startBrowsing is " + this.continentCode)
+
         map.selectedRegion = this.regionCode;
 
         map.selectedCountry = this.countryCode;
@@ -224,6 +231,15 @@ c("cc in startBrowsing is " + this.continentCode)
        Control.playEffect( _file );
     },
 
+    this.playLanguageFile = function() {
+
+       var _file = this.getLanguageFile();
+
+       if (display.ctl["SOUND"].getState() == sPlaying ) display.ctl["SOUND"].pauseFeaturedContent();
+
+       Control.playEffect( _file );
+    },
+
 
 /**************************************************************/
 /*              GETTERS FOR CURRENT COUNTRY PROPERTIES          
@@ -232,6 +248,11 @@ c("cc in startBrowsing is " + this.continentCode)
     this.getAnthemFile = function() {
 
       return db.ghS.findOne( { cc: this.countryCode, dt: "ant" } ).f;
+    }
+
+    this.getLanguageFile = function() {
+
+      return db.ghS.findOne( { cc: this.countryCode, dt: "lng" } ).f;
     }
 
     this.getCapitalName = function() {
