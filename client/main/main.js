@@ -332,7 +332,9 @@ c("click control is setting media state to play")
 
       e.preventDefault;
 
-      Router.go("/debrief");
+        display.feature.clear();
+
+        Router.go("/debrief");
     }
 
 });

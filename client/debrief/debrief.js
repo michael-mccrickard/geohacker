@@ -219,6 +219,13 @@ Template.debrief.events = {
 
   		Control.playEffect("new_feedback.mp3");
 
+  		if (hack.mode == mBrowse) {
+
+			Meteor.setTimeout( function() { Router.go("/main") }, 100 ) ;
+
+			return;
+  		}
+
   		Meteor.setTimeout( function() { Router.go("/congrats") }, 100 ) ;
   	},
 
