@@ -8,6 +8,8 @@ Display = function() {
 
     this.feature = new Feature();
 
+    this.closeUp = new CloseUp();
+
     this.cue = new Headline( "cue" );
     
     this.status = new Headline( "status" );

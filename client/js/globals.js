@@ -26,7 +26,7 @@ refreshWindow = function(_which) {
 
     if (name == "closeup") {
 
-        refreshCloseupWindow();
+        display.closeUp.draw();
 
         return;
     }

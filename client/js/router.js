@@ -310,16 +310,7 @@ function doRefreshCloseupWindow() {
 
   if (display.feature.getName().length == 0) return;
 
-  var _src = display.feature.imageSrc;
-
-  if (display.feature.getName() == "MAP") {
-
-    var _filename = hack.getCountryFilename() + "_map.jpg"
-
-    _src = Control.getImageFromFile( _filename );
-  }
-
-  Meteor.setTimeout(function () {refreshCloseupWindow( _src ); 100} );
+  Meteor.setTimeout(function () {display.closeUp.draw(); 100} );
 }
 
 function checkHackScreen() {

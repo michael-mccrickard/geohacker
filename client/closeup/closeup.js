@@ -3,7 +3,7 @@
 
 Template.closeup.events = {
 
-  'click #divCloseup': function (e) { 
+  'click #closeUpPic': function (e) { 
 
   		e.preventDefault();
 
@@ -17,7 +17,15 @@ Template.closeup.events = {
       }
 
   		Router.go("/main");
-  	}
+  	},
+
+    'click #closeUpSource': function(e) {
+
+      e.preventDefault();
+
+      window.open("http://wikipedia.org");
+
+    }
 }
 
 Template.closeup.helpers({
@@ -25,48 +33,64 @@ Template.closeup.helpers({
 
 })
 
+CloseUp = function() {
 
-refreshCloseupWindow = function( img) {
+  this.draw = function() {
 
-	//var img = display.feature.imageSrc;
+    c("draw");
 
-    var fullScreenWidth = $(window).width();
+      var img = display.feature.imageSrc;
 
-    var fullScreenHeight = $(window).height();
+      if (display.feature.getName() == "MAP") {
 
-    //the background box
+        var _filename = hack.getCountryFilename() + "_map.jpg"
 
-    var container = "div#closeupBox";
+        img = Control.getImageFromFile( _filename );
+      }
 
-    var maxWidth = $( container ).width() * 0.98;
+      var fullScreenWidth = $(window).width();
 
-    fullScreenHeight = fullScreenHeight - display.menuHeight;
+      var fullScreenHeight = $(window).height();
 
-    $( container ).css("top", display.menuHeight + (fullScreenHeight * 0.01) );
+      //the background box
 
-    var fullHeight = fullScreenHeight * 0.98;
+      var container = "div#closeUpBox";
 
-    $( container ).css("height", fullHeight );
+      var maxWidth = $( container ).width() * 0.98;
 
-     $( container ).css("left", fullScreenWidth * 0.01 );
-     
-    //the picture
+      fullScreenHeight = fullScreenHeight - display.menuHeight;
 
-    var _width = (fullHeight / img.height ) * img.width; 
+      $( container ).css("top", display.menuHeight + (fullScreenHeight * 0.01) );
 
-    if (_width > maxWidth) _width = maxWidth;
+      var fullHeight = fullScreenHeight * 0.98;
 
-    var _left = ($( container ).width()/2) - (_width / 2 );
+      $( container ).css("height", fullHeight );
 
-  	var container = "img#closeupPicFrame.debriefPicFrame";
+      $( container ).css("left", fullScreenWidth * 0.01 );
+       
+      //the picture
 
-  	$( container ).css("left",  _left );  
+      var _width = (fullHeight / img.height ) * img.width; 
 
-  	$( container ).css("top", "1%");
+      if (_width > maxWidth) _width = maxWidth;
 
-  	$( container ).attr("height", fullHeight * 0.98 );
+      var _left = ($( container ).width()/2) - (_width / 2 );
 
-  	$( container ).attr("width", _width );    
+    	container = "img#closeUpPic";
 
-  	$( container ).attr("src", img.src );    	
+    	$( container ).css("left",  _left );  
+
+    	$( container ).css("top", "1%");
+
+    	$( container ).attr("height", fullHeight * 0.93 );
+
+    	$( container ).attr("width", _width );    
+
+    	$( container ).attr("src", img.src );    	
+
+      //source text
+      //container + "h4#closeUpSource.sourceText";
+
+  }
+
 }
