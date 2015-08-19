@@ -1,0 +1,118 @@
+ /******************************/
+
+/*  Debriefing   */
+
+/******************************/
+
+.debriefHeadline {
+  position: absolute;
+  font-size: 4.0vh;
+}
+
+.debriefText {
+    
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    color: black;
+    font-size: 3.5vh;
+}
+
+.debriefBox {
+    
+    position: absolute;
+
+    width: 92%;
+    height: 80%;
+
+    top: 15%; 
+    margin-left: 4%;
+
+    border-radius: 7px;
+
+    background-color: #A9A9A9;
+
+}
+
+.debriefPicFrame {
+
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+    border-radius: 7px;
+
+}
+
+.navButtonDebrief {
+
+    position: absolute;
+    top: 50%;  
+    z-index: 60;
+    cursor:pointer;
+}
+
+.navPrevDebrief {
+    
+    left: 1.75%;
+}
+
+.navNextDebrief {
+    left: 96.5%;
+}   
+
+.miniDebriefText {
+    z-index: 120;
+
+    top: 10%;
+
+    left: 33%;
+
+    position: absolute;
+
+    font-size: 2.5vh;
+
+    pointer-events: none;
+}
+
+
+
+.minidDebriefFrame {
+
+    position: absolute;
+
+    width: 90%%;
+    height: 100%;
+
+}
+
+.miniDebriefPicFrame {
+
+    position: absolute;
+    top: 18%;
+    left: 6%;
+
+    width: 88%;
+    height: 78%;
+
+    border-radius: 7px;
+
+}
+
+.miniDebriefBox {
+    
+    z-index: 60;
+
+    position: absolute;
+
+    width: 92%;
+    height: 100%;
+
+    margin-left: 4%;
+    margin-top: 5%;
+
+    border-radius: 7px;
+
+    background-color: #A9A9A9;
+
+}

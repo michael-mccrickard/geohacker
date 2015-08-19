@@ -3,7 +3,7 @@
 
 Editor = function() {
 
-	this.arrField = ["f", "dt"];
+	this.arrField = ["f", "dt","s"];
 
 	this.arrFieldDebrief = ["f", "t", "dt"];
 

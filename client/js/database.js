@@ -26,7 +26,7 @@ Database = function() {
 
     this.ghI = new Meteor.Collection('alImage');
 
-    this.ghS = new Meteor.Collection('alSound');   //lc = language code, cc: country code, bc: bible code, f: URL or filename
+    this.ghS = new Meteor.Collection('alSound');   
 
     this.ghV = new Meteor.Collection('alVideo');
 
@@ -491,7 +491,7 @@ fixrecs = function() {
 
   //var arr = db.ghC.find( { d: { $exists: false } } ).fetch();
 
-      arr = db.ghS.find().fetch();
+      arr = db.ghW.find().fetch();
 
       fixRecNow( _index );
 }
@@ -512,18 +512,7 @@ return;
 
     var ID = arr[ _index ]._id;
 
-    var _dt = arr[ _index ].dt;
-
-    if (_dt != "ant")  {
-
-      res = Meteor.call("updateRecordOnServer", "dt", cSound, ID, "lng", function() { _index++; fixRecNow( _index )}); 
-    }
-    else {
-
-      _index++;
-
-      fixRecNow( _index );
-    }
+    res = Meteor.call("updateRecordOnServer", "s", cWeb, ID, "0", function() { _index++; fixRecNow( _index )}); 
 
 }
 

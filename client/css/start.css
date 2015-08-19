@@ -1,0 +1,78 @@
+
+ /******************************/
+
+/*  START SCREEN */
+
+/******************************/
+
+.loginStatus {
+
+    margin-top: -7.5vh;
+
+    margin-bottom: 2.0vh;
+}
+
+.applyForJob {
+
+    margin-top: 2.0vh;
+
+    border-style: solid;
+    border-width: 4px;
+    border-radius: 7px;
+    border-color: yellow;
+
+    text-align: center;
+}
+
+.applyForJobButton {
+
+    margin-bottom: 2.0vh;
+}
+
+.loginPrompt {
+
+    font-size: 18px;
+    margin-bottom: 2.0vh;
+}
+
+.badPasswordLink {
+
+    float: right;
+}
+
+
+.bigButton {
+  font-family: geoFont;
+      font-size: 10.0vh;
+  background-color: #808080;
+  color: #FFFF33;
+    border-style: solid;
+    border-width: 10px;
+    border-radius: 10px;
+    border-color: #808080;
+    text-align: center;
+    margin-top: 2.0vh;
+}
+
+.jumbotron {
+  background-color: black;
+}
+
+
+#bigBGText {
+
+    font-size: 20.0vh;
+
+    color: #808080 ;
+}
+
+.mediumBGText {
+
+    font-size: 7.0vh;
+
+    color: #D0D0D0;
+
+    position: relative;
+
+    top: 15px;
+}

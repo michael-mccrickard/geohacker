@@ -1,0 +1,36 @@
+ /******************************/
+
+/*  Congrats   */
+
+/******************************/
+
+.darkButton {
+  color: white;
+  background-color: black; 
+  border-radius: 5px;
+  border: 2px solid;
+  border-color: yellow;
+  font-family: geoFont;
+  font-size: 18px;
+  padding-top: 6px;
+}
+
+
+/******************************/
+
+/*  Closeup screen   */
+
+/******************************/
+
+#closeupBox {
+    
+    position: absolute;
+
+    width: 98%;
+    height: 98%;
+
+    border-radius: 7px;
+
+    background-color: #A9A9A9;
+
+}
