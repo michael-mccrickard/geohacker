@@ -491,7 +491,7 @@ fixrecs = function() {
 
   //var arr = db.ghC.find( { d: { $exists: false } } ).fetch();
 
-      arr = db.ghW.find().fetch();
+      arr = db.ghC.find().fetch();
 
       fixRecNow( _index );
 }
@@ -512,7 +512,7 @@ return;
 
     var ID = arr[ _index ]._id;
 
-    res = Meteor.call("updateRecordOnServer", "s", cWeb, ID, "0", function() { _index++; fixRecNow( _index )}); 
+    res = Meteor.call("updateRecordOnServer", "s", cCountry, ID, "0", function() { _index++; fixRecNow( _index )}); 
 
 }
 

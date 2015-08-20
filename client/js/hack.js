@@ -283,6 +283,13 @@ Hack = function() {
       return rec.n;
     }
 
+    this.getCountryMapSource = function() {
+
+      var rec = db.getCountryRec( this.countryCode );
+
+      return rec.s;
+    }
+
     this.getCountryFilename = function() {
 
       var _name = this.getCountryName();

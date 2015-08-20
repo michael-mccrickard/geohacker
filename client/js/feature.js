@@ -20,6 +20,8 @@ Feature = function() {
 
     this.file = null;
 
+    this.source = null;
+
     this.video = null;
 
 	this.on = function() {
@@ -110,7 +112,13 @@ c("display loadAgain returning b/c file is YT")
 
 		var _file = null;
 
-		if ( _name == "MAP"  || _name == "TEXT") return _file;
+		if ( _name == "MAP") return _file;
+
+		//set the source property for the credit line in closeup view
+
+		this.source = display.ctl[ _name ].items[ _index ].s;
+
+		if (_name == "TEXT") return _file;
 
 		if ( _name == "SOUND" || _name == "VIDEO") {
 			

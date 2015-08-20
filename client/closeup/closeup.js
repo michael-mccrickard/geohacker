@@ -23,7 +23,14 @@ Template.closeup.events = {
 
       e.preventDefault();
 
-      window.open("http://wikipedia.org");
+      if (this.source == "0") {
+
+        alert("Go to Unknown Source page here.")
+      }
+      else {
+
+        window.open("http://" + this.source);
+      }
 
     }
 }
@@ -34,6 +41,8 @@ Template.closeup.helpers({
 })
 
 CloseUp = function() {
+
+  this.source = null;
 
   this.draw = function() {
 
@@ -89,8 +98,24 @@ CloseUp = function() {
     	$( container ).attr("src", img.src );    	
 
       //source text
-      //container + "h4#closeUpSource.sourceText";
+      container + "h4#closeUpSource.sourceText";
 
+      var s = null;
+
+      if (hack.mode == mHackDone)  {
+
+        s = hack.getCountryMapSource();
+      }
+      else{
+
+        s = display.feature.source;
+      }
+
+      this.source = s;
+
+      if (s == "0") s = "Unknown";
+
+      $( container ).text( s );
   }
 
 }
