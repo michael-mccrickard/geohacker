@@ -59,7 +59,7 @@ Feature = function() {
 	//to the _name control necessarily
 
 	this.load = function( _name ) {
-
+c("_name in feature load =" + _name)
 		this.file = this.getFile( _name);
 
 		if ( _name == "VIDEO") {
@@ -112,6 +112,8 @@ c("display loadAgain returning b/c file is YT")
 
 		var _file = null;
 
+		var _index = display.ctl[ _name ].getIndex();
+
 		if ( _name == "MAP") return _file;
 
 		//set the source property for the credit line in closeup view
@@ -125,8 +127,6 @@ c("display loadAgain returning b/c file is YT")
 			_file = display.ctl[ _name ].getFeaturedPic();
 		}
 		else {
-
-			var _index = display.ctl[ _name ].getIndex();
 
 			_file = display.ctl[ _name ].items[ _index ].f;
 		}

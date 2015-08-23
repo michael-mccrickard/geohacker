@@ -167,14 +167,12 @@ Game = function() {
 	this.doResetPassword = function() {
 
 	    if ( this.currentEmail.length ) {
-
-    	  var id = Meteor.users.find( { 'emails[0].address': this.currentEmail } )._id;
       
           Accounts.forgotPassword( { email: this.currentEmail } , function(err){
           
 	          if (err) {
 
-			   	Session.set("sLoginPrompt", err.toUpperCase() );
+			   	Session.set("sLoginPrompt", err.reason.toUpperCase() );
 
 			   	Session.set("sLoginPromptTextColor", "redText");	          	
 	          }

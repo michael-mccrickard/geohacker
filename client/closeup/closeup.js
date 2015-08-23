@@ -23,13 +23,13 @@ Template.closeup.events = {
 
       e.preventDefault();
 
-      if (this.source == "0") {
+      if (display.closeUp.source == "0") {
 
         alert("Go to Unknown Source page here.")
       }
       else {
 
-        window.open("http://" + this.source);
+        window.open(display.closeUp.source);
       }
 
     }
@@ -98,7 +98,7 @@ CloseUp = function() {
     	$( container ).attr("src", img.src );    	
 
       //source text
-      container + "h4#closeUpSource.sourceText";
+      container = "h4#closeUpSource.sourceText";
 
       var s = null;
 
@@ -115,7 +115,7 @@ CloseUp = function() {
 
       if (s == "0") s = "Unknown";
 
-      $( container ).text( s );
+      $( container ).text( "SOURCE: " + s );
   }
 
 }

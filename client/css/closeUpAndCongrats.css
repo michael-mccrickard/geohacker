@@ -49,11 +49,13 @@
 
 .sourceText {
 
+  font-size: 2.0vh;
+
   position: relative;
 
   text-align: center;
 
-  top: 94%;
+  top: 95%;
 
   color: black;
 

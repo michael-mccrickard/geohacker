@@ -264,13 +264,14 @@ NewLoader = function() {
 		}
 
 		var randomControl =  Database.getRandomElement(tmp);
-/*
+
 if (this.totalClueCount == 0) randomControl = display.ctl["IMAGE"];
 
-if (this.totalClueCount == 1) randomControl = display.ctl["WEB"];
+if (this.totalClueCount == 1) randomControl = display.ctl["IMAGE"];
 
-if (this.totalClueCount == 2) randomControl = display.ctl["TEXT"];
+if (this.totalClueCount == 2) randomControl = display.ctl["IMAGE"];
 
+/*
 if (this.totalClueCount == 3) randomControl = display.ctl["IMAGE"];
 
 if (this.totalClueCount == 4) randomControl = display.ctl["WEB"];
