@@ -1,4 +1,4 @@
-Template.missionSelect.events = {
+Template.missionListing.events = {
 
   'click .missionButton': function (e) { 
 
@@ -14,7 +14,7 @@ Template.missionSelect.events = {
   	}
 }
 
-Template.missionSelect.helpers({
+Template.missionListing.helpers({
 
 	missionItem: function() {
 
@@ -60,6 +60,14 @@ Template.missionSelect.helpers({
 	},
 
 	verb: function() {
+
+		if (hack != null) {
+
+			if (hack.mode == mHackDone) {
+
+				if (this.name == mission.name && this.hacked.length != mission.items.length) return "CONTINUE";			
+			}			
+		}
 
 		return "GO";
 	}

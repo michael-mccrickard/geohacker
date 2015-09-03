@@ -5,38 +5,8 @@
 		<div class="selectAMission">
 			<span>SELECT A MISSION...</span>
 		</div>
-
-		{{#each missionItem}}
-
-			<div class="missionItem">
-
-				<div class="missionIcon">
-					<a href="#">
-					  <img class="missionIconImg" src="{{missionCode}}_icon.png">
-					</a>
-				</div>
-
-				<div class="missionInfo">
-					<span>{{missionName}}</span>
-					<div class="missionCompletionCount">COMPLETED {{missionCompletions}}</div>
-				</div>
-
-				<div class="missionStats">
-					<div class="countryCount">{{missionHackTotal}} OF {{missionPoolTotal}} COUNTRIES</div>
-					<div class="progress countryProgress" style="width: 100%">
-						<div class="progress-bar progress-bar-success countryProgressBar"  style="width: {{missionProgress}}%" role="progressbar" aria-valuenow="{{missionProgress}}" aria-valuemin="0" aria-valuemax="100">
-						{{missionProgress}}%
-						</div>
-					</div>
-				</div>
-
-				<div class="missionButtonDiv">
-					<button type="button" class="btn btn-primary btn-lg missionButton" id="{{this.code}}">{{verb}}</button>
-				</div>
-
-			</div>
-
-		{{/each}}
+		
+		{{> missionListing}}
 
 	</div>
 

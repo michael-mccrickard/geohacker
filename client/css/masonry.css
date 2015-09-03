@@ -23,13 +23,6 @@
 .item.h3 { height: 384px; }
 .item.h4 { height: 512px; }
 
-
-.missionEnd {
-
-    position: relative;
-    left: -50px;
-}
-
 .atlasPic {
 
 	max-width: 100px;
@@ -37,20 +30,6 @@
 	padding: 4px;
 }
 
-
-.congratsCountryCount {
-
-    font-size: 3.5vh;
-}
-
-
-.hackReportLeftText {
-
-	font-family: geoFont;
-	font-size: 24px;
-	padding: 8px;
-  color: yellow;
-}
 
 .atlasNameText {
 
@@ -67,56 +46,6 @@
 	
 	color: yellow;
 	padding: 4px;
-}
-
-.statsHeadline {
-
-
-  font-family: geoFont;
-  font-size: 24px;
-  color: #C0C0C0;
-  margin-left: 8px;  
-
-    position: relative;
-    top: 6px;
-}
-
-.congratsFlag {
-
-    max-width: 384px;
-    display:block;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 8px;
-}
-
-
-.hackReportRight {
-  
-  float: left; 
-  width: 48%;
-  height: 85%;
-  margin: 8px;
-}
-
-.hackReportLeft {
-  
-  border: 2px solid;
-  border-color: yellow;
-  border-radius: 5px;
-
-  float: left; 
-  width: 48%;
-  background: #383838;
-
-  margin-right: 8px;
-  margin-bottom: 16px;
-}
-
-.missionEndButtons {
-  margin: 8px;
-  height: 13%;
-
 }
 
 .clear {

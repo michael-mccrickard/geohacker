@@ -3,75 +3,126 @@
 
     <div class="container">
 
-      <div class="jumbotron {{headlineColorClass}} missionEnd" id="congrats">
+      <div  class="{{headlineColorClass}} missionEnd" id="congrats">
 
-          <h1>{{congratsBanner}}</h1> 
+          <h1 class="congratsHeadline">{{congratsBanner}}</h1> 
+
+            <div class="hackReport">
+
+              <div class="hackReportLeft">
+
+                <img class="congratsFlag centered" src="{{flagPic}}" />
+                
+                  <div class="hackReportLeftText centered">{{hackReport1}}</div>
+              </div>
+
+            </div>
+      
+        
+            <div class="hackReportRight">         
+              <p class="hackReportText yellowText">{{hackReport2}}</p>
+              <p class="hackReportText whiteText"><span class="yellowText">TIME: </span>{{hackReport3}}</p>
+              <p class="hackReportText whiteText"><span class="yellowText">DATA POINTS ANALYZED: </span>{{hackReport4}}</p>
+            </div>
+
+             <div class="clear">
+              {{#if firstTimeCountry}}
+                <img class="badgePic" src="first_time_country.png" />
+              {{/if}}
+              {{#if firstTimeRegion}}
+                <img class="badgePic" src="first_time_region.png" />
+              {{/if}}
+              {{#if firstTimeContinent}}
+                <img class="badgePic" src="first_time_continent.png" />
+              {{/if}}
+
+              {{#if genius}}
+                <img class="badgePic" src="genius.png" />
+              {{/if}}
+
+              {{#if goldSpeedster}}
+                <img class="badgePic" src="speedster_gold.png" />
+              {{/if}}
+              {{#if silverSpeedster}}
+                <img class="badgePic" src="speedster_silver.png" />
+              {{/if}}  
+              {{#if bronzeSpeedster}}
+                <img class="badgePic" src="speedster_bronze.png" />
+              {{/if}}     
+
+              {{#if goldInvestigator}}
+                <img class="badgePic" src="investigator_gold.png" />
+              {{/if}}
+              {{#if silverInvestigator}}
+                <img class="badgePic" src="investigator_silver.png" />
+              {{/if}}  
+              {{#if bronzeInvestigator}}
+                <img class="badgePic" src="investigator_bronze.png" />
+              {{/if}}  
+
+              {{#if goldScholar}}
+                <img class="badgePic" src="scholar_gold.png" />
+              {{/if}}
+              {{#if silverScholar}}
+                <img class="badgePic" src="scholar_silver.png" />
+              {{/if}}  
+              {{#if bronzeScholar}}
+                <img class="badgePic" src="scholar_bronze.png" />
+              {{/if}}    
+
+
+             </div>
+
+
+        <div class="missionSelectFromCongrats">
+            
+            {{> missionListing}}
+
+        </div>
+
+      </div>
+
+  </div>
+
+</template>
+
+
+<!--
+
+            <p class="statsHeadline">STATS FOR AGENT {{agentName}}:</p>
+
+          {{> atlas}}
+
 
           <p class="whiteText">
             <span class="congratsCountryCount">MISSION: {{assignName}} -- {{agentHackCount}} OF {{missionTotal}} COUNTRIES HACKED</span>
           </p>
 
-          <div class="hackReportLeft">
-            <img class="congratsFlag centered" src="{{flagPic}}" />
+              <div class="missionEndButtons">
 
-            <div class="hackReportLeftText centered">{{hackReport1}}</div>
+              {{#if missionNotDone}}
 
-          </div>
+                <div>
+                  <button type="button" class="darkButton" style="width: 48%" id="btnNextHack">
+                    <span class="glyphicon glyphicon-ok greenText"></span> CONTINUE MISSION
+                  </button>
+                </div>
+                
+                <div>
+                  <button type="button" class="darkButton"  style="width: 48%; margin-top: 10px" id="btnMissionSelect">
+                    <span class="glyphicon glyphicon-list redText"></span> CHANGE MISSION
+                  </button>  
+                </div>
 
+              {{else}}
 
+                <div>
+                  <button type="button" class="darkButton"  style="width: 48%; margin-top: 10px" id="btnMissionSelect">
+                    <span class="glyphicon glyphicon-list redText"></span> NEW MISSION
+                  </button>  
+                 </div>          
 
-          <div class="hackReportRight">         
-            <p class="hackReportText yellowText">{{hackReport2}}</p>
-            <p class="hackReportText whiteText"><span class="yellowText">TIME: </span>{{hackReport3}}</p>
-            <p class="hackReportText whiteText"><span class="yellowText">DATA POINTS ANALYZED: </span>{{hackReport4}}</p>
+              {{/if}}
 
-          <div class="missionEndButtons">
-
-            {{#if missionNotDone}}
-
-              <div>
-                <button type="button" class="darkButton" style="width: 48%" id="btnNextHack">
-                  <span class="glyphicon glyphicon-ok greenText"></span> CONTINUE MISSION
-                </button>
-              </div>
-              
-              <div>
-                <button type="button" class="darkButton"  style="width: 48%; margin-top: 10px" id="btnMissionSelect">
-                  <span class="glyphicon glyphicon-list redText"></span> CHANGE MISSION
-                </button>  
-              </div>
-
-            {{else}}
-
-              <div>
-                <button type="button" class="darkButton"  style="width: 48%; margin-top: 10px" id="btnMissionSelect">
-                  <span class="glyphicon glyphicon-list redText"></span> NEW MISSION
-                </button>  
-               </div>          
-
-            {{/if}}
-
-          </div>
-
-      </div>
-
-    </div>
-
-
-
-
-        <div class="clear">
-            
-            <p class="statsHeadline">STATS FOR AGENT {{agentName}}:</p>
-
-          {{> atlas}}
-
-        </div>
-
-    </div>
-
-  
-
-</template>
-
-
+            </div>
+-->
