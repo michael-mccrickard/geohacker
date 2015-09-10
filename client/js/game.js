@@ -141,6 +141,7 @@ Game = function() {
 			_user.assignCode = Meteor.user().profile.c;
 
 			_user.setAtlas( Meteor.user().profile.h );
+
 		}
 		else {
 

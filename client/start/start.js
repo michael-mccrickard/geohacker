@@ -143,6 +143,8 @@ Tracker.autorun( function(comp) {
   if (Session.get("sZReady") && Session.get("sRReady") && Session.get("sCReady") && Session.get("sFReady") && Session.get("sUReady")  && Session.get("sAReady")) {
 
     Session.set("sWaitingOnCoreData", false);
+
+    if (Meteor.userId() != null && game.user)  game.user.setAvatarURL();
   
     c("core data ready")
 

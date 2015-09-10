@@ -212,7 +212,10 @@ Template.login.events({
 
                 console.log("account successfully created: " + email);
 
+                game.user.makeAvatar();
+
               }
+              
             });
         }
 

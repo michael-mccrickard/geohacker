@@ -13,7 +13,10 @@ User = function( _name, _scroll ) {  //name, id, scroll pos (for content editors
 
 	this.assign = null;
 
-	this.atlas = [];  //cumulative list of ticket objects   
+	this.atlas = [];  //cumulative list of ticket objects  
+
+    this.avatarURL = new Blaze.ReactiveVar( "" );  //path and filename to avatar on server 
+
 
 	//need to check and see if we have a logged-in user before trying to make this call
 
@@ -22,12 +25,16 @@ User = function( _name, _scroll ) {  //name, id, scroll pos (for content editors
 		Meteor.call("makeAvatar", "male", Meteor.userId() );
 	} 
 
-	this.getAvatarURL = function() {
+	this.setAvatarURL = function() {
 	
 		var _name = Meteor.userId() + ".png";
 
+console.log("name to be searched on " + _name)
+
 		var arr = game.ghAvatar.find({ "original.name" : _name }).fetch();
-	
+
+console.log(arr);
+
 		if (!arr.length) return;
 
 		var _url = arr[0].url();
@@ -36,7 +43,9 @@ User = function( _name, _scroll ) {  //name, id, scroll pos (for content editors
 
 		var url = _url.split("?");
 
-		return url;
+console.log("setting url to " + url[0]);
+		
+		this.avatarURL.set( url[0] );
 	}
 
  	/************************************************************************************************

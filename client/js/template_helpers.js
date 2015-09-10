@@ -1,4 +1,13 @@
 
+
+Template.registerHelper("avatarURL",  function() {
+
+		return game.user.avatarURL.get();
+	}
+
+)
+
+
 Template.registerHelper("getText",  function() {
 
 		if (this.dt == "cap") {
@@ -32,6 +41,7 @@ Template.registerHelper("getText",  function() {
 
 	}
 )
+
 
 Template.registerHelper("getImage", function(_file) {
 

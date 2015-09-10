@@ -24,9 +24,25 @@
         </ul>
 
       {{#if currentUser}}
-        <ul class="nav navbar-right">
-          <li role="button" class="active"><a class="menuFont" href="javascript:void(0);" onclick="game.logout()">CLOCK OUT</a></li>
-        </ul>
+        
+        <div class="navbar-header navbar-right">
+          <a class="navbar-brand"  href="javascript:void(0);" onclick="game.logout()">
+            <img alt="Brand" src="{{avatarURL}}" width="38" height="38">
+          </a>
+        </div>
+
+        {{else}}
+
+        <div class="navbar-header navbar-right">
+          <a class="navbar-brand"  href="javascript:void(0);" onclick="game.logout()">
+            <img alt="Brand" src="geohacker_logo.png" width="36" height="36">
+          </a>
+        </div>
+
+         <!--ul class="nav navbar-right">
+          <li role="button" class="active"><a class="menuFont" href="javascript:void(0);" onclick="game.logout()"><img src="geohacker_logo.png" /></a></li>
+        </ul-->       
+
       {{/if}}
   
   </div>
