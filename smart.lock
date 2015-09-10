@@ -1,0 +1,15 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "imagemagick": {}
+    },
+    "packages": {
+      "imagemagick": {
+        "git": "https://github.com/sylvaingi/meteor-imagemagick.git",
+        "tag": "v0.1.2",
+        "commit": "d67bb926356d35cdff1a6d6c3c69750f3f54c059"
+      }
+    }
+  }
+}

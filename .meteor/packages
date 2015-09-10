@@ -16,3 +16,7 @@ accounts-base
 accounts-password
 msavin:mongol
 email
+meteorhacks:npm
+npm-container
+cfs:standard-packages
+cfs:filesystem

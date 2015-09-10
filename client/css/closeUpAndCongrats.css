@@ -1,0 +1,166 @@
+ /******************************/
+
+/*  Congrats   */
+
+/******************************/
+.badgePic {
+
+  width: 256px;
+  margin-bottom: 16px;
+}
+
+.darkButton {
+  color: white;
+  background-color: black; 
+  border-radius: 5px;
+  border: 2px solid;
+  border-color: yellow;
+  font-family: geoFont;
+  font-size: 18px;
+  padding-top: 6px;
+}
+
+.congratsCountryCount {
+
+    font-size: 3.5vh;
+}
+
+
+.hackReportLeftText {
+
+  font-family: geoFont;
+  font-size: 24px;
+  padding: 8px;
+  color: yellow;
+}
+
+.statsHeadline {
+
+
+  font-family: geoFont;
+  font-size: 24px;
+  color: #C0C0C0;
+  margin-left: 8px;  
+  position: relative;
+  top: 6px;
+}
+
+.congratsFlag {
+
+    width: 92%;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 8px;
+}
+
+.congratsHeadline {
+
+     margin-top: 65px; 
+   font-size: 7.0vh; 
+}
+
+.hackReport {
+  margin-top: 1%;
+}
+
+.hackReportRight {
+    float: left; 
+  height: 85%;
+  margin-top: 4%;
+  margin-left: 3%;
+  font-size: 4.0vh;
+} 
+
+.hackReportText {
+
+  font-size: 4.0vh;
+}
+
+.hackReportLeft {
+  
+  border: 2px solid;
+  border-color: yellow;
+  border-radius: 5px;
+
+  float: left; 
+  width: 48%;
+  background: #383838;
+
+  margin-right: 8px;
+  margin-bottom: 16px;
+}
+
+.missionEndButtons {
+  margin: 8px;
+  height: 13%;
+
+}
+
+.missionEnd {
+
+    position: relative;
+    left: -50px;
+}
+
+div.missonSelectFromCongrats {
+
+    position: relative;
+    top: 50px;
+
+}
+
+/******************************/
+
+/*  Closeup screen   */
+
+/******************************/
+
+#closeUpBox {
+    
+    position: absolute;
+
+    width: 98%;
+    height: 98%;
+
+    border-radius: 7px;
+
+    background-color: #A9A9A9;
+
+}
+
+#closeUpPic {
+
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+    border-radius: 7px;
+}
+
+
+
+
+.sourceText {
+
+  font-size: 2.0vh;
+
+  position: relative;
+
+  text-align: center;
+
+  top: 95%;
+
+  color: black;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+.sourceText:hover {
+
+  color: blue;
+
+text-decoration: underline;
+}

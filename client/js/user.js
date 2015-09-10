@@ -1,5 +1,6 @@
 
 
+
 User = function( _name, _scroll ) {  //name, id, scroll pos (for content editors)
 
 	this.name = _name;
@@ -12,8 +13,31 @@ User = function( _name, _scroll ) {  //name, id, scroll pos (for content editors
 
 	this.assign = null;
 
-	this.atlas = [];  //cumulative list of ticket objects    
+	this.atlas = [];  //cumulative list of ticket objects   
 
+	//need to check and see if we have a logged-in user before trying to make this call
+
+	this.makeAvatar = function() {
+
+		Meteor.call("makeAvatar", "male", Meteor.userId() );
+	} 
+
+	this.getAvatarURL = function() {
+	
+		var _name = Meteor.userId() + ".png";
+
+		var arr = game.ghAvatar.find({ "original.name" : _name }).fetch();
+	
+		if (!arr.length) return;
+
+		var _url = arr[0].url();
+
+		if (_url == null) return;
+
+		var url = _url.split("?");
+
+		return url;
+	}
 
  	/************************************************************************************************
 	/*			ASSIGNS   		

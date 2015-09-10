@@ -8,7 +8,7 @@ contToEdit = "";
 
 var contButtons = ["#editAsia", "#editAmerica", "#editAfrica", "#editEurope", "#editOceania"];
 
-Session.get("sUpdateEditScreenFlag", true);
+Session.set("sUpdateEditScreenFlag", true);
 
 Template.selectCountry.helpers({
 

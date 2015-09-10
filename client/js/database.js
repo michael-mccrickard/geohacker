@@ -18,6 +18,8 @@ Database = function() {
 
     this.ghC = new Meteor.Collection('alCountry');    //n = name, c = code, r = region code
 
+    //this.ghA = new Meteor.Collection('cfs.ghAvatar.filerecord');
+
   }
 
   this.initControls = function() {
@@ -46,6 +48,11 @@ Database = function() {
   this.clearUsers = function() {
 
     Meteor.logout();
+
+    Meteor.call("clearUsers");
+  }
+
+  this.clearAvatars = function() {
 
     Meteor.call("clearUsers");
   }

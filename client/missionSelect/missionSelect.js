@@ -14,6 +14,14 @@ Template.missionListing.events = {
   	}
 }
 
+Template.missionSelect.helpers({
+
+	avatarURL: function() {
+
+		return game.user.getAvatarURL();
+	}
+});
+
 Template.missionListing.helpers({
 
 	missionItem: function() {

@@ -75,6 +75,15 @@ Template.login.helpers({
 })
 
 
+//react to the resetPasswordToken property in accounts
+//Tracker.autorun( function(comp) {
+
+  if (Accounts._resetPasswordToken) {
+      
+      Session.set('sResetPassword', Accounts._resetPasswordToken);  
+  } 
+//});
+
 Template.login.events({
 
     'submit #login-form' : function(e, t){

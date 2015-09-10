@@ -1,4 +1,6 @@
 gHackPreselect = "";
+
+FS.debug = true;
 //****************************************************************
 //                 PRE-STARTUP
 //****************************************************************
@@ -16,8 +18,6 @@ Session.set("sRegistrationPrompt", "APPLY TO BECOME A GEOHACKER AGENT...");
 Session.set("sRegistrationPromptTextColor", "yellowText");
 
 Session.set("sBadPasswordEntered", false);
-
-Session.set("sResetPassword", null);
 
 Session.set("isIOS", false);
 
@@ -51,6 +51,8 @@ Session.set("isIOS", false);
   Session.set("sMReady", false);
 
   Session.set("sFReady", false);
+
+  Session.set("sAReady", false);
 
   Session.set("sImagesReady", false);
 
@@ -104,6 +106,8 @@ Meteor.startup(function() {
 
   Meteor.subscribe("registeredUsers", function() { Session.set("sUReady", true ) });
 
+  //core data for game
+
   Meteor.subscribe("continent", function() { Session.set("sZReady", true ) });
 
   Meteor.subscribe("region", function() { Session.set("sRReady", true ) });
@@ -112,18 +116,13 @@ Meteor.startup(function() {
 
   Meteor.subscribe("allFlags", function() { Session.set("sFReady", true ) });
 
+  Meteor.subscribe("ghAvatar", function() { Session.set("sAReady", true ) });
+
   //Callback for user login
 
   Accounts.onLogin( function() { game.user = game.createGeohackerUser(); });
 
-  Accounts.onResetPasswordLink( function() { Router.go("/resetPassword"); });
-
-  //react to the resetPasswordToken property in accounts
-
-  if (Accounts._resetPasswordToken) {
-      
-      Session.set('sResetPassword', Accounts._resetPasswordToken);  
-  } 
+  Accounts.onResetPasswordLink( function() { Router.go("/start"); });
 
 
   //start screen
@@ -141,7 +140,7 @@ Meteor.startup(function() {
 
 Tracker.autorun( function(comp) {
 
-  if (Session.get("sZReady") && Session.get("sRReady") && Session.get("sCReady") && Session.get("sFReady") && Session.get("sUReady") ) {
+  if (Session.get("sZReady") && Session.get("sRReady") && Session.get("sCReady") && Session.get("sFReady") && Session.get("sUReady")  && Session.get("sAReady")) {
 
     Session.set("sWaitingOnCoreData", false);
   
