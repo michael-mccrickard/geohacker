@@ -22,7 +22,7 @@ var passwordTooShortError = function() {
 
 var customError = function(_which, _err) {
 
-   Session.set("s" + _which + "Prompt", _err.toUpperCase() );
+   if (_err) Session.set("s" + _which + "Prompt", _err.toUpperCase() );
 
    Session.set("s" + _which + "PromptTextColor", "redText");
 }
@@ -78,10 +78,7 @@ Template.login.helpers({
 //react to the resetPasswordToken property in accounts
 //Tracker.autorun( function(comp) {
 
-  if (Accounts._resetPasswordToken) {
-      
-      Session.set('sResetPassword', Accounts._resetPasswordToken);  
-  } 
+
 //});
 
 Template.login.events({

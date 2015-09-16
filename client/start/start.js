@@ -1,3 +1,30 @@
+/*
+if (Accounts._resetPasswordToken) {
+  Session.set('sResetPassword', Accounts._resetPasswordToken);
+}
+*/
+
+//Iron.Location.configure({useHashPaths: true});
+
+Accounts.onResetPasswordLink( function(token) { 
+
+    Session.set('sResetPassword', token);  
+
+});
+
+
+/*
+Accounts.onResetPasswordLink(function (t, d)
+{
+    //token = t;
+    //done = d;
+
+    Meteor.setTimeout( function() { Session.set('sResetPassword', t) }, 500);  
+
+    Meteor.setTimeout( function() { Router.go("resetPassword") }, 501);
+});
+*/
+
 gHackPreselect = "";
 
 FS.debug = true;
@@ -18,6 +45,8 @@ Session.set("sRegistrationPrompt", "APPLY TO BECOME A GEOHACKER AGENT...");
 Session.set("sRegistrationPromptTextColor", "yellowText");
 
 Session.set("sBadPasswordEntered", false);
+
+//Session.set("sResetPassword", "");
 
 Session.set("isIOS", false);
 
@@ -72,6 +101,8 @@ Session.set("isIOS", false);
 
 Meteor.startup(function() {
 
+
+
   Session.set("gWindowHeight", $(window).height() );
 
   Session.set("gWindowWidth", $(window).width() );
@@ -121,8 +152,6 @@ Meteor.startup(function() {
   //Callback for user login
 
   Accounts.onLogin( function() { game.user = game.createGeohackerUser(); });
-
-  Accounts.onResetPasswordLink( function() { Router.go("/start"); });
 
 
   //start screen

@@ -2,6 +2,8 @@
 
 Template.registerHelper("avatarURL",  function() {
 
+		if (game.user == null) return "geohacker_logo.png";
+
 		return game.user.avatarURL.get();
 	}
 

@@ -2,17 +2,11 @@
 
 Template.userDirectory.events = {
 
-  'click .missionButton': function (e) { 
+  'click #closeUserDirectory': function (e) { 
 
   		e.preventDefault();
 
-  		Control.playEffect("goMission.mp3");
-
-      	var id = e.currentTarget.id;
-
-      	game.user.bumpAssign( id );
-
-      	game.user.assignAndStartMission( id );
+      Router.go("/missionSelect")
   	}
 }
 

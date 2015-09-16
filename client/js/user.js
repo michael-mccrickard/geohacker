@@ -29,11 +29,7 @@ User = function( _name, _scroll ) {  //name, id, scroll pos (for content editors
 	
 		var _name = Meteor.userId() + ".png";
 
-console.log("name to be searched on " + _name)
-
 		var arr = game.ghAvatar.find({ "original.name" : _name }).fetch();
-
-console.log(arr);
 
 		if (!arr.length) return;
 
@@ -42,8 +38,6 @@ console.log(arr);
 		if (_url == null) return;
 
 		var url = _url.split("?");
-
-console.log("setting url to " + url[0]);
 		
 		this.avatarURL.set( url[0] );
 	}

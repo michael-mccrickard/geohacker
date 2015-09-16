@@ -46,6 +46,13 @@ Router.route('/congrats', {
  
 });
 
+Router.route('/resetPassword', function () {
+
+    this.render('resetPassword');
+
+    name:  "resetPassword";
+});
+
 //*********************************************
 //      MAIN
 //*********************************************
