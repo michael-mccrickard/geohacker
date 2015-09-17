@@ -1,3 +1,5 @@
+BlazeLayout.setRoot('body');
+
 /*
 if (Accounts._resetPasswordToken) {
   Session.set('sResetPassword', Accounts._resetPasswordToken);

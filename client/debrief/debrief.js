@@ -261,7 +261,11 @@ Template.debrief.events = {
   		hack.debrief.set( hack.debrief.index );
   	},
 
+}
 
+Template.debrief.rendered = function () {
+
+	refreshWindow("router-debrief");
 }
 
 Template.miniDebrief.helpers({
@@ -271,6 +275,7 @@ Template.miniDebrief.helpers({
         return hack.getLeaderPic();  
     },
 })
+
 
 
 //temporary editing hacks
