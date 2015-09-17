@@ -205,7 +205,7 @@ Template.editor.events = {
 
     hack.mode = mNone;
 
-	  FlowRouter.go("/selectCountry");
+	  Router.go("/selectCountry");
   },
 
   'click .dataRow' : function(evt, template) {

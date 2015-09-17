@@ -197,7 +197,7 @@ Template.selectCountry.events = {
 
   	hack.countryCode = this.c;  
 
-  	FlowRouter.go("/editor");
+  	Router.go("/editor");
   },
 
   'click #closeSelectCountry': function (evt, template) {
@@ -206,7 +206,7 @@ Template.selectCountry.events = {
 
      hack.mode = mNone;
 
-  	 FlowRouter.go("/main");
+  	 Router.go("/main");
   
      Meteor.setTimeout( function() { display.redraw(); }, 500);
   },
