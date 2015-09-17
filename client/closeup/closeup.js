@@ -11,12 +11,12 @@ Template.closeup.events = {
 
       if (display.feature.getName() == "MAP") {
 
-        Router.go("/debrief");
+        FlowRouter.go("/debrief");
 
         return;
       }
 
-  		Router.go("/main");
+  		FlowRouter.go("/main");
   	},
 
     'click #closeUpSource': function(e) {
