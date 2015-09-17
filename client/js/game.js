@@ -166,7 +166,7 @@ Game = function() {
 
 		Session.set("sLoginNow", true);
 
-		Router.go("/start");
+		FlowRouter.go("/start");
 	},
 
 	this.doResetPassword = function() {

@@ -6,7 +6,8 @@
 
 meteor-platform
 mikemccrickard:ammap
-iron:router
+kadira:flow-router
+kadira:blaze-layout
 adrianliaw:youtube-iframe-api
 sjors:meteor-masonry
 twbs:bootstrap

@@ -18,11 +18,11 @@ refreshWindow = function(_which) {
 
     Session.set("gWindowWidth", $(window).width() );
 
-    var url = Router.current().url;
+    var url = FlowRouter.current().path;
 
     if (url == "/start" || url == "/editor" || url == "/selectCountry" || url == "/congrats" ) return;
 
-    var name = Router.current().route.getName();
+    var name = FlowRouter.getRouteName();
 
     if (name == "closeup") {
 

@@ -65,7 +65,7 @@ ghMap = function() {
 
       Session.set("gMapStatus", s);
       
-      var url = Router.current().url;
+      var url = FlowRouter.current().path;
 
       if (url == '/worldMap') display.mapStatus.setAndType();
     },
@@ -153,7 +153,7 @@ ghMap = function() {
 
         display.worldMapTemplateReady = false;
 
-        Router.go("/browseWorldMap");
+        FlowRouter.go("/browseWorldMap");
 
         return;
 
@@ -184,7 +184,7 @@ ghMap = function() {
 
         display.worldMapTemplateReady = false;
 
-        Router.go("/worldMap");
+        FlowRouter.go("/worldMap");
       }
     },
 
