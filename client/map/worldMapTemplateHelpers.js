@@ -272,7 +272,7 @@ function closeOutMap() {
 
         display.feature.clear();
 
-        FlowRouter.go("/debrief");
+        Router.go("/debrief");
 
         return;
     }
@@ -290,7 +290,7 @@ function closeOutMap() {
 
         display.feature.clear();
 
-        FlowRouter.go("/main");
+        Router.go("/main");
 
         return;
     }   

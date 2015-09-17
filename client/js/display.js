@@ -316,7 +316,7 @@ Display = function() {
           //now that the images are loaded, go to main and the template.rendered event
           //will call this.drawMain()
 
-          FlowRouter.go("/main");
+          Router.go("/main");
 
         });
     }
@@ -343,7 +343,7 @@ Display = function() {
           //now that the images are loaded, go to main and the template.rendered event
           //will call this.drawMain()
 
-          FlowRouter.go("/main");
+          Router.go("/main");
 
         });
     }

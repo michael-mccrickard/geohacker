@@ -85,7 +85,7 @@ Hack = function() {
 
         Control.playEffect("goMission.mp3");
 
-        FlowRouter.go("/waiting");
+        Router.go("/waiting");
 
     };
 

@@ -12,6 +12,7 @@ Accounts.onResetPasswordLink( function(token) {
 
 });
 
+
 /*
 Accounts.onResetPasswordLink(function (t, d)
 {
@@ -20,7 +21,7 @@ Accounts.onResetPasswordLink(function (t, d)
 
     Meteor.setTimeout( function() { Session.set('sResetPassword', t) }, 500);  
 
-    Meteor.setTimeout( function() { FlowRouter.go("resetPassword") }, 501);
+    Meteor.setTimeout( function() { Router.go("resetPassword") }, 501);
 });
 */
 
@@ -155,7 +156,7 @@ Meteor.startup(function() {
 
   //start screen
 
-  FlowRouter.go("/start"); 
+  Router.go("/start"); 
 
 
 }); 
@@ -252,18 +253,13 @@ Template.start.events = {
 
       Control.playEffect("startButton.mp3");
 
-      FlowRouter.go("/missionSelect");
+      Router.go("/missionSelect");
 
 
     }
 };
 
-Template.start.rendered = function () {
 
-  Meteor.setTimeout(function () { game.startMusic(); 2000 } );  
-
-  game.setMusicPlayerListener();
-}
 //****************************************************************
 //          HACKS
 //****************************************************************

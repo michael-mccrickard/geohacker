@@ -227,12 +227,12 @@ Template.debrief.events = {
 
   		if (hack.mode == mBrowse) {
 
-			Meteor.setTimeout( function() { FlowRouter.go("/main") }, 100 ) ;
+			Meteor.setTimeout( function() { Router.go("/main") }, 100 ) ;
 
 			return;
   		}
 
-  		Meteor.setTimeout( function() { FlowRouter.go("/congrats") }, 100 ) ;
+  		Meteor.setTimeout( function() { Router.go("/congrats") }, 100 ) ;
   	},
 
   'click #debriefNavPrev': function (e) { 
