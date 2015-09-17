@@ -2,27 +2,28 @@ var debrief_sound = "debrief.mp3";
 
 pageRefreshed = false;
 
-Router.configure({
-  layoutTemplate: 'layout'
-});
 
 //*********************************************
 //      START
 //*********************************************
 
-Router.route('/start', function () {
+FlowRouter.route('/start', {
 
-  this.render('start');
+  name: "start",
 
-    name: "start";
+  action: function (params, queryParams) { BlazeLayout.render('layout', { content: "start" } ) },
+
+  //triggersEnter: [startMusic]
+
 });
 
 
-Router.route('/missionSelect', function () {
+FlowRouter.route('/missionSelect', {
 
-  this.render('missionSelect');
+  name: "missionSelect",
 
-    name: "missionSelect";
+  action: function (params, queryParams) { BlazeLayout.render('layout', { content: "missionSelect" } ) },
+
 });
 
 
@@ -30,7 +31,7 @@ Router.route('/missionSelect', function () {
 //      CONGRATS
 //*********************************************
 
-Router.route('/congrats', {
+FlowRouter.route('/congrats', {
 
   action: function() {
 
@@ -40,129 +41,118 @@ Router.route('/congrats', {
 
     hack.playAnthem();
 
-    this.render("congrats");
+    BlazeLayout.render('layout', { content: "congrats" } );
 
   }
  
 });
 
-Router.route('/resetPassword', function () {
+FlowRouter.route('/resetPassword', {
 
-    this.render('resetPassword');
+    action: function (params, queryParams) { BlazeLayout.render('layout', { content: "resetPassword" } ) },
 
-    name:  "resetPassword";
+    name:  "resetPassword"
 });
 
 //*********************************************
 //      MAIN
 //*********************************************
 
-Router.route('/main', function () {
+FlowRouter.route('/main', {
 
-    this.render('main');
+    action: function (params, queryParams) { BlazeLayout.render('layout', { content: "main" } ) },
 
-    name:  "main";
+    name:  "main"
 });
 
 //*********************************************
 //      WORLD MAP
 //*********************************************
 
-Router.route('/worldMap', function () {
+FlowRouter.route('/worldMap', {
 
-  name: "worldMap";
+  name: "worldMap",
 
-  pageRefreshed = false;
-
-  this.render('worldMap');
+  action: function (params, queryParams) { pageRefreshed = false; BlazeLayout.render('layout', { content: "worldMap" } ); },
 });
 
 //*********************************************
 //      BROWSE WORLD MAP
 //*********************************************
 
-Router.route('/browseWorldMap', function () {
+FlowRouter.route('/browseWorldMap', {
 
-  name: "browseWorldMap";
+  name: "browseWorldMap",
 
-  pageRefreshed = false;
-
-  this.render('browseWorldMap');
+  action: function (params, queryParams) { pageRefreshed = false; BlazeLayout.render('layout', { content: "browseWorldMap" } ); },
 });
 
 //*********************************************
 //      DEBRIEF
 //*********************************************
 
-Router.route('/debrief', function () {
+FlowRouter.route('/debrief', {
 
-  name: "debrief"
+  name: "debrief",
 
-  pageRefreshed = false;
-
-  this.render('debrief');
+  action: function (params, queryParams) { pageRefreshed = false; BlazeLayout.render('layout', { content: "debrief" } ); },
 });
 
 //*********************************************
 //      CLOSEUP
 //*********************************************
 
-Router.route('/closeup', function () {
+FlowRouter.route('/closeup', {
 
-  name: "closeup"
+  name: "closeup",
 
-  pageRefreshed = false;
-
-  this.render('closeup');
+  action: function (params, queryParams) {  pageRefreshed = false; BlazeLayout.render('layout', { content: "closeup" } ); },
 });
 
 //*********************************************
 //      EDITOR
 //*********************************************
 
-Router.route('/editor', {
+FlowRouter.route('/editor', {
+
+  subscriptions: function(params, queryParams) {
+
+    this.register("editImages", Meteor.subscribe("allImages") );
+    this.register("editTexts", Meteor.subscribe("allTexts") );
+    this.register("editSounds", Meteor.subscribe("allSounds") );
+    this.register("editVideos", Meteor.subscribe("allVideos") );
+    this.register("editWebs", Meteor.subscribe("allWebs") );
+    this.register("editDebriefs", Meteor.subscribe("allDebriefs") );
+  },
 
   action: function() {
 
     pageRefreshed = false;
 
-    this.wait( Meteor.subscribe("allImages") );
-    this.wait( Meteor.subscribe("allTexts") );
-    this.wait( Meteor.subscribe("allSounds") );
-    this.wait( Meteor.subscribe("allVideos") );
-    this.wait( Meteor.subscribe("allWebs") );
-    this.wait( Meteor.subscribe("allDebriefs") );
+    BlazeLayout.render('layout', { content: "editor" } );
 
-  
-    if ( this.ready() ) {
-
-      this.render("editor");
-    }
-    else {
-      this.render("waiting");
-    }
   }
 });
 
-Router.route('/selectCountry', function () {
+FlowRouter.route('/selectCountry', {
 
+  subscriptions: function(params, queryParams) {
+
+    this.register("editContinent", Meteor.subscribe("continent") );
+    this.register("editRegion", Meteor.subscribe("region") );
+    this.register("editCountry", Meteor.subscribe("country") );
+  },
+
+  action: function (params, queryParams) { 
+    
     if (display) {
 
       if (display.ctl["SOUND"]) display.ctl["SOUND"].pauseFeaturedContent();
     }
 
-    this.wait( Meteor.subscribe("continent") );
-    this.wait( Meteor.subscribe("region") );
-    this.wait( Meteor.subscribe("country") );
+    BlazeLayout.render('layout', { content: "selectCountry" });
 
-    if ( this.ready() ) {
-
-      this.render("selectCountry");
-    }
-    else {
-
-      this.render("waiting");
-    }
+  }
 
 });
 
@@ -171,32 +161,18 @@ Router.route('/selectCountry', function () {
 //*********************************************
 
 
-Router.route('/waiting', function () {
-  this.render('waiting');
+FlowRouter.route('/waiting', {
+
+  action: function (params, queryParams) { BlazeLayout.render('layout', { content: "waiting" } ) }
 });
 
 //*********************************************
 //      User Directory
 //*********************************************
 
-Router.route('/userDirectory',  {
+FlowRouter.route('/userDirectory',  {
 
-  // Subscriptions or other things we want to "wait" on. This also
-  // automatically uses the loading hook. That's the only difference between
-  // this option and the subscriptions option above.
-  waitOn: function () {
-    return Meteor.subscribe("registeredUsers");
-  },
-
-  // A data function that can be used to automatically set the data context for
-  // our layout. This function can also be used by hooks and plugins. For
-  // example, the "dataNotFound" plugin calls this function to see if it
-  // returns a null value, and if so, renders the not found template.
-
-  data: function() {
-    templateData = { ghUser: Meteor.users.find().fetch() };
-    return templateData;
-  },
+  action: function (params, queryParams) { BlazeLayout.render('layout', { content: "userDirectory" } ) }
 
 });
 
@@ -204,7 +180,7 @@ Router.route('/userDirectory',  {
 //*********************************************
 //      ROUTE HOOKS
 //*********************************************
-
+/*
 //  START
 
 Router.onAfterAction(startMusic, {
@@ -276,19 +252,11 @@ Router.onAfterAction(drawWorldMap, {
 
 });
 
+*/
 
 //*********************************************
 //      FUNCTIONS
 //*********************************************
-
-function startMusic() {
-
-  Meteor.setTimeout(function () { game.startMusic(); 2000 } );  
-
-  game.setMusicPlayerListener();
-
-}
-
 
 function refreshDebriefWindow() {
 
@@ -320,11 +288,13 @@ function doRefreshCloseupWindow() {
   Meteor.setTimeout(function () {display.closeUp.draw(); 100} );
 }
 
+/*
 function checkHackScreen() {
 
   if (display) display.checkMainScreen();
 
 }
+*/
 
 function playDebriefSound() {
 

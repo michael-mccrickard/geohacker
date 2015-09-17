@@ -144,7 +144,7 @@ Template.login.events({
 
       Control.playEffect("startButton.mp3");
 
-      Router.go("/missionSelect");
+      FlowRouter.go("/missionSelect");
 
     },
 

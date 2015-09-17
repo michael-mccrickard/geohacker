@@ -334,7 +334,7 @@ c("click control is setting media state to play")
 
         display.feature.clear();
 
-        Router.go("/debrief");
+        FlowRouter.go("/debrief");
     }
 
 });
@@ -371,6 +371,8 @@ Template.main.rendered = function () {
       display.redraw();
 
       display.doHeadlines();
+
+      display.checkMainScreen();
 
     }
 }

@@ -596,7 +596,7 @@ c("doMapSuccess")
         }
 
 
-        Router.go("/main");
+        FlowRouter.go("/main");
     }
 
     //Store the map coordinates and then fade it out

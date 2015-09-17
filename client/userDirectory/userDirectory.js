@@ -6,7 +6,7 @@ Template.userDirectory.events = {
 
   		e.preventDefault();
 
-      Router.go("/missionSelect")
+      FlowRouter.go("/missionSelect")
   	}
 }
 
