@@ -1,4 +1,7 @@
+Template.closeup.rendered = function() {
 
+  display.closeUp.draw();
+}
 
 
 Template.closeup.events = {

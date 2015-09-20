@@ -16,15 +16,14 @@
                   <div class="hackReportLeftText centered">{{hackReport1}}</div>
               </div>
 
+              <div class="hackReportRight">         
+                <p class="hackReportText yellowText">{{hackReport2}}</p>
+                <p class="hackReportText whiteText"><span class="yellowText">TIME: </span>{{hackReport3}}</p>
+                <p class="hackReportText whiteText"><span class="yellowText">DATA POINTS ANALYZED: </span>{{hackReport4}}</p>
+              </div>
+
             </div>
       
-        
-            <div class="hackReportRight">         
-              <p class="hackReportText yellowText">{{hackReport2}}</p>
-              <p class="hackReportText whiteText"><span class="yellowText">TIME: </span>{{hackReport3}}</p>
-              <p class="hackReportText whiteText"><span class="yellowText">DATA POINTS ANALYZED: </span>{{hackReport4}}</p>
-            </div>
-
              <div class="clear">
               {{#if firstTimeCountry}}
                 <img class="badgePic" src="first_time_country.png" />
@@ -73,16 +72,17 @@
 
              </div>
 
+      </div>
 
-        <div class="missionSelectFromCongrats">
+  </div>
+
+          <div class="missionSelectFromCongrats">
             
             {{> missionListing}}
 
         </div>
 
-      </div>
 
-  </div>
 
 </template>
 

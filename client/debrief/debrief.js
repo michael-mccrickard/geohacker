@@ -217,6 +217,11 @@ Debrief = function() {
 
 }
 
+Template.debrief.rendered = function () {
+
+	refreshWindow("router-debrief");
+}
+
 Template.debrief.events = {
 
   'click #divDebrief': function (e) { 
@@ -263,10 +268,6 @@ Template.debrief.events = {
 
 }
 
-Template.debrief.rendered = function () {
-
-	refreshWindow("router-debrief");
-}
 
 Template.miniDebrief.helpers({
 

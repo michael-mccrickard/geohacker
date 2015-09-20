@@ -258,10 +258,6 @@ Router.onAfterAction(drawWorldMap, {
 //      FUNCTIONS
 //*********************************************
 
-function refreshDebriefWindow() {
-
-  Meteor.setTimeout(function () {refreshWindow("router-debrief"); 100} );
-}
 
 function checkForFeature() {
 
@@ -278,6 +274,7 @@ function checkForFeature() {
   this.next();
 }
 
+/*
 function doRefreshCloseupWindow() {
 
   //if there is no control featured, then don't refresh
@@ -287,6 +284,7 @@ function doRefreshCloseupWindow() {
 
   Meteor.setTimeout(function () {display.closeUp.draw(); 100} );
 }
+*/
 
 /*
 function checkHackScreen() {
