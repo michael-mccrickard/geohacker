@@ -9,17 +9,32 @@
 
             <div class="hackReport">
 
+              <div class="hackReportRight">         
+                  
+                  <div class="congratsPortrait">
+
+                    <img class="congratsAvatar" src="{{avatarURL}}">
+
+                    <div class="congratsAgentName whiteText">AGENT MICHAELANGELO</div>
+                  
+                  </div>
+
+                  <div class="congratsAgentReport">
+                    <p class="hackReportText greenText">{{hackReport2}}</p>
+                    <p class="hackReportText whiteText"><span class="yellowText">TIME: </span>{{hackReport3}}</p>
+                    <p class="hackReportText whiteText"><span class="yellowText">DATA POINTS ANALYZED: </span>{{hackReport4}}</p>
+                    <p class="hackReportText whiteText"><span class="yellowText">HACKED THIS COUNTRY: </span>{{hackedCount}}x</p>
+                    <p class="hackReportText whiteText"><span class="yellowText">LIFETIME HACKS: </span></p>
+                  </div>
+
+              </div>
+
               <div class="hackReportLeft">
 
                 <img class="congratsFlag centered" src="{{flagPic}}" />
                 
                   <div class="hackReportLeftText centered">{{hackReport1}}</div>
-              </div>
-
-              <div class="hackReportRight">         
-                <p class="hackReportText yellowText">{{hackReport2}}</p>
-                <p class="hackReportText whiteText"><span class="yellowText">TIME: </span>{{hackReport3}}</p>
-                <p class="hackReportText whiteText"><span class="yellowText">DATA POINTS ANALYZED: </span>{{hackReport4}}</p>
+                  
               </div>
 
             </div>
@@ -76,18 +91,18 @@
 
   </div>
 
+</template>
+
+
+<!--
+
+
+
           <div class="missionSelectFromCongrats">
             
             {{> missionListing}}
 
         </div>
-
-
-
-</template>
-
-
-<!--
 
             <p class="statsHeadline">STATS FOR AGENT {{agentName}}:</p>
 

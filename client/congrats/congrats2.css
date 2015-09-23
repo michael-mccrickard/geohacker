@@ -1,0 +1,74 @@
+.hackReportLeftText2 {
+
+  font-family: geoFont;
+  font-size: 24px;
+  padding: 8px;
+  color: yellow;
+}
+
+.statsHeadline2 {
+
+
+  font-family: geoFont;
+  font-size: 24px;
+  color: #C0C0C0;
+  margin-left: 8px;  
+  position: relative;
+  top: 6px;
+}
+
+.congratsFlag2 {
+
+    vertical-align: center;
+    margin-left: 4%;
+    width: 92%;
+
+}
+
+.congratsHeadline2 {
+
+     margin-top: 65px; 
+   font-size: 7.0vh; 
+}
+
+.hackReport2 {
+  margin-top: 1%;
+
+}
+
+.hackReportLeft2 {
+  
+  border: 2px solid;
+  border-color: yellow;
+  border-radius: 5px;
+  float: left;
+  width: 48%;
+  background: #383838;
+  margin-bottom: 16px;
+}
+
+
+.hackReportRight2 {
+
+  position: relative;
+  left: 3%;
+  height: 85%;
+  margin-top: 1%;
+  font-size: 4.0vh;
+} 
+
+.hackReportText2 {
+
+  font-size: 4.0vh;
+}
+
+
+.centered2  {
+  text-align: center;
+}
+
+.missionEnd2 {
+
+    position: relative;
+    left: -50px;
+}

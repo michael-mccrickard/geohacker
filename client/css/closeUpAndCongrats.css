@@ -3,36 +3,6 @@
 /*  Congrats   */
 
 /******************************/
-.badgePic {
-
-  width: 256px;
-  margin-bottom: 16px;
-}
-
-.darkButton {
-  color: white;
-  background-color: black; 
-  border-radius: 5px;
-  border: 2px solid;
-  border-color: yellow;
-  font-family: geoFont;
-  font-size: 18px;
-  padding-top: 6px;
-}
-
-.congratsCountryCount {
-
-    font-size: 3.5vh;
-}
-
-
-.hackReportLeftText {
-
-  font-family: geoFont;
-  font-size: 24px;
-  padding: 8px;
-  color: yellow;
-}
 
 .statsHeadline {
 
@@ -47,11 +17,9 @@
 
 .congratsFlag {
 
+    margin-left: 4%;
     width: 92%;
 
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 8px;
 }
 
 .congratsHeadline {
@@ -62,21 +30,11 @@
 
 .hackReport {
   margin-top: 1%;
-
 }
-
-.hackReportRight {
-
-  position: relative;
-  left: 3%;
-  height: 85%;
-  margin-top: 1%;
-  font-size: 4.0vh;
-} 
 
 .hackReportText {
 
-  font-size: 4.0vh;
+  font-size: 1.7vw;
 }
 
 .hackReportLeft {
@@ -86,10 +44,68 @@
   border-radius: 5px;
 
   float: left; 
-  width: 48%;
+  width: 30%;
   background: #383838;
+  margin-left: 3%;
+}
 
-  margin-right: 8px;
+
+.hackReportLeftText {
+
+  font-family: geoFont;
+  font-size: 1.0vw;
+  padding: 8px;
+  color: yellow;
+}
+
+
+.hackReportRight {
+
+  border: 2px solid;
+  border-color: yellow;
+  border-radius: 5px;
+
+  float: left; 
+  width: 50%;
+  background: #383838;
+  margin-left: 1%;
+  margin-bottom: 16px;
+
+} 
+
+.congratsAvatar {
+
+  width: 100%;
+  height: 90%;
+  margin-top: 1%;
+}
+
+.congratsPortrait {
+  float: left;
+  width: 30%;
+  height: 100%;
+  margin: 2%;
+
+}
+
+.congratsAgentName {
+
+  font-size: 2.0vh;
+  text-align: center;
+  margin-top: 4%;
+}
+
+.congratsAgentReport {
+  float: right;
+  width: 60%;
+  height: 100%;
+  margin: 2%;
+
+}
+
+.badgePic {
+
+  width: 256px;
   margin-bottom: 16px;
 }
 
@@ -103,6 +119,17 @@
 
     position: relative;
     left: -50px;
+}
+
+.darkButton {
+  color: white;
+  background-color: black; 
+  border-radius: 5px;
+  border: 2px solid;
+  border-color: yellow;
+  font-family: geoFont;
+  font-size: 18px;
+  padding-top: 6px;
 }
 
 .missionSelectFromCongrats {

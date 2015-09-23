@@ -41,6 +41,13 @@ Template.congrats.helpers({
     return hack.getFlagPic();
   },
 
+  hackedCount: function() {
+
+    var count = game.user.getTicketCount( hack.countryCode );
+
+    return count;
+  },
+
   hackReport1: function() {
 
     var s = "Message originated in " + hack.getCountryName() + "."; 
