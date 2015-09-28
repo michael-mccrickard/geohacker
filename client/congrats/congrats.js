@@ -11,6 +11,15 @@ Template.congrats.helpers({
     return game.user.assign.hacked.length;
   },
 
+  agentLifetimeHacks: function() {
+
+    return game.user.lifetimeHackCount();
+  },
+
+  agentTicketCount: function() {
+
+    return game.user.atlas.length;
+  },
 
   assignName: function() {
 
@@ -24,7 +33,7 @@ Template.congrats.helpers({
 
    countryName: function() {
 
-    return hack.getCountryName();
+    return hack.getCountryName().toUpperCase();
   },
 
   congratsBanner:  function() {

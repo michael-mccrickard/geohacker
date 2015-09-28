@@ -4,74 +4,127 @@
 
 /******************************/
 
-.statsHeadline {
 
-
-  font-family: geoFont;
-  font-size: 24px;
-  color: #C0C0C0;
-  margin-left: 8px;  
-  position: relative;
-  top: 6px;
-}
-
-.congratsFlag {
-
-    margin-left: 4%;
-    width: 92%;
-
-}
 
 .congratsHeadline {
 
-     margin-top: 65px; 
-   font-size: 7.0vh; 
+   margin-top: 65px; 
+   font-size: 48px; 
 }
 
 .hackReport {
   margin-top: 1%;
-}
+
+
+  border: 2px solid;
+  border-color: yellow;
+  border-radius: 5px;
+
+  width: 55%;
+  overflow: hidden;
+  background: #383838;
+
+} 
 
 .hackReportText {
 
-  font-size: 1.7vw;
+  font-size: 20px;
 }
 
-.hackReportLeft {
-  
-  border: 2px solid;
-  border-color: yellow;
+.congratsFlag {
+
+    float: left;
+    margin: 1%;
+}
+
+.ghBadge {
+  float: left;
+  margin-top: 16px;
+}
+
+.congratsAgentReport {
+  margin-top: 1%;
+  float: right;
+  width: 45%;
+
+}
+
+.compositeBadge {
+float: left;
+    width: 144px;
+    height: 170px;
+    margin-right: 8px;
+}
+
+.compositeFlag {
+    float: left;
+    width: 296px;
+}
+
+
+.badgePic {
+  float: left;
   border-radius: 5px;
-
-  float: left; 
-  width: 30%;
-  background: #383838;
-  margin-left: 3%;
-}
-
-
-.hackReportLeftText {
-
-  font-family: geoFont;
-  font-size: 1.0vw;
-  padding: 8px;
-  color: yellow;
-}
-
-
-.hackReportRight {
-
-  border: 2px solid;
-  border-color: yellow;
-  border-radius: 5px;
-
-  float: left; 
-  width: 50%;
-  background: #383838;
-  margin-left: 1%;
+  border: 3px solid;
+  border-color: white;  
   margin-bottom: 16px;
+  margin-left: 8px;
+}
 
-} 
+
+.blankBadge {
+  float: left;
+  border-radius: 5px;
+  border: 3px dashed;
+  border-color: gray;  
+  margin-bottom: 16px;
+  margin-left: 8px;
+  width: 144px;
+  height: 144px;
+}
+
+.badgeLabel {
+    position: relative;
+    text-align: center;
+    font-family: Arial;
+    font-size: 10px;
+    top: -7%;
+    pointer-events: none;
+}
+
+.missionEnd {
+
+    position: relative;
+    left: -50px;
+}
+
+
+/******************************/
+
+/*
+.darkButton {
+  color: white;
+  background-color: black; 
+  border-radius: 5px;
+  border: 2px solid;
+  border-color: yellow;
+  font-family: geoFont;
+  font-size: 18px;
+  padding-top: 6px;
+}
+
+
+.missionEndButtons {
+  margin: 8px;
+  height: 13%;
+
+}
+
+.badgeText {
+  font-family: Arial;
+  font-size: 1.0vmin;
+  text-align: center;
+}
 
 .congratsAvatar {
 
@@ -90,57 +143,45 @@
 
 .congratsAgentName {
 
-  font-size: 2.0vh;
+  font-size: 2.0vmin;
   text-align: center;
   margin-top: 4%;
 }
 
-.congratsAgentReport {
-  float: right;
-  width: 60%;
-  height: 100%;
-  margin: 2%;
 
-}
-
-.badgePic {
-
-  width: 256px;
-  margin-bottom: 16px;
-}
-
-.missionEndButtons {
-  margin: 8px;
-  height: 13%;
-
-}
-
-.missionEnd {
-
-    position: relative;
-    left: -50px;
-}
-
-.darkButton {
-  color: white;
-  background-color: black; 
-  border-radius: 5px;
+.hackReportLeft {
+  
   border: 2px solid;
   border-color: yellow;
+  border-radius: 5px;
+
+  float: left; 
+  width: 30%;
+  background: #383838;
+  margin-left: 3%;
+}
+
+
+.hackReportLeftText {
+  
   font-family: geoFont;
-  font-size: 18px;
-  padding-top: 6px;
+    font-size: 1.6vmin;
+  padding: 8px;
+  color: yellow;
 }
 
-.missionSelectFromCongrats {
 
-    position: relative;
-    top: 2%;
-    left: 50px;
-    width: 100%;
+.statsHeadline {
+
+
+  font-family: geoFont;
+  font-size: 24px;
+  color: #C0C0C0;
+  margin-left: 8px;  
+  position: relative;
+  top: 6px;
 }
-
-/******************************/
+*/
 
 /*  Closeup screen   */
 

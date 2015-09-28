@@ -263,7 +263,18 @@ User = function( _name, _scroll ) {  //name, id, scroll pos (for content editors
 		}
 
 		return -1;
+	}
 
+	this.lifetimeHackCount = function() {
+
+		var c = 0;
+
+		for (var i = 0; i < this.atlas.length; i++)  {
+
+			c = c + this.atlas[i].count;
+		}
+
+		return c;
 	}
 
  	/******************************************************************
