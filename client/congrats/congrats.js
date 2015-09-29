@@ -1,3 +1,14 @@
+Session.set("sBadgeCount", 0);
+
+Template.congrats.badge = function() { 
+
+  var _obj = new BadgeList();
+
+  Session.set("sBadgeCount", _obj.length)
+
+  return ( _obj.generateList() );
+}
+
 
 Template.congrats.helpers({
 
@@ -31,7 +42,7 @@ Template.congrats.helpers({
     return game.user.assign.pool.length + game.user.assign.hacked.length;
   },
 
-   countryName: function() {
+  countryName: function() {
 
     return hack.getCountryName().toUpperCase();
   },
@@ -49,6 +60,7 @@ Template.congrats.helpers({
 
     return hack.getFlagPic();
   },
+
 
   hackedCount: function() {
 
@@ -73,9 +85,7 @@ Template.congrats.helpers({
 
   hackReport3: function() {
 
-      var hackTime = (game.hackEndTime - game.hackStartTime) / 1000.0;
-
-      var s = hackTime.toFixed(2) + " secs" ;
+      var s = game.hackTotalTime.toFixed(2) + " secs" ;
 
       return s.toUpperCase();
   },
@@ -112,94 +122,13 @@ Template.congrats.helpers({
     return ratio.toPrecision(2);
   },
 
-  genius: function() {
+  needBlankBadge: function() {
 
-    if (display.loader.totalClueCount == 1) return true;
-
-    return false;
-  },
-
-  goldInvestigator: function() {
-
-    if (display.loader.totalClueCount >= 9) return true;
+    if ( Session.get("sBadgeCount") < 4 ) return true;
 
     return false;
   },
 
-  silverInvestigator: function() {
-
-    if (display.loader.totalClueCount >= 6 && display.loader.totalClueCount < 9) return true;
-
-    return false;
-  },
-
-  bronzeInvestigator: function() {
-
-    if (display.loader.totalClueCount >= 3 && display.loader.totalClueCount < 6) return true;
-
-    return false;
-  },
-
-  goldSpeedster: function() {
-
-    var hackTime = (game.hackEndTime - game.hackStartTime) / 1000.0;
-
-    if (hackTime < 10.0) return true;
-
-    return false;
-  },
-
-  silverSpeedster: function() {
-
-    var hackTime = (game.hackEndTime - game.hackStartTime) / 1000.0;
-
-    if (hackTime >= 10.0 && hackTime < 20.0) return true;
-  
-    return false;
-  },
-
-  bronzeSpeedster: function() {
-
-    var hackTime = (game.hackEndTime - game.hackStartTime) / 1000.0;
-
-    if (hackTime >= 20.0 && hackTime < 30.0) return true;
-  
-    return false;
-  },
-
-  goldScholar: function() {
-
-    var hackTime = (game.hackEndTime - game.hackStartTime) / 1000.0 / 60.0;
-
-    if (hackTime >= 15.0) return true;
-  
-    return false;
-  },
-
-  silverScholar: function() {
-
-    var hackTime = (game.hackEndTime - game.hackStartTime) / 1000.0 / 60.0;
-
-    if (hackTime >= 8.0  && hackTime < 15.0) return true;
-  
-    return false;
-  },
-
-  bronzeScholar: function() {
-
-    var hackTime = (game.hackEndTime - game.hackStartTime) / 1000.0 / 60.0;
-
-    if (hackTime >= 3.0  && hackTime < 8.0) return true;
-  
-    return false;
-  },
-
-  firstTimeCountry: function() {
-
-    if (game.user.getTicketCount( hack.countryCode ) == 1) return true;
-
-    return false;
-  },
 
 });
 

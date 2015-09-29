@@ -24,98 +24,26 @@
                     <p class="hackReportText whiteText"><span class="yellowText">UNIQUE COUNTRIES HACKED: </span>{{agentTicketCount}}</p-->
                   </div>
 
-                 <!--div class="hackReportLeftText centered">{{hackReport1}}</div-->
-
                   <div class="clear ghBadge">
 
-                    <div class="compositeBadge">
-                      <img class="badgePic" src="hackComplete.png" width="144"/>
-                    </div>
+                    {{#each badge}}
 
-                    {{#if firstTimeCountry}}
                       <div class="compositeBadge">
-                        <img class="badgePic" src="first_time_country.png" width="144"/>
-                      </div>
-                    {{/if}}
 
-                    {{#if firstTimeRegion}}
-                      <div class="compositeBadge">
-                        <img class="badgePic" src="first_time_region.png" width="144"/>
-                      </div>
-                    {{/if}}
+                        <img class="badgePic" src="{{this.pic}}" width="144"/>
 
-                    {{#if firstTimeContinent}}
-                      <div class="compositeBadge">
-                        <img class="badgePic" src="first_time_continent.png" width="144"/>
-                      </div>
-                    {{/if}}
+                        <div class="badgeLabel whiteText">{{this.text}}</div> 
 
-                    {{#if genius}}
-                    <div class="compositeBadge">
-                      <img class="badgePic" src="genius.png" width="144"/>
                       </div>
-                    {{/if}}
 
-                    {{#if goldSpeedster}}
-                    <div class="compositeBadge">
-                        <img class="badgePic" src="speedster_gold.png" width="144"/>
-                        <div class="badgeLabel whiteText">LESS THAN 10 SECS</div> 
-                      </div>
-                    {{/if}}
 
-                    {{#if silverSpeedster}}
-                    <div class="compositeBadge">
-                        <img class="badgePic" src="speedster_silver.png" width="144"/>
-                        <div class="badgeLabel whiteText">LESS THAN 20 SECS</div> 
-                      </div>
-                    {{/if}}
+                    {{/each}}
+                
+                    {{#if needBlankBadge}}
 
-                    {{#if bronzeSpeedster}}
-                    <div class="compositeBadge">
-                      <img class="badgePic" src="speedster_bronze.png" width="144"/>
-                        <div class="badgeLabel whiteText">LESS THAN 30 SECS</div> 
-                      </div>
-                    {{/if}}  
-
-                    {{#if goldInvestigator}}
-                    <div class="compositeBadge">
-                      <img class="badgePic" src="investigator_gold.png" width="144"/>
-                        <div class="badgeLabel whiteText">9 OR MORE DATA POINTS</div> 
-                      </div>
+                        <div class="blankBadge badgePic"></div>
+                    
                     {{/if}}
-                    {{#if silverInvestigator}}
-                    <div class="compositeBadge">
-                      <img class="badgePic" src="investigator_silver.png" width="144"/>
-                        <div class="badgeLabel whiteText">6 OR MORE DATA POINTS</div> 
-                      </div>
-                    {{/if}} 
-                    {{#if bronzeInvestigator}}
-                    <div class="compositeBadge">
-                      <img class="badgePic" src="investigator_bronze.png" width="144"/>
-                        <div class="badgeLabel whiteText">3 OR MORE DATA POINTS</div> 
-                      </div>
-                    {{/if}}
-
-                    {{#if goldScholar}}
-                    <div class="compositeBadge">
-                      <img class="badgePic" src="scholar_gold.png" width="144"/>
-                        <div class="badgeLabel whiteText">ANALYZED 15 OR MORE MINS</div> 
-                      </div>
-                    {{/if}}
-                    {{#if silverScholar}}
-                    <div class="compositeBadge">
-                      <img class="badgePic" src="scholar_silver.png" width="144"/>
-                        <div class="badgeLabel whiteText">ANALYZED 8 OR MORE MINS</div> 
-                      </div>
-                    {{/if}} 
-                    {{#if bronzeScholar}}
-                    <div class="compositeBadge">
-                      <img class="badgePic" src="scholar_bronze.png" width="144"/>
-                        <div class="badgeLabel whiteText">ANALYZED 3 OR MORE MINS</div> 
-                      </div>
-                    {{/if}}
-
-                    <div class="blankBadge badgePic"></div>
 
                   </div>
 
@@ -123,7 +51,12 @@
           
           </div>
 
-              <!--div class="missionReport">
+</template>
+
+
+<!--
+
+                <div class="missionReport">
 
                   <div class="congratsPortrait">
 
@@ -133,26 +66,8 @@
                   
                   </div>
                   
-              </div-->
+              </div>
 
-
-      
-
-
-      
-
-</template>
-
-
-<!--
-
-
-
-          <div class="missionSelectFromCongrats">
-            
-            {{> missionListing}}
-
-        </div>
 
             <p class="statsHeadline">STATS FOR AGENT {{agentName}}:</p>
 

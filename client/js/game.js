@@ -11,7 +11,7 @@ Game = function() {
 
 	this.hackStartTime = 0;
 
-	this.hackEndTime = 0;
+	this.hackTotalTime = 0;
 
 	this.musicOn = true;
 

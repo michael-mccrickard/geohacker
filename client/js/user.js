@@ -285,7 +285,7 @@ User = function( _name, _scroll ) {  //name, id, scroll pos (for content editors
 
 		var _ticket = null;
 
-		//first add the hacked country code to the array
+		//Add the hacked country code to the array
 
 		//There is some condition that's causing countries to be added twice in some circumstances.
 		//So check for the country code first.

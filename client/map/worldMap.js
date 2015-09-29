@@ -525,9 +525,11 @@ c("doMapSuccess")
                 loop: 2
             });
 
-            //save the end time for the hack report
+            //save the total time for the hack report
 
-            game.hackEndTime = new Date().getTime();
+            var hackEndTime = new Date().getTime();
+
+            game.hackTotalTime = (hackEndTime - game.hackStartTime) / 1000.0;
 
             Control.playEffect(this.map_country_success_sound);
 
