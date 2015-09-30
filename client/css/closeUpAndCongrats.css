@@ -4,6 +4,16 @@
 
 /******************************/
 
+.congratsContainer {
+
+  position: relative;
+
+  left: 50px;
+
+  width: 768px;
+
+  margin: 16px;
+}
 
 
 .congratsHeadline {
@@ -13,18 +23,23 @@
 }
 
 .hackReport {
-  margin-top: 1%;
-
+  margin-top: 8px;
 
   border: 2px solid;
   border-color: yellow;
   border-radius: 5px;
 
-  width: 55%;
+  width: 90%;
   overflow: hidden;
   background: #383838;
 
 } 
+
+.hackReportHeadline {
+
+  font-size: 36px;
+}
+
 
 .hackReportText {
 
@@ -34,7 +49,7 @@
 .congratsFlag {
 
     float: left;
-    margin: 1%;
+    margin: 8px;
 }
 
 .ghBadge {
@@ -43,7 +58,8 @@
 }
 
 .congratsAgentReport {
-  margin-top: 1%;
+  margin-top: 8px;
+
   float: right;
   width: 45%;
 
@@ -98,32 +114,13 @@ float: left;
     left: -50px;
 }
 
+.missionReportHeadline {
 
-/******************************/
+  margin-top: 8px;
 
-/*
-.darkButton {
-  color: white;
-  background-color: black; 
-  border-radius: 5px;
-  border: 2px solid;
-  border-color: yellow;
-  font-family: geoFont;
-  font-size: 18px;
-  padding-top: 6px;
-}
-
-
-.missionEndButtons {
-  margin: 8px;
-  height: 13%;
-
-}
-
-.badgeText {
-  font-family: Arial;
-  font-size: 1.0vmin;
   text-align: center;
+
+  font-size: 36px;
 }
 
 .congratsAvatar {
@@ -135,18 +132,74 @@ float: left;
 
 .congratsPortrait {
   float: left;
-  width: 30%;
+  width: 180px;
   height: 100%;
-  margin: 2%;
+  margin: 8px;
 
 }
 
 .congratsAgentName {
 
-  font-size: 2.0vmin;
+  font-size: 18px;
   text-align: center;
   margin-top: 4%;
 }
+
+.missionReportPercent {
+  float: right;
+  margin-right: 145px;
+  margin-top: -8px;
+  font-size: 80px;
+  font-family: Arial;
+}
+
+.missionReportHacks {
+    font-size: 18px;
+  float: right;
+  margin-right: 64px;
+
+}
+
+.darkButton {
+
+  width: 220px;
+  height: 50px;
+  margin-right: 8px;
+  margin-top: -12px;
+  margin-bottom: 8px;
+  float: right;
+  color: white;
+  background-color: black; 
+  border-radius: 5px;
+  border: 2px solid;
+  border-color: yellow;
+  font-family: geoFont;
+  font-size: 18px;
+}
+
+.congratsProgress {
+float: left;
+  margin-left: 24px;
+  margin-top: -4px;
+}
+
+.missionEndButtons {
+
+  clear: both;
+
+}
+
+/******************************/
+
+/*
+
+
+.badgeText {
+  font-family: Arial;
+  font-size: 1.0vmin;
+  text-align: center;
+}
+
 
 
 .hackReportLeft {

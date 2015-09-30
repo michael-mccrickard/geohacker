@@ -1,5 +1,13 @@
 Session.set("sBadgeCount", 0);
 
+Template.congrats.rendered = function () {
+
+  var ratio = game.user.assign.hacked.length / (game.user.assign.hacked.length + game.user.assign.pool.length) * 100.0;
+
+  Session.set('percentageProgress', ratio);
+
+}
+
 Template.congrats.badge = function() { 
 
   var _obj = new BadgeList();
@@ -10,6 +18,7 @@ Template.congrats.badge = function() {
 }
 
 
+
 Template.congrats.helpers({
 
   agentName: function() {
@@ -17,29 +26,48 @@ Template.congrats.helpers({
     return game.user.name.toUpperCase();
   },
 
-  agentHackCount: function() {
-
-    return game.user.assign.hacked.length;
-  },
-
-  agentLifetimeHacks: function() {
-
-    return game.user.lifetimeHackCount();
-  },
-
-  agentTicketCount: function() {
-
-    return game.user.atlas.length;
-  },
-
   assignName: function() {
 
     return game.user.assign.name.toUpperCase();
   },
 
-  missionTotal: function() {
+  countriesHacked: function() {
 
-    return game.user.assign.pool.length + game.user.assign.hacked.length;
+    var hackedSoFar =  game.user.assign.hacked.length;
+
+    var total = game.user.assign.pool.length + game.user.assign.hacked.length;
+
+    return (hackedSoFar + " out of " + total + " countries hacked.").toUpperCase();
+  },
+
+//Because of the bug mentioned below; we need need to "normalize" the values;
+// use 360 as the total and calc the progress proportionally?
+
+  getTotal: function() {
+
+    return (game.user.assign.pool.length + game.user.assign.hacked.length);
+  },
+
+  getProgress: function() {
+
+    var p = game.user.assign.hacked.length;
+
+    //progress indicator has a bug, where it essentially displays 0
+    //if you give it a 100% progress input
+
+    if (game.user.assign.pool.length == 0) p--;
+
+    return (p);
+  },
+
+  missionPercentage: function() {
+
+    var ratio = game.user.assign.hacked.length / (game.user.assign.hacked.length + game.user.assign.pool.length) * 100.0;
+
+    if (ratio >= 100.0) return 100;
+
+    return ratio.toPrecision(2);
+
   },
 
   countryName: function() {
@@ -78,7 +106,7 @@ Template.congrats.helpers({
 
   hackReport2: function() {
 
-      var s = "hack report:"
+      var s = "hack report"
 
       return s.toUpperCase();
   },

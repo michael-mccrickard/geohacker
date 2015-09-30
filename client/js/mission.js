@@ -5,13 +5,13 @@ Mission = function(_code, _countryCode) {
 
   this.mode = mNone;
 	
-  this.level = mlWorld;
+  this.level = mlNone;
 
   this.code = _code;
 
   this.name = "0";
 
-  this.browseCode = "0";
+  this.browseCode = "0";  //the country code when _code == "browse"
 
   this.items = [];
 
@@ -79,6 +79,8 @@ Mission = function(_code, _countryCode) {
 
   	this.name = "Earth";
 
+    this.level = mlWorld;
+
     _arr = db.ghR.find().fetch();
 
   }
@@ -104,7 +106,7 @@ Mission = function(_code, _countryCode) {
     //the map variables are set in user.assign (called by hack.startNew() )
   }
 
-  //Now make an array of just the region codes (for this continent)
+  //Now make an array of just the region codes for this mission
 
   var regions = Database.makeSingleElementArray( _arr, "c");
 

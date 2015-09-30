@@ -94,7 +94,17 @@ BadgeList = function() {
 
     	//first times
 
+     	if (game.user.assign.completions == 1  && game.user.assign.pool.length == 0 && mission.level == mlWorld) this.arr.push( this.generateBadge( "first_time", "planet") );    
+
+     	if (game.user.assign.completions == 1  && game.user.assign.pool.length == 0 && mission.level == mlContinent) this.arr.push( this.generateBadge( "first_time", "continent") );  
+
+     	if (game.user.assign.completions == 1  && game.user.assign.pool.length == 0 && mission.level == mlRegion) this.arr.push( this.generateBadge( "first_time", "region") );    
+     	
      	if (game.user.getTicketCount( hack.countryCode ) == 1) this.arr.push( this.generateBadge( "first_time", "country") );  
+
+     	if (game.user.assign.completions == 1  && mission.level == mlNone) this.arr.push( this.generateBadge( "first_time", "mission") );    
+
+     	//genius
 
     	if (display.loader.totalClueCount == 1) this.arr.push( this.generateBadge( "genius") );
 

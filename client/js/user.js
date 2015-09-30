@@ -347,17 +347,17 @@ User = function( _name, _scroll ) {  //name, id, scroll pos (for content editors
 
 Assign = function( _code, _hacked, _level, _name, _pool, _completions) {
 
-	this.code = _code;
+	this.code = _code;  //string code for the mission
+ 
+	this.hacked = _hacked;   //array of countries already hacked (codes)
 
-	this.hacked = _hacked;
+	this.level = _level;  //map level, if applicable
 
-	this.level = _level;
+	this.name = _name;   //name of the mission displayed on the screen
 
-	this.name = _name;
+	this.pool = [];   //all the countries still needing to be hacked  (codes)
 
-	this.pool = [];
-
-	this.completions = _completions;
+	this.completions = _completions;  //number of times that mission has been completed
 
 	this.selectedContinent = "";
 

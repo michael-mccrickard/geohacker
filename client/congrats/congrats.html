@@ -1,7 +1,7 @@
 
 <template name="congrats">
 
-    <div class="container">
+    <div class="congratsContainer">
 
             <div  class="{{headlineColorClass}} missionEnd" id="congrats">
                 <h1 class="congratsHeadline">{{congratsBanner}}</h1> 
@@ -15,13 +15,11 @@
                   </div>
 
                   <div class="congratsAgentReport">
-                    <p class="hackReportText greenText">{{hackReport2}}</p>
+                    <p class="hackReportHeadline greenText">{{hackReport2}}</p>
                     <p class="hackReportText whiteText"><span class="yellowText">AGENT: </span>{{agentName}}</p>
                     <p class="hackReportText whiteText"><span class="yellowText">TIME: </span>{{hackReport3}}</p>
                     <p class="hackReportText whiteText"><span class="yellowText">DATA POINTS ANALYZED: </span>{{hackReport4}}</p>
                     <p class="hackReportText whiteText"><span class="yellowText">HACKED THIS COUNTRY: </span>{{hackedCount}}x</p>
-                    <!--p class="hackReportText whiteText"><span class="yellowText">LIFETIME HACKS: </span>{{agentLifetimeHacks}}</p>
-                    <p class="hackReportText whiteText"><span class="yellowText">UNIQUE COUNTRIES HACKED: </span>{{agentTicketCount}}</p-->
                   </div>
 
                   <div class="clear ghBadge">
@@ -48,15 +46,8 @@
                   </div>
 
               </div>
-          
-          </div>
 
-</template>
-
-
-<!--
-
-                <div class="missionReport">
+              <div class="hackReport missionEnd">  
 
                   <div class="congratsPortrait">
 
@@ -65,8 +56,55 @@
                     <div class="congratsAgentName whiteText">{{agentName}}</div>
                   
                   </div>
-                  
-              </div>
+
+                  <div class="missionReportHeadline greenText">MISSION: {{assignName}}</div>
+
+                  <div class="congratsProgress">
+
+                      {{>SvgCircleProgress radius=58 total=getTotal progress=getProgress bgColor="black" progressColor="white"}}
+                  </div>
+
+
+                  <span class="missionReportPercent yellowText">{{missionPercentage}}%</span>
+                  <p class="missionReportHacks whiteText">{{countriesHacked}}</p>
+
+
+                  <div class="missionEndButtons">
+
+                  {{#if missionNotDone}}
+
+
+                      <button type="button" class="darkButton" id="btnNextHack">
+                        <span class="glyphicon glyphicon-ok greenText"></span> CONTINUE MISSION
+                      </button>
+                    
+
+                      <button type="button" class="darkButton" id="btnMissionSelect">
+                        <span class="glyphicon glyphicon-list redText"></span> CHANGE MISSION
+                      </button>  
+
+                  {{else}}
+
+
+                      <button type="button" class="darkButton" id="btnMissionSelect">
+                        <span class="glyphicon glyphicon-list redText"></span> NEW MISSION
+                      </button>  
+
+                  {{/if}}
+
+                </div>
+
+
+                </div>
+          
+          </div>
+
+</template>
+
+
+<!--
+
+
 
 
             <p class="statsHeadline">STATS FOR AGENT {{agentName}}:</p>
@@ -78,31 +116,4 @@
             <span class="congratsCountryCount">MISSION: {{assignName}} -- {{agentHackCount}} OF {{missionTotal}} COUNTRIES HACKED</span>
           </p>
 
-              <div class="missionEndButtons">
-
-              {{#if missionNotDone}}
-
-                <div>
-                  <button type="button" class="darkButton" style="width: 48%" id="btnNextHack">
-                    <span class="glyphicon glyphicon-ok greenText"></span> CONTINUE MISSION
-                  </button>
-                </div>
-                
-                <div>
-                  <button type="button" class="darkButton"  style="width: 48%; margin-top: 10px" id="btnMissionSelect">
-                    <span class="glyphicon glyphicon-list redText"></span> CHANGE MISSION
-                  </button>  
-                </div>
-
-              {{else}}
-
-                <div>
-                  <button type="button" class="darkButton"  style="width: 48%; margin-top: 10px" id="btnMissionSelect">
-                    <span class="glyphicon glyphicon-list redText"></span> NEW MISSION
-                  </button>  
-                 </div>          
-
-              {{/if}}
-
-            </div>
 -->

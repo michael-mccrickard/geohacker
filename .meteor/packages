@@ -20,4 +20,4 @@ meteorhacks:npm
 npm-container
 cfs:standard-packages
 cfs:filesystem
-valedaemon:circular-progress
+ddh:svg-circle-progress
