@@ -55,6 +55,17 @@ FlowRouter.route('/resetPassword', {
 });
 
 //*********************************************
+//      HOME
+//*********************************************
+
+FlowRouter.route('/home', {
+
+    action: function (params, queryParams) { BlazeLayout.render('layout', { content: "home" } ) },
+
+    name:  "home"
+});
+
+//*********************************************
 //      MAIN
 //*********************************************
 

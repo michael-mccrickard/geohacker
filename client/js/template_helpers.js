@@ -1,4 +1,9 @@
+Template.registerHelper("agentName",  function() {
 
+		 return game.user.name.toUpperCase();
+	}
+
+)
 
 Template.registerHelper("avatarURL",  function() {
 
@@ -8,7 +13,6 @@ Template.registerHelper("avatarURL",  function() {
 	}
 
 )
-
 
 Template.registerHelper("getText",  function() {
 

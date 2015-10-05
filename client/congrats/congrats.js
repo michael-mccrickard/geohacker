@@ -21,11 +21,6 @@ Template.congrats.badge = function() {
 
 Template.congrats.helpers({
 
-  agentName: function() {
-
-    return game.user.name.toUpperCase();
-  },
-
   assignName: function() {
 
     return game.user.assign.name.toUpperCase();
