@@ -1,30 +1,10 @@
 BlazeLayout.setRoot('body');
 
-/*
-if (Accounts._resetPasswordToken) {
-  Session.set('sResetPassword', Accounts._resetPasswordToken);
-}
-*/
-
-//Iron.Location.configure({useHashPaths: true});
-
 Accounts.onResetPasswordLink( function(token) { 
 
     Session.set('sResetPassword', token);  
 
 });
-
-/*
-Accounts.onResetPasswordLink(function (t, d)
-{
-    //token = t;
-    //done = d;
-
-    Meteor.setTimeout( function() { Session.set('sResetPassword', t) }, 500);  
-
-    Meteor.setTimeout( function() { FlowRouter.go("resetPassword") }, 501);
-});
-*/
 
 gHackPreselect = "";
 
@@ -46,8 +26,6 @@ Session.set("sRegistrationPrompt", "APPLY TO BECOME A GEOHACKER AGENT...");
 Session.set("sRegistrationPromptTextColor", "yellowText");
 
 Session.set("sBadPasswordEntered", false);
-
-//Session.set("sResetPassword", "");
 
 Session.set("isIOS", false);
 
@@ -93,6 +71,10 @@ Session.set("isIOS", false);
   Session.set("sYouTubeOn", false);   
 
   Session.set("sDisplayReady", false); 
+
+  //misc
+
+  Session.set("sHomeContent", "");
 
   Blaze._allowJavascriptUrls();
 

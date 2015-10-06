@@ -1,11 +1,8 @@
 <template name="home">
 
-
-	<div class="container">
-
 		<div class="divHomeTop">
 
-			<div class="divHomeAvatar">
+			<div class="divHomeAvatar" id="divHomeUser">
 
 				<img class= "imgHomeAvatar" src="{{avatarURL}}" />
 					
@@ -13,9 +10,9 @@
 				
 			</div>
 
-			<div class="divHomeButton">
+			<div class="divHomeButton divHomeHack">
 
-				<div class="divHomeButtonPic">
+				<div class="divHomeButtonPic" id="divHomeHackPic">
 
 					<img class= "imgHomeButton" src="geohacker_logo.png" />
 					
@@ -25,9 +22,10 @@
 
 			<div class="divHomeButton">
 
-				<div class="divHomeButtonPic">
 
-					<img class= "imgHomeButton" src="agents.png" />
+				<div class="divHomeButtonPic" id="divHomeAgents">
+
+					<img class= "imgHomeButton" id="showAgents" src="agents.png" />
 					
 				</div>
 				<p class="homeAgentText2 centered">AGENTS</p>
@@ -35,9 +33,9 @@
 
 			<div class="divHomeButton">
 
-				<div class="divHomeButtonPic">
+				<div class="divHomeButtonPic" id="divHomeStats">
 
-					<img class= "imgHomeButton" src="stats.png" />
+					<img class= "imgHomeButton" id="showStats" src="stats.png" />
 					
 				</div>
 				<p class="homeAgentText2 centered">STATS</p>
@@ -45,24 +43,29 @@
 
 			<div class="divHomeButton">
 
-				<div class="divHomeButtonPic">
+				<div class="divHomeButtonPic" id="divHomeClockOut">
 
-					<img class= "imgHomeButton" src="clock.png" />
+					<img class= "imgHomeButton" id="goLogout" src="clock.png" />
 					
 				</div>
 				<p class="homeAgentText2 centered">CLOCK OUT</p>
 			</div>
 
-			<span class="divHomeMapButton">
+			<span class="divHomeMapButton" id="divHomeMap">
 
-				<img class="homeMapButton" id="homeMap" src="./newGlobeIconYellow.png" />
+				<img class="homeMapButton" id="showHomeMap" src="./newGlobeIconYellow.png" />
 
 				<p class="homeAgentText2 centered">MAP</p>
 			
 			</span>		
 		
+		</div>  <!--divHomeTop-->
+
+		<div class="divHomeContent">
+
+			{{> Template.dynamic template=homeContent}}
+		
 		</div>
 
-	</div>
 
 </template>
