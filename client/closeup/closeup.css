@@ -1,0 +1,54 @@
+/******************************/
+
+/*  Closeup screen   */
+
+/******************************/
+
+#closeUpBox {
+    
+    position: absolute;
+
+    width: 98%;
+    height: 98%;
+
+    border-radius: 7px;
+
+    background-color: #A9A9A9;
+
+}
+
+#closeUpPic {
+
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+    border-radius: 7px;
+}
+
+
+
+
+.sourceText {
+
+  font-size: 2.0vh;
+
+  position: relative;
+
+  text-align: center;
+
+  top: 95%;
+
+  color: black;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+.sourceText:hover {
+
+  color: blue;
+
+text-decoration: underline;
+}

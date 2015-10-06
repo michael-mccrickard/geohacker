@@ -1,4 +1,10 @@
+//****************************************************************
+//                 PRE-STARTUP
+//****************************************************************
+
 BlazeLayout.setRoot('body');
+
+//callback for the start-up from an emailed "resert password" link
 
 Accounts.onResetPasswordLink( function(token) { 
 
@@ -6,12 +12,16 @@ Accounts.onResetPasswordLink( function(token) {
 
 });
 
+//Callback for user login
+
+Accounts.onLogin( function() { game.user = game.createGeohackerUser(); });
+
+//Debugging hacks
+
 gHackPreselect = "";
 
 FS.debug = true;
-//****************************************************************
-//                 PRE-STARTUP
-//****************************************************************
+
 
  //determines what is displayed on the start screen: login or register
 
@@ -132,10 +142,6 @@ Meteor.startup(function() {
 
   Meteor.subscribe("ghAvatar", function() { Session.set("sAReady", true ) });
 
-  //Callback for user login
-
-  Accounts.onLogin( function() { game.user = game.createGeohackerUser(); });
-
 
   //start screen
 
@@ -247,6 +253,17 @@ Template.start.rendered = function () {
   Meteor.setTimeout(function () { game.startMusic(); 2000 } );  
 
   game.setMusicPlayerListener();
+
+  if (game.user == null) {
+
+    console.log("creating game.user");
+
+    game.user = game.createGeohackerUser();
+  }
+  else {
+    console.log("game.user follows");
+    console.log(game.user);
+  }
 }
 //****************************************************************
 //          HACKS

@@ -35,19 +35,16 @@ Template.congrats.helpers({
     return (hackedSoFar + " out of " + total + " countries hacked.").toUpperCase();
   },
 
-//Because of the bug mentioned below; we need need to "normalize" the values;
-// use 360 as the total and calc the progress proportionally?
-
   getTotal: function() {
 
-    return (game.user.assign.pool.length + game.user.assign.hacked.length);
+    return 360.0;
   },
 
   getProgress: function() {
 
-    var p = game.user.assign.hacked.length;
+    var p = ( 360.0 / (game.user.assign.pool.length + game.user.assign.hacked.length) ) * game.user.assign.hacked.length;
 
-    //progress indicator has a bug, where it essentially displays 0
+    //progress indicator has a bug, where it essentially displays 0% progress
     //if you give it a 100% progress input
 
     if (game.user.assign.pool.length == 0) p--;

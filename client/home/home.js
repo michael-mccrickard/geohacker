@@ -30,4 +30,16 @@ Template.home.events({
 
   },
 
+  'click #divHomeStatsPic': function(e) {
+
+      e.preventDefault();  
+
+      deselectAll();
+
+      Session.set("sHomeContent", "stats")
+
+    $("#divHomeStatsPic").css("border-color","red");
+
+  },
+
 });

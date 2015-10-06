@@ -233,11 +233,29 @@ User = function( _name, _scroll ) {  //name, id, scroll pos (for content editors
 		return _arr;
 	}
 
-	//user's home screen uses this to show all the hacked countries (lifetime)
+	//user's home screen formerly used this to show all the hacked countries (lifetime)
+	//useful enough to hang onto
 
 	this.atlasIDs = function() {
 
 		return( Database.makeSingleElementArray( this.atlas, "id") );
+	}
+
+	this.uniqueCountryCount = function() {
+
+		return this.atlas.length;
+	}
+
+	this.lifetimeHackCount = function() {
+
+		var c = 0;
+
+		for (var i = 0; i < this.atlas.length; i++)  {
+
+			c = c + this.atlas[i].count;
+		}
+
+		return c;
 	}
 
  	/******************************************************************
@@ -265,13 +283,16 @@ User = function( _name, _scroll ) {  //name, id, scroll pos (for content editors
 		return -1;
 	}
 
-	this.lifetimeHackCount = function() {
+
+	this.lifetimeMissionCount = function() {
 
 		var c = 0;
 
-		for (var i = 0; i < this.atlas.length; i++)  {
+		for (var i = 0; i < this.assigns.length; i++)  {
 
-			c = c + this.atlas[i].count;
+			//we check the code of each assign data object in the array ...
+
+			c = c + this.assigns[i].completions;
 		}
 
 		return c;
