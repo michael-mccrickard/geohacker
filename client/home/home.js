@@ -27,4 +27,12 @@ Template.home.events({
 
   },
 
+  'click #divHomeClockOutPic': function(e) {
+
+      e.preventDefault();  
+
+      game.user.setMode( uClockOut );
+
+  },
+
 });

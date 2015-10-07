@@ -1,7 +1,7 @@
 
 
 
-User = function( _name, _scroll ) {  //name, id, scroll pos (for content editors)
+User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 	this.name = _name;
 
@@ -40,6 +40,13 @@ User = function( _name, _scroll ) {  //name, id, scroll pos (for content editors
 	  		Meteor.defer( function() { $("#divHomeStatsPic").css("border-color","red") } );
 
      		this.template.set("stats");   	
+     	}
+
+     	if (_mode == uClockOut) {
+
+	  		Meteor.defer( function() { $("#divHomeClockOutPic").css("border-color","red") } );
+
+     		game.logout();
      	}
     }
 

@@ -75,12 +75,6 @@ Template.login.helpers({
 })
 
 
-//react to the resetPasswordToken property in accounts
-//Tracker.autorun( function(comp) {
-
-
-//});
-
 Template.login.events({
 
     'submit #login-form' : function(e, t){

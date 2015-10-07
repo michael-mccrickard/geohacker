@@ -234,13 +234,14 @@ Template.start.rendered = function () {
 
   game.setMusicPlayerListener();
 
-  if (game.user == null) {
+  if (game.user == null && Meteor.user() != null) {
 
-    console.log("creating game.user");
+      console.log("creating game user in start.rendered event")
 
-    game.user = game.createGeohackerUser();
+      game.user = game.createGeohackerUser();
   }
   else {
+
     console.log("game.user follows");
     console.log(game.user);
   }

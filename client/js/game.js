@@ -160,13 +160,15 @@ Game = function() {
 
 	this.logout = function() {
 
-		Meteor.logout();
+			Meteor.logout( function( _err )  {
 
-		game.user = null;
+				game.user = null;
 
-		Session.set("sLoginNow", true);
+				Session.set("sLoginNow", true);
 
-		FlowRouter.go("/start");
+				FlowRouter.go("/start");
+			}
+		);
 	},
 
 	this.doResetPassword = function() {

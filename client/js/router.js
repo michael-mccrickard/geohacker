@@ -47,13 +47,6 @@ FlowRouter.route('/congrats', {
  
 });
 
-FlowRouter.route('/resetPassword', {
-
-    action: function (params, queryParams) { BlazeLayout.render('layout', { content: "resetPassword" } ) },
-
-    name:  "resetPassword"
-});
-
 //*********************************************
 //      HOME
 //*********************************************
@@ -64,6 +57,26 @@ FlowRouter.route('/home', {
 
     name:  "home"
 });
+
+/*
+//*********************************************
+//      LOGIN / PASSWORD
+//*********************************************
+
+FlowRouter.route('/login', {
+
+  name: "login",
+
+  action: function (params, queryParams) { pageRefreshed = false; BlazeLayout.render('layout', { content: "login" } ); },
+});
+
+FlowRouter.route('/resetPassword', {
+
+    action: function (params, queryParams) { BlazeLayout.render('layout', { content: "resetPassword" } ) },
+
+    name:  "resetPassword"
+});
+*/
 
 //*********************************************
 //      MAIN
