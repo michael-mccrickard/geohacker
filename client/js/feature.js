@@ -59,7 +59,9 @@ Feature = function() {
 	//to the _name control necessarily
 
 	this.load = function( _name ) {
+
 c("_name in feature load =" + _name)
+		
 		this.file = this.getFile( _name);
 
 		if ( _name == "VIDEO") {
@@ -173,9 +175,9 @@ c("display loadAgain returning b/c file is YT")
 
 		//if we're switching to a different control then clear the current one
 
-									 //we're clearing the current ctl, but we pass the name	
+		//we're clearing the current ctl, but we pass the name	
 
-									 //of the new one, so that the media controls know what to do
+		//of the new one, so that the media controls know what to do
 
 		if (this.getName() != _name) this.clear( _name );
 
@@ -188,6 +190,10 @@ c("display loadAgain returning b/c file is YT")
 		this.ctl = display.ctl[ _name ];
 
 		if (_name == "MAP") {
+
+			//the big arrow will be blinking if the map is being "auto-featured" (as a clue)
+
+			display.stopBlinking();   
 
 			display.ctl["MAP"].draw();
 
@@ -252,15 +258,11 @@ c("feature.set is calling playFeaturedContent")
 
 	this.drawBG = function() {
 
-		//this.drawNow( this.bgFile, this.bgImageSrc);
-
 		Meteor.defer( function(){ display.feature.drawNow( display.feature.bgFile, display.feature.bgImageSrc); });
 	}
 
 
 	this.drawNow = function(_file, _src) {
-
-//c("file passed to drawNow is " + _file);
 
 		var _name = this.getName();
 

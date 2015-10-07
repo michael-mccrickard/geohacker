@@ -25,15 +25,12 @@ Template.stats.helpers({
 
 Template.stats.events({
 
-  'click #divHomeHackPic': function(e) {
+  'click something': function(e) {
 
       e.preventDefault();  
 
       deselectAll();
 
-      Session.set("sHomeContent", "missionListing")
-
-	  $("#divHomeHackPic").css("border-color","red");
 
   },
 

@@ -163,10 +163,6 @@ c("doMap")
         //For the case of an area being featured (from "intercepted" map data) they can only click OK or X to close.  We also lock down
         //the map in this instance.
 
-//*******NOT LOCKING DOWN DURING THE TEST MODE, EXPERIMENTALLY (since testing is instantaneous now)**********//
-
-        //if (state == sTestContinent || state == sTestRegion || state == sTestCountry || state == sContinentFeatured || state == sRegionFeatured) lockMap = true;
-
         if (state == sContinentFeatured || state == sRegionFeatured) lockMap = true;
 
         //initialize the map object and basic map variables
@@ -495,6 +491,7 @@ c("map is locked b/c state is " + state);
     //**********************************************************************************
 
     this.doMapSuccess = function(_which) {
+        
 c("doMapSuccess")
 
        game.pauseMusic();

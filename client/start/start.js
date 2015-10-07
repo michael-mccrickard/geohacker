@@ -228,26 +228,6 @@ Template.start.helpers({
 //                  EVENTS
 //****************************************************************
 
-Template.start.events = {
-
-    'click #GoHack': function (e) { 
-
-      e.preventDefault();
-
-      //should check for class faded on the button here and return if found
-
-      if (game.user == null) game.user = game.createGeohackerUser(); //game.loginMe("Michael");
-
-      //go to Continue / Select Mission screen
-
-      Control.playEffect("startButton.mp3");
-
-      FlowRouter.go("/missionSelect");
-
-
-    }
-};
-
 Template.start.rendered = function () {
 
   Meteor.setTimeout(function () { game.startMusic(); 2000 } );  

@@ -144,7 +144,9 @@ Template.login.events({
 
       Control.playEffect("startButton.mp3");
 
-      FlowRouter.go("/missionSelect");
+      game.user.setMode( uHack );
+
+      FlowRouter.go("/home");
 
     },
 

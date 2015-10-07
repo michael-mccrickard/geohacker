@@ -1,17 +1,10 @@
 //home.js
 
-function deselectAll() {
-
-	$(".divHomeButtonPic").css("border-color","gray");
-
-
-}
-
 Template.home.helpers({
 
     homeContent: function() {
 
-        return Session.get("sHomeContent");
+        return game.user.template.get();
     },
 
 });
@@ -22,11 +15,7 @@ Template.home.events({
 
       e.preventDefault();  
 
-      deselectAll();
-
-      Session.set("sHomeContent", "missionListing")
-
-	  $("#divHomeHackPic").css("border-color","red");
+      game.user.setMode( uHack );
 
   },
 
@@ -34,11 +23,7 @@ Template.home.events({
 
       e.preventDefault();  
 
-      deselectAll();
-
-      Session.set("sHomeContent", "stats")
-
-    $("#divHomeStatsPic").css("border-color","red");
+      game.user.setMode( uStats );
 
   },
 
