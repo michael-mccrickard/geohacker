@@ -50,6 +50,13 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
      	}
     }
 
+    this.goHome = function() {
+
+    	if (this.mode == uNone) this.setMode( uHack );
+
+    	FlowRouter.go("/home");
+    }
+
 	//need to check and see if we have a logged-in user before trying to make this call
 
 	this.makeAvatar = function() {

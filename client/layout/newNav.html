@@ -17,6 +17,7 @@
               <li><a href="/userDirectory">List all users</a></li>  
 
               {{#if displayIsReady}}
+
                 <li class="divider"></li>
                 <li><a href="/selectCountry">Edit database</a></li> 
                 <li><a href="/editor">Edit this country</a></li>  
@@ -30,7 +31,7 @@
       {{#if ghCurrentUser}}
         
         <div class="navbar-header navbar-right">
-          <a class="navbar-brand"  href="/home">
+          <a class="navbar-brand"  href="javascript:void(0);" onclick="game.user.goHome()">
             <img alt="Brand" src="{{avatarURL}}" width="38" height="38">
           </a>
         </div>

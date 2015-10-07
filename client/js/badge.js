@@ -22,6 +22,8 @@ BadgeList = function() {
 
 	this.geniusPic = "genius.png";
 
+	this.expertPic = "expert.png";
+
 	this.firstTimeCountryPic = "first_time_country.png";
 
 	this.firstTimeRegionPic = "first_time_region.png";
@@ -41,6 +43,13 @@ BadgeList = function() {
 		if (_type == "hackComplete") {
 
 			obj.pic = this.hackCompletePic;
+
+			obj.text = "";
+		}
+
+		if (_type == "expert") {
+
+			obj.pic = this.expertPic;
 
 			obj.text = "";
 		}
@@ -107,6 +116,10 @@ BadgeList = function() {
      	//genius
 
     	if (display.loader.totalClueCount == 1) this.arr.push( this.generateBadge( "genius") );
+
+     	//genius
+
+    	if (display.loader.totalClueCount == 2) this.arr.push( this.generateBadge( "expert") );
 
     	//speed
 

@@ -130,7 +130,8 @@ Template.login.events({
 
       e.preventDefault();
 
-      //should check for class faded on the button here and return if found
+      //This is here b/c we were having instances where the onLogin event
+      //was apparently not firing ...
 
       if (game.user == null) game.user = game.createGeohackerUser();
 
@@ -138,9 +139,7 @@ Template.login.events({
 
       Control.playEffect("startButton.mp3");
 
-      game.user.setMode( uHack );
-
-      FlowRouter.go("/home");
+      game.user.goHome();
 
     },
 

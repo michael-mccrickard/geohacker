@@ -211,14 +211,6 @@ Template.start.helpers({
     if (game.loginStatus.get() == false) return "this terminal available.";
 
     return "agent " + game.user.name + " is clocked in.";
-  },
-
-  startButtonClass: function() {
-
-    if (game.loginStatus.get() == false) return "faded"
-
-    return "";
-
   }
 
 })
