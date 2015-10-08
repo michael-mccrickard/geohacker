@@ -27,13 +27,19 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     	this.mode = _mode;
 
+    	if (_mode == uProfile) {
+
+	  		Meteor.defer( function() { $(".imgHomeAvatar").css("border-color","red") } );
+
+    		this.template.set("profile");
+    	}
+
     	if (_mode == uHack) {
 
 	  		Meteor.defer( function() { $("#divHomeHackPic").css("border-color","red") } );
 
     		this.template.set("missionListing");
     	}
-
 
      	if (_mode == uStats) {
 

@@ -219,6 +219,18 @@ Database = function() {
     }
   }
 
+  this.getFlagPicByCode = function(_code) {
+
+    if (db.ghI.findOne( { cc: _code, dt: "flg" } ) != undefined) {
+
+      return db.ghI.findOne( { cc: _code, dt: "flg" } ).f;
+    }
+    else {
+
+      return _code;
+    }
+  }
+
   //************************************************************
   //          CONTROL TYPE < > MONGO COLLECTION 
   //************************************************************

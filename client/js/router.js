@@ -55,28 +55,13 @@ FlowRouter.route('/home', {
 
     action: function (params, queryParams) { BlazeLayout.render('layout', { content: "home" } ) },
 
-    name:  "home"
+    name:  "home",
+
+    subscriptions: function(params, queryParams) {
+
+      this.register("editImages", Meteor.subscribe("allImages") );
+    },
 });
-
-/*
-//*********************************************
-//      LOGIN / PASSWORD
-//*********************************************
-
-FlowRouter.route('/login', {
-
-  name: "login",
-
-  action: function (params, queryParams) { pageRefreshed = false; BlazeLayout.render('layout', { content: "login" } ); },
-});
-
-FlowRouter.route('/resetPassword', {
-
-    action: function (params, queryParams) { BlazeLayout.render('layout', { content: "resetPassword" } ) },
-
-    name:  "resetPassword"
-});
-*/
 
 //*********************************************
 //      MAIN

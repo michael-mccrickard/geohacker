@@ -11,6 +11,14 @@ Template.home.helpers({
 
 Template.home.events({
 
+  'click #divHomeUser': function(e) {
+
+      e.preventDefault();  
+
+      game.user.setMode( uProfile );
+
+  },
+
   'click #divHomeHackPic': function(e) {
 
       e.preventDefault();  
