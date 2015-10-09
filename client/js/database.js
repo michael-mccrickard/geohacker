@@ -38,6 +38,8 @@ Database = function() {
 
     this.ghM = new Meteor.Collection('alMap');
 
+    this.ghU = new Meteor.Collection('registeredUsers');
+
     this.controlsReady = true;
   }
 
@@ -151,6 +153,11 @@ Database = function() {
   this.getCountryRecByID = function(id) {
 
     return ( this.ghC.findOne( { _id: id } ) );
+  }
+
+  this.getCountryName = function(_code) {
+
+    return ( this.getCountryRec( _code ).n );
   }
 
   this.getCountryNameByID = function(id) {
@@ -363,15 +370,8 @@ this.saveScroll = function(_val) {
 
         if (value != undefined) {
 
-          //var data = {};
-
-          //data[ arrField[i] ] = value;
-
           Meteor.call("updateRecordOnServer", arrField[i], _type, ID, value)
 
-          //res = col.update( {_id: ID }, { $set: data  }); 
-
-          //if (res) console.log("Fields updated: " + res);   
         }
 
         
@@ -472,9 +472,8 @@ insertRecords = function() {
 
 updateRecords = function() {
 
-  var res = db.ghN.update( {_id: "TB9xzERLbYLxe2hD3" }, { $set: {f: "./geohacker_background.png"}  }); 
+  var res =  Meteor.users.update( {_id: "4ru7keCF9uoye87fb" }, { $set: {'profile.t': "I live in Maryland.  I love music and books. I'm a Unitarian.", 'profile.p': "vientiane.jpg", 'profile.av': "0", 'profile.cc': "US"}  }); 
 
-  res = db.ghN.update( {_id: "o2SDDRGBpcigcD8H7" }, { $set: {f: "./spinning_globe.gif"}  }); 
 }
 
 fixlc = function(_code, _val) {

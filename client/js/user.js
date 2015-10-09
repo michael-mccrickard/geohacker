@@ -19,7 +19,18 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     this.mode = uNone;  //determines the content on the user's home screen
 
-    this.template = new Blaze.ReactiveVar( "" );
+    this.template = new Blaze.ReactiveVar( "" );  //template for the above content
+
+    this.profile = {
+
+    	text: "I'm a Geohacker.",
+
+    	pic: "geohacker_logo.png",
+
+    	av: "0",
+
+    	cc: "0"
+    }
 
     this.setMode = function(_mode) {
 

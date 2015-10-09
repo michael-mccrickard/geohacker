@@ -142,6 +142,16 @@ Game = function() {
 
 			_user.setAtlas( Meteor.user().profile.h );
 
+			//user profile (agent's home screen)
+
+			_user.profile.text = Meteor.user().profile.t;
+
+			_user.profile.pic = Meteor.user().profile.p;
+
+			_user.profile.av = Meteor.user().profile.av;
+
+			_user.profile.cc = Meteor.user().profile.cc;
+
 		}
 		else {
 

@@ -4,13 +4,18 @@ Template.profile.helpers({
 
     flag: function() {
 
-        return db.getFlagPicByCode("US");
+        return db.getFlagPicByCode( game.user.profile.cc );
     },
 
     country: function() {
 
-    	return "UNITED STATES";
-    }
+    	return db.getCountryName( game.user.profile.cc ).toUpperCase();
+    },
+
+    utext: function() {
+
+    	return game.user.profile.text;
+    },
 
 });
 
