@@ -17,6 +17,16 @@ Template.profile.helpers({
     	return game.user.profile.text;
     },
 
+    pic: function() {
+
+    	return game.user.profile.pic;
+    },
+
+    picText: function() {
+
+    	return game.user.profile.picText;
+    },
+
 });
 
 Template.profile.events({

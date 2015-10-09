@@ -29,7 +29,9 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     	av: "0",
 
-    	cc: "0"
+    	cc: "0",
+
+    	pt: "Featured picture"
     }
 
     this.setMode = function(_mode) {

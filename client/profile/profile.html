@@ -1,28 +1,46 @@
 <template name="profile">
 
-	<div class="divProfileLeft">
+	<div class="divProfile">
 
-		<div class="divProfileAvatar">
+		<div class="divProfileLeft">
 
-			<img class= "imgProfileAvatar" src="{{avatarURL}}" />
+			<div class="divProfileAvatar">
+
+				<img class= "imgProfileAvatar" src="{{avatarURL}}" />
+					
+				<p class="profileAgentNameText centered">{{agentName}}</p>
 				
-			<p class="profileAgentNameText centered">{{agentName}}</p>
-			
-		</div>
+			</div>
 
-		<div class="divProfileFlag">
+			<div class="divProfileFlag">
 
-			<img class= "imgProfileFlag" src="{{flag}}" />
+				<img class= "imgProfileFlag" src="{{flag}}" />
+					
+				<p class="profileAgentNameText centered">{{country}}</p>
 				
-			<p class="profileAgentNameText centered">{{country}}</p>
-			
+			</div>
+
+			<div class="divProfileTextArea">
+
+				<p class="profileText whiteText">{{utext}}</p>
+				
+			</div>
+
 		</div>
 
-		<div class="divProfileTextArea">
+		<div class="divProfilePic">
 
-			<p class="profileText whiteText">{{utext}}</p>
-			
+			<img class="imgProfilePic" src="{{pic}}">
+
 		</div>
+
+		<div class="divProfilePicText">
+
+			<p class="profileText whiteText">{{picText}}</p>
+				
+		</div>
+
+
 
 	</div>
 

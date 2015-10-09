@@ -152,6 +152,8 @@ Game = function() {
 
 			_user.profile.cc = Meteor.user().profile.cc;
 
+			_user.profile.picText = Meteor.user().profile.pt;
+
 		}
 		else {
 

@@ -472,7 +472,7 @@ insertRecords = function() {
 
 updateRecords = function() {
 
-  var res =  Meteor.users.update( {_id: "4ru7keCF9uoye87fb" }, { $set: {'profile.t': "I live in Maryland.  I love music and books. I'm a Unitarian.", 'profile.p': "vientiane.jpg", 'profile.av': "0", 'profile.cc': "US"}  }); 
+  var res =  Meteor.users.update( {_id: "4ru7keCF9uoye87fb" }, { $set: {'profile.t': "I live in Maryland.  I love music and books. I'm a Unitarian.", 'profile.p': "vientiane.jpg", 'profile.av': "0", 'profile.cc': "US", 'profile.pt': "Ventiane -- capital of Laos" }  }); 
 
 }
 
