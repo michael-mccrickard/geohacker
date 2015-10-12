@@ -21,18 +21,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     this.template = new Blaze.ReactiveVar( "" );  //template for the above content
 
-    this.profile = {
-
-    	text: "I'm a Geohacker.",
-
-    	pic: "geohacker_logo.png",
-
-    	av: "0",
-
-    	cc: "0",
-
-    	pt: "Featured picture"
-    }
+    this.profile = new UserProfile();
 
     this.setMode = function(_mode) {
 

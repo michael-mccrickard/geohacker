@@ -52,6 +52,13 @@ refreshWindow = function(_which) {
         return;
     }
 
+    if (name == "home") {
+
+        if (game.user.template.get() == "profile") game.user.profile.draw();
+    
+        return;
+    }
+
 }
 
 // YouTube API will call onYouTubeIframeAPIReady() when API ready.

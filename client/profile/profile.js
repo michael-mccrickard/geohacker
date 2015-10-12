@@ -40,3 +40,11 @@ Template.profile.events({
   },
 
 });
+
+Template.profile.rendered = function() {
+
+  //Better to wait on a callback from imagesRendered, but for now ...
+
+  Meteor.setTimeout( function() { game.user.profile.draw(); }, 100 );
+
+}
