@@ -76,6 +76,19 @@
 	margin-left: 2%;
 }
 
+.textUserEdit {
+	font-family: Arial;
+	font-size: 12px;
+	color: black;
+
+}
+
+
+.divProfileEditFeaturedPicTextArea {
+
+	margin-top: 1%;
+}
+
 /* right-side */
 
 .divProfileFeaturedPic {
@@ -114,6 +127,8 @@
 	margin-right: -1%;
 	width: 32px;
 	position: absolute;
+
+	opacity: 0;
 }
 
 

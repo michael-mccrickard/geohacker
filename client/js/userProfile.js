@@ -14,20 +14,35 @@ UserProfile = function() {
 
     this.draw = function() {
 
-    	c( $(".divProfileFeaturedPic").height() );
+      var icon1 = null;
 
-		c ( $(".divProfileFeaturedPic").position().top );
+      var icon2 = null;
+
+      if ( game.user.editMode.get() ) {
+
+        icon1 = "#saveProfileEdit";
+
+        icon2 = "#cancelProfileEdit";
+      }
+      else {
+
+        icon1 = "#startProfileEdit";
+      }
 
    		var bottom = $(".divProfileFeaturedPic").height() +  $(".divProfileFeaturedPic").position().top;
 
    		var top = bottom - 0.02 * $(".divProfileFeaturedPic").height();
 
-   		$(".imgProfileEditIcon").css("top", top);
+   		$(icon1).css("top", top);
+
+      if (icon2) $(icon2).css("top", top);
 
 
    		var left = $(".divProfile").width() + $(".divProfile").position().left - 32 - 0.01 * $(".divProfileFeaturedPic").width();
 
-     	$(".imgProfileEditIcon").css("left", left); 		
+     	$(icon1).css("left", left); 
+
+      if (icon2) $(icon2).css("left", left - 48);      		
 
 
     }

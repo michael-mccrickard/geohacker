@@ -20,11 +20,23 @@
 				
 			</div>
 
-			<div class="divProfileTextArea">
+			{{#if userEditMode}}
 
-				<p class="profileText whiteText">{{utext}}</p>
-				
-			</div>
+				<div class="divProfileEditTextArea">
+
+					<textarea name="editProfileText" class="textUserEdit" rows="12" cols="20">{{utext}}</textarea>
+					
+				</div>		
+
+			{{else}}
+		
+				<div class="divProfileTextArea">
+
+					<p class="profileText whiteText">{{utext}}</p>
+					
+				</div>
+
+			{{/if}}
 
 		</div>
 
@@ -34,15 +46,40 @@
 
 		</div>
 
-		<div class="divProfileFeaturedPicText">
+		{{#if userEditMode}}
 
-			<p class="profileText whiteText">{{picText}}</p>
+			<div class="divProfileEditFeaturedPicTextArea">
+
+				<textarea name="editProfileFeaturedPicText" class="textUserEdit" rows="24" cols="20">{{picText}}</textarea>
 				
-		</div>
+			</div>	
 
-		<div class="divProfileEditIcon">
-			<img class= "imgProfileEditIcon" src="edit_icon.png" />
-		</div>
+		{{else}}
+
+			<div class="divProfileFeaturedPicText">
+
+				<p class="profileText whiteText">{{picText}}</p>
+					
+			</div>
+
+		{{/if}}
+
+		{{#if userEditMode}}
+
+			<div class="divProfileSaveIcon">
+				<img class= "imgProfileEditIcon" id="cancelProfileEdit" src="close.png" />
+				<img class= "imgProfileEditIcon" id="saveProfileEdit" src="save.png" />
+			</div>
+
+		{{else}}
+
+			<div class="divProfileEditIcon" id="editProfile">
+				<img class= "imgProfileEditIcon" id="startProfileEdit" src="edit_icon.png" />
+			</div>
+
+		{{/if}}
+
+
 
 	</div>
 
