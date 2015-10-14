@@ -320,6 +320,29 @@ this.updateRecord2 = function (_type, field, ID, value) {
     Meteor.call("updateRecordOnServer", field, _type, ID, value)
 }
 
+this.updateUserProfile = function() {
+
+   var res =  Meteor.users.update( {_id: Meteor.userId() }, { $set: 
+
+      {
+       'profile.t': $("#editProfileText").val(),
+
+       'profile.p': $(".imgProfileFeaturedPic").attr("src"), 
+
+       'profile.av': $(".imgProfileAvatar").attr("src"),
+
+       'profile.f': $(".imgProfileFlag").attr("src"),
+
+       'profile.cc': $("#countryNameText").text(), 
+
+       'profile.pt': $("#editProfileFeaturedPicText").val(),
+
+     }
+
+   }); 
+
+}
+
 
 this.saveScroll = function(_val) {
 
@@ -472,8 +495,24 @@ insertRecords = function() {
 
 updateRecords = function() {
 
-  var res =  Meteor.users.update( {_id: "4ru7keCF9uoye87fb" }, { $set: {'profile.t': "I live in Maryland.  I love music and books. I'm a Unitarian.", 'profile.p': "vientiane.jpg", 'profile.av': "0", 'profile.cc': "US", 'profile.pt': "Ventiane -- capital of Laos" }  }); 
+  var res =  Meteor.users.update( {_id: Meteor.userId() }, { $set: 
 
+      {
+       'profile.t': $("#editProfileText").val(),
+
+       'profile.p': $(".imgProfileFeaturedPic").attr("src"), 
+
+       'profile.av': $(".imgProfileAvatar").attr("src"),
+
+       'profile.f': $(".imgProfileFlag").attr("src"),
+
+       'profile.cc': $("#countryNameText").text(), 
+
+       'profile.pt': $("#editProfileFeaturedPicText").val(),
+
+     }
+
+   }); 
 }
 
 fixlc = function(_code, _val) {

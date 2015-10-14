@@ -4,45 +4,66 @@
 
 		<div class="divProfileLeft">
 
-			<div class="divProfileAvatar">
 
-				<img class= "imgProfileAvatar" src="{{avatarURL}}" />
+				<div class="divProfileAvatar">
+
+					{{#with profile}}
+
+						<img class= "imgProfileAvatar" src="{{av}}" />
 					
-				<p class="profileAgentNameText centered">{{agentName}}</p>
-				
-			</div>
+					{{/with}}
 
-			<div class="divProfileFlag">
-
-				<img class= "imgProfileFlag" src="{{flag}}" />
-					
-				<p class="profileAgentNameText centered">{{country}}</p>
-				
-			</div>
-
-			{{#if userEditMode}}
-
-				<div class="divProfileEditTextArea">
-
-					<textarea name="editProfileText" class="textUserEdit" rows="12" cols="20">{{utext}}</textarea>
-					
-				</div>		
-
-			{{else}}
-		
-				<div class="divProfileTextArea">
-
-					<p class="profileText whiteText">{{utext}}</p>
+					<p class="profileAgentNameText centered" id="agentNameText">{{agentName}}</p>
 					
 				</div>
 
-			{{/if}}
 
+				{{#with profile}}
+
+					<div class="divProfileFlag">
+
+						<img class= "imgProfileFlag" src="{{f}}" />
+							
+						<p class="profileAgentNameText centered" id="countryNameText">{{cc}}</p>
+						
+					</div>
+
+
+
+					{{#if userEditMode}}
+
+						<div class="divProfileEditTextArea">
+
+
+							<textarea id="editProfileText" class="textUserEdit" rows="12" cols="20">{{t}}</textarea>
+
+						</div>		
+
+					{{else}}
+				
+						<div class="divProfileTextArea">
+
+							<p class="profileText whiteText">{{t}}</p>
+							
+						</div>
+
+				
+					{{/if}}
+
+				{{/with}}
+
+				
 		</div>
+
+
 
 		<div class="divProfileFeaturedPic">
 
-			<img class="imgProfileFeaturedPic" src="{{pic}}">
+			{{#with profile}}
+
+				<img class="imgProfileFeaturedPic" src="{{p}}">
+			
+			{{/with}}
 
 		</div>
 
@@ -50,7 +71,11 @@
 
 			<div class="divProfileEditFeaturedPicTextArea">
 
-				<textarea name="editProfileFeaturedPicText" class="textUserEdit" rows="24" cols="20">{{picText}}</textarea>
+				{{#with profile}}
+
+					<textarea id="editProfileFeaturedPicText" class="textUserEdit" rows="24" cols="20">{{pt}}</textarea>
+
+				{{/with}}
 				
 			</div>	
 
@@ -58,17 +83,23 @@
 
 			<div class="divProfileFeaturedPicText">
 
-				<p class="profileText whiteText">{{picText}}</p>
+				{{#with profile}}
+
+					<p class="profileText whiteText">{{pt}}</p>
+
+				{{/with}}
 					
 			</div>
 
 		{{/if}}
 
+
+
 		{{#if userEditMode}}
 
 			<div class="divProfileSaveIcon">
-				<img class= "imgProfileEditIcon" id="cancelProfileEdit" src="close.png" />
 				<img class= "imgProfileEditIcon" id="saveProfileEdit" src="save.png" />
+				<img class= "imgProfileEditIcon" id="cancelProfileEdit" src="close.png" />
 			</div>
 
 		{{else}}

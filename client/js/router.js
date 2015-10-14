@@ -60,6 +60,8 @@ FlowRouter.route('/home', {
     subscriptions: function(params, queryParams) {
 
       this.register("editImages", Meteor.subscribe("allImages") );
+
+      this.register("allUsers", Meteor.subscribe("registeredUsers") );
     },
 });
 

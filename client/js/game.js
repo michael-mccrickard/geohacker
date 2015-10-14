@@ -144,6 +144,7 @@ Game = function() {
 
 			//user profile (agent's home screen)
 
+/*
 			_user.profile.text = Meteor.user().profile.t;
 
 			_user.profile.pic = Meteor.user().profile.p;
@@ -153,6 +154,8 @@ Game = function() {
 			_user.profile.cc = Meteor.user().profile.cc;
 
 			_user.profile.picText = Meteor.user().profile.pt;
+
+*/
 
 		}
 		else {
