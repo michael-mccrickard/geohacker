@@ -1,36 +1,43 @@
 <template name="userDirectory">
 
-	<div>
-		<button class="btn btn-warning" style="position: fixed; left: 95%;" id="closeUserDirectory"><strong>X</strong></button>
-	</div>
-
-	<div class="editor">
-		<table border="2">
-
-		<tr>
-			<th>Name</th>
-			<th>Email</th> 
-			<th>Countries</th>
-
-		</tr>
-
-			<!-- data context set in router.js-->
-
-			{{#each ghUser}}
-
-				<tr class="dataRow">
-
-					<td id="{{_id}}" size="30">{{username}}</td>
-					
-					<td size="30">{{emails.[0].address}}</td>
-					
-					<td id="{{this._id}}" size="30">{{profile.h.length}}</td>
-				</tr>
-
-			{{/each}}
+	<div class="container">
 
 
-		</table>
+
+		<div class="editor">
+
+			<div>
+				<button class="btn btn-warning" style="float: right; margin: 8px;" id="closeUserDirectory"><strong>X</strong></button>
+			</div>
+
+			<table border="2">
+
+			<tr>
+				<th>Name</th>
+				<th>Email</th> 
+				<th>Countries</th>
+				<th>Delete</th>
+			</tr>
+
+				{{#each ghUser}}
+
+					<tr class="dataRow">
+
+						<td size="30">{{username}}</td>
+						
+						<td size="30">{{emails.[0].address}}</td>
+						
+						<td size="30">{{profile.h.length}}</td>
+
+						<td><button class="btn btn-danger deleteRecord" id="{{_id}}" size="2">DEL</button></td>
+					</tr>
+
+				{{/each}}
+
+
+			</table>
+
+		</div>
 
 	</div>
 

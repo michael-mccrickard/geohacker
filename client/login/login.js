@@ -1,3 +1,4 @@
+
 //****************************************************************
 //                  HELPERS
 //****************************************************************
@@ -11,6 +12,10 @@ var resetPrompts = function() {
    Session.set("sRegistrationPrompt", "APPLY TO BECOME A GEOHACKER AGENT...");
 
    Session.set("sRegistrationPromptTextColor", "yellowText");
+
+  Session.set("sUserContinent","");
+
+  Session.set("sUserRegion", "");
 }
 
 var passwordTooShortError = function() {
@@ -33,6 +38,23 @@ Template.login.helpers({
   badPasswordEntered: function() {
 
     return Session.get("sBadPasswordEntered");
+  },
+
+  continent: function() {
+
+    return db.ghZ.find( {}, {sort: { n: 1 }} );
+
+
+  },
+
+  region: function() {
+
+    return db.ghR.find( { z: Session.get("sUserContinent") }, {sort: { n: 1 }} );
+  },
+
+  country: function() {
+
+    return db.ghC.find( {r: Session.get("sUserRegion")}, {sort: { n: 1 }} );
   },
 
   loginStatus:  function() {
@@ -76,6 +98,20 @@ Template.login.helpers({
 
 
 Template.login.events({
+
+    'change #selectContinent': function(event, template) {
+
+            var _code = $( "#selectContinent option:selected" ).attr("id")
+
+            Session.set("sUserContinent", _code);
+      },
+
+    'change #selectRegion': function(event, template) {
+
+            var _code = $( "#selectRegion option:selected" ).attr("id")
+
+            Session.set("sUserRegion", _code);
+      },
 
     'submit #login-form' : function(e, t){
 
@@ -181,7 +217,8 @@ Template.login.events({
                     a: [],
                     h: [],
                     c: "",
-                    s: 0
+                    s: 0,
+                    av: "0"
                 },
             
             };

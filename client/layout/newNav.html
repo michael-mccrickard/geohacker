@@ -14,6 +14,9 @@
               <li><a href="javascript:void(0);" onclick="game.startMusic()">Music on</a></li>    
               
               <li class="divider"></li>
+
+              <!--this is a admin only function-->
+
               <li><a href="/userDirectory">List all users</a></li>  
 
               {{#if displayIsReady}}
@@ -28,7 +31,7 @@
           </li>
         </ul>
 
-      {{#if ghCurrentUser}}
+      {{#if userHasAvatar}}
         
         <div class="navbar-header navbar-right">
           <a class="navbar-brand"  href="javascript:void(0);" onclick="game.user.goHome()">

@@ -71,7 +71,15 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 	this.makeAvatar = function() {
 
-		Meteor.call("makeAvatar", "male", Meteor.userId() );
+		Meteor.call("makeAvatar", "male", Meteor.userId(), function(error, result) {
+
+			  if(error){
+			    console.log(error.reason);
+			    return;
+			  }
+
+			  console.log(result);
+		});
 	} 
 
 	this.setAvatarURL = function() {

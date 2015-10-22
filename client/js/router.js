@@ -188,6 +188,7 @@ FlowRouter.route('/userDirectory',  {
     this.register("allUsers", Meteor.subscribe("registeredUsers") );
   },
 
+
   action: function (params, queryParams) { BlazeLayout.render('layout', { content: "userDirectory" } ) }
 
 });

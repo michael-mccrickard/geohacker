@@ -9,7 +9,9 @@ Template.registerHelper("avatarURL",  function() {
 
 		if (game.user == null) return "geohacker_logo.png";
 
-		return game.user.avatarURL.get();
+		if (Meteor.user().profile.av == "0") return "geohacker_logo.png";
+
+		return Meteor.user().profile.av; 
 	}
 
 )

@@ -46,8 +46,6 @@ Session.set("isIOS", false);
 
   Session.set("sWaitingOnCoreData", true);
 
-  Session.set("sUReady", false);
-
   Session.set("sZReady", false);
 
   Session.set("sCReady", false);
@@ -72,6 +70,9 @@ Session.set("isIOS", false);
 
   Session.set("sAReady", false);
 
+ 
+  //display-related
+
   Session.set("sImagesReady", false);
 
   Session.set("sScanningDone", false);
@@ -83,6 +84,10 @@ Session.set("isIOS", false);
   Session.set("sDisplayReady", false); 
 
   //misc
+
+  Session.set("sUserContinent","");
+
+  Session.set("sUserRegion", "");
 
   Session.set("sHomeContent", "");
 
@@ -126,9 +131,6 @@ Meteor.startup(function() {
   //                  SUBSCRIBE TO CORE DATA
   //****************************************************************
 
-//only for super-admin?
-
-  Meteor.subscribe("registeredUsers", function() { Session.set("sUReady", true ) });
 
   //core data for game
 
@@ -158,9 +160,13 @@ Meteor.startup(function() {
 
 Tracker.autorun( function(comp) {
 
-  if (Session.get("sZReady") && Session.get("sRReady") && Session.get("sCReady") && Session.get("sFReady") && Session.get("sUReady")  && Session.get("sAReady")) {
+  if (Session.get("sZReady") && Session.get("sRReady") && Session.get("sCReady") && Session.get("sFReady") && Session.get("sAReady")) {
 
     Session.set("sWaitingOnCoreData", false);
+
+    //when a user is first created, the avatar file gets created and the URL gets stored in 
+    //the user's profile, but there is a slightdelay before it actually works as a reactive URL.
+    //So for the navbar, we use a slightly different method
 
     if (Meteor.userId() != null && game.user)  game.user.setAvatarURL();
   

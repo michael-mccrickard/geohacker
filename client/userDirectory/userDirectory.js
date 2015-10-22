@@ -4,17 +4,27 @@ Template.userDirectory.events = {
 
   'click #closeUserDirectory': function (e) { 
 
-  		e.preventDefault();
+  	  e.preventDefault();
 
-      FlowRouter.go("/missionSelect")
-  	}
+      FlowRouter.go("/start");
+  	},
+
+  'click .deleteRecord': function(e) {
+
+  	  e.preventDefault();
+
+      Meteor.call("deleteRecord", e.target.id, cUser);
+  },
 }
 
 Template.userDirectory.helpers({
 
-	hackCount: function() {
+	//when we have roles, we will use a parameter on the find()
+	//to limit which users show up  (super-admin = all, curator = all for their country or countries)
 
-		return game.user.atlas.length;
-	},
+	ghUser: function() {
+
+		return Meteor.users.find( {} );
+	}
 
 })

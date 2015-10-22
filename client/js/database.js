@@ -38,8 +38,6 @@ Database = function() {
 
     this.ghM = new Meteor.Collection('alMap');
 
-    this.ghU = new Meteor.Collection('registeredUsers');
-
     this.controlsReady = true;
   }
 
