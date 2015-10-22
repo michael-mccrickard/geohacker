@@ -62,7 +62,6 @@ Database = function() {
 
       //res = this.ghU.update( { _id: game.user.id }, { $set: { a: game.user.assigns, c: game.user.assignCode, h: game.user.getAtlasDataObject() } } );
 
-
       Meteor.users.update( { _id: Meteor.user()._id }, { $set: { 'profile.a': game.user.assigns, 'profile.c': game.user.assignCode, 'profile.h': game.user.getAtlasDataObject() } } );
 
 

@@ -7,11 +7,11 @@ Template.registerHelper("agentName",  function() {
 
 Template.registerHelper("avatarURL",  function() {
 
-		if (game.user == null) return "geohacker_logo.png";
+		if (Meteor.user() == null) return "geohacker_logo.png";
 
-		if (Meteor.user().profile.av == "0") return "geohacker_logo.png";
+		if (Meteor.user().profile.av == "") return "geohacker_logo.png";
 
-		return Meteor.user().profile.av; 
+		return Meteor.user().profile.av;
 	}
 
 )

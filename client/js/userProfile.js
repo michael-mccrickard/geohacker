@@ -2,16 +2,6 @@
 
 UserProfile = function() {
 
-    this.text = "I'm a Geohacker.",
-
-    this.pic = "geohacker_logo.png",
-
-    this.av = "0",
-
-    this.cc = "0",
-
-    this.pt = "Featured picture",
-
     this.draw = function() {
 
       var icon1 = null;

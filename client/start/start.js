@@ -163,12 +163,6 @@ Tracker.autorun( function(comp) {
   if (Session.get("sZReady") && Session.get("sRReady") && Session.get("sCReady") && Session.get("sFReady") && Session.get("sAReady")) {
 
     Session.set("sWaitingOnCoreData", false);
-
-    //when a user is first created, the avatar file gets created and the URL gets stored in 
-    //the user's profile, but there is a slightdelay before it actually works as a reactive URL.
-    //So for the navbar, we use a slightly different method
-
-    if (Meteor.userId() != null && game.user)  game.user.setAvatarURL();
   
     c("core data ready")
 

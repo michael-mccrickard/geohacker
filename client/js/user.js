@@ -15,7 +15,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 	this.atlas = [];  //cumulative list of ticket objects  
 
-    this.avatarURL = new Blaze.ReactiveVar( "" );  //path and filename to avatar on server 
+    //this.avatarURL = new Blaze.ReactiveVar( "" );  //path and filename to avatar on server 
 
     this.mode = uNone;  //determines the content on the user's home screen
 
@@ -82,22 +82,6 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 		});
 	} 
 
-	this.setAvatarURL = function() {
-	
-		var _name = Meteor.userId() + ".png";
-
-		var arr = game.ghAvatar.find({ "original.name" : _name }).fetch();
-
-		if (!arr.length) return;
-
-		var _url = arr[0].url();
-
-		if (_url == null) return;
-
-		var url = _url.split("?");
-		
-		this.avatarURL.set( url[0] );
-	}
 
  	/************************************************************************************************
 	/*			ASSIGNS   		

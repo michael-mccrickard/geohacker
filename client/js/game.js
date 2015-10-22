@@ -136,26 +136,14 @@ Game = function() {
 
 			_user.assigns = Meteor.user().profile.a;
 
+			//_user.avatarURL.set( Meteor.user().profile.av );
+
+
 			//eventually we may want to update the assigns with any newly-added or revised missions here
 
 			_user.assignCode = Meteor.user().profile.c;
 
 			_user.setAtlas( Meteor.user().profile.h );
-
-			//user profile (agent's home screen)
-
-/*
-			_user.profile.text = Meteor.user().profile.t;
-
-			_user.profile.pic = Meteor.user().profile.p;
-
-			_user.profile.av = Meteor.user().profile.av;
-
-			_user.profile.cc = Meteor.user().profile.cc;
-
-			_user.profile.picText = Meteor.user().profile.pt;
-
-*/
 
 		}
 		else {

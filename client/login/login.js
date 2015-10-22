@@ -43,8 +43,6 @@ Template.login.helpers({
   continent: function() {
 
     return db.ghZ.find( {}, {sort: { n: 1 }} );
-
-
   },
 
   region: function() {
@@ -203,6 +201,8 @@ Template.login.events({
 
             game.user.createAssigns();
 
+            var _text = "Hello, I'm " + name + ". I live in " + db.getCountryName( $( "#selectCountry option:selected" ).attr("id") ) + ".";
+
             var options = {
 
                 username: name,
@@ -218,7 +218,14 @@ Template.login.events({
                     h: [],
                     c: "",
                     s: 0,
-                    av: "0"
+                    av: "",
+                    cc: $( "#selectCountry option:selected" ).attr("id"),
+                    cn: db.getCountryName( $( "#selectCountry option:selected" ).attr("id") ),
+                    f: db.getFlagPicByCode( $( "#selectCountry option:selected" ).attr("id") ),
+                    t: _text,
+                    p: "bangkok.jpg", 
+                    pt: "Bangkok is the capital of Thailand."
+
                 },
             
             };
@@ -242,6 +249,8 @@ Template.login.events({
                 console.log("account successfully created: " + email);
 
                 game.user.makeAvatar();
+
+                Meteor.setTimeout( function() { FlowRouter.go("/home"); }, 500);
 
               }
               
