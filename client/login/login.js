@@ -201,7 +201,15 @@ Template.login.events({
 
             game.user.createAssigns();
 
-            var _text = "Hello, I'm " + name + ". I live in " + db.getCountryName( $( "#selectCountry option:selected" ).attr("id") ) + ".";
+            var _text = "Hello, I'm " + name + ".  I live in " + db.getCountryName( $( "#selectCountry option:selected" ).attr("id") ) + ".";
+
+            var _rec = db.getRandomCountryRec (db.ghC );
+
+console.log(_rec.c + " = " + _rec.n);
+
+            var _pic = db.getCapitalPic( _rec.c );
+
+            var _pt = db.getCapitalName( _rec.c ) + " is the capital of " + _rec.n + ".";
 
             var options = {
 
@@ -223,8 +231,8 @@ Template.login.events({
                     cn: db.getCountryName( $( "#selectCountry option:selected" ).attr("id") ),
                     f: db.getFlagPicByCode( $( "#selectCountry option:selected" ).attr("id") ),
                     t: _text,
-                    p: "bangkok.jpg", 
-                    pt: "Bangkok is the capital of Thailand."
+                    p: _pic, 
+                    pt: _pt
 
                 },
             
@@ -248,7 +256,13 @@ Template.login.events({
 
                 console.log("account successfully created: " + email);
 
-                game.user.makeAvatar();
+                var _gender = "female";
+
+                if ( $("chkMale").prop("checked") ) _gender = "male";
+
+                 if ( $("chkMale").prop("checked") ) _gender = "female";               
+
+                game.user.makeAvatar( _gender );
 
                 Meteor.setTimeout( function() { FlowRouter.go("/home"); }, 500);
 

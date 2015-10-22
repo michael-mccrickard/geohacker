@@ -13,7 +13,14 @@ FlowRouter.route('/start', {
 
   action: function (params, queryParams) { BlazeLayout.render('layout', { content: "start" } ) },
 
-  //triggersEnter: [startMusic]
+  subscriptions: function(params, queryParams) {
+
+      this.register("images", Meteor.subscribe("allImages") );
+
+      this.register("debriefs", Meteor.subscribe("allDebriefs") );
+
+      this.register("texts", Meteor.subscribe("allTexts") );
+  },
 
 });
 
@@ -59,9 +66,9 @@ FlowRouter.route('/home', {
 
     subscriptions: function(params, queryParams) {
 
-      this.register("editImages", Meteor.subscribe("allImages") );
+      this.register("images", Meteor.subscribe("allImages") );
 
-      this.register("allUsers", Meteor.subscribe("registeredUsers") );
+      this.register("users", Meteor.subscribe("registeredUsers") );
     },
 });
 

@@ -69,9 +69,9 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 	//need to check and see if we have a logged-in user before trying to make this call
 
-	this.makeAvatar = function() {
+	this.makeAvatar = function( _gender ) {
 
-		Meteor.call("makeAvatar", "male", Meteor.userId(), function(error, result) {
+		Meteor.call("makeAvatar", _gender, Meteor.userId(), function(error, result) {
 
 			  if(error){
 			    console.log(error.reason);

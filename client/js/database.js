@@ -18,8 +18,6 @@ Database = function() {
 
     this.ghC = new Meteor.Collection('alCountry');    //n = name, c = code, r = region code
 
-    //this.ghA = new Meteor.Collection('cfs.ghAvatar.filerecord');
-
   }
 
   this.initControls = function() {
@@ -121,6 +119,20 @@ Database = function() {
   //************************************************************
   //          PARAMETERIZED GET FUNCTIONS
   //************************************************************
+
+  this.getCapitalName = function( _code ) {
+
+      return db.ghT.findOne( { cc: _code, dt: "cap" } ).f;
+  }
+
+  this.getCapitalPic = function(_code) {
+
+    var rec = db.ghI.findOne( { cc: _code, dt: "cap" } );
+
+    if (rec) return rec.f;
+
+    return db.ghD.findOne( { cc: _code, dt: "cap" } ).f;
+  }
 
   this.getContinentRec = function(_code) {
 
