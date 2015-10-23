@@ -1,5 +1,14 @@
 //profile.js
 
+//pictures (featured pic on the agent's home page)
+
+var ghPicture = new FS.Collection("ghPicture", {
+  stores: [new FS.Store.FileSystem("ghPicture")]
+});
+
+var picturePath = "cfs/files/ghPicture/";
+
+
 Template.profile.helpers({
 
     userEditMode: function() {
@@ -45,6 +54,54 @@ Template.profile.events({
 
   },
 
+  'change #avatarFileInput': function(event, template) {
+
+    var files = event.target.files;
+    
+    for (var i = 0, ln = files.length; i < ln; i++) {
+    
+      game.ghAvatar.insert(files[i], function (err, fileObj) {
+
+          var oldURL = Meteor.user().profile.av;
+
+          var url = game.avatarPath + fileObj._id + "/" + fileObj.original.name;
+
+          Meteor.setTimeout( function() { Meteor.users.update( {_id: Meteor.userId() }, { $set: { 'profile.av': url}  }); }, 500  );
+
+          Meteor.setTimeout( function() { redrawProfile(); }, 750 );
+
+          Meteor.setTimeout( function() { game.ghAvatar.remove( { _id: getCFS_ID( oldURL) })}, 1000);
+      
+      });
+
+    }
+  },
+
+   'change #featuredPicFileInput': function(event, template) {
+
+    var files = event.target.files;
+    
+    for (var i = 0, ln = files.length; i < ln; i++) {
+    
+      game.ghImage.insert(files[i], function (err, fileObj) {
+
+          var oldURL = Meteor.user().profile.p;
+
+          var url = game.imagePath + fileObj._id + "/" + fileObj.original.name;
+
+          Meteor.setTimeout( function() { Meteor.users.update( {_id: Meteor.userId() }, { $set: { 'profile.p': url}  }); }, 500  );
+
+          Meteor.setTimeout( function() { redrawProfile(); }, 750 );
+
+          //if it's a public picture (in our public folder) then we don't want to do this, but it's harmless (?)
+
+          Meteor.setTimeout( function() { game.ghImage.remove( { _id: getCFS_ID( oldURL) })}, 1000);
+      
+      });
+
+    }
+  }, 
+
 
 });
 
@@ -54,6 +111,27 @@ Template.profile.rendered = function() {
 
   redrawProfile();
 
+}
+
+function getCFS_ID(_url) {
+
+  var _index = _url.lastIndexOf("/");
+
+  //lop off the actual filename part
+
+  _url = _url.substring(0, _index);
+
+  _index = _url.lastIndexOf("/");
+
+  _url = _url.substring(_index + 1);
+
+  return (_url);
+
+}
+
+function chooseAvatarFile() {
+
+  $("#avFileInput").click();
 }
 
 function endEditMode() {
@@ -70,27 +148,6 @@ function redrawProfile() {
 
   //Meteor.setTimeout( function() { drawEditButtons(); }, 101 );
 
-
-
 }
 
-/*
-function drawEditButtons() {
 
-  if (game.user.editMode.get() ) {
-
-    if ( $("#saveProfileEdit").css("opacity") == "0" ) fadeIn( "saveProfileEdit" );
-
-    if ( $("#cancelProfileEdit").css("opacity") == "0" ) fadeIn( "cancelProfileEdit" );
-
-    if ( $("#editAvatar").css("opacity") == "0" ) fadeIn( "editAvatar" );
-
-    if ( $("#editFeaturedPic").css("opacity") == "0" ) fadeIn( "editFeaturedPic" );
-
-  }
-  else {
-
-    if ( $("#startProfileEdit").css("opacity") == "0" ) fadeIn( "startProfileEdit" ); 
-  }
-}
-*/

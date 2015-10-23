@@ -1,5 +1,11 @@
 <template name="profile">
 
+	<script>
+	   function chooseAvatarFile() {
+	      $("#avatarFileInput").click();
+	   }
+	</script>
+
 	<div class="divProfile">
 
 		<div class="divProfileLeft">
@@ -103,11 +109,21 @@
 			</div>
 
 			<div class="divAvatarEditIcon">
-				<img class= "imgProfileEditIcon2" id="editAvatar" src="edit_icon.png" />
+
+				<label for="avatarFileInput">
+				    <img class="imgProfileEditIcon2" id="editAvatar" src="edit_icon.png"/>
+				</label>
+
+				<input id="avatarFileInput" type="file"/>
 			</div>
 
-			<div class="divAvatarEditIcon">
-				<img class= "imgProfileEditIcon2" id="editFeaturedPic" src="edit_icon.png" />
+			<div class="divFeaturedPicEditIcon">
+
+				<label for="featuredPicFileInput">
+				    <img class="imgProfileEditIcon2" id="editFeaturedPic" src="edit_icon.png"/>
+				</label>
+
+				<input id="featuredPicFileInput" type="file"/>
 			</div>
 
 		{{else}}
@@ -121,5 +137,7 @@
 
 
 	</div>
+
+
 
 </template>

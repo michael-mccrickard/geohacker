@@ -25,6 +25,13 @@ Game = function() {
   		stores: [new FS.Store.FileSystem("ghAvatar")]
 	});
 
+	this.avatarPath = "cfs/files/ghAvatar/";
+
+	this.ghImage = new FS.Collection("ghImage", {
+  		stores: [new FS.Store.FileSystem("ghImage")]
+	});
+
+	this.imagePath = "cfs/files/ghImage/";
 
 	//this is called by an eventListener and executes in a different context,
 	//so "this" is replaced by "game"  here

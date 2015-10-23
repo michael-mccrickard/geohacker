@@ -139,4 +139,12 @@
 	opacity: 0;
 }
 
+.divAvatarEditIcon > input
+{
+    display: none;
+}
 
+.divFeaturedPicEditIcon > input
+{
+    display: none;
+}
