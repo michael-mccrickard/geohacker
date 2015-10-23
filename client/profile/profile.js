@@ -68,19 +68,24 @@ function redrawProfile() {
 
   Meteor.setTimeout( function() { game.user.profile.draw(); }, 100 );
 
-  Meteor.setTimeout( function() { drawEditButtons(); }, 101 );
+  //Meteor.setTimeout( function() { drawEditButtons(); }, 101 );
 
 
 
 }
 
+/*
 function drawEditButtons() {
 
-    if (game.user.editMode.get() ) {
+  if (game.user.editMode.get() ) {
 
     if ( $("#saveProfileEdit").css("opacity") == "0" ) fadeIn( "saveProfileEdit" );
 
     if ( $("#cancelProfileEdit").css("opacity") == "0" ) fadeIn( "cancelProfileEdit" );
+
+    if ( $("#editAvatar").css("opacity") == "0" ) fadeIn( "editAvatar" );
+
+    if ( $("#editFeaturedPic").css("opacity") == "0" ) fadeIn( "editFeaturedPic" );
 
   }
   else {
@@ -88,3 +93,4 @@ function drawEditButtons() {
     if ( $("#startProfileEdit").css("opacity") == "0" ) fadeIn( "startProfileEdit" ); 
   }
 }
+*/

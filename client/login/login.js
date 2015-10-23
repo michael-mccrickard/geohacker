@@ -205,8 +205,6 @@ Template.login.events({
 
             var _rec = db.getRandomCountryRec (db.ghC );
 
-console.log(_rec.c + " = " + _rec.n);
-
             var _pic = db.getCapitalPic( _rec.c );
 
             var _pt = db.getCapitalName( _rec.c ) + " is the capital of " + _rec.n + ".";
@@ -219,7 +217,8 @@ console.log(_rec.c + " = " + _rec.n);
                 
                 password: password,
 
-                //profile is the portion that users can update themselves
+                //profile is the portion that we can update for the logged-in user
+                //(without rules or server methods)
 
                 profile: {
                     a: [],

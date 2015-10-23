@@ -132,4 +132,11 @@
 	opacity: 0;
 }
 
+.imgProfileEditIcon2 {
+	width: 32px;
+	position: absolute;
+	z-index: 1000;
+	opacity: 0;
+}
+
 
