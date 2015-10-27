@@ -16,6 +16,7 @@
 				<th>Name</th>
 				<th>Email</th> 
 				<th>Countries</th>
+				<th>Avatar</th>
 				<th>Delete</th>
 			</tr>
 
@@ -28,6 +29,8 @@
 						<td size="30">{{emails.[0].address}}</td>
 						
 						<td size="30">{{profile.h.length}}</td>
+
+						<td size="30"> <img style="width: 64px; margin: 4px;" src="{{profile.av}}" /> </td>
 
 						<td><button class="btn btn-danger deleteRecord" id="{{_id}}" size="2">DEL</button></td>
 					</tr>

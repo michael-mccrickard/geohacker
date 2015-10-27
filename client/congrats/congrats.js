@@ -6,17 +6,42 @@ Template.congrats.rendered = function () {
 
   Session.set('percentageProgress', ratio);
 
+  var timeInc = 500;
+
+  $("#hackReportTop" ).velocity({
+
+      translateY: "800px",
+
+  }, {
+
+    delay: 500,
+
+    easing: "easeOutCubic"
+
+  });
+
+  $("#hackReportBottom" ).velocity("fadeIn", { duration: 1500 })
+
+
+  for (var i = 0; i <= game.user.badgeLimit; i++) {
+
+      $("#b" + i.toString() ).velocity({
+
+          translateX: "800px",
+
+      }, {
+
+        delay: 500 + i * timeInc,
+
+        easing: "easeOutCubic"
+      });
+
+  }
+
+  Meteor.setTimeout( function() { hack.playAnthem(); }, 3000);
+
+
 }
-
-Template.congrats.badge = function() { 
-
-  var _obj = new BadgeList();
-
-  Session.set("sBadgeCount", _obj.length)
-
-  return ( _obj.generateList() );
-}
-
 
 
 Template.congrats.helpers({
@@ -161,6 +186,15 @@ Template.congrats.events = {
       hack.startNewFromMenu();
 
     },
+
+    'click .congratsPortrait': function (e) {
+
+      e.preventDefault();
+
+      game.user.goHome();
+
+    },
+
 
     'click #btnMissionSelect': function (e) {
 

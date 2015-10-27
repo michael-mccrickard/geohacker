@@ -20,4 +20,5 @@ meteorhacks:npm
 npm-container
 cfs:standard-packages
 cfs:filesystem
+cfs:gridfs
 ddh:svg-circle-progress

@@ -352,6 +352,21 @@ this.updateUserProfile = function() {
 
 }
 
+this.updateUserBadgeCount = function() {
+
+   var res =  Meteor.users.update( {_id: Meteor.userId() }, { $set: 
+
+      {
+       'profile.ge': game.user.profile.ge,
+
+       'profile.ex': game.user.profile.ex, 
+
+     }
+
+   }); 
+
+}
+
 
 this.saveScroll = function(_val) {
 

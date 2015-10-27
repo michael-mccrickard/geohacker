@@ -5,6 +5,17 @@ Template.registerHelper("agentName",  function() {
 
 )
 
+Template.registerHelper("badge", function() {
+
+    var _obj = new BadgeList();
+
+    Session.set("sBadgeCount", _obj.length)
+
+    return ( _obj.generateList() );
+
+  }
+)
+
 Template.registerHelper("avatarURL",  function() {
 
 		if (Meteor.user() == null) return "geohacker_logo.png";
@@ -12,6 +23,13 @@ Template.registerHelper("avatarURL",  function() {
 		if (Meteor.user().profile.av == "") return "geohacker_logo.png";
 
 		return Meteor.user().profile.av;
+	}
+
+)
+
+Template.registerHelper("avatarURLForUserID",  function(ID) {
+
+		return Meteor.users.findOne( {_id: ID } ).profile.av; 
 	}
 
 )

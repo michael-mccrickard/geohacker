@@ -12,5 +12,23 @@
 
 		<h2><span class="yellowText">TOTAL MISSIONS COMPLETED:</span> {{userMissionCount}}</h2>
 
+		<div class="divBadgeStats">
+
+			{{#each badge}}
+
+				<div class="compositeStatsBadge" id="b1">
+
+					<span class="label label-primary">{{this.count}}</span>
+
+		            <img class="badgePic" src="{{this.pic}}" width="144">
+
+		            <div class="badgeLabel whiteText">{{this.text}}</div> 
+
+		        </div>
+
+		    {{/each}}
+
+		</div>
+
 	</div>
 </template>

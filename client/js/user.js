@@ -25,6 +25,8 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     this.editMode = new Blaze.ReactiveVar( false );  //is the user editing the profile content?
 
+    this.badgeLimit = 0;
+
     this.setMode = function(_mode) {
 
     	deselectAllModes();

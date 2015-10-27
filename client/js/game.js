@@ -25,13 +25,9 @@ Game = function() {
   		stores: [new FS.Store.FileSystem("ghAvatar")]
 	});
 
-	this.avatarPath = "cfs/files/ghAvatar/";
-
 	this.ghImage = new FS.Collection("ghImage", {
   		stores: [new FS.Store.FileSystem("ghImage")]
 	});
-
-	this.imagePath = "cfs/files/ghImage/";
 
 	//this is called by an eventListener and executes in a different context,
 	//so "this" is replaced by "game"  here
@@ -143,7 +139,7 @@ Game = function() {
 
 			_user.assigns = Meteor.user().profile.a;
 
-			//_user.avatarURL.set( Meteor.user().profile.av );
+			_user.profile.readInBadges();
 
 
 			//eventually we may want to update the assigns with any newly-added or revised missions here

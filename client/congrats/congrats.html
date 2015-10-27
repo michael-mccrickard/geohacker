@@ -7,7 +7,7 @@
                 <h1 class="congratsHeadline">{{congratsBanner}}</h1> 
             </div>
 
-            <div class="hackReport missionEnd">  
+            <div class="hackReport missionEnd" id="hackReportTop">  
 
                   <div class="compositeFlag">                
                     <img class="congratsFlag" width="296" src="{{flagPic}}" /> 
@@ -26,7 +26,7 @@
 
                     {{#each badge}}
 
-                      <div class="compositeBadge">
+                      <div class="compositeBadge" id="b{{this.index}}">
 
                         <img class="badgePic" src="{{this.pic}}" width="144"/>
 
@@ -47,7 +47,7 @@
 
               </div>
 
-              <div class="hackReport missionEnd">  
+              <div class="hackReport missionEnd" id="hackReportBottom">   
 
                   <div class="congratsPortrait">
 

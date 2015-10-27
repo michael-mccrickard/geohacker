@@ -46,7 +46,7 @@ FlowRouter.route('/congrats', {
 
     game.pauseMusic();
 
-    hack.playAnthem();
+    Control.playEffect("congrats1.mp3")
 
     BlazeLayout.render('layout', { content: "congrats" } );
 

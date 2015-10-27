@@ -2,9 +2,20 @@
 
 UserProfile = function() {
 
-    this.draw = function() {
+    //badge counts
 
-      var spacer = Session.get("gWindowHeight") * 0.0125;
+    this.readInBadges = function() {
+
+      this.profile = Meteor.user().profile;
+
+      this.ge = this.profile.ge;
+
+      this.ex = this.profile.ex;
+
+    }
+
+
+    this.draw = function() {
 
       var icon1 = null;
 

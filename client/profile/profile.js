@@ -64,7 +64,7 @@ Template.profile.events({
 
           var oldURL = Meteor.user().profile.av;
 
-          var url = game.avatarPath + fileObj._id + "/" + fileObj.original.name;
+          var url = avatarPath + fileObj._id + "/" + fileObj.original.name;
 
           Meteor.setTimeout( function() { Meteor.users.update( {_id: Meteor.userId() }, { $set: { 'profile.av': url}  }); }, 500  );
 
@@ -87,7 +87,7 @@ Template.profile.events({
 
           var oldURL = Meteor.user().profile.p;
 
-          var url = game.imagePath + fileObj._id + "/" + fileObj.original.name;
+          var url = imagePath + fileObj._id + "/" + fileObj.original.name;
 
           Meteor.setTimeout( function() { Meteor.users.update( {_id: Meteor.userId() }, { $set: { 'profile.p': url}  }); }, 500  );
 
@@ -113,7 +113,7 @@ Template.profile.rendered = function() {
 
 }
 
-function getCFS_ID(_url) {
+function getCFS_ID (_url) {
 
   var _index = _url.lastIndexOf("/");
 
@@ -128,6 +128,7 @@ function getCFS_ID(_url) {
   return (_url);
 
 }
+
 
 function chooseAvatarFile() {
 

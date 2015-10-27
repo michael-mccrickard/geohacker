@@ -231,7 +231,9 @@ Template.login.events({
                     f: db.getFlagPicByCode( $( "#selectCountry option:selected" ).attr("id") ),
                     t: _text,
                     p: _pic, 
-                    pt: _pt
+                    pt: _pt,
+                    ge: 0,
+                    ex: 0,
 
                 },
             
@@ -257,13 +259,15 @@ Template.login.events({
 
                 var _gender = "female";
 
-                if ( $("chkMale").prop("checked") ) _gender = "male";
+                if ( $("#chkMale").prop("checked") ) _gender = "male";
 
-                 if ( $("chkMale").prop("checked") ) _gender = "female";               
+                if ( $("#chkFemale").prop("checked") ) _gender = "female";               
 
                 game.user.makeAvatar( _gender );
 
-                Meteor.setTimeout( function() { FlowRouter.go("/home"); }, 500);
+                game.user.profile.readInBadges();
+
+                Meteor.defer( function() { FlowRouter.go("/home"); } );
 
               }
               
