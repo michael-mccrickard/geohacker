@@ -3,9 +3,9 @@
 
 .divProfile {
   width: 100%;
-  border: 2px solid;
+  border: 4px solid;
   border-color: green;
-  border-radius: 5px;
+  border-radius: 4px;
   overflow: hidden;
 
 }
@@ -26,9 +26,9 @@
 .imgProfileAvatar {
 
   width: 95%;
-  border: 2px solid;
+  border: 4px solid;
   border-color: #383838;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
 .profileAgentNameText {
@@ -49,9 +49,9 @@
 .imgProfileFlag {
 
   width: 95%;
-  border: 2px solid;
+  border: 4px solid;
   border-color: #383838;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
 
@@ -59,9 +59,9 @@
 
   	width: 95%;
 	margin: 0.5%;
-	border: 2px solid;
+	border: 4px solid;
 	border-color: #383838;
-	border-radius: 5px;
+	border-radius: 4px;
 	color: #383838;
 
 }
@@ -96,9 +96,9 @@
 
 	width: 65%;
 	float: left;
-	border: 2px solid;
+	border: 4px solid;
 	border-color: #FF6600;
-	border-radius: 5px;
+	border-radius: 4px;
 	margin: 1%;
 }
 
@@ -113,9 +113,9 @@
   width: 15%;
   margin-top: 1%;
   margin-left: -0.5%;
-  border: 2px solid;
+  border: 4px solid;
   border-color: #FF6600;
-  border-radius: 5px;
+  border-radius: 4px;
   color: #383838;
 
 }

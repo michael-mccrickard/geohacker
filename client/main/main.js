@@ -1,5 +1,10 @@
 Template.main.helpers({
 
+    modeIsScanning: function() {
+
+      return true;
+    },
+
     control: function() {
 
         return Session.get("sCtlName");  //the array of controls

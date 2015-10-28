@@ -414,4 +414,6 @@ function deselectAllModes() {
 
 	$(".divHomeButtonPic").css("border-color","gray");
 
+	$(".imgHomeAvatar").css("border-color","gray");
+
 }

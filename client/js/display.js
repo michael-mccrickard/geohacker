@@ -278,6 +278,8 @@ Display = function() {
 
         this.dimensionControls();
 
+        
+
         if (this.feature.on() ) {
 
             this.feature.draw()

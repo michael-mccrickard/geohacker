@@ -9,6 +9,8 @@
 
 		<img class="featuredBackdrop" src="featuredBackdrop.jpg" />
 
+
+
 		{{#if TextIsDisplayed}}
 
 			<span class="featuredText {{featuredAreaFont}}">{{displayTextContent}}</span>			
@@ -17,7 +19,12 @@
 
 			{{#if youTubeNotFeatured}}
 
-				<a href="/closeup"><img class="featuredPic"  src="" /></a>
+				{{#if modeIsScanning}}
+				
+					{{> scanning}}
+				{{/if}}
+
+				<!--a href="/closeup"><img class="featuredPic"  src="" /></a-->
 			
 			{{/if}}
 

@@ -287,6 +287,7 @@ c("feature.set is calling playFeaturedContent")
                 $("img.featuredPic").css("top",  myFrame.top);
 
                 $("img.featuredPic").attr("src", _file );
+
             }
         }
 	}
@@ -303,7 +304,15 @@ c("feature.set is calling playFeaturedContent")
 
         var fullHeight = $("img.featuredBackdrop").height();
 
+$("div.scanScreen").css("width",  fullBackdropWidth);
+
+$("div.scanScreen").css("height",  fullHeight);
+
         var leftMargin = fullScreenWidth * 0.02;
+
+$("div.scanScreen").css("left",  leftMargin );
+
+
 
         var _height = fullHeight * 0.935;
 
