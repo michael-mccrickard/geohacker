@@ -12,6 +12,14 @@ UserProfile = function() {
 
       this.ex = this.profile.ex;
 
+      this.sp = this.profile.sp;
+
+      this.in = this.profile.in;
+
+      this.sc = this.profile.sc;
+
+      this.ft = this.profile.ft;
+
     }
 
 

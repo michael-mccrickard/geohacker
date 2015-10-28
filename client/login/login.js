@@ -234,6 +234,10 @@ Template.login.events({
                     pt: _pt,
                     ge: 0,
                     ex: 0,
+                    sp: [0,0,0],
+                    sc: [0,0,0],
+                    in: [0,0,0],
+                    ft: [0,0,0,0,0],
 
                 },
             

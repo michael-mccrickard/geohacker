@@ -1,6 +1,15 @@
 
 Template.stats.helpers({
 
+    statsBadge: function() {
+
+      var _obj = new BadgeList();
+
+      Session.set("sBadgeCount", _obj.length)
+
+      return ( _obj.generateStatsList() );
+    },
+
     userCreatedAt: function() {
 
         return Meteor.user().createdAt.toLocaleDateString();

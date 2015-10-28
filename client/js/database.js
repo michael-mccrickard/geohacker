@@ -361,6 +361,13 @@ this.updateUserBadgeCount = function() {
 
        'profile.ex': game.user.profile.ex, 
 
+       'profile.sp': game.user.profile.sp, 
+
+       'profile.sc': game.user.profile.sc, 
+
+       'profile.in': game.user.profile.in, 
+
+       'profile.ft': game.user.profile.ft, 
      }
 
    }); 
