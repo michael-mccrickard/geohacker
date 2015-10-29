@@ -39,7 +39,7 @@ Headline = function( _type ) {
 
     this.setStatus = function() {
 
-        if (hack.mode == mReady) this.text = "Geohacker: Agent " + game.user.name + " is hacking " + game.user.assign.name;
+        if (hack.mode == mReady) this.text = "Mission: " + game.user.assign.name;
 
         if (hack.mode == mDataFound) {
 
@@ -270,7 +270,7 @@ Headline = function( _type ) {
 
 	        var divWidthStatus = parseFloat( divWidthStatusString.substr(0, divWidthStatusString.length - 2));
 
-	        $( this.ele ).css("left", leftMargin + (fullScreenWidth/2 - (divWidthStatus)/2) + "px");  		
+	        $( this.ele ).css("left", leftMargin + (fullBackdropWidth/2 - (divWidthStatus)/2) + "px");  		
 		}
 
 

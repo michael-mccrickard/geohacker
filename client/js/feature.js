@@ -304,17 +304,25 @@ c("feature.set is calling playFeaturedContent")
 
         var fullHeight = $("img.featuredBackdrop").height();
 
-$("div.scanScreen").css("width",  fullBackdropWidth);
-
-$("div.scanScreen").css("height",  fullHeight);
-
         var leftMargin = fullScreenWidth * 0.02;
 
-$("div.scanScreen").css("left",  leftMargin );
-
-
-
         var _height = fullHeight * 0.935;
+
+$("div.scanBG").css("left", leftMargin + ( fullBackdropWidth * 0.98 ) / 2 - $(".imgScanBG").width() / 2 + "px" );
+
+$("div.scanBG").css("top", 50 + (fullHeight / 2) - $(".imgScanBG").width() / 2 + "px" );
+
+$("div.divScanCornerTopLeft").css("left", leftMargin +"px" );
+
+$("div.divScanCornerTopRight").css("left",  ( leftMargin + fullBackdropWidth  - $("div.divScanCornerTopRight").width() + "px" ) );
+
+$("div.divScanCornerBottomRight").css("top",  ( $("img.featuredBackdrop").position().top  + (fullHeight * 1.005) - $("div.divScanCornerBottomRight").height() + "px" ) );
+
+$("div.divScanCornerBottomRight").css("left",  ( leftMargin + fullBackdropWidth  - $("div.divScanCornerBottomRight").width() + "px" ) );
+
+$("div.divScanCornerBottomLeft").css("top",  ( $("img.featuredBackdrop").position().top + (fullHeight * 0.995) - $("div.divScanCornerBottomLeft").height() + "px" ) );
+
+$("div.divScanCornerBottomLeft").css("left",  ( leftMargin + 4 + "px" ) );
 
         var _width = 0;
 

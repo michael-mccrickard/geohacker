@@ -54,6 +54,8 @@ NewLoader = function() {
 
 		hack.mode = mScanning;
 
+Session.set("sHackModeScanning", true);
+
 		display.setControls( sScanning );
 
 		Meteor.defer( function(){ display.dimensionControls(); });  //primarily for the TEXT control
@@ -96,6 +98,8 @@ NewLoader = function() {
 	    display.ctl[ this.newControl.name ].setControlPicSource();
 
 		hack.mode = mDataFound;
+
+Session.set("sHackModeScanning", false);
 
 		if (this.totalClueCount == 1) display.status.setAndShow();
 

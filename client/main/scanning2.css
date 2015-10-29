@@ -1,0 +1,156 @@
+/* scanning.css  */
+
+/*
+*{
+padding : 0;
+margin : 0;
+border : 0;
+}
+*/
+
+/*
+.scanScreen{
+	display : block;
+	overflow : auto;
+	position: absolute;
+	overflow: hidden;
+	top: 55px;
+	left: 2%;
+	z-index: 1000;
+}
+
+.topBanner{
+	padding: 0.5%;
+	float : left;
+	clear : none;
+	width : 100%;
+	border: 2px solid;
+	border-color: green;
+	border-radius: 2px;
+}
+
+.topBannerTextLeft{
+	margin-left: 1%;
+	float: left;
+	clear : none;
+	font-size: 14px;
+	width: 30%;
+
+}
+
+.topBannerRight{
+	margin-left: 1%;
+	float: right;
+	width: 30%;
+}
+
+.topBannerTextRight{
+	font-size: 14px;
+	border: 2px solid;
+	border-color: green;
+	border-radius: 4px;
+	text-align: center;
+}
+
+.topBannerPic{
+	clear : none;
+	float: left;
+	width : 15%;
+  border: 2px solid;
+  border-color: green;
+  border-radius: 4px;
+}
+
+.imgTopBanner {
+
+	width: 100%;
+} 
+
+.packetText {
+	padding-top: 1%;
+	font-size: 14px;
+}
+
+.packetLabel {
+	margin-top: 1%;
+	font-size: 18px;	
+}
+
+.middleBanner{
+	padding: 1%;
+	float : left;
+	clear : none;
+	width : 100%;
+}
+
+.middleBannerRight{
+	float : right;
+	clear : none;
+}
+
+.imgMiddleBanner {
+  border: 2px solid;
+  border-color: green;
+  border-radius: 4px;
+	width: 128px;
+} 
+
+.middleBannerTextRight{
+	margin-right: 1%;
+	float : right;
+	clear : none;
+	font-size: 14px;
+
+}
+
+.bottomBanner{
+
+	padding: 0.25%;
+	float : left;
+	clear : none;
+	width : 100%;
+	border: 2px solid;
+	border-color: green;
+	border-radius: 4px;
+}
+
+.bottomBannerUnit{
+
+	float : left;
+	clear : none;
+	width : 33%;
+}
+
+.bottomBannerPic {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.imgBottomBanner {
+  border: 2px solid;
+  border-color: green;
+  border-radius: 4px;
+	width: 100%;
+}
+
+.unit1 {
+	width : 40%;
+}
+
+.unit2 {
+	width : 29%;
+}
+
+.unit3 {
+	width : 60%;
+}
+
+
+.bottomBanner{
+background-color : rgba(255,255,255, 0.5);
+float : left;
+clear : none;
+height : 100px;
+width : 1050px;
+}
+*/

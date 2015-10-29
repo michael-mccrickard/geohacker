@@ -1,8 +1,14 @@
+Session.set("sHackModeScanning", false);
+
+Session.set("sDateTime", false);
+
 Template.main.helpers({
 
     modeIsScanning: function() {
+return true;
+      if (Session.get("sHackModeScanning") == true) return true;
 
-      return true;
+      return false;
     },
 
     control: function() {
@@ -137,6 +143,8 @@ Template.main.helpers({
     },
 
     youTubeNotFeatured: function() {
+return false;
+      if (Session.get("sHackModeScanning") == true) return false;
 
       if (Session.get("sYouTubeOn") == true ) return false;
 

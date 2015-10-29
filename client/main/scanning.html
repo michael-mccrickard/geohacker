@@ -1,106 +1,39 @@
 <template name="scanning">
 
-	<div class="scanScreen">
-		
-		<div class="topBanner">
-
-			<div class="topBannerPic">
-				<img class="imgTopBanner" src="wireframeKey.gif">
-			</div>
-
-			<div class="topBannerTextLeft whiteText">
-				<div>Initializing scan protocol ...</div>
-				<div>Packet detection started ...</div>
-				<div>Downloading packet headers...</div>
-				<div>Filtering headers by mission parameters ...</div>
-				<div>Downloading packet data ...</div>
-				<div>Decrypting packet ...</div>
-			</div>
-
-			<div class="topBannerRight">
-				<div class="topBannerTextRight whiteText">
-					<div class="packetText">0000 1234 9878 3434 1231 0986 4567 4567</div>
-					<div class="packetText">0000 1234 9878 3434 1231 0986 2345 4567</div>
-					<div class="packetText">0000 1234 9878 3434 1231 0986 3453 4567</div>
-					<div class="packetText">0000 1234 9878 3434 1231 0986 4565 4567</div>
-					<div class="packetText">0000 1234 9878 3434 1231 0986 5676 4567</div>
-					<div class="packetText">0000 1234 9878 3434 1231 0986 3267 4567</div>
-				</div>
-				<div class="packetLabel clear centered yellowText">
-					INCOMING PACKETS
-				</div>		
-			</div>
-
-		</div>
-		
-		<div class="middleBanner">
-
-			<div class="topBannerTextLeft greenText">
-				<div>Ping response : 10 ms</div>
-				<div>Proxy enabled : Always</div>
-				<div>Current traceroute : 171.68.351.32</div>
-				<div>Fallback trace : Manual</div>
-				<div>Auto-detect configuration : Always</div>
-				<div>Timeout failure : 2500 ms</div>
-			</div>
-
-			<div class="topBannerTextLeft">
-				{{>SvgCircleProgress radius=45 total=360 progress=100 bgColor="black" progressColor="white"}}		
-				<div class="packetLabel clear centered yellowText">PACKET RENDERING: 25%</div>
-			</div>	
-
-			<div class="middleBannerRight">
-				<img class="imgMiddleBanner" src="redBox.gif">		
-			</div>	
-
-			<div class="middleBannerTextRight whiteText">
-				<div>Packets analyzed : 1097</div>
-				<div>Packets lost : 7</div>
-				<div>Chunking unit: Auto</div>
-				<div>Chunksize : 1024</div>
-				<div>Retry corrupt segments : Never</div>
-				<div>Auto-flush cache : On</div>				
-			</div>
 
 		
-		</div>
-
-		<div class="bottomBanner">
-
-			<div class="bottomBannerUnit">
-				
-				<div class="bottomBannerPic  unit1">
-					<img class="imgBottomBanner" src="filter.gif">
-				</div>
-				<div class="packetLabel clear centered yellowText">FILTERING HEADERS...</div>
-				
+		<div class="divScanCornerTopLeft">
+			<div class="scanText">
+				<div>trippy text goes here</div>
+				<div>trippy text goes here</div>
+				<div>trippy text goes here</div>
+				<div>trippy text goes here</div>
 			</div>
+			<img class="imgScanCornerLeft" src="geohacker_background.png">
 			
-			<div class="bottomBannerUnit">
-				
-				<div class="bottomBannerPic  unit2">
-					<img class="imgBottomBanner" src="security.gif">
-				</div>	
-				<div class="packetLabel clear centered yellowText">SECURITY: SSL</div>
-					
-			</div>
-			
-			<div class="bottomBannerUnit" >
-				
-				<div class="bottomBannerPic  unit3">
-					<img class="imgBottomBanner" src="assembly.gif">
-				</div>
-				<div class="packetLabel clear centered yellowText">ASSEMBLING PACKETS...</div>		
+		</div> 
 
-			</div>
-		
+		<div class="divScanCornerTopRight">
+			<img class="imgScanCornerRight" src="geohacker_background.png" /><div class="scanText right">more trippy text goes here</div>
+		</div> 
+
+
+		<div class="divScanCornerBottomRight">
+			<img class="imgScanCornerRight" src="geohacker_background.png" /><div class="scanText right">even more trippy text goes here</div>
+		</div> 
+
+
+		<div class="divScanCornerBottomLeft">
+			<div class="scanDate">{{getDateTime}}</div>
+		</div> 
+
+		<div class="scanBG">
+			<img class="imgScanBG" src="geohacker_background.png">
+			<div class="scanCenterText">GEOHACKER SYSTEM V. 1.0</DIV>
 		</div>
 
-		<!--div class="bottomBanner">
-		
-		</div-->
 
-	</div>
+
 
 </template>
 
