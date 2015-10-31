@@ -147,8 +147,6 @@ function redrawProfile() {
 
   Meteor.setTimeout( function() { game.user.profile.draw(); }, 100 );
 
-  //Meteor.setTimeout( function() { drawEditButtons(); }, 101 );
-
 }
 
 

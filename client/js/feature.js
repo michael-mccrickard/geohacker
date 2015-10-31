@@ -308,17 +308,23 @@ c("feature.set is calling playFeaturedContent")
 
         var _height = fullHeight * 0.935;
 
+        var menuHeight = 50;
+
 $("div.scanBG").css("left", leftMargin + ( fullBackdropWidth * 0.98 ) / 2 - $(".imgScanBG").width() / 2 + "px" );
 
 $("div.scanBG").css("top", 50 + (fullHeight / 2) - $(".imgScanBG").width() / 2 + "px" );
 
-$("div.divScanCornerTopLeft").css("left", leftMargin +"px" );
+$("div.divScanCornerTopLeft").css("top", menuHeight + (fullHeight * 0.01) +"px" );
 
-$("div.divScanCornerTopRight").css("left",  ( leftMargin + fullBackdropWidth  - $("div.divScanCornerTopRight").width() + "px" ) );
+$("div.divScanCornerTopLeft").css("left", leftMargin + (fullBackdropWidth * 0.005) +"px" );
 
-$("div.divScanCornerBottomRight").css("top",  ( $("img.featuredBackdrop").position().top  + (fullHeight * 1.005) - $("div.divScanCornerBottomRight").height() + "px" ) );
+$("div.divScanCornerTopRight").css("top", menuHeight + (fullHeight * 0.01) +"px" );
 
-$("div.divScanCornerBottomRight").css("left",  ( leftMargin + fullBackdropWidth  - $("div.divScanCornerBottomRight").width() + "px" ) );
+$("div.divScanCornerTopRight").css("left",  ( leftMargin + (fullBackdropWidth * 0.995)  - $("div.divScanCornerTopRight").width() + "px" ) );
+
+$("div.divScanCornerBottomRight").css("top",  ( $("img.featuredBackdrop").position().top  + (fullHeight * 0.99) - $("div.divScanCornerBottomRight").height() + "px" ) );
+
+$("div.divScanCornerBottomRight").css("left",  ( leftMargin + fullBackdropWidth * 0.995  - $("div.divScanCornerBottomRight").width() + "px" ) );
 
 $("div.divScanCornerBottomLeft").css("top",  ( $("img.featuredBackdrop").position().top + (fullHeight * 0.995) - $("div.divScanCornerBottomLeft").height() + "px" ) );
 

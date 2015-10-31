@@ -5,10 +5,6 @@
 padding : 0;
 margin : 0;
 border : 0;
-}
-*/
-
-.scanScreen{
 	display : block;
 	overflow : auto;
 	position: absolute;
@@ -16,6 +12,11 @@ border : 0;
 	top: 55px;
 	left: 2%;
 	z-index: 1000;
+}
+*/
+
+#scanScreen{
+	opacity: 0;
 }
 
 .scanBG{
@@ -36,8 +37,11 @@ position: absolute;
 
 .scanText {
 	display: inline-block;
-	margin-top: 3.5%; 
-	margin-left: 1%;
+	margin-top: 2.5%; 
+	margin-left: 2%;
+	margin-right: 2%;
+	font-family: Arial;
+		font-size: 14px;
 }
 
 .scanCenterText {
@@ -47,13 +51,13 @@ position: absolute;
 }
 
 
-.imgScanCornerLeft {
-		width: 11%;
+.imgScanCornerTopLeft {
+		width: 8%;
 		float: left;
 }
 
 .imgScanCornerRight {
-		width: 11%;
+		width: 8%;
 		float: right;
 }
 

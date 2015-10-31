@@ -1,25 +1,25 @@
 <template name="scanning">
 
-
+	<div id="scanScreen">
 		
 		<div class="divScanCornerTopLeft">
 			<div class="scanText">
-				<div>trippy text goes here</div>
-				<div>trippy text goes here</div>
-				<div>trippy text goes here</div>
-				<div>trippy text goes here</div>
+				<div id="status0">System idle ...</div>
+				<div id="status1"></div>
+				<div id="status2"></div>
+				<div id="status3"></div>
 			</div>
-			<img class="imgScanCornerLeft" src="geohacker_background.png">
+			<img class="imgScanCornerTopLeft" id="imgTopLeft" src="topLeftScanner_static.gif">
 			
 		</div> 
 
 		<div class="divScanCornerTopRight">
-			<img class="imgScanCornerRight" src="geohacker_background.png" /><div class="scanText right">more trippy text goes here</div>
+			<img class="imgScanCornerRight" id="imgTopRight" src="topRightScanner_static.gif" /><div class="scanText right">more trippy text goes here</div>
 		</div> 
 
 
 		<div class="divScanCornerBottomRight">
-			<img class="imgScanCornerRight" src="geohacker_background.png" /><div class="scanText right">even more trippy text goes here</div>
+			<img class="imgScanCornerRight"  id="imgBottomRight" src="bottomRightScanner_static.gif" /><div class="scanText right">even more trippy text goes here</div>
 		</div> 
 
 
@@ -32,7 +32,7 @@
 			<div class="scanCenterText">GEOHACKER SYSTEM V. 1.0</DIV>
 		</div>
 
-
+	</div>
 
 
 </template>
