@@ -21,12 +21,30 @@ body {
     src: url("BMmini.TTF");
 }
 
+@font-face {
+    font-family: scannerFont;
+    src: url("DIGITALE.TTF");
+}
+
+@font-face {
+    font-family: scannerFont2;
+    src: url("bitwise.ttf");
+}
+
 .menuFont {
     font-size: 18px;
     text-transform: uppercase;
     color: #9d9d9d;
 }
 
+.scanFont {
+
+    font-family: scannerFont;
+}
+.scanFont2 {
+
+    font-family: scannerFont2;
+}
 .navbar-right {
 
     margin-right: 1%;

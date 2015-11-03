@@ -322,13 +322,13 @@ $("div.divScanCornerTopRight").css("top", menuHeight + (fullHeight * 0.01) +"px"
 
 $("div.divScanCornerTopRight").css("left",  ( leftMargin + (fullBackdropWidth * 0.995)  - $("div.divScanCornerTopRight").width() + "px" ) );
 
-$("div.divScanCornerBottomRight").css("top",  ( $("img.featuredBackdrop").position().top  + (fullHeight * 0.99) - $("div.divScanCornerBottomRight").height() + "px" ) );
-
-$("div.divScanCornerBottomRight").css("left",  ( leftMargin + fullBackdropWidth * 0.995  - $("div.divScanCornerBottomRight").width() + "px" ) );
-
 $("div.divScanCornerBottomLeft").css("top",  ( $("img.featuredBackdrop").position().top + (fullHeight * 0.995) - $("div.divScanCornerBottomLeft").height() + "px" ) );
 
 $("div.divScanCornerBottomLeft").css("left",  ( leftMargin + 4 + "px" ) );
+
+$("div.divScanCornerBottomRight").css("top",  ( $("img.featuredBackdrop").position().top  + (fullHeight * 0.99) - $("div.divScanCornerBottomRight").height() + "px" ) );
+
+$("div.divScanCornerBottomRight").css("left",  ( leftMargin + fullBackdropWidth * 0.995  - $("div.divScanCornerBottomRight").width() + "px" ) );
 
         var _width = 0;
 

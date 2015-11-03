@@ -4,11 +4,9 @@ Session.set("sDateTime", false);
 
 Template.main.helpers({
 
-    modeIsScanning: function() {
-return true;
-      if (Session.get("sHackModeScanning") == true) return true;
+    getDateTime: function() {
 
-      return false;
+      return (Session.get("sDateTime"));
     },
 
     control: function() {
@@ -279,6 +277,8 @@ Template.main.events({
           return; 
       }
 
+playGif();
+
       display.loader.doScan();
 
     },
@@ -386,6 +386,14 @@ Template.main.rendered = function () {
       display.doHeadlines();
 
       display.checkMainScreen();
+
+
+
+  $("#scanScreen" ).velocity("fadeIn", { duration: 1000 })
+
+  Meteor.setTimeout(function() { playGif(); }, playTimeInc);  
+
+
 
     }
 }

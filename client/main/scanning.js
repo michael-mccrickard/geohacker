@@ -16,17 +16,56 @@ Template.scanning.helpers({
  })
 
 
-Template.scanning.rendered = function() {
+tt = function() {
 
 	//stopGif();
 }
 
 
-timeInc = 750;
 
-function playGif() {
+playTimeInc = 1800;
+
+pauseTimeInc = 1800;
+
+playGif = function() {
 
 	//Meteor.setTimeout(function() { Control.playEffect( "scanner2.mp3"); }, 250);	
+
+	if (hack.mode == mScanning) {
+
+		_multiLine();
+	}
+	else {
+		
+		_singleLine();
+	}
+
+	statusCount++;
+	
+	$("#imgTopLeft").attr("src", "topLeftScanner.gif");
+
+	$("#imgTopRight").attr("src", "topRightScanner.gif");
+
+	$("#imgBottomRight").attr("src", "gridGlobe.gif");
+
+	Meteor.setTimeout(function() { stopGif(); }, playTimeInc);	
+
+}
+
+function stopGif() {
+
+	$("#imgTopLeft").attr("src", "topLeftScanner_static.gif");
+
+	$("#imgTopRight").attr("src", "topRightScanner_static.gif");
+
+	$("#imgBottomRight").attr("src", "lowerRightCorner_static.gif");
+
+	Meteor.setTimeout(function() { playGif(); }, pauseTimeInc);	
+
+	//Meteor.setTimeout(function() { Control.playEffect("scanner2.mp3"); }, 2700);	
+}
+
+function _singleLine() {
 
 	if (statusCount == stringStatusLimit) {
 
@@ -39,35 +78,12 @@ function playGif() {
 
 		$("#status0").text( strStatus[statusCount] );
 	}
-	
-	statusCount++;
 
-	$("#imgTopLeft").attr("src", "topLeftScanner.gif");
-
-	$("#imgTopRight").attr("src", "topRightScanner.gif");
-
-	$("#imgBottomRight").attr("src", "bottomRightScanner.gif");
-
-	Meteor.setTimeout(function() { stopGif(); }, timeInc);	
-
-}
-
-function stopGif() {
-
-	$("#imgTopLeft").attr("src", "topLeftScanner_static.gif");
-
-	$("#imgTopRight").attr("src", "topRightScanner_static.gif");
-
-	$("#imgBottomRight").attr("src", "bottomRightScanner_static.gif");
-
-	Meteor.setTimeout(function() { playGif(); }, 2000);	
-
-	//Meteor.setTimeout(function() { Control.playEffect("scanner2.mp3"); }, 2700);	
 }
 
 function _multiLine() {
 
-		Meteor.setTimeout(function() { Control.playEffect( "scanner2.mp3"); }, 250);	
+	//Meteor.setTimeout(function() { Control.playEffect( "scanner2.mp3"); }, 250);	
 
 	if (statusCount == stringStatusLimit) {
 
@@ -85,8 +101,7 @@ function _multiLine() {
 
 		$("#status" + statusCount).text( strStatus[statusCount] );
 	}
-	
-	statusCount++;
+
 }
 
  Meteor.setInterval( function () {

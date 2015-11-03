@@ -13,21 +13,22 @@ border : 0;
 	left: 2%;
 	z-index: 1000;
 }
-*/
+
 
 #scanScreen{
 	opacity: 0;
+	z-index: 1051;
+
 }
 
 .scanBG{
-		z-index: 1000;
-
-position: absolute;
 	
-	width: 25%;
+	position: absolute;
 
 	top: 50px;
-	left: 0px;
+
+	width: 25%;
+
 }
 
 .imgScanBG {
@@ -105,3 +106,4 @@ position: absolute;
 	top: 0px;
 	left: 0px;
 }
+*/

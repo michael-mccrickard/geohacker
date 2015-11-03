@@ -8,7 +8,7 @@ border : 0;
 }
 */
 
-
+/*
 .scanScreen{
 	display : block;
 	overflow : auto;
@@ -16,7 +16,6 @@ border : 0;
 	overflow: hidden;
 	top: 55px;
 	left: 2%;
-	width: 83%;
 	z-index: 1000;
 }
 
@@ -25,16 +24,17 @@ border : 0;
 	float : left;
 	clear : none;
 	width : 100%;
+	border: 2px solid;
+	border-color: green;
+	border-radius: 2px;
 }
 
 .topBannerTextLeft{
 	margin-left: 1%;
 	float: left;
 	clear : none;
-	font-size: 12px;
-	width: 45%;
-	color: #04933e;
-	font-family: scannerFont;
+	font-size: 14px;
+	width: 30%;
 
 }
 
@@ -45,24 +45,11 @@ border : 0;
 }
 
 .topBannerTextRight{
-	float: right;
-	font-size: 10px;
-	margin-right: 2.5%;
-	margin-top: 2.5%;
-	color: #ffef00;
-}
-
-.divScanCornerTopRight {
-
-z-index: 1000;
-	width: 45%;
-	top: 50px;
-	float: right;
-}
-
-.imgScanCornerRight {
-	width: 8%;
-	float: right;
+	font-size: 14px;
+	border: 2px solid;
+	border-color: green;
+	border-radius: 4px;
+	text-align: center;
 }
 
 .topBannerPic{
@@ -76,8 +63,7 @@ z-index: 1000;
 
 .imgTopBanner {
 
-		width: 4%;
-		float: left;
+	width: 100%;
 } 
 
 .packetText {
@@ -92,35 +78,40 @@ z-index: 1000;
 
 .middleBanner{
 	padding: 1%;
+	float : left;
 	clear : none;
 	width : 100%;
 }
 
-.middleBannerImage {
-
-	width: 8%;
-	margin: auto;
+.middleBannerRight{
+	float : right;
+	clear : none;
 }
 
-.imgScanBG {
-	width: 100%;
-}
+.imgMiddleBanner {
+  border: 2px solid;
+  border-color: green;
+  border-radius: 4px;
+	width: 128px;
+} 
 
 .middleBannerTextRight{
-	font-size: 12px;
-	text-align: center;
+	margin-right: 1%;
+	float : right;
+	clear : none;
+	font-size: 14px;
 
 }
 
 .bottomBanner{
 
-	padding: 0.5%;
+	padding: 0.25%;
 	float : left;
 	clear : none;
 	width : 100%;
 	border: 2px solid;
 	border-color: green;
-	border-radius: 2px;
+	border-radius: 4px;
 }
 
 .bottomBannerUnit{
@@ -162,3 +153,4 @@ clear : none;
 height : 100px;
 width : 1050px;
 }
+*/

@@ -44,13 +44,13 @@ img.featuredBackdrop {
     width: 83.3%;
     height: 63.75%;
 
-    z-index: 5;
+    /* z-index: 5; */
 }
 
 .featuredPic {
     position: absolute;
     top: 6%;
-    z-index: 50;
+    z-index: 1060;
 }
 
 .featuredText {
