@@ -80,14 +80,24 @@ z-index: 1000;
 		float: left;
 } 
 
-.packetText {
-	padding-top: 1%;
-	font-size: 14px;
+.divAnalyzeStream {
+
+	width: 33%;
 }
 
-.packetLabel {
-	margin-top: 1%;
-	font-size: 18px;	
+.analyzeStreamText {
+	font-size: 10px;
+	color: #6d6e7b;
+
+}
+
+.analyzeStreamTextTitle {
+
+	color: #969696;
+}
+
+.topRow {
+		margin-top: 2%;
 }
 
 .middleBanner{
@@ -110,6 +120,75 @@ z-index: 1000;
 	font-size: 12px;
 	text-align: center;
 
+}
+
+.scanLowerText {
+
+	color: #6d6e7b;
+	font-size: 16px;
+}
+
+.scanLowerLeftText {
+
+	margin-left: 1%;
+}
+
+.imgScanLowerMiddle {
+	display: block;
+	width: 60%;
+	margin: auto;
+}
+
+.scanLowerMiddle {
+	width: 25%;
+}
+
+.scanLowerRight {
+	width: 25%;
+}
+
+.imgScanLowerRight {
+
+margin-left: 1.5%;
+	width: 10%;
+}
+
+.divScanGridGlobe {
+	width: 25%;
+}
+
+.divImgScanGridGlobe {
+	display: inline-block;
+	width: 10%;
+}
+
+.imgScanGridGlobe {
+	width: 8%;
+}
+
+.gridGlobeText {
+
+	font-size: 12px;
+}
+.gridGlobeTextLower {
+
+	font-size: 24px;
+}
+
+.divNormalGlobe {
+	width: 60%;
+}
+
+.divImgNormalGlobe {
+	width: 10%;
+}
+
+.imgNormalGlobe {
+	width: 100%;
+}
+
+.normalGlobeText {
+	font-size: 10px;
 }
 
 .bottomBanner{

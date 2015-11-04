@@ -71,6 +71,10 @@ html[xmlns] .clearfix { display: block;}
 .clearfix {display: block}
 */
 
+.auto {
+    margin: auto
+}
+
 .clear {
     clear: left;
 }
