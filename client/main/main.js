@@ -402,17 +402,27 @@ positionScanElements = function() {
 
     var fullHeight = $("img.featuredBackdrop").position().top + $("img.featuredBackdrop").outerHeight();
 
-c("top is " + $("img.featuredBackdrop").position().top)
-
-c("height is " + $("img.featuredBackdrop").outerHeight())
-
-c("ele height is " + $("div.scanLowerLeft").outerHeight())
-
     var horizSpacer = fullBackdropWidth * 0.01;
 
     var vertSpacer = fullHeight * 0.01;
 
-   $("div.scanLowerLeft").css("left", $("img.featuredBackdrop").position().left + horizSpacer / 2 );
+   $("div.scanCenter").css("left", (fullBackdropWidth/2) - $(".scanCenter").outerWidth() / 2 + "px");
+
+    $("div.scanCenter").css("top", vertSpacer * 17 + "px" );
+
+   $("div.divAnalyzeStream").css("left", horizSpacer * 7 + "px" );
+
+    $("div.divAnalyzeStream").css("top", vertSpacer * 32 + "px" );
+
+   $("div.scanTopRight").css("left", fullBackdropWidth - $("div.scanTopRight").outerWidth() - horizSpacer / 2 +"px" );
+
+    $("div.scanTopRight").css("top", $("img.featuredBackdrop").position().top + vertSpacer*1.5 + "px" );
+
+   $("div.scanTopLeft").css("left", $("img.featuredBackdrop").position().left + horizSpacer / 2 + "px" );
+
+    $("div.scanTopLeft").css("top", $("img.featuredBackdrop").position().top + vertSpacer*1.5 + "px" );
+
+   $("div.scanLowerLeft").css("left", $("img.featuredBackdrop").position().left + horizSpacer / 2 + "px" );
 
     $("div.scanLowerLeft").css("top", (fullHeight) - 64 - vertSpacer + "px" );
 

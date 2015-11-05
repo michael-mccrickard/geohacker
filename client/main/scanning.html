@@ -1,0 +1,71 @@
+<template name="scanning2">
+
+	<div class="scanScreen">
+		
+
+		<div class="scanTopLeft">
+			<img class="imgScanTopLeft" src="topLeftScanner_static.gif">
+
+			<div class="scanTopLeftText">
+				<div>Initializing scan protocol ...</div>
+			</div>
+		</div>
+
+		<div class="scanTopRight">
+			<img class="imgScanTopRight" id="imgTopRight" src="topRightScanner_static.gif" />
+			<div class="scanTopRightText scanFont right">ALLOCATING SUB-SYSTEM RESOURCES</div>
+		</div> 
+		
+		<div class="divAnalyzeStream scanFont">
+			<div class="analyzeStreamText analyzeStreamTextTitle centered">ANALYZING STREAM</div>
+			<div class="analyzeStreamText topRow centered">9874 2387 DJD8 KEI9</div>
+			<div class="analyzeStreamText centered">9874 2387 DJD8 KEI9</div>
+			<div class="analyzeStreamText centered">9874 2387 DJD8 KEI9</div>
+			<div class="analyzeStreamText centered">9874 2387 DJD8 KEI9</div>
+		</div>
+
+		<div class="scanCenter">
+				<div class="scanCenterImage auto">
+					<!--{{>SvgCircleProgress radius=45 total=360 progress=100 bgColor="black" progressColor="white"}}-->
+					<img class="imgScanCenter" src="geohacker_background.png">	
+				</div>	
+				<div class="scanFont2 scanCenterText">PACKET RENDERING: 25%</div>
+		
+		</div>
+
+		<div class="scanLowerLeft">
+			<img class="imgScanLowerLeft" src="boxes_static.gif">
+			<span class="scanLowerText scanLowerLeftText scanFont2">ANALYZING PORT USAGE</span>
+
+		</div>
+
+		<div class="scanLowerMiddle">
+			<img class="imgScanLowerMiddle" src="stripOfBoxes_static.gif">
+			<div class="scanLowerText scanFont2 centered">INCOMING SATTELLITE SIGNALS</div>
+
+		</div>
+
+		<div class="scanLowerRight">
+			<img class="imgScanLowerRight" src="lowerRightCorner_static.gif">
+			<span class="scanLowerText scanLowerRightText scanFont2">SECURING OPEN SOCKETS</span>
+			
+		</div>
+
+		<div class="divScanGridGlobe">
+			
+			<div class="scanFont gridGlobeText centered">NETWORK INTEGRITY:</div>
+			<div class="scanFont gridGlobeTextLower centered">98%</div>
+		</div> 
+
+		<img class="imgScanGridGlobe" id="imgGridGlobe" src="gridGlobe.gif" />
+
+		<div class="divNormalGlobe">
+			<div class="divImgNormalGlobe auto"><img class="imgNormalGlobe" src="testGlobe.gif"></div>	
+			<div class="scanFont normalGlobeText centered">MONITORING INCOMING TRAFFIC</div>
+			<div class="scanFont normalGlobeText centered">FROM 70 NATIONS</div>		
+		</div>
+
+	</div>
+
+</template>
+

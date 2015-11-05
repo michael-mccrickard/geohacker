@@ -21,31 +21,34 @@ border : 0;
 	z-index: 1000;
 }
 
-.topBanner{
-	padding: 0.5%;
-	float : left;
-	clear : none;
-	width : 100%;
+.scanTopLeft {
+
+	position: fixed;
+	left: 0px;
 }
 
-.topBannerTextLeft{
-	margin-left: 1%;
+.imgScanTopLeft {
+	width: 10%;
+	float: left;
+}
+
+.scanTopLeftText{
+	margin-left: 3%;
+	margin-top: 2.2%;
 	float: left;
 	clear : none;
 	font-size: 12px;
-	width: 45%;
 	color: #04933e;
 	font-family: scannerFont;
 
 }
 
-.topBannerRight{
-	margin-left: 1%;
-	float: right;
-	width: 30%;
+.scanTopRight{
+	position: fixed;
+	left: 0px;
 }
 
-.topBannerTextRight{
+.scanTopRightText{
 	float: right;
 	font-size: 10px;
 	margin-right: 2.5%;
@@ -53,37 +56,13 @@ border : 0;
 	color: #ffef00;
 }
 
-.divScanCornerTopRight {
-
-z-index: 1000;
-	width: 45%;
-	top: 50px;
-	float: right;
-}
-
-.imgScanCornerRight {
+.imgScanTopRight {
 	width: 8%;
 	float: right;
 }
 
-.topBannerPic{
-	clear : none;
-	float: left;
-	width : 15%;
-  border: 2px solid;
-  border-color: green;
-  border-radius: 4px;
-}
-
-.imgTopBanner {
-
-		width: 4%;
-		float: left;
-} 
-
 .divAnalyzeStream {
-
-	width: 33%;
+	position: fixed;
 }
 
 .analyzeStreamText {
@@ -97,28 +76,22 @@ z-index: 1000;
 	color: #969696;
 }
 
-.topRow {
-		margin-top: 2%;
+.scanCenter{
+	position: fixed;
+	width : 24%;
 }
 
-.middleBanner{
-	padding: 1%;
-	clear : none;
-	width : 100%;
-}
+.scanCenterImage {
 
-.middleBannerImage {
-
-	width: 24%;
-	margin-top: -7%;
-}
-
-.imgScanBG {
 	width: 100%;
 }
 
-.middleBannerTextRight{
-	margin-top: -2.5%;
+.imgScanCenter {
+	width: 100%;
+}
+
+.scanCenterText{
+	margin-top: -11.5%;
 	font-size: 14px;
 	text-align: center;
 
