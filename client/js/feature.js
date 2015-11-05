@@ -60,7 +60,7 @@ Feature = function() {
 
 	this.load = function( _name ) {
 
-c("_name in feature load =" + _name)
+		//c("_name in feature load =" + _name)
 		
 		this.file = this.getFile( _name);
 
@@ -206,13 +206,13 @@ c("display loadAgain returning b/c file is YT")
 
 			if (_state == sPaused) {
 
-c("feature.set is pausing content b/c state is paused")
+			//c("feature.set is pausing content b/c state is paused")
 				
 				this.ctl.pauseFeaturedContent();
 			}
 			if (_state == sPlaying || _state == sLoaded) {
 				
-c("feature.set is calling playFeaturedContent")
+				//c("feature.set is calling playFeaturedContent")
 				
 				this.ctl.playFeaturedContent();
 			}
@@ -310,26 +310,6 @@ c("feature.set is calling playFeaturedContent")
 
         var menuHeight = 50;
 
-$("div.scanBG").css("left", leftMargin + ( fullBackdropWidth * 0.98 ) / 2 - $(".imgScanBG").width() / 2 + "px" );
-
-$("div.scanBG").css("top", 50 + (fullHeight / 2) - $(".imgScanBG").width() / 2 + "px" );
-
-$("div.divScanCornerTopLeft").css("top", menuHeight + (fullHeight * 0.01) +"px" );
-
-$("div.divScanCornerTopLeft").css("left", leftMargin + (fullBackdropWidth * 0.005) +"px" );
-
-$("div.divScanCornerTopRight").css("top", menuHeight + (fullHeight * 0.01) +"px" );
-
-$("div.divScanCornerTopRight").css("left",  ( leftMargin + (fullBackdropWidth * 0.995)  - $("div.divScanCornerTopRight").width() + "px" ) );
-
-$("div.divScanCornerBottomLeft").css("top",  ( $("img.featuredBackdrop").position().top + (fullHeight * 0.995) - $("div.divScanCornerBottomLeft").height() + "px" ) );
-
-$("div.divScanCornerBottomLeft").css("left",  ( leftMargin + 4 + "px" ) );
-
-$("div.divScanCornerBottomRight").css("top",  ( $("img.featuredBackdrop").position().top  + (fullHeight * 0.99) - $("div.divScanCornerBottomRight").height() + "px" ) );
-
-$("div.divScanCornerBottomRight").css("left",  ( leftMargin + fullBackdropWidth * 0.995  - $("div.divScanCornerBottomRight").width() + "px" ) );
-
         var _width = 0;
 
         //Use the widescreen ratio for video, and the normal proportions for others
@@ -381,6 +361,8 @@ $("div.divScanCornerBottomRight").css("left",  ( leftMargin + fullBackdropWidth 
         }
 
     }
+
+
 
 
 } //end feature constructor

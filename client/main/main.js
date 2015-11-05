@@ -277,8 +277,6 @@ Template.main.events({
           return; 
       }
 
-playGif();
-
       display.loader.doScan();
 
     },
@@ -389,11 +387,52 @@ Template.main.rendered = function () {
 
 
 
-  $("#scanScreen" ).velocity("fadeIn", { duration: 1000 })
+  //$("#scanScreen" ).velocity("fadeIn", { duration: 1000 })
 
-  Meteor.setTimeout(function() { playGif(); }, playTimeInc);  
+  Meteor.defer(function() { positionScanElements(); } );  
 
 
 
     }
+}
+
+positionScanElements = function() {
+
+    var fullBackdropWidth = $("img.featuredBackdrop").position().left + $("img.featuredBackdrop").outerWidth();
+
+    var fullHeight = $("img.featuredBackdrop").position().top + $("img.featuredBackdrop").outerHeight();
+
+c("top is " + $("img.featuredBackdrop").position().top)
+
+c("height is " + $("img.featuredBackdrop").outerHeight())
+
+c("ele height is " + $("div.scanLowerLeft").outerHeight())
+
+    var horizSpacer = fullBackdropWidth * 0.01;
+
+    var vertSpacer = fullHeight * 0.01;
+
+   $("div.scanLowerLeft").css("left", $("img.featuredBackdrop").position().left + horizSpacer / 2 );
+
+    $("div.scanLowerLeft").css("top", (fullHeight) - 64 - vertSpacer + "px" );
+
+    $("div.scanLowerMiddle").css("left", (fullBackdropWidth/2) - $(".scanLowerMiddle").outerWidth() / 2 + "px");
+
+    $("div.scanLowerMiddle").css("top", (fullHeight) - $("div.scanLowerMiddle").outerHeight() - vertSpacer  + "px" );
+
+    $("div.scanLowerRight").css("left", (fullBackdropWidth * 0.995) - $("div.scanLowerRight").outerWidth() + "px");
+
+    $("div.scanLowerRight").css("top", (fullHeight) - $("div.scanLowerRight").outerHeight() - vertSpacer  + "px" );
+
+    $("img.imgScanGridGlobe").css("left", (fullBackdropWidth * 0.98) - $(".imgScanGridGlobe").outerWidth()  + "px");
+
+    $("img.imgScanGridGlobe").css("top", (fullHeight * 0.40) - $(".imgScanGridGlobe").outerHeight() / 2 + "px" );
+
+    $("div.divScanGridGlobe").css("left", (fullBackdropWidth * 0.99)  - $(".divScanGridGlobe").outerWidth() + "px");
+
+    $("div.divScanGridGlobe").css("top", (fullHeight * 0.40) - $(".divScanGridGlobe").outerHeight() / 2 + "px" );
+
+    $("div.divNormalGlobe").css("left", (fullBackdropWidth * 0.99) - $(".divNormalGlobe").outerWidth() + "px");
+
+    $("div.divNormalGlobe").css("top", (fullHeight * 0.7) - $(".divNormalGlobe").outerHeight() / 2 + "px" ); 
 }

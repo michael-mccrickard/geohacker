@@ -33,18 +33,18 @@ div.displayWaiting {
 
 img.featuredBackdrop {
 
-    position: absolute;
+    position: fixed;
 
     top: 0px;
     left: 0px;
 
     left: 2%;
-    top: 6%;
+    top: 6.5%;
 
     width: 83.3%;
-    height: 63.75%;
+    height: 63.8%;
 
-    /* z-index: 5; */
+    z-index: 5;
 }
 
 .featuredPic {
@@ -175,10 +175,10 @@ div.control {
 
     position: absolute;
 
-    top: 71.25%;
+    top: 71.5%;
 
     width: 15.8%;
-    height: 20.75%;
+    height: 20.5%;
 
 }
 
