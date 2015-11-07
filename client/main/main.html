@@ -16,13 +16,13 @@
 		
 		{{else}}
 
-			{{#if youTubeNotFeatured}}
+			{{#if youTubeNotFeatured}}  <!-- also returns true if scanner is visible -->
 
 				<a href="/closeup"><img class="featuredPic"  src="" /></a>
 
 			{{else}}
 			
-				{{> scanning2}}
+				{{> scanning}}
 
 			{{/if}}
 

@@ -6,6 +6,13 @@ pageRefreshed = false;
 //*********************************************
 //      START
 //*********************************************
+FlowRouter.route('/', {
+
+    action: function (params, queryParams) { BlazeLayout.render('layout', { content: "start" } ) },
+
+});
+
+
 
 FlowRouter.route('/start', {
 

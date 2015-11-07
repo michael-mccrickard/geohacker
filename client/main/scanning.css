@@ -19,27 +19,40 @@ border : 0;
 	width: 83.3%;
 	height: 63.75%;
 	z-index: 1000;
+	opacity: 0;
 }
 
 .scanTopLeft {
 
 	position: fixed;
-	left: 0px;
+	width: 40%;
 }
 
-.imgScanTopLeft {
-	width: 10%;
-	float: left;
+.scanTopLeftImg {
+	width: 5%;
 }
 
 .scanTopLeftText{
-	margin-left: 3%;
+	margin-left: 1%;
 	margin-top: 2.2%;
-	float: left;
-	clear : none;
 	font-size: 12px;
 	color: #04933e;
 	font-family: scannerFont;
+white-space: pre-wrap;
+	display: inline-block;
+
+}
+
+.scanBottomLeft {
+	position: fixed;
+	width: 40%;
+}
+
+.scanBottomLeftText {
+	margin-left: 1%;
+}
+
+.scanBottomLeftImg {
 
 }
 
@@ -56,7 +69,7 @@ border : 0;
 	color: #ffef00;
 }
 
-.imgScanTopRight {
+.scanTopRightImg {
 	width: 8%;
 	float: right;
 }
@@ -81,12 +94,12 @@ border : 0;
 	width : 24%;
 }
 
-.scanCenterImage {
+.divScanCenterImg {
 
 	width: 100%;
 }
 
-.imgScanCenter {
+.scanCenterImg {
 	width: 100%;
 }
 
@@ -94,51 +107,41 @@ border : 0;
 	margin-top: -11.5%;
 	font-size: 14px;
 	text-align: center;
-
 }
 
-.scanLowerText {
+.scanBottomText {
 
 	color: #969696;
 	font-size: 16px;
 }
 
-.scanLowerLeft {
-	position: fixed;
-}
 
-.scanLowerLeftText {
-	margin-left: 1%;
-}
 
-.imgScanLowerLeft {
-
-}
-
-.imgScanLowerMiddle {
-	display: block;
+.scanBottomCenterImg {
 	width: 60%;
-	margin: auto;
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
 }
 
-.scanLowerMiddle {
+.scanBottomCenter {
 	position: fixed;
 }
 
-.scanLowerRight {
+.scanBottomRight {
 	position: fixed;
 
 }
 
-.scanLowerRightText {
+.scanBottomRightText {
 	float: right;
 	margin-top: 2.5%;
 	margin-right: 2.5%;
 }
 
-.imgScanLowerRight {
-float: right;
-margin-left: 1.5%;
+.scanBottomRightImg {
+	float: right;
+	margin-left: 1.5%;
 	width: 10%;
 }
 
@@ -148,10 +151,10 @@ margin-left: 1.5%;
 	padding-bottom: 1.1%;
 	padding-right: 8%;
 	padding-left: 0.8%;
-  border: 2px solid;
-  border-color: #969696;
-  border-radius: 2px;
-   background-color: #2a2a3a;
+  	border: 2px solid;
+  	border-color: #969696;
+  	border-radius: 2px;
+   	background-color: #2a2a3a;
 }
 
 .imgScanGridGlobe {
@@ -172,10 +175,10 @@ margin-left: 1.5%;
 .divNormalGlobe {
 	padding: 0.5%;
 	position: fixed;
-  border: 2px solid;
-  border-color: #969696;
-  border-radius: 2px;
-  background-color: #2a2a3a;
+  	border: 2px solid;
+  	border-color: #969696;
+  	border-radius: 2px;
+  	background-color: #2a2a3a;
 }
 
 .divImgNormalGlobe {

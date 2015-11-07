@@ -1,5 +1,3 @@
-Session.set("sHackModeScanning", false);
-
 Session.set("sDateTime", false);
 
 Template.main.helpers({
@@ -141,8 +139,8 @@ Template.main.helpers({
     },
 
     youTubeNotFeatured: function() {
-return false;
-      if (Session.get("sHackModeScanning") == true) return false;
+
+      if (hack.mode == mScanning || hack.mode == mReady) return false;
 
       if (Session.get("sYouTubeOn") == true ) return false;
 
@@ -387,9 +385,9 @@ Template.main.rendered = function () {
 
 
 
-  //$("#scanScreen" ).velocity("fadeIn", { duration: 1000 })
+  Meteor.setTimeout(function() { $(".scanScreen" ).velocity("fadeIn", { duration: 1000 }) }, 600 );
 
-  Meteor.defer(function() { positionScanElements(); } );  
+  Meteor.setTimeout(function() { display.scanner.draw(); }, 500 );  
 
 
 
@@ -398,51 +396,5 @@ Template.main.rendered = function () {
 
 positionScanElements = function() {
 
-    var fullBackdropWidth = $("img.featuredBackdrop").position().left + $("img.featuredBackdrop").outerWidth();
 
-    var fullHeight = $("img.featuredBackdrop").position().top + $("img.featuredBackdrop").outerHeight();
-
-    var horizSpacer = fullBackdropWidth * 0.01;
-
-    var vertSpacer = fullHeight * 0.01;
-
-   $("div.scanCenter").css("left", (fullBackdropWidth/2) - $(".scanCenter").outerWidth() / 2 + "px");
-
-    $("div.scanCenter").css("top", vertSpacer * 17 + "px" );
-
-   $("div.divAnalyzeStream").css("left", horizSpacer * 7 + "px" );
-
-    $("div.divAnalyzeStream").css("top", vertSpacer * 32 + "px" );
-
-   $("div.scanTopRight").css("left", fullBackdropWidth - $("div.scanTopRight").outerWidth() - horizSpacer / 2 +"px" );
-
-    $("div.scanTopRight").css("top", $("img.featuredBackdrop").position().top + vertSpacer*1.5 + "px" );
-
-   $("div.scanTopLeft").css("left", $("img.featuredBackdrop").position().left + horizSpacer / 2 + "px" );
-
-    $("div.scanTopLeft").css("top", $("img.featuredBackdrop").position().top + vertSpacer*1.5 + "px" );
-
-   $("div.scanLowerLeft").css("left", $("img.featuredBackdrop").position().left + horizSpacer / 2 + "px" );
-
-    $("div.scanLowerLeft").css("top", (fullHeight) - 64 - vertSpacer + "px" );
-
-    $("div.scanLowerMiddle").css("left", (fullBackdropWidth/2) - $(".scanLowerMiddle").outerWidth() / 2 + "px");
-
-    $("div.scanLowerMiddle").css("top", (fullHeight) - $("div.scanLowerMiddle").outerHeight() - vertSpacer  + "px" );
-
-    $("div.scanLowerRight").css("left", (fullBackdropWidth * 0.995) - $("div.scanLowerRight").outerWidth() + "px");
-
-    $("div.scanLowerRight").css("top", (fullHeight) - $("div.scanLowerRight").outerHeight() - vertSpacer  + "px" );
-
-    $("img.imgScanGridGlobe").css("left", (fullBackdropWidth * 0.98) - $(".imgScanGridGlobe").outerWidth()  + "px");
-
-    $("img.imgScanGridGlobe").css("top", (fullHeight * 0.40) - $(".imgScanGridGlobe").outerHeight() / 2 + "px" );
-
-    $("div.divScanGridGlobe").css("left", (fullBackdropWidth * 0.99)  - $(".divScanGridGlobe").outerWidth() + "px");
-
-    $("div.divScanGridGlobe").css("top", (fullHeight * 0.40) - $(".divScanGridGlobe").outerHeight() / 2 + "px" );
-
-    $("div.divNormalGlobe").css("left", (fullBackdropWidth * 0.99) - $(".divNormalGlobe").outerWidth() + "px");
-
-    $("div.divNormalGlobe").css("top", (fullHeight * 0.7) - $(".divNormalGlobe").outerHeight() / 2 + "px" ); 
 }

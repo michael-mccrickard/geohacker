@@ -1,19 +1,18 @@
-<template name="scanning2">
+<template name="scanning">
 
 	<div class="scanScreen">
 		
 
 		<div class="scanTopLeft">
-			<img class="imgScanTopLeft" src="topLeftScanner_static.gif">
+			<img class="scanTopLeftimg" src="scanTopLeft_static.gif">
 
-			<div class="scanTopLeftText">
-				<div>Initializing scan protocol ...</div>
-			</div>
+			<p class="scanTopLeftText">{{topLeftText}}</p>
+			
 		</div>
 
 		<div class="scanTopRight">
-			<img class="imgScanTopRight" id="imgTopRight" src="topRightScanner_static.gif" />
-			<div class="scanTopRightText scanFont right">ALLOCATING SUB-SYSTEM RESOURCES</div>
+			<img class="scanTopRightImg" id="imgTopRight" src="scanTopRight_static.gif" />
+			<div class="scanTopRightText scanFont right">{{topRightText}}</div>
 		</div> 
 		
 		<div class="divAnalyzeStream scanFont">
@@ -25,29 +24,29 @@
 		</div>
 
 		<div class="scanCenter">
-				<div class="scanCenterImage auto">
+				<div class="divScanCenterImg auto">
 					<!--{{>SvgCircleProgress radius=45 total=360 progress=100 bgColor="black" progressColor="white"}}-->
-					<img class="imgScanCenter" src="geohacker_background.png">	
+					<img class="scanCenterImg" src="geohacker_background.png">	
 				</div>	
 				<div class="scanFont2 scanCenterText">PACKET RENDERING: 25%</div>
 		
 		</div>
 
-		<div class="scanLowerLeft">
-			<img class="imgScanLowerLeft" src="boxes_static.gif">
-			<span class="scanLowerText scanLowerLeftText scanFont2">ANALYZING PORT USAGE</span>
+		<div class="scanBottomLeft">
+			<img class="scanBottomLeftImg" src="scanBottomLeft_static.gif">
+			<span class="scanBottomText scanBottomLeftText scanFont2">ANALYZING PORT USAGE</span>
 
 		</div>
 
-		<div class="scanLowerMiddle">
-			<img class="imgScanLowerMiddle" src="stripOfBoxes_static.gif">
-			<div class="scanLowerText scanFont2 centered">INCOMING SATTELLITE SIGNALS</div>
+		<div class="scanBottomCenter">
+			<img class="scanBottomCenterImg" src="scanBottomCenter_static.gif">
+			<div class="scanBottomText scanBottomCenterText scanFont2 centered">INCOMING SATTELLITE SIGNALS</div>
 
 		</div>
 
-		<div class="scanLowerRight">
-			<img class="imgScanLowerRight" src="lowerRightCorner_static.gif">
-			<span class="scanLowerText scanLowerRightText scanFont2">SECURING OPEN SOCKETS</span>
+		<div class="scanBottomRight">
+			<img class="scanBottomRightImg" src="scanBottomRight_static.gif">
+			<span class="scanBottomText scanBottomRightText scanFont2">SECURING OPEN SOCKETS</span>
 			
 		</div>
 

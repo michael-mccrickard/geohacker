@@ -52,7 +52,7 @@ Database = function() {
 
   this.clearAvatars = function() {
 
-    Meteor.call("clearUsers");
+  //    Meteor.call("clearUsers");
   }
 
 
@@ -469,6 +469,11 @@ Database.getRandomElement = function(arr) {
 Database.getRandomValue = function( _limit ) {
 
     return ( Math.floor( Math.random() * _limit ) );
+}
+
+Database.getRandomFromRange = function(min, max) {
+  
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 Database.shuffle = function(array) {

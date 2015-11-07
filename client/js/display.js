@@ -16,6 +16,8 @@ Display = function() {
 
     this.mapStatus = new Headline( "map" );
 
+    this.scanner = new Scanner();
+
     //media files
 
     this.beep_sound = "beep3.wav";
@@ -278,7 +280,7 @@ Display = function() {
 
         this.dimensionControls();
 
-        
+        if (hack.mode == mReady || hack.mode == mScanning) this.scanner.draw();
 
         if (this.feature.on() ) {
 

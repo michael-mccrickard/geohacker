@@ -2,15 +2,25 @@ var scanInterval = null;
 
 var statusCount = 0;
 
-var strStatus = ["Initializing scan protocol ...", "Packet detection started ...", "Downloaded packet headers ...", "Filtering headers by mission parameters ..."];
-
-var stringStatusLimit = 4;
 
 Template.scanning.helpers({
 
-    getDateTime: function() {
+    topLeftText: function() {
 
-      return (Session.get("sDateTime"));
+//need to differentiate between idling and scanning here
+
+      var _index = display.scanner.ele[ scTopLeft ].index.get();
+
+      return display.scanner.ele[ scTopLeft ].idle[ _index ];
+    },
+
+    topRightText: function() {
+
+//need to differentiate between idling and scanning here
+
+      var _index = display.scanner.ele[ scTopRight ].index.get();
+
+      return display.scanner.ele[ scTopRight ].idle[ _index ];
     }
 
  })
