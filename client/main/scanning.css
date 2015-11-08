@@ -29,7 +29,7 @@ border : 0;
 }
 
 .scanTopLeftImg {
-	width: 5%;
+
 }
 
 .scanTopLeftText{
@@ -38,9 +38,23 @@ border : 0;
 	font-size: 12px;
 	color: #04933e;
 	font-family: scannerFont;
-white-space: pre-wrap;
 	display: inline-block;
+}
 
+.scanTopLeftText2{
+	margin-left: 7.5%;
+	margin-top: -1%;
+	font-size: 12px;
+	color: #04933e;
+	font-family: scannerFont;
+}
+
+.scanTopLeftText3{
+	margin-left: 7.5%;
+	font-size: 12px;
+	margin-top: 0.5%;
+	color: #04933e;
+	font-family: scannerFont;
 }
 
 .scanBottomLeft {
@@ -59,19 +73,21 @@ white-space: pre-wrap;
 .scanTopRight{
 	position: fixed;
 	left: 0px;
+	width: 40%;
 }
 
 .scanTopRightText{
-	float: right;
 	font-size: 10px;
 	margin-right: 2.5%;
 	margin-top: 2.5%;
 	color: #ffef00;
+	float: right;
+	clear: none;
 }
 
 .scanTopRightImg {
-	width: 8%;
 	float: right;
+	clear: none;
 }
 
 .divAnalyzeStream {
@@ -113,36 +129,43 @@ white-space: pre-wrap;
 
 	color: #969696;
 	font-size: 16px;
-}
-
-
-
-.scanBottomCenterImg {
-	width: 60%;
-	display: block;
-	margin-right: auto;
-	margin-left: auto;
+	text-transform: uppercase;
 }
 
 .scanBottomCenter {
 	position: fixed;
+	width: 29%;
 }
+
+.scanBottomCenterImg {
+	width: 25%;
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 1.2%;
+}
+
 
 .scanBottomRight {
 	position: fixed;
-
+	width: 40%;
+	margin-right: 2.5%;
+	float: right;
+	clear: none;
 }
 
 .scanBottomRightText {
-	float: right;
+	margin-right: 1.5%;
 	margin-top: 2.5%;
-	margin-right: 2.5%;
+	float: right;
+	clear: none;
 }
 
 .scanBottomRightImg {
 	float: right;
 	margin-left: 1.5%;
-	width: 10%;
+	margin-top: 1%;
+	width: 5%;
 }
 
 .divScanGridGlobe {

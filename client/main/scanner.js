@@ -18,45 +18,39 @@ Ele = function(_name, _ID, _type ) {
 
 	this.scan = [];
 
-	this.index = new Blaze.ReactiveVar( 0 );  //index into the above arrays; only one array active at a time
+	this.index = 0;  //index into the above arrays; only one array active at a time
 
 	this.ID = _ID;  //index in scanner.ele[]
 
 	this.nextIdleMessage = function() {
 
-		this.index.set( this.index.get() + 1);
+		this.index = this.index + 1;
 
-		if (this.index.get() == this.idle.length) {
+		if (this.index == this.idle.length) {
 
-			this.stopIdle();
+			this.index = 0;
 
-			return;
 		}
 
-		//show the animated gif
+		//set the text
 
-		$("." + this.name + "Img").attr("src", this.name + ".gif");
-
-		Meteor.setTimeout( function() { display.scanner.ele[ this.ID ].pauseIdle() }, display.scanner.ele[ this.ID ].idlePlayTime[ display.scanner.ele[ this.ID ].index.get() ] ); 		
-
-	}
-
-	this.startIdle = function() {
+		$("." + this.name + "Text").text( this.idle[ this.index ]);		
 
 		//show the animated gif
 
 		$("." + this.name + "Img").attr("src", this.name + ".gif");
 
-		this.index.set( 0 );
+		//queue up the pause command
 
-		Meteor.setTimeout( function() { display.scanner.ele[ this.ID ].pauseIdle() }, display.scanner.ele[ this.ID ].idlePlayTime[ display.scanner.ele[ this.ID ].index.get() ] ); 
-	}
+		if (this.ID == scTopLeft) Meteor.setTimeout( function() { display.scanner.pauseIdle( scTopLeft ) }, display.scanner.ele[ scTopLeft ].idlePlayTime[ display.scanner.ele[ scTopLeft ].index  ] ); 	
 
-	this.stopIdle = function() {
+		if (this.ID == scTopRight) Meteor.setTimeout( function() { display.scanner.pauseIdle( scTopRight ) }, display.scanner.ele[ scTopRight ].idlePlayTime[ display.scanner.ele[ scTopRight ].index ] ); 	
 
-		//show the static gif
+		if (this.ID == scBottomLeft) Meteor.setTimeout( function() { display.scanner.pauseIdle( scBottomLeft ) }, display.scanner.ele[ scBottomLeft ].idlePlayTime[ display.scanner.ele[ scBottomLeft ].index  ] ); 	
 
-		$("." + this.name + "Img").attr("src", this.name + "_static.gif");	
+		if (this.ID == scBottomCenter) Meteor.setTimeout( function() { display.scanner.pauseIdle( scBottomCenter ) }, display.scanner.ele[ scBottomCenter ].idlePlayTime[ display.scanner.ele[ scBottomCenter ].index  ] ); 
+
+		if (this.ID == scBottomRight) Meteor.setTimeout( function() { display.scanner.pauseIdle( scBottomRight ) }, display.scanner.ele[ scBottomRight ].idlePlayTime[ display.scanner.ele[ scBottomRight ].index ] ); 	
 
 	}
 
@@ -64,9 +58,7 @@ Ele = function(_name, _ID, _type ) {
 
 		//show the static gif
 
-		$("." + this.name + "Img").attr("src", this.name + "_static.gif");	
-
-		Meteor.setTimeout( function() { display.scanner.ele[ this.ID ].nextIdleMessage() }, display.scanner.ele[ this.ID ].idlePauseTime[ display.scanner.ele[ this.ID ].index.get() ] ); 		
+		$("." + this.name + "Img").attr("src", this.name + "_static.gif");			
 	}
 
 	this.startScan = function() {
@@ -85,60 +77,80 @@ Scanner = function() {
 
 	this.ele = [];
 
-	this.maxIdlePause = 200;
+	this.maxIdlePause = 3000;
 
-	this.minIdlePause = 50;
+	this.minIdlePause = 500;
 
-	this.minIdlePlay = 100;
+	this.minIdlePlay = 1000;
 
-	this.maxIdlePlay = 200;
+	this.maxIdlePlay = 3000;
 
 	this.maxScanPlay = 50;
 
-	this.ele.push( new Ele("scanTopLeft", scTopLeft, "multi") );
+	this.ele[ scTopLeft ] = new Ele("scanTopLeft", scTopLeft, "multi");
 
 	this.ele[ scTopLeft ].scan = ["Initializing scan protocol ...", "Stream detection started ...", "Downloading message headers ...", "Filtering message headers ...", "Downloading stream ...", "Decrypting stream ...", "Chunking messaages ...", "Loading message ..."];
 
 	this.ele[ scTopLeft ].idle = ["System idle ...", "Initiating back-ups ...", "Verifying latest build ...", "Polling clients ..."];	
 
-	this.ele.push( new Ele("scanTopRight", scTopRight, "single") );
+	this.ele[ scTopRight ] = new Ele("scanTopRight", scTopRight, "single");
 
 	this.ele[ scTopRight ].scan = ["Verifying mission parameters ...", "Isolating streams ...", "Deleting corrupt headers ...", "Throttling download speed ...", "Scanning cache ...", "Verifying chunks ...", "Verifying message ..."];
 
-	this.ele[ scTopRight ].idle = ["Allocating sub-system resources ...", "Verifying credentials ...", "Tesing ports ...", "Testing sockets ...", "Flushing cache ..."];
+	this.ele[ scTopRight ].idle = ["Allocating sub-system resources ...", "Verifying credentials ...", "Testing ports ...", "Testing sockets ...", "Flushing cache ..."];
 
-	this.ele.push( new Ele("scanBottomLeft", scBottomLeft, "single") );
+	this.ele[ scBottomLeft ] =  new Ele("scanBottomLeft", scBottomLeft, "single");
 
-	//this.ele.push( new Ele("scanBottomCenter", scBottomCenter, "single") );
+	this.ele[ scBottomLeft ].idle = ["Analyzing port usage", "Testing RAM", "Checking peripherals", "Measuring CPU usage", "Indexing intercepts"];
 
-	this.ele.push( new Ele("scanBottomRight", scBottomRight, "single") );
+	this.ele[ scBottomCenter ] =  new Ele("scanBottomCenter", scBottomCenter, "single");
 
+	this.ele[ scBottomCenter ].idle = ["Incoming satellite signals", "CPU activity", "RAM utilization", "Outgoing intercept probes", "Pinging satellites"];
 
-this.eleLimit = scTopRight;
+	this.ele[ scBottomRight ] =  new Ele("scanBottomRight", scBottomRight, "single");
+
+	this.ele[ scBottomRight ].idle = ["securing open sockets", "sniffing ports", "checking new virus definitions", "verifying incoming connections", "checking for exploit signatures"];
+
+	this.eleLimit = scBottomRight;
+
 
 	this.startIdle = function() {
 
-		for (var i = 0; i < this.eleLimit;  i++) {
+		for (var i = 0; i <= this.eleLimit;  i++) {
 
 			for (var j= 0; j < this.ele[ i ].idle.length; j++ ) {
 
 				this.ele[ i ].idlePauseTime[ j ] = Database.getRandomFromRange( this.minIdlePause, this.maxIdlePause ); 				
 
 				this.ele[ i ].idlePlayTime[ j ] = Database.getRandomFromRange( this.minIdlePlay, this.maxIdlePlay ); 
-
-				this.ele[ i ].startIdle();
+			 			
 			}
+
+			this.ele[ i ].index = -1;
+
+			this.ele[ i ].nextIdleMessage();  //sets the text and starts the gif
 		}
 
 	}
 
-	this.startScan = function() {
+	this.pauseIdle = function( _ID) {
 
+		this.ele[ _ID ].pauseIdle();
 
+		if (_ID == scTopLeft) Meteor.setTimeout( function() { display.scanner.nextIdleMessage( scTopLeft ) }, display.scanner.ele[ scTopLeft ].idlePauseTime[ display.scanner.ele[ scTopLeft ].index ] ) ; 	
+
+		if (_ID == scTopRight) Meteor.setTimeout( function() { display.scanner.nextIdleMessage( scTopRight ) }, display.scanner.ele[ scTopRight ].idlePauseTime[ display.scanner.ele[ scTopRight ].index ] ) ; 
+
+		if (_ID == scBottomLeft) Meteor.setTimeout( function() { display.scanner.nextIdleMessage( scBottomLeft ) }, display.scanner.ele[ scBottomLeft ].idlePauseTime[ display.scanner.ele[ scBottomLeft ].index ] ) ; 	
+
+		if (_ID == scBottomCenter) Meteor.setTimeout( function() { display.scanner.nextIdleMessage( scBottomCenter ) }, display.scanner.ele[ scBottomCenter ].idlePauseTime[ display.scanner.ele[ scBottomCenter ].index ] ) ; 
+
+		if (_ID == scBottomRight) Meteor.setTimeout( function() { display.scanner.nextIdleMessage( scBottomRight ) }, display.scanner.ele[ scBottomRight ].idlePauseTime[ display.scanner.ele[ scBottomRight ].index ] ) ; 
 	}
 
-	this.stopIdle = function() {
-
+	this.nextIdleMessage = function(_ID) {
+		
+		this.ele[ _ID ].nextIdleMessage();
 	}
 
 	this.stopScan = function() {
@@ -162,15 +174,19 @@ this.eleLimit = scTopRight;
 
 	   $("div.divAnalyzeStream").css("left", horizSpacer * 7 + "px" );
 
-	    $("div.divAnalyzeStream").css("top", vertSpacer * 32 + "px" );
+	    $("div.divAnalyzeStream").css("top", fullHeight * 0.4 + "px" );
 
 	   $("div.scanTopRight").css("left", fullBackdropWidth - $("div.scanTopRight").outerWidth() - horizSpacer / 2 +"px" );
 
 	    $("div.scanTopRight").css("top", $("img.featuredBackdrop").position().top + vertSpacer*1.5 + "px" );
 
+	    $("img.scanTopRightImg").css("width", fullBackdropWidth * 0.025 + "px" );
+
 	   $("div.scanTopLeft").css("left", $("img.featuredBackdrop").position().left + horizSpacer / 2 + "px" );
 
-	    $("div.scanTopLeft").css("top", $("img.featuredBackdrop").position().top + vertSpacer*1.5 + "px" );
+	    $("div.scanTopLeft").css("top", $("img.featuredBackdrop").position().top  + "px" );
+
+	    $("img.scanTopLeftImg").css("width", fullBackdropWidth * 0.025 + "px" );
 
 	   $("div.scanBottomLeft").css("left", $("img.featuredBackdrop").position().left + horizSpacer / 2 + "px" );
 
@@ -178,7 +194,7 @@ this.eleLimit = scTopRight;
 
 	    $("div.scanBottomCenter").css("left", (fullBackdropWidth/2) - $(".scanBottomCenter").outerWidth() / 2 + "px");
 
-	    $("div.scanBottomCenter").css("top", (fullHeight) - $("div.scanBottomCenter").outerHeight() - vertSpacer  + "px" );
+	    $("div.scanBottomCenter").css("top", (fullHeight) - $("div.scanBottomCenter").outerHeight() - vertSpacer*2  + "px" );
 
 	    $("div.scanBottomRight").css("left", (fullBackdropWidth * 0.995) - $("div.scanBottomRight").outerWidth() + "px");
 
