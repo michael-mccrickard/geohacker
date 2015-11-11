@@ -2,7 +2,7 @@
 /*  scanner.js  */
 Ele = function(_name, _ID, _type ) {
 
-	this.finished = new Blaze.ReactiveVar( false );
+	this.finished = false;
 
 	this.type = _type;
 
@@ -54,16 +54,71 @@ Ele = function(_name, _ID, _type ) {
 
 	}
 
-	this.pauseIdle = function() {
+	this.nextScanMessage = function() {
+
+		this.index = this.index + 1;
+
+		if (this.index == this.scan.length) {
+
+			this.index = 0;
+
+			this.finished = true;
+
+			if (checkScan() == true) display.scanner.stopScan();
+
+			return;
+
+		}
+
+		//set the text
+
+		if (this.type == "multi") {
+
+			var _text = document.getElementById("scanTopLeftTextID").innerHTML;
+
+			if (_text.length) {
+
+				_text = _text + "<br>" + this.scan[ this.index ];
+			}
+			else {
+				_text = this.scan[ this.index ];
+			}
+
+			document.getElementById("scanTopLeftTextID").innerHTML =  _text;
+
+		}
+		else {
+			$("." + this.name + "Text").text( this.scan[ this.index ]);		
+		}
+
+		//show the animated gif
+
+		$("." + this.name + "Img").attr("src", this.name + ".gif");
+
+		//queue up the pause command
+
+		if (this.ID == scTopLeft) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scTopLeft ) }, display.scanner.ele[ scTopLeft ].scanPlayTime[ display.scanner.ele[ scTopLeft ].index  ] ); 	
+
+		if (this.ID == scTopRight) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scTopRight ) }, display.scanner.ele[ scTopRight ].scanPlayTime[ display.scanner.ele[ scTopRight ].index ] ); 	
+
+		if (this.ID == scBottomLeft) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scBottomLeft ) }, display.scanner.ele[ scBottomLeft ].scanPlayTime[ display.scanner.ele[ scBottomLeft ].index  ] ); 	
+
+		if (this.ID == scBottomCenter) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scBottomCenter ) }, display.scanner.ele[ scBottomCenter ].scanPlayTime[ display.scanner.ele[ scBottomCenter ].index  ] ); 
+
+		if (this.ID == scBottomRight) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scBottomRight ) }, display.scanner.ele[ scBottomRight ].scanPlayTime[ display.scanner.ele[ scBottomRight ].index ] ); 	
+
+	}
+
+	this.pause = function() {
 
 		//show the static gif
 
 		$("." + this.name + "Img").attr("src", this.name + "_static.gif");			
 	}
 
-	this.startScan = function() {
+	this.clearText = function() {
 
-
+		$("." + this.name + "Text").text( "" );
 	}
 
 	this.stopScan = function() {
@@ -77,6 +132,10 @@ Scanner = function() {
 
 	this.ele = [];
 
+	this.mode = "idle";
+
+	this.streamAnalyzerCount = 0;
+
 	this.maxIdlePause = 3000;
 
 	this.minIdlePause = 500;
@@ -85,11 +144,13 @@ Scanner = function() {
 
 	this.maxIdlePlay = 3000;
 
-	this.maxScanPlay = 50;
+	this.minScanPlay = 500;
+
+	this.maxScanPlay = 1000;
 
 	this.ele[ scTopLeft ] = new Ele("scanTopLeft", scTopLeft, "multi");
 
-	this.ele[ scTopLeft ].scan = ["Initializing scan protocol ...", "Stream detection started ...", "Downloading message headers ...", "Filtering message headers ...", "Downloading stream ...", "Decrypting stream ...", "Chunking messaages ...", "Loading message ..."];
+	this.ele[ scTopLeft ].scan = ["Initializing scan protocol ...", "Stream detection started ...", "Downloading message headers ...", "Filtering message headers ...", "Downloading stream ...", "Decrypting stream ...", "Chunking messages ...", "Loading message ..."];
 
 	this.ele[ scTopLeft ].idle = ["System idle ...", "Initiating back-ups ...", "Verifying latest build ...", "Polling clients ..."];	
 
@@ -103,18 +164,29 @@ Scanner = function() {
 
 	this.ele[ scBottomLeft ].idle = ["Analyzing port usage", "Testing RAM", "Checking peripherals", "Measuring CPU usage", "Indexing intercepts"];
 
+	this.ele[ scBottomLeft ].scan = ["Listening for streams", "Verfiying headers", "Rejecting bad headers", "Measuring download speed", "Caching intercepts"];
+
 	this.ele[ scBottomCenter ] =  new Ele("scanBottomCenter", scBottomCenter, "single");
 
 	this.ele[ scBottomCenter ].idle = ["Incoming satellite signals", "CPU activity", "RAM utilization", "Outgoing intercept probes", "Pinging satellites"];
 
+	this.ele[ scBottomCenter ].scan = ["Raw streams", "Header detection", "CPU overclocking", "Peer to peer connections", "Defragmentation"]; 
+
 	this.ele[ scBottomRight ] =  new Ele("scanBottomRight", scBottomRight, "single");
 
-	this.ele[ scBottomRight ].idle = ["securing open sockets", "sniffing ports", "checking new virus definitions", "verifying incoming connections", "checking for exploit signatures"];
+	this.ele[ scBottomRight ].idle = ["securing open sockets", "configuring proxy server", "checking new virus definitions", "Testing alternate gateways", "checking for exploit signatures"];
+
+	this.ele[ scBottomRight ].scan = ["Securing all ports", "Encrypting requests", "Scanning headers", "Quaratining suspect streams", "Approving stream "];
 
 	this.eleLimit = scBottomRight;
 
+	this.ready = true;
 
 	this.startIdle = function() {
+
+		this.mode = "idle";
+
+		this.streamAnalyzerIdle();
 
 		for (var i = 0; i <= this.eleLimit;  i++) {
 
@@ -128,14 +200,47 @@ Scanner = function() {
 
 			this.ele[ i ].index = -1;
 
+			this.ele[ i ].clearText(); 
+
 			this.ele[ i ].nextIdleMessage();  //sets the text and starts the gif
 		}
 
 	}
 
+	this.startScan = function() {
+
+		this.mode = "scan";
+
+		this.streamAnalyzer();
+
+		for (var i = 0; i <= this.eleLimit;  i++) {
+
+			for (var j= 0; j < this.ele[ i ].idle.length; j++ ) {			
+
+				this.ele[ i ].scanPlayTime[ j ] = Database.getRandomFromRange( this.minScanPlay, this.maxScanPlay ); 
+			 			
+			}
+
+			this.ele[ i ].index = -1;
+
+			this.ele[ i ].finished = false;			
+
+			this.ele[ i ].clearText(); 
+
+			this.ele[ i ].nextScanMessage();  //sets the text and starts the gif
+		}
+
+		Session.set("sScanningNow", true);
+
+		this.drawCenter();
+
+		startProgressMeter();
+
+	}
+
 	this.pauseIdle = function( _ID) {
 
-		this.ele[ _ID ].pauseIdle();
+		this.ele[ _ID ].pause();
 
 		if (_ID == scTopLeft) Meteor.setTimeout( function() { display.scanner.nextIdleMessage( scTopLeft ) }, display.scanner.ele[ scTopLeft ].idlePauseTime[ display.scanner.ele[ scTopLeft ].index ] ) ; 	
 
@@ -149,13 +254,96 @@ Scanner = function() {
 	}
 
 	this.nextIdleMessage = function(_ID) {
+
+		if (this.mode != "idle") return;
 		
 		this.ele[ _ID ].nextIdleMessage();
 	}
 
+	this.nextScanMessage = function(_ID) {
+
+		if (this.mode != "scan") return;
+		
+		this.ele[ _ID ].nextScanMessage();
+	}
+
+
 	this.stopScan = function() {
 
+		for (var i = 0; i <= this.eleLimit;  i++) {
 
+			this.ele[ i ].pause();			
+		}
+
+		this.mode = "idle";
+
+		Session.set("sScanningNow", false);
+
+		this.drawCenter();
+	}
+
+	this.streamAnalyzer = function() {
+
+		if (this.mode == "idle") {
+
+			return;
+		}
+
+		var limit = 11;
+
+		var delay = 100;
+
+		var lineCharCount = 26;
+
+		this.streamAnalyzerCount++;
+
+		var _text = document.getElementById("streamAnalyzerID").innerHTML;
+
+		var _newline = getChars( 22 ) + "<br>";
+
+		_text = _newline + _text;
+
+		if (this.streamAnalyzerCount == limit) {
+
+			_text = _text.substring(0, _text.length - lineCharCount);
+
+			this.streamAnalyzerCount--;
+		} 
+
+		document.getElementById("streamAnalyzerID").innerHTML = _text;
+
+		Meteor.setTimeout( function() { display.scanner.streamAnalyzer(); }, delay);
+
+	}
+
+	this.streamAnalyzerIdle = function() {
+
+		document.getElementById("streamAnalyzerID").innerHTML = "(no streams detected)";
+	}
+
+	this.drawCenter = function() {
+
+	    var fullBackdropWidth = $("img.featuredBackdrop").position().left + $("img.featuredBackdrop").outerWidth();
+
+		var fullHeight = $("img.featuredBackdrop").position().top + $("img.featuredBackdrop").outerHeight();
+
+		var vertSpacer = fullHeight * 0.01;
+
+		$("div.scanCenter").css("left", (fullBackdropWidth/2) - $(".scanCenter").outerWidth() / 2 + "px");
+
+		if ( Session.get("sScanningNow") ) {
+
+			$("div.scanCenter").css("top", fullHeight * 0.36 + "px" );
+
+	   }
+	   else {
+
+			$("div.scanCenter").css("top", fullHeight * 0.3 + "px" );	   	
+	   }
+
+		$("div.scanCenterText").css("left", (fullBackdropWidth/2) - $(".scanCenterText").outerWidth() / 2 + "px");
+
+	  	$("div.scanCenterText").css("top", fullHeight * 0.6 + "px" ); 
 	}
 
 	this.draw = function() {
@@ -168,11 +356,9 @@ Scanner = function() {
 
 	    var vertSpacer = fullHeight * 0.01;
 
-	   $("div.scanCenter").css("left", (fullBackdropWidth/2) - $(".scanCenter").outerWidth() / 2 + "px");
+	   this.drawCenter();
 
-	    $("div.scanCenter").css("top", vertSpacer * 17 + "px" );
-
-	   $("div.divAnalyzeStream").css("left", horizSpacer * 7 + "px" );
+	   $("div.divAnalyzeStream").css("left", $("img.featuredBackdrop").position().left + fullBackdropWidth * 0.005 + "px" );
 
 	    $("div.divAnalyzeStream").css("top", fullHeight * 0.4 + "px" );
 
@@ -182,15 +368,17 @@ Scanner = function() {
 
 	    $("img.scanTopRightImg").css("width", fullBackdropWidth * 0.025 + "px" );
 
-	   $("div.scanTopLeft").css("left", $("img.featuredBackdrop").position().left + horizSpacer / 2 + "px" );
+	   $("img.scanTopLeftImg").css("left", $("img.featuredBackdrop").position().left + horizSpacer / 2 + "px" );
 
-	    $("div.scanTopLeft").css("top", $("img.featuredBackdrop").position().top  + "px" );
+	    $("img.scanTopLeftImg").css("top", $("img.featuredBackdrop").position().top  + "px" );
 
-	    $("img.scanTopLeftImg").css("width", fullBackdropWidth * 0.025 + "px" );
+	   $("span.scanTopLeftText").css("left", $("img.featuredBackdrop").position().left + $("img.scanTopLeftImg").outerWidth() + horizSpacer + "px" );
+
+	    $("span.scanTopLeftText").css("top", $("img.featuredBackdrop").position().top  + "px" );
 
 	   $("div.scanBottomLeft").css("left", $("img.featuredBackdrop").position().left + horizSpacer / 2 + "px" );
 
-	    $("div.scanBottomLeft").css("top", (fullHeight) - 64 - vertSpacer + "px" );
+	    $("div.scanBottomLeft").css("top", (fullHeight) - $("div.scanBottomLeft").outerHeight() - vertSpacer + "px" );
 
 	    $("div.scanBottomCenter").css("left", (fullBackdropWidth/2) - $(".scanBottomCenter").outerWidth() / 2 + "px");
 
@@ -215,3 +403,36 @@ Scanner = function() {
 }
 
 
+//****************************************************************
+//                  WAIT FOR SCAN TO COMPLETE
+//****************************************************************
+
+function checkScan() {
+
+  
+  if (display.scanner.ele[ scTopLeft ].finished && display.scanner.ele[ scTopRight ].finished && display.scanner.ele[ scBottomLeft ].finished && display.scanner.ele[ scBottomCenter ].finished && display.scanner.ele[ scBottomRight ].finished )  {
+
+    return true;
+  }
+
+  return false;
+
+}
+
+getChars = function(_n) {
+
+    var _str = '';
+
+    for (var i = 1; i <= _n; i++) {
+
+        var charCode = Math.floor( Math.random() * ( 122 - 63 + 1) + 63);
+
+		var _nextChar =  String.fromCharCode(charCode);
+		
+		if  ( Math.floor( Math.random() * 5 ) == 4 ) _nextChar = parseInt( Math.floor( Math.random() * 10 ) );   
+
+        _str = _str + _nextChar
+    }
+
+    return _str;
+}

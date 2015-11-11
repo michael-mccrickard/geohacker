@@ -4,38 +4,41 @@
 		
 
 		<div class="scanTopLeft">
-			<img class="scanTopLeftImg" src="scanTopLeft_static.gif">
-
-			<span class="scanTopLeftText">top left text1</span>
-			<div class="scanTopLeftText2"></div>
-			<div class="scanTopLeftText3"></div>			
-			<div class="scanTopLeftText3"></div>			
-			<div class="scanTopLeftText3"></div>						
+			<img class="scanTopLeftImg" src="scanTopLeft_static.gif">		
 		</div>
+		<span class="scanTopLeftText" id="scanTopLeftTextID">top left text</span>
 
 		<div class="scanTopRight">
 			<img class="scanTopRightImg" id="imgTopRight" src="scanTopRight_static.gif" />
 			<span class="scanTopRightText scanFont">top right text</span>
 		</div> 
 		
-		<div class="divAnalyzeStream scanFont">
+		<div class="divAnalyzeStream scanBG scanFont">
 			<div class="analyzeStreamText analyzeStreamTextTitle centered">ANALYZING STREAM</div>
-			<div class="analyzeStreamText topRow centered">9874 2387 DJD8 KEI9</div>
-			<div class="analyzeStreamText centered">9874 2387 DJD8 KEI9</div>
-			<div class="analyzeStreamText centered">9874 2387 DJD8 KEI9</div>
-			<div class="analyzeStreamText centered">9874 2387 DJD8 KEI9</div>
+			<div class="analyzeStreamText topRow" id="streamAnalyzerID">(no streams detected)</div>
 		</div>
 
 		<div class="scanCenter">
 				<div class="divScanCenterImg auto">
-					<!--{{>SvgCircleProgress radius=45 total=360 progress=100 bgColor="black" progressColor="white"}}-->
-					<img class="scanCenterImg" src="geohacker_background.png">	
+
+					{{#if scanningNow}}
+						
+						<div class="scanCenterImg">
+							{{>SvgCircleProgress radius=58 total=360 progress=getProgress bgColor="black" progressColor="white"}}
+						</div>
+
+					{{else}}
+				
+						<img class="scanCenterImg" src="geohacker_background.png">	
+					
+					{{/if}}
+				
 				</div>	
-				<div class="scanFont2 scanCenterText">PACKET RENDERING: 25%</div>
+				<div class="scanFont2 scanCenterText" id="scanCenterTextID">GEOHACKER V 1.0</div>
 		
 		</div>
 
-		<div class="scanBottomLeft">
+		<div class="scanBottomLeft  scanBG">
 			<img class="scanBottomLeftImg" src="scanBottomLeft_static.gif">
 			<span class="scanBottomText scanBottomLeftText scanFont2">ANALYZING PORT USAGE</span>
 
@@ -47,16 +50,16 @@
 
 		</div>
 
-		<div class="scanBottomRight">
+		<div class="scanBottomRight  scanBG">
 			<img class="scanBottomRightImg" src="scanBottomRight_static.gif">
 			<span class="scanBottomText scanBottomRightText scanFont2">SECURING OPEN SOCKETS</span>
 			
 		</div>
 
-		<div class="divScanGridGlobe">
+		<div class="divScanGridGlobe scanBG">
 			
 			<div class="scanFont gridGlobeText centered">NETWORK INTEGRITY:</div>
-			<div class="scanFont gridGlobeTextLower centered">98%</div>
+			<div class="scanFont gridGlobeTextLower centered" id="gridGlobeTextID">98.2%</div>
 		</div> 
 
 		<img class="imgScanGridGlobe" id="imgGridGlobe" src="gridGlobe.gif" />

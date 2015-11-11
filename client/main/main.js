@@ -275,7 +275,9 @@ Template.main.events({
           return; 
       }
 
-      display.loader.doScan();
+      display.scanner.startScan();
+
+      //display.loader.doScan();
 
     },
 
@@ -383,13 +385,15 @@ Template.main.rendered = function () {
 
       display.checkMainScreen();
 
+      if (hack.mode == mReady)  {
 
+        Meteor.setTimeout(function() { $(".scanScreen" ).velocity("fadeIn", { duration: 1000 }) }, 500 );
 
-  Meteor.setTimeout(function() { $(".scanScreen" ).velocity("fadeIn", { duration: 1000 }) }, 600 );
+        Meteor.setTimeout(function() { display.scanner.draw(); }, 501 );  
 
-  Meteor.setTimeout(function() { display.scanner.draw(); }, 500 );  
+        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 501 );         
 
-
+      }
 
     }
 }

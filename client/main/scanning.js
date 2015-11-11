@@ -1,119 +1,47 @@
-var scanInterval = null;
 
-var statusCount = 0;
 
 
 Template.scanning.helpers({
 
-    topLeftText: function() {
+    scanningNow: function() {
 
-//need to differentiate between idling and scanning here
+    	if (Session.get("sScanningNow") == true ) return true;
 
-      var _index = display.scanner.ele[ scTopLeft ].index.get();
-
-      return display.scanner.ele[ scTopLeft ].idle[ _index ];
+    	return false;
     },
 
-    topRightText: function() {
+    getProgress: function() {
 
-//need to differentiate between idling and scanning here
+    	if (Session.get("sScanProgress") >= 360 ) {
 
-      var _index = display.scanner.ele[ scTopRight ].index.get();
+    		Meteor.clearInterval( gScanProgressID );
 
-      return display.scanner.ele[ scTopRight ].idle[ _index ];
+    		return 359;
+    	}
+
+    	return Session.get("sScanProgress");
     }
 
  })
 
+gScanProgress = 0;
 
-tt = function() {
-
-	//stopGif();
-}
+gScanProgressID = null;
 
 
+startProgressMeter = function() {
 
-playTimeInc = 1800;
+	gScanProgress = 0;
 
-pauseTimeInc = 1800;
+	Session.set("sScanProgress", gScanProgress );
 
-playGif = function() {
+	gScanProgressID = Meteor.setInterval( function () {
 
-	//Meteor.setTimeout(function() { Control.playEffect( "scanner2.mp3"); }, 250);	
+	 	gScanProgress += 1;
 
-	if (hack.mode == mScanning) {
+        Session.set("sScanProgress", gScanProgress ); 
 
-		_multiLine();
-	}
-	else {
-		
-		_singleLine();
-	}
-
-	statusCount++;
-	
-	$("#imgTopLeft").attr("src", "topLeftScanner.gif");
-
-	$("#imgTopRight").attr("src", "topRightScanner.gif");
-
-	$("#imgBottomRight").attr("src", "gridGlobe.gif");
-
-	Meteor.setTimeout(function() { stopGif(); }, playTimeInc);	
+	}, 10 );
 
 }
 
-function stopGif() {
-
-	$("#imgTopLeft").attr("src", "topLeftScanner_static.gif");
-
-	$("#imgTopRight").attr("src", "topRightScanner_static.gif");
-
-	$("#imgBottomRight").attr("src", "lowerRightCorner_static.gif");
-
-	Meteor.setTimeout(function() { playGif(); }, pauseTimeInc);	
-
-	//Meteor.setTimeout(function() { Control.playEffect("scanner2.mp3"); }, 2700);	
-}
-
-function _singleLine() {
-
-	if (statusCount == stringStatusLimit) {
-
-		statusCount = -1;
-
-		$("#status0").text( "System idle ..." );
-
-	}
-	else {
-
-		$("#status0").text( strStatus[statusCount] );
-	}
-
-}
-
-function _multiLine() {
-
-	//Meteor.setTimeout(function() { Control.playEffect( "scanner2.mp3"); }, 250);	
-
-	if (statusCount == stringStatusLimit) {
-
-		statusCount = -1;
-
-		$("#status0").text( "System idle ..." );
-
-		for (var i = 1; i < stringStatusLimit; i++){
-
-			$("#status" + i).text( "" );
-		}
-
-	}
-	else {
-
-		$("#status" + statusCount).text( strStatus[statusCount] );
-	}
-
-}
-
- Meteor.setInterval( function () {
-        Session.set("sDateTime", Date().toLocaleString() ); 
-}, 1000 );
