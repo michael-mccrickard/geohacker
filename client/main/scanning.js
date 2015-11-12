@@ -20,28 +20,24 @@ Template.scanning.helpers({
     	}
 
     	return Session.get("sScanProgress");
+    },
+
+    centerText: function() {
+
+    	if (Session.get("sScanningNow") == true ) {
+
+    		var _percent = ( Session.get("sScanProgress") / 360 ) * 100;
+
+    		return "SCAN PROGRESS " + _percent.toPrecision(2) + "%";
+    	}
+
+    	return "GEOHACKER V 1.0";
+
     }
 
  })
 
-gScanProgress = 0;
-
-gScanProgressID = null;
 
 
-startProgressMeter = function() {
 
-	gScanProgress = 0;
-
-	Session.set("sScanProgress", gScanProgress );
-
-	gScanProgressID = Meteor.setInterval( function () {
-
-	 	gScanProgress += 1;
-
-        Session.set("sScanProgress", gScanProgress ); 
-
-	}, 10 );
-
-}
 

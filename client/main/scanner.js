@@ -1,4 +1,9 @@
 
+gScanProgress = 0;
+
+gScanProgressID = null;
+
+
 /*  scanner.js  */
 Ele = function(_name, _ID, _type ) {
 
@@ -144,9 +149,9 @@ Scanner = function() {
 
 	this.maxIdlePlay = 3000;
 
-	this.minScanPlay = 500;
+	this.minScanPlay = 200;
 
-	this.maxScanPlay = 1000;
+	this.maxScanPlay = 750;
 
 	this.ele[ scTopLeft ] = new Ele("scanTopLeft", scTopLeft, "multi");
 
@@ -215,7 +220,7 @@ Scanner = function() {
 
 		for (var i = 0; i <= this.eleLimit;  i++) {
 
-			for (var j= 0; j < this.ele[ i ].idle.length; j++ ) {			
+			for (var j= 0; j < this.ele[ i ].scan.length; j++ ) {			
 
 				this.ele[ i ].scanPlayTime[ j ] = Database.getRandomFromRange( this.minScanPlay, this.maxScanPlay ); 
 			 			
@@ -234,7 +239,7 @@ Scanner = function() {
 
 		this.drawCenter();
 
-		startProgressMeter();
+		this.startProgressMeter();
 
 	}
 
@@ -279,7 +284,7 @@ Scanner = function() {
 
 		Session.set("sScanningNow", false);
 
-		this.drawCenter();
+		Meteor.defer( function() { display.scanner.drawCenter() } );
 	}
 
 	this.streamAnalyzer = function() {
@@ -321,6 +326,23 @@ Scanner = function() {
 		document.getElementById("streamAnalyzerID").innerHTML = "(no streams detected)";
 	}
 
+	this.startProgressMeter = function() {
+
+		gScanProgress = 0;
+
+		Session.set("sScanProgress", gScanProgress );
+
+		gScanProgressID = Meteor.setInterval( function () {
+
+		 	gScanProgress += 1;
+
+	        Session.set("sScanProgress", gScanProgress ); 
+
+		}, 10 );
+
+		Meteor.defer( function() { display.scanner.drawCenter() } );
+	}
+
 	this.drawCenter = function() {
 
 	    var fullBackdropWidth = $("img.featuredBackdrop").position().left + $("img.featuredBackdrop").outerWidth();
@@ -331,19 +353,11 @@ Scanner = function() {
 
 		$("div.scanCenter").css("left", (fullBackdropWidth/2) - $(".scanCenter").outerWidth() / 2 + "px");
 
-		if ( Session.get("sScanningNow") ) {
-
-			$("div.scanCenter").css("top", fullHeight * 0.36 + "px" );
-
-	   }
-	   else {
-
-			$("div.scanCenter").css("top", fullHeight * 0.3 + "px" );	   	
-	   }
+		$("div.scanCenter").css("top", fullHeight * 0.3 + "px" );	   	
 
 		$("div.scanCenterText").css("left", (fullBackdropWidth/2) - $(".scanCenterText").outerWidth() / 2 + "px");
 
-	  	$("div.scanCenterText").css("top", fullHeight * 0.6 + "px" ); 
+	  	$("div.scanCenterText").css("top", fullHeight * 0.64 + "px" ); 
 	}
 
 	this.draw = function() {

@@ -24,17 +24,17 @@
 					{{#if scanningNow}}
 						
 						<div class="scanCenterImg">
-							{{>SvgCircleProgress radius=58 total=360 progress=getProgress bgColor="black" progressColor="white"}}
+							{{>SvgCircleProgress radius=86 total=360 progress=getProgress bgColor="black" progressColor="white"}}
 						</div>
 
 					{{else}}
 				
-						<img class="scanCenterImg" src="geohacker_background.png">	
+						<img class="scanCenterImg" src="geohacker_background2.png">	
 					
 					{{/if}}
 				
 				</div>	
-				<div class="scanFont2 scanCenterText" id="scanCenterTextID">GEOHACKER V 1.0</div>
+				<div class="scanFont2 scanCenterText" id="scanCenterTextID">{{centerText}}</div>
 		
 		</div>
 
