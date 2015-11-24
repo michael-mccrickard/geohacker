@@ -5,18 +5,22 @@ Template.scanning.helpers({
 
     scanningNow: function() {
 
-    	if (Session.get("sScanningNow") == true ) return true;
+    	if (Session.get("sScanState") == "on" ) return true;
 
     	return false;
     },
 
     getProgress: function() {
 
+        if (Session.get("sScanState") != "on") return;
+
     	if (Session.get("sScanProgress") >= 360 ) {
 
-            if (display.scanner.checkScan() == true) display.scanner.stopScan();
+            //can't get the interval to clear, so need to rewrite the progress meter to use setTimeout instead
 
-    		Meteor.clearInterval( gScanProgressID );
+            Meteor.clearInterval( gScanProgressID );
+
+            if (display.scanner.checkScan() == true) {c("calling stopScan fm helpers.getProgress") ; display.scanner.stopScan(); }
 
     		return 359;
     	}

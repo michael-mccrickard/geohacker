@@ -4,8 +4,6 @@
 
 NewLoader = function() {
 
-	this.intercept_icon_file = "intercept_icon.png";
-
 	this.scanning_sound_file= "scanner3.mp3";
 
 	this.intercept_sound_file = "new_intercept.mp3";
@@ -19,11 +17,7 @@ NewLoader = function() {
 	this.totalClueCount = 0;
 
 
-	//this sequence is almost right; need to modify it and do the feature.load()
-	//while the scanning is going on to take advantage of the 1 second delay
-	//but we need to coordinate with the image loading, in case it takes longer than a second
-
-	this.doScan = function() {
+	this.go = function() {
 
 		var mode = hack.mode;
 
@@ -54,19 +48,17 @@ NewLoader = function() {
 
 		hack.mode = mScanning;
 
-Session.set("sHackModeScanning", true);
-
 		display.setControls( sScanning );
 
 		Meteor.defer( function(){ display.dimensionControls(); });  //primarily for the TEXT control
 																	//which sometimes has an image file
 																	//sometimes not
 
-		display.feature.setBackground( sScanning );
+		//display.feature.setBackground( sScanning );
 		
-		display.feature.drawBG();
+		//display.feature.drawBG();
 
-		Control.playEffect(this.scanning_sound_file);
+		//Control.playEffect(this.scanning_sound_file);
 
 		display.cue.setAndShow();
 
@@ -75,31 +67,30 @@ Session.set("sHackModeScanning", true);
 
 	    display.feature.load( this.newControl.name );	
 
-	    //set our reactive vars; when both are true, intercept() gets called
-	    //by Tracker.autorun below
 
-	    this.resetFlags();
+		Session.set("sFeatureImageLoaded", false);  
 
-		Meteor.setTimeout(function() { Session.set("sScanningDone", true); }, 1000);
+	    //this.resetFlags();
+
+		//Meteor.setTimeout(function() { Session.set("sScanningDone", true); }, 1000);
 
 
 	}
 
 	this.resetFlags = function() {
 
-  	 Session.set("sScanningDone", false);
+		//this one is now a part of sScanState and controlled by scanner
 
-  	 Session.set("sFeatureImageLoaded", false);  	 
+  	 	//Session.set("sScanningNow", false);  
+
 	}
 
-	this.intercept = function() {
+	this.showLoadedControl = function() {
 
 		 //also have the control object dimension the small version of the picture
 	    display.ctl[ this.newControl.name ].setControlPicSource();
 
 		hack.mode = mDataFound;
-
-Session.set("sHackModeScanning", false);
 
 		if (this.totalClueCount == 1) display.status.setAndShow();
 
@@ -108,7 +99,7 @@ Session.set("sHackModeScanning", false);
 
 		//here we set the unloaded controls to sIcon and the loaded ones back to sLoaded
 
-		display.resetControls( sIcon );
+		display.resetControls();
 
 		display.dimensionControls();
 
@@ -129,11 +120,13 @@ Session.set("sHackModeScanning", false);
 
 			this.newControl.setPicDimensions();
 
-			display.feature.set( this.newControl.name );
+			//not immediately showing the randomly-loaded control in the feature area anymore
+
+			//display.feature.set( this.newControl.name );
 
 		}
 
-		//set the timer and enable the map
+		//set the timer if we're on the first clue
 
 		if (this.totalClueCount == 1) {
 
@@ -268,8 +261,8 @@ Session.set("sHackModeScanning", false);
 		}
 
 		var randomControl =  Database.getRandomElement(tmp);
-/*
-if (this.totalClueCount == 0) randomControl = display.ctl["IMAGE"];
+
+if (this.totalClueCount == 0) randomControl = display.ctl["SOUND"];
 
 if (this.totalClueCount == 1) randomControl = display.ctl["IMAGE"];
 
@@ -281,7 +274,7 @@ if (this.totalClueCount == 3) randomControl = display.ctl["IMAGE"];
 if (this.totalClueCount == 4) randomControl = display.ctl["WEB"];
 
 if (this.totalClueCount == 5) randomControl = display.ctl["TEXT"];
-*/
+
 		//Bump up the loadedCount on this control and return the name
 
 		if (randomControl) {
@@ -301,6 +294,8 @@ if (this.totalClueCount == 5) randomControl = display.ctl["TEXT"];
 	}
 }
 
+/*
+
 Tracker.autorun( function(comp) {
 
   if ( Session.get("sScanningDone") == true && Session.get("sFeatureImageLoaded") == true ) {
@@ -314,3 +309,4 @@ Tracker.autorun( function(comp) {
 
 });  
 
+*/

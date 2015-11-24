@@ -61,6 +61,8 @@ Ele = function(_name, _ID, _type ) {
 
 	this.nextScanMessage = function() {
 
+		if (this.finished == true) {c("returning from nextScanMessage b/c already finished"); return;}
+
 		this.index = this.index + 1;
 
 		if (this.index == this.scan.length) {
@@ -69,7 +71,7 @@ Ele = function(_name, _ID, _type ) {
 
 			this.finished = true;
 
-			if (display.scanner.checkScan() == true) display.scanner.stopScan();
+			if (display.scanner.checkScan() == true) { c("calling stopScan fm ele.nextScanMessage"); display.scanner.stopScan(); }
 
 			return;
 
@@ -241,13 +243,15 @@ Scanner = function() {
 			this.ele[ i ].nextScanMessage();  //sets the text and starts the gif
 		}
 
-		Session.set("sScanningNow", true);
+		Session.set("sScanState", "on");
 
 		this.drawCenter();
 
 		Session.set("sScanTotalTime", Math.floor( this.highestScanTime() ) );
 
 		this.startProgressMeter();
+
+		display.loader.go();
 
 	}
 
@@ -296,15 +300,18 @@ Scanner = function() {
 
 	this.stopScan = function() {
 
+c("scanner.js: stopScan()")
+
 		for (var i = 0; i <= this.eleLimit;  i++) {
 
 			this.ele[ i ].pause();			
 		}
-c("setting mode to idle")
 
 		this.mode = "idle";
 
-		Session.set("sScanningNow", false);
+		display.loader.showLoadedControl();
+
+		Session.set("sScanState", "loaded");
 
 		Meteor.defer( function() { display.scanner.drawCenter() } );
 	}
@@ -357,7 +364,7 @@ c("setting mode to idle")
 		document.getElementById("streamAnalyzerID").innerHTML = "(no streams detected)";
 	}
 
-	this.startProgressMeter = function() {
+	this.startProgressMeter = function(  ) {
 
 		var _interval = Session.get("sScanTotalTime") / 360;
 
@@ -366,24 +373,36 @@ c("setting mode to idle")
 		gScanProgressID = Meteor.setInterval( function () {
 
 			var temp = Session.get("sScanProgress");			
-
+c("interval went off")
 		 	Session.set("sScanProgress", temp + 1 );
-
+ 
 		}, _interval);
 
 		Meteor.defer( function() { display.scanner.drawCenter() } );
 	}
 
-	this.checkScan = function() {
+	this.checkScan = function( _flag ) {
+
+		if (Session.get("sScanProgress") <  360) {
+
+			return false;
+		}
 
 		for (var i = scTopLeft; i <= scBottomRight; i++) {
 
 			if (this.ele[i].finished == false) return false; 
 		}
 
-		if ((Session.get("sScanProgress") >=  360))  return true;
+		//if this function is called by display.feature.fileIsLoaded, then it is just about
+		//to flip the session var sFeatureImageLoaded, but hasn't done so yet, so just ignore
+		//that test in this case
 
-		return false;
+		if (_flag != "excludeFeatureImage") {  //the flag used by display.feature.imageIsLoaded()
+
+			if (Session.get("sFeatureImageLoaded") == false)  return false;
+		}
+
+		return true;
 
 	}
 

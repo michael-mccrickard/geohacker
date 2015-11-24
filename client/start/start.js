@@ -76,7 +76,7 @@ Session.set("isIOS", false);
 
   Session.set("sImagesReady", false);
 
-  Session.set("sScanningNow", false);
+  Session.set("sScanState", "idle");  //off, idle, on, loaded
 
   Session.set("sScanProgress", 0.0);
 

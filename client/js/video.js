@@ -33,7 +33,7 @@ Video = function() {
 
 	this.clearFeature = function() {
 
-		c("video.clearFeature() is pausing the video")
+		console.log("video.clearFeature() is pausing the video")
 		
 		this.pauseVideo();
 
@@ -132,7 +132,7 @@ Video = function() {
 
 		Session.set("sYouTubeOn", false);
 
-		c("video.playFeaturedContent is playing animated gif")
+		console.log("video.playFeaturedContent is playing animated gif")
 
 		_file = Control.getNonYouTubeFile( _file );
 
@@ -195,7 +195,7 @@ Video = function() {
 
 		if (this.youTubeLoaded == false) {
 		  
-		  c("ytplayer being created")
+		  console.log("ytplayer being created")
 
 		  display.feature.video = _file;  
 
@@ -211,7 +211,7 @@ Video = function() {
 
 		if (_file == display.feature.video ) {
 
-			c("ytplayer resuming from pause")
+			console.log("ytplayer resuming from pause")
 
 			ytplayer.playVideo();
 
@@ -224,7 +224,7 @@ Video = function() {
 
 		  display.feature.video = _file;  
 
-		  c("video.js: ytplayer playing video")        
+		  console.log("video.js: ytplayer playing video")        
 
 		  ytplayer.loadVideoById( _file );
 

@@ -124,7 +124,7 @@ ghMap = function() {
 
        display.feature.displayMessage.set( false );  
 
-       display.feature.setBackground( sIcon );
+//       display.feature.setBackground( sIcon );
     },
 
     this.clearTimer = function() {

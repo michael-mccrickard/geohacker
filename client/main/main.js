@@ -138,9 +138,17 @@ Template.main.helpers({
       return display.ctl["VIDEO"].youTubeWaiting.get();
     },
 
-    youTubeNotFeatured: function() {
+    scannerVisible: function() {
 
-      if (hack.mode == mScanning || hack.mode == mReady) return false;
+      var _state = Session.get("sScanState");
+
+      if (_state == "idle" || _state == "on" || _state == "loaded") return true;
+
+      return false;    
+    },
+
+
+    youTubeNotFeatured: function() {
 
       if (Session.get("sYouTubeOn") == true ) return false;
 
@@ -277,6 +285,8 @@ Template.main.events({
 
       display.scanner.startScan();
 
+
+//now loader.go() but called by startScan()
       //display.loader.doScan();
 
     },
@@ -396,9 +406,4 @@ Template.main.rendered = function () {
       }
 
     }
-}
-
-positionScanElements = function() {
-
-
 }

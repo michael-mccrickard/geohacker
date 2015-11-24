@@ -9,6 +9,11 @@
 
 		<img class="featuredBackdrop" src="featuredBackdrop.jpg" />
 
+		{{#if scannerVisible}}
+
+			{{> scanning}}
+
+		{{/if}}
 
 		{{#if TextIsDisplayed}}
 
@@ -16,13 +21,13 @@
 		
 		{{else}}
 
-			{{#if youTubeNotFeatured}}  <!-- also returns true if scanner is visible -->
+			{{#if youTubeNotFeatured}} 
 
 				<a href="/closeup"><img class="featuredPic"  src="" /></a>
 
 			{{else}}
-			
-				{{> scanning}}
+
+				<!-- the YouTube API writes the youtube player into this div when appropriate -->
 
 			{{/if}}
 

@@ -86,7 +86,7 @@ Display = function() {
 
         this.makeControls(_code);
         
-        this.feature.setBackground( sIcon );
+        //this.feature.setBackground( sIcon );
 
     }
 
@@ -286,10 +286,12 @@ Display = function() {
 
             this.feature.draw()
         }
+        /*
         else {
 
-            this.feature.drawBG();
+            //this.feature.drawBG();
         }
+        */
     }
 
     //*********************************************

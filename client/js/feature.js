@@ -51,6 +51,14 @@ Feature = function() {
 			return;
 		}
 
+		//if the scanner is still running, it's possible that it is still waiting on the image to load
+
+		if ( Session.get("sScanState") == "on") {
+
+			if (display.scanner.checkScan("excludeFeatureImage") == true) {c("calling stopScan fm feature.fileIsLoaded") ; display.scanner.stopScan();}
+		}
+		
+
 		Meteor.defer( function() { Session.set("sFeatureImageLoaded", true); } );
 	}
 
@@ -60,7 +68,7 @@ Feature = function() {
 
 	this.load = function( _name ) {
 
-		//c("_name in feature load =" + _name)
+		console.log("_name in feature load =" + _name)
 		
 		this.file = this.getFile( _name);
 
@@ -78,7 +86,7 @@ Feature = function() {
 
 			//a non-still-image type, so just set the session var
 
-          	this.fileIsLoaded();
+          	this.fileIsLoaded(); 
 
 			return;
 		}
@@ -100,7 +108,7 @@ Feature = function() {
 
 		if ( _name == "VIDEO") {
 
-c("display loadAgain returning b/c file is YT")
+			console.log("display loadAgain returning b/c file is YT")
 			
 			if ( this.ctl.isYouTube )  return;
 		}
@@ -120,8 +128,12 @@ c("display loadAgain returning b/c file is YT")
 
 		//set the source property for the credit line in closeup view
 
-		this.source = display.ctl[ _name ].items[ _index ].s;
+		if (display.ctl[ _name ].items[ _index ]) {
 
+			this.source = display.ctl[ _name ].items[ _index ].s;
+		}
+
+	
 		if (_name == "TEXT") return _file;
 
 		if ( _name == "SOUND" || _name == "VIDEO") {
@@ -153,7 +165,11 @@ c("display loadAgain returning b/c file is YT")
 		this.name.set( _val );
 	},
 
+//this function can probably go bye bye
+
 	this.setBackground = function( _state) {
+
+if ( this.off() ) return;
 
 		var pic = null;
 
@@ -173,6 +189,8 @@ c("display loadAgain returning b/c file is YT")
 
 	this.set = function( _name ) {
 
+c("feature.js: set()")
+		
 		//if we're switching to a different control then clear the current one
 
 		//we're clearing the current ctl, but we pass the name	
@@ -183,7 +201,7 @@ c("display loadAgain returning b/c file is YT")
 
 		this.setName( _name );
 
-		c("feature is now set to " + _name);
+		console.log("feature is now set to " + _name);
 
 		if (_name.length == 0) return;
 
@@ -206,13 +224,13 @@ c("display loadAgain returning b/c file is YT")
 
 			if (_state == sPaused) {
 
-			//c("feature.set is pausing content b/c state is paused")
+			console.log("feature.set is pausing content b/c state is paused")
 				
 				this.ctl.pauseFeaturedContent();
 			}
 			if (_state == sPlaying || _state == sLoaded) {
 				
-				//c("feature.set is calling playFeaturedContent")
+				console.log("feature.set is calling playFeaturedContent")
 				
 				this.ctl.playFeaturedContent();
 			}
@@ -256,11 +274,12 @@ c("display loadAgain returning b/c file is YT")
 		
 	}
 
+/*
 	this.drawBG = function() {
 
 		Meteor.defer( function(){ display.feature.drawNow( display.feature.bgFile, display.feature.bgImageSrc); });
 	}
-
+*/
 
 	this.drawNow = function(_file, _src) {
 
