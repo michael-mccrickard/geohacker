@@ -14,12 +14,20 @@ Template.scanning.helpers({
 
     	if (Session.get("sScanProgress") >= 360 ) {
 
+            if (display.scanner.checkScan() == true) display.scanner.stopScan();
+
     		Meteor.clearInterval( gScanProgressID );
 
     		return 359;
     	}
 
+
     	return Session.get("sScanProgress");
+    },
+
+    getTotal: function() {
+
+    	return Session.get("sScanTotalTime");
     },
 
     centerText: function() {
@@ -28,11 +36,19 @@ Template.scanning.helpers({
 
     		var _percent = ( Session.get("sScanProgress") / 360 ) * 100;
 
+    		if (_percent >= 100.0) return "SCAN PROGRESS 100%";
+
     		return "SCAN PROGRESS " + _percent.toPrecision(2) + "%";
     	}
 
     	return "GEOHACKER V 1.0";
+    },
 
+    networkIntegrity: function() {
+
+    	var _percent = Session.get("sNetworkIntegrity");
+
+    	return _percent.toString();
     }
 
  })

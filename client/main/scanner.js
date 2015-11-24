@@ -1,6 +1,4 @@
 
-gScanProgress = 0;
-
 gScanProgressID = null;
 
 
@@ -16,6 +14,8 @@ Ele = function(_name, _ID, _type ) {
 	this.idlePlayTime = [];
 
 	this.scanPlayTime = [];
+
+	this.totalScanPlayTime = 0.0;
 
 	this.name = _name;
 
@@ -69,7 +69,7 @@ Ele = function(_name, _ID, _type ) {
 
 			this.finished = true;
 
-			if (checkScan() == true) display.scanner.stopScan();
+			if (display.scanner.checkScan() == true) display.scanner.stopScan();
 
 			return;
 
@@ -193,6 +193,8 @@ Scanner = function() {
 
 		this.streamAnalyzerIdle();
 
+		this.networkAnalyzer();
+
 		for (var i = 0; i <= this.eleLimit;  i++) {
 
 			for (var j= 0; j < this.ele[ i ].idle.length; j++ ) {
@@ -220,9 +222,13 @@ Scanner = function() {
 
 		for (var i = 0; i <= this.eleLimit;  i++) {
 
+			this.ele[ i ].totalScanPlayTime = 0.0;
+
 			for (var j= 0; j < this.ele[ i ].scan.length; j++ ) {			
 
 				this.ele[ i ].scanPlayTime[ j ] = Database.getRandomFromRange( this.minScanPlay, this.maxScanPlay ); 
+
+				this.ele[ i ].totalScanPlayTime += this.ele[ i ].scanPlayTime[ j ];
 			 			
 			}
 
@@ -239,8 +245,23 @@ Scanner = function() {
 
 		this.drawCenter();
 
+		Session.set("sScanTotalTime", Math.floor( this.highestScanTime() ) );
+
 		this.startProgressMeter();
 
+	}
+
+	this.highestScanTime = function() {
+
+		var _highest = 0.0;
+
+		for (var i = 0; i <= this.eleLimit;  i++) {
+
+			if (this.ele[i].totalScanPlayTime > _highest) _highest = this.ele[i].totalScanPlayTime;
+
+		}
+
+		return _highest;
 	}
 
 	this.pauseIdle = function( _ID) {
@@ -279,12 +300,22 @@ Scanner = function() {
 
 			this.ele[ i ].pause();			
 		}
+c("setting mode to idle")
 
 		this.mode = "idle";
 
 		Session.set("sScanningNow", false);
 
 		Meteor.defer( function() { display.scanner.drawCenter() } );
+	}
+
+	this.networkAnalyzer = function() {
+
+		var _amt = Database.getRandomFromRange(910, 1000);
+
+		Session.set("sNetworkIntegrity", _amt/10);
+
+		Meteor.setTimeout( function() { display.scanner.networkAnalyzer() }, Database.getRandomFromRange(3000, 10000) );
 	}
 
 	this.streamAnalyzer = function() {
@@ -328,19 +359,32 @@ Scanner = function() {
 
 	this.startProgressMeter = function() {
 
-		gScanProgress = 0;
+		var _interval = Session.get("sScanTotalTime") / 360;
 
-		Session.set("sScanProgress", gScanProgress );
+		Session.set("sScanProgress", 0.0 );
 
 		gScanProgressID = Meteor.setInterval( function () {
 
-		 	gScanProgress += 1;
+			var temp = Session.get("sScanProgress");			
 
-	        Session.set("sScanProgress", gScanProgress ); 
+		 	Session.set("sScanProgress", temp + 1 );
 
-		}, 10 );
+		}, _interval);
 
 		Meteor.defer( function() { display.scanner.drawCenter() } );
+	}
+
+	this.checkScan = function() {
+
+		for (var i = scTopLeft; i <= scBottomRight; i++) {
+
+			if (this.ele[i].finished == false) return false; 
+		}
+
+		if ((Session.get("sScanProgress") >=  360))  return true;
+
+		return false;
+
 	}
 
 	this.drawCenter = function() {
@@ -357,7 +401,7 @@ Scanner = function() {
 
 		$("div.scanCenterText").css("left", (fullBackdropWidth/2) - $(".scanCenterText").outerWidth() / 2 + "px");
 
-	  	$("div.scanCenterText").css("top", fullHeight * 0.64 + "px" ); 
+	  	$("div.scanCenterText").css("top", $(".scanCenter").position().top + $(".scanCenter").outerHeight() + vertSpacer*2 + "px" ); 
 	}
 
 	this.draw = function() {
@@ -421,17 +465,7 @@ Scanner = function() {
 //                  WAIT FOR SCAN TO COMPLETE
 //****************************************************************
 
-function checkScan() {
 
-  
-  if (display.scanner.ele[ scTopLeft ].finished && display.scanner.ele[ scTopRight ].finished && display.scanner.ele[ scBottomLeft ].finished && display.scanner.ele[ scBottomCenter ].finished && display.scanner.ele[ scBottomRight ].finished )  {
-
-    return true;
-  }
-
-  return false;
-
-}
 
 getChars = function(_n) {
 
