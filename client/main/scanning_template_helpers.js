@@ -5,40 +5,40 @@ Template.scanning.helpers({
 
     scanningNow: function() {
 
-    	if (Session.get("sScanState") == "on" ) return true;
+        var _state = display.scanner.state.get();
+
+    	if ( _state == "on" ) return true;
 
     	return false;
     },
 
     getProgress: function() {
 
-        if (Session.get("sScanState") != "on") return;
+        if (display.scanner.state.get() != "on") return;
 
-    	if (Session.get("sScanProgress") >= 360 ) {
+    	if (display.scanner.progress.get() >= 360 ) {
 
-            //can't get the interval to clear, so need to rewrite the progress meter to use setTimeout instead
+            Meteor.clearInterval( display.scanner.progressID );
 
-            Meteor.clearInterval( gScanProgressID );
-
-            if (display.scanner.checkScan() == true) {c("calling stopScan fm helpers.getProgress") ; display.scanner.stopScan(); }
+            if (display.scanner.checkScan() == true) display.scanner.stopScan();
 
     		return 359;
     	}
 
 
-    	return Session.get("sScanProgress");
+    	return display.scanner.progress.get();
     },
 
     getTotal: function() {
 
-    	return Session.get("sScanTotalTime");
+    	return display.scanner.totalTime.get();
     },
 
     centerText: function() {
 
-    	if (Session.get("sScanningNow") == true ) {
+    	if ( display.scanner.state.get() == "on" ) {
 
-    		var _percent = ( Session.get("sScanProgress") / 360 ) * 100;
+    		var _percent = ( display.scanner.progress.get() / 360 ) * 100;
 
     		if (_percent >= 100.0) return "SCAN PROGRESS 100%";
 
@@ -50,7 +50,7 @@ Template.scanning.helpers({
 
     networkIntegrity: function() {
 
-    	var _percent = Session.get("sNetworkIntegrity");
+    	var _percent = display.scanner.networkIntegrity.get();
 
     	return _percent.toString();
     }

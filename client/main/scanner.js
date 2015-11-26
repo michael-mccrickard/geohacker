@@ -1,145 +1,20 @@
-
-gScanProgressID = null;
-
-
 /*  scanner.js  */
-Ele = function(_name, _ID, _type ) {
-
-	this.finished = false;
-
-	this.type = _type;
-
-	this.idlePauseTime = [];
-
-	this.idlePlayTime = [];
-
-	this.scanPlayTime = [];
-
-	this.totalScanPlayTime = 0.0;
-
-	this.name = _name;
-
-	this.idle = [];
-
-	this.scan = [];
-
-	this.index = 0;  //index into the above arrays; only one array active at a time
-
-	this.ID = _ID;  //index in scanner.ele[]
-
-	this.nextIdleMessage = function() {
-
-		this.index = this.index + 1;
-
-		if (this.index == this.idle.length) {
-
-			this.index = 0;
-
-		}
-
-		//set the text
-
-		$("." + this.name + "Text").text( this.idle[ this.index ]);		
-
-		//show the animated gif
-
-		$("." + this.name + "Img").attr("src", this.name + ".gif");
-
-		//queue up the pause command
-
-		if (this.ID == scTopLeft) Meteor.setTimeout( function() { display.scanner.pauseIdle( scTopLeft ) }, display.scanner.ele[ scTopLeft ].idlePlayTime[ display.scanner.ele[ scTopLeft ].index  ] ); 	
-
-		if (this.ID == scTopRight) Meteor.setTimeout( function() { display.scanner.pauseIdle( scTopRight ) }, display.scanner.ele[ scTopRight ].idlePlayTime[ display.scanner.ele[ scTopRight ].index ] ); 	
-
-		if (this.ID == scBottomLeft) Meteor.setTimeout( function() { display.scanner.pauseIdle( scBottomLeft ) }, display.scanner.ele[ scBottomLeft ].idlePlayTime[ display.scanner.ele[ scBottomLeft ].index  ] ); 	
-
-		if (this.ID == scBottomCenter) Meteor.setTimeout( function() { display.scanner.pauseIdle( scBottomCenter ) }, display.scanner.ele[ scBottomCenter ].idlePlayTime[ display.scanner.ele[ scBottomCenter ].index  ] ); 
-
-		if (this.ID == scBottomRight) Meteor.setTimeout( function() { display.scanner.pauseIdle( scBottomRight ) }, display.scanner.ele[ scBottomRight ].idlePlayTime[ display.scanner.ele[ scBottomRight ].index ] ); 	
-
-	}
-
-	this.nextScanMessage = function() {
-
-		if (this.finished == true) {c("returning from nextScanMessage b/c already finished"); return;}
-
-		this.index = this.index + 1;
-
-		if (this.index == this.scan.length) {
-
-			this.index = 0;
-
-			this.finished = true;
-
-			if (display.scanner.checkScan() == true) { c("calling stopScan fm ele.nextScanMessage"); display.scanner.stopScan(); }
-
-			return;
-
-		}
-
-		//set the text
-
-		if (this.type == "multi") {
-
-			var _text = document.getElementById("scanTopLeftTextID").innerHTML;
-
-			if (_text.length) {
-
-				_text = _text + "<br>" + this.scan[ this.index ];
-			}
-			else {
-				_text = this.scan[ this.index ];
-			}
-
-			document.getElementById("scanTopLeftTextID").innerHTML =  _text;
-
-		}
-		else {
-			$("." + this.name + "Text").text( this.scan[ this.index ]);		
-		}
-
-		//show the animated gif
-
-		$("." + this.name + "Img").attr("src", this.name + ".gif");
-
-		//queue up the pause command
-
-		if (this.ID == scTopLeft) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scTopLeft ) }, display.scanner.ele[ scTopLeft ].scanPlayTime[ display.scanner.ele[ scTopLeft ].index  ] ); 	
-
-		if (this.ID == scTopRight) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scTopRight ) }, display.scanner.ele[ scTopRight ].scanPlayTime[ display.scanner.ele[ scTopRight ].index ] ); 	
-
-		if (this.ID == scBottomLeft) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scBottomLeft ) }, display.scanner.ele[ scBottomLeft ].scanPlayTime[ display.scanner.ele[ scBottomLeft ].index  ] ); 	
-
-		if (this.ID == scBottomCenter) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scBottomCenter ) }, display.scanner.ele[ scBottomCenter ].scanPlayTime[ display.scanner.ele[ scBottomCenter ].index  ] ); 
-
-		if (this.ID == scBottomRight) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scBottomRight ) }, display.scanner.ele[ scBottomRight ].scanPlayTime[ display.scanner.ele[ scBottomRight ].index ] ); 	
-
-	}
-
-	this.pause = function() {
-
-		//show the static gif
-
-		$("." + this.name + "Img").attr("src", this.name + "_static.gif");			
-	}
-
-	this.clearText = function() {
-
-		$("." + this.name + "Text").text( "" );
-	}
-
-	this.stopScan = function() {
-
-
-	}	
-}
-
 
 Scanner = function() {
 
 	this.ele = [];
 
 	this.mode = "idle";
+
+	this.state = new Blaze.ReactiveVar("idle");
+
+	this.totalTime = new Blaze.ReactiveVar( 0.0 );
+
+	this.progress = new Blaze.ReactiveVar( 0.0 );	
+
+	this.networkIntegrity =  new Blaze.ReactiveVar( 0.0 );	
+
+	this.progressID = null;
 
 	this.streamAnalyzerCount = 0;
 
@@ -243,11 +118,11 @@ Scanner = function() {
 			this.ele[ i ].nextScanMessage();  //sets the text and starts the gif
 		}
 
-		Session.set("sScanState", "on");
+		this.state.set("on");
 
 		this.drawCenter();
 
-		Session.set("sScanTotalTime", Math.floor( this.highestScanTime() ) );
+		this.totalTime.set( Math.floor( this.highestScanTime() ) );
 
 		this.startProgressMeter();
 
@@ -311,7 +186,7 @@ c("scanner.js: stopScan()")
 
 		display.loader.showLoadedControl();
 
-		Session.set("sScanState", "loaded");
+		this.state.set("loaded");
 
 		Meteor.defer( function() { display.scanner.drawCenter() } );
 	}
@@ -320,7 +195,7 @@ c("scanner.js: stopScan()")
 
 		var _amt = Database.getRandomFromRange(910, 1000);
 
-		Session.set("sNetworkIntegrity", _amt/10);
+		this.networkIntegrity.set( _amt/10 );
 
 		Meteor.setTimeout( function() { display.scanner.networkAnalyzer() }, Database.getRandomFromRange(3000, 10000) );
 	}
@@ -366,15 +241,15 @@ c("scanner.js: stopScan()")
 
 	this.startProgressMeter = function(  ) {
 
-		var _interval = Session.get("sScanTotalTime") / 360;
+		var _interval = this.totalTime.get() / 360;
 
-		Session.set("sScanProgress", 0.0 );
+		this.progress.set( 0.0 );
 
-		gScanProgressID = Meteor.setInterval( function () {
+		this.progressID = Meteor.setInterval( function () {
 
-			var temp = Session.get("sScanProgress");			
-c("interval went off")
-		 	Session.set("sScanProgress", temp + 1 );
+			var temp = display.scanner.progress.get()			
+
+		 	display.scanner.progress.set( temp + 1 );
  
 		}, _interval);
 
@@ -383,7 +258,7 @@ c("interval went off")
 
 	this.checkScan = function( _flag ) {
 
-		if (Session.get("sScanProgress") <  360) {
+		if ( this.progress.get() <  360) {
 
 			return false;
 		}

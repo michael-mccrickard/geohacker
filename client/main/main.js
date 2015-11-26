@@ -140,7 +140,7 @@ Template.main.helpers({
 
     scannerVisible: function() {
 
-      var _state = Session.get("sScanState");
+      var _state = display.scanner.state.get() ;
 
       if (_state == "idle" || _state == "on" || _state == "loaded") return true;
 
@@ -396,6 +396,8 @@ Template.main.rendered = function () {
       display.checkMainScreen();
 
       if (hack.mode == mReady)  {
+
+        display.scanner.state.set( "idle" );
 
         Meteor.setTimeout(function() { $(".scanScreen" ).velocity("fadeIn", { duration: 1000 }) }, 500 );
 

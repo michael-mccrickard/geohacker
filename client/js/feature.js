@@ -53,7 +53,7 @@ Feature = function() {
 
 		//if the scanner is still running, it's possible that it is still waiting on the image to load
 
-		if ( Session.get("sScanState") == "on") {
+		if ( display.scanner.state.get() == "on") {
 
 			if (display.scanner.checkScan("excludeFeatureImage") == true) {c("calling stopScan fm feature.fileIsLoaded") ; display.scanner.stopScan();}
 		}
