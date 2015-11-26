@@ -15,7 +15,7 @@ Video = function() {
 
 	this.youTubeLoaded = false;  //boolean, is the YT player loaded?
 
-	this.youTubeWaiting = new Blaze.ReactiveVar( false );  //are we waiting on the YT player to load?
+	this.youTubeWaiting = new Blaze.ReactiveVar( false );  //are waiting on the YT player to load?
 
 
 	//nullify the youtube player object any time
@@ -64,7 +64,7 @@ Video = function() {
 	}, //end getControlPic
 
 	//this is basically the getFile function for video;
-	//usually it returns the content, but if an animated gif is paused
+	//usually it returns the content, but if animated gif is paused
 	//it returns the big play button
 
 	this.getFeaturedPic = function() {

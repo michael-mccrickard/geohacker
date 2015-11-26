@@ -39,11 +39,6 @@ NewLoader = function() {
 
 		this.newControl = this.loadRandomControl();
 
-		//set the reactive var 
-
-		display.loadedControl.set( this.newControl.name );
-		
-
 		if (this.newControl === undefined) {
 
 			console.log("No more controls to load in loader");
@@ -266,10 +261,10 @@ NewLoader = function() {
 		}
 
 		var randomControl =  Database.getRandomElement(tmp);
-/*
+
 if (this.totalClueCount == 0) randomControl = display.ctl["SOUND"];
 
-if (this.totalClueCount == 1) randomControl = display.ctl["WEB"];
+if (this.totalClueCount == 1) randomControl = display.ctl["IMAGE"];
 
 if (this.totalClueCount == 2) randomControl = display.ctl["IMAGE"];
 
@@ -279,7 +274,7 @@ if (this.totalClueCount == 3) randomControl = display.ctl["IMAGE"];
 if (this.totalClueCount == 4) randomControl = display.ctl["WEB"];
 
 if (this.totalClueCount == 5) randomControl = display.ctl["TEXT"];
-*/
+
 		//Bump up the loadedCount on this control and return the name
 
 		if (randomControl) {

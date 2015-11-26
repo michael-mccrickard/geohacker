@@ -189,20 +189,6 @@ Scanner = function() {
 
 	this.ready = true;
 
-	this.idle = function() {
-
-		Session.set("sScanState", "idle");
-
-        Meteor.setTimeout(function() { display.scanner.draw(); }, 501 );  
-
-        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 501 );     
-	}
-
-	this.fadeIn = function() {
-
-		Meteor.setTimeout(function() { $(".scanScreen" ).velocity("fadeIn", { duration: 1000 }) }, 500 );		
-	}
-
 	this.startIdle = function() {
 
 		this.mode = "idle";
@@ -228,15 +214,6 @@ Scanner = function() {
 			this.ele[ i ].nextIdleMessage();  //sets the text and starts the gif
 		}
 
-	}
-
-	this.scan = function() {
-
-		Session.set("sScanState", "on");
-
-        Meteor.setTimeout(function() { display.scanner.draw(); }, 501 );  
-
-        Meteor.setTimeout(function() { display.scanner.startScan(); }, 501 );   
 	}
 
 	this.startScan = function() {
@@ -276,11 +253,6 @@ Scanner = function() {
 
 		display.loader.go();
 
-	}
-
-	this.hide = function() {
-
-		Session.set("sScanState", "off");
 	}
 
 	this.highestScanTime = function() {
@@ -401,10 +373,8 @@ c("scanner.js: stopScan()")
 		gScanProgressID = Meteor.setInterval( function () {
 
 			var temp = Session.get("sScanProgress");			
-
+c("interval went off")
 		 	Session.set("sScanProgress", temp + 1 );
-
-		 	if (temp == 359)  Meteor.clearInterval( gScanProgressID ); 
  
 		}, _interval);
 

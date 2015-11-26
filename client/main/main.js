@@ -283,9 +283,7 @@ Template.main.events({
           return; 
       }
 
-       if ( display.feature.on() ) display.scanner.fadeIn();
-
-      display.scanner.scan();
+      display.scanner.startScan();
 
 
 //now loader.go() but called by startScan()
@@ -398,10 +396,12 @@ Template.main.rendered = function () {
       display.checkMainScreen();
 
       if (hack.mode == mReady)  {
-        
-         display.scanner.fadeIn();
 
-          display.scanner.idle();
+        Meteor.setTimeout(function() { $(".scanScreen" ).velocity("fadeIn", { duration: 1000 }) }, 500 );
+
+        Meteor.setTimeout(function() { display.scanner.draw(); }, 501 );  
+
+        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 501 );         
 
       }
 
