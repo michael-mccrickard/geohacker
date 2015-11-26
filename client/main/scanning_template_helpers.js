@@ -10,15 +10,34 @@ Template.scanning.helpers({
     	return false;
     },
 
+    TEXTisLoaded: function() {
+
+        if (display.loadedControl.name.get( "TEXT" ) return true;
+
+        if (display.loadedControl.name.get( "MAP" ) return true;
+
+        return false;
+    },
+
+    featuredText: function() {
+
+        if (display.feature.getName() == "MAP") return display.ctl["MAP"].getTextContent();  
+
+        if (display.feature.getName() == "TEXT") return display.ctl["TEXT"].getTextContent();           
+    },
+
+    loadedNow: function() {
+
+        if (Session.get("sScanState") == "loaded" ) return true;
+
+        return false;
+    },   
+
     getProgress: function() {
 
         if (Session.get("sScanState") != "on") return;
 
     	if (Session.get("sScanProgress") >= 360 ) {
-
-            //can't get the interval to clear, so need to rewrite the progress meter to use setTimeout instead
-
-            Meteor.clearInterval( gScanProgressID );
 
             if (display.scanner.checkScan() == true) {c("calling stopScan fm helpers.getProgress") ; display.scanner.stopScan(); }
 
@@ -32,6 +51,11 @@ Template.scanning.helpers({
     getTotal: function() {
 
     	return Session.get("sScanTotalTime");
+    },
+
+    getControlPic: function() {
+
+        return display.loader.newControl.getControlPic();
     },
 
     centerText: function() {

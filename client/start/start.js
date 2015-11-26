@@ -82,7 +82,7 @@ Session.set("isIOS", false);
 
   Session.set("sScanTotalTime", 0.0);
 
-  Session.get("sNetworkIntegrity", 0.0)
+  Session.get("sNetworkIntegrity", 100.0)
 
   Session.set("sFeatureImageLoaded", false);    
 

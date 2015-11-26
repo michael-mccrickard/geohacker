@@ -50,7 +50,7 @@ img.featuredBackdrop {
 .featuredPic {
     position: absolute;
     top: 6%;
-    z-index: 1060;
+    z-index: 990;
 }
 
 .featuredText {

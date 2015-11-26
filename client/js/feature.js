@@ -190,6 +190,8 @@ if ( this.off() ) return;
 	this.set = function( _name ) {
 
 c("feature.js: set()")
+
+		display.scanner.hide();
 		
 		//if we're switching to a different control then clear the current one
 

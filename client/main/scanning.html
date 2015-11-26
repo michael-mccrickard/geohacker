@@ -19,6 +19,7 @@
 		</div>
 
 		<div class="scanCenter">
+
 				<div class="divScanCenterImg auto">
 
 					{{#if scanningNow}}
@@ -28,8 +29,25 @@
 						</div>
 
 					{{else}}
-				
-						<img class="scanCenterImg" src="geohacker_background2.png">	
+
+						{{#if loadedNow}}
+
+							{{#if TEXTisLoaded}}
+
+								<h3 class="scanCenterImg">{{featuredText}}</h3>
+
+							{{else}}
+
+								<img class="scanCenterImg" src="{{getControlPic}}">
+
+							{{/if}}
+
+						{{else}}
+
+							<img class="scanCenterImg" src="geohacker_background2.png">	
+
+						{{/if}}
+						
 					
 					{{/if}}
 				
