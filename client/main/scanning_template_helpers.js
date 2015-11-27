@@ -34,6 +34,35 @@ Template.scanning.helpers({
     	return display.scanner.totalTime.get();
     },
 
+    getScannerCenterImage: function() {
+
+        var _default =  "geohacker_background2.png";
+
+        var _name = display.loadedControlName.get();
+
+        if ( _name.length ) return display.ctl[ _name ].getControlPic();
+
+        return _default;
+    },
+
+    TEXTisFeatured: function() {
+
+         var _name = display.loadedControlName.get();       
+
+        if ( _name == "TEXT" || _name == "MAP") return true;
+
+        return false;
+    },
+
+    featuredText: function() {
+
+         var _name = display.loadedControlName.get();       
+
+        if ( _name == "TEXT" || _name == "MAP") return display.ctl[ _name ].getTextContent();
+
+        return "";
+    },
+
     centerText: function() {
 
     	if ( display.scanner.state.get() == "on" ) {
@@ -44,6 +73,11 @@ Template.scanning.helpers({
 
     		return "SCAN PROGRESS " + _percent.toPrecision(2) + "%";
     	}
+
+        if ( display.scanner.state.get() == "loaded" ) {
+
+            return display.loadedControlName.get() + " FILE";
+        }      
 
     	return "GEOHACKER V 1.0";
     },

@@ -42,6 +42,8 @@ Display = function() {
 
     this.worldMapTemplateReady = false;
 
+    this.loadedControlName = new Blaze.ReactiveVar( "" );
+
     //arrays
 
     //to do: merge the functionality of these two arrays, if possible

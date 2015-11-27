@@ -46,6 +46,7 @@ NewLoader = function() {
 			return;
 		}
 
+
 		hack.mode = mScanning;
 
 		display.setControls( sScanning );
@@ -53,12 +54,6 @@ NewLoader = function() {
 		Meteor.defer( function(){ display.dimensionControls(); });  //primarily for the TEXT control
 																	//which sometimes has an image file
 																	//sometimes not
-
-		//display.feature.setBackground( sScanning );
-		
-		//display.feature.drawBG();
-
-		//Control.playEffect(this.scanning_sound_file);
 
 		display.cue.setAndShow();
 
@@ -69,19 +64,6 @@ NewLoader = function() {
 
 
 		Session.set("sFeatureImageLoaded", false);  
-
-	    //this.resetFlags();
-
-		//Meteor.setTimeout(function() { Session.set("sScanningDone", true); }, 1000);
-
-
-	}
-
-	this.resetFlags = function() {
-
-		//this one is now a part of sScanState and controlled by scanner
-
-  	 	//Session.set("sScanningNow", false);  
 
 	}
 
@@ -262,9 +244,9 @@ NewLoader = function() {
 
 		var randomControl =  Database.getRandomElement(tmp);
 
-if (this.totalClueCount == 0) randomControl = display.ctl["SOUND"];
+if (this.totalClueCount == 0) randomControl = display.ctl["TEXT"];
 
-if (this.totalClueCount == 1) randomControl = display.ctl["IMAGE"];
+if (this.totalClueCount == 1) randomControl = display.ctl["MAP"];
 
 if (this.totalClueCount == 2) randomControl = display.ctl["IMAGE"];
 
@@ -293,20 +275,3 @@ if (this.totalClueCount == 5) randomControl = display.ctl["TEXT"];
 
 	}
 }
-
-/*
-
-Tracker.autorun( function(comp) {
-
-  if ( Session.get("sScanningDone") == true && Session.get("sFeatureImageLoaded") == true ) {
-
-  	 display.loader.resetFlags();
-
-//if (display.loader.totalClueCount == 2) return;
-
-  	 display.loader.intercept();
-  } 
-
-});  
-
-*/

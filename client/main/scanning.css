@@ -29,6 +29,14 @@ border : 0;
    	background-color: #2a2a3a;
 }
 
+.divScanFeaturedText {
+  	border: 2px solid;
+  	border-color: #969696;
+  	border-radius: 2px;
+   	background-color: #2a2a3a;
+   	padding: 4%;
+}
+
 .scanTopLeft {
 
 	position: fixed;

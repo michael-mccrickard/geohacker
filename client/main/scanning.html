@@ -2,7 +2,6 @@
 
 	<div class="scanScreen">
 		
-
 		<div class="scanTopLeft">
 			<img class="scanTopLeftImg" src="scanTopLeft_static.gif">		
 		</div>
@@ -28,8 +27,16 @@
 						</div>
 
 					{{else}}
-				
-						<img class="scanCenterImg" src="geohacker_background2.png">	
+
+						{{#if TEXTisFeatured}}
+
+							<div class="scanCenterImg divScanFeaturedText controlText">{{featuredText}}</div>
+
+						{{else}}
+
+							<img class="scanCenterImg" src="{{getScannerCenterImage}}">	
+
+						{{/if}}
 					
 					{{/if}}
 				

@@ -175,8 +175,6 @@ Scanner = function() {
 
 	this.stopScan = function() {
 
-c("scanner.js: stopScan()")
-
 		for (var i = 0; i <= this.eleLimit;  i++) {
 
 			this.ele[ i ].pause();			
@@ -188,7 +186,11 @@ c("scanner.js: stopScan()")
 
 		this.state.set("loaded");
 
-		Meteor.defer( function() { display.scanner.drawCenter() } );
+		//set the reactive var to change the center image to the new control
+
+		display.loadedControlName.set( display.loader.newControl.name );
+
+		Meteor.setTimeout( function() { display.scanner.drawCenter() }, 10 );
 	}
 
 	this.networkAnalyzer = function() {
@@ -295,7 +297,7 @@ c("scanner.js: stopScan()")
 
 		$("div.scanCenterText").css("left", (fullBackdropWidth/2) - $(".scanCenterText").outerWidth() / 2 + "px");
 
-	  	$("div.scanCenterText").css("top", $(".scanCenter").position().top + $(".scanCenter").outerHeight() + vertSpacer*2 + "px" ); 
+	  	$("div.scanCenterText").css("top", $(".scanCenter").position().top + $(".scanCenterImg").outerHeight() + vertSpacer*2 + "px" ); 
 	}
 
 	this.draw = function() {
