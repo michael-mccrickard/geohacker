@@ -18,6 +18,10 @@ ghMap = function() {
 
     this.autoFeatured = false;
 
+    this.getControlPic = function() {
+
+      return this.scanningPic;
+    }
 
     this.setStateOnly = function( _state ) {
 

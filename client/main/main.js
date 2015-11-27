@@ -99,7 +99,7 @@ Template.main.helpers({
 
         if (display.feature.getName() == "TEXT") return true;
 
-        if (display.feature.getName() == "MAP") return true;
+        //if (display.feature.getName() == "MAP") return true;
 
         if (display.feature.displayMessage.get() ) return true;
 
@@ -116,7 +116,7 @@ Template.main.helpers({
 
     displayTextContent: function() {
 
-        if (display.feature.getName() == "MAP") return display.ctl["MAP"].getTextContent();  
+        //if (display.feature.getName() == "MAP") return display.ctl["MAP"].getTextContent();  
 
         if (display.feature.getName() == "TEXT") return display.ctl["TEXT"].getTextContent();       
     },
@@ -283,6 +283,8 @@ Template.main.events({
           return; 
       }
 
+      display.feature.dim();
+
       display.scanner.startScan();
 
 
@@ -334,6 +336,8 @@ c("click control is setting media state to play")
             display.ctl[ id ].setState( sPlaying ); 
           }  
        }
+
+      display.scanner.fadeOut( 250 );
 
       display.feature.set( id );
 
@@ -397,13 +401,11 @@ Template.main.rendered = function () {
 
       if (hack.mode == mReady)  {
 
-        display.scanner.state.set( "idle" );
+        Meteor.setTimeout(function() { display.scanner.fadeIn( 250 ) }, 500 );
 
-        Meteor.setTimeout(function() { $(".scanScreen" ).velocity("fadeIn", { duration: 1000 }) }, 500 );
+        Meteor.setTimeout(function() { display.scanner.draw(); }, 501 );
 
-        Meteor.setTimeout(function() { display.scanner.draw(); }, 501 );  
-
-        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 501 );         
+        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 );     
 
       }
 

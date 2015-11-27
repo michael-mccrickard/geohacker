@@ -129,6 +129,7 @@ border : 0;
 
 .scanCenterImg {
 	width: 100%;
+	cursor: pointer;
 }
 
 .scanCenterText{

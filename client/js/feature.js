@@ -118,6 +118,11 @@ Feature = function() {
 		if (this.file) this.imageSrc = Control.getImageFromFile( this.file );
 	}
 
+	this.dim = function( _time ) {
+
+		if ( $(".featuredPic").css("opacity") == "1" ) $(".featuredPic" ).velocity( { opacity: 0.3, duration: _time });
+	}
+
 	this.getFile = function( _name ) {
 
 		var _file = null;
@@ -190,6 +195,8 @@ if ( this.off() ) return;
 	this.set = function( _name ) {
 
 c("feature.js: set()")
+
+		$(".featuredPic").css("opacity", "1.0");
 		
 		//if we're switching to a different control then clear the current one
 

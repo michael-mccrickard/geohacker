@@ -93,6 +93,10 @@ Scanner = function() {
 
 	this.startScan = function() {
 
+		this.draw();
+
+		this.fadeIn();
+
 		this.mode = "scan";
 
 		this.streamAnalyzer();
@@ -128,6 +132,16 @@ Scanner = function() {
 
 		display.loader.go();
 
+	}
+
+	this.fadeIn = function( _time ) {
+
+		if ( $(".scanScreen").css("opacity") == "0" ) $(".scanScreen" ).velocity("fadeIn", { duration: _time });
+	}
+
+	this.fadeOut = function( _time ) {
+
+		if ( $(".scanScreen").css("opacity") == "1" ) $(".scanScreen" ).velocity("fadeOut", { duration: _time, display: "auto" });
 	}
 
 	this.highestScanTime = function() {

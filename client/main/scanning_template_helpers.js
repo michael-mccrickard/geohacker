@@ -1,4 +1,20 @@
+Template.main.events({
 
+  'click .scanCenterImg': function(e) {
+
+      e.preventDefault();  
+
+      if (display.scanner.state.get() == "loaded") {
+
+        display.feature.set( display.loadedControlName.get() );
+     }
+     else {
+        
+        Control.playEffect( display.locked_sound_file );
+     }
+  },
+
+});
 
 
 Template.scanning.helpers({
@@ -49,7 +65,7 @@ Template.scanning.helpers({
 
          var _name = display.loadedControlName.get();       
 
-        if ( _name == "TEXT" || _name == "MAP") return true;
+        if ( _name == "TEXT") return true;
 
         return false;
     },
@@ -58,7 +74,7 @@ Template.scanning.helpers({
 
          var _name = display.loadedControlName.get();       
 
-        if ( _name == "TEXT" || _name == "MAP") return display.ctl[ _name ].getTextContent();
+        if ( _name == "TEXT") return display.ctl[ _name ].getTextContent();
 
         return "";
     },
