@@ -53,9 +53,9 @@ Feature = function() {
 
 		//if the scanner is still running, it's possible that it is still waiting on the image to load
 
-		if ( display.scanner.state.get() == "on") {
+		if ( display.scanner.centerState == "scan" || display.scanner.centerState == "rescan") {
 
-			if (display.scanner.checkScan("excludeFeatureImage") == true) {c("calling stopScan fm feature.fileIsLoaded") ; display.scanner.stopScan();}
+			if (display.scanner.checkScan("excludeFeatureImage") == true) {display.scanner.stopScan();}
 		}
 		
 
@@ -162,7 +162,14 @@ Feature = function() {
 
 		if (this.lastName == "VIDEO") display.ctl["VIDEO"].setState( sPlaying );
 
-		this.set( this.lastName );	
+		if (this.lastName.length) {
+
+			this.set( this.lastName );	
+		}
+		else {
+
+			display.scanner.visible.set ( true );
+		}
 	},
 
 	this.setName = function( _val ) {
@@ -197,6 +204,8 @@ if ( this.off() ) return;
 c("feature.js: set()")
 
 		$(".featuredPic").css("opacity", "1.0");
+
+		if (_name != "MAP") display.scanner.hide();
 		
 		//if we're switching to a different control then clear the current one
 
@@ -271,6 +280,11 @@ c("feature.js: set()")
 		this.lastName = this.getName();
 
         this.setName( "" );
+	}
+
+	this.clearImage = function() {
+
+		$("img.featuredPic").attr("src", "" );
 	}
 
 	this.draw = function() {

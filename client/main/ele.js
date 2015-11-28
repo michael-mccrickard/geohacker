@@ -58,7 +58,7 @@ Ele = function(_name, _ID, _type ) {
 
 	this.nextScanMessage = function() {
 
-		if (this.finished == true) {c("returning from nextScanMessage b/c already finished"); return;}
+		if (this.finished == true) { return;}
 
 		this.index = this.index + 1;
 
@@ -68,7 +68,7 @@ Ele = function(_name, _ID, _type ) {
 
 			this.finished = true;
 
-			if (display.scanner.checkScan() == true) { c("calling stopScan fm ele.nextScanMessage"); display.scanner.stopScan(); }
+			if (display.scanner.checkScan() == true) { display.scanner.stopScan(); }
 
 			return;
 

@@ -4,12 +4,16 @@ Template.main.events({
 
       e.preventDefault();  
 
-      if (display.scanner.state.get() == "loaded") {
+      var _mode = display.scanner.mode;
+
+      if (_mode != "scan" && _mode != "rescan") {
+
+        display.scanner.fadeOut( 250 );
 
         display.feature.set( display.loadedControlName.get() );
      }
      else {
-        
+
         Control.playEffect( display.locked_sound_file );
      }
   },
@@ -21,16 +25,18 @@ Template.scanning.helpers({
 
     scanningNow: function() {
 
-        var _state = display.scanner.state.get();
+        var _state = display.scanner.centerState.get();
 
-    	if ( _state == "on" ) return true;
+    	if ( _state == "scan" ) return true;
 
     	return false;
     },
 
     getProgress: function() {
 
-        if (display.scanner.state.get() != "on") return;
+        var _state = display.scanner.centerState.get();
+
+        if (_state != "scan" && _state != "rescan") return;
 
     	if (display.scanner.progress.get() >= 360 ) {
 
@@ -81,7 +87,10 @@ Template.scanning.helpers({
 
     centerText: function() {
 
-    	if ( display.scanner.state.get() == "on" ) {
+
+        var _state = display.scanner.centerState.get();
+
+    	if (_state == "scan" || _state == "rescan") {
 
     		var _percent = ( display.scanner.progress.get() / 360 ) * 100;
 
@@ -90,7 +99,7 @@ Template.scanning.helpers({
     		return "SCAN PROGRESS " + _percent.toPrecision(2) + "%";
     	}
 
-        if ( display.scanner.state.get() == "loaded" ) {
+        if ( display.scanner.centerState.get() == "loaded" ) {
 
             return display.loadedControlName.get() + " FILE";
         }      

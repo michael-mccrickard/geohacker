@@ -274,6 +274,17 @@ Display = function() {
 
         this.stopBlinking();   
 
+        this.loadedControlName.set( "" );
+
+        this.scanner.show();
+
+        //We do this when the scanner is first created
+        //and again whenever we start a new mission.
+        //We don't do it in startIdle, b/c most of the time
+        //there will a control loaded into the center when idle starts up
+
+        this.scanner.centerState.set( "idle" )
+
         this.feature.reset();
 
     }

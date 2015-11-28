@@ -4,9 +4,13 @@ Scanner = function() {
 
 	this.ele = [];
 
-	this.mode = "idle";
+	//this is the only time we set centerState to idle, b/c after this we are either scanning or loaded
 
-	this.state = new Blaze.ReactiveVar("idle");
+	this.centerState = new Blaze.ReactiveVar("idle");  //off, scan, idle, loaded  
+
+	this.mode = "idle";   //off, idle, scan, rescan
+
+	this.visible =  new Blaze.ReactiveVar( true );
 
 	this.totalTime = new Blaze.ReactiveVar( 0.0 );
 
@@ -66,6 +70,12 @@ Scanner = function() {
 
 	this.startIdle = function() {
 
+		this.visible.set( true );
+
+		this.draw();
+
+		this.fadeIn();
+
 		this.mode = "idle";
 
 		this.streamAnalyzerIdle();
@@ -93,9 +103,13 @@ Scanner = function() {
 
 	this.startScan = function() {
 
+		this.visible.set( true );
+
 		this.draw();
 
 		this.fadeIn();
+
+		this.centerState.set("scan");
 
 		this.mode = "scan";
 
@@ -122,8 +136,6 @@ Scanner = function() {
 			this.ele[ i ].nextScanMessage();  //sets the text and starts the gif
 		}
 
-		this.state.set("on");
-
 		this.drawCenter();
 
 		this.totalTime.set( Math.floor( this.highestScanTime() ) );
@@ -132,6 +144,16 @@ Scanner = function() {
 
 		display.loader.go();
 
+	}
+
+	this.hide = function() {
+
+		this.visible.set( false );
+	}
+
+	this.show = function() {
+
+		this.visible.set( true );
 	}
 
 	this.fadeIn = function( _time ) {
@@ -181,7 +203,7 @@ Scanner = function() {
 
 	this.nextScanMessage = function(_ID) {
 
-		if (this.mode != "scan") return;
+		if (this.mode != "scan" && this.mode != "rescan") return;
 		
 		this.ele[ _ID ].nextScanMessage();
 	}
@@ -194,17 +216,19 @@ Scanner = function() {
 			this.ele[ i ].pause();			
 		}
 
-		this.mode = "idle";
-
 		display.loader.showLoadedControl();
 
-		this.state.set("loaded");
+		this.centerState.set("loaded");
+
+		this.mode = "off";
 
 		//set the reactive var to change the center image to the new control
 
 		display.loadedControlName.set( display.loader.newControl.name );
 
 		Meteor.setTimeout( function() { display.scanner.drawCenter() }, 10 );
+
+		Meteor.setTimeout( function() { display.scanner.startIdle() }, 2000 );		
 	}
 
 	this.networkAnalyzer = function() {

@@ -297,7 +297,7 @@ function closeOutMap() {
 
     //typically we are reverting back to one of the "regular" controls ...
 
-    display.feature.resetToPrevious();
+    if (display.scanner.visible.get() == false) display.feature.resetToPrevious();
 
     //... but if the previous control WAS the map, then we just clear it.
 

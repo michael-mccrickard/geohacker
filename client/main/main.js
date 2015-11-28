@@ -138,13 +138,12 @@ Template.main.helpers({
       return display.ctl["VIDEO"].youTubeWaiting.get();
     },
 
-    scannerVisible: function() {
 
-      var _state = display.scanner.state.get() ;
+    scannerNotVisible: function() {
 
-      if (_state == "idle" || _state == "on" || _state == "loaded") return true;
+      if ( display.scanner.visible.get() ) return false;
 
-      return false;    
+      return true;    
     },
 
 
@@ -367,7 +366,7 @@ c("click control is setting media state to play")
 function updateFeaturedContent() {
 
     var _name = display.feature.getName();
-
+ 
     if (_name == "VIDEO") {
 
       display.ctl["VIDEO"].playNewVideo();
@@ -401,11 +400,14 @@ Template.main.rendered = function () {
 
       if (hack.mode == mReady)  {
 
-        Meteor.setTimeout(function() { display.scanner.fadeIn( 250 ) }, 500 );
+        if ( display.scanner.visible.get() ) {
 
-        Meteor.setTimeout(function() { display.scanner.draw(); }, 501 );
+          //Meteor.setTimeout(function() { display.scanner.fadeIn( 250 ) }, 500 );
 
-        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 );     
+          //Meteor.setTimeout(function() { display.scanner.draw(); }, 501 );
+
+          Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 );              
+        }
 
       }
 
