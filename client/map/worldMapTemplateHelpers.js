@@ -288,14 +288,14 @@ function closeOutMap() {
 
         if (state == sRegionFeatured) display.ctl["MAP"].setState( sIDCountry );
 
-        if (display.feature.lastName != "MAP") {
+       // if (display.feature.lastName != "MAP") {
 
           display.feature.resetToPrevious();
-        }
-        else {
+      //  }
+      //  else {
 
-          display.feature.clear();          
-        }
+         // display.feature.clear();          
+       // }
 
 
         FlowRouter.go("/main");
