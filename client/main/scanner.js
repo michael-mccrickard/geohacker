@@ -1,5 +1,7 @@
 /*  scanner.js  */
 
+gDate = new Date();
+
 Scanner = function() {
 
 	this.ele = [];
@@ -14,11 +16,19 @@ Scanner = function() {
 
 	this.totalTime = new Blaze.ReactiveVar( 0.0 );
 
-	this.progress = new Blaze.ReactiveVar( 0.0 );	
-
 	this.networkIntegrity =  new Blaze.ReactiveVar( 0.0 );	
 
+	this.progress = new Blaze.ReactiveVar( 0.0 );	
+
 	this.progressID = null;
+
+	this.progressLastTime = 0.0;
+
+	this.progressEndTime = 0;
+
+	this.progressInterval = 0.0;
+
+	this.progressLimit = 360;
 
 	this.streamAnalyzerCount = 0;
 
@@ -70,7 +80,7 @@ Scanner = function() {
 
 	this.startIdle = function() {
 
-		this.visible.set( true );
+		if (this.visible.get() == false) return;
 
 		this.draw();
 
@@ -242,7 +252,7 @@ Scanner = function() {
 
 	this.streamAnalyzer = function() {
 
-		if (this.mode == "idle") {
+		if (this.mode == "idle"  || this.mode == "off") {
 
 			return;
 		}
@@ -281,24 +291,51 @@ Scanner = function() {
 
 	this.startProgressMeter = function(  ) {
 
-		var _interval = this.totalTime.get() / 360;
+		this.progressInterval = this.totalTime.get() / this.progressLimit;
 
-		this.progress.set( 0.0 );
+		this.progress.set( 0 );
 
-		this.progressID = Meteor.setInterval( function () {
+		this.progressLastTime = new Date().getTime();
 
-			var temp = display.scanner.progress.get()			
+		this.progressEndTime = this.progressLastTime + this.totalTime.get();
 
-		 	display.scanner.progress.set( temp + 1 );
+		Meteor.setTimeout( function () {
+
+			display.scanner.advanceProgressMeter();
  
-		}, _interval);
+		}, display.scanner.progressInterval);
 
 		Meteor.defer( function() { display.scanner.drawCenter() } );
 	}
 
+	this.advanceProgressMeter = function() {
+
+			var s = display.scanner;
+
+			var temp = s.progress.get();
+
+			if (temp == s.progressLimit) return;			
+
+		 	s.progress.set( temp + 1 ); 
+
+		 	var lastTime =  s.progressLastTime;
+
+		 	var timeNow = new Date().getTime();
+
+		 	var remainder = s.progressEndTime - timeNow;
+
+		 	s.progressInterval = ( remainder / (s.progressLimit - temp + 1) ); 
+
+			Meteor.setTimeout( function () {
+
+				display.scanner.advanceProgressMeter();
+	 
+			}, display.scanner.progressInterval);
+	}
+
 	this.checkScan = function( _flag ) {
 
-		if ( this.progress.get() <  360) {
+		if ( this.progress.get() <  this.progressLimit) {
 
 			return false;
 		}

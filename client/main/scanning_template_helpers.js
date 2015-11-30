@@ -38,13 +38,13 @@ Template.scanning.helpers({
 
         if (_state != "scan" && _state != "rescan") return;
 
-    	if (display.scanner.progress.get() >= 360 ) {
+    	if (display.scanner.progress.get() >= display.scanner.progressLimit ) {
 
-            Meteor.clearInterval( display.scanner.progressID );
+            //Meteor.clearInterval( display.scanner.progressID );
 
             if (display.scanner.checkScan() == true) display.scanner.stopScan();
 
-    		return 359;
+    		return display.scanner.progressLimit - 1;
     	}
 
 

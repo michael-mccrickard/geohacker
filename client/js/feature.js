@@ -206,6 +206,8 @@ c("feature.js: set()")
 		$(".featuredPic").css("opacity", "1.0");
 
 		if (_name != "MAP") display.scanner.hide();
+
+		display.scanner.centerState.set("idle");
 		
 		//if we're switching to a different control then clear the current one
 
@@ -280,11 +282,6 @@ c("feature.js: set()")
 		this.lastName = this.getName();
 
         this.setName( "" );
-	}
-
-	this.clearImage = function() {
-
-		$("img.featuredPic").attr("src", "" );
 	}
 
 	this.draw = function() {

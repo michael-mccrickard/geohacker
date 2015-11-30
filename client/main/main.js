@@ -146,6 +146,12 @@ Template.main.helpers({
       return true;    
     },
 
+    scannerNotLoaded: function() {
+
+      if ( display.scanner.centerState.get() != "loaded" ) return true;
+
+      return false;    
+    },
 
     youTubeNotFeatured: function() {
 
@@ -401,7 +407,7 @@ Template.main.rendered = function () {
       if (hack.mode == mReady)  {
 
         if ( display.scanner.visible.get() ) {
-
+c("rendering scanner b/c main template was rendered")
           //Meteor.setTimeout(function() { display.scanner.fadeIn( 250 ) }, 500 );
 
           //Meteor.setTimeout(function() { display.scanner.draw(); }, 501 );
