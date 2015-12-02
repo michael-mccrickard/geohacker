@@ -1,4 +1,7 @@
+Template.editor.rendered = function() {
 
+  display.switchToEditor();
+}
 
 Template.editor.helpers({
 

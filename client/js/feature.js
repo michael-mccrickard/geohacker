@@ -361,7 +361,7 @@ c("feature.js: set()")
         }
         else {
 
-            _width = (fullHeight / _src.height ) * _src.width; 
+            if (_src) _width = (fullHeight / _src.height ) * _src.width; 
 
         }
 

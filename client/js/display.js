@@ -488,6 +488,36 @@ Display = function() {
         }    
     }
 
+    this.switchToEditCountry = function() {
+
+        this.switchToEditor();
+
+        FlowRouter.go("/editor");
+    }
+
+    this.switchToEditor = function() {
+
+       if (db == null) {
+
+          db = new Database();
+
+          db.initCore();
+
+          db.initControls();
+      }
+
+      if (editor == null) editor = new Editor();
+
+      editor.controlType = cNone;
+
+      if (hack == null)  hack = new Hack();
+
+      hack.mode = mEdit;
+
+      this.closeOutMain();
+
+    }
+
 }
 
 

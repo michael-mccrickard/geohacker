@@ -36,7 +36,7 @@ FlowRouter.route('/missionSelect', {
 
   name: "missionSelect",
 
-  action: function (params, queryParams) { BlazeLayout.render('layout', { content: "missionSelect" } ) },
+  action: function (params, queryParams) { $('body').removeClass('noscroll'); BlazeLayout.render('layout', { content: "missionSelect" } ) },
 
 });
 
@@ -50,6 +50,8 @@ FlowRouter.route('/congrats', {
   action: function() {
 
     pageRefreshed = false;
+
+    $('body').removeClass('noscroll');
 
     game.pauseMusic();
 
@@ -67,7 +69,7 @@ FlowRouter.route('/congrats', {
 
 FlowRouter.route('/home', {
 
-    action: function (params, queryParams) { BlazeLayout.render('layout', { content: "home" } ) },
+    action: function (params, queryParams) { $('body').removeClass('noscroll'); BlazeLayout.render('layout', { content: "home" } ) },
 
     name:  "home",
 
@@ -85,7 +87,7 @@ FlowRouter.route('/home', {
 
 FlowRouter.route('/main', {
 
-    action: function (params, queryParams) { BlazeLayout.render('layout', { content: "main" } ) },
+    action: function (params, queryParams) { $('body').addClass('noscroll'); BlazeLayout.render('layout', { content: "main" } ) },
 
     name:  "main"
 });
@@ -131,7 +133,7 @@ FlowRouter.route('/closeup', {
 
   name: "closeup",
 
-  action: function (params, queryParams) {  pageRefreshed = false; BlazeLayout.render('layout', { content: "closeup" } ); },
+  action: function (params, queryParams) { pageRefreshed = false; BlazeLayout.render('layout', { content: "closeup" } ); },
 });
 
 //*********************************************
@@ -154,6 +156,8 @@ FlowRouter.route('/editor', {
 
     pageRefreshed = false;
 
+$('body').removeClass('noscroll');
+
     BlazeLayout.render('layout', { content: "editor" } );
 
   }
@@ -174,6 +178,8 @@ FlowRouter.route('/selectCountry', {
 
       if (display.ctl["SOUND"]) display.ctl["SOUND"].pauseFeaturedContent();
     }
+
+$('body').removeClass('noscroll');
 
     BlazeLayout.render('layout', { content: "selectCountry" });
 
@@ -203,87 +209,9 @@ FlowRouter.route('/userDirectory',  {
   },
 
 
-  action: function (params, queryParams) { BlazeLayout.render('layout', { content: "userDirectory" } ) }
+  action: function (params, queryParams) { $('body').removeClass('noscroll'); BlazeLayout.render('layout', { content: "userDirectory" } ) }
 
 });
-
-
-//*********************************************
-//      ROUTE HOOKS
-//*********************************************
-/*
-//  START
-
-Router.onAfterAction(startMusic, {
-  
-  only: ['start']
-
-});
-
-//  MAIN
-
-Router.onAfterAction(checkHackScreen, {
-  
-  only: ['main']
-
-});
-
-
-//  DEBRIEF
-
-Router.onAfterAction(refreshDebriefWindow, {
-  
-  only: ['debrief']
-
-});
-
-
-Router.onAfterAction(playDebriefSound, {
-  
-  only: ['debrief']
-
-});
-
-//  CLOSEUP
-
-Router.onBeforeAction(checkForFeature, {
-  
-  only: ['closeup']
-
-});
-
-Router.onAfterAction(doRefreshCloseupWindow, {
-  
-  only: ['closeup']
-
-});
-
-
-//  EDITOR
-
-Router.onBeforeAction(switchToEditor, {
-  
-  only: ['selectCountry', 'editor']
-
-});
-
-Router.onAfterAction(doSelectCountryWindow, {
-  
-  only: ['selectCountry']
-
-
-});
-
-//  WORLD MAP
-
-
-Router.onAfterAction(drawWorldMap, {
-  
-  only: ['worldMap']
-
-});
-
-*/
 
 //*********************************************
 //      FUNCTIONS
@@ -352,7 +280,7 @@ function switchToEditor() {
 
   display.closeOutMain();
 
-  this.next();
+  //this.next();
 }
 
 

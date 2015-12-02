@@ -1,0 +1,50 @@
+1.	China	1,355,692,576
+2.	India	1,236,344,631
+3.	United States	318,892,103
+4.	Indonesia	253,609,643
+5.	Brazil	202,656,788
+6.	Pakistan	196,174,380
+7.	Nigeria	177,155,754
+8.	Bangladesh	166,280,712
+9.	Russia	142,470,272
+10.	Japan	127,103,388
+11.	Mexico	120,286,655
+12.	Philippines	107,668,231
+13.	Ethiopia	96,633,458
+14.	Vietnam	93,421,835
+15.	Egypt	86,895,099
+16.	Turkey	81,619,392
+17.	Germany	80,996,685
+18.	Iran	80,840,713
+19.	Congo, Dem. Rep.	77,433,744
+20.	Thailand	67,741,401
+21.	France	66,259,012
+22.	United Kingdom	63,742,977
+23.	Italy	61,680,122
+24.	Burma	55,746,253
+25.	Tanzania	49,639,138
+26.	Korea, South	49,039,986
+27.	South Africa	48,375,645
+28.	Spain	47,737,941
+29.	Colombia	46,245,297
+30.	Kenya	45,010,056
+31.	Ukraine	44,291,413
+32.	Argentina	43,024,374
+33.	Algeria	38,813,722
+34.	Poland	38,346,279
+35.	Uganda	35,918,915
+36.	Sudan	35,482,233
+37.	Canada	34,834,841
+38.	Morocco	32,987,206
+39.	Iraq	32,585,692
+40.	Afghanistan	31,822,848
+41.	Nepal	30,986,975
+42.	Peru	30,147,935
+43.	Malaysia	30,073,353
+44.	Uzbekistan	28,929,716
+45.	Venezuela	28,868,486
+46.	Saudi Arabia	27,345,986
+47.	Yemen	26,052,966
+48.	Ghana	25,199,609
+49.	Korea, North	24,851,627
+50.	Mozambique	24,692,144

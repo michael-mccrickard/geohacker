@@ -16,7 +16,9 @@ Scanner = function() {
 
 	this.totalTime = new Blaze.ReactiveVar( 0.0 );
 
-	this.networkIntegrity =  new Blaze.ReactiveVar( 0.0 );	
+	this.networkIntegrity =  new Blaze.ReactiveVar( 100 );	
+
+	this.networkIntegrityOn = false;
 
 	this.progress = new Blaze.ReactiveVar( 0.0 );	
 
@@ -40,9 +42,9 @@ Scanner = function() {
 
 	this.maxIdlePlay = 3000;
 
-	this.minScanPlay = 200;
+	this.minScanPlay = 20;
 
-	this.maxScanPlay = 750;
+	this.maxScanPlay = 75;
 
 	this.ele[ scTopLeft ] = new Ele("scanTopLeft", scTopLeft, "multi");
 
@@ -74,7 +76,13 @@ Scanner = function() {
 
 	this.ele[ scBottomRight ].scan = ["Securing all ports", "Encrypting requests", "Scanning headers", "Quaratining suspect streams", "Approving stream "];
 
+	this.intercept_sound_file = "new_feedback.mp3";
+
+	this.fadeInSound = "congrats1.mp3";
+
 	this.eleLimit = scBottomRight;
+
+ 	this.count = 0;
 
 	this.ready = true;
 
@@ -90,7 +98,7 @@ Scanner = function() {
 
 		this.streamAnalyzerIdle();
 
-		this.networkAnalyzer();
+		this.startNetworkAnalyzer();
 
 		for (var i = 0; i <= this.eleLimit;  i++) {
 
@@ -113,13 +121,15 @@ Scanner = function() {
 
 	this.startScan = function() {
 
-		this.visible.set( true );
+		this.show();
 
 		this.draw();
 
 		this.fadeIn();
 
 		this.centerState.set("scan");
+
+		this.hideBG();
 
 		this.mode = "scan";
 
@@ -152,23 +162,44 @@ Scanner = function() {
 
 		this.startProgressMeter();
 
+		this.playScanSound(2);
+
 		display.loader.go();
 
+	}
+
+	this.hideBG = function() {
+
+		$("img.imgScanBackdrop").css("opacity", 0.0);
+	}
+
+	this.showBG = function() {
+
+		$("img.imgScanBackdrop").css("opacity", 1.0);
 	}
 
 	this.hide = function() {
 
 		this.visible.set( false );
+
+		$("div.scanScreen").css("visibility", "hidden");
 	}
 
 	this.show = function() {
 
 		this.visible.set( true );
+
+		$("div.scanScreen").css("visibility", "visible");
 	}
 
 	this.fadeIn = function( _time ) {
 
-		if ( $(".scanScreen").css("opacity") == "0" ) $(".scanScreen" ).velocity("fadeIn", { duration: _time });
+		if ( $(".scanScreen").css("opacity") == "0" ) {
+			
+			Control.playEffect( this.fadeInSound );
+
+			$(".scanScreen" ).velocity("fadeIn", { duration: _time });
+		}
 	}
 
 	this.fadeOut = function( _time ) {
@@ -189,6 +220,13 @@ Scanner = function() {
 		return _highest;
 	}
 
+	this.playScanSound = function( _duration ) {
+
+		var s = "scan" + _duration + "_" + Database.getRandomFromRange(1,5) + ".mp3";
+
+		Control.playEffect( s );
+	}
+
 	this.pauseIdle = function( _ID) {
 
 		this.ele[ _ID ].pause();
@@ -207,6 +245,17 @@ Scanner = function() {
 	this.nextIdleMessage = function(_ID) {
 
 		if (this.mode != "idle") return;
+
+		this.count = this.count + 1;
+
+		if (this.count == 10) {
+
+			var s = "idle" + "_" + Database.getRandomFromRange(1,5) + ".mp3";
+
+			Control.playEffect( s );
+
+			this.count = 0;
+		}
 		
 		this.ele[ _ID ].nextIdleMessage();
 	}
@@ -232,6 +281,10 @@ Scanner = function() {
 
 		this.mode = "off";
 
+		this.showBG();
+
+		Control.playEffect( this.intercept_sound_file );
+
 		//set the reactive var to change the center image to the new control
 
 		display.loadedControlName.set( display.loader.newControl.name );
@@ -241,6 +294,15 @@ Scanner = function() {
 		Meteor.setTimeout( function() { display.scanner.startIdle() }, 2000 );		
 	}
 
+	this.startNetworkAnalyzer = function() {
+
+		if (this.networkIntegrityOn) return;
+
+		this.networkIntegrityOn = true;
+
+		Meteor.setTimeout( function() { display.scanner.networkAnalyzer() }, Database.getRandomFromRange(3000, 10000) );
+	}
+
 	this.networkAnalyzer = function() {
 
 		var _amt = Database.getRandomFromRange(910, 1000);
@@ -248,6 +310,7 @@ Scanner = function() {
 		this.networkIntegrity.set( _amt/10 );
 
 		Meteor.setTimeout( function() { display.scanner.networkAnalyzer() }, Database.getRandomFromRange(3000, 10000) );
+
 	}
 
 	this.streamAnalyzer = function() {
@@ -372,7 +435,11 @@ Scanner = function() {
 
 		$("div.scanCenterText").css("left", (fullBackdropWidth/2) - $(".scanCenterText").outerWidth() / 2 + "px");
 
-	  	$("div.scanCenterText").css("top", $(".scanCenter").position().top + $(".scanCenterImg").outerHeight() + vertSpacer*2 + "px" ); 
+		var spacer = vertSpacer * 2;
+
+		if (display.scanner.centerState.get() == "idle") spacer = -1 * vertSpacer*3
+
+	  	$("div.scanCenterText").css("top", $(".scanCenter").position().top + $(".scanCenterImg").outerHeight() + spacer + "px" ); 
 	}
 
 	this.draw = function() {
@@ -386,6 +453,12 @@ Scanner = function() {
 	    var vertSpacer = fullHeight * 0.01;
 
 	   this.drawCenter();
+
+	   $("img.imgScanBackdrop").css("width", fullHeight * 0.9 - vertSpacer / 2 +"px" );
+
+	   $("img.imgScanBackdrop").css("height", fullHeight * 0.9 - vertSpacer / 2 +"px" );
+
+	   $("div.scanBackdrop").css("left", fullBackdropWidth/2 - $("div.scanBackdrop").outerWidth()/2 + "px" );
 
 	   $("div.divAnalyzeStream").css("left", $("img.featuredBackdrop").position().left + fullBackdropWidth * 0.005 + "px" );
 

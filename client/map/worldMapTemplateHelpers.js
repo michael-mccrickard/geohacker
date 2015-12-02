@@ -279,8 +279,6 @@ function closeOutMap() {
 
     //If doScan (scanner button) loads a map control, then clicking the map control takes us
     //automatically to the map screen (essentially simulating a correct guess on the next area)
-    //When the user clicks OK, we need to update our map state and
-    //refeature the last control featured before the map control was clicked, then return to the main screen
 
     if (state == sContinentFeatured || state == sRegionFeatured ) {
 
@@ -299,7 +297,7 @@ function closeOutMap() {
 
     //... but if the previous control WAS the map, then we just clear it.
 
-    if (display.feature.getName() == "MAP") display.feature.clear();
+    //if (display.feature.getName() == "MAP") display.feature.clear();
 
 
     //if the user backed up after an identification or a map feature, then

@@ -21,7 +21,6 @@ cfs:standard-packages
 cfs:filesystem
 cfs:gridfs
 ddh:svg-circle-progress
-service-configuration
 standard-minifiers
 meteor-base
 mobile-experience
@@ -36,3 +35,4 @@ random
 ejson
 spacebars
 check
+sacha:spin

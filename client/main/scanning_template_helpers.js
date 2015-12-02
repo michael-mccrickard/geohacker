@@ -1,3 +1,6 @@
+
+
+
 Template.main.events({
 
   'click .scanCenterImg': function(e) {
@@ -58,7 +61,7 @@ Template.scanning.helpers({
 
     getScannerCenterImage: function() {
 
-        var _default =  "geohacker_background2.png";
+        var _default =  "3DGlobe.png"; //"geohacker_background2.png";
 
         var _name = display.loadedControlName.get();
 
@@ -118,5 +121,17 @@ Template.scanning.helpers({
 
 
 
+tt = function() {
+
+  Meteor.call("test1", function(err, res){ $("span.scrollTextBGText").text( res ) } );  
+
+        $("div.scrollTextBG").velocity({
+            top: "0px",
+        },{
+            duration: 5000,
+        });
+
+
+}
 
 
