@@ -55,11 +55,11 @@ Feature = function() {
 
 		if ( display.scanner.centerState == "scan" || display.scanner.centerState == "rescan") {
 
-			if (display.scanner.checkScan("excludeFeatureImage") == true) {display.scanner.stopScan();}
+			if (display.scanner.checkScan("feature") == true) {display.scanner.stopScan();}
 		}
-		
 
 		Meteor.defer( function() { Session.set("sFeatureImageLoaded", true); } );
+		
 	}
 
 	//this one can fire before the _name control has been

@@ -44,11 +44,7 @@ Template.scanning.helpers({
 
     	if (display.scanner.progress.get() >= display.scanner.progressLimit ) {
 
-            //Meteor.clearInterval( display.scanner.progressID );
-
-            //if (display.scanner.checkScan() == true) 
-
-            display.scanner.stopScan();
+            if (display.scanner.checkScan("scanner") == true) display.scanner.stopScan();
 
     		return display.scanner.progressLimit - 1;
     	}

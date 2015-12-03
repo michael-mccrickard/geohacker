@@ -405,23 +405,25 @@ Scanner = function() {
 			}, display.scanner.progressInterval);
 	}
 
-	this.checkScan = function( _flag ) {
 
-		if ( this.progress.get() <  this.progressLimit) {
+	this.checkScan = function( _which ) {
 
-			return false;
+		//if this function is called by the feature object, then feature image is loaded
+		//and we just need to know if progress meter on the scanner is done
+
+		if ( _which == "feature" ) {
+
+			if ( this.progress.get() <  this.progressLimit) {
+
+				return false;
+			}
+
 		}
 
-		for (var i = scTopLeft; i <= scBottomRight; i++) {
+		//if this function is called by the scanner, then the scan sequence is done
+		//and we just need to know if the feature image has finished loading
 
-			if (this.ele[i].finished == false) return false; 
-		}
-
-		//if this function is called by display.feature.fileIsLoaded, then it is just about
-		//to flip the session var sFeatureImageLoaded, but hasn't done so yet, so just ignore
-		//that test in this case
-
-		if (_flag != "excludeFeatureImage") {  //the flag used by display.feature.imageIsLoaded()
+		if (_which == "scanner") {  
 
 			if (Session.get("sFeatureImageLoaded") == false)  return false;
 		}
@@ -429,6 +431,7 @@ Scanner = function() {
 		return true;
 
 	}
+
 
 	this.drawCenter = function() {
 
