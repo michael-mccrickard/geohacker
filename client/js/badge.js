@@ -8,7 +8,7 @@ BadgeList = function() {
 
 	this.scholarText = ["ANALYZED 15 OR MORE MINS","ANALYZED 8 OR MORE MINS","ANALYZED 3 OR MORE MINS"];
 
-	this.investigatorText = ["9 OR MORE DATA POINTS","6 OR MORE DATA POINTS","3 OR MORE DATA POINTS"];
+	this.investigatorText = ["9 OR MORE MESSAGES","6 OR MORE MESSAGES","3 OR MORE MESSAGES"];
 
 	this.speedPic = ["speedster_gold.png", "speedster_silver.png", "speedster_bronze.png"];
 

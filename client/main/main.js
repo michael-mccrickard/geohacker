@@ -253,6 +253,20 @@ Template.main.events({
           return;
       }
 
+      if (display.scanner.mode == "scan" || display.scanner.mode == "rescan") {
+
+          Control.playEffect( display.locked_sound_file );
+
+          return;
+      }
+
+      if ( $("img#scanButton").hasClass('faded') ) {
+
+          Control.playEffect( display.locked_sound_file );
+
+          return; 
+      }
+
       if (hack.mode == mBrowse) {
 
         var s = "";
@@ -281,12 +295,7 @@ Template.main.events({
 
       }
 
-       if ( $("img#scanButton").hasClass('faded') ) {
 
-          Control.playEffect( display.locked_sound_file );
-
-          return; 
-      }
 
       display.feature.dim();
 
@@ -302,7 +311,7 @@ Template.main.events({
       
       e.preventDefault();
 
-      if (hack.mode == mScanning) {
+      if (display.scanner.mode == "scan" || display.scanner.mode == "rescan") {
 
           Control.playEffect( display.locked_sound_file );
 
@@ -406,8 +415,8 @@ Template.main.rendered = function () {
 
       if (hack.mode == mReady)  {
 
-        if ( display.scanner.visible.get() ) {
-c("rendering scanner b/c main template was rendered")
+        if ( display.feature.off() || (display.feature.on() && display.feature.getName() == "MAP")  ) {
+
           //Meteor.setTimeout(function() { display.scanner.fadeIn( 250 ) }, 500 );
 
           //Meteor.setTimeout(function() { display.scanner.draw(); }, 501 );
@@ -419,3 +428,4 @@ c("rendering scanner b/c main template was rendered")
 
     }
 }
+

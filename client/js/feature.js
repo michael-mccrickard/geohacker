@@ -162,13 +162,13 @@ Feature = function() {
 
 		if (this.lastName == "VIDEO") display.ctl["VIDEO"].setState( sPlaying );
 
-		if (this.lastName.length) {
+		if (display.scanner.centerState.get() != "loaded") { // && this.lastName != "MAP") {
 
 			this.set( this.lastName );	
 		}
 		else {
 
-			display.scanner.visible.set ( true );
+			display.scanner.show();
 		}
 	},
 

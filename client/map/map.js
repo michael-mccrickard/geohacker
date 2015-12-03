@@ -65,7 +65,7 @@ ghMap = function() {
       if (_state == sCountryOK) s= "Country correctly identified!";
 
 
-      if (_state == sMapDone) s= "Message traced to " + hack.getCountryName() + ".";
+      if (_state == sMapDone) s= "Stream traced to " + hack.getCountryName() + ".";
 
       Session.set("gMapStatus", s);
       

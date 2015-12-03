@@ -21,6 +21,7 @@
 
   float: left;
   margin: 0.5%;
+  cursor: pointer;
 }
 
 .imgHomeAvatar {
@@ -40,6 +41,7 @@
   margin: 0.5%;
       border-radius: 6px;
   background: black;
+  cursor: pointer;
 }
 
 .divHomeButtonPic {
@@ -61,6 +63,7 @@
 
 .divHomeMapButton {
 	float: right;
+    cursor: pointer;
 }
 
 .homeMapButton {

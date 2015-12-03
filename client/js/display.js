@@ -373,6 +373,10 @@ Display = function() {
 
          this.stopBlinking();  
 
+         $('body').removeClass('noscroll');
+
+         this.scanner.hide();
+
     }
 
 

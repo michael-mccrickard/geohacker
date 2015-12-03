@@ -45,13 +45,13 @@ Headline = function( _type ) {
 
             if (display.loader.totalClueCount == 1) {
 
-                this.text = "message " + hack.messageID;
+                this.text = "STREAM " + hack.messageID;
             }
         }
 
         if (hack.mode == mHackDone) {
 
-            this.text = "MESSAGE FROM " + hack.getCountryName() + " WAS HACKED."
+            this.text = "STREAM FROM " + hack.getCountryName() + " WAS HACKED."
         }
 
         if (hack.mode == mBrowse) this.text = "Geohacker: Agent " + game.user.name + " is browsing " + mission.name;
@@ -73,32 +73,32 @@ Headline = function( _type ) {
 
             if (display.loader.totalClueCount == 1)  this.text = 'Scanning for foreign transmissions ...';  
 
-            if (display.loader.totalClueCount > 1) this.text  = 'Scanning for additional data linked to this intercept ...';
+            if (display.loader.totalClueCount > 1) this.text  = 'Scanning for additional messages linked to this strean ...';
         }
 
         if (hack.mode == mDataFound) {
 
             if (display.loader.totalClueCount == 1) {
 
-                this.text = ('Message ' + hack.messageID + ' intercepted!');  
+                this.text = ('Stream ' + hack.messageID + ' intercepted');  
             }
 
-             if (display.loader.totalClueCount > 1) this.text = 'Additional data found linked to message ' + hack.messageID + '!';
+             if (display.loader.totalClueCount > 1) this.text = 'Additional data found linked to stream ' + hack.messageID;
         }
 
         if (hack.mode == mHackDone) {
 
-            this.text = "Intercepted message successfully resolved.";
+            this.text = "Intercepted stream successfully hacked.";
         }
 
         if (display.moreDataAvailable() == false) {
 
-            this.text  = "Geo-locate the message using the map ...";
+            this.text  = "Geo-locate the stream using the map ...";
         }
 
         if (hack.mode == mBrowse) this.text = "All data linked to " + hack.getCountryName() + " is loaded. ";
 
-        if (this.text  == "") this.text  = "Scan for more data or use the map to geo-locate the message ..."
+        if (this.text  == "") this.text  = "Scan for more data or use the map to geo-locate the stream ..."
 
         $( this.ele ).addClass("invisible");
 

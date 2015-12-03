@@ -68,7 +68,7 @@ Ele = function(_name, _ID, _type ) {
 
 			this.finished = true;
 
-			if (display.scanner.checkScan() == true) { display.scanner.stopScan(); }
+			//if (display.scanner.checkScan() == true) { display.scanner.stopScan(); }
 
 			return;
 

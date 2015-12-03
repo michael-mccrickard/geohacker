@@ -64,8 +64,13 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     this.goHome = function() {
 
-    	if (this.mode == uNone) this.setMode( uHack );
+    	if (this.mode == uNone) {
 
+    		this.setMode( uHack );
+    	}
+    	else {
+    		this.setMode( this.mode );
+    	}
     	FlowRouter.go("/home");
     }
 

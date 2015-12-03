@@ -36,7 +36,13 @@ FlowRouter.route('/missionSelect', {
 
   name: "missionSelect",
 
-  action: function (params, queryParams) { $('body').removeClass('noscroll'); BlazeLayout.render('layout', { content: "missionSelect" } ) },
+  action: function (params, queryParams) { 
+
+   display.closeOutMain();
+
+   BlazeLayout.render('layout', { content: "missionSelect" } ) 
+
+ },
 
 });
 
@@ -69,7 +75,13 @@ FlowRouter.route('/congrats', {
 
 FlowRouter.route('/home', {
 
-    action: function (params, queryParams) { $('body').removeClass('noscroll'); BlazeLayout.render('layout', { content: "home" } ) },
+  action: function (params, queryParams) { 
+
+   if (display != undefined) display.closeOutMain();
+
+   BlazeLayout.render('layout', { content: "home" } ) 
+
+ },
 
     name:  "home",
 
@@ -87,7 +99,12 @@ FlowRouter.route('/home', {
 
 FlowRouter.route('/main', {
 
-    action: function (params, queryParams) { $('body').addClass('noscroll'); BlazeLayout.render('layout', { content: "main" } ) },
+    action: function (params, queryParams) { 
+
+      $('body').addClass('noscroll'); 
+
+      BlazeLayout.render('layout', { content: "main" } ) 
+    },
 
     name:  "main"
 });
@@ -100,7 +117,13 @@ FlowRouter.route('/worldMap', {
 
   name: "worldMap",
 
-  action: function (params, queryParams) { pageRefreshed = false; BlazeLayout.render('layout', { content: "worldMap" } ); },
+  action: function (params, queryParams) { 
+
+   display.closeOutMain();
+
+   BlazeLayout.render('layout', { content: "worldMap" } ) 
+
+ },
 });
 
 //*********************************************
@@ -152,15 +175,15 @@ FlowRouter.route('/editor', {
     this.register("editDebriefs", Meteor.subscribe("allDebriefs") );
   },
 
-  action: function() {
+  action: function (params, queryParams) { 
 
     pageRefreshed = false;
 
-$('body').removeClass('noscroll');
+   display.closeOutMain();
 
-    BlazeLayout.render('layout', { content: "editor" } );
+   BlazeLayout.render('layout', { content: "editor" } ) 
 
-  }
+ },
 });
 
 FlowRouter.route('/selectCountry', {
@@ -179,7 +202,7 @@ FlowRouter.route('/selectCountry', {
       if (display.ctl["SOUND"]) display.ctl["SOUND"].pauseFeaturedContent();
     }
 
-$('body').removeClass('noscroll');
+    display.closeOutMain();
 
     BlazeLayout.render('layout', { content: "selectCountry" });
 
@@ -230,7 +253,7 @@ function checkForFeature() {
     this.redirect("/main");
   }
 
-  this.next();
+  //this.next();
 }
 
 /*
@@ -282,13 +305,6 @@ function switchToEditor() {
 
   //this.next();
 }
-
-
-function drawWorldMap() {
-
-  display.closeOutMain();
-}
-
 
 
 function doSelectCountryWindow() {

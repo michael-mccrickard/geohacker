@@ -14,6 +14,7 @@ Template.main.events({
         display.scanner.fadeOut( 250 );
 
         display.feature.set( display.loadedControlName.get() );
+
      }
      else {
 
@@ -45,7 +46,9 @@ Template.scanning.helpers({
 
             //Meteor.clearInterval( display.scanner.progressID );
 
-            if (display.scanner.checkScan() == true) display.scanner.stopScan();
+            //if (display.scanner.checkScan() == true) 
+
+            display.scanner.stopScan();
 
     		return display.scanner.progressLimit - 1;
     	}

@@ -58,6 +58,7 @@ img.featuredBackdrop {
     position: absolute;
     top: 6%;
     z-index: 990;
+    cursor: pointer;
 }
 
 .featuredText {
@@ -90,7 +91,6 @@ img.featuredBackdrop {
 
     top: 0px;
     left: 0px;
-
     z-index: 50;
 
 }
@@ -122,6 +122,7 @@ img.featuredBackdrop {
     left: 85.75%; 
     width: 12.8%;
     height: 20%;
+      cursor: pointer;
 }
 
 .clsMapButton {
@@ -186,6 +187,8 @@ div.control {
 
     width: 15.8%;
     height: 20.5%;
+
+      cursor: pointer;
 
 }
 

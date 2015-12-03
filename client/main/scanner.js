@@ -129,7 +129,12 @@ Scanner = function() {
 
 		this.centerState.set("scan");
 
-		this.hideBG();
+		if ( display.feature.on() ) {
+
+			var _name = display.feature.getName();
+
+			if (_name != "TEXT" && _name != "VIDEO"  && _name != "MAP") this.hideBG();
+		}
 
 		this.mode = "scan";
 

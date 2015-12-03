@@ -286,6 +286,8 @@ function closeOutMap() {
 
         if (state == sRegionFeatured) display.ctl["MAP"].setState( sIDCountry );
 
+        display.feature.resetToPrevious();
+
         FlowRouter.go("/main");
 
         return;
@@ -293,7 +295,7 @@ function closeOutMap() {
 
     //typically we are reverting back to one of the "regular" controls ...
 
-    if (display.scanner.visible.get() == false) display.feature.resetToPrevious();
+    display.feature.resetToPrevious();
 
     //... but if the previous control WAS the map, then we just clear it.
 

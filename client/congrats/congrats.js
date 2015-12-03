@@ -94,11 +94,11 @@ Template.congrats.helpers({
 
   congratsBanner:  function() {
 
-    //either MESSAGE HACKED or MISSION COMPLETE
+    //either STREAM HACKED or MISSION COMPLETE
 
     if (game.user.assign.pool.length == 0) return "MISSION COMPLETE";
 
-    return "MESSAGE HACKED";
+    return "STREAM HACKED";
   },
 
   flagPic:  function() {
@@ -116,7 +116,7 @@ Template.congrats.helpers({
 
   hackReport1: function() {
 
-    var s = "Message originated in " + hack.getCountryName() + "."; 
+    var s = "Stream originated in " + hack.getCountryName() + "."; 
 
     return s.toUpperCase();s
   },
