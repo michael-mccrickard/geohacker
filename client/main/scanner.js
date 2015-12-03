@@ -194,6 +194,8 @@ Scanner = function() {
 
 	this.fadeIn = function( _time ) {
 
+		this.show();
+
 		if ( $(".scanScreen").css("opacity") == "0" ) {
 			
 			Control.playEffect( this.fadeInSound );
@@ -205,6 +207,8 @@ Scanner = function() {
 	this.fadeOut = function( _time ) {
 
 		if ( $(".scanScreen").css("opacity") == "1" ) $(".scanScreen" ).velocity("fadeOut", { duration: _time, display: "auto" });
+
+		this.hide();
 	}
 
 	this.highestScanTime = function() {
@@ -244,7 +248,7 @@ Scanner = function() {
 
 	this.nextIdleMessage = function(_ID) {
 
-		if (this.mode != "idle") return;
+		if (this.mode != "idle" || this.visible.get() == false) return;
 
 		this.count = this.count + 1;
 
