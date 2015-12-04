@@ -21,6 +21,8 @@ Debrief = function() {
 
 	this.arr = [];
 
+	this.alreadyLoaded = false;
+
 	this.init = function() {
 
 		this.countryCode = hack.countryCode;
@@ -28,6 +30,8 @@ Debrief = function() {
 		this.arr = db.ghD.find( { cc: this.countryCode } ).fetch();
 
 		this.index = Database.getRandomValue(this.arr.length);
+
+		this.alreadyLoaded = false;
 	}
 
 	this.draw = function() {
@@ -162,10 +166,16 @@ Debrief = function() {
 
         imagesLoaded( document.querySelector('#preloadDebrief'), function( instance ) {
     
-          //now that the image is loaded ...
-		  
-		  hack.debrief.draw();
+			if (hack.debrief.alreadyLoaded)  {
 
+				hack.debrief.draw(); 
+			}
+			else {
+
+				//in this case, template.rendered will call draw();
+
+				hack.debrief.alreadyLoaded = true; 
+			}
         });
 	}
 
@@ -219,7 +229,8 @@ Debrief = function() {
 
 Template.debrief.rendered = function () {
 
-	refreshWindow("router-debrief");
+	hack.debrief.draw();
+
 }
 
 Template.debrief.events = {

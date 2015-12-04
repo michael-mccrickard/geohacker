@@ -74,20 +74,7 @@ Session.set("isIOS", false);
  
   //display-related
 
-  Session.set("sImagesReady", false);
-
-/*
-  Session.set("sScanState", "idle");  //off, idle, on, loaded
-
-  Session.set("sScanProgress", 0.0);
-
-  Session.set("sScanTotalTime", 0.0);
-
-  Session.get("sNetworkIntegrity", 0.0)
-
-*/
-
-
+  Session.set("sImagesReady", false); 
 
   Session.set("sFeatureImageLoaded", false);    
 

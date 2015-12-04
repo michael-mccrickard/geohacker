@@ -272,6 +272,8 @@ function closeOutMap() {
 
         display.feature.clear();
 
+        hack.debrief.set( hack.debrief.index );
+
         FlowRouter.go("/debrief");
 
         return;
@@ -293,13 +295,9 @@ function closeOutMap() {
         return;
     }   
 
-    //typically we are reverting back to one of the "regular" controls ...
+    //We revert back to showing the previous feature (possibly the auto-featured map clue)
 
     display.feature.resetToPrevious();
-
-    //... but if the previous control WAS the map, then we just clear it.
-
-    //if (display.feature.getName() == "MAP") display.feature.clear();
 
 
     //if the user backed up after an identification or a map feature, then

@@ -33,7 +33,9 @@ refreshWindow = function(_which) {
 
     if (name == "debrief") {
 
-        hack.debrief.set( hack.debrief.index ); 
+        //hack.debrief.set( hack.debrief.index ); 
+
+        hack.debrief.draw();
 
         return;
     }
