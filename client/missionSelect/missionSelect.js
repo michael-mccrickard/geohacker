@@ -6,6 +6,15 @@ Template.missionListing.events = {
 
   		Control.playEffect("goMission.mp3");
 
+  		if (mission) {
+
+  			display.mainTemplateReady = false;
+
+  			FlowRouter.go("/main");
+
+  			return;
+  		}
+
       	var id = e.currentTarget.id;
 
       	game.user.bumpAssign( id );
@@ -68,7 +77,7 @@ Template.missionListing.helpers({
 
 		if (hack != null) {
 
-			if (hack.mode == mHackDone) {
+			if (mission) {
 
 				if (this.name == mission.name && this.hacked.length != mission.items.length) return "CONTINUE";			
 			}			

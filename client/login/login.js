@@ -271,7 +271,7 @@ Template.login.events({
 
                 game.user.profile.readInBadges();
 
-                Meteor.defer( function() { FlowRouter.go("/home"); } );
+                Meteor.defer( function() { user.goHome } );
 
               }
               

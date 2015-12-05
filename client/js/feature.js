@@ -207,7 +207,7 @@ c("feature.js: set()")
 
 		if (_name != "MAP") {
 
-			display.scanner.hide();
+			//display.scanner.hide();
 
 			display.scanner.centerState.set("off");
 		}

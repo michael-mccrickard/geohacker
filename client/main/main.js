@@ -415,11 +415,13 @@ Template.main.rendered = function () {
 
       if (hack.mode == mReady)  {
 
-        if ( display.feature.off() || (display.feature.on() && display.feature.getName() == "MAP")  ) {
-
+        if ( display.feature.off() ||  display.feature.getName() == "MAP") {    //(display.feature.on() && display.feature.getName() == "MAP")  ) {
+c("about to call startIdle")
           //Meteor.setTimeout(function() { display.scanner.fadeIn( 250 ) }, 500 );
 
           //Meteor.setTimeout(function() { display.scanner.draw(); }, 501 );
+
+          display.scanner.show();
 
           Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 );              
         }

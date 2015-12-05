@@ -202,6 +202,8 @@ Template.congrats.events = {
 
       Control.playEffect("startButton.mp3");
 
+      mission = null;
+
       FlowRouter.go( "/missionSelect" );
 
     }   

@@ -203,13 +203,13 @@ BadgeList = function() {
 
      	//the ad-hoc missions (Top Ten, etc.)
 
-     	if (game.user.assign.completions == 1  && mission.level == mlNone) this.arr.push( this.generateBadge( bFirstTime, ftMission, true) );  
+     	if (game.user.assign.completions == 1  && game.user.assign.pool.length == 0 && mission.level == mlNone) this.arr.push( this.generateBadge( bFirstTime, ftMission, true) );  
 
      	//genius
 
     	if (display.loader.totalClueCount == 1) this.arr.push( this.generateBadge( bGenius, null, true) );
 
-     	//genius
+     	//expert
 
     	if (display.loader.totalClueCount == 2) this.arr.push( this.generateBadge( bExpert, null, true ) );
 
