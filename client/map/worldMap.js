@@ -1,6 +1,23 @@
 editLabels = false;
-el = function() { editLabels = true; }
-noel = function() { editLabels = false; }
+el = function() { editLabels = true; c("editLabels is on")}
+noel = function() { editLabels = false; c("editLabels is off")}
+
+go = function() { display.ctl["MAP"].preloadCountryMap( hack.getCountryFilename().toLowerCase() );  c("resuming sequence")}
+
+updateLabel = function() {
+
+    var _state = display.ctl["MAP"].getState();
+
+    if ( _state == sMapDone) {
+
+        updateLabelPosition(2);
+    }
+    else {
+
+        updateLabelPosition(1);
+    }
+
+}
 
 //**********************************************************************************
 //                     MAP MAKER
@@ -41,11 +58,14 @@ WorldMap = function( _mapCtl ) {
 
     //objects
 
-    this.dp = null;
+    this.dp = null;  //data provider for the ammap map object
 
-    this.mm = this.mm || new MapMaker();
+    this.map = null;  //the ammap map object
 
-    this.mapCtl = _mapCtl;
+    this.mm = this.mm || new MapMaker();  //object that calls the ammap library to create the displayed map
+
+    this.mapCtl = _mapCtl;   //the control object in map.js
+
 
     //misc
 
@@ -66,6 +86,9 @@ WorldMap = function( _mapCtl ) {
     this.doCurrentMap = function() {
 
 c("doCurrentMap");
+
+        //these featured states are the result of the loader selecting the MAP as the next clue
+        //which result in the user being shown the appropriate area as a clue ("map file")
 
         if (this.mapCtl.getState() == sContinentFeatured) {
 
@@ -102,6 +125,9 @@ c("doCurrentMap");
             return;
         }       
 
+        //Otherwise the user just clicked on the map button to try and identify the appropriate country,
+        //so we need to display the map at the appropriate level: world, continent, or region
+
         var level = this.mapCtl.level.get();
 
         if (level == mlNone || level == mlWorld) {
@@ -119,7 +145,6 @@ c("doCurrentMap");
 
         }
 
-
         if (level == mlRegion) {
 
             this.doMap( this.selectedRegion, level );
@@ -127,7 +152,7 @@ c("doCurrentMap");
             this.mapCtl.setState( sIDCountry );             
         }
 
-        if (level == mlCountry) {  //this is just a replay of the map zooming in on the correct country (Relax mode)
+        if (level == mlCountry) {  //this is just a replay of the map zooming in on the correct country (browse mode)
 
            this.doMap( this.selectedRegion, mlRegion);
 
@@ -147,7 +172,7 @@ c("doCurrentMap");
 
 
     this.doMap = function(_code, _level) {
-c("doMap")
+
         //initialize variables related to the map
 
         var rec = null;
@@ -217,11 +242,11 @@ c("doMap")
 
         };
 
+
+
         //lock out clicks on the map if we need to test the selection
         //(this is also why we pass testingFlag to getJSONForMap(); so it won't write zoom values to the areas if testing)
         if (lockMap) {
-
-c("map is locked b/c state is " + state);
 
             this.map.areasSettings.autoZoom = false;
         }
@@ -285,27 +310,47 @@ c("map is locked b/c state is " + state);
             //most of the countries don't have hard-coded label positions
             //but some do
 
-            if (rec.xl != undefined) {
+            if (this.mapCtl.getState() == sMapDone) {
 
-                x = rec.xl * this.map.divRealWidth;
+                if (rec.xl2 != undefined) {
 
-                y = rec.yl * this.map.divRealHeight;
+                    x = rec.xl2 * this.map.divRealWidth;
+
+                    y = rec.yl2* this.map.divRealHeight;
+                }
+                else {  //no label pos data?  then just center it
+
+                    x = this.map.divRealWidth / 2;
+
+                    y = this.map.divRealHeight / 2;    
+                }                 
             }
-            else {  //no label pos data?  then just center it
+            else {
 
-                x = this.map.divRealWidth / 2;
+                if (rec.xl != undefined) {
 
-                y = this.map.divRealHeight / 2;    
+                    x = rec.xl * this.map.divRealWidth;
+
+                    y = rec.yl * this.map.divRealHeight;
+                }
+                else {  //no label pos data?  then just center it
+
+                    x = this.map.divRealWidth / 2;
+
+                    y = this.map.divRealHeight / 2;    
+                }  
             }
 
             _name = rec.n;
+
         }
 
+        
         if (_fontSize == undefined) _fontSize = 24;
 
         if (_col == undefined) _col = "white";
 
-        Meteor.defer( function() {display.ctl["MAP"].worldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
+        Meteor.defer( function() { display.ctl["MAP"].worldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
     }
 
 
@@ -379,7 +424,10 @@ c("map is locked b/c state is " + state);
     }
 
     //functions that close the map call this to see if the map state was
-    //temporarily changed as the result of a map backup
+    //temporarily changed as the result of a map backup.  The user might successfully
+    //identify the continent, say, but then back the map up (using the icon buttons on the left)
+    //and then exit.  In this case, we want the map to be back on the selected (correct) continent
+    //when they return
 
     this.checkMapState = function() {
 
@@ -455,6 +503,8 @@ c("map is locked b/c state is " + state);
 
             if (this.selectedCountry == theCountry) {
 
+                //A sound file (from the sound control) might be playing in the bg
+
                 if (display.ctl["SOUND"].getState() == sPlaying) display.ctl["SOUND"].pauseFeaturedContent();
 
                 this.doMapSuccess(mlCountry);
@@ -465,14 +515,16 @@ c("map is locked b/c state is " + state);
 
                 //lock out the map so the user doesn't mess up our ending sequence
 
-                if (!editLabels) $("#divMap").css("pointer-events","none");
+                //if (!editLabels) $("#divMap").css("pointer-events","none");
+
+                //update the user's record in the database (country successfully hacked)
 
                 game.user.countryHacked( theCountry );
 
                 //we load the country map using the preloader (so that we can read it's size)
                 //and the preloader callback will trigger the map zooming sequence
 
-                this.mapCtl.preloadCountryMap( hack.getCountryFilename().toLowerCase() )
+                if (!editLabels) this.mapCtl.preloadCountryMap( hack.getCountryFilename().toLowerCase() )
             }
             else {
 
@@ -539,18 +591,19 @@ c("doMapSuccess")
         
     }
 
-    //When the user clicks TEST, they will either get a "success" or "fail" message and an OK button
-    //If they were testing the country and got it correct, the OK button will take them to debriefing. 
+    //When the user clicks an area, they will either get a "success" or "fail" message and an OK button
+    //If they got the country correct, the OK button will take them to debriefing. 
     //This happens in the event handler for OK.
 
-    //In all other cases, OK will call this function to update the map state accordingly
+    //In all other cases (id'ing the continent or region or a fail), OK will call this function to update the map state accordingly
 
     //After doing the proper updates, we go back to the main screen
 
     this.nextMapState = function() {
 
         //Essentially we just have to update the map state so that the map object knows what the user
-        //will need to do on their next trip to the map, likewise we need to set the map level, so that
+        //will need to do on their next trip to the map.
+        //Likewise we need to set the map level, so that
         //the map will get drawn correctly on their next visit
 
         var state = this.mapCtl.getState();
@@ -559,6 +612,12 @@ c("doMapSuccess")
 
             this.mapCtl.setState( sIDRegion );
         }        
+
+        if (state == sRegionOK) {
+
+            this.mapCtl.setState( sIDCountry );
+        }
+
 
         //for the failure states, we also undo the user's area choice
 
@@ -569,11 +628,6 @@ c("doMapSuccess")
             this.mapCtl.level.set( mlWorld );
 
             this.selectedContinent = "";
-        }
-
-        if (state == sRegionOK) {
-
-            this.mapCtl.setState( sIDCountry );
         }
 
         if (state == sRegionBad) {
@@ -602,8 +656,6 @@ c("doMapSuccess")
 
     this.hackDone = function() {
 
-        if (editLabels) return;
-
         areaTop = $("#divMap").position().top;
         areaLeft = $("#divMap").position().left;
         areaWidth = $("#divMap").width();
@@ -620,6 +672,8 @@ c("doMapSuccess")
     }
 
     //Redraw the map at half size over on the left
+
+
 
     this.hackDone2 = function() {
 
@@ -647,7 +701,9 @@ c("doMapSuccess")
 
         this.mapCtl.level.set( mlCountry );
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.labelMapObject(14, "yellow"); }, 503 );  
+        this.zoomDone = true;
+
+        var rec = db.getCountryRec( hack.countryCode );
 
         Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone4()}, 504);       
     }
@@ -713,6 +769,8 @@ c("doMapSuccess")
             
         );
 
+        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.labelMapObject(14, "yellow"); }, 1001 );
+
         display.ctl["MAP"].setState( sMapDone );  
 
     }
@@ -726,8 +784,6 @@ c("doMapSuccess")
 
 
 function handleClick(_event) {
-
-c("handleClick");
     
     Control.playEffect( worldMap.map_sound );
 
@@ -754,7 +810,8 @@ c("handleClick");
     }
 
     //if they are clicking after getting the country wrong; then
-    //flip the state back to sIDCountry
+    //flip the state back to sIDCountry  
+    //(this is not possible at the three higher levels, because we are zoomed in too far)
 
     if (state == sCountryBad) {
 
@@ -772,7 +829,7 @@ c("handleClick");
 
     if (state == sIDContinent) {
 
-        var _code = db.getContinentCodeForCountry(worldMap.mapObjectClicked);  //in data_handling.js
+        var _code = db.getContinentCodeForCountry(worldMap.mapObjectClicked);  //in database.js
 
         worldMap.selectedContinent = _code;
 
@@ -814,14 +871,19 @@ c("handleClick");
 
 }
 
+//this function gets called by the ammap object when
+//the zoom-in finishes as the result of a user click (or simulated click)
 
 function handleZoomCompleted() { 
-c("handleZoomCompleted");
+
     var _rec;
 
     var _code;
 
+    //this event can fire on it's own as a result of the map being drawn the first time
+
     if (worldMap.zoomDone == true) return;
+
 
     var state = worldMap.mapCtl.getState();
 
@@ -843,7 +905,10 @@ c("handleZoomCompleted");
         return;
     }
 
+    //possibly the user might click on a country after correctly id'ing the "hacked" country
+
     if (state >= sCountryOK ) return;
+
 
     //User's first click; trying to pick the right continent
 

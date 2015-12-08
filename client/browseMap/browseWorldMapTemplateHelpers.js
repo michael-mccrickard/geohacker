@@ -1,22 +1,6 @@
 //*************************************************************************
-//              RENDERED CALLBACK
+//              TEMPLATE HELPERS FOR BROWSE WORLD MAP
 //*************************************************************************
-
-
-Template.browseWorldMap.rendered = function () {
-  
-    if (display.worldMapTemplateReady == false) {
-
-      display.worldMapTemplateReady = true;
-
-      Meteor.setTimeout( function() { display.ctl["MAP"].browseWorldMap.doCurrentMap() }, 250 );
-
-      Meteor.setTimeout( function() { display.ctl["MAP"].browseFinishDraw() }, 251 );
-
-    }
-}
-
-
 
 Template.browseWorldMap.helpers({
 
@@ -155,4 +139,22 @@ Template.browseWorldMap.events = {
 
       Router.go("/main");
   }
+}
+
+//*************************************************************************
+//              RENDERED CALLBACK
+//*************************************************************************
+
+
+Template.browseWorldMap.rendered = function () {
+  
+    if (display.worldMapTemplateReady == false) {
+
+      display.worldMapTemplateReady = true;
+
+      Meteor.setTimeout( function() { display.ctl["MAP"].browseWorldMap.doCurrentMap() }, 250 );
+
+      Meteor.setTimeout( function() { display.ctl["MAP"].browseFinishDraw() }, 251 );
+
+    }
 }

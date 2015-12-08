@@ -1,3 +1,7 @@
+//*************************************************************************
+//              TEMPLATE HELPERS FOR THE GAME MAP
+//*************************************************************************
+
 var checkSelectedArea_sound = "checkSelectedArea.mp3"
 
 var mapButtonFontWidth = 10;
@@ -26,6 +30,63 @@ Template.worldMap.rendered = function () {
       Meteor.setTimeout( function() { display.ctl["MAP"].finishDraw() }, 251 );
 
     }
+
+  $(window).on('keyup', function(e){
+
+      if (e.keyCode == 69) {  //e
+
+           el();
+      }
+
+      if (!editLabels) return;
+
+      var map = display.ctl["MAP"].worldMap.map;
+
+      var _x = map.allLabels[0].x;
+
+      var _y = map.allLabels[0].y;
+
+      if (e.keyCode == 71) {  //g
+
+           go();
+      }
+
+      if (e.keyCode == 88) {  //x
+
+           noel();
+      }
+
+      if (e.keyCode == 37) {  //left
+
+           map.allLabels[0].x = _x * 0.99;
+
+           updateLabel();
+      }
+
+      if (e.keyCode == 39) {  //right
+
+           map.allLabels[0].x = _x * 1.01;
+
+           updateLabel();
+      }
+
+
+
+      if (e.keyCode == 40) {  //up
+
+           map.allLabels[0].y = _y * 1.01;
+
+           updateLabel();
+      }
+
+      if (e.keyCode == 38) {  //down
+
+           map.allLabels[0].y = _y * 0.99;
+
+           updateLabel();
+      } 
+
+  });
 }
 
 
@@ -157,6 +218,8 @@ Template.worldMap.helpers({
 
     if (_which == "ok") {
 
+      //for all of these states, show the OK button
+
       if (state == sContinentFeatured || state == sRegionFeatured) {
 
           return "";
@@ -167,8 +230,13 @@ Template.worldMap.helpers({
           return "";
       }
       
+      //otherwise hide it
+
       return hidingClass;
     }
+
+    //for the close button, we hide it if countryOK, b/c that means we are doing the hackDone sequence
+    //then the button will appear when the state reaches sMapDone
 
     if (_which == "close") {
 
@@ -208,9 +276,6 @@ Template.worldMap.events = {
 
     var _state = display.ctl["MAP"].getState();
 
-    //it's problematic for the user to start backing the map up
-    //before they have seen the full ending sequence
-
     if (_state == sMapDone) return;
 
     Control.playEffect("mapBackup.mp3");
@@ -221,9 +286,6 @@ Template.worldMap.events = {
   'click #worldIcon': function (evt, template) {
 
     var _state = display.ctl["MAP"].getState();
-
-    //it's problematic for the user to start backing the map up
-    //before they have seen the full ending sequence
 
     if (_state == sMapDone) return;
 
@@ -247,14 +309,14 @@ Template.worldMap.events = {
   },
 
   'click #divMap': function (evt, template) {
-    
+  
     //to do: lock this part out unless user has dev status
 
     if (evt.ctrlKey || evt.shiftKey) {
 
         updateLabelPosition(evt);
     }
-  } 
+  },
 
 };
 
@@ -279,8 +341,9 @@ function closeOutMap() {
         return;
     }
 
-    //If doScan (scanner button) loads a map control, then clicking the map control takes us
-    //automatically to the map screen (essentially simulating a correct guess on the next area)
+    //If doScan (which calls the loader object) loads the map control (map clue), then clicking the map button
+    //essentially simulates a correct guess on the next area.  Thus we need to set the state of the map
+    //correctly for the user's next visit to the map
 
     if (state == sContinentFeatured || state == sRegionFeatured ) {
 
@@ -314,60 +377,89 @@ function closeOutMap() {
 
 //map editing hacks
 
-updateLabelPosition = function(evt) {
+updateLabelPosition = function(_which) {
 
-    var totalWidth = deriveInt( $("#divMap").css("width") ) ;
+    //var totalWidth = deriveInt( $("#divMap").css("width") ) ;
 
-    var totalHeight = deriveInt( $("#divMap").css("height") ) ;
+    //var totalHeight = deriveInt( $("#divMap").css("height") ) ;
 
-    var x = evt.offsetX / totalWidth;
+    var totalWidth = display.ctl["MAP"].worldMap.map.divRealWidth;
 
-    var y = evt.offsetY / totalHeight;
+    var totalHeight =  display.ctl["MAP"].worldMap.map.divRealHeight;
 
-    var ctl = display.ctl["MAP"];
+    var x = display.ctl["MAP"].worldMap.map.allLabels[0].x;
 
-    var map = ctl.worldMap;
+    var y = display.ctl["MAP"].worldMap.map.allLabels[0].y;
 
-    var _level = ctl.level.get();
+    x = ( x ) / totalWidth;
 
-    var selectedContinent = map.selectedContinent;
+    y = ( y ) / totalHeight;
 
-    var selectedRegion = map.selectedRegion;
+    var _level = display.ctl["MAP"].level.get();
 
-    var selectedCountry = map.selectedCountry;
+    var selectedContinent = display.ctl["MAP"].worldMap.selectedContinent;
+
+    var selectedRegion = display.ctl["MAP"].worldMap.selectedRegion;
+
+    var selectedCountry = display.ctl["MAP"].worldMap.selectedCountry;
+
+    var xName = "xl";
+
+    var yName = "yl";
+
+    if ( _which == 2 ) {
+
+      xName = "xl2";
+      yName = "yl2";
+    }
+
+//db.updateRecord2 = function (_type, field, ID, value) 
 
     if (_level == mlContinent) {
 
         var rec = db.getContinentRec(selectedContinent);
 
-        db.ghZ.update( rec._id, { $set: { xl: x, yl : y } } );
+        db.updateRecord2( cContinent, "xl", rec._id, x);
+
+        db.updateRecord2( cContinent, "yl", rec._id, y);
 
         console.log("continent " + selectedContinent + " label updated to " + x + ", " + y);
-
-        map.labelMapObject();
     }
 
     if (_level == mlRegion) {
 
         var rec = db.getRegionRec(selectedRegion);
 
-        db.ghR.update( rec._id, { $set: { xl: x, yl : y } } );
+        db.updateRecord2( cRegion, "xl", rec._id, x);
+
+        db.updateRecord2( cRegion, "yl", rec._id, y);
 
         console.log("region " + selectedRegion + " label updated to " + x + ", " + y);
-
-        map.labelMapObject();
     }
 
     if (_level == mlCountry) {
 
         var rec = db.getCountryRec(selectedCountry);
 
-        db.ghC.update( rec._id, { $set: { xl: x, yl : y } } );
+        db.updateRecord2( cCountry, xName, rec._id, x);
 
-        console.log("country " + selectedCountry + " label updated to " + x + ", " + y);
+        db.updateRecord2( cCountry, yName, rec._id, y);
 
-        map.labelMapObject();
+        console.log("country " + "(" + _which + ") " + selectedCountry + " label updated to " + x + ", " + y);
     }
+
+    display.ctl["MAP"].worldMap.map.clearLabels();
+
+    if ( display.ctl["MAP"].getState() == sMapDone) {
+
+        Meteor.defer( function() { display.ctl["MAP"].worldMap.labelMapObject( 14, "yellow" ); } );
+    }
+    else {
+
+        Meteor.defer( function() { display.ctl["MAP"].worldMap.labelMapObject(); } );      
+    }
+
+    
 
 }
 

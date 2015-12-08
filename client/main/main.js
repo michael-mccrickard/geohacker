@@ -116,8 +116,6 @@ Template.main.helpers({
 
     displayTextContent: function() {
 
-        //if (display.feature.getName() == "MAP") return display.ctl["MAP"].getTextContent();  
-
         if (display.feature.getName() == "TEXT") return display.ctl["TEXT"].getTextContent();       
     },
 

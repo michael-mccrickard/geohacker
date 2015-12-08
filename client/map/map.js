@@ -126,9 +126,7 @@ ghMap = function() {
 
     this.clearFeature = function() {
 
-       display.feature.displayMessage.set( false );  
 
-//       display.feature.setBackground( sIcon );
     },
 
     this.clearTimer = function() {
@@ -164,14 +162,13 @@ ghMap = function() {
       }
 
     //When the map is featured (as a clue; automatically), 
-    //the template detects it and puts the text content
-    //on the screen, so we only have to switch the message variable on
-    //and blink the map button.
+    // we only need to blink the map button.
     //The map doesn't get shown until the user clicks the MAP button.
 
-      if (this.autoFeatured) {
+    //(this part is a little convoluted b/c we formerly immediately showed the featured content
+    //when a control was featured by the loader (random selection) and we also handled the auto-featured map clues differently
 
-        display.feature.displayMessage.set( true );
+      if (this.autoFeatured) {
 
         display.blinkMapButton();
 
@@ -303,10 +300,7 @@ ghMap = function() {
 
     }
 
-    this.getTextContent = function() {
-
-      return "GEO-LOCATION DATA INTERCEPTED.  CLICK THE MAP BUTTON TO VIEW.";
-    },
+    //for the end-of-hack scenario when we flash the country and show a more detailed map of it
 
     this.preloadCountryMap = function(_name) {
 
@@ -327,6 +321,9 @@ ghMap = function() {
 
       this.state.set( sIDContinent );
     }
+
+    //some functions that would normally just be in the worldMap object are in here (map.js)
+    //because that object is already huge
 
     this.resetSelections = function() {
 

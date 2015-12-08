@@ -26,7 +26,7 @@ MapMaker = function() {
 
     /*
 
-    This is the top-level function, called by various functions in mapmaker.js
+    This is the top-level function, called by doMap() in worldMap.js and browseMap.js
 
     _code = the area code (either a continent or a region)
 
@@ -89,7 +89,7 @@ MapMaker = function() {
 
     areaID is the ID of the larger group (if any) that the area belongs to:
 
-      continent (really part of the world, but not part of any larger group, programmatically speaking)
+      continent (really part of the world, but not part of any larger group, programmatically speaking, so no areaID for these)
 
       region (part of a continent)
 
@@ -105,11 +105,11 @@ MapMaker = function() {
 
             at the region level, each country has it's own ID as the areaID
 
-    Along with the areaID, we put the areaName (name corresponding to the areaID) into
+    We put the areaName (name corresponding to the areaID) into the
     customData for the country, and that is the name that is displayed on mouseOver.
 
     Likewise, we apply the color of the larger group to all countries in that group, when
-    we are displaying the world, the continents or the regions on a continent
+    we are displaying the world (all the continents) or a single continent (all the regions in it) 
 
     */
 

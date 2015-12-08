@@ -78,7 +78,7 @@ Scanner = function() {
 
 	this.intercept_sound_file = "new_feedback.mp3";
 
-	this.fadeInSound = "congrats1.mp3";
+	this.fadeInSound = "notify.mp3";
 
 	this.eleLimit = scBottomRight;
 

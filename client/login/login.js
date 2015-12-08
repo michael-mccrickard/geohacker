@@ -271,6 +271,8 @@ Template.login.events({
 
                 game.user.profile.readInBadges();
 
+                mission = null;
+
                 Meteor.defer( function() { user.goHome } );
 
               }

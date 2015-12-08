@@ -1,16 +1,20 @@
-
-
-
 //**********************************************************************************
 //                     MAP FOR BROWSING
+//
+//  This is a "passive" version of the map, just for browsing the world and it's
+//  different areas.  The map zooms in appropriately with each click and backs up normally
+//  but doesn't check the clicks against the hack data, therefore no success or fail messages.
+//
 //**********************************************************************************
 
 var worldMap = null;
 
+/*
 var areaTop = 0;
 var areaLeft = 0;
 var areaWidth = 0;
 var areaHeight = 0;
+*/
 
 BrowseWorldMap = function( _mapCtl ) {
 
@@ -46,9 +50,10 @@ BrowseWorldMap = function( _mapCtl ) {
 
     worldMap = this;
 
-    this.doCurrentMap = function() {
+    //the rendered callback for this template calls this function after a slight delay
+    //to draw the map (by calling doMap with the right params)
 
-c("browse doCurrentMap");
+    this.doCurrentMap = function() {
 
         var level = this.mapCtl.level.get();
 
@@ -86,7 +91,7 @@ c("browse doCurrentMap");
 
 
     this.doMap = function(_code, _level) {
-c("browse doMap")
+
         //initialize variables related to the map
 
         var rec = null;
@@ -169,8 +174,6 @@ c("browse doMap")
     //label the clicked map object and pos it appropriately
 
     this.labelMapObject = function(_fontSize, _col) {
-
-c("browse labelMapObject")
 
         var level = this.mapCtl.level.get();
 
@@ -295,8 +298,6 @@ c("browse labelMapObject")
 
 function handleClick(_event) {
 
-c("browseHandleClick");
-
     Control.playEffect( worldMap.map_sound );
 
     worldMap.zoomDone = false;
@@ -342,7 +343,7 @@ c("browseHandleClick");
 
 
 function handleZoomCompleted() { 
-c("handleZoomCompleted");
+
     var _rec;
 
     var _code;
@@ -353,7 +354,7 @@ c("handleZoomCompleted");
 
     if (level == mlWorld) {
 
-        _code = db.getContinentCodeForCountry( worldMap.mapObjectClicked );  //in data_handling.js
+        _code = db.getContinentCodeForCountry( worldMap.mapObjectClicked );  //in database.js
 
         worldMap.doMap(_code, mlContinent);
 
@@ -366,7 +367,7 @@ c("handleZoomCompleted");
 
     if (level == mlContinent) {
 
-        _code = db.getRegionCodeForCountry( worldMap.mapObjectClicked );   //in data_handling.js
+        _code = db.getRegionCodeForCountry( worldMap.mapObjectClicked );   //in database.js
 
         worldMap.doMap(_code, mlRegion);
 
@@ -392,7 +393,7 @@ c("handleZoomCompleted");
         return;
     }
 
-    //this is necessary for the initial zoom-in
+    //this is necessary for the initial zoom-in (browse always starts at the country level)
 
     if (level == mlCountry) {
 
