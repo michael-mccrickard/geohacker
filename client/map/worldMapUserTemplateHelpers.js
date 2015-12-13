@@ -19,17 +19,17 @@ var bottomStripFactor = 49 / 670;
 //*************************************************************************
 
 
-Template.worldMap.rendered = function () {
+Template.worldMapUser.rendered = function () {
   
-    if (display.worldMapTemplateReady == false) {
+    //if (display.worldMapTemplateReady == false) {
 
-      display.worldMapTemplateReady = true;
+      //display.worldMapTemplateReady = true;
 
-      Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.doCurrentMap() }, 250 );
+     Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.doCurrentMap() }, 250 );
 
-      Meteor.setTimeout( function() { display.ctl["MAP"].finishDraw() }, 251 );
+    Meteor.setTimeout( function() { display.ctl["MAP"].finishDraw() }, 251 );
 
-    }
+   // }
 }
 
 
@@ -37,7 +37,7 @@ Template.worldMap.rendered = function () {
 //              HELPERS AND EVENTS
 //*************************************************************************
 
-Template.worldMap.helpers({
+Template.worldMapUser.helpers({
 
   continentName: function() { 
 
@@ -131,7 +131,7 @@ Template.worldMap.helpers({
       }
   },
 
-  mapWidth: function() { return Session.get("gWindowWidth") * 0.89},
+  mapWidth: function() { return Session.get("gWindowWidth") * 0.80},
 
   mapHeight: function() { 
 
@@ -199,7 +199,7 @@ Template.worldMap.helpers({
 });
 
 
-Template.worldMap.events = {
+Template.worldMapUser.events = {
 
   'click #regionIcon': function (evt, template) {
 
@@ -251,14 +251,9 @@ Template.worldMap.events = {
       Meteor.setTimeout( function() { closeOutMap(); }, 100 );
   },
 
-  'click #divMap': function (evt, template) {
+  'click #divMapUser': function (evt, template) {
   
-    //to do: lock this part out unless user has dev status
 
-    if (evt.ctrlKey || evt.shiftKey) {
-
-        updateLabelPosition(evt);
-    }
   },
 
 };
@@ -320,6 +315,7 @@ function closeOutMap() {
 
 //map editing hacks
 
+/*
 updateLabelPosition = function(_which) {
 
     //var totalWidth = deriveInt( $("#divMap").css("width") ) ;
@@ -456,3 +452,5 @@ dm = function() {
 
   return s;
 }
+
+*/

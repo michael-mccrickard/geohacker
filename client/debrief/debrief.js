@@ -77,14 +77,7 @@ Debrief = function() {
 
 		//headline
 
-		container = "div.debriefHeadline";
-
-		_width = $( container ).width();
-
-		$( container ).css("left",  fullScreenWidth/2 - _width/2 );
-
-		$( container ).css("top",  (fullScreenHeight - display.menuHeight) * 0.095 );  	
-
+		this.centerHeadline();
 
 		//footer
 
@@ -95,6 +88,22 @@ Debrief = function() {
 		$( container ).css("left",  fullScreenWidth/2 - _width/2 );
 
 		$( container ).css("top",  (fullScreenHeight - display.menuHeight) * 0.93 );  	
+
+	}
+
+	this.centerHeadline = function() {
+
+	    var fullScreenWidth = $(window).width();
+
+	    var fullScreenHeight = $(window).height();
+
+		container = "div.debriefHeadline";
+
+		_width = $( container ).width();
+
+		$( container ).css("left",  fullScreenWidth/2 - _width/2 );
+
+		$( container ).css("top",  (fullScreenHeight - display.menuHeight) * 0.095 );  	
 
 	}
 
@@ -111,6 +120,15 @@ Debrief = function() {
 		this.setImage();
 
 		this.preloadImage();
+	}
+
+	//used by errors.js and editing system functions
+
+	this.setHeadline = function( _text ) {
+
+		$("#debriefText").text( _text );
+
+		Meteor.defer( function() { this.centerHeadline(); } );
 	}
 
 	this.initForEditor = function( _type ) {

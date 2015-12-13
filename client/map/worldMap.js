@@ -1,23 +1,4 @@
-editLabels = false;
-el = function() { editLabels = true; c("editLabels is on")}
-noel = function() { editLabels = false; c("editLabels is off")}
 
-go = function() { display.ctl["MAP"].preloadCountryMap( hack.getCountryFilename().toLowerCase() );  c("resuming sequence")}
-
-updateLabel = function() {
-
-    var _state = display.ctl["MAP"].getState();
-
-    if ( _state == sMapDone) {
-
-        updateLabelPosition(2);
-    }
-    else {
-
-        updateLabelPosition(1);
-    }
-
-}
 
 //**********************************************************************************
 //                     MAP MAKER
@@ -83,7 +64,7 @@ WorldMap = function( _mapCtl ) {
 
     worldMap = this;
 
-    this.doCurrentMap = function() {
+    this.doCurrentMap = function( _which ) {
 
 c("doCurrentMap");
 
@@ -260,7 +241,6 @@ c("doCurrentMap");
         // handle the clicks on any map object
         this.map.addListener("clickMapObject", handleClick);
 
-
         this.map.write("divMap");
 
     }
@@ -307,8 +287,7 @@ c("doCurrentMap");
 
         if (rec) {
 
-            //most of the countries don't have hard-coded label positions
-            //but some do
+            //Some countries don't have hard-coded label positions but most do
 
             if (this.mapCtl.getState() == sMapDone) {
 

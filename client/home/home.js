@@ -43,4 +43,22 @@ Template.home.events({
 
   },
 
+  'click #divHomeMapPic': function(e) {
+
+      e.preventDefault();  
+
+      if (display == null) {
+
+        display = new Display();
+
+        display.init( Meteor.user().profile.cc )
+
+      }
+
+      Meteor.defer( function() { FlowRouter.go("/browseWorldMap"); } );
+
+  },
+
 });
+
+

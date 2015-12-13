@@ -14,8 +14,6 @@ Template.browseWorldMap.helpers({
 
     if (map.selectedContinent.length) return db.getContinentName( map.selectedContinent );
 
-    if (game.user.assign.selectedContinent.length) return db.getContinentName( game.user.assign.selectedContinent );
-
   },
 
   regionName: function() { 
@@ -27,8 +25,6 @@ Template.browseWorldMap.helpers({
     var map =  display.ctl["MAP"].browseWorldMap;
 
     if (map.selectedRegion.length) return db.getRegionName( map.selectedRegion );
-
-    if (game.user.assign.selectedRegion.length) return db.getContinentName( game.user.assign.selectedRegion );
   },
 
   continentIcon: function() { 
@@ -43,12 +39,6 @@ Template.browseWorldMap.helpers({
 
       return map.selectedContinent + "_icon.png";
     }
-
-    if (game.user.assign.selectedContinent.length) {
-
-       return game.user.assign.selectedContinent + "_icon.png";     
-    }
-
   },
 
   regionIcon: function()  { 
@@ -62,11 +52,6 @@ Template.browseWorldMap.helpers({
     if (map.selectedRegion.length) {
 
       return map.selectedRegion + "_icon.jpg";
-    }
-
-    if (game.user.assign.selectedRegion.length) {
-
-       return game.user.assign.selectedRegion + "_icon.jpg";     
     }
 
   },
@@ -96,13 +81,13 @@ Template.browseWorldMap.helpers({
       }
   },
 
-  mapWidth: function() { return Session.get("gWindowWidth") * 0.89},
+  mapWidth: function() { return Session.get("gWindowWidth") * 0.81},
 
   mapHeight: function() { 
 
     var h = Session.get("gWindowHeight") - display.menuHeight;
 
-    return h * 0.925;
+    return h * 0.98;
 
   }
 });

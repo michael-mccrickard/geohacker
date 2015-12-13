@@ -20,24 +20,37 @@ Headline = function( _type ) {
     if ( _type == "map" ) this.ele = "div.mapMessages";
 
 
-	this.set = function() {
+	this.set = function( _text ) {
 
-		if (this.hType == 'status') this.setStatus();
+		if (this.hType == 'status') this.setStatus(_text);
 
-		if (this.hType == 'cue') this.setCue();
+		if (this.hType == 'cue') this.setCue(_text);
 
-        if (this.hType == 'map') this.setMap();
+        if (this.hType == 'map') this.setMap(_text);
 	}
 
-    this.setMap = function() {
+    this.setMap = function( _text ) {
 
         $( this.ele ).addClass("invisible");
 
-        this.text = Session.get("gMapStatus");
+        if ( !_text) {
 
+            this.text = Session.get("gMapStatus");
+        }
+        else {
+
+            this.text = _text;
+        }
     }
 
-    this.setStatus = function() {
+    this.setStatus = function(_text) {
+
+        if (_text) {
+
+            this.text = _text;
+
+            return;
+        }
 
         if (hack.mode == mReady) this.text = "Mission: " + game.user.assign.name;
 
@@ -106,7 +119,7 @@ Headline = function( _type ) {
 
     },
 
-    this.show = function( _str ) {
+    this.show = function() {
 
         this.center();
 
@@ -135,9 +148,9 @@ Headline = function( _type ) {
         this.type();
     },
 
-    this.setAndShow = function() {
+    this.setAndShow = function( _text ) {
 
-        this.set();
+        this.set( _text );
 
         this.show();
     },

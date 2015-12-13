@@ -1,0 +1,21 @@
+
+.mapTags {
+	
+	float: left;
+}
+
+#browseMapClose {
+    position: absolute;
+    top: 60px;
+    z-index: 1050;   
+}
+
+.imgMapTag {
+
+  width: 100%;
+  border: 2px solid;
+  border-color: #383838;
+  border-radius: 4px;
+
+  margin: 2%;
+}

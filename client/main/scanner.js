@@ -42,9 +42,9 @@ Scanner = function() {
 
 	this.maxIdlePlay = 3000;
 
-	this.minScanPlay = 20;
+	this.minScanPlay = 200;
 
-	this.maxScanPlay = 75;
+	this.maxScanPlay = 500;
 
 	this.ele[ scTopLeft ] = new Ele("scanTopLeft", scTopLeft, "multi");
 
@@ -119,7 +119,7 @@ Scanner = function() {
 
 	}
 
-	this.startScan = function() {
+	this.startScan = function(_which) {
 
 		this.show();
 
@@ -136,15 +136,20 @@ Scanner = function() {
 			if (_name != "TEXT" && _name != "VIDEO"  && _name != "MAP") this.hideBG();
 		}
 
-		this.mode = "scan";
+		this.mode = _which;
 
 		this.streamAnalyzer();
+
 
 		for (var i = 0; i <= this.eleLimit;  i++) {
 
 			this.ele[ i ].totalScanPlayTime = 0.0;
 
-			for (var j= 0; j < this.ele[ i ].scan.length; j++ ) {			
+			var startIndex = 0;
+
+			if (this.mode == "rescan") startIndex = Math.floor( this.ele[i].scan.length / 2);
+
+			for (j = startIndex; j < this.ele[ i ].scan.length; j++ ) {			
 
 				this.ele[ i ].scanPlayTime[ j ] = Database.getRandomFromRange( this.minScanPlay, this.maxScanPlay ); 
 
@@ -158,7 +163,9 @@ Scanner = function() {
 
 			this.ele[ i ].clearText(); 
 
-			this.ele[ i ].nextScanMessage();  //sets the text and starts the gif
+			if (this.mode == "rescan") startIndex--;  //
+
+			this.ele[ i ].nextScanMessage( startIndex );  //sets the text and starts the gif
 		}
 
 		this.drawCenter();
@@ -167,7 +174,11 @@ Scanner = function() {
 
 		this.startProgressMeter();
 
-		this.playScanSound(2);
+		var soundTime = 4;
+
+		if (this.mode == "rescan") soundTime = 2;
+
+		this.playScanSound( soundTime );
 
 		display.loader.go();
 

@@ -126,6 +126,20 @@ FlowRouter.route('/worldMap', {
  },
 });
 
+
+FlowRouter.route('/worldMapUser', {
+
+  name: "worldMapUser",
+
+  action: function (params, queryParams) { 
+
+   //display.closeOutMain();
+
+   BlazeLayout.render('layout', { content: "worldMapUser" } ) 
+
+ },
+});
+
 //*********************************************
 //      BROWSE WORLD MAP
 //*********************************************

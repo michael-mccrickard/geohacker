@@ -74,6 +74,12 @@ ghMap = function() {
       if (url == '/worldMap') display.mapStatus.setAndType();
     },
 
+    this.setMapStatus = function( _text ) {
+
+      display.mapStatus.setAndShow( _text );
+
+    } 
+
     this.isIDStatus = function() {
 
       var _state = this.getState();
@@ -271,6 +277,10 @@ ghMap = function() {
 
     this.browseFinishDraw = function() {
 
+        var left = $("#browseDivMap").position().left + $("#browseDivMap").outerWidth() - $("#browseMapClose").outerWidth() - 5;
+
+        $("#browseMapClose").css("left", left + "px");
+
         if (this.level.get() == mlWorld) {
 
           $("#browseRegionIcon").css("opacity", 0);
@@ -281,9 +291,9 @@ ghMap = function() {
 
         }
         
-        if (game.user.assign.level == mlRegion || this.level.get() >= mlRegion ) this.browseFadeInIcons("both");
+        if (this.level.get() >= mlRegion ) this.browseFadeInIcons("both");
 
-        if (game.user.assign.level == mlContinent || this.level.get() == mlContinent) {
+        if (this.level.get() == mlContinent) {
 
           $("#browseRegionIcon").css("opacity", 0); 
 

@@ -293,11 +293,25 @@ Template.main.events({
 
       }
 
-
-
       display.feature.dim();
 
-      display.scanner.startScan();
+      var mode = "rescan";
+
+      if (display.loader.totalClueCount == 0) mode = "scan";
+
+      if (gInstantMode) {
+
+          display.loader.go();
+
+          display.scanner.show();
+
+          display.scanner.stopScan();
+      }
+      else {
+
+        display.scanner.startScan( mode );
+
+      }
 
 
 //now loader.go() but called by startScan()
@@ -414,10 +428,6 @@ Template.main.rendered = function () {
       if (hack.mode == mReady)  {
 
         if ( display.feature.off() ||  display.feature.getName() == "MAP") {    //(display.feature.on() && display.feature.getName() == "MAP")  ) {
-c("about to call startIdle")
-          //Meteor.setTimeout(function() { display.scanner.fadeIn( 250 ) }, 500 );
-
-          //Meteor.setTimeout(function() { display.scanner.draw(); }, 501 );
 
           display.scanner.show();
 

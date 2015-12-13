@@ -2,7 +2,7 @@
 
 
 
-	<div style="position: absolute; top: 55px; width:10%;">
+	<div style="position: relative; float: left; top: 55px; width:10%;">
 
 		<div id="browseWorldIcon">
 			<img class="topMapIcon" src="all_icon.png">
@@ -21,21 +21,29 @@
 	</div>
 
 
-	<div id="browseDivMap"  style="position: absolute; top: 55px; left: 10%; width: {{mapWidth}}px; height: {{mapHeight}}px; border-radius: 7px; border: 4px solid; border-color: gray;">
+	<div id="browseDivMap"  style="float: left; position: relative; top: 55px; width: {{mapWidth}}px; height: {{mapHeight}}px; border-radius: 7px; border: 4px solid; border-color: gray;">
 	</div>  
 
+	<div class="mapTags" style="position: relative; top: 55px; width:8%;">
+
+		<div>
+			<img class="imgMapTag" src="putin_tag.png">
+		</div>
+
+		<div>
+			<img class="imgMapTag" src="redsquare_tag.png">
+		</div>
+
+		<div>
+			<img class="imgMapTag" src="stbasils_tag.png">
+		</div>
+
+	</div>
 
 	<div class="mapMessages" id="browseMapMessageBox"></div>
 
 	<button class="btn btn-default mapCloseButton" id="browseMapClose">X</button>
 
-	{{#if showMapSpinner}}
-
-		{{> spinner}}
-
-	{{/if}}
-
-	<a href="/closeup"> <img id="browseMapImage" src="" style="position: absolute; border-radius: 7px; border: 4px solid; border-color: gray;"></a>
 
 </template>
 

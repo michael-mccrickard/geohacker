@@ -56,9 +56,11 @@ Ele = function(_name, _ID, _type ) {
 
 	}
 
-	this.nextScanMessage = function() {
+	this.nextScanMessage = function( _index ) {
 
 		if (this.finished == true) { return;}
+
+		//in the case of a rescan, we are sending a non-zero number as the starting point
 
 		this.index = this.index + 1;
 

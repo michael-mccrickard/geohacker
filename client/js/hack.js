@@ -235,6 +235,8 @@ Hack = function() {
 
        var _file = this.getLanguageFile();
 
+       if (!_file) return;
+
        if (display.ctl["SOUND"].getState() == sPlaying ) display.ctl["SOUND"].pauseFeaturedContent();
 
        Control.playEffect( _file );
@@ -247,12 +249,33 @@ Hack = function() {
 
     this.getAnthemFile = function() {
 
-      return db.ghS.findOne( { cc: this.countryCode, dt: "ant" } ).f;
+      try {
+          var rec = db.ghS.findOne( { cc: this.countryCode, dt: "ant" } );
+      }
+      catch(err) {
+
+          showMessage( "No anthem file found for " + hack.getCountryName() );
+
+          return null;
+      }
+
+      return rec.f;
     }
 
     this.getLanguageFile = function() {
 
-      return db.ghS.findOne( { cc: this.countryCode, dt: "lng" } ).f;
+      try {
+          var rec = db.ghS.findOne( { cc: this.countryCode, dt: "lng" } );
+      }
+      catch(err) {
+
+          showMessage( "No language file found for " + hack.getCountryName() );
+
+          return null;
+      }
+
+      return rec.f;
+
     }
 
     this.getCapitalName = function() {
@@ -260,13 +283,32 @@ Hack = function() {
       return db.ghT.findOne( { cc: this.countryCode, dt: "cap" } ).f;
     }
 
+    //to do: get rid of the capital images in debriefs
+
     this.getCapitalPic = function() {
 
-      var rec = db.ghI.findOne( { cc: this.countryCode, dt: "cap" } );
+      try {
+          var rec = db.ghI.findOne( { cc: this.countryCode, dt: "cap" } );
+      }
+      catch(err) {
+
+          showMessage( "No capital image file found images for " + hack.getCountryName() );
+
+          return null;
+      }
 
       if (rec) return rec.f;
 
-      return db.ghD.findOne( { cc: this.countryCode, dt: "cap" } ).f;
+      try {
+
+          return db.ghD.findOne( { cc: this.countryCode, dt: "cap" } ).f;
+      }
+      catch(err) {
+
+          showMessage( "No capital image file found in debriefs for " + hack.getCountryName() );
+
+          return null;
+      }
     }
 
     this.getContinentName = function() {
@@ -328,27 +370,61 @@ Hack = function() {
 
     this.getFlagPic = function() {
 
-      if (db.ghI.findOne( { cc: this.countryCode, dt: "flg" } ) != undefined ) {
+      try {
+          var rec = db.ghI.findOne( { cc: this.countryCode, dt: "flg" } );
+      }
+      catch(err) {
 
-        return db.ghI.findOne( { cc: this.countryCode, dt: "flg" } ).f;
+          showMessage( "No flag file found for " + hack.getCountryName() );
+
+          return "";
       }
 
-      return "";
+      return rec.f;
+
     }
+
+    //to do: get rid of hq pics in debrief
 
     this.getHeadquartersPic = function() {
 
-      var rec = db.ghI.findOne( { cc: this.countryCode, dt: "hq" } );
+      try {
+          var rec = db.ghI.findOne( { cc: this.countryCode, dt: "hq" } );
+      }
+      catch(err) {
 
-      if (rec) return rec.f;
+          showMessage( "No hq file found in images for " + hack.getCountryName() );
 
-      return db.ghD.findOne( { cc: this.countryCode, dt: "hq" } ).f;
+          return "";
+      }
+
+      return rec.f;
+
+      try {
+          var rec = db.ghD.findOne( { cc: this.countryCode, dt: "hq" } ).f;
+      }
+      catch(err) {
+
+          showMessage( "No hq file found in debriefs for " + hack.getCountryName() );
+
+          return "";
+      }
 
     }
 
     this.getLeaderPic = function() {
 
-      return db.ghI.findOne( { cc: this.countryCode, dt: "ldr" } ).f;
+      try {
+          var rec = db.ghI.findOne( { cc: this.countryCode, dt: "ldr" } );
+      }
+      catch(err) {
+
+          showMessage( "No leader file found in images for " + hack.getCountryName() );
+
+          return "";
+      }
+
+      return rec.f;
     }
 
     this.getLeaderName = function() {
