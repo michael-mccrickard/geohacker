@@ -1,6 +1,32 @@
 <template name="browseWorldMap">
 
+<script>
+	function allowDrop(ev) {
+	    ev.preventDefault();
+	}
 
+	function drag(ev) {
+	    ev.dataTransfer.setData("text", ev.target.src);
+	}
+
+	function drop(ev) {
+	    ev.preventDefault();
+
+c(ev);
+
+var _x = ev.offsetX;
+
+var _lon = display.ctl["MAP"].browseWorldMap.map.coordinateToLongitude(_x)
+
+c("long is " + _lon);
+
+var data = ev.dataTransfer.getData("text");
+
+	c("dropped " + data)
+	    
+	    //ev.target.appendChild(document.getElementById(data));
+	}
+</script>
 
 	<div style="position: relative; float: left; top: 55px; width:10%;">
 
@@ -21,21 +47,21 @@
 	</div>
 
 
-	<div id="browseDivMap"  style="float: left; position: relative; top: 55px; width: {{mapWidth}}px; height: {{mapHeight}}px; border-radius: 7px; border: 4px solid; border-color: gray;">
+	<div id="browseDivMap"  ondrop="drop(event)" ondragover="allowDrop(event)" style="float: left; position: relative; top: 55px; width: {{mapWidth}}px; height: {{mapHeight}}px; border-radius: 7px; border: 4px solid; border-color: gray;">
 	</div>  
 
 	<div class="mapTags" style="position: relative; top: 55px; width:8%;">
 
 		<div>
-			<img class="imgMapTag" src="putin_tag.png">
+			<img class="imgMapTag"   draggable="true" ondragstart="drag(event)"  id="tag1" src="putin_tag.png">
 		</div>
 
 		<div>
-			<img class="imgMapTag" src="redsquare_tag.png">
+			<img class="imgMapTag"   draggable="true" ondragstart="drag(event)" id="tag2" src="redsquare_tag.png">
 		</div>
 
 		<div>
-			<img class="imgMapTag" src="stbasils_tag.png">
+			<img class="imgMapTag"  draggable="true" ondragstart="drag(event)" id="tag3" src="stbasils_tag.png">
 		</div>
 
 	</div>

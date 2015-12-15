@@ -32,8 +32,8 @@ MapMaker = function() {
 
     _level = world, continent or region
 
-    lockMap = true, write zoom data to the areas
-    lockMap = false, don't write zoom data (locks the map down)
+    lockMap = false, write zoom data to the areas
+    lockMap = true, don't write zoom data (locks the map down)
     */
 
 
@@ -151,11 +151,13 @@ MapMaker = function() {
 
           _color = rec.co;
 
+
           _zoomLevel = rec.z1;
 
           _zoomLatitude = rec.z2;
 
           _zoomLongitude = rec.z3;
+
 
         //get an array of the regions for this continent
 

@@ -146,7 +146,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
         this.map.areasSettings = {
 
-            autoZoom: true,
+            autoZoom: false,
             rollOverOutlineColor: "#000000",
             color: "#BBBB00",
             selectedColor: "#BBBB00",
@@ -304,8 +304,17 @@ function handleClick(_event) {
 
     worldMap.map.clearLabels();
 
-    worldMap.mapObjectClicked = _event.mapObject.id;
+worldMap.mapObjectClicked = _event.mapObject.id;
 
+c( _event );
+
+c("x = " + _event.event.clientX)
+
+c("y = " + _event.event.clientY)
+
+c("long (east west is " + worldMap.map.coordinateToLongitude( _event.event.clientX ) );
+
+c("lat (north south is " + worldMap.map.coordinateToLatitude( _event.event.clientY ) );
 
     level = worldMap.mapCtl.level.get();
 
