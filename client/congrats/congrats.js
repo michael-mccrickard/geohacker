@@ -60,6 +60,11 @@ Template.congrats.helpers({
     return (hackedSoFar + " out of " + total + " countries hacked.").toUpperCase();
   },
 
+  countryCode: function() {
+
+    return hack.countryCode;
+  },
+
   getTotal: function() {
 
     return 360.0;
@@ -205,6 +210,14 @@ Template.congrats.events = {
       mission = null;
 
       FlowRouter.go( "/missionSelect" );
+
+    },
+
+    'click .congratsFlag': function(e) {
+
+      e.preventDefault();
+
+      game.user.browseCountry( e.target.id );
 
     }   
 

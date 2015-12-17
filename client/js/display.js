@@ -184,7 +184,7 @@ Display = function() {
 
         }
 
-        if (hack.mode == mBrowse) {
+        if (game.user.hack.mode == mBrowse) {
             
             this.ctl["MAP"].enableButton();    
 

@@ -259,7 +259,7 @@ Template.debrief.events = {
 
   		Control.playEffect("new_feedback.mp3");
 
-  		if (hack.mode == mBrowse) {
+  		if (game.user.hack.mode == mBrowse) {
 
 			Meteor.setTimeout( function() { FlowRouter.go("/main") }, 100 ) ;
 

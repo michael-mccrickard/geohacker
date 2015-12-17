@@ -10,7 +10,7 @@ Hack = function() {
   /*            BASIC PROPS        
   /*********************************************/
 
-  this.mode = null;
+  this.mode = mNone;
 
   this.status = null;
 
@@ -25,8 +25,6 @@ Hack = function() {
   /*********************************************/
 
   this.debrief = null;
-
-  this.mode = mNone;
 
   this.messageID = "(not set)";
 
@@ -89,6 +87,23 @@ Hack = function() {
 
     };
 
+    this.initForBrowse = function( _code) {
+
+        this.mode = mBrowse;
+
+        this.countryCode = _code;
+
+        this.continentCode = db.getContinentCodeForCountry( _code );
+
+        this.regionCode = db.getRegionCodeForCountry( _code );
+
+        c( db.getCountryName( _code ) + ' was selected for browsing.');   
+
+        this.subscribeToData();
+
+        FlowRouter.go("/waiting");
+    };
+
     this.init = function() {
 
         this.auto = false;
@@ -99,43 +114,35 @@ Hack = function() {
 
         var rec = null;
 
-        //are we browsing a particular country?
+        if (game.user.assign.pool.length == 0) {
 
-        if (mission.code == "browse") {
+          alert("You have completed your current mission.  Please choose another mission from the " + game.user.name + " menu.");
 
-            this.countryCode = mission.browseCode;
+          return;
+        }
 
-            this.continentCode = db.getContinentCodeForCountry( this.countryCode );
+        if (gHackPreselect.length) {
 
-            this.regionCode = db.getRegionCodeForCountry( this.countryCode );
-
-            c(this.countryCode + ' was preselected for browsing.');
-
-        } 
+          rec = db.getCountryRec( gHackPreselect );
+        }
         else {
 
-            if (game.user.assign.pool.length == 0) {
-
-              alert("You have completed your current mission.  Please choose another mission from the " + game.user.name + " menu.");
-
-              return;
-            }
-
-            if (gHackPreselect.length) {
-
-              rec = db.getCountryRec( gHackPreselect );
-            }
-            else {
-
-              rec = db.getRandomCountryRecForUser( game.user );
-            }
-
-            this.countryCode = rec.c;
-
-            this.regionCode = rec.r;
-
-            this.continentCode = db.getContinentCodeForCountry( this.countryCode );      
+          rec = db.getRandomCountryRecForUser( game.user );
         }
+
+        this.countryCode = rec.c;
+
+        this.regionCode = rec.r;
+
+        this.continentCode = db.getContinentCodeForCountry( this.countryCode );      
+
+        this.setMessageID();
+
+        this.subscribeToData();
+      };
+
+
+    this.subscribeToData = function() {
 
         Meteor.call("setCountry", hack.countryCode);
 
@@ -157,12 +164,8 @@ Hack = function() {
 
         this.hMap = Meteor.subscribe("ghMap", function() { Session.set("sMReady", true ) });
 
-        this.hDebrief = Meteor.subscribe("ghDebrief", function() { Session.set("sDReady", true ) });
-
-        this.setMessageID();
-
-
-    },
+        this.hDebrief = Meteor.subscribe("ghDebrief", function() { Session.set("sDReady", true ) });     
+    }
 
     this.autoHack = function() {
 
@@ -473,14 +476,14 @@ Tracker.autorun( function(comp) {
 
           Hack.resetDataFlags();
 
-          if (hack === undefined) return;
+          if (game.user.hack.mode == mBrowse) {
 
-          if (hack.mode == mBrowse) {
-
-            hack.startBrowsing();
+              game.user.hack.startBrowsing();
 
           }
           else {
+
+            if (hack === undefined) return;
 
             hack.startNew();           
           }

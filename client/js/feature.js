@@ -40,7 +40,7 @@ Feature = function() {
 
 	this.fileIsLoaded = function() {
 
-		if (hack.mode == mBrowse) {
+		if (game.user.hack.mode == mBrowse) {
 
 			display.redraw();
 

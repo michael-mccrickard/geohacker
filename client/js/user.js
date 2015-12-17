@@ -23,9 +23,18 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     this.profile = new UserProfile();
 
+    this.hack = new Hack();  //temporary hack object for browse mode
+
     this.editMode = new Blaze.ReactiveVar( false );  //is the user editing the profile content?
 
     this.badgeLimit = 0;
+
+    this.browseCountry = function( _code ) {
+
+      this.hack = new Hack();
+
+      this.hack.initForBrowse( _code );
+    };
 
     this.setMode = function(_mode) {
 
@@ -159,7 +168,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 	this.assignMission = function( _code) {
 
-		//create the mission object  (are we still using this global?)
+		//create the mission object
 		
 		mission = new Mission( _code);
 

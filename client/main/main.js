@@ -48,7 +48,7 @@ Template.main.helpers({
 
     isBrowseMode: function() {
 
-      if (hack.mode == mBrowse) return true;
+      if (game.user.hack.mode == mBrowse) return true;
 
       return false;
 
@@ -265,7 +265,7 @@ Template.main.events({
           return; 
       }
 
-      if (hack.mode == mBrowse) {
+      if (game.user.hack.mode == mBrowse) {
 
         var s = "";
 
@@ -400,7 +400,7 @@ function updateFeaturedContent() {
     }
     else {
 
-      if (hack.mode == mBrowse) {
+      if (game.user.hack.mode == mBrowse) {
       
         display.feature.load( _name );  //the imagesLoaded callback will update the screen
 
@@ -425,6 +425,17 @@ Template.main.rendered = function () {
 
       display.checkMainScreen();
 
+
+      if (game.user.hack.mode == mBrowse) {
+
+          display.feature.set("IMAGE");
+
+          display.feature.loadAgain( "IMAGE" );
+
+          return;
+      }
+
+    
       if (hack.mode == mReady)  {
 
         if ( display.feature.off() ||  display.feature.getName() == "MAP") {    //(display.feature.on() && display.feature.getName() == "MAP")  ) {

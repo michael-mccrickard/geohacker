@@ -91,7 +91,7 @@ ghMap = function() {
 
     this.backupMap = function() {
 
-        if (hack.mode == mBrowse) {
+        if (game.user.hack.mode == mBrowse) {
 
           this.browseWorldMap.backupMap();
 
@@ -157,7 +157,7 @@ ghMap = function() {
 
       //it's as if the user has just finished hacking this one
       
-      if (hack.mode == mBrowse) {
+      if (game.user.hack.mode == mBrowse) {
 
         display.worldMapTemplateReady = false;
 

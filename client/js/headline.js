@@ -67,7 +67,7 @@ Headline = function( _type ) {
             this.text = "STREAM FROM " + hack.getCountryName() + " WAS HACKED."
         }
 
-        if (hack.mode == mBrowse) this.text = "Geohacker: Agent " + game.user.name + " is browsing " + mission.name;
+        if (game.user.hack.mode == mBrowse) this.text = "Geohacker: Agent " + game.user.name + " is browsing " + mission.name;
 
     }
 
@@ -109,7 +109,7 @@ Headline = function( _type ) {
             this.text  = "Geo-locate the stream using the map ...";
         }
 
-        if (hack.mode == mBrowse) this.text = "All data linked to " + hack.getCountryName() + " is loaded. ";
+        if (game.user.hack.mode == mBrowse) this.text = "All data linked to " + hack.getCountryName() + " is loaded. ";
 
         if (this.text  == "") this.text  = "Scan for more data or use the map to geo-locate the stream ..."
 

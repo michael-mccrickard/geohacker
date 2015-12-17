@@ -86,6 +86,7 @@
 .compositeFlag {
     float: left;
     width: 296px;
+    cursor: pointer;
 }
 
 
