@@ -32,6 +32,11 @@ Template.atlas.events({
 
       var _code = e.currentTarget.id;
 
+      user.browseCountry( _code );
+
+/*
+
+
       mission = new Mission("browse", _code);
 
       hack.mode = mBrowse;
@@ -39,6 +44,8 @@ Template.atlas.events({
       hack.init();
 
       Router.go("/waiting");
+*/
+
 
     },
 

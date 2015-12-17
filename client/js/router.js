@@ -295,6 +295,7 @@ function playDebriefSound() {
   Control.playEffect( debrief_sound );
 }
 
+/*
 
 function switchToEditor() {
 
@@ -319,7 +320,7 @@ function switchToEditor() {
 
   //this.next();
 }
-
+*/
 
 function doSelectCountryWindow() {
 

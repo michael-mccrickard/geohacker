@@ -10,21 +10,19 @@
 	}
 
 	function drop(ev) {
+
 	    ev.preventDefault();
 
-c(ev);
+		var info = display.ctl["MAP"].browseWorldMap.map.getDevInfo();
 
-var _x = ev.offsetX;
+		c("lat (north south) is " + info.latitude );
 
-var _lon = display.ctl["MAP"].browseWorldMap.map.coordinateToLongitude(_x)
+		c("long (east west) is " + info.longitude );
 
-c("long is " + _lon);
+		var data = ev.dataTransfer.getData("text");
 
-var data = ev.dataTransfer.getData("text");
-
-	c("dropped " + data)
+		c("dropped " + data)
 	    
-	    //ev.target.appendChild(document.getElementById(data));
 	}
 </script>
 

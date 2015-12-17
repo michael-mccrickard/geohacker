@@ -46,6 +46,8 @@ BrowseWorldMap = function( _mapCtl ) {
 
     this.zoomDone = false;
 
+    this.mapTagImage = "";
+
     //set the module var for the event handlers
 
     worldMap = this;
@@ -73,7 +75,7 @@ BrowseWorldMap = function( _mapCtl ) {
             this.doMap( this.selectedRegion, level );        
         }
 
-        if (level == mlCountry) {  //this is just a replay of the map zooming in on the correct country (Relax mode)
+        if (level == mlCountry) {  //this is just a replay of the map zooming in on the correct country (browse mode)
 
            this.doMap( this.selectedRegion, mlRegion);
 
@@ -113,7 +115,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
         this.dp = {
 
-            mapVar: AmCharts.maps.worldLow, 
+            "mapVar": AmCharts.maps.worldLow, 
         }
 
         //Set the map areas based on map level
@@ -132,6 +134,23 @@ BrowseWorldMap = function( _mapCtl ) {
 
         }
 
+        //images
+
+/*
+this.dp.images[0].imageURL = "putin_tag.png";
+
+this.dp.images[0].longitude = gLong;
+
+this.dp.images[0].latitude = gLat;
+
+this.dp.images[0].percentHeight = 8;
+
+this.dp.images[0].percentWidth = 3.5;
+
+this.dp.images[0].centered = false;
+*/
+
+
         //set the data provider and areas settings
 
         this.map.dataProvider = this.dp;
@@ -142,11 +161,13 @@ BrowseWorldMap = function( _mapCtl ) {
 
         this.map.zoomControl.panControlEnabled = false;
 
+        this.map.zoomControl.homeButtonEnabled = false;
+
         this.map.addClassNames = true;
 
         this.map.areasSettings = {
 
-            autoZoom: false,
+            autoZoom: true,
             rollOverOutlineColor: "#000000",
             color: "#BBBB00",
             selectedColor: "#BBBB00",
@@ -162,6 +183,9 @@ BrowseWorldMap = function( _mapCtl ) {
 
         // handle the clicks on any map object
         this.map.addListener("clickMapObject", handleClick);
+
+        // handle the clicks on any map object
+//        this.map.addListener("ondrop", handleDrop);
 
         this.map.write("browseDivMap");
 
@@ -295,8 +319,10 @@ BrowseWorldMap = function( _mapCtl ) {
 //                      EVENT HANDLERS
 //**********************************************************************************
 
+gf = -61;
 
 function handleClick(_event) {
+
 
     Control.playEffect( worldMap.map_sound );
 
@@ -304,17 +330,7 @@ function handleClick(_event) {
 
     worldMap.map.clearLabels();
 
-worldMap.mapObjectClicked = _event.mapObject.id;
-
-c( _event );
-
-c("x = " + _event.event.clientX)
-
-c("y = " + _event.event.clientY)
-
-c("long (east west is " + worldMap.map.coordinateToLongitude( _event.event.clientX ) );
-
-c("lat (north south is " + worldMap.map.coordinateToLatitude( _event.event.clientY ) );
+    worldMap.mapObjectClicked = _event.mapObject.id;
 
     level = worldMap.mapCtl.level.get();
 
@@ -345,6 +361,35 @@ c("lat (north south is " + worldMap.map.coordinateToLatitude( _event.event.clien
         worldMap.selectedCountry = worldMap.mapObjectClicked;
 
         worldMap.customData = _event.mapObject.customData;
+
+    }
+
+    if (level >= mlCountry) {
+
+        if (!worldMap.mapTagImage.length) {
+
+            c("no image selected")
+
+            return;
+        }
+
+        var info = _event.chart.getDevInfo();
+
+        c("lat (north south) is " + info.latitude );
+
+        c("long (east west) is " + info.longitude );
+
+        var image = new AmCharts.MapImage();
+
+        image.latitude = info.latitude;
+        
+        image.longitude = info.longitude;
+        
+        image.imageURL = worldMap.mapTagImage;
+        
+        worldMap.map.dataProvider.images.push(image);
+        
+        worldMap.map.validateData();
 
     }
 
@@ -410,11 +455,16 @@ function handleZoomCompleted() {
 
         refreshMap();
 
+
+
         return;
     }
 
+}
 
+function handleDrop(_event) {
 
+    c("drop");
 }
 
 function refreshMap() {

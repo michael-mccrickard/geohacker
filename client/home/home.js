@@ -47,15 +47,43 @@ Template.home.events({
 
       e.preventDefault();  
 
-      if (display == null) {
+//this method is temporary, just for dev
 
-        display = new Display();
+//it will wreck any mission / hack in progress
 
-        display.init( Meteor.user().profile.cc )
+var countryCode = Meteor.user().profile.cc;
 
-      }
+display = new Display();
 
-      Meteor.defer( function() { FlowRouter.go("/browseWorldMap"); } );
+mission = new Mission();
+
+mission.code = "browse";
+
+mission.browseCode = countryCode;
+
+display.init( countryCode );
+
+var mapCtl = display.ctl["MAP"];
+
+mapCtl.level.set( mlCountry );
+
+mapCtl.setStateOnly( sMapDone );
+
+hack = new Hack();
+
+c("before hack init")
+
+hack.init();
+
+map.selectedContinent = hack.continentCode;
+
+map.selectedRegion = hack.regionCode;
+
+map.selectedCountry = hack.countryCode;
+
+c("before go")
+
+Meteor.defer( function() { FlowRouter.go("/browseWorldMap"); } );
 
   },
 

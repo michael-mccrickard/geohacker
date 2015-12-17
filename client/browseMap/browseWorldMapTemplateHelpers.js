@@ -123,6 +123,13 @@ Template.browseWorldMap.events = {
       display.feature.clear();
 
       Router.go("/main");
+  },
+
+  'click .imgMapTag': function (evt, template) {
+
+      Control.playEffect("new_feedback.mp3");
+
+      display.ctl["MAP"].browseWorldMap.mapTagImage = evt.target.src;
   }
 }
 

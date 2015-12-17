@@ -7,7 +7,8 @@ Mission = function(_code, _countryCode) {
 	
   this.level = mlNone;
 
-  this.code = _code;
+  this.code = _code;  //either a continent code, region code, or arbitrary string 
+                      //like "browse" or one of the ad-hoc mission codes (below)
 
   this.name = "0";
 
@@ -49,7 +50,7 @@ Mission = function(_code, _countryCode) {
   }
 
 
-  //hard-coded "arbitrary" missions
+  //hard-coded "ad-hoc" missions
 
   //ten largest population
 
