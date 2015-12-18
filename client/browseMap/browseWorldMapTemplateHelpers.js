@@ -122,7 +122,7 @@ Template.browseWorldMap.events = {
 
       game.display.feature.clear();
 
-      FlowerRouter.go("/main");
+      FlowRouter.go("/main");
   },
 
   'click .imgMapTag': function (evt, template) {

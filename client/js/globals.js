@@ -68,11 +68,11 @@ onYouTubeIframeAPIReady = function () {
 
     var _file = null;
 
-    if (display != null) {
+    if (game.display != null) {
 
       if (game.display.ctl["VIDEO"]) {
 
-        game.display.ctl["VIDEO"].youTubeLoaded = true;
+        youTubeLoaded = true;
 
         _file = game.display.feature.video;
 
@@ -80,7 +80,7 @@ onYouTubeIframeAPIReady = function () {
 
       if (editor && hack.mode == mEdit) {
 
-        editor.youTubeLoaded = true;
+        youTubeLoaded = true;
         
         if (editor.videoFile) {
 

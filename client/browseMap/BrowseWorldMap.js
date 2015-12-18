@@ -57,6 +57,10 @@ BrowseWorldMap = function( _mapCtl ) {
 
     this.doCurrentMap = function() {
 
+        //reset this each time, b/c it disappears if switch hack/display objects
+
+        worldMap = this;
+
         var level = this.mapCtl.level.get();
 
         if (level == mlNone || level == mlWorld) {

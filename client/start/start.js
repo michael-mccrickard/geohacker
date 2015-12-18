@@ -118,6 +118,8 @@ Meteor.startup(function() {
 
   ytplayer = null;
 
+  youTubeLoaded = false;
+
   display = null;
 
   editor = null;

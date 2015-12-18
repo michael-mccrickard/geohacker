@@ -68,6 +68,10 @@ WorldMap = function( _mapCtl ) {
 
 c("doCurrentMap");
 
+        //reset this each time, b/c it disappears if switch hack/display objects
+
+        worldMap = this;
+
         //these featured states are the result of the loader selecting the MAP as the next clue
         //which result in the user being shown the appropriate area as a clue ("map file")
 

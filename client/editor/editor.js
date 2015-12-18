@@ -21,16 +21,16 @@ Editor = function() {
 
   	this.videoFile = null;
 
-  	this.youTubeLoaded = false;
-
   	Session.set("sYouTubeOn", false);
 
   	if (display) {
 
+/*  youTubeLoaded is now global
   		if (game.display.ctl["VIDEO"]) {
 
 			if (game.display.ctl["VIDEO"].youTubeLoaded) this.youTubeLoaded = true;
   		}
+*/
   	}
 
 

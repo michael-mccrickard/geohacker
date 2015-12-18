@@ -8,9 +8,7 @@ Template.missionListing.events = {
 
   		if (mission) {
 
-  			game.display.mainTemplateReady = false;
-
-  			FlowRouter.go("/main");
+  			game.user.resumeHacking();
 
   			return;
   		}

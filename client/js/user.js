@@ -53,9 +53,13 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     	if (_mode == uHack) {
 
+    		//turn off browsing mode for the user
+
+    		game.user.hack.mode = mNone;
+
 	  		Meteor.defer( function() { $("#divHomeHackPic").css("border-color","red") } );
 
-    		this.template.set("missionListing");
+	  		this.resumeHacking();
     	}
 
      	if (_mode == uStats) {
@@ -73,7 +77,30 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
      	}
     }
 
+    this.resumeHacking = function() {
+
+		if (hack) {
+
+  			if (hack.mode < mHackDone) {
+
+  				game.display = display;
+
+  				game.debrief = hack.debrief;
+
+  				game.display.mainTemplateReady = false;
+
+  				FlowRouter.go("/main");
+
+  				return;
+  			}
+  		}
+
+		this.template.set("missionListing");
+    }
+
     this.goHome = function() {
+
+    	if (game.display) game.display.feature.clear();
 
     	if (this.mode == uNone) {
 

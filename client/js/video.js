@@ -13,15 +13,13 @@ Video = function() {
 
 	this.isYouTube = false;  //boolean, is the current video a YT?
 
-	this.youTubeLoaded = false;  //boolean, is the YT player loaded?
-
 	this.youTubeWaiting = new Blaze.ReactiveVar( false );  //are waiting on the YT player to load?
 
 
 	//nullify the youtube player object any time
-	//we create the video control
+	//we create the video control (????)
 
-	ytplayer = null;
+	//ytplayer = null;
 
 	this.init = function() {
 
@@ -193,7 +191,7 @@ Video = function() {
 		//and the onYouTubeIframeAPIReady() function will load the correct
 		//file for us 
 
-		if (this.youTubeLoaded == false) {
+		if (youTubeLoaded == false) {
 		  
 		  console.log("ytplayer being created")
 
@@ -202,6 +200,7 @@ Video = function() {
 		  this.youTubeWaiting.set( true );
 		  
 		  //in this case, we let onYouTubeIframeAPIReady() load the correct file and play it
+		  //it will also set youTubeLoaded
 
 		  YT.load();
 
@@ -209,7 +208,9 @@ Video = function() {
 		}
 
 
-		if (_file == game.display.feature.video ) {
+		//if (_file == game.display.feature.video ) {
+
+		if (_file == ytplayer.getVideoData()['video_id']) {
 
 			console.log("ytplayer resuming from pause")
 
