@@ -191,7 +191,7 @@ FlowRouter.route('/editor', {
 
   action: function (params, queryParams) { 
 
-    pageRefreshed = false;
+   pageRefreshed = false;
 
    display.closeOutMain();
 

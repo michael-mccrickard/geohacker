@@ -74,8 +74,8 @@ Template.editor.helpers({
     },
 
     getImage: function() {
-
-        var deb = new Debrief();
+//to do: fix refs to hack in this file to be hack to be editor.hack
+        var deb = new Debrief( hack );
 
         deb.initForEditor( this.dt );
 
@@ -84,7 +84,7 @@ Template.editor.helpers({
 
     getText: function() {
 
-        var deb = new Debrief();
+        var deb = new Debrief( hack );
 
         deb.initForEditor( this.dt );
 

@@ -353,8 +353,11 @@ Display = function() {
             var ctl = this.ctl[ _name ];
 
             //assign the src value for the icon
+c("in display, ctl name is " + _name)
 
-            $("#p" +_name).attr("src", ctl.getControlPic() );
+c("control state is " + ctl.getState() )
+
+            if (_name != "TEXT") $("#p" +_name).attr("src", ctl.getControlPic() );
         }
 
         imagesLoaded( document.querySelector('#preloadMain'), function( instance ) {

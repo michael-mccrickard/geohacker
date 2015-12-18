@@ -76,7 +76,7 @@ Control = {
 
     //If the collection is empty, then set the full and loaded properties to 1
     //to ensure that we skip these during random loading and data available checks
-
+/*
     if (!_collection) {
 
       this.loadedCount = 1;
@@ -84,7 +84,7 @@ Control = {
       this.fullCount = 1;
     }
     else {
-
+*/
       //***************************************************
       //      Set the items array (process and shuffle)
       //***************************************************
@@ -95,7 +95,7 @@ Control = {
 
       this.items = Database.shuffle(this.items);      
 
-    }
+   // }
     
   }, //end setCountry
 
@@ -116,9 +116,7 @@ Control = {
   //          Data functions
   //********************************************
 
-  //the image for the control buttons (bottom row)
-
-  //OR ... the text for the text control (top or bottom)
+  //the image for the control buttons
 
   getControlPic: function() {
     

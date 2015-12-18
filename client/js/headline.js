@@ -67,7 +67,7 @@ Headline = function( _type ) {
             this.text = "STREAM FROM " + hack.getCountryName() + " WAS HACKED."
         }
 
-        if (game.user.hack.mode == mBrowse) this.text = "Geohacker: Agent " + game.user.name + " is browsing " + mission.name;
+        if (game.user.hack.mode == mBrowse) this.text = "Geohacker: Agent " + game.user.name + " is browsing " + game.user.hack.getCountryName();
 
     }
 

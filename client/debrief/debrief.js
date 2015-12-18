@@ -5,7 +5,9 @@ var leftMargin = 25;
 
 var fontWidth = 13.5;
 
-Debrief = function() {
+Debrief = function( _hack ) {
+
+	this.hack = _hack;
 
 	this.countryCode = "";
 
@@ -23,15 +25,20 @@ Debrief = function() {
 
 	this.alreadyLoaded = false;
 
-	this.init = function() {
+	this.init = function( _code ) {
 
-		this.countryCode = hack.countryCode;
+		this.countryCode = _code;
 
 		this.arr = db.ghD.find( { cc: this.countryCode } ).fetch();
 
 		this.index = Database.getRandomValue(this.arr.length);
 
 		this.alreadyLoaded = false;
+
+		//assign this object to the game, so that we can differentiate between
+		//the debrief for the global hack, and user.hack and editor.hack
+
+		game.debrief = this;
 	}
 
 	this.draw = function() {
@@ -40,7 +47,7 @@ Debrief = function() {
 
 		 this.imageSrc = Control.getImageFromFile( this.image );  
 
-		 Meteor.setTimeout( function() { hack.debrief.finishDraw(); }, 100);
+		 Meteor.setTimeout( function() { game.debrief.finishDraw(); }, 100);
 	}
 
 	this.finishDraw = function() {
@@ -113,7 +120,10 @@ Debrief = function() {
 
 		this.code = this.rec.dt.substr(0,3);	
 
-		if (this.code == "lng") hack.playLanguageFile();	
+		if (this.code == "lng") {
+
+			this.hack.playLanguageFile();	
+		} 
 
 		this.setText();
 
@@ -131,7 +141,11 @@ Debrief = function() {
 		Meteor.defer( function() { this.centerHeadline(); } );
 	}
 
+//fix this to use the editor debrief
+
 	this.initForEditor = function( _type ) {
+
+		var hack = this.hack;
 
 		this.countryCode = hack.countryCode;
 
@@ -146,11 +160,15 @@ Debrief = function() {
 		this.setImage();
 
 		this.setText();
+
+		game.debrief = this;
 	}
 
 	this.setImage = function() {
 
 		this.image = "";
+
+		var hack = this.hack;
 
 		if (this.code == "lng") this.image = display.ctl["SOUND"].soundPlayingPic;
 
@@ -184,15 +202,15 @@ Debrief = function() {
 
         imagesLoaded( document.querySelector('#preloadDebrief'), function( instance ) {
     
-			if (hack.debrief.alreadyLoaded)  {
+			if (game.debrief.alreadyLoaded)  {
 
-				hack.debrief.draw(); 
+				game.debrief.draw(); 
 			}
 			else {
 
 				//in this case, template.rendered will call draw();
 
-				hack.debrief.alreadyLoaded = true; 
+				game.debrief.alreadyLoaded = true; 
 			}
         });
 	}
@@ -200,6 +218,8 @@ Debrief = function() {
 	this.setText = function() {
 
 		this.text = "";
+
+		var hack = this.hack;
 
 		if (this.code == "cap") {
 
@@ -247,7 +267,7 @@ Debrief = function() {
 
 Template.debrief.rendered = function () {
 
-	hack.debrief.draw();
+	game.debrief.draw();
 
 }
 
@@ -261,6 +281,8 @@ Template.debrief.events = {
 
   		if (game.user.hack.mode == mBrowse) {
 
+  			display.mainTemplateReady = false;
+
 			Meteor.setTimeout( function() { FlowRouter.go("/main") }, 100 ) ;
 
 			return;
@@ -273,42 +295,64 @@ Template.debrief.events = {
 
   		e.preventDefault();
 
+  		var debrief = game.debrief;
+
   		Control.playEffect("new_feedback.mp3");
 
-  		hack.debrief.index--;
+  		debrief.index--;
 
-  		if (hack.debrief.index == -1) hack.debrief.index = hack.debrief.arr.length - 1;
+  		if (debrief.index == -1) debrief.index = debrief.arr.length - 1;
 
-  		hack.debrief.set( hack.debrief.index );
+  		debrief.set( debrief.index );
   	},
 
   'click #debriefNavNext': function (e) { 
 
   		e.preventDefault();
 
+    	var debrief = game.debrief;
+
   		Control.playEffect("new_feedback.mp3");
 
-  		hack.debrief.index++;
+  		debrief.index++;
 
-  		if (hack.debrief.index == hack.debrief.arr.length) hack.debrief.index =  0;
+  		if (debrief.index == debrief.arr.length) debrief.index =  0;
 
-  		hack.debrief.set( hack.debrief.index );
+  		debrief.set( debrief.index );
   	},
 
 }
 
+Template.debrief.helpers({
+
+    headline: function() {
+
+    	if (game.user.mode == uBrowse) {
+
+    		return "DEBRIEFING FOR " + game.user.hack.getCountryName();
+  		}
+  		else {
+
+    		return "MISSION DEBRIEFING FOR STREAM " + hack.messageID;  			
+  		}
+    },
+})
 
 Template.miniDebrief.helpers({
 
     leaderPic: function() {
 
-        return hack.getLeaderPic();  
+    	//assuming this case for now
+
+        return game.user.hack.getLeaderPic();  
     },
 })
 
 
 
 //temporary editing hacks
+
+//these not fully functional b/c they assume the debrief is owned by the global hack (could be user.hack or editor.hack)
 
 dodb = function() {
 

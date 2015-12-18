@@ -13,11 +13,15 @@
 
 	    ev.preventDefault();
 
-		var info = display.ctl["MAP"].browseWorldMap.map.getDevInfo();
+	    var map = display.ctl["MAP"].browseWorldMap.map;
 
-		c("lat (north south) is " + info.latitude );
+	    var _lat = map.stageXToLongitude( ev.offsetX )
 
-		c("long (east west) is " + info.longitude );
+	    var _long = map.stageYToLatitude( ev.offsetY )
+
+		c("lat (north south) is " + _lat );
+
+		c("long (east west) is " + _long );
 
 		var data = ev.dataTransfer.getData("text");
 

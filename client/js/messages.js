@@ -1,4 +1,4 @@
-//errors.js
+//messages.js
 
 
 showMessage = function( _text ) {

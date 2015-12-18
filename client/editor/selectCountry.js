@@ -200,6 +200,9 @@ Template.selectCountry.events = {
 
     editor.saveScroll();
 
+//to do: give the editor it's own hack object and fix all the refs in this file
+//and in editor_template_helpers.js ( and editor.js?)
+
   	hack.countryCode = this.c;  
 
   	FlowRouter.go("/editor");

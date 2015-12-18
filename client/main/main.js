@@ -92,6 +92,10 @@ Template.main.helpers({
 
     status: function() {
 
+      //little bit of a cheat here -- just using the global hack instead 
+      //trying to differentiate between the global and the user 
+      //(the headline object checks game.user.mode to get the right one)
+
       return hack.status;
     },
 
@@ -265,7 +269,7 @@ Template.main.events({
           return; 
       }
 
-      if (game.user.hack.mode == mBrowse) {
+      if (game.user.hack.mode == uBrowse) {
 
         var s = "";
 
@@ -385,6 +389,8 @@ c("click control is setting media state to play")
 
         display.feature.clear();
 
+        game.debrief.set( game.debrief.index );
+
         FlowRouter.go("/debrief");
     }
 
@@ -428,9 +434,13 @@ Template.main.rendered = function () {
 
       if (game.user.hack.mode == mBrowse) {
 
-          display.feature.set("IMAGE");
+          var _name = display.feature.getName();
 
-          display.feature.loadAgain( "IMAGE" );
+          if (_name.length == 0) _name = "IMAGE";
+
+          display.feature.set(_name);
+
+          display.feature.loadAgain( _name );
 
           return;
       }

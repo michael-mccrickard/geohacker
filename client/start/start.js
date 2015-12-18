@@ -143,6 +143,7 @@ Meteor.startup(function() {
 
   Meteor.subscribe("ghAvatar", function() { Session.set("sAReady", true ) });
 
+//ps("US")
 
   //start screen
 

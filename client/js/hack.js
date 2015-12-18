@@ -26,6 +26,8 @@ Hack = function() {
 
   this.debrief = null;
 
+
+//to do: change this to streamID throughout
   this.messageID = "(not set)";
 
   this.auto = false;
@@ -46,10 +48,10 @@ Hack = function() {
 
         if (this.debrief == null) {
 
-          this.debrief = new Debrief();
+          this.debrief = new Debrief( this );
         }
 
-        this.debrief.init();
+        this.debrief.init( this.countryCode );
 
         game.user.assign.resetMap();
 
@@ -99,7 +101,7 @@ Hack = function() {
 
         c( db.getCountryName( _code ) + ' was selected for browsing.');   
 
-        this.subscribeToData();
+        this.subscribeToData( _code );
 
         FlowRouter.go("/waiting");
     };
@@ -138,13 +140,13 @@ Hack = function() {
 
         this.setMessageID();
 
-        this.subscribeToData();
+        this.subscribeToData( this.countryCode );
       };
 
 
-    this.subscribeToData = function() {
+    this.subscribeToData = function( _code ) {
 
-        Meteor.call("setCountry", hack.countryCode);
+        Meteor.call("setCountry", _code );
 
         Hack.resetDataFlags();
 
@@ -204,10 +206,10 @@ Hack = function() {
 
         if (this.debrief == null) {
 
-          this.debrief = new Debrief();
+          this.debrief = new Debrief( this );
         }
 
-        this.debrief.init();
+        this.debrief.init( this.countryCode );
 
         var map = display.ctl["MAP"].browseWorldMap;
 
