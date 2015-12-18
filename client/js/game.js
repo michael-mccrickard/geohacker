@@ -107,15 +107,15 @@ Game = function() {
 
 	this.soundControlDone = function() {
 
-		display.ctl["SOUND"].setState( sPaused );
+		game.display.ctl["SOUND"].setState( sPaused );
 
 		//if SOUND is the current ctl, then set it again to force a redraw of the feature area
 
-		if (display.feature.getName() == "SOUND") {
+		if (game.display.feature.getName() == "SOUND") {
 
-			display.feature.loadAgain( "SOUND" );
+			game.display.feature.loadAgain( "SOUND" );
 
-			display.feature.set( "SOUND" );
+			game.display.feature.set( "SOUND" );
 		}
 
 		game.playMusic();

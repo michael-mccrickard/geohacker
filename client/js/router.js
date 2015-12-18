@@ -38,7 +38,7 @@ FlowRouter.route('/missionSelect', {
 
   action: function (params, queryParams) { 
 
-   display.closeOutMain();
+   game.display.closeOutMain();
 
    BlazeLayout.render('layout', { content: "missionSelect" } ) 
 
@@ -77,7 +77,7 @@ FlowRouter.route('/home', {
 
   action: function (params, queryParams) { 
 
-   if (display != undefined) display.closeOutMain();
+   if (display != undefined) game.display.closeOutMain();
 
    BlazeLayout.render('layout', { content: "home" } ) 
 
@@ -119,7 +119,7 @@ FlowRouter.route('/worldMap', {
 
   action: function (params, queryParams) { 
 
-   display.closeOutMain();
+   game.display.closeOutMain();
 
    BlazeLayout.render('layout', { content: "worldMap" } ) 
 
@@ -133,7 +133,7 @@ FlowRouter.route('/worldMapUser', {
 
   action: function (params, queryParams) { 
 
-   //display.closeOutMain();
+   //game.display.closeOutMain();
 
    BlazeLayout.render('layout', { content: "worldMapUser" } ) 
 
@@ -193,7 +193,7 @@ FlowRouter.route('/editor', {
 
    pageRefreshed = false;
 
-   display.closeOutMain();
+   game.display.closeOutMain();
 
    BlazeLayout.render('layout', { content: "editor" } ) 
 
@@ -213,10 +213,10 @@ FlowRouter.route('/selectCountry', {
     
     if (display) {
 
-      if (display.ctl["SOUND"]) display.ctl["SOUND"].pauseFeaturedContent();
+      if (game.display.ctl["SOUND"]) game.display.ctl["SOUND"].pauseFeaturedContent();
     }
 
-    display.closeOutMain();
+    game.display.closeOutMain();
 
     BlazeLayout.render('layout', { content: "selectCountry" });
 
@@ -260,9 +260,9 @@ function checkForFeature() {
   //if there is no control featured, then don't jump to
   //a close-up view
 
-  if (display.feature.getName().length == 0) {
+  if (game.display.feature.getName().length == 0) {
 
-    Control.playEffect( display.locked_sound_file );
+    Control.playEffect( game.display.locked_sound_file );
 
     this.redirect("/main");
   }
@@ -276,16 +276,16 @@ function doRefreshCloseupWindow() {
   //if there is no control featured, then don't refresh
   //the close-up view
 
-  if (display.feature.getName().length == 0) return;
+  if (game.display.feature.getName().length == 0) return;
 
-  Meteor.setTimeout(function () {display.closeUp.draw(); 100} );
+  Meteor.setTimeout(function () {game.display.closeUp.draw(); 100} );
 }
 */
 
 /*
 function checkHackScreen() {
 
-  if (display) display.checkMainScreen();
+  if (display) game.display.checkMainScreen();
 
 }
 */
@@ -316,7 +316,7 @@ function switchToEditor() {
 
   hack.mode = mEdit;
 
-  display.closeOutMain();
+  game.display.closeOutMain();
 
   //this.next();
 }

@@ -25,7 +25,7 @@ Mission = function(_code, _countryCode) {
 
   if (display) {
 
-  	if (display.ctl) display.ctl["MAP"].reset();
+  	if (game.display.ctl) game.display.ctl["MAP"].reset();
   }
 
   //browse mode

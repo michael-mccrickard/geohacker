@@ -136,11 +136,11 @@ Video = function() {
 
 		_file = Control.getNonYouTubeFile( _file );
 
-		display.feature.loadAgain( "VIDEO" );
+		game.display.feature.loadAgain( "VIDEO" );
 
 		//for newly-featured vids, this is redundant, but not for re-features
 
-		Meteor.defer( function() { display.feature.draw(); } );
+		Meteor.defer( function() { game.display.feature.draw(); } );
 
 
 	},// end playFeaturedContent
@@ -197,7 +197,7 @@ Video = function() {
 		  
 		  console.log("ytplayer being created")
 
-		  display.feature.video = _file;  
+		  game.display.feature.video = _file;  
 
 		  this.youTubeWaiting.set( true );
 		  
@@ -209,7 +209,7 @@ Video = function() {
 		}
 
 
-		if (_file == display.feature.video ) {
+		if (_file == game.display.feature.video ) {
 
 			console.log("ytplayer resuming from pause")
 
@@ -222,7 +222,7 @@ Video = function() {
 
 		  //otherwise just load this next file into the player
 
-		  display.feature.video = _file;  
+		  game.display.feature.video = _file;  
 
 		  console.log("video.js: ytplayer playing video")        
 

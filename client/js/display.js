@@ -188,7 +188,7 @@ Display = function() {
             
             this.ctl["MAP"].enableButton();    
 
-            Meteor.defer( function() { display.redraw(); } );
+            Meteor.defer( function() { game.display.redraw(); } );
 
             return;
         }
@@ -239,7 +239,7 @@ Display = function() {
 
         $(_arrow).addClass("invisible");      
 
-       Meteor.setTimeout( function() { display.doHilite(_button, _normalPic, _hilitePic, _arrow, _speed); }, _speed)
+       Meteor.setTimeout( function() { game.display.doHilite(_button, _normalPic, _hilitePic, _arrow, _speed); }, _speed)
 
     },
 
@@ -253,7 +253,7 @@ Display = function() {
 
         $(_arrow).removeClass("invisible");       
 
-        Meteor.setTimeout( function() { display.blinkButton(_button, _normalPic, _hilitePic, _arrow, _speed); }, _speed);
+        Meteor.setTimeout( function() { game.display.blinkButton(_button, _normalPic, _hilitePic, _arrow, _speed); }, _speed);
 
     },
 

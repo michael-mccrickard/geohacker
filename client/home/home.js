@@ -50,7 +50,7 @@ Template.home.events({
 //this method is temporary, just for dev
 
 //it will wreck any mission / hack in progress
-
+/*
 var countryCode = Meteor.user().profile.cc;
 
 display = new Display();
@@ -61,9 +61,9 @@ mission.code = "browse";
 
 mission.browseCode = countryCode;
 
-display.init( countryCode );
+game.display.init( countryCode );
 
-var mapCtl = display.ctl["MAP"];
+var mapCtl = game.display.ctl["MAP"];
 
 mapCtl.level.set( mlCountry );
 
@@ -84,7 +84,7 @@ map.selectedCountry = hack.countryCode;
 c("before go")
 
 Meteor.defer( function() { FlowRouter.go("/browseWorldMap"); } );
-
+*/
   },
 
 });

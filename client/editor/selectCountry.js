@@ -12,7 +12,7 @@ Session.set("sUpdateEditScreenFlag", true);
 
 Template.selectCountry.rendered = function() {
 
-  display.switchToEditor();
+  game.display.switchToEditor();
 }
 
 Template.selectCountry.helpers({
@@ -216,7 +216,7 @@ Template.selectCountry.events = {
 
   	 FlowRouter.go("/main");
   
-     Meteor.setTimeout( function() { display.redraw(); }, 500);
+     Meteor.setTimeout( function() { game.display.redraw(); }, 500);
   },
 
   'click .updateCountryButton': function (evt, template) {

@@ -14,34 +14,34 @@ Template.main.helpers({
 
     controlPic: function() {
 
-        return display.ctl[ this ].getControlPic();
+        return game.display.ctl[ this ].getControlPic();
     },
 
     controlPicLeft: function() {
 
-      return display.ctl[ this ].picFrame.left;
+      return game.display.ctl[ this ].picFrame.left;
     },
 
     controlPicTop: function() {
 
-      return display.ctl[ this ].picFrame.top;
+      return game.display.ctl[ this ].picFrame.top;
     },
 
     controlPicWidth: function() {
 
-      return display.ctl[ this ].picFrame.width;
+      return game.display.ctl[ this ].picFrame.width;
     },
 
     controlPicHeight: function() {
 
-      return display.ctl[ this ].picFrame.height;
+      return game.display.ctl[ this ].picFrame.height;
     },
 
     //when a control is clicked, the background is hilited
 
     controlBackdrop: function(_name) {
 
-      if (_name == display.feature.getName() ) return "hilitedBackdrop.jpg"
+      if (_name == game.display.feature.getName() ) return "hilitedBackdrop.jpg"
 
       return "featuredBackdrop.jpg";
     },
@@ -56,7 +56,7 @@ Template.main.helpers({
 
     opacityClass: function() {
 
-      if (display.ctl[ this ].getState() <= sIcon) return "faded";
+      if (game.display.ctl[ this ].getState() <= sIcon) return "faded";
 
       return "";
 
@@ -64,9 +64,9 @@ Template.main.helpers({
 
     opacityClassMap: function() {
 
-      var _s = display.ctl[ this ].getState();  //any state change to a control will trigger this?
+      var _s = game.display.ctl[ this ].getState();  //any state change to a control will trigger this?
 
-      if (display.loader.totalClueCount == 0) return "faded";
+      if (game.display.loader.totalClueCount == 0) return "faded";
 
       return "";
 
@@ -74,18 +74,18 @@ Template.main.helpers({
 
     navButtonPrevVisible: function() { 
 
-      if (display.feature.off() ) return "invisible"; 
+      if (game.display.feature.off() ) return "invisible"; 
 
-      if (display.feature.ctl.hasPrevItem() ) return "";
+      if (game.display.feature.ctl.hasPrevItem() ) return "";
 
       return "invisible";
     },
 
     navButtonNextVisible: function() { 
 
-      if (display.feature.off() ) return "invisible"; 
+      if (game.display.feature.off() ) return "invisible"; 
 
-      if (display.feature.ctl.hasNextItem() ) return "";
+      if (game.display.feature.ctl.hasNextItem() ) return "";
 
       return "invisible";
     },
@@ -101,18 +101,18 @@ Template.main.helpers({
 
     TextIsDisplayed: function() {
 
-        if (display.feature.getName() == "TEXT") return true;
+        if (game.display.feature.getName() == "TEXT") return true;
 
-        //if (display.feature.getName() == "MAP") return true;
+        //if (game.display.feature.getName() == "MAP") return true;
 
-        if (display.feature.displayMessage.get() ) return true;
+        if (game.display.feature.displayMessage.get() ) return true;
 
         return false;
     },
 
     featuredAreaFont: function() {
 
-        if (display.feature.displayMessage.get() ) return "featuredMessageFont";
+        if (game.display.feature.displayMessage.get() ) return "featuredMessageFont";
 
         return "featuredTextFont";
     },
@@ -120,37 +120,37 @@ Template.main.helpers({
 
     displayTextContent: function() {
 
-        if (display.feature.getName() == "TEXT") return display.ctl["TEXT"].getTextContent();       
+        if (game.display.feature.getName() == "TEXT") return game.display.ctl["TEXT"].getTextContent();       
     },
 
     textControlContent: function() { 
 
-        return display.ctl["TEXT"].getTextContent();   
+        return game.display.ctl["TEXT"].getTextContent();   
     },
 
     displayTextControlText: function() {
 
-        if (this == "TEXT" && display.ctl["TEXT"].getState() >= sLoaded) return true;
+        if (this == "TEXT" && game.display.ctl["TEXT"].getState() >= sLoaded) return true;
 
         return false;
     },
 
     youTubeWaiting: function() {
 
-      return display.ctl["VIDEO"].youTubeWaiting.get();
+      return game.display.ctl["VIDEO"].youTubeWaiting.get();
     },
 
 
     scannerNotVisible: function() {
 
-      if ( display.scanner.visible.get() ) return false;
+      if ( game.display.scanner.visible.get() ) return false;
 
       return true;    
     },
 
     scannerNotLoaded: function() {
 
-      if ( display.scanner.centerState.get() != "loaded" ) return true;
+      if ( game.display.scanner.centerState.get() != "loaded" ) return true;
 
       return false;    
     },
@@ -170,7 +170,7 @@ Template.main.events({
 
       e.preventDefault();  
 
-      if (display.loader.totalClueCount == 0) return;
+      if (game.display.loader.totalClueCount == 0) return;
 
       $("#mapButton").attr("src", "./newGlobeIconGreen.png");
 
@@ -210,12 +210,12 @@ Template.main.events({
 
       if ( $("#mapButton").hasClass("faded") ) {
 
-          Control.playEffect( display.locked_sound_file );
+          Control.playEffect( game.display.locked_sound_file );
 
           return; 
       }     
       
-      display.feature.set("MAP");
+      game.display.feature.set("MAP");
   
     },
 
@@ -223,9 +223,9 @@ Template.main.events({
 
       e.preventDefault();
 
-      var _index = display.feature.ctl.getIndex();
+      var _index = game.display.feature.ctl.getIndex();
 
-      display.feature.ctl.setIndex( _index - 1);
+      game.display.feature.ctl.setIndex( _index - 1);
 
       updateFeaturedContent();
   },
@@ -234,9 +234,9 @@ Template.main.events({
 
       e.preventDefault();
 
-      var _index = display.feature.ctl.getIndex();
+      var _index = game.display.feature.ctl.getIndex();
 
-      display.feature.ctl.setIndex( _index + 1);
+      game.display.feature.ctl.setIndex( _index + 1);
 
       updateFeaturedContent();
   },
@@ -246,25 +246,25 @@ Template.main.events({
 
       e.preventDefault();
 
-      display.stopBlinking();
+      game.display.stopBlinking();
 
-      if (display.cue.state == sPlaying) {
+      if (game.display.cue.state == sPlaying) {
 
-          Control.playEffect( display.locked_sound_file );
+          Control.playEffect( game.display.locked_sound_file );
 
           return;
       }
 
-      if (display.scanner.mode == "scan" || display.scanner.mode == "rescan") {
+      if (game.display.scanner.mode == "scan" || game.display.scanner.mode == "rescan") {
 
-          Control.playEffect( display.locked_sound_file );
+          Control.playEffect( game.display.locked_sound_file );
 
           return;
       }
 
       if ( $("img#scanButton").hasClass('faded') ) {
 
-          Control.playEffect( display.locked_sound_file );
+          Control.playEffect( game.display.locked_sound_file );
 
           return; 
       }
@@ -297,29 +297,29 @@ Template.main.events({
 
       }
 
-      display.feature.dim();
+      game.display.feature.dim();
 
       var mode = "rescan";
 
-      if (display.loader.totalClueCount == 0) mode = "scan";
+      if (game.display.loader.totalClueCount == 0) mode = "scan";
 
       if (gInstantMode) {
 
-          display.loader.go();
+          game.display.loader.go();
 
-          display.scanner.show();
+          game.display.scanner.show();
 
-          display.scanner.stopScan();
+          game.display.scanner.stopScan();
       }
       else {
 
-        display.scanner.startScan( mode );
+        game.display.scanner.startScan( mode );
 
       }
 
 
 //now loader.go() but called by startScan()
-      //display.loader.doScan();
+      //game.display.loader.doScan();
 
     },
 
@@ -327,27 +327,27 @@ Template.main.events({
       
       e.preventDefault();
 
-      if (display.scanner.mode == "scan" || display.scanner.mode == "rescan") {
+      if (game.display.scanner.mode == "scan" || game.display.scanner.mode == "rescan") {
 
-          Control.playEffect( display.locked_sound_file );
+          Control.playEffect( game.display.locked_sound_file );
 
           return;
       }
 
-      display.cue.set();
+      game.display.cue.set();
 
       var id = e.currentTarget.id;
 
-      if ( display.ctl[ id ].getState() < sLoaded ) {
+      if ( game.display.ctl[ id ].getState() < sLoaded ) {
 
-          Control.playEffect( display.locked_sound_file );
+          Control.playEffect( game.display.locked_sound_file );
 
           return;
       }
 
-      Control.playEffect( display.fb_sound_file );  
+      Control.playEffect( game.display.fb_sound_file );  
 
-      var _name = display.feature.getName();
+      var _name = game.display.feature.getName();
 
       //for the media controls, we are either clicking to toggle
       //the state (ctl is already active) 
@@ -355,7 +355,7 @@ Template.main.events({
 
       if ((id == "SOUND" && _name == "SOUND") || (id == "VIDEO" && _name == "VIDEO")) {
           
-          display.feature.ctl.toggleMediaState(); 
+          game.display.feature.ctl.toggleMediaState(); 
        }
        else {
 
@@ -363,23 +363,23 @@ Template.main.events({
 
 c("click control is setting media state to play")
 
-            display.ctl[ id ].setState( sPlaying ); 
+            game.display.ctl[ id ].setState( sPlaying ); 
           }  
        }
 
-      display.scanner.fadeOut( 250 );
+      game.display.scanner.fadeOut( 250 );
 
-      display.feature.set( id );
+      game.display.feature.set( id );
 
-      display.feature.loadAgain( id );
+      game.display.feature.loadAgain( id );
 
       if (id == "VIDEO") {
 
-        display.cue.setAndShow();
+        game.display.cue.setAndShow();
       }
       else {
 
-        Meteor.setTimeout( function() { display.cue.type() }, 500);
+        Meteor.setTimeout( function() { game.display.cue.type() }, 500);
       }
     },
 
@@ -387,7 +387,7 @@ c("click control is setting media state to play")
 
       e.preventDefault;
 
-        display.feature.clear();
+        game.display.feature.clear();
 
         game.debrief.set( game.debrief.index );
 
@@ -398,22 +398,22 @@ c("click control is setting media state to play")
 
 function updateFeaturedContent() {
 
-    var _name = display.feature.getName();
+    var _name = game.display.feature.getName();
  
     if (_name == "VIDEO") {
 
-      display.ctl["VIDEO"].playNewVideo();
+      game.display.ctl["VIDEO"].playNewVideo();
     }
     else {
 
       if (game.user.hack.mode == mBrowse) {
       
-        display.feature.load( _name );  //the imagesLoaded callback will update the screen
+        game.display.feature.load( _name );  //the imagesLoaded callback will update the screen
 
         return;
       }
 
-      display.showFeaturedContent( _name  );
+      game.display.showFeaturedContent( _name  );
     }
 
 
@@ -421,26 +421,26 @@ function updateFeaturedContent() {
 
 Template.main.rendered = function () {
 
-    if (display.mainTemplateReady == false) {
+    if (game.display.mainTemplateReady == false) {
 
-      display.mainTemplateReady = true;
+      game.display.mainTemplateReady = true;
 
-      display.redraw();
+      game.display.redraw();
 
-      display.doHeadlines();
+      game.display.doHeadlines();
 
-      display.checkMainScreen();
+      game.display.checkMainScreen();
 
 
       if (game.user.hack.mode == mBrowse) {
 
-          var _name = display.feature.getName();
+          var _name = game.display.feature.getName();
 
           if (_name.length == 0) _name = "IMAGE";
 
-          display.feature.set(_name);
+          game.display.feature.set(_name);
 
-          display.feature.loadAgain( _name );
+          game.display.feature.loadAgain( _name );
 
           return;
       }
@@ -448,11 +448,11 @@ Template.main.rendered = function () {
     
       if (hack.mode == mReady)  {
 
-        if ( display.feature.off() ||  display.feature.getName() == "MAP") {    //(display.feature.on() && display.feature.getName() == "MAP")  ) {
+        if ( game.display.feature.off() ||  game.display.feature.getName() == "MAP") {    //(game.display.feature.on() && game.display.feature.getName() == "MAP")  ) {
 
-          display.scanner.show();
+          game.display.scanner.show();
 
-          Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 );              
+          Meteor.setTimeout(function() { game.display.scanner.startIdle(); }, 502 );              
         }
 
       }

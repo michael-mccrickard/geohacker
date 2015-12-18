@@ -8,7 +8,7 @@ Template.missionListing.events = {
 
   		if (mission) {
 
-  			display.mainTemplateReady = false;
+  			game.display.mainTemplateReady = false;
 
   			FlowRouter.go("/main");
 

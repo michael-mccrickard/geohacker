@@ -27,9 +27,9 @@ Editor = function() {
 
   	if (display) {
 
-  		if (display.ctl["VIDEO"]) {
+  		if (game.display.ctl["VIDEO"]) {
 
-			if (display.ctl["VIDEO"].youTubeLoaded) this.youTubeLoaded = true;
+			if (game.display.ctl["VIDEO"].youTubeLoaded) this.youTubeLoaded = true;
   		}
   	}
 

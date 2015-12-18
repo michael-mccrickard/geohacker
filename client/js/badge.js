@@ -207,11 +207,11 @@ BadgeList = function() {
 
      	//genius
 
-    	if (display.loader.totalClueCount == 1) this.arr.push( this.generateBadge( bGenius, null, true) );
+    	if (game.display.loader.totalClueCount == 1) this.arr.push( this.generateBadge( bGenius, null, true) );
 
      	//expert
 
-    	if (display.loader.totalClueCount == 2) this.arr.push( this.generateBadge( bExpert, null, true ) );
+    	if (game.display.loader.totalClueCount == 2) this.arr.push( this.generateBadge( bExpert, null, true ) );
 
     	//speed
 
@@ -223,11 +223,11 @@ BadgeList = function() {
 
     	//investigator
 
-    	if (display.loader.totalClueCount >= 9) this.arr.push( this.generateBadge( bInvestigator, vGold) );
+    	if (game.display.loader.totalClueCount >= 9) this.arr.push( this.generateBadge( bInvestigator, vGold) );
 
-    	if (display.loader.totalClueCount >= 6 && display.loader.totalClueCount < 9) this.arr.push( this.generateBadge( bInvestigator, vSilver, true ) );
+    	if (game.display.loader.totalClueCount >= 6 && game.display.loader.totalClueCount < 9) this.arr.push( this.generateBadge( bInvestigator, vSilver, true ) );
 
-    	if (display.loader.totalClueCount >= 3 && display.loader.totalClueCount < 6) this.arr.push( this.generateBadge( bInvestigator, vBronze, true ) );
+    	if (game.display.loader.totalClueCount >= 3 && game.display.loader.totalClueCount < 6) this.arr.push( this.generateBadge( bInvestigator, vBronze, true ) );
 
     	//scholar
 

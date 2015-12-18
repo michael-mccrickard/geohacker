@@ -129,9 +129,9 @@ Scanner = function() {
 
 		this.centerState.set("scan");
 
-		if ( display.feature.on() ) {
+		if ( game.display.feature.on() ) {
 
-			var _name = display.feature.getName();
+			var _name = game.display.feature.getName();
 
 			if (_name != "TEXT" && _name != "VIDEO"  && _name != "MAP") this.hideBG();
 		}
@@ -180,7 +180,7 @@ Scanner = function() {
 
 		this.playScanSound( soundTime );
 
-		display.loader.go();
+		game.display.loader.go();
 
 	}
 
@@ -251,15 +251,15 @@ Scanner = function() {
 
 		this.ele[ _ID ].pause();
 
-		if (_ID == scTopLeft) Meteor.setTimeout( function() { display.scanner.nextIdleMessage( scTopLeft ) }, display.scanner.ele[ scTopLeft ].idlePauseTime[ display.scanner.ele[ scTopLeft ].index ] ) ; 	
+		if (_ID == scTopLeft) Meteor.setTimeout( function() { game.display.scanner.nextIdleMessage( scTopLeft ) }, game.display.scanner.ele[ scTopLeft ].idlePauseTime[ game.display.scanner.ele[ scTopLeft ].index ] ) ; 	
 
-		if (_ID == scTopRight) Meteor.setTimeout( function() { display.scanner.nextIdleMessage( scTopRight ) }, display.scanner.ele[ scTopRight ].idlePauseTime[ display.scanner.ele[ scTopRight ].index ] ) ; 
+		if (_ID == scTopRight) Meteor.setTimeout( function() { game.display.scanner.nextIdleMessage( scTopRight ) }, game.display.scanner.ele[ scTopRight ].idlePauseTime[ game.display.scanner.ele[ scTopRight ].index ] ) ; 
 
-		if (_ID == scBottomLeft) Meteor.setTimeout( function() { display.scanner.nextIdleMessage( scBottomLeft ) }, display.scanner.ele[ scBottomLeft ].idlePauseTime[ display.scanner.ele[ scBottomLeft ].index ] ) ; 	
+		if (_ID == scBottomLeft) Meteor.setTimeout( function() { game.display.scanner.nextIdleMessage( scBottomLeft ) }, game.display.scanner.ele[ scBottomLeft ].idlePauseTime[ game.display.scanner.ele[ scBottomLeft ].index ] ) ; 	
 
-		if (_ID == scBottomCenter) Meteor.setTimeout( function() { display.scanner.nextIdleMessage( scBottomCenter ) }, display.scanner.ele[ scBottomCenter ].idlePauseTime[ display.scanner.ele[ scBottomCenter ].index ] ) ; 
+		if (_ID == scBottomCenter) Meteor.setTimeout( function() { game.display.scanner.nextIdleMessage( scBottomCenter ) }, game.display.scanner.ele[ scBottomCenter ].idlePauseTime[ game.display.scanner.ele[ scBottomCenter ].index ] ) ; 
 
-		if (_ID == scBottomRight) Meteor.setTimeout( function() { display.scanner.nextIdleMessage( scBottomRight ) }, display.scanner.ele[ scBottomRight ].idlePauseTime[ display.scanner.ele[ scBottomRight ].index ] ) ; 
+		if (_ID == scBottomRight) Meteor.setTimeout( function() { game.display.scanner.nextIdleMessage( scBottomRight ) }, game.display.scanner.ele[ scBottomRight ].idlePauseTime[ game.display.scanner.ele[ scBottomRight ].index ] ) ; 
 	}
 
 	this.nextIdleMessage = function(_ID) {
@@ -295,7 +295,7 @@ Scanner = function() {
 			this.ele[ i ].pause();			
 		}
 
-		display.loader.showLoadedControl();
+		game.display.loader.showLoadedControl();
 
 		this.centerState.set("loaded");
 
@@ -307,11 +307,11 @@ Scanner = function() {
 
 		//set the reactive var to change the center image to the new control
 
-		display.loadedControlName.set( display.loader.newControl.name );
+		game.display.loadedControlName.set( game.display.loader.newControl.name );
 
-		Meteor.setTimeout( function() { display.scanner.drawCenter() }, 10 );
+		Meteor.setTimeout( function() { game.display.scanner.drawCenter() }, 10 );
 
-		Meteor.setTimeout( function() { display.scanner.startIdle() }, 2000 );		
+		Meteor.setTimeout( function() { game.display.scanner.startIdle() }, 2000 );		
 	}
 
 	this.startNetworkAnalyzer = function() {
@@ -320,7 +320,7 @@ Scanner = function() {
 
 		this.networkIntegrityOn = true;
 
-		Meteor.setTimeout( function() { display.scanner.networkAnalyzer() }, Database.getRandomFromRange(3000, 10000) );
+		Meteor.setTimeout( function() { game.display.scanner.networkAnalyzer() }, Database.getRandomFromRange(3000, 10000) );
 	}
 
 	this.networkAnalyzer = function() {
@@ -329,7 +329,7 @@ Scanner = function() {
 
 		this.networkIntegrity.set( _amt/10 );
 
-		Meteor.setTimeout( function() { display.scanner.networkAnalyzer() }, Database.getRandomFromRange(3000, 10000) );
+		Meteor.setTimeout( function() { game.display.scanner.networkAnalyzer() }, Database.getRandomFromRange(3000, 10000) );
 
 	}
 
@@ -363,7 +363,7 @@ Scanner = function() {
 
 		document.getElementById("streamAnalyzerID").innerHTML = _text;
 
-		Meteor.setTimeout( function() { display.scanner.streamAnalyzer(); }, delay);
+		Meteor.setTimeout( function() { game.display.scanner.streamAnalyzer(); }, delay);
 
 	}
 
@@ -384,16 +384,16 @@ Scanner = function() {
 
 		Meteor.setTimeout( function () {
 
-			display.scanner.advanceProgressMeter();
+			game.display.scanner.advanceProgressMeter();
  
-		}, display.scanner.progressInterval);
+		}, game.display.scanner.progressInterval);
 
-		Meteor.defer( function() { display.scanner.drawCenter() } );
+		Meteor.defer( function() { game.display.scanner.drawCenter() } );
 	}
 
 	this.advanceProgressMeter = function() {
 
-			var s = display.scanner;
+			var s = game.display.scanner;
 
 			var temp = s.progress.get();
 
@@ -411,9 +411,9 @@ Scanner = function() {
 
 			Meteor.setTimeout( function () {
 
-				display.scanner.advanceProgressMeter();
+				game.display.scanner.advanceProgressMeter();
 	 
-			}, display.scanner.progressInterval);
+			}, game.display.scanner.progressInterval);
 	}
 
 
@@ -460,7 +460,7 @@ Scanner = function() {
 
 		var spacer = vertSpacer * 2;
 
-		if (display.scanner.centerState.get() == "idle") spacer = -1 * vertSpacer*3
+		if (game.display.scanner.centerState.get() == "idle") spacer = -1 * vertSpacer*3
 
 	  	$("div.scanCenterText").css("top", $(".scanCenter").position().top + $(".scanCenterImg").outerHeight() + spacer + "px" ); 
 	}

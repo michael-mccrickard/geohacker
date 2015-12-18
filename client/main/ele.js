@@ -44,15 +44,15 @@ Ele = function(_name, _ID, _type ) {
 
 		//queue up the pause command
 
-		if (this.ID == scTopLeft) Meteor.setTimeout( function() { display.scanner.pauseIdle( scTopLeft ) }, display.scanner.ele[ scTopLeft ].idlePlayTime[ display.scanner.ele[ scTopLeft ].index  ] ); 	
+		if (this.ID == scTopLeft) Meteor.setTimeout( function() { game.display.scanner.pauseIdle( scTopLeft ) }, game.display.scanner.ele[ scTopLeft ].idlePlayTime[ game.display.scanner.ele[ scTopLeft ].index  ] ); 	
 
-		if (this.ID == scTopRight) Meteor.setTimeout( function() { display.scanner.pauseIdle( scTopRight ) }, display.scanner.ele[ scTopRight ].idlePlayTime[ display.scanner.ele[ scTopRight ].index ] ); 	
+		if (this.ID == scTopRight) Meteor.setTimeout( function() { game.display.scanner.pauseIdle( scTopRight ) }, game.display.scanner.ele[ scTopRight ].idlePlayTime[ game.display.scanner.ele[ scTopRight ].index ] ); 	
 
-		if (this.ID == scBottomLeft) Meteor.setTimeout( function() { display.scanner.pauseIdle( scBottomLeft ) }, display.scanner.ele[ scBottomLeft ].idlePlayTime[ display.scanner.ele[ scBottomLeft ].index  ] ); 	
+		if (this.ID == scBottomLeft) Meteor.setTimeout( function() { game.display.scanner.pauseIdle( scBottomLeft ) }, game.display.scanner.ele[ scBottomLeft ].idlePlayTime[ game.display.scanner.ele[ scBottomLeft ].index  ] ); 	
 
-		if (this.ID == scBottomCenter) Meteor.setTimeout( function() { display.scanner.pauseIdle( scBottomCenter ) }, display.scanner.ele[ scBottomCenter ].idlePlayTime[ display.scanner.ele[ scBottomCenter ].index  ] ); 
+		if (this.ID == scBottomCenter) Meteor.setTimeout( function() { game.display.scanner.pauseIdle( scBottomCenter ) }, game.display.scanner.ele[ scBottomCenter ].idlePlayTime[ game.display.scanner.ele[ scBottomCenter ].index  ] ); 
 
-		if (this.ID == scBottomRight) Meteor.setTimeout( function() { display.scanner.pauseIdle( scBottomRight ) }, display.scanner.ele[ scBottomRight ].idlePlayTime[ display.scanner.ele[ scBottomRight ].index ] ); 	
+		if (this.ID == scBottomRight) Meteor.setTimeout( function() { game.display.scanner.pauseIdle( scBottomRight ) }, game.display.scanner.ele[ scBottomRight ].idlePlayTime[ game.display.scanner.ele[ scBottomRight ].index ] ); 	
 
 	}
 
@@ -70,7 +70,7 @@ Ele = function(_name, _ID, _type ) {
 
 			this.finished = true;
 
-			//if (display.scanner.checkScan() == true) { display.scanner.stopScan(); }
+			//if (game.display.scanner.checkScan() == true) { game.display.scanner.stopScan(); }
 
 			return;
 
@@ -103,15 +103,15 @@ Ele = function(_name, _ID, _type ) {
 
 		//queue up the pause command
 
-		if (this.ID == scTopLeft) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scTopLeft ) }, display.scanner.ele[ scTopLeft ].scanPlayTime[ display.scanner.ele[ scTopLeft ].index  ] ); 	
+		if (this.ID == scTopLeft) Meteor.setTimeout( function() { game.display.scanner.nextScanMessage( scTopLeft ) }, game.display.scanner.ele[ scTopLeft ].scanPlayTime[ game.display.scanner.ele[ scTopLeft ].index  ] ); 	
 
-		if (this.ID == scTopRight) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scTopRight ) }, display.scanner.ele[ scTopRight ].scanPlayTime[ display.scanner.ele[ scTopRight ].index ] ); 	
+		if (this.ID == scTopRight) Meteor.setTimeout( function() { game.display.scanner.nextScanMessage( scTopRight ) }, game.display.scanner.ele[ scTopRight ].scanPlayTime[ game.display.scanner.ele[ scTopRight ].index ] ); 	
 
-		if (this.ID == scBottomLeft) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scBottomLeft ) }, display.scanner.ele[ scBottomLeft ].scanPlayTime[ display.scanner.ele[ scBottomLeft ].index  ] ); 	
+		if (this.ID == scBottomLeft) Meteor.setTimeout( function() { game.display.scanner.nextScanMessage( scBottomLeft ) }, game.display.scanner.ele[ scBottomLeft ].scanPlayTime[ game.display.scanner.ele[ scBottomLeft ].index  ] ); 	
 
-		if (this.ID == scBottomCenter) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scBottomCenter ) }, display.scanner.ele[ scBottomCenter ].scanPlayTime[ display.scanner.ele[ scBottomCenter ].index  ] ); 
+		if (this.ID == scBottomCenter) Meteor.setTimeout( function() { game.display.scanner.nextScanMessage( scBottomCenter ) }, game.display.scanner.ele[ scBottomCenter ].scanPlayTime[ game.display.scanner.ele[ scBottomCenter ].index  ] ); 
 
-		if (this.ID == scBottomRight) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scBottomRight ) }, display.scanner.ele[ scBottomRight ].scanPlayTime[ display.scanner.ele[ scBottomRight ].index ] ); 	
+		if (this.ID == scBottomRight) Meteor.setTimeout( function() { game.display.scanner.nextScanMessage( scBottomRight ) }, game.display.scanner.ele[ scBottomRight ].scanPlayTime[ game.display.scanner.ele[ scBottomRight ].index ] ); 	
 
 	}
 

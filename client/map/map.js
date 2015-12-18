@@ -71,12 +71,12 @@ ghMap = function() {
       
       var url = FlowRouter.current().path;
 
-      if (url == '/worldMap') display.mapStatus.setAndType();
+      if (url == '/worldMap') game.display.mapStatus.setAndType();
     },
 
     this.setMapStatus = function( _text ) {
 
-      display.mapStatus.setAndShow( _text );
+      game.display.mapStatus.setAndShow( _text );
 
     } 
 
@@ -126,7 +126,7 @@ ghMap = function() {
 
        $("#mapButton").attr("src", "./newGlobeIconGreen.png");
 
-      this.timerID = Meteor.setInterval( function() { display.ctl["MAP"].doNormal(); }, 2000)
+      this.timerID = Meteor.setInterval( function() { game.display.ctl["MAP"].doNormal(); }, 2000)
 
     },   
 
@@ -159,7 +159,7 @@ ghMap = function() {
       
       if (game.user.hack.mode == mBrowse) {
 
-        display.worldMapTemplateReady = false;
+        game.display.worldMapTemplateReady = false;
 
         FlowRouter.go("/browseWorldMap");
 
@@ -176,7 +176,7 @@ ghMap = function() {
 
       if (this.autoFeatured) {
 
-        display.blinkMapButton();
+        game.display.blinkMapButton();
 
         //by flipping this back to false, the user's click will take them to the map
 
@@ -189,7 +189,7 @@ ghMap = function() {
         //... the map is not autofeatured, so that means the user
         //clicked the map button to go there
 
-        display.worldMapTemplateReady = false;
+        game.display.worldMapTemplateReady = false;
 
         FlowRouter.go("/worldMap");
       }
@@ -205,7 +205,7 @@ ghMap = function() {
 
         $("#mapButton").attr("src", "./newGlobeIconYellow.png");
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].doGreen(); }, 500);    
+        Meteor.setTimeout( function() { game.display.ctl["MAP"].doGreen(); }, 500);    
     },
 
     this.enableButton = function() {
@@ -318,7 +318,7 @@ ghMap = function() {
 
         imagesLoaded( document.querySelector('#preloadCountryMap'), function( instance ) {
 
-          Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone() }, 2500 );
+          Meteor.setTimeout( function() { game.display.ctl["MAP"].worldMap.hackDone() }, 2500 );
 
            Meteor.setTimeout( function() { Control.playEffect( "new_debrief.mp3" ) }, 3750 );          
 

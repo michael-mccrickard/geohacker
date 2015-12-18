@@ -1,6 +1,6 @@
 Template.closeup.rendered = function() {
 
-  display.closeUp.draw();
+  game.display.closeUp.draw();
 }
 
 
@@ -10,9 +10,9 @@ Template.closeup.events = {
 
   		e.preventDefault();
 
-      display.mainTemplateReady = false;
+      game.display.mainTemplateReady = false;
 
-      if (display.feature.getName() == "MAP") {
+      if (game.display.feature.getName() == "MAP") {
 
         FlowRouter.go("/debrief");
 
@@ -26,13 +26,13 @@ Template.closeup.events = {
 
       e.preventDefault();
 
-      if (display.closeUp.source == "0") {
+      if (game.display.closeUp.source == "0") {
 
         alert("Go to Unknown Source page here.")
       }
       else {
 
-        window.open(display.closeUp.source);
+        window.open(game.display.closeUp.source);
       }
 
     }
@@ -51,9 +51,9 @@ CloseUp = function() {
 
     c("draw");
 
-      var img = display.feature.imageSrc;
+      var img = game.display.feature.imageSrc;
 
-      if (display.feature.getName() == "MAP") {
+      if (game.display.feature.getName() == "MAP") {
 
         var _filename = hack.getCountryFilename() + "_map.jpg"
 
@@ -70,9 +70,9 @@ CloseUp = function() {
 
       var maxWidth = $( container ).width() * 0.98;
 
-      fullScreenHeight = fullScreenHeight - display.menuHeight;
+      fullScreenHeight = fullScreenHeight - game.display.menuHeight;
 
-      $( container ).css("top", display.menuHeight + (fullScreenHeight * 0.01) );
+      $( container ).css("top", game.display.menuHeight + (fullScreenHeight * 0.01) );
 
       var fullHeight = fullScreenHeight * 0.98;
 
@@ -111,7 +111,7 @@ CloseUp = function() {
       }
       else{
 
-        s = display.feature.source;
+        s = game.display.feature.source;
       }
 
       this.source = s;

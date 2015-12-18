@@ -94,7 +94,7 @@ Debrief = function( _hack ) {
 
 		$( container ).css("left",  fullScreenWidth/2 - _width/2 );
 
-		$( container ).css("top",  (fullScreenHeight - display.menuHeight) * 0.93 );  	
+		$( container ).css("top",  (fullScreenHeight - game.display.menuHeight) * 0.93 );  	
 
 	}
 
@@ -110,7 +110,7 @@ Debrief = function( _hack ) {
 
 		$( container ).css("left",  fullScreenWidth/2 - _width/2 );
 
-		$( container ).css("top",  (fullScreenHeight - display.menuHeight) * 0.095 );  	
+		$( container ).css("top",  (fullScreenHeight - game.display.menuHeight) * 0.095 );  	
 
 	}
 
@@ -170,7 +170,7 @@ Debrief = function( _hack ) {
 
 		var hack = this.hack;
 
-		if (this.code == "lng") this.image = display.ctl["SOUND"].soundPlayingPic;
+		if (this.code == "lng") this.image = game.display.ctl["SOUND"].soundPlayingPic;
 
 		if (this.code == "flg")  this.image = hack.getFlagPic();
 
@@ -281,7 +281,7 @@ Template.debrief.events = {
 
   		if (game.user.hack.mode == mBrowse) {
 
-  			display.mainTemplateReady = false;
+  			game.display.mainTemplateReady = false;
 
 			Meteor.setTimeout( function() { FlowRouter.go("/main") }, 100 ) ;
 

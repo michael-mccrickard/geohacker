@@ -41,10 +41,11 @@ Hack = function() {
         if (display == null) {
 
           display = new Display();
-
         }
 
-        display.init(this.countryCode);
+        game.display = display;
+
+        game.display.init(this.countryCode);
 
         if (this.debrief == null) {
 
@@ -59,7 +60,7 @@ Hack = function() {
 
         game.playMusic();
 
-        display.loadMain();
+        game.display.loadMain();
     };
 
 
@@ -73,12 +74,16 @@ Hack = function() {
 
           display = new Display();
 
+          game.display = display;
+
         }
         else {
           
-          display.feature.clear();    
+          game.display = display;
+
+          game.display.feature.clear();    
         
-          display.reset();
+          game.display.reset();
         }
 
         this.init();
@@ -177,7 +182,7 @@ Hack = function() {
 
       if (game.hackStartTime == 0) game.hackStartTime = new Date().getTime();
 
-      var mapCtl = display.ctl["MAP"];
+      var mapCtl = game.display.ctl["MAP"];
 
       var map = mapCtl.worldMap;
 
@@ -191,18 +196,23 @@ Hack = function() {
 
       map.selectedCountry = this.countryCode;
 
-      display.ctl["MAP"].autoFeatured = false;
+      game.display.ctl["MAP"].autoFeatured = false;
 
-      display.feature.set("MAP");
+      game.display.feature.set("MAP");
 
     }
 
     this.startBrowsing = function() {
 
-        if (display == null) {
+        if (game.user.display == null) {
 
-          display = new Display();
+          game.user.display = new Display();
         }
+
+        game.display = game.user.display;
+
+        game.display.init(this.countryCode);
+        
 
         if (this.debrief == null) {
 
@@ -211,7 +221,7 @@ Hack = function() {
 
         this.debrief.init( this.countryCode );
 
-        var map = display.ctl["MAP"].browseWorldMap;
+        var map = game.display.ctl["MAP"].browseWorldMap;
 
         map.selectedContinent = this.continentCode;
 
@@ -219,11 +229,11 @@ Hack = function() {
 
         map.selectedCountry = this.countryCode;
 
-        display.ctl["MAP"].level.set( mlCountry );
+        game.display.ctl["MAP"].level.set( mlCountry );
 
-        //display.browse will init the display object itself
+        //game.display.browse will init the display object itself
 
-        display.browse(this.countryCode);
+        game.display.browse(this.countryCode);
 
     }
 
@@ -231,7 +241,7 @@ Hack = function() {
 
        var _file = this.getAnthemFile();
 
-       if (display.ctl["SOUND"].getState() == sPlaying ) display.ctl["SOUND"].pauseFeaturedContent();
+       if (game.display.ctl["SOUND"].getState() == sPlaying ) game.display.ctl["SOUND"].pauseFeaturedContent();
 
        Control.playEffect( _file );
     },
@@ -242,7 +252,7 @@ Hack = function() {
 
        if (!_file) return;
 
-       if (display.ctl["SOUND"].getState() == sPlaying ) display.ctl["SOUND"].pauseFeaturedContent();
+       if (game.display.ctl["SOUND"].getState() == sPlaying ) game.display.ctl["SOUND"].pauseFeaturedContent();
 
        Control.playEffect( _file );
     },

@@ -329,7 +329,7 @@ c("doCurrentMap");
 
         if (_col == undefined) _col = "white";
 
-        Meteor.defer( function() { display.ctl["MAP"].worldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
+        Meteor.defer( function() { game.display.ctl["MAP"].worldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
     }
 
 
@@ -484,7 +484,7 @@ c("doCurrentMap");
 
                 //A sound file (from the sound control) might be playing in the bg
 
-                if (display.ctl["SOUND"].getState() == sPlaying) display.ctl["SOUND"].pauseFeaturedContent();
+                if (game.display.ctl["SOUND"].getState() == sPlaying) game.display.ctl["SOUND"].pauseFeaturedContent();
 
                 this.doMapSuccess(mlCountry);
 
@@ -647,7 +647,7 @@ c("doMapSuccess")
             duration: 750,
         });
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone2()}, 751);
+        Meteor.setTimeout( function() { game.display.ctl["MAP"].worldMap.hackDone2()}, 751);
     }
 
     //Redraw the map at half size over on the left
@@ -663,7 +663,7 @@ c("doMapSuccess")
 
         this.map.invalidateSize();
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone3()}, 100);
+        Meteor.setTimeout( function() { game.display.ctl["MAP"].worldMap.hackDone3()}, 100);
 
     }
 
@@ -684,7 +684,7 @@ c("doMapSuccess")
 
         var rec = db.getCountryRec( hack.countryCode );
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone4()}, 504);       
+        Meteor.setTimeout( function() { game.display.ctl["MAP"].worldMap.hackDone4()}, 504);       
     }
 
     //Zoom the country map out from the center of the world map 
@@ -748,9 +748,9 @@ c("doMapSuccess")
             
         );
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.labelMapObject(14, "yellow"); }, 1001 );
+        Meteor.setTimeout( function() { game.display.ctl["MAP"].worldMap.labelMapObject(14, "yellow"); }, 1001 );
 
-        display.ctl["MAP"].setState( sMapDone );  
+        game.display.ctl["MAP"].setState( sMapDone );  
 
     }
 
@@ -960,5 +960,5 @@ function handleZoomCompleted() {
 }
 
 function refreshMap() {
-    Meteor.setTimeout( function() { display.ctl["MAP"].finishDraw(); }, 250);
+    Meteor.setTimeout( function() { game.display.ctl["MAP"].finishDraw(); }, 250);
 }

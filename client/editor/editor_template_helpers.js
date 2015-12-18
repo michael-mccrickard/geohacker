@@ -1,6 +1,6 @@
 Template.editor.rendered = function() {
 
-  display.switchToEditor();
+  game.display.switchToEditor();
 }
 
 Template.editor.helpers({
