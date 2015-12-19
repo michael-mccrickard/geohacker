@@ -40,22 +40,22 @@ Feature = function() {
 
 	this.fileIsLoaded = function() {
 
-		if (game.user.hack.mode == mBrowse) {
+		if (game.user.mode == uBrowse) {
 
-			game.display.redraw();
+			display.redraw();
 
-			game.display.ctl[ this.getName() ].setControlPicSource();
+			display.ctl[ this.getName() ].setControlPicSource();
 
-			game.display.ctl[ this.getName() ].setPicDimensions();
+			display.ctl[ this.getName() ].setPicDimensions();
 
 			return;
 		}
 
 		//if the scanner is still running, it's possible that it is still waiting on the image to load
 
-		if ( game.display.scanner.centerState == "scan" || game.display.scanner.centerState == "rescan") {
+		if ( display.scanner.centerState == "scan" || display.scanner.centerState == "rescan") {
 
-			if (game.display.scanner.checkScan("feature") == true) {game.display.scanner.stopScan();}
+			if (display.scanner.checkScan("feature") == true) {display.scanner.stopScan();}
 		}
 
 		Meteor.defer( function() { Session.set("sFeatureImageLoaded", true); } );
@@ -74,7 +74,7 @@ Feature = function() {
 
 		if ( _name == "VIDEO") {
 
-			if (game.display.ctl["VIDEO"].isYouTube ) {
+			if (display.ctl["VIDEO"].isYouTube ) {
 
           		this.fileIsLoaded();
 
@@ -97,9 +97,9 @@ Feature = function() {
     
           //now that the image is loaded ...
 
-          game.display.feature.imageSrc = Control.getImageFromFile( game.display.feature.file );
+          display.feature.imageSrc = Control.getImageFromFile( display.feature.file );
 
-          game.display.feature.fileIsLoaded();
+          display.feature.fileIsLoaded();
 
         });
 	}
@@ -127,15 +127,15 @@ Feature = function() {
 
 		var _file = null;
 
-		var _index = game.display.ctl[ _name ].getIndex();
+		var _index = display.ctl[ _name ].getIndex();
 
 		if ( _name == "MAP") return _file;
 
 		//set the source property for the credit line in closeup view
 
-		if (game.display.ctl[ _name ].items[ _index ]) {
+		if (display.ctl[ _name ].items[ _index ]) {
 
-			this.source = game.display.ctl[ _name ].items[ _index ].s;
+			this.source = display.ctl[ _name ].items[ _index ].s;
 		}
 
 	
@@ -143,11 +143,11 @@ Feature = function() {
 
 		if ( _name == "SOUND" || _name == "VIDEO") {
 			
-			_file = game.display.ctl[ _name ].getFeaturedPic();
+			_file = display.ctl[ _name ].getFeaturedPic();
 		}
 		else {
 
-			_file = game.display.ctl[ _name ].items[ _index ].f;
+			_file = display.ctl[ _name ].items[ _index ].f;
 		}
 
 		return _file;
@@ -160,15 +160,15 @@ Feature = function() {
 
 	this.resetToPrevious = function() {
 
-		if (this.lastName == "VIDEO") game.display.ctl["VIDEO"].setState( sPlaying );
+		if (this.lastName == "VIDEO") display.ctl["VIDEO"].setState( sPlaying );
 
-		if (game.display.scanner.centerState.get() != "loaded") { // && this.lastName != "MAP") {
+		if (display.scanner.centerState.get() != "loaded") { // && this.lastName != "MAP") {
 
 			this.set( this.lastName );	
 		}
 		else {
 
-			game.display.scanner.show();
+			display.scanner.show();
 		}
 	},
 
@@ -207,9 +207,9 @@ c("feature.js: set()")
 
 		if (_name != "MAP") {
 
-			//game.display.scanner.hide();
+			//display.scanner.hide();
 
-			game.display.scanner.centerState.set("off");
+			display.scanner.centerState.set("off");
 		}
 
 		//if we're switching to a different control then clear the current one
@@ -226,15 +226,15 @@ c("feature.js: set()")
 
 		if (_name.length == 0) return;
 
-		this.ctl = game.display.ctl[ _name ];
+		this.ctl = display.ctl[ _name ];
 
 		if (_name == "MAP") {
 
 			//the big arrow will be blinking if the map is being "auto-featured" (as a clue)
 
-			game.display.stopBlinking();   
+			display.stopBlinking();   
 
-			game.display.ctl["MAP"].draw();
+			display.ctl["MAP"].draw();
 
 			return;
 		}
@@ -265,7 +265,7 @@ c("feature.js: set()")
 
 	this.refreshWindow = function() {
 
-		Meteor.setTimeout( function() { refreshWindow( "game.display.feature" ); }, 250 );
+		Meteor.setTimeout( function() { refreshWindow( "display.feature" ); }, 250 );
 	}
 
 	this.clear = function( _newControlName ) {
@@ -291,14 +291,14 @@ c("feature.js: set()")
 
 		var _name = this.getName();
 
-		Meteor.defer( function(){ game.display.feature.drawNow( game.display.feature.file, game.display.feature.imageSrc); });
+		Meteor.defer( function(){ display.feature.drawNow( display.feature.file, display.feature.imageSrc); });
 		
 	}
 
 /*
 	this.drawBG = function() {
 
-		Meteor.defer( function(){ game.display.feature.drawNow( game.display.feature.bgFile, game.display.feature.bgImageSrc); });
+		Meteor.defer( function(){ display.feature.drawNow( display.feature.bgFile, display.feature.bgImageSrc); });
 	}
 */
 

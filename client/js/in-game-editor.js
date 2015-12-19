@@ -96,7 +96,7 @@ startGameEditor = function() {
 
 	      if (!editLabels) return;
 
-	      var map = game.display.ctl["MAP"].worldMap.map;
+	      var map = display.ctl["MAP"].worldMap.map;
 
 	      var _x = map.allLabels[0].x;
 

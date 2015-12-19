@@ -7,18 +7,18 @@ Template.main.events({
 
       e.preventDefault();  
 
-      var _mode = game.display.scanner.mode;
+      var _mode = display.scanner.mode;
 
       if (_mode != "scan" && _mode != "rescan") {
 
-        game.display.scanner.fadeOut( 250 );
+        display.scanner.fadeOut( 250 );
 
-        game.display.feature.set( game.display.loadedControlName.get() );
+        display.feature.set( display.loadedControlName.get() );
 
      }
      else {
 
-        Control.playEffect( game.display.locked_sound_file );
+        Control.playEffect( display.locked_sound_file );
      }
   },
 
@@ -29,7 +29,7 @@ Template.scanning.helpers({
 
     scanningNow: function() {
 
-        var _state = game.display.scanner.centerState.get();
+        var _state = display.scanner.centerState.get();
 
     	if ( _state == "scan" ) return true;
 
@@ -38,40 +38,40 @@ Template.scanning.helpers({
 
     getProgress: function() {
 
-        var _state = game.display.scanner.centerState.get();
+        var _state = display.scanner.centerState.get();
 
         if (_state != "scan" && _state != "rescan") return;
 
-    	if (game.display.scanner.progress.get() >= game.display.scanner.progressLimit ) {
+    	if (display.scanner.progress.get() >= display.scanner.progressLimit ) {
 
-            if (game.display.scanner.checkScan("scanner") == true) game.display.scanner.stopScan();
+            if (display.scanner.checkScan("scanner") == true) display.scanner.stopScan();
 
-    		return game.display.scanner.progressLimit - 1;
+    		return display.scanner.progressLimit - 1;
     	}
 
 
-    	return game.display.scanner.progress.get();
+    	return display.scanner.progress.get();
     },
 
     getTotal: function() {
 
-    	return game.display.scanner.totalTime.get();
+    	return display.scanner.totalTime.get();
     },
 
     getScannerCenterImage: function() {
 
         var _default =  "3DGlobe.png"; //"geohacker_background2.png";
 
-        var _name = game.display.loadedControlName.get();
+        var _name = display.loadedControlName.get();
 
-        if ( _name.length ) return game.display.ctl[ _name ].getControlPic();
+        if ( _name.length ) return display.ctl[ _name ].getControlPic();
 
         return _default;
     },
 
     TEXTisFeatured: function() {
 
-         var _name = game.display.loadedControlName.get();       
+         var _name = display.loadedControlName.get();       
 
         if ( _name == "TEXT") return true;
 
@@ -80,9 +80,9 @@ Template.scanning.helpers({
 
     featuredText: function() {
 
-         var _name = game.display.loadedControlName.get();       
+         var _name = display.loadedControlName.get();       
 
-        if ( _name == "TEXT") return game.display.ctl[ _name ].getTextContent();
+        if ( _name == "TEXT") return display.ctl[ _name ].getTextContent();
 
         return "";
     },
@@ -90,20 +90,20 @@ Template.scanning.helpers({
     centerText: function() {
 
 
-        var _state = game.display.scanner.centerState.get();
+        var _state = display.scanner.centerState.get();
 
     	if (_state == "scan" || _state == "rescan") {
 
-    		var _percent = ( game.display.scanner.progress.get() / 360 ) * 100;
+    		var _percent = ( display.scanner.progress.get() / 360 ) * 100;
 
     		if (_percent >= 100.0) return "SCAN PROGRESS 100%";
 
     		return "SCAN PROGRESS " + _percent.toPrecision(2) + "%";
     	}
 
-        if ( game.display.scanner.centerState.get() == "loaded" ) {
+        if ( display.scanner.centerState.get() == "loaded" ) {
 
-            return game.display.loadedControlName.get() + " FILE";
+            return display.loadedControlName.get() + " FILE";
         }      
 
     	return "GEOHACKER V 1.0";
@@ -111,7 +111,7 @@ Template.scanning.helpers({
 
     networkIntegrity: function() {
 
-    	var _percent = game.display.scanner.networkIntegrity.get();
+    	var _percent = display.scanner.networkIntegrity.get();
 
     	return _percent.toString();
     }

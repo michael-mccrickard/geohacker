@@ -56,7 +56,7 @@ Headline = function( _type ) {
 
         if (hack.mode == mDataFound) {
 
-            if (game.display.loader.totalClueCount == 1) {
+            if (display.loader.totalClueCount == 1) {
 
                 this.text = "STREAM " + hack.messageID;
             }
@@ -67,7 +67,7 @@ Headline = function( _type ) {
             this.text = "STREAM FROM " + hack.getCountryName() + " WAS HACKED."
         }
 
-        if (game.user.hack.mode == mBrowse) this.text = "Geohacker: Agent " + game.user.name + " is browsing " + game.user.hack.getCountryName();
+        if (game.user.mode == uBrowse) this.text = "Agent " + game.user.name + " is browsing " + hack.getCountryName();
 
     }
 
@@ -76,7 +76,7 @@ Headline = function( _type ) {
 
         this.text = "";
 
-        if (hack.mode == mReady && game.display.loader.totalClueCount == 0) {
+        if (hack.mode == mReady && display.loader.totalClueCount == 0) {
 
             this.text = "CLICK THE SCAN BUTTON TO BEGIN HACKING ..." 
         
@@ -84,19 +84,19 @@ Headline = function( _type ) {
 
         if (hack.mode == mScanning) {
 
-            if (game.display.loader.totalClueCount == 1)  this.text = 'Scanning for foreign transmissions ...';  
+            if (display.loader.totalClueCount == 1)  this.text = 'Scanning for foreign transmissions ...';  
 
-            if (game.display.loader.totalClueCount > 1) this.text  = 'Scanning for additional messages linked to this strean ...';
+            if (display.loader.totalClueCount > 1) this.text  = 'Scanning for additional messages linked to this strean ...';
         }
 
         if (hack.mode == mDataFound) {
 
-            if (game.display.loader.totalClueCount == 1) {
+            if (display.loader.totalClueCount == 1) {
 
                 this.text = ('Stream ' + hack.messageID + ' intercepted');  
             }
 
-             if (game.display.loader.totalClueCount > 1) this.text = 'Additional data found linked to stream ' + hack.messageID;
+             if (display.loader.totalClueCount > 1) this.text = 'Additional data found linked to stream ' + hack.messageID;
         }
 
         if (hack.mode == mHackDone) {
@@ -104,12 +104,12 @@ Headline = function( _type ) {
             this.text = "Intercepted stream successfully hacked.";
         }
 
-        if (game.display.moreDataAvailable() == false) {
+        if (display.moreDataAvailable() == false) {
 
             this.text  = "Geo-locate the stream using the map ...";
         }
 
-        if (game.user.hack.mode == mBrowse) this.text = "All data linked to " + game.user.hack.getCountryName() + " is loaded. ";
+        if (game.user.mode == uBrowse) this.text = "All data linked to " + hack.getCountryName() + " is loaded. ";
 
         if (this.text  == "") this.text  = "Scan for more data or use the map to geo-locate the stream ..."
 
@@ -161,11 +161,11 @@ Headline = function( _type ) {
 
         var ele = this.ele;  
 
-        if (this.hType == "cue") Meteor.setTimeout(function () { game.display.cue.typeMessage( ele ); }, 500 );
+        if (this.hType == "cue") Meteor.setTimeout(function () { display.cue.typeMessage( ele ); }, 500 );
 
-        if (this.hType == "map") Meteor.setTimeout(function () { game.display.mapStatus.typeMessage( ele ); }, 500 );
+        if (this.hType == "map") Meteor.setTimeout(function () { display.mapStatus.typeMessage( ele ); }, 500 );
 
-        if (this.hType == "status") Meteor.setTimeout(function () { game.display.status.typeMessage( ele ); }, 500 );
+        if (this.hType == "status") Meteor.setTimeout(function () { display.status.typeMessage( ele ); }, 500 );
     },
 
     this.typeMessage = function( _ele ) {
@@ -177,7 +177,7 @@ Headline = function( _type ) {
             //for the map, only play the typing sound, if we're in ID status,
             //otherwise we are cutting off a cool sound effect
 
-            if (this.hType == "map" && game.display.ctl["MAP"].isIDStatus() ) {
+            if (this.hType == "map" && display.ctl["MAP"].isIDStatus() ) {
 
                Control.playEffect( this.typing_sound_file );
             }
@@ -213,11 +213,11 @@ Headline = function( _type ) {
 
         $( _ele ).text(  _str + _char );
 
-        if (this.hType == "cue") Meteor.setTimeout( function() { game.display.cue.setChar( _ele ); }, 10);   
+        if (this.hType == "cue") Meteor.setTimeout( function() { display.cue.setChar( _ele ); }, 10);   
 
-        if (this.hType == "map") Meteor.setTimeout( function() { game.display.mapStatus.setChar( _ele ); }, 10);           
+        if (this.hType == "map") Meteor.setTimeout( function() { display.mapStatus.setChar( _ele ); }, 10);           
 
-        if (this.hType == "status") Meteor.setTimeout( function() { game.display.status.setChar( _ele ); }, 10);       
+        if (this.hType == "status") Meteor.setTimeout( function() { display.status.setChar( _ele ); }, 10);       
 
     },
 
@@ -227,7 +227,7 @@ Headline = function( _type ) {
 
         if (this.hType == "cue") {
 
-            //if (hack.mode == mReady && game.display.loader.totalClueCount == 0) game.display.blinkScannerButton();
+            //if (hack.mode == mReady && display.loader.totalClueCount == 0) display.blinkScannerButton();
 
             if (hack.mode == mDataFound) {
 

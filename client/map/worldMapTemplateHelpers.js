@@ -21,13 +21,13 @@ var bottomStripFactor = 49 / 670;
 
 Template.worldMap.rendered = function () {
   
-    if (game.display.worldMapTemplateReady == false) {
+    if (display.worldMapTemplateReady == false) {
 
-      game.display.worldMapTemplateReady = true;
+      display.worldMapTemplateReady = true;
 
-      Meteor.setTimeout( function() { game.display.ctl["MAP"].worldMap.doCurrentMap() }, 250 );
+      Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.doCurrentMap() }, 250 );
 
-      Meteor.setTimeout( function() { game.display.ctl["MAP"].finishDraw() }, 251 );
+      Meteor.setTimeout( function() { display.ctl["MAP"].finishDraw() }, 251 );
 
     }
 }
@@ -41,11 +41,11 @@ Template.worldMap.helpers({
 
   continentName: function() { 
 
-    var level = game.display.ctl["MAP"].level.get();
+    var level = display.ctl["MAP"].level.get();
 
     var name = "";
 
-    var map =  game.display.ctl["MAP"].worldMap;
+    var map =  display.ctl["MAP"].worldMap;
 
     if (map.selectedContinent.length) return db.getContinentName( map.selectedContinent );
 
@@ -55,11 +55,11 @@ Template.worldMap.helpers({
 
   regionName: function() { 
 
-    var level = game.display.ctl["MAP"].level.get();
+    var level = display.ctl["MAP"].level.get();
 
     var name = "";
 
-    var map =  game.display.ctl["MAP"].worldMap;
+    var map =  display.ctl["MAP"].worldMap;
 
     if (map.selectedRegion.length) return db.getRegionName( map.selectedRegion );
 
@@ -68,11 +68,11 @@ Template.worldMap.helpers({
 
   continentIcon: function() { 
 
-    var level = game.display.ctl["MAP"].level.get();
+    var level = display.ctl["MAP"].level.get();
 
     var name = "";
 
-    var map =  game.display.ctl["MAP"].worldMap;
+    var map =  display.ctl["MAP"].worldMap;
 
     if (map.selectedContinent.length) {
 
@@ -88,11 +88,11 @@ Template.worldMap.helpers({
 
   regionIcon: function()  { 
 
-    var level = game.display.ctl["MAP"].level.get();
+    var level = display.ctl["MAP"].level.get();
 
     var name = "";
 
-    var map =  game.display.ctl["MAP"].worldMap;
+    var map =  display.ctl["MAP"].worldMap;
 
     if (map.selectedRegion.length) {
 
@@ -108,9 +108,9 @@ Template.worldMap.helpers({
 
   labelYCorrection: function() {
 
-    var level = game.display.ctl["MAP"].level.get();
+    var level = display.ctl["MAP"].level.get();
 
-    var map =  game.display.ctl["MAP"].worldMap;
+    var map =  display.ctl["MAP"].worldMap;
 
     if (map.selectedRegion.length) {
 
@@ -135,7 +135,7 @@ Template.worldMap.helpers({
 
   mapHeight: function() { 
 
-    var h = Session.get("gWindowHeight") - game.display.menuHeight;
+    var h = Session.get("gWindowHeight") - display.menuHeight;
 
     return h * 0.925;
 
@@ -143,7 +143,7 @@ Template.worldMap.helpers({
 
   mapMessageColor: function() {
 
-    var state = game.display.ctl["MAP"].getState();
+    var state = display.ctl["MAP"].getState();
 
     if (state == sContinentOK || state == sRegionOK || state == sCountryOK) return "greenText";
 
@@ -157,7 +157,7 @@ Template.worldMap.helpers({
 
     var hidingClass = "hidden";   
 
-    var state = game.display.ctl["MAP"].getState();
+    var state = display.ctl["MAP"].getState();
 
     if (_which == "ok") {
 
@@ -203,7 +203,7 @@ Template.worldMap.events = {
 
   'click #regionIcon': function (evt, template) {
 
-    var _state = game.display.ctl["MAP"].getState();
+    var _state = display.ctl["MAP"].getState();
 
     //it's problematic for the user to start backing the map up
     //before they have seen the full ending sequence
@@ -212,34 +212,34 @@ Template.worldMap.events = {
 
     Control.playEffect("mapBackup.mp3");
 
-    game.display.ctl["MAP"].backupMapToRegion();
+    display.ctl["MAP"].backupMapToRegion();
   },
 
   'click #continentIcon': function (evt, template) {
 
-    var _state = game.display.ctl["MAP"].getState();
+    var _state = display.ctl["MAP"].getState();
 
     if (_state == sMapDone) return;
 
     Control.playEffect("mapBackup.mp3");
 
-    game.display.ctl["MAP"].backupMapToContinent();
+    display.ctl["MAP"].backupMapToContinent();
   },
 
   'click #worldIcon': function (evt, template) {
 
-    var _state = game.display.ctl["MAP"].getState();
+    var _state = display.ctl["MAP"].getState();
 
     if (_state == sMapDone) return;
 
     Control.playEffect("mapBackup.mp3");
 
-    game.display.ctl["MAP"].backupMapToWorld();
+    display.ctl["MAP"].backupMapToWorld();
   },
 
   'click #mapOK': function (evt, template) {
 
-      if (game.display.ctl["MAP"].getState() != sMapDone) Control.playEffect("new_feedback.mp3")
+      if (display.ctl["MAP"].getState() != sMapDone) Control.playEffect("new_feedback.mp3")
 
       Meteor.setTimeout( function() { closeOutMap(); }, 100 );
   },
@@ -267,15 +267,15 @@ function closeOutMap() {
 
     //make sure the main template is flagged to redraw ...
 
-    game.display.mainTemplateReady = false;
+    display.mainTemplateReady = false;
 
-    var state = game.display.ctl["MAP"].getState();
+    var state = display.ctl["MAP"].getState();
 
     //user guessed the country correctly, we're done ...
 
     if (state == sMapDone) {
 
-        game.display.feature.clear();
+        display.feature.clear();
 
         hack.debrief.set( hack.debrief.index );
 
@@ -290,11 +290,11 @@ function closeOutMap() {
 
     if (state == sContinentFeatured || state == sRegionFeatured ) {
 
-        if (state == sContinentFeatured) game.display.ctl["MAP"].setState( sIDRegion );
+        if (state == sContinentFeatured) display.ctl["MAP"].setState( sIDRegion );
 
-        if (state == sRegionFeatured) game.display.ctl["MAP"].setState( sIDCountry );
+        if (state == sRegionFeatured) display.ctl["MAP"].setState( sIDCountry );
 
-        game.display.feature.resetToPrevious();
+        display.feature.resetToPrevious();
 
         FlowRouter.go("/main");
 
@@ -303,18 +303,18 @@ function closeOutMap() {
 
     //We revert back to showing the previous feature (possibly the auto-featured map clue)
 
-    game.display.feature.resetToPrevious();
+    display.feature.resetToPrevious();
 
 
     //if the user backed up after an identification or a map feature, then
     // we need to correct the map state
 
-    game.display.ctl["MAP"].worldMap.checkMapState();
+    display.ctl["MAP"].worldMap.checkMapState();
     
     //All other states call for some update to the state itself
     //and (usually) to the map level.  Then we return to the main screen ...
 
-    game.display.ctl["MAP"].worldMap.nextMapState();  
+    display.ctl["MAP"].worldMap.nextMapState();  
 
 }
 
@@ -326,25 +326,25 @@ updateLabelPosition = function(_which) {
 
     //var totalHeight = deriveInt( $("#divMap").css("height") ) ;
 
-    var totalWidth = game.display.ctl["MAP"].worldMap.map.divRealWidth;
+    var totalWidth = display.ctl["MAP"].worldMap.map.divRealWidth;
 
-    var totalHeight =  game.display.ctl["MAP"].worldMap.map.divRealHeight;
+    var totalHeight =  display.ctl["MAP"].worldMap.map.divRealHeight;
 
-    var x = game.display.ctl["MAP"].worldMap.map.allLabels[0].x;
+    var x = display.ctl["MAP"].worldMap.map.allLabels[0].x;
 
-    var y = game.display.ctl["MAP"].worldMap.map.allLabels[0].y;
+    var y = display.ctl["MAP"].worldMap.map.allLabels[0].y;
 
     x = ( x ) / totalWidth;
 
     y = ( y ) / totalHeight;
 
-    var _level = game.display.ctl["MAP"].level.get();
+    var _level = display.ctl["MAP"].level.get();
 
-    var selectedContinent = game.display.ctl["MAP"].worldMap.selectedContinent;
+    var selectedContinent = display.ctl["MAP"].worldMap.selectedContinent;
 
-    var selectedRegion = game.display.ctl["MAP"].worldMap.selectedRegion;
+    var selectedRegion = display.ctl["MAP"].worldMap.selectedRegion;
 
-    var selectedCountry = game.display.ctl["MAP"].worldMap.selectedCountry;
+    var selectedCountry = display.ctl["MAP"].worldMap.selectedCountry;
 
     var xName = "xl";
 
@@ -391,15 +391,15 @@ updateLabelPosition = function(_which) {
         console.log("country " + "(" + _which + ") " + selectedCountry + " label updated to " + x + ", " + y);
     }
 
-    game.display.ctl["MAP"].worldMap.map.clearLabels();
+    display.ctl["MAP"].worldMap.map.clearLabels();
 
-    if ( game.display.ctl["MAP"].getState() == sMapDone) {
+    if ( display.ctl["MAP"].getState() == sMapDone) {
 
-        Meteor.defer( function() { game.display.ctl["MAP"].worldMap.labelMapObject( 14, "yellow" ); } );
+        Meteor.defer( function() { display.ctl["MAP"].worldMap.labelMapObject( 14, "yellow" ); } );
     }
     else {
 
-        Meteor.defer( function() { game.display.ctl["MAP"].worldMap.labelMapObject(); } );      
+        Meteor.defer( function() { display.ctl["MAP"].worldMap.labelMapObject(); } );      
     }
 
     
@@ -420,11 +420,11 @@ function deriveInt(_s) {
 
 editLabels = false;
 
-go = function() { game.display.ctl["MAP"].preloadCountryMap( hack.getCountryFilename().toLowerCase() );  c("resuming sequence")}
+go = function() { display.ctl["MAP"].preloadCountryMap( hack.getCountryFilename().toLowerCase() );  c("resuming sequence")}
 
 updateLabel = function() {
 
-    var _state = game.display.ctl["MAP"].getState();
+    var _state = display.ctl["MAP"].getState();
 
     if ( _state == sMapDone) {
 
@@ -440,13 +440,13 @@ updateLabel = function() {
 
 dm = function() {
 
-  var ctl = game.display.ctl["MAP"];
+  var ctl = display.ctl["MAP"];
 
   var s = "map.level = " + ctl.level.get() + "\n\r";
 
   s = s + "map.state = " + ctl.getState("MAP") + "\n\r";
 
-  var map = game.display.ctl["MAP"].worldMap;
+  var map = display.ctl["MAP"].worldMap;
 
   s = s + "selectedContinent = " + map.selectedContinent + "\n\r";
 

@@ -142,7 +142,7 @@ Template.congrats.helpers({
 
   hackReport4: function() {
 
-      var s = game.display.loader.totalClueCount.toString();
+      var s = display.loader.totalClueCount.toString();
 
       return s.toUpperCase();
   },

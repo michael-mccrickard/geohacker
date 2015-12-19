@@ -8,7 +8,7 @@ showMessage = function( _text ) {
 
     if (url == '/worldMap') {
 
-    	game.display.mapStatus.setAndShow( _text );
+    	display.mapStatus.setAndShow( _text );
 
     	return;
     }
@@ -23,7 +23,7 @@ showMessage = function( _text ) {
 
     if (url == "/main") {
 
-    	game.display.status.setAndShow( _text );
+    	display.status.setAndShow( _text );
 
     	return;
     }

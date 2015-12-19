@@ -26,7 +26,7 @@ refreshWindow = function(_which) {
 
     if (name == "closeup") {
 
-        game.display.closeUp.draw();
+        display.closeUp.draw();
 
         return;
     }
@@ -40,14 +40,14 @@ refreshWindow = function(_which) {
 
     if (name == "worldMap") {
 
-        game.display.ctl["MAP"].finishDraw();
+        display.ctl["MAP"].finishDraw();
 
         return;
     }
 
     if (name == "main") {
 
-        game.display.redraw();
+        display.redraw();
 
         return;
     }
@@ -68,13 +68,13 @@ onYouTubeIframeAPIReady = function () {
 
     var _file = null;
 
-    if (game.display != null) {
+    if (display != null) {
 
-      if (game.display.ctl["VIDEO"]) {
+      if (display.ctl["VIDEO"]) {
 
         youTubeLoaded = true;
 
-        _file = game.display.feature.video;
+        _file = display.feature.video;
 
       }
 
@@ -100,7 +100,7 @@ onYouTubeIframeAPIReady = function () {
     }
     else {
 
-        game.display.feature.dimension( "video", myVideo, null );
+        display.feature.dimension( "video", myVideo, null );
         
         $(".featuredYouTubeVideo").css("left",  myVideo.left);  
 
@@ -128,7 +128,7 @@ onYouTubeIframeAPIReady = function () {
 
                 // Play video when player ready.
 
-                game.display.ctl["VIDEO"].youTubeWaiting.set( false );
+                display.ctl["VIDEO"].youTubeWaiting.set( false );
 
                 if (_file) event.target.playVideo();
 

@@ -57,24 +57,24 @@ Assign = function( _code, _hacked, _level, _name, _pool, _completions) {
 
 		if (display == null) return;
 
-		game.display.ctl["MAP"].reset();
+		display.ctl["MAP"].reset();
 
-		game.display.ctl["MAP"].resetSelections();
+		display.ctl["MAP"].resetSelections();
 
-		game.display.ctl["MAP"].level.set( this.level );
+		display.ctl["MAP"].level.set( this.level );
 
 		if (this.level == mlContinent) {
 
-			game.display.ctl["MAP"].setContinent( this.code );
+			display.ctl["MAP"].setContinent( this.code );
 
-			game.display.ctl["MAP"].setState( sIDRegion );
+			display.ctl["MAP"].setState( sIDRegion );
 		}
 
 		if (this.level == mlRegion) {
 
-			game.display.ctl["MAP"].setRegion( this.code );		
+			display.ctl["MAP"].setRegion( this.code );		
 
-			game.display.ctl["MAP"].setState( sIDCountry );
+			display.ctl["MAP"].setState( sIDCountry );
 
 		}
 	}

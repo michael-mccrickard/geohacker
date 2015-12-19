@@ -6,11 +6,11 @@ Template.browseWorldMap.helpers({
 
   continentName: function() { 
 
-    var level = game.display.ctl["MAP"].level.get();
+    var level = display.ctl["MAP"].level.get();
 
     var name = "";
 
-    var map =  game.display.ctl["MAP"].browseWorldMap;
+    var map =  display.ctl["MAP"].browseWorldMap;
 
     if (map.selectedContinent.length) return db.getContinentName( map.selectedContinent );
 
@@ -18,22 +18,22 @@ Template.browseWorldMap.helpers({
 
   regionName: function() { 
 
-    var level = game.display.ctl["MAP"].level.get();
+    var level = display.ctl["MAP"].level.get();
 
     var name = "";
 
-    var map =  game.display.ctl["MAP"].browseWorldMap;
+    var map =  display.ctl["MAP"].browseWorldMap;
 
     if (map.selectedRegion.length) return db.getRegionName( map.selectedRegion );
   },
 
   continentIcon: function() { 
 
-    var level = game.display.ctl["MAP"].level.get();
+    var level = display.ctl["MAP"].level.get();
 
     var name = "";
 
-    var map =  game.display.ctl["MAP"].browseWorldMap;
+    var map =  display.ctl["MAP"].browseWorldMap;
 
     if (map.selectedContinent.length) {
 
@@ -43,11 +43,11 @@ Template.browseWorldMap.helpers({
 
   regionIcon: function()  { 
 
-    var level = game.display.ctl["MAP"].level.get();
+    var level = display.ctl["MAP"].level.get();
 
     var name = "";
 
-    var map =  game.display.ctl["MAP"].browseWorldMap;
+    var map =  display.ctl["MAP"].browseWorldMap;
 
     if (map.selectedRegion.length) {
 
@@ -58,9 +58,9 @@ Template.browseWorldMap.helpers({
 
   labelYCorrection: function() {
 
-    var level = game.display.ctl["MAP"].level.get();
+    var level = display.ctl["MAP"].level.get();
 
-    var map =  game.display.ctl["MAP"].browseWorldMap;
+    var map =  display.ctl["MAP"].browseWorldMap;
 
     if (map.selectedRegion.length) {
 
@@ -85,7 +85,7 @@ Template.browseWorldMap.helpers({
 
   mapHeight: function() { 
 
-    var h = Session.get("gWindowHeight") - game.display.menuHeight;
+    var h = Session.get("gWindowHeight") - display.menuHeight;
 
     return h * 0.98;
 
@@ -99,28 +99,28 @@ Template.browseWorldMap.events = {
 
     Control.playEffect("mapBackup.mp3");
 
-    game.display.ctl["MAP"].backupMapToRegion();
+    display.ctl["MAP"].backupMapToRegion();
   },
 
   'click #browseContinentIcon': function (evt, template) {
 
     Control.playEffect("mapBackup.mp3");
 
-    game.display.ctl["MAP"].backupMapToContinent();
+    display.ctl["MAP"].backupMapToContinent();
   },
 
   'click #browseWorldIcon': function (evt, template) {
 
     Control.playEffect("mapBackup.mp3");
 
-    game.display.ctl["MAP"].backupMapToWorld();
+    display.ctl["MAP"].backupMapToWorld();
   },
 
   'click #browseMapClose': function (evt, template) {
 
       Control.playEffect("new_feedback.mp3");
 
-      game.display.feature.clear();
+      display.feature.clear();
 
       FlowRouter.go("/main");
   },
@@ -129,7 +129,7 @@ Template.browseWorldMap.events = {
 
       Control.playEffect("new_feedback.mp3");
 
-      game.display.ctl["MAP"].browseWorldMap.mapTagImage = evt.target.src;
+      display.ctl["MAP"].browseWorldMap.mapTagImage = evt.target.src;
   }
 }
 
@@ -140,13 +140,13 @@ Template.browseWorldMap.events = {
 
 Template.browseWorldMap.rendered = function () {
   
-    if (game.display.worldMapTemplateReady == false) {
+    if (display.worldMapTemplateReady == false) {
 
-      game.display.worldMapTemplateReady = true;
+      display.worldMapTemplateReady = true;
 
-      Meteor.setTimeout( function() { game.display.ctl["MAP"].browseWorldMap.doCurrentMap() }, 250 );
+      Meteor.setTimeout( function() { display.ctl["MAP"].browseWorldMap.doCurrentMap() }, 250 );
 
-      Meteor.setTimeout( function() { game.display.ctl["MAP"].browseFinishDraw() }, 251 );
+      Meteor.setTimeout( function() { display.ctl["MAP"].browseFinishDraw() }, 251 );
 
     }
 }

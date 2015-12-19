@@ -23,16 +23,16 @@ NewLoader = function() {
 
 		//reset the feature object
 
-		game.display.feature.clear();
+		display.feature.clear();
 
 		//just in case the user skipped a MAP clue, turn off the blinking timer
 
-		game.display.ctl["MAP"].clearTimer();
+		display.ctl["MAP"].clearTimer();
 
 
 		if (mode != mReady) {
          
-          Control.playEffect( game.display.locked_sound_file );
+          Control.playEffect( display.locked_sound_file );
 		
 		  return;
 		}
@@ -49,18 +49,18 @@ NewLoader = function() {
 
 		hack.mode = mScanning;
 
-		game.display.setControls( sScanning );
+		display.setControls( sScanning );
 
-		Meteor.defer( function(){ game.display.dimensionControls(); });  //primarily for the TEXT control
+		Meteor.defer( function(){ display.dimensionControls(); });  //primarily for the TEXT control
 																	//which sometimes has an image file
 																	//sometimes not
 
-		game.display.cue.setAndShow();
+		display.cue.setAndShow();
 
 	    //if this control has a still image, load it into memory
 		//which will allow feature.dimension() to size it accurately
 
-	    game.display.feature.load( this.newControl.name );	
+	    display.feature.load( this.newControl.name );	
 
 
 		Session.set("sFeatureImageLoaded", false);  
@@ -70,20 +70,20 @@ NewLoader = function() {
 	this.showLoadedControl = function() {
 
 		 //also have the control object dimension the small version of the picture
-	    game.display.ctl[ this.newControl.name ].setControlPicSource();
+	    display.ctl[ this.newControl.name ].setControlPicSource();
 
 		hack.mode = mDataFound;
 
-		if (this.totalClueCount == 1) game.display.status.setAndShow();
+		if (this.totalClueCount == 1) display.status.setAndShow();
 
-		game.display.cue.setAndShow();
+		display.cue.setAndShow();
 
 
 		//here we set the unloaded controls to sIcon and the loaded ones back to sLoaded
 
-		game.display.resetControls();
+		display.resetControls();
 
-		game.display.dimensionControls();
+		display.dimensionControls();
 
 
 		//this.newControl was set by doScan before the loading sequence began
@@ -92,9 +92,9 @@ NewLoader = function() {
 
 			//MAP is a special case; it has it's own states which it manages
 
-			game.display.ctl["MAP"].autoFeatured = true;
+			display.ctl["MAP"].autoFeatured = true;
 
-			game.display.feature.set( "MAP" );
+			display.feature.set( "MAP" );
 		}
 		else {
 			
@@ -104,7 +104,7 @@ NewLoader = function() {
 
 			//not immediately showing the randomly-loaded control in the feature area anymore
 
-			//game.display.feature.set( this.newControl.name );
+			//display.feature.set( this.newControl.name );
 
 		}
 
@@ -118,7 +118,7 @@ NewLoader = function() {
 
 		//see if any buttons need enabling / disabling
 
-		game.display.checkMainScreen();
+		display.checkMainScreen();
 
 	},
 
@@ -154,7 +154,7 @@ NewLoader = function() {
 
 		if (this.totalClueCount == 2 || this.totalClueCount == 5 || this. totalClueCount == 8) {
 
-			var state = game.display.ctl["MAP"].getState();
+			var state = display.ctl["MAP"].getState();
 
 			if (state <= sIDContinent) {
 
@@ -162,11 +162,11 @@ NewLoader = function() {
 
 				var _index = db.getMapRecIndex("continent");
 
-				game.display.ctl["MAP"].setIndex( _index );
+				display.ctl["MAP"].setIndex( _index );
 
-				game.display.ctl["MAP"].setState( sContinentFeatured );
+				display.ctl["MAP"].setState( sContinentFeatured );
 
-				return game.display.ctl["MAP"];
+				return display.ctl["MAP"];
 			}
 
 			if (state <= sIDRegion  && (this.totalClueCount == 5 || this.totalClueCount == 8)) {
@@ -175,11 +175,11 @@ NewLoader = function() {
 
 				var _index = db.getMapRecIndex("region");
 
-				game.display.ctl["MAP"].setIndex( _index );
+				display.ctl["MAP"].setIndex( _index );
 
-				game.display.ctl["MAP"].setState( sRegionFeatured );
+				display.ctl["MAP"].setState( sRegionFeatured );
 
-				return game.display.ctl["MAP"];
+				return display.ctl["MAP"];
 			}
 
 		}
@@ -194,13 +194,13 @@ NewLoader = function() {
 
 		var tempCount = 0;
 
-		while (i < game.display.ctlName.length) {
+		while (i < display.ctlName.length) {
 
-			var _name = game.display.ctlName[i];
+			var _name = display.ctlName[i];
 
-			var fullCount = game.display.ctl[_name].fullCount;
+			var fullCount = display.ctl[_name].fullCount;
 
-			var loadedCount = game.display.ctl[_name].loadedCount;
+			var loadedCount = display.ctl[_name].loadedCount;
 
 			if ( fullCount == loadedCount) {
 
@@ -211,7 +211,7 @@ NewLoader = function() {
 
 			if ( loadedCount  < low )  low = loadedCount;
 
-			tmp.push( game.display.ctl[ _name ] );
+			tmp.push( display.ctl[ _name ] );
 
 			i++;
 
@@ -244,18 +244,18 @@ NewLoader = function() {
 
 		var randomControl =  Database.getRandomElement(tmp);
 /*
-if (this.totalClueCount == 0) randomControl = game.display.ctl["IMAGE"];
+if (this.totalClueCount == 0) randomControl = display.ctl["IMAGE"];
 
-if (this.totalClueCount == 1) randomControl = game.display.ctl["WEB"];
+if (this.totalClueCount == 1) randomControl = display.ctl["WEB"];
 
-if (this.totalClueCount == 2) randomControl = game.display.ctl["IMAGE"];
+if (this.totalClueCount == 2) randomControl = display.ctl["IMAGE"];
 
 
-if (this.totalClueCount == 3) randomControl = game.display.ctl["WEB"];
+if (this.totalClueCount == 3) randomControl = display.ctl["WEB"];
 
-if (this.totalClueCount == 4) randomControl = game.display.ctl["TEXT"];
+if (this.totalClueCount == 4) randomControl = display.ctl["TEXT"];
 
-if (this.totalClueCount == 5) randomControl = game.display.ctl["TEXT"];
+if (this.totalClueCount == 5) randomControl = display.ctl["TEXT"];
 */
 		//Bump up the loadedCount on this control and return the name
 

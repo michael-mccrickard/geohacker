@@ -12,7 +12,7 @@ Template.missionListing.events = {
 
 	  		if (mission.status == msInProgress && id == mission.code) {
 
-	  			game.user.resumeHacking();
+	  			game.user.resumeMission();
 
 	  			return;
 	  		}

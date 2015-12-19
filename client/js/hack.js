@@ -37,15 +37,8 @@ Hack = function() {
   /*********************************************/
 
     this.startNew = function() {
-
-        if (display == null) {
-
-          display = new Display();
-        }
-
-        game.display = display;
-
-        game.display.init(this.countryCode);
+      
+        display.init(this.countryCode);
 
         if (this.debrief == null) {
 
@@ -60,7 +53,7 @@ Hack = function() {
 
         game.playMusic();
 
-        game.display.loadMain();
+        display.loadMain();
     };
 
 
@@ -68,25 +61,13 @@ Hack = function() {
 
         this.mode = mNone;
 
-        //mission.code = "";  //unset this in case user was browsing
-
-        if (display == null) {
-
-          display = new Display();
-
-          game.display = display;
-
-        }
-        else {
-          
-          game.display = display;
-
-          game.display.feature.clear();    
-        
-          game.display.reset();
-        }
-
         this.init();
+
+        display.init( hack.countryCode );
+
+        display.feature.clear();    
+        
+        display.reset();
 
         Control.playEffect("goMission.mp3");
 
@@ -182,7 +163,7 @@ Hack = function() {
 
       if (game.hackStartTime == 0) game.hackStartTime = new Date().getTime();
 
-      var mapCtl = game.display.ctl["MAP"];
+      var mapCtl = display.ctl["MAP"];
 
       var map = mapCtl.worldMap;
 
@@ -196,22 +177,22 @@ Hack = function() {
 
       map.selectedCountry = this.countryCode;
 
-      game.display.ctl["MAP"].autoFeatured = false;
+      display.ctl["MAP"].autoFeatured = false;
 
-      game.display.feature.set("MAP");
+      display.feature.set("MAP");
 
     }
 
     this.startBrowsing = function() {
-
+/*
         if (game.user.display == null) {
 
           game.user.display = new Display();
         }
 
         game.display = game.user.display;
-
-        game.display.init(this.countryCode);
+*/
+        display.init(this.countryCode);
 
 
         if (this.debrief == null) {
@@ -221,7 +202,7 @@ Hack = function() {
 
         this.debrief.init( this.countryCode );
 
-        var map = game.display.ctl["MAP"].browseWorldMap;
+        var map = display.ctl["MAP"].browseWorldMap;
 
         map.selectedContinent = this.continentCode;
 
@@ -229,11 +210,11 @@ Hack = function() {
 
         map.selectedCountry = this.countryCode;
 
-        game.display.ctl["MAP"].level.set( mlCountry );
+        display.ctl["MAP"].level.set( mlCountry );
 
-        //game.display.browse will init the display object itself
+        //display.browse will init the display object itself
 
-        game.display.browse(this.countryCode);
+        display.browse(this.countryCode);
 
     }
 
@@ -241,7 +222,7 @@ Hack = function() {
 
        var _file = this.getAnthemFile();
 
-       if (game.display.ctl["SOUND"].getState() == sPlaying ) game.display.ctl["SOUND"].pauseFeaturedContent();
+       if (display.ctl["SOUND"].getState() == sPlaying ) display.ctl["SOUND"].pauseFeaturedContent();
 
        Control.playEffect( _file );
     },
@@ -252,7 +233,7 @@ Hack = function() {
 
        if (!_file) return;
 
-       if (game.display.ctl["SOUND"].getState() == sPlaying ) game.display.ctl["SOUND"].pauseFeaturedContent();
+       if (display.ctl["SOUND"].getState() == sPlaying ) display.ctl["SOUND"].pauseFeaturedContent();
 
        Control.playEffect( _file );
     },
@@ -488,9 +469,9 @@ Tracker.autorun( function(comp) {
 
           Hack.resetDataFlags();
 
-          if (game.user.hack.mode == mBrowse) {
+          if (game.user.mode == uBrowse) {
 
-              game.user.hack.startBrowsing();
+              hack.startBrowsing();
 
           }
           else {

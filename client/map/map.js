@@ -71,12 +71,12 @@ ghMap = function() {
       
       var url = FlowRouter.current().path;
 
-      if (url == '/worldMap') game.display.mapStatus.setAndType();
+      if (url == '/worldMap') display.mapStatus.setAndType();
     },
 
     this.setMapStatus = function( _text ) {
 
-      game.display.mapStatus.setAndShow( _text );
+      display.mapStatus.setAndShow( _text );
 
     } 
 
@@ -91,7 +91,7 @@ ghMap = function() {
 
     this.backupMap = function() {
 
-        if (game.user.hack.mode == mBrowse) {
+        if (game.user.mode == uBrowse) {
 
           this.browseWorldMap.backupMap();
 
@@ -126,7 +126,7 @@ ghMap = function() {
 
        $("#mapButton").attr("src", "./newGlobeIconGreen.png");
 
-      this.timerID = Meteor.setInterval( function() { game.display.ctl["MAP"].doNormal(); }, 2000)
+      this.timerID = Meteor.setInterval( function() { display.ctl["MAP"].doNormal(); }, 2000)
 
     },   
 
@@ -157,9 +157,9 @@ ghMap = function() {
 
       //it's as if the user has just finished hacking this one
       
-      if (game.user.hack.mode == mBrowse) {
+      if (game.user.mode == uBrowse) {
 
-        game.display.worldMapTemplateReady = false;
+        display.worldMapTemplateReady = false;
 
         FlowRouter.go("/browseWorldMap");
 
@@ -176,7 +176,7 @@ ghMap = function() {
 
       if (this.autoFeatured) {
 
-        game.display.blinkMapButton();
+        display.blinkMapButton();
 
         //by flipping this back to false, the user's click will take them to the map
 
@@ -189,7 +189,7 @@ ghMap = function() {
         //... the map is not autofeatured, so that means the user
         //clicked the map button to go there
 
-        game.display.worldMapTemplateReady = false;
+        display.worldMapTemplateReady = false;
 
         FlowRouter.go("/worldMap");
       }
@@ -205,7 +205,7 @@ ghMap = function() {
 
         $("#mapButton").attr("src", "./newGlobeIconYellow.png");
 
-        Meteor.setTimeout( function() { game.display.ctl["MAP"].doGreen(); }, 500);    
+        Meteor.setTimeout( function() { display.ctl["MAP"].doGreen(); }, 500);    
     },
 
     this.enableButton = function() {
@@ -318,7 +318,7 @@ ghMap = function() {
 
         imagesLoaded( document.querySelector('#preloadCountryMap'), function( instance ) {
 
-          Meteor.setTimeout( function() { game.display.ctl["MAP"].worldMap.hackDone() }, 2500 );
+          Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone() }, 2500 );
 
            Meteor.setTimeout( function() { Control.playEffect( "new_debrief.mp3" ) }, 3750 );          
 

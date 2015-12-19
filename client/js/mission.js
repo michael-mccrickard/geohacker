@@ -19,12 +19,6 @@ Mission = function(_code) {
 
   if (_code === undefined) return;
 
-  //reset our map variables (selected areas, level, state)
-
-  if (display) {
-
-  	if (game.display.ctl) game.display.ctl["MAP"].reset();
-  }
 
   //hard-coded "ad-hoc" missions
 

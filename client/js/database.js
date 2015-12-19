@@ -176,9 +176,9 @@ Database = function() {
 
   this.getMapRecIndex = function(_which) {
 
-      for (var i = 0; i < game.display.ctl["MAP"].items.length; i++) {
+      for (var i = 0; i < display.ctl["MAP"].items.length; i++) {
 
-        if (game.display.ctl["MAP"].items[i].f == _which) return i;
+        if (display.ctl["MAP"].items[i].f == _which) return i;
       }
   }
 

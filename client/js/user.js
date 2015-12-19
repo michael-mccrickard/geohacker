@@ -5,6 +5,14 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 	this.name = _name;
 
+	this.missionHack = new Hack();
+
+	this.missionDisplay = new Display();
+
+	this.browseHack =  new Hack();
+
+	this.browseDisplay = new Display();
+
 	this.scroll = _scroll;
 
 	this.assignCode = "0";  //last-started mission; game object sets this from db
@@ -23,8 +31,6 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     this.profile = new UserProfile();
 
-    this.hack = new Hack();  //temporary hack object for browse mode
-
     this.editMode = new Blaze.ReactiveVar( false );  //is the user editing the profile content?
 
     this.badgeLimit = 0;
@@ -33,9 +39,9 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
       this.mode = uBrowse;
 
-      this.hack = new Hack();
+      this.setGlobals("browse");
 
-      this.hack.initForBrowse( _code );
+      hack.initForBrowse( _code );
     };
 
     this.setMode = function(_mode) {
@@ -73,34 +79,41 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
      	}
     }
 
-    this.resumeHacking = function() {
+//when this is called, do we know for sure the mission isn't complete?
 
-		if (hack) {
+    this.resumeMission = function() {
 
-  			if (hack.mode < mHackDone) {
+    	this.setGlobals("mission");
 
-    			//turn off browsing mode for the user
+    	game.user.mode = uHack;
 
-    			game.user.hack.mode = mNone;
+    	hack.mode = mReady;
 
-  				game.display = display;
+  		display.mainTemplateReady = false;
 
-  				game.debrief = hack.debrief;
+  		FlowRouter.go("/main");
+    }
 
-  				game.display.mainTemplateReady = false;
+    this.setGlobals = function( _which ) {
 
-  				FlowRouter.go("/main");
+    	if (_which == "mission") {
 
-  				return;
-  			}
-  		}
+    		display = this.missionDisplay;
 
-		this.template.set("missionListing");
+  			hack = this.missionHack;
+    	}
+
+       	if (_which == "browse") {
+
+    		display = this.browseDisplay;
+
+  			hack = this.browseHack;
+    	} 	
     }
 
     this.goHome = function() {
 
-    	if (game.display) game.display.feature.clear();
+    	if (display) display.feature.clear();
 
     	if (this.mode == uNone) {
 
@@ -245,13 +258,15 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 	this.assignAndStartMission = function( _code) {
 
+		this.setGlobals("mission");
+
 		this.assignMission( _code );
 
 		db.updateUserRec();
 
 		hack = new Hack();
 
-		hack.startNewFromMenu();
+		hack.startNewFromMenu();  //???
 	}
 
 	this.findAssignIndex = function( _code) {

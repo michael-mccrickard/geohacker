@@ -26,9 +26,9 @@ Editor = function() {
   	if (display) {
 
 /*  youTubeLoaded is now global
-  		if (game.display.ctl["VIDEO"]) {
+  		if (display.ctl["VIDEO"]) {
 
-			if (game.display.ctl["VIDEO"].youTubeLoaded) this.youTubeLoaded = true;
+			if (display.ctl["VIDEO"].youTubeLoaded) this.youTubeLoaded = true;
   		}
 */
   	}

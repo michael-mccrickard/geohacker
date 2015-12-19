@@ -260,7 +260,7 @@ this.dp.images[0].centered = false;
 
         if (_col == undefined) _col = "white";
 
-        Meteor.defer( function() {game.display.ctl["MAP"].browseWorldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
+        Meteor.defer( function() {display.ctl["MAP"].browseWorldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
     }
 
 
@@ -472,18 +472,18 @@ function handleDrop(_event) {
 }
 
 function refreshMap() {
-    Meteor.setTimeout( function() { game.display.ctl["MAP"].browseFinishDraw(); }, 250);
+    Meteor.setTimeout( function() { display.ctl["MAP"].browseFinishDraw(); }, 250);
 }
 
 dbm = function() {
 
-  var ctl = game.display.ctl["MAP"];
+  var ctl = display.ctl["MAP"];
 
   var s = "map.level = " + ctl.level.get() + "\n\r";
 
   s = s + "map.state = " + ctl.getState("MAP") + "\n\r";
 
-  var map = game.display.ctl["MAP"].browseWorldMap;
+  var map = display.ctl["MAP"].browseWorldMap;
 
   s = s + "selectedContinent = " + map.selectedContinent + "\n\r";
 
