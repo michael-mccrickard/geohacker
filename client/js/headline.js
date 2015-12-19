@@ -109,7 +109,7 @@ Headline = function( _type ) {
             this.text  = "Geo-locate the stream using the map ...";
         }
 
-        if (game.user.hack.mode == mBrowse) this.text = "All data linked to " + hack.getCountryName() + " is loaded. ";
+        if (game.user.hack.mode == mBrowse) this.text = "All data linked to " + game.user.hack.getCountryName() + " is loaded. ";
 
         if (this.text  == "") this.text  = "Scan for more data or use the map to geo-locate the stream ..."
 

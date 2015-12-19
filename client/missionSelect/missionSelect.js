@@ -6,14 +6,17 @@ Template.missionListing.events = {
 
   		Control.playEffect("goMission.mp3");
 
-  		if (mission) {
-
-  			game.user.resumeHacking();
-
-  			return;
-  		}
-
       	var id = e.currentTarget.id;
+
+      	if (mission) {
+
+	  		if (mission.status == msInProgress && id == mission.code) {
+
+	  			game.user.resumeHacking();
+
+	  			return;
+	  		}
+  		}
 
       	game.user.bumpAssign( id );
 
@@ -21,10 +24,6 @@ Template.missionListing.events = {
   	}
 }
 
-Template.missionSelect.helpers({
-
-
-});
 
 Template.missionListing.helpers({
 

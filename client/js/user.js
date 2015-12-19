@@ -53,13 +53,9 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     	if (_mode == uHack) {
 
-    		//turn off browsing mode for the user
-
-    		game.user.hack.mode = mNone;
-
 	  		Meteor.defer( function() { $("#divHomeHackPic").css("border-color","red") } );
 
-	  		this.resumeHacking();
+	  		this.template.set("missionListing");
     	}
 
      	if (_mode == uStats) {
@@ -82,6 +78,10 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 		if (hack) {
 
   			if (hack.mode < mHackDone) {
+
+    			//turn off browsing mode for the user
+
+    			game.user.hack.mode = mNone;
 
   				game.display = display;
 
@@ -109,6 +109,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
     	else {
     		this.setMode( this.mode );
     	}
+
     	FlowRouter.go("/home");
     }
 
@@ -200,6 +201,8 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 		//create the mission object
 		
 		mission = new Mission( _code);
+
+		mission.status = msInProgress;
 
 
 		//either it's a mission that's already in progress ...
@@ -447,9 +450,11 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 		if (this.assign.pool.length == 0) {
 
 			this.assign.completions = this.assign.completions + 1;
+
+			mission.status = msComplete;
 		}
 
-		//Save the assign object and the update the missionList
+		//Save the assign object and update the missionList
 
 		this.updateAssignDataObject( this.assign );
 

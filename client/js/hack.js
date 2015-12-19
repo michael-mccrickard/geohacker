@@ -68,7 +68,7 @@ Hack = function() {
 
         this.mode = mNone;
 
-        mission.code = "";  //unset this in case user was browsing
+        //mission.code = "";  //unset this in case user was browsing
 
         if (display == null) {
 
@@ -212,7 +212,7 @@ Hack = function() {
         game.display = game.user.display;
 
         game.display.init(this.countryCode);
-        
+
 
         if (this.debrief == null) {
 
