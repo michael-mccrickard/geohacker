@@ -44,6 +44,8 @@ Display = function() {
 
     this.loadedControlName = new Blaze.ReactiveVar( "" );
 
+    this.countryCode = "";  //To enable us to tell when the country has changed in browse mode
+
     //arrays
 
     //to do: merge the functionality of these two arrays, if possible
@@ -93,12 +95,6 @@ Display = function() {
     }
 
     this.browse = function( _code) {
-
-        this.feature.clear();    
-        
-        this.reset();
-
-        this.init(_code);
 
         this.fullyLoadControls();
 
@@ -299,12 +295,6 @@ Display = function() {
 
             this.feature.draw()
         }
-        /*
-        else {
-
-            //this.feature.drawBG();
-        }
-        */
     }
 
     //*********************************************
@@ -395,8 +385,10 @@ Display = function() {
 
         if (this.feature.on() ) {
 
-            if (this.feature.getName() == "VIDEO" || this.feature.getName() == "AUDIO" ) {
-c("display is pausing media")
+            if (this.feature.getName() == "VIDEO" || this.feature.getName() == "SOUND" ) {
+
+                c("display is pausing media")
+
                 this.feature.ctl.pauseFeaturedContent();
             }
         }

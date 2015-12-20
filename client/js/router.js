@@ -170,7 +170,27 @@ FlowRouter.route('/closeup', {
 
   name: "closeup",
 
-  action: function (params, queryParams) { pageRefreshed = false; BlazeLayout.render('layout', { content: "closeup" } ); },
+  action: function (params, queryParams) { 
+
+    if (display.feature.getName() == "SOUND") {
+
+       if (display.feature.ctl.getState() == sPaused) {
+
+           display.feature.ctl.setState( sPlaying );
+           
+           display.feature.set( "SOUND" );
+
+           display.feature.loadAgain( "SOUND" );
+       }
+
+       return;
+    }
+
+    pageRefreshed = false; 
+
+    BlazeLayout.render('layout', { content: "closeup" } ); 
+  },
+
 });
 
 //*********************************************

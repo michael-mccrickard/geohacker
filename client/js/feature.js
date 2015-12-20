@@ -207,8 +207,6 @@ c("feature.js: set()")
 
 		if (_name != "MAP") {
 
-			//display.scanner.hide();
-
 			display.scanner.centerState.set("off");
 		}
 
@@ -243,13 +241,15 @@ c("feature.js: set()")
 	
 			var _state = this.ctl.getState();
 
-			this.ctl.show();
+			if ( _name == "VIDEO" ) this.ctl.show();
 
 			if (_state == sPaused) {
 
-			console.log("feature.set is pausing content b/c state is paused")
+				console.log("feature.set is pausing content b/c state is paused")
 
 				this.ctl.pauseFeaturedContent();
+
+				this.loadAgain( _name );  //redundant except if we're returning here from another user mode
 			}
 			if (_state == sPlaying || _state == sLoaded) {
 				

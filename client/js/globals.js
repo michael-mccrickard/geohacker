@@ -142,10 +142,14 @@ onYouTubeIframeAPIReady = function () {
 
                 if (event.data == YT.PlayerState.PLAYING) {
 
+                    display.ctl["VIDEO"].setState( sPlaying );
+
                     $("img#picVIDEO").attr("src", display.ctl["VIDEO"].pauseControlPic);
                 }
 
                 if (event.data == YT.PlayerState.PAUSED) {
+
+                    display.ctl["VIDEO"].setState( sPaused );
 
                     $("img#picVIDEO").attr("src", display.ctl["VIDEO"].playControlPic);
                 }

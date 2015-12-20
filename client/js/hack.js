@@ -37,7 +37,7 @@ Hack = function() {
   /*********************************************/
 
     this.startNew = function() {
-      
+
         display.init(this.countryCode);
 
         if (this.debrief == null) {
@@ -184,16 +184,8 @@ Hack = function() {
     }
 
     this.startBrowsing = function() {
-/*
-        if (game.user.display == null) {
 
-          game.user.display = new Display();
-        }
-
-        game.display = game.user.display;
-*/
-        display.init(this.countryCode);
-
+        display.init( this.countryCode );
 
         if (this.debrief == null) {
 
@@ -211,8 +203,6 @@ Hack = function() {
         map.selectedCountry = this.countryCode;
 
         display.ctl["MAP"].level.set( mlCountry );
-
-        //display.browse will init the display object itself
 
         display.browse(this.countryCode);
 

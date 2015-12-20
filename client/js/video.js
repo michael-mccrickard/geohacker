@@ -116,17 +116,15 @@ Video = function() {
 
 			var _file = this.items[ this.getIndex() ].f;
 
-c("file in pauseVideo is " + _file)
-
-c("ytplayer file in pauseVideo is " + ytplayer.getVideoData()['video_id'])
-
 			if (_file == ytplayer.getVideoData()['video_id']) {
 
 				ytplayer.pauseVideo();
 			}
 			else {
 
-			  //is there a callback, so that we can pause it?
+			  //since the video will start playing automatically ...
+
+			  Control.stopSound("music");
 
 			  ytplayer.loadVideoById( _file );			
 			}

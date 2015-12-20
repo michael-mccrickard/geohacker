@@ -126,6 +126,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
     		this.setMode( uHack );
     	}
     	else {
+
     		this.setMode( this.mode );
     	}
 
@@ -270,7 +271,11 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 		db.updateUserRec();
 
-		hack = new Hack();
+		//hack = new Hack();
+
+		//we did this above in setGlobals, but now we just
+
+		//display.missionHack = hack;
 
 		hack.startNewFromMenu();  //???
 	}

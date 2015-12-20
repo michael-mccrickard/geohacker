@@ -243,10 +243,10 @@ NewLoader = function() {
 		}
 
 		var randomControl =  Database.getRandomElement(tmp);
-
-if (this.totalClueCount == 0) randomControl = display.ctl["VIDEO"];
 /*
-if (this.totalClueCount == 1) randomControl = display.ctl["WEB"];
+if (this.totalClueCount == 0) randomControl = display.ctl["VIDEO"];
+
+if (this.totalClueCount == 1) randomControl = display.ctl["SOUND"];
 
 if (this.totalClueCount == 2) randomControl = display.ctl["IMAGE"];
 

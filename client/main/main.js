@@ -373,7 +373,7 @@ c("click control is setting media state to play")
 
       display.feature.set( id );
 
-      display.feature.loadAgain( id );
+      display.feature.loadAgain( id );  //this will set the imageSrc for the featured area
 
       if (id == "VIDEO") {
 
@@ -448,6 +448,8 @@ Template.main.rendered = function () {
       if ( game.user.mode == uHack ) {
 
          if (display.feature.on() ) {
+
+            display.scanner.hide();
 
             display.feature.set( display.feature.getName() );
 
