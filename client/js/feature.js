@@ -243,10 +243,12 @@ c("feature.js: set()")
 	
 			var _state = this.ctl.getState();
 
+			this.ctl.show();
+
 			if (_state == sPaused) {
 
 			console.log("feature.set is pausing content b/c state is paused")
-				
+
 				this.ctl.pauseFeaturedContent();
 			}
 			if (_state == sPlaying || _state == sLoaded) {

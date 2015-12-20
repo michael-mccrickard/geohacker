@@ -61,6 +61,8 @@ refreshWindow = function(_which) {
 
 }
 
+
+
 // YouTube API will call onYouTubeIframeAPIReady() when API ready.
 // Make sure it's a global variable.
 
@@ -131,6 +133,22 @@ onYouTubeIframeAPIReady = function () {
                 display.ctl["VIDEO"].youTubeWaiting.set( false );
 
                 if (_file) event.target.playVideo();
+
+            },
+
+            onStateChange: function (event) {
+
+                // Play video when player ready.
+
+                if (event.data == YT.PlayerState.PLAYING) {
+
+                    $("img#picVIDEO").attr("src", display.ctl["VIDEO"].pauseControlPic);
+                }
+
+                if (event.data == YT.PlayerState.PAUSED) {
+
+                    $("img#picVIDEO").attr("src", display.ctl["VIDEO"].playControlPic);
+                }
 
             }
 

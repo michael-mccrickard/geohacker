@@ -97,13 +97,40 @@ Video = function() {
 		return _file;
 	}
 
+
+    this.hide = function() {
+
+        Session.set("sYouTubeOn", false);
+    }
+
+    this.show = function() {
+
+        Session.set("sYouTubeOn", true);
+    }
+
 	this.pauseVideo = function(){
 
 		this.setState( sPaused );
 
 		if (this.isYouTube) {
 
-			ytplayer.pauseVideo();
+			var _file = this.items[ this.getIndex() ].f;
+
+c("file in pauseVideo is " + _file)
+
+c("ytplayer file in pauseVideo is " + ytplayer.getVideoData()['video_id'])
+
+			if (_file == ytplayer.getVideoData()['video_id']) {
+
+				ytplayer.pauseVideo();
+			}
+			else {
+
+			  //is there a callback, so that we can pause it?
+
+			  ytplayer.loadVideoById( _file );			
+			}
+
 		}
 	}
 
@@ -156,7 +183,7 @@ Video = function() {
 
 		if (this.isYouTube ) {
 
-		   	ytplayer.pauseVideo();
+		   	this.pauseVideo();
 		}
 
 

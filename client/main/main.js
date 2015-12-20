@@ -445,10 +445,20 @@ Template.main.rendered = function () {
           return;
       }
 
-    
+      if ( game.user.mode == uHack ) {
+
+         if (display.feature.on() ) {
+
+            display.feature.set( display.feature.getName() );
+
+            if (display.feature.getName() == "VIDEO")  display.ctl["VIDEO"].show();
+
+          }       
+      }
+
       if (hack.mode == mReady)  {
 
-        if ( display.feature.off() ||  display.feature.getName() == "MAP") {    //(display.feature.on() && display.feature.getName() == "MAP")  ) {
+        if ( display.feature.off() ||  display.feature.getName() == "MAP") {
 
           display.scanner.show();
 

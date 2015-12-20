@@ -391,6 +391,17 @@ Display = function() {
     //      Control functions
     //*********************************************
 
+    this.pauseMedia = function() {
+
+        if (this.feature.on() ) {
+
+            if (this.feature.getName() == "VIDEO" || this.feature.getName() == "AUDIO" ) {
+c("display is pausing media")
+                this.feature.ctl.pauseFeaturedContent();
+            }
+        }
+    }
+
 
     this.dimensionControls = function() {
 

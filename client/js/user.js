@@ -113,8 +113,14 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     this.goHome = function() {
 
-    	if (display) display.feature.clear();
+    	if (display) {
 
+			display.pauseMedia();
+
+			display.ctl["VIDEO"].hide();
+
+    	}
+    		
     	if (this.mode == uNone) {
 
     		this.setMode( uHack );
