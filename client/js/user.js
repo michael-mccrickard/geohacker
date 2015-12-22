@@ -42,6 +42,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
       this.setGlobals("browse");
 
       hack.initForBrowse( _code );
+      
     };
 
     this.setMode = function(_mode) {
@@ -76,6 +77,17 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 	  		Meteor.defer( function() { $("#divHomeClockOutPic").css("border-color","red") } );
 
      		game.logout();
+     	}
+
+     	//totally assuming that all browsing begins at the map, temporarily
+
+     	if (_mode == uBrowse) {
+
+     		this.setGlobals("browse");
+
+     		display.init( this.profile.profile.cc )
+
+     		display.feature.browseMap();
      	}
     }
 
@@ -265,17 +277,15 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 	this.assignAndStartMission = function( _code) {
 
+		//the user may have been browsing before this ...
+
+		this.mode = uHack;
+
 		this.setGlobals("mission");
 
 		this.assignMission( _code );
 
 		db.updateUserRec();
-
-		//hack = new Hack();
-
-		//we did this above in setGlobals, but now we just
-
-		//display.missionHack = hack;
 
 		hack.startNewFromMenu();  //???
 	}

@@ -96,6 +96,10 @@ Display = function() {
 
     this.browse = function( _code) {
 
+        this.feature.set("IMAGE");
+
+        this.feature.loadAgain("IMAGE");
+
         this.fullyLoadControls();
 
         this.loadMainForBrowsing();

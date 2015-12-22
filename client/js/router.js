@@ -127,19 +127,6 @@ FlowRouter.route('/worldMap', {
 });
 
 
-FlowRouter.route('/worldMapUser', {
-
-  name: "worldMapUser",
-
-  action: function (params, queryParams) { 
-
-   //display.closeOutMain();
-
-   BlazeLayout.render('layout', { content: "worldMapUser" } ) 
-
- },
-});
-
 //*********************************************
 //      BROWSE WORLD MAP
 //*********************************************
@@ -234,9 +221,9 @@ FlowRouter.route('/selectCountry', {
     if (display) {
 
       if (display.ctl["SOUND"]) display.ctl["SOUND"].pauseFeaturedContent();
-    }
 
-    display.closeOutMain();
+      display.closeOutMain();
+    }
 
     BlazeLayout.render('layout', { content: "selectCountry" });
 

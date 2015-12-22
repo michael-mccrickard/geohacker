@@ -45,9 +45,11 @@ Template.home.events({
 
   'click #divHomeMapPic': function(e) {
 
-      e.preventDefault();  
-
+        e.preventDefault();  
       
+        game.user.setMode( uBrowse );
+
+        return;    
   },
 
 });

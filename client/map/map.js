@@ -155,18 +155,6 @@ ghMap = function() {
 
     this.draw = function() {
 
-      //it's as if the user has just finished hacking this one
-      
-      if (game.user.mode == uBrowse) {
-
-        display.worldMapTemplateReady = false;
-
-        FlowRouter.go("/browseWorldMap");
-
-        return;
-
-      }
-
     //When the map is featured (as a clue; automatically), 
     // we only need to blink the map button.
     //The map doesn't get shown until the user clicks the MAP button.

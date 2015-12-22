@@ -29,6 +29,8 @@ Template.scanning.helpers({
 
     scanningNow: function() {
 
+        if (!display) return;
+
         var _state = display.scanner.centerState.get();
 
     	if ( _state == "scan" ) return true;

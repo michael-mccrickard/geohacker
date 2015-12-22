@@ -120,7 +120,11 @@ Template.browseWorldMap.events = {
 
       Control.playEffect("new_feedback.mp3");
 
-      display.feature.clear();
+display.ctl["MAP"].browseWorldMap.map.removeListener("clickMapObject");
+
+      display.feature.resetToPrevious();
+
+      display.mainTemplateReady = false;
 
       FlowRouter.go("/main");
   },

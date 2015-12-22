@@ -46,6 +46,8 @@ BrowseWorldMap = function( _mapCtl ) {
 
     this.zoomDone = false;
 
+    this.zoomOnlyOnClick = false;
+
     this.mapTagImage = "";
 
     //set the module var for the event handlers
@@ -88,6 +90,8 @@ BrowseWorldMap = function( _mapCtl ) {
            this.mapCtl.level.set( mlCountry );
 
             var mapObject = this.map.getObjectById( this.selectedCountry );
+
+            this.zoomOnlyOnClick = true;
 
             this.map.clickMapObject(mapObject);
         }    
@@ -370,6 +374,15 @@ function handleClick(_event) {
 
     if (level >= mlCountry) {
 
+        if (worldMap.zoomOnlyOnClick) {
+
+            worldMap.zoomOnlyOnClick = false;
+
+            return;
+        }
+
+        game.user.browseCountry( worldMap.mapObjectClicked );
+/*
         if (!worldMap.mapTagImage.length) {
 
             c("no image selected")
@@ -394,6 +407,7 @@ function handleClick(_event) {
         worldMap.map.dataProvider.images.push(image);
         
         worldMap.map.validateData();
+*/
 
     }
 

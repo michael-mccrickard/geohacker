@@ -62,6 +62,17 @@ Feature = function() {
 		
 	}
 
+	this.browseMap = function() {
+
+		this.lastName = this.getName();
+
+		this.setName( "BROWSEMAP" );
+
+	    display.worldMapTemplateReady = false;
+
+	    FlowRouter.go("/browseWorldMap");
+	}
+
 	//this one can fire before the _name control has been
 	//set as the feature, so this.ctl will not refer
 	//to the _name control necessarily
@@ -159,6 +170,22 @@ Feature = function() {
 	},
 
 	this.resetToPrevious = function() {
+
+		if (game.user.mode == uBrowse) {
+
+			this.setName( "" );
+
+			if (this.lastName.length == 0 || this.lastName == "BROWSEMAP" ) {
+
+				this.set( "IMAGE" );
+			}
+			else {
+
+				this.set( this.lastName );
+			}
+
+			return;
+		}
 
 		if (this.lastName == "VIDEO") display.ctl["VIDEO"].setState( sPlaying );
 

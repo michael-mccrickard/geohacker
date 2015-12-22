@@ -277,6 +277,8 @@ Template.debrief.events = {
 
   			display.mainTemplateReady = false;
 
+  			display.feature.resetToPrevious();
+
 			Meteor.setTimeout( function() { FlowRouter.go("/main") }, 100 ) ;
 
 			return;

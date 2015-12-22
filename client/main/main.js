@@ -56,6 +56,8 @@ Template.main.helpers({
 
     opacityClass: function() {
 
+      if (!display) return;
+
       if (display.ctl[ this ].getState() <= sIcon) return "faded";
 
       return "";
@@ -63,6 +65,8 @@ Template.main.helpers({
     },
 
     opacityClassMap: function() {
+
+      if (!display) return;
 
       var _s = display.ctl[ this ].getState();  //any state change to a control will trigger this?
 
@@ -74,6 +78,8 @@ Template.main.helpers({
 
     navButtonPrevVisible: function() { 
 
+      if (!display) return;
+
       if (display.feature.off() ) return "invisible"; 
 
       if (display.feature.ctl.hasPrevItem() ) return "";
@@ -82,6 +88,8 @@ Template.main.helpers({
     },
 
     navButtonNextVisible: function() { 
+
+      if (!display) return;
 
       if (display.feature.off() ) return "invisible"; 
 
@@ -92,14 +100,14 @@ Template.main.helpers({
 
     status: function() {
 
-      //little bit of a cheat here -- just using the global hack instead 
-      //trying to differentiate between the global and the user 
-      //(the headline object checks game.user.mode to get the right one)
+      if (!hack) return;
 
       return hack.status;
     },
 
     TextIsDisplayed: function() {
+
+        if (!display) return;
 
         if (display.feature.getName() == "TEXT") return true;
 
@@ -112,6 +120,8 @@ Template.main.helpers({
 
     featuredAreaFont: function() {
 
+        if (!display) return;
+
         if (display.feature.displayMessage.get() ) return "featuredMessageFont";
 
         return "featuredTextFont";
@@ -120,15 +130,21 @@ Template.main.helpers({
 
     displayTextContent: function() {
 
+        if (!display) return;
+
         if (display.feature.getName() == "TEXT") return display.ctl["TEXT"].getTextContent();       
     },
 
     textControlContent: function() { 
 
+        if (!display) return;
+
         return display.ctl["TEXT"].getTextContent();   
     },
 
     displayTextControlText: function() {
+
+        if (!display) return;
 
         if (this == "TEXT" && display.ctl["TEXT"].getState() >= sLoaded) return true;
 
@@ -213,7 +229,14 @@ Template.main.events({
           Control.playEffect( display.locked_sound_file );
 
           return; 
-      }     
+      }  
+
+      if (game.user.mode == uBrowse) {
+
+          display.feature.browseMap();
+
+          return;
+      }   
       
       display.feature.set("MAP");
   
@@ -421,6 +444,8 @@ function updateFeaturedContent() {
 
 Template.main.rendered = function () {
 
+    if (!display) return;
+
     if (display.mainTemplateReady == false) {
 
       display.mainTemplateReady = true;
@@ -434,20 +459,17 @@ Template.main.rendered = function () {
 
       if (game.user.mode == uBrowse) {
 
-          var _name = display.feature.getName();
-
-          if (_name.length == 0) _name = "IMAGE";
-
-          display.feature.set(_name);
-
-          display.feature.loadAgain( _name );
+          display.scanner.hide();
 
           return;
       }
 
+
       if ( game.user.mode == uHack ) {
 
-         if (display.feature.on() ) {
+        //MAP is the only control that has the scanner visible when it's featured
+
+         if (display.feature.on() && display.feature.getName() != "MAP") {
 
             display.scanner.hide();
 
