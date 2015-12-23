@@ -78,6 +78,8 @@ Display = function() {
 
     this.init = function(_code) {
 
+        this.countryCode = _code;
+
         //reset any session vars that need it
 
         Session.set("sYouTubeOn", false);

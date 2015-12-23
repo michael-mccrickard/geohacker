@@ -14,25 +14,35 @@ Template.main.helpers({
 
     controlPic: function() {
 
+        if (!display) return;
+
         return display.ctl[ this ].getControlPic();
     },
 
     controlPicLeft: function() {
+
+        if (!display) return;
 
       return display.ctl[ this ].picFrame.left;
     },
 
     controlPicTop: function() {
 
+        if (!display) return;
+
       return display.ctl[ this ].picFrame.top;
     },
 
     controlPicWidth: function() {
 
+        if (!display) return;
+
       return display.ctl[ this ].picFrame.width;
     },
 
     controlPicHeight: function() {
+
+        if (!display) return;
 
       return display.ctl[ this ].picFrame.height;
     },
@@ -41,12 +51,16 @@ Template.main.helpers({
 
     controlBackdrop: function(_name) {
 
+        if (!display) return;
+
       if (_name == display.feature.getName() ) return "hilitedBackdrop.jpg"
 
       return "featuredBackdrop.jpg";
     },
 
     isBrowseMode: function() {
+
+      if (!game.user) return;
 
       if (game.user.mode == uBrowse) return true;
 
@@ -82,6 +96,8 @@ Template.main.helpers({
 
       if (display.feature.off() ) return "invisible"; 
 
+      if (!display.feature.ctl) return;
+
       if (display.feature.ctl.hasPrevItem() ) return "";
 
       return "invisible";
@@ -92,6 +108,8 @@ Template.main.helpers({
       if (!display) return;
 
       if (display.feature.off() ) return "invisible"; 
+
+      if (!display.feature.ctl) return;
 
       if (display.feature.ctl.hasNextItem() ) return "";
 
@@ -153,11 +171,15 @@ Template.main.helpers({
 
     youTubeWaiting: function() {
 
+        if (!display) return;
+
       return display.ctl["VIDEO"].youTubeWaiting.get();
     },
 
 
     scannerNotVisible: function() {
+
+        if (!display) return;
 
       if ( display.scanner.visible.get() ) return false;
 
@@ -165,6 +187,8 @@ Template.main.helpers({
     },
 
     scannerNotLoaded: function() {
+
+        if (!display) return;
 
       if ( display.scanner.centerState.get() != "loaded" ) return true;
 
@@ -341,10 +365,6 @@ Template.main.events({
         display.scanner.startScan( mode );
 
       }
-
-
-//now loader.go() but called by startScan()
-      //display.loader.doScan();
 
     },
 

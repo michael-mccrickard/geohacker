@@ -37,9 +37,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     this.browseCountry = function( _code ) {
 
-      this.mode = uBrowse;
-
-      this.setGlobals("browse");
+      this.setMode( uBrowse );
 
       hack.initForBrowse( _code );
       
@@ -79,16 +77,20 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
      		game.logout();
      	}
 
-     	//totally assuming that all browsing begins at the map, temporarily
-
      	if (_mode == uBrowse) {
 
      		this.setGlobals("browse");
-
-     		display.init( this.profile.profile.cc )
-
-     		display.feature.browseMap();
+     		
      	}
+    }
+
+    this.goBrowseMap = function() {
+
+    	this.setMode( uBrowse );
+
+    	if (!display.countryCode.length) display.init( this.profile.profile.cc );
+
+    	display.feature.browseMap();
     }
 
 //when this is called, do we know for sure the mission isn't complete?
@@ -100,6 +102,15 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
     	game.user.mode = uHack;
 
     	hack.mode = mReady;
+
+    	if (display.feature.getName() == "MAP") {
+
+	  		display.worldMapTemplateReady = false;
+
+	  		FlowRouter.go("/worldMap");
+
+	  		return;
+    	}
 
   		display.mainTemplateReady = false;
 

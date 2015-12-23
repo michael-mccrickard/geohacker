@@ -47,7 +47,7 @@ Template.home.events({
 
         e.preventDefault();  
       
-        game.user.setMode( uBrowse );
+        game.user.goBrowseMap();
 
         return;    
   },

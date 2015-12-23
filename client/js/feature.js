@@ -64,7 +64,7 @@ Feature = function() {
 
 	this.browseMap = function() {
 
-		this.lastName = this.getName();
+		this.clear();
 
 		this.setName( "BROWSEMAP" );
 
