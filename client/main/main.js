@@ -14,35 +14,25 @@ Template.main.helpers({
 
     controlPic: function() {
 
-        if (!display) return;
-
         return display.ctl[ this ].getControlPic();
     },
 
     controlPicLeft: function() {
-
-        if (!display) return;
 
       return display.ctl[ this ].picFrame.left;
     },
 
     controlPicTop: function() {
 
-        if (!display) return;
-
       return display.ctl[ this ].picFrame.top;
     },
 
     controlPicWidth: function() {
 
-        if (!display) return;
-
       return display.ctl[ this ].picFrame.width;
     },
 
     controlPicHeight: function() {
-
-        if (!display) return;
 
       return display.ctl[ this ].picFrame.height;
     },
@@ -51,8 +41,6 @@ Template.main.helpers({
 
     controlBackdrop: function(_name) {
 
-        if (!display) return;
-
       if (_name == display.feature.getName() ) return "hilitedBackdrop.jpg"
 
       return "featuredBackdrop.jpg";
@@ -60,17 +48,13 @@ Template.main.helpers({
 
     isBrowseMode: function() {
 
-      if (!game.user) return;
-
-      if (game.user.mode == uBrowse) return true;
+      if (game.user.hack.mode == mBrowse) return true;
 
       return false;
 
     },
 
     opacityClass: function() {
-
-      if (!display) return;
 
       if (display.ctl[ this ].getState() <= sIcon) return "faded";
 
@@ -79,8 +63,6 @@ Template.main.helpers({
     },
 
     opacityClassMap: function() {
-
-      if (!display) return;
 
       var _s = display.ctl[ this ].getState();  //any state change to a control will trigger this?
 
@@ -92,11 +74,7 @@ Template.main.helpers({
 
     navButtonPrevVisible: function() { 
 
-      if (!display) return;
-
       if (display.feature.off() ) return "invisible"; 
-
-      if (!display.feature.ctl) return;
 
       if (display.feature.ctl.hasPrevItem() ) return "";
 
@@ -105,11 +83,7 @@ Template.main.helpers({
 
     navButtonNextVisible: function() { 
 
-      if (!display) return;
-
       if (display.feature.off() ) return "invisible"; 
-
-      if (!display.feature.ctl) return;
 
       if (display.feature.ctl.hasNextItem() ) return "";
 
@@ -118,14 +92,14 @@ Template.main.helpers({
 
     status: function() {
 
-      if (!hack) return;
+      //little bit of a cheat here -- just using the global hack instead 
+      //trying to differentiate between the global and the user 
+      //(the headline object checks game.user.mode to get the right one)
 
       return hack.status;
     },
 
     TextIsDisplayed: function() {
-
-        if (!display) return;
 
         if (display.feature.getName() == "TEXT") return true;
 
@@ -138,8 +112,6 @@ Template.main.helpers({
 
     featuredAreaFont: function() {
 
-        if (!display) return;
-
         if (display.feature.displayMessage.get() ) return "featuredMessageFont";
 
         return "featuredTextFont";
@@ -148,21 +120,15 @@ Template.main.helpers({
 
     displayTextContent: function() {
 
-        if (!display) return;
-
         if (display.feature.getName() == "TEXT") return display.ctl["TEXT"].getTextContent();       
     },
 
     textControlContent: function() { 
 
-        if (!display) return;
-
         return display.ctl["TEXT"].getTextContent();   
     },
 
     displayTextControlText: function() {
-
-        if (!display) return;
 
         if (this == "TEXT" && display.ctl["TEXT"].getState() >= sLoaded) return true;
 
@@ -171,15 +137,11 @@ Template.main.helpers({
 
     youTubeWaiting: function() {
 
-        if (!display) return;
-
       return display.ctl["VIDEO"].youTubeWaiting.get();
     },
 
 
     scannerNotVisible: function() {
-
-        if (!display) return;
 
       if ( display.scanner.visible.get() ) return false;
 
@@ -187,8 +149,6 @@ Template.main.helpers({
     },
 
     scannerNotLoaded: function() {
-
-        if (!display) return;
 
       if ( display.scanner.centerState.get() != "loaded" ) return true;
 
@@ -253,14 +213,7 @@ Template.main.events({
           Control.playEffect( display.locked_sound_file );
 
           return; 
-      }  
-
-      if (game.user.mode == uBrowse) {
-
-          display.feature.browseMap();
-
-          return;
-      }   
+      }     
       
       display.feature.set("MAP");
   
@@ -316,7 +269,7 @@ Template.main.events({
           return; 
       }
 
-      if (game.user.mode == uBrowse) {
+      if (game.user.hack.mode == uBrowse) {
 
         var s = "";
 
@@ -337,9 +290,7 @@ Template.main.events({
 
               hack.mode = mNone;
 
-              //game.user.assignAndStartMission( game.user.assignCode );
-
-              game.user.resumeMission();
+              game.user.assignAndStartMission( game.user.assignCode );
           }
 
         }
@@ -365,6 +316,10 @@ Template.main.events({
         display.scanner.startScan( mode );
 
       }
+
+
+//now loader.go() but called by startScan()
+      //display.loader.doScan();
 
     },
 
@@ -416,7 +371,7 @@ c("click control is setting media state to play")
 
       display.feature.set( id );
 
-      display.feature.loadAgain( id );  //this will set the imageSrc for the featured area
+      display.feature.loadAgain( id );
 
       if (id == "VIDEO") {
 
@@ -434,7 +389,7 @@ c("click control is setting media state to play")
 
         display.feature.clear();
 
-        hack.debrief.set( hack.debrief.index );
+        game.debrief.set( game.debrief.index );
 
         FlowRouter.go("/debrief");
     }
@@ -451,7 +406,7 @@ function updateFeaturedContent() {
     }
     else {
 
-      if (game.user.mode == uBrowse) {
+      if (game.user.hack.mode == mBrowse) {
       
         display.feature.load( _name );  //the imagesLoaded callback will update the screen
 
@@ -460,11 +415,11 @@ function updateFeaturedContent() {
 
       display.showFeaturedContent( _name  );
     }
+
+
 }
 
 Template.main.rendered = function () {
-
-    if (!display) return;
 
     if (display.mainTemplateReady == false) {
 
@@ -477,32 +432,23 @@ Template.main.rendered = function () {
       display.checkMainScreen();
 
 
-      if (game.user.mode == uBrowse) {
+      if (game.user.hack.mode == mBrowse) {
 
-          display.scanner.hide();
+          var _name = display.feature.getName();
+
+          if (_name.length == 0) _name = "IMAGE";
+
+          display.feature.set(_name);
+
+          display.feature.loadAgain( _name );
 
           return;
       }
 
-
-      if ( game.user.mode == uHack ) {
-
-        //MAP is the only control that has the scanner visible when it's featured
-
-         if (display.feature.on() && display.feature.getName() != "MAP") {
-
-            display.scanner.hide();
-
-            display.feature.set( display.feature.getName() );
-
-            if (display.feature.getName() == "VIDEO")  display.ctl["VIDEO"].show();
-
-          }       
-      }
-
+    
       if (hack.mode == mReady)  {
 
-        if ( display.feature.off() ||  display.feature.getName() == "MAP") {
+        if ( display.feature.off() ||  display.feature.getName() == "MAP") {    //(display.feature.on() && display.feature.getName() == "MAP")  ) {
 
           display.scanner.show();
 

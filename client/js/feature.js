@@ -40,7 +40,7 @@ Feature = function() {
 
 	this.fileIsLoaded = function() {
 
-		if (game.user.mode == uBrowse) {
+		if (game.user.hack.mode == mBrowse) {
 
 			display.redraw();
 
@@ -60,17 +60,6 @@ Feature = function() {
 
 		Meteor.defer( function() { Session.set("sFeatureImageLoaded", true); } );
 		
-	}
-
-	this.browseMap = function() {
-
-		this.clear();
-
-		this.setName( "BROWSEMAP" );
-
-	    display.worldMapTemplateReady = false;
-
-	    FlowRouter.go("/browseWorldMap");
 	}
 
 	//this one can fire before the _name control has been
@@ -171,22 +160,6 @@ Feature = function() {
 
 	this.resetToPrevious = function() {
 
-		if (game.user.mode == uBrowse) {
-
-			this.setName( "" );
-
-			if (this.lastName.length == 0 || this.lastName == "BROWSEMAP" ) {
-
-				this.set( "IMAGE" );
-			}
-			else {
-
-				this.set( this.lastName );
-			}
-
-			return;
-		}
-
 		if (this.lastName == "VIDEO") display.ctl["VIDEO"].setState( sPlaying );
 
 		if (display.scanner.centerState.get() != "loaded") { // && this.lastName != "MAP") {
@@ -234,6 +207,8 @@ c("feature.js: set()")
 
 		if (_name != "MAP") {
 
+			//display.scanner.hide();
+
 			display.scanner.centerState.set("off");
 		}
 
@@ -268,15 +243,11 @@ c("feature.js: set()")
 	
 			var _state = this.ctl.getState();
 
-			if ( _name == "VIDEO" ) this.ctl.show();
-
 			if (_state == sPaused) {
 
-				console.log("feature.set is pausing content b/c state is paused")
-
+			console.log("feature.set is pausing content b/c state is paused")
+				
 				this.ctl.pauseFeaturedContent();
-
-				this.loadAgain( _name );  //redundant except if we're returning here from another user mode
 			}
 			if (_state == sPlaying || _state == sLoaded) {
 				

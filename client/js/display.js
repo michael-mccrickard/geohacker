@@ -44,8 +44,6 @@ Display = function() {
 
     this.loadedControlName = new Blaze.ReactiveVar( "" );
 
-    this.countryCode = "";  //To enable us to tell when the country has changed in browse mode
-
     //arrays
 
     //to do: merge the functionality of these two arrays, if possible
@@ -78,8 +76,6 @@ Display = function() {
 
     this.init = function(_code) {
 
-        this.countryCode = _code;
-
         //reset any session vars that need it
 
         Session.set("sYouTubeOn", false);
@@ -98,9 +94,11 @@ Display = function() {
 
     this.browse = function( _code) {
 
-        this.feature.set("IMAGE");
+        this.feature.clear();    
+        
+        this.reset();
 
-        this.feature.loadAgain("IMAGE");
+        this.init(_code);
 
         this.fullyLoadControls();
 
@@ -186,7 +184,7 @@ Display = function() {
 
         }
 
-        if (game.user.mode == uBrowse) {
+        if (game.user.hack.mode == mBrowse) {
             
             this.ctl["MAP"].enableButton();    
 
@@ -301,6 +299,12 @@ Display = function() {
 
             this.feature.draw()
         }
+        /*
+        else {
+
+            //this.feature.drawBG();
+        }
+        */
     }
 
     //*********************************************
@@ -349,6 +353,9 @@ Display = function() {
             var ctl = this.ctl[ _name ];
 
             //assign the src value for the icon
+c("in display, ctl name is " + _name)
+
+c("control state is " + ctl.getState() )
 
             if (_name != "TEXT") $("#p" +_name).attr("src", ctl.getControlPic() );
         }
@@ -386,19 +393,6 @@ Display = function() {
     //*********************************************
     //      Control functions
     //*********************************************
-
-    this.pauseMedia = function() {
-
-        if (this.feature.on() ) {
-
-            if (this.feature.getName() == "VIDEO" || this.feature.getName() == "SOUND" ) {
-
-                c("display is pausing media")
-
-                this.feature.ctl.pauseFeaturedContent();
-            }
-        }
-    }
 
 
     this.dimensionControls = function() {

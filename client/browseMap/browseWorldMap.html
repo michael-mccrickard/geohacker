@@ -6,19 +6,10 @@
 	}
 
 	function drag(ev) {
-
-c("drag event")
-
-//display.ctl["MAP"].browseWorldMap.map.areasSettings.autoZoom = false;
-
-		gNoClick = true;
-
 	    ev.dataTransfer.setData("text", ev.target.src);
 	}
 
 	function drop(ev) {
-
-c("drop event")
 
 	    ev.preventDefault();
 
@@ -34,26 +25,9 @@ c("drop event")
 
 		var data = ev.dataTransfer.getData("text");
 
-		c("dropped " + data);
-
-        var image = new AmCharts.MapImage();
-
-        image.latitude = _lat;
-        
-        image.longitude = _long;
-
-        image.width = 64;
-
-        image.height = 64;
-        
-        image.imageURL = data;
-        
-        map.dataProvider.images.push(image);
-        
-        map.validateData();
+		c("dropped " + data)
 	    
 	}
-
 </script>
 
 	<div style="position: relative; float: left; top: 55px; width:10%;">

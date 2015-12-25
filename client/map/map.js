@@ -87,11 +87,11 @@ ghMap = function() {
       if (_state == sIDContinent || _state == sIDRegion || _state == sIDCountry) return true;
 
       return false;
-    }
+    },
 
     this.backupMap = function() {
 
-        if (game.user.mode == uBrowse) {
+        if (game.user.hack.mode == mBrowse) {
 
           this.browseWorldMap.backupMap();
 
@@ -99,28 +99,28 @@ ghMap = function() {
         }
 
         this.worldMap.backupMap();
-    }
+    },
 
     this.backupMapToRegion = function() {
 
         this.level.set( mlCountry );
 
         this.backupMap();
-    }
+    },
 
     this.backupMapToContinent = function() {
 
         this.level.set( mlRegion );
 
         this.backupMap();
-    }
+    },
 
     this.backupMapToWorld = function() {
 
         this.level.set( mlContinent );
 
         this.backupMap();
-    }
+    },   
 
     this.blinkButton = function() {
 
@@ -128,12 +128,12 @@ ghMap = function() {
 
       this.timerID = Meteor.setInterval( function() { display.ctl["MAP"].doNormal(); }, 2000)
 
-    } 
+    },   
 
     this.clearFeature = function() {
 
 
-    }
+    },
 
     this.clearTimer = function() {
 
@@ -154,6 +154,18 @@ ghMap = function() {
 
 
     this.draw = function() {
+
+      //it's as if the user has just finished hacking this one
+      
+      if (game.user.hack.mode == mBrowse) {
+
+        display.worldMapTemplateReady = false;
+
+        FlowRouter.go("/browseWorldMap");
+
+        return;
+
+      }
 
     //When the map is featured (as a clue; automatically), 
     // we only need to blink the map button.
@@ -181,20 +193,20 @@ ghMap = function() {
 
         FlowRouter.go("/worldMap");
       }
-    }
+    },
 
     this.doGreen = function() {
 
         $("#mapButton").attr("src", "./newGlobeIconGreen.png");
 
-    }
+    },
 
     this.doNormal = function() {
 
         $("#mapButton").attr("src", "./newGlobeIconYellow.png");
 
         Meteor.setTimeout( function() { display.ctl["MAP"].doGreen(); }, 500);    
-    }
+    },
 
     this.enableButton = function() {
 
@@ -204,37 +216,21 @@ ghMap = function() {
     this.hasNextItem = function() {
 
       return false;
-    }
+    },
 
     this.hasPrevItem = function() {
 
       return false;
-    }
+    },
 
     this.init = function() {
 
       this.index = new Blaze.ReactiveVar(0);
 
       this.state = new Blaze.ReactiveVar(0);
-    }
-
-    this.clearLabels = function() {
-
-        if (game.user.mode == uBrowse) this.browseWorldMap.map.clearLabels();
-
-        if (game.user.mode == uHack) this.worldMap.map.clearLabels();
-
-    }
+    },
 
     this.finishDraw = function() {
-
-        if (game.user.mode == uBrowse) this.browseFinishDraw();
-
-        if (game.user.mode == uHack) this.hackFinishDraw();       
-
-    }
-
-    this.hackFinishDraw = function() {
 
         if (this.level.get() == mlWorld) {
 

@@ -46,8 +46,6 @@ BrowseWorldMap = function( _mapCtl ) {
 
     this.zoomDone = false;
 
-    this.zoomOnlyOnClick = false;
-
     this.mapTagImage = "";
 
     //set the module var for the event handlers
@@ -58,10 +56,6 @@ BrowseWorldMap = function( _mapCtl ) {
     //to draw the map (by calling doMap with the right params)
 
     this.doCurrentMap = function() {
-
-        //reset this each time, b/c it disappears if switch hack/display objects
-
-        worldMap = this;
 
         var level = this.mapCtl.level.get();
 
@@ -91,11 +85,11 @@ BrowseWorldMap = function( _mapCtl ) {
 
             var mapObject = this.map.getObjectById( this.selectedCountry );
 
-            this.zoomOnlyOnClick = true;
-
             this.map.clickMapObject(mapObject);
         }    
     }
+
+
 
 
     this.doMap = function(_code, _level) {
@@ -124,8 +118,6 @@ BrowseWorldMap = function( _mapCtl ) {
             "mapVar": AmCharts.maps.worldLow, 
         }
 
-        this.dp.images = [];
-
         //Set the map areas based on map level
 
         this.dp.areas = this.mm.getJSONForMap(_code, _level, false);
@@ -135,14 +127,29 @@ BrowseWorldMap = function( _mapCtl ) {
         if (_level == mlRegion) rec = db.getRegionRec(_code);
 
         if (_level == mlContinent || _level == mlRegion) {
-/*
+
             this.dp.zoomLevel = rec.z1,
             this.dp.zoomLatitude = rec.z2,
             this.dp.zoomLongitude =  rec.z3
-*/
+
         }
 
         //images
+
+/*
+this.dp.images[0].imageURL = "putin_tag.png";
+
+this.dp.images[0].longitude = gLong;
+
+this.dp.images[0].latitude = gLat;
+
+this.dp.images[0].percentHeight = 8;
+
+this.dp.images[0].percentWidth = 3.5;
+
+this.dp.images[0].centered = false;
+*/
+
 
         //set the data provider and areas settings
 
@@ -151,7 +158,7 @@ BrowseWorldMap = function( _mapCtl ) {
         this.map.creditsPosition = "top-left";
 
         this.map.zoomControl.zoomControlEnabled = false;
-  
+
         this.map.zoomControl.panControlEnabled = false;
 
         this.map.zoomControl.homeButtonEnabled = false;
@@ -166,21 +173,7 @@ BrowseWorldMap = function( _mapCtl ) {
             selectedColor: "#BBBB00",
 
         };
-/*
-        var image = new AmCharts.MapImage();
 
-        image.top = 102;
-        
-        image.left = 0;
-
-        image.width = 256;
-
-        image.height = 256;
-        
-        image.imageURL = "http://localhost:3000/putin_tag.png";
-        
-        this.dp.images.push(image);
-*/
 
         //set the ballon text (popup text) for each area (this will be continent, region or country)
         this.map.areasSettings.balloonText = "[[customData]]";
@@ -326,20 +319,10 @@ BrowseWorldMap = function( _mapCtl ) {
 //                      EVENT HANDLERS
 //**********************************************************************************
 
-gNoClick = false;
+gf = -61;
 
 function handleClick(_event) {
 
-c("testing no click in handleClick")
-
-if (gNoClick) {
-
-    gNoClick = false;
-
-    return;
-}
-
-c("click event")
 
     Control.playEffect( worldMap.map_sound );
 
@@ -383,18 +366,30 @@ c("click event")
 
     if (level >= mlCountry) {
 
-        if (worldMap.zoomOnlyOnClick) {
+        if (!worldMap.mapTagImage.length) {
 
-            worldMap.zoomOnlyOnClick = false;
+            c("no image selected")
 
             return;
         }
 
-        worldMap.zoomDone = true;  //prevent the errors that happen when this template disappears
+        var info = _event.chart.getDevInfo();
 
-        display.worldMapTemplateReady = true;  //ditto
+        c("lat (north south) is " + info.latitude );
 
-        game.user.browseCountry( worldMap.mapObjectClicked );
+        c("long (east west) is " + info.longitude );
+
+        var image = new AmCharts.MapImage();
+
+        image.latitude = info.latitude;
+        
+        image.longitude = info.longitude;
+        
+        image.imageURL = worldMap.mapTagImage;
+        
+        worldMap.map.dataProvider.images.push(image);
+        
+        worldMap.map.validateData();
 
     }
 

@@ -100,7 +100,7 @@ img.featuredBackdrop {
     position: absolute;
     top: 37%;  
     z-index: 60;
-    cursor: pointer;
+    cursor:pointer;
 }
 
 .navPrev {

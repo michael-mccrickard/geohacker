@@ -5,14 +5,6 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 	this.name = _name;
 
-	this.missionHack = new Hack();
-
-	this.missionDisplay = new Display();
-
-	this.browseHack =  new Hack();
-
-	this.browseDisplay = new Display();
-
 	this.scroll = _scroll;
 
 	this.assignCode = "0";  //last-started mission; game object sets this from db
@@ -31,16 +23,19 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     this.profile = new UserProfile();
 
+    this.hack = new Hack();  //temporary hack object for browse mode
+
     this.editMode = new Blaze.ReactiveVar( false );  //is the user editing the profile content?
 
     this.badgeLimit = 0;
 
     this.browseCountry = function( _code ) {
 
-      this.setMode( uBrowse );
+      this.mode = uBrowse;
 
-      hack.initForBrowse( _code );
-      
+      this.hack = new Hack();
+
+      this.hack.initForBrowse( _code );
     };
 
     this.setMode = function(_mode) {
@@ -60,7 +55,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 	  		Meteor.defer( function() { $("#divHomeHackPic").css("border-color","red") } );
 
-	  		this.template.set("missionListing");
+    		this.template.set("missionListing");
     	}
 
      	if (_mode == uStats) {
@@ -76,97 +71,17 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
      		game.logout();
      	}
-
-     	if (_mode == uBrowse) {
-
-     		this.setGlobals("browse");
-     		
-     	}
-    }
-
-    this.goBrowseMap = function() {
-
-    	this.setMode( uBrowse );
-
-    	if (!display.countryCode.length) display.init( this.profile.profile.cc );
-
-    	display.feature.browseMap();
-    }
-
-//when this is called, do we know for sure the mission isn't complete?
-
-    this.resumeMission = function() {
-
-    	this.setGlobals("mission");
-
-    	game.user.mode = uHack;
-
-    	//if they browsed the hacked country from the congrats screen
-    	//then the mode will still be mHackDone and we need to just
-    	//start another one ...
-
-    	if (hack.mode == mHackDone) {
-
-    		hack.startNew();  
-
-    		return;
-    	}
-
-    	hack.mode = mReady;
-
-    	//if they went home with the map screen visible,
-    	//just return them to that route
-
-    	if (display.feature.getName() == "MAP") {
-
-	  		display.worldMapTemplateReady = false;
-
-	  		FlowRouter.go("/worldMap");
-
-	  		return;
-    	}
-
-  		display.mainTemplateReady = false;
-
-  		FlowRouter.go("/main");
-    }
-
-    this.setGlobals = function( _which ) {
-
-    	if (_which == "mission") {
-
-    		display = this.missionDisplay;
-
-  			hack = this.missionHack;
-    	}
-
-       	if (_which == "browse") {
-
-    		display = this.browseDisplay;
-
-  			hack = this.browseHack;
-    	} 	
     }
 
     this.goHome = function() {
 
-    	if (display) {
-
-			display.pauseMedia();
-
-			display.ctl["VIDEO"].hide();
-
-    	}
-    		
     	if (this.mode == uNone) {
 
     		this.setMode( uHack );
     	}
     	else {
-
     		this.setMode( this.mode );
     	}
-
     	FlowRouter.go("/home");
     }
 
@@ -259,8 +174,6 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 		
 		mission = new Mission( _code);
 
-		mission.status = msInProgress;
-
 
 		//either it's a mission that's already in progress ...
 
@@ -302,17 +215,13 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 	this.assignAndStartMission = function( _code) {
 
-		//the user may have been browsing before this ...
-
-		this.mode = uHack;
-
-		this.setGlobals("mission");
-
 		this.assignMission( _code );
 
 		db.updateUserRec();
 
-		hack.startNew();  //???
+		hack = new Hack();
+
+		hack.startNewFromMenu();
 	}
 
 	this.findAssignIndex = function( _code) {
@@ -511,11 +420,9 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 		if (this.assign.pool.length == 0) {
 
 			this.assign.completions = this.assign.completions + 1;
-
-			mission.status = msComplete;
 		}
 
-		//Save the assign object and update the missionList
+		//Save the assign object and the update the missionList
 
 		this.updateAssignDataObject( this.assign );
 

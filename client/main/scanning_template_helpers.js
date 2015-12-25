@@ -29,8 +29,6 @@ Template.scanning.helpers({
 
     scanningNow: function() {
 
-        if (!display) return;
-
         var _state = display.scanner.centerState.get();
 
     	if ( _state == "scan" ) return true;
@@ -39,8 +37,6 @@ Template.scanning.helpers({
     },
 
     getProgress: function() {
-
-        if (!display) return;
 
         var _state = display.scanner.centerState.get();
 
@@ -59,14 +55,10 @@ Template.scanning.helpers({
 
     getTotal: function() {
 
-        if (!display) return;
-
     	return display.scanner.totalTime.get();
     },
 
     getScannerCenterImage: function() {
-
-        if (!display) return;
 
         var _default =  "3DGlobe.png"; //"geohacker_background2.png";
 
@@ -79,8 +71,6 @@ Template.scanning.helpers({
 
     TEXTisFeatured: function() {
 
-        if (!display) return;
-
          var _name = display.loadedControlName.get();       
 
         if ( _name == "TEXT") return true;
@@ -89,8 +79,6 @@ Template.scanning.helpers({
     },
 
     featuredText: function() {
-
-        if (!display) return;
 
          var _name = display.loadedControlName.get();       
 
@@ -101,7 +89,6 @@ Template.scanning.helpers({
 
     centerText: function() {
 
-        if (!display) return;
 
         var _state = display.scanner.centerState.get();
 
@@ -123,8 +110,6 @@ Template.scanning.helpers({
     },
 
     networkIntegrity: function() {
-
-        if (!display) return;
 
     	var _percent = display.scanner.networkIntegrity.get();
 

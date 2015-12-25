@@ -77,7 +77,7 @@ FlowRouter.route('/home', {
 
   action: function (params, queryParams) { 
 
-   if (display) display.closeOutMain();
+   if (display != undefined) display.closeOutMain();
 
    BlazeLayout.render('layout', { content: "home" } ) 
 
@@ -127,6 +127,19 @@ FlowRouter.route('/worldMap', {
 });
 
 
+FlowRouter.route('/worldMapUser', {
+
+  name: "worldMapUser",
+
+  action: function (params, queryParams) { 
+
+   //display.closeOutMain();
+
+   BlazeLayout.render('layout', { content: "worldMapUser" } ) 
+
+ },
+});
+
 //*********************************************
 //      BROWSE WORLD MAP
 //*********************************************
@@ -157,27 +170,7 @@ FlowRouter.route('/closeup', {
 
   name: "closeup",
 
-  action: function (params, queryParams) { 
-
-    if (display.feature.getName() == "SOUND") {
-
-       if (display.feature.ctl.getState() == sPaused) {
-
-           display.feature.ctl.setState( sPlaying );
-           
-           display.feature.set( "SOUND" );
-
-           display.feature.loadAgain( "SOUND" );
-       }
-
-       return;
-    }
-
-    pageRefreshed = false; 
-
-    BlazeLayout.render('layout', { content: "closeup" } ); 
-  },
-
+  action: function (params, queryParams) { pageRefreshed = false; BlazeLayout.render('layout', { content: "closeup" } ); },
 });
 
 //*********************************************
@@ -221,9 +214,9 @@ FlowRouter.route('/selectCountry', {
     if (display) {
 
       if (display.ctl["SOUND"]) display.ctl["SOUND"].pauseFeaturedContent();
-
-      display.closeOutMain();
     }
+
+    display.closeOutMain();
 
     BlazeLayout.render('layout', { content: "selectCountry" });
 

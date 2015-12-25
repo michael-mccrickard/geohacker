@@ -68,10 +68,6 @@ WorldMap = function( _mapCtl ) {
 
 c("doCurrentMap");
 
-        //reset this each time, b/c it disappears if switch hack/display objects
-
-        worldMap = this;
-
         //these featured states are the result of the loader selecting the MAP as the next clue
         //which result in the user being shown the appropriate area as a clue ("map file")
 
@@ -215,8 +211,6 @@ c("doCurrentMap");
         this.map.zoomControl.zoomControlEnabled = false;
 
         this.map.zoomControl.panControlEnabled = false;
-
-        this.map.zoomControl.homeButtonEnabled = false;
 
         this.map.addClassNames = true;
 
@@ -754,7 +748,7 @@ c("doMapSuccess")
             
         );
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.labelMapObject(14, "white"); }, 1001 );
+        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.labelMapObject(14, "yellow"); }, 1001 );
 
         display.ctl["MAP"].setState( sMapDone );  
 

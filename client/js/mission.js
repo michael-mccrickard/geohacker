@@ -1,16 +1,18 @@
 
 
 
-Mission = function(_code) {
+Mission = function(_code, _countryCode) {
 
-  this.status = msNone;
+  this.mode = mNone;
 	
   this.level = mlNone;
 
   this.code = _code;  //either a continent code, region code, or arbitrary string 
-                      //like one of the ad-hoc mission codes (below)
+                      //like "browse" or one of the ad-hoc mission codes (below)
 
   this.name = "0";
+
+  this.browseCode = "0";  //the country code when _code == "browse"
 
   this.items = [];
 
@@ -18,6 +20,34 @@ Mission = function(_code) {
   //then we're done
 
   if (_code === undefined) return;
+
+  //reset our map variables (selected areas, level, state)
+
+  if (display) {
+
+  	if (display.ctl) display.ctl["MAP"].reset();
+  }
+
+  //browse mode
+
+  if (this.code == "browse") {
+
+    if (_countryCode === undefined) {
+
+      console.log("browse mission called with no country");
+
+    }
+    else {
+
+      this.browseCode = _countryCode;
+
+      this.name = db.getCountryRec( _countryCode).n;
+
+      this.items.push( _countryCode);
+    }
+
+    return;
+  }
 
 
   //hard-coded "ad-hoc" missions
@@ -92,7 +122,5 @@ Mission = function(_code) {
 
     if ( regions.indexOf( countries[i].r ) != -1) this.items.push( countries[i].c );
   }  
-
-
 
 }

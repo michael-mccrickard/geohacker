@@ -6,17 +6,16 @@ Template.missionListing.events = {
 
   		Control.playEffect("goMission.mp3");
 
-      	var id = e.currentTarget.id;
+  		if (mission) {
 
-      	if (mission) {
+  			display.mainTemplateReady = false;
 
-	  		if (mission.status == msInProgress && id == mission.code) {
+  			FlowRouter.go("/main");
 
-	  			game.user.resumeMission();
-
-	  			return;
-	  		}
+  			return;
   		}
+
+      	var id = e.currentTarget.id;
 
       	game.user.bumpAssign( id );
 
@@ -24,6 +23,10 @@ Template.missionListing.events = {
   	}
 }
 
+Template.missionSelect.helpers({
+
+
+});
 
 Template.missionListing.helpers({
 

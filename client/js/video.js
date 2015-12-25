@@ -13,13 +13,15 @@ Video = function() {
 
 	this.isYouTube = false;  //boolean, is the current video a YT?
 
+	this.youTubeLoaded = false;  //boolean, is the YT player loaded?
+
 	this.youTubeWaiting = new Blaze.ReactiveVar( false );  //are waiting on the YT player to load?
 
 
 	//nullify the youtube player object any time
-	//we create the video control (????)
+	//we create the video control
 
-	//ytplayer = null;
+	ytplayer = null;
 
 	this.init = function() {
 
@@ -97,38 +99,13 @@ Video = function() {
 		return _file;
 	}
 
-
-    this.hide = function() {
-
-        Session.set("sYouTubeOn", false);
-    }
-
-    this.show = function() {
-
-        Session.set("sYouTubeOn", true);
-    }
-
 	this.pauseVideo = function(){
 
 		this.setState( sPaused );
 
 		if (this.isYouTube) {
 
-			var _file = this.items[ this.getIndex() ].f;
-
-			if (_file == ytplayer.getVideoData()['video_id']) {
-
-				ytplayer.pauseVideo();
-			}
-			else {
-
-			  //since the video will start playing automatically ...
-
-			  Control.stopSound("music");
-
-			  ytplayer.loadVideoById( _file );			
-			}
-
+			ytplayer.pauseVideo();
 		}
 	}
 
@@ -181,7 +158,7 @@ Video = function() {
 
 		if (this.isYouTube ) {
 
-		   	this.pauseVideo();
+		   	ytplayer.pauseVideo();
 		}
 
 
@@ -216,7 +193,7 @@ Video = function() {
 		//and the onYouTubeIframeAPIReady() function will load the correct
 		//file for us 
 
-		if (youTubeLoaded == false) {
+		if (this.youTubeLoaded == false) {
 		  
 		  console.log("ytplayer being created")
 
@@ -225,7 +202,6 @@ Video = function() {
 		  this.youTubeWaiting.set( true );
 		  
 		  //in this case, we let onYouTubeIframeAPIReady() load the correct file and play it
-		  //it will also set youTubeLoaded
 
 		  YT.load();
 
@@ -233,9 +209,7 @@ Video = function() {
 		}
 
 
-		//if (_file == display.feature.video ) {
-
-		if (_file == ytplayer.getVideoData()['video_id']) {
+		if (_file == display.feature.video ) {
 
 			console.log("ytplayer resuming from pause")
 
