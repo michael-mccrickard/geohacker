@@ -70,8 +70,6 @@
 
 	this.pauseFeaturedContent = function() {
 
-		//if (this.getState() != sPlaying ) return;
-
 		c("SOUND pausing")
 
 		this.setState( sPaused );

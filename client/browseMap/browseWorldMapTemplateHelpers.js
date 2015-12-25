@@ -6,6 +6,8 @@ Template.browseWorldMap.helpers({
 
   continentName: function() { 
 
+    if (!display) return;
+
     var level = display.ctl["MAP"].level.get();
 
     var name = "";
@@ -18,6 +20,8 @@ Template.browseWorldMap.helpers({
 
   regionName: function() { 
 
+    if (!display) return;
+
     var level = display.ctl["MAP"].level.get();
 
     var name = "";
@@ -28,6 +32,8 @@ Template.browseWorldMap.helpers({
   },
 
   continentIcon: function() { 
+
+    if (!display) return;
 
     var level = display.ctl["MAP"].level.get();
 
@@ -43,6 +49,8 @@ Template.browseWorldMap.helpers({
 
   regionIcon: function()  { 
 
+    if (!display) return;
+
     var level = display.ctl["MAP"].level.get();
 
     var name = "";
@@ -57,6 +65,8 @@ Template.browseWorldMap.helpers({
   },
 
   labelYCorrection: function() {
+
+    if (!display) return;
 
     var level = display.ctl["MAP"].level.get();
 
@@ -84,6 +94,8 @@ Template.browseWorldMap.helpers({
   mapWidth: function() { return Session.get("gWindowWidth") * 0.81},
 
   mapHeight: function() { 
+
+    if (!display) return;
 
     var h = Session.get("gWindowHeight") - display.menuHeight;
 
@@ -120,17 +132,22 @@ Template.browseWorldMap.events = {
 
       Control.playEffect("new_feedback.mp3");
 
-      display.feature.clear();
+      display.feature.resetToPrevious();
 
-      FlowerRouter.go("/main");
+      display.mainTemplateReady = false;
+
+      FlowRouter.go("/main");
   },
 
+/*
   'click .imgMapTag': function (evt, template) {
 
       Control.playEffect("new_feedback.mp3");
 
       display.ctl["MAP"].browseWorldMap.mapTagImage = evt.target.src;
   }
+*/
+
 }
 
 //*************************************************************************
@@ -140,6 +157,8 @@ Template.browseWorldMap.events = {
 
 Template.browseWorldMap.rendered = function () {
   
+    if (!display) return;
+
     if (display.worldMapTemplateReady == false) {
 
       display.worldMapTemplateReady = true;

@@ -33,12 +33,14 @@ refreshWindow = function(_which) {
 
     if (name == "debrief") {
 
-        game.debrief.draw();
+        hack.debrief.draw();
 
         return;
     }
 
-    if (name == "worldMap") {
+    if (name == "worldMap"  || name == "browseWorldMap") {
+
+        display.ctl["MAP"].clearLabels();       
 
         display.ctl["MAP"].finishDraw();
 
@@ -61,6 +63,8 @@ refreshWindow = function(_which) {
 
 }
 
+
+
 // YouTube API will call onYouTubeIframeAPIReady() when API ready.
 // Make sure it's a global variable.
 
@@ -72,7 +76,7 @@ onYouTubeIframeAPIReady = function () {
 
       if (display.ctl["VIDEO"]) {
 
-        display.ctl["VIDEO"].youTubeLoaded = true;
+        youTubeLoaded = true;
 
         _file = display.feature.video;
 
@@ -80,7 +84,7 @@ onYouTubeIframeAPIReady = function () {
 
       if (editor && hack.mode == mEdit) {
 
-        editor.youTubeLoaded = true;
+        youTubeLoaded = true;
         
         if (editor.videoFile) {
 
@@ -131,6 +135,26 @@ onYouTubeIframeAPIReady = function () {
                 display.ctl["VIDEO"].youTubeWaiting.set( false );
 
                 if (_file) event.target.playVideo();
+
+            },
+
+            onStateChange: function (event) {
+
+                // Play video when player ready.
+
+                if (event.data == YT.PlayerState.PLAYING) {
+
+                    display.ctl["VIDEO"].setState( sPlaying );
+
+                    $("img#picVIDEO").attr("src", display.ctl["VIDEO"].pauseControlPic);
+                }
+
+                if (event.data == YT.PlayerState.PAUSED) {
+
+                    display.ctl["VIDEO"].setState( sPaused );
+
+                    $("img#picVIDEO").attr("src", display.ctl["VIDEO"].playControlPic);
+                }
 
             }
 

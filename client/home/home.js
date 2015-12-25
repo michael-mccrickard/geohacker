@@ -45,46 +45,11 @@ Template.home.events({
 
   'click #divHomeMapPic': function(e) {
 
-      e.preventDefault();  
+        e.preventDefault();  
+      
+        game.user.goBrowseMap();
 
-//this method is temporary, just for dev
-
-//it will wreck any mission / hack in progress
-
-var countryCode = Meteor.user().profile.cc;
-
-display = new Display();
-
-mission = new Mission();
-
-mission.code = "browse";
-
-mission.browseCode = countryCode;
-
-display.init( countryCode );
-
-var mapCtl = display.ctl["MAP"];
-
-mapCtl.level.set( mlCountry );
-
-mapCtl.setStateOnly( sMapDone );
-
-hack = new Hack();
-
-c("before hack init")
-
-hack.init();
-
-map.selectedContinent = hack.continentCode;
-
-map.selectedRegion = hack.regionCode;
-
-map.selectedCountry = hack.countryCode;
-
-c("before go")
-
-Meteor.defer( function() { FlowRouter.go("/browseWorldMap"); } );
-
+        return;    
   },
 
 });

@@ -28,7 +28,7 @@ Hack = function() {
 
 
 //to do: change this to streamID throughout
-  this.messageID = "(not set)";
+  this.streamID = "(not set)";
 
   this.auto = false;
 
@@ -36,13 +36,7 @@ Hack = function() {
   /*            FUNCTIONS        
   /*********************************************/
 
-    this.startNew = function() {
-
-        if (display == null) {
-
-          display = new Display();
-
-        }
+    this.load = function() {
 
         display.init(this.countryCode);
 
@@ -63,25 +57,13 @@ Hack = function() {
     };
 
 
-    this.startNewFromMenu = function() {
-
-        this.mode = mNone;
-
-        mission.code = "";  //unset this in case user was browsing
-
-        if (display == null) {
-
-          display = new Display();
-
-        }
-        else {
-          
-          display.feature.clear();    
-        
-          display.reset();
-        }
+    this.startNew = function() {
 
         this.init();
+
+        display.feature.clear();    
+        
+        display.reset();
 
         Control.playEffect("goMission.mp3");
 
@@ -138,7 +120,7 @@ Hack = function() {
 
         this.continentCode = db.getContinentCodeForCountry( this.countryCode );      
 
-        this.setMessageID();
+        this.setStreamID();
 
         this.subscribeToData( this.countryCode );
       };
@@ -199,10 +181,7 @@ Hack = function() {
 
     this.startBrowsing = function() {
 
-        if (display == null) {
-
-          display = new Display();
-        }
+        display.init( this.countryCode );
 
         if (this.debrief == null) {
 
@@ -220,8 +199,6 @@ Hack = function() {
         map.selectedCountry = this.countryCode;
 
         display.ctl["MAP"].level.set( mlCountry );
-
-        //display.browse will init the display object itself
 
         display.browse(this.countryCode);
 
@@ -255,7 +232,7 @@ Hack = function() {
     this.getAnthemFile = function() {
 
       try {
-          var rec = db.ghS.findOne( { cc: this.countryCode, dt: "ant" } );
+          var _file = db.ghS.findOne( { cc: this.countryCode, dt: "ant" } ).f;
       }
       catch(err) {
 
@@ -264,22 +241,24 @@ Hack = function() {
           return null;
       }
 
-      return rec.f;
+      return _file;
     }
 
     this.getLanguageFile = function() {
 
       try {
-          var rec = db.ghS.findOne( { cc: this.countryCode, dt: "lng" } );
+          var _file = db.ghS.findOne( { cc: this.countryCode, dt: "lng" } ).f;
       }
       catch(err) {
+
+c(err)
 
           showMessage( "No language file found for " + hack.getCountryName() );
 
           return null;
       }
-
-      return rec.f;
+c("no error in getLanguageFile")
+      return _file;
 
     }
 
@@ -293,7 +272,7 @@ Hack = function() {
     this.getCapitalPic = function() {
 
       try {
-          var rec = db.ghI.findOne( { cc: this.countryCode, dt: "cap" } );
+          var _file = db.ghI.findOne( { cc: this.countryCode, dt: "cap" } ).f;
       }
       catch(err) {
 
@@ -302,11 +281,11 @@ Hack = function() {
           return null;
       }
 
-      if (rec) return rec.f;
+      if (_file) return _file;
 
       try {
 
-          return db.ghD.findOne( { cc: this.countryCode, dt: "cap" } ).f;
+          _file = db.ghD.findOne( { cc: this.countryCode, dt: "cap" } ).f;
       }
       catch(err) {
 
@@ -314,6 +293,8 @@ Hack = function() {
 
           return null;
       }
+
+      return _file;
     }
 
     this.getContinentName = function() {
@@ -355,7 +336,7 @@ Hack = function() {
       return db.ghD.findOne( { cc: this.countryCode, dt: _code } ).f;
     }
 
-    this.setMessageID = function() {
+    this.setStreamID = function() {
 
         var id = '#';
 
@@ -370,13 +351,13 @@ Hack = function() {
 
         id = id + num;
 
-        this.messageID = id;
+        this.streamID = id;
     }
 
     this.getFlagPic = function() {
 
       try {
-          var rec = db.ghI.findOne( { cc: this.countryCode, dt: "flg" } );
+          var _file = db.ghI.findOne( { cc: this.countryCode, dt: "flg" } ).f;
       }
       catch(err) {
 
@@ -385,7 +366,7 @@ Hack = function() {
           return "";
       }
 
-      return rec.f;
+      return _file;
 
     }
 
@@ -394,7 +375,7 @@ Hack = function() {
     this.getHeadquartersPic = function() {
 
       try {
-          var rec = db.ghI.findOne( { cc: this.countryCode, dt: "hq" } );
+          var _file = db.ghI.findOne( { cc: this.countryCode, dt: "hq" } ).f;
       }
       catch(err) {
 
@@ -403,10 +384,10 @@ Hack = function() {
           return "";
       }
 
-      return rec.f;
+      if (_file) return _file;
 
       try {
-          var rec = db.ghD.findOne( { cc: this.countryCode, dt: "hq" } ).f;
+          _file = db.ghD.findOne( { cc: this.countryCode, dt: "hq" } ).f;
       }
       catch(err) {
 
@@ -420,7 +401,7 @@ Hack = function() {
     this.getLeaderPic = function() {
 
       try {
-          var rec = db.ghI.findOne( { cc: this.countryCode, dt: "ldr" } );
+          var _file = db.ghI.findOne( { cc: this.countryCode, dt: "ldr" } ).f;
       }
       catch(err) {
 
@@ -429,7 +410,7 @@ Hack = function() {
           return "";
       }
 
-      return rec.f;
+      return _file;
     }
 
     this.getLeaderName = function() {
@@ -478,16 +459,14 @@ Tracker.autorun( function(comp) {
 
           Hack.resetDataFlags();
 
-          if (game.user.hack.mode == mBrowse) {
+          if (game.user.mode == uBrowse) {
 
-              game.user.hack.startBrowsing();
+              hack.startBrowsing();
 
           }
           else {
 
-            if (hack === undefined) return;
-
-            hack.startNew();           
+              hack.load();           
           }
 
           return; 
