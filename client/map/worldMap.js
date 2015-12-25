@@ -216,6 +216,8 @@ c("doCurrentMap");
 
         this.map.zoomControl.panControlEnabled = false;
 
+        this.map.zoomControl.homeButtonEnabled = false;
+
         this.map.addClassNames = true;
 
         this.map.areasSettings = {
@@ -752,7 +754,7 @@ c("doMapSuccess")
             
         );
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.labelMapObject(14, "yellow"); }, 1001 );
+        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.labelMapObject(14, "white"); }, 1001 );
 
         display.ctl["MAP"].setState( sMapDone );  
 

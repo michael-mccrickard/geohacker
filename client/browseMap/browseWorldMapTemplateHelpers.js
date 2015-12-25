@@ -132,8 +132,6 @@ Template.browseWorldMap.events = {
 
       Control.playEffect("new_feedback.mp3");
 
-display.ctl["MAP"].browseWorldMap.map.removeListener("clickMapObject");
-
       display.feature.resetToPrevious();
 
       display.mainTemplateReady = false;
@@ -141,12 +139,15 @@ display.ctl["MAP"].browseWorldMap.map.removeListener("clickMapObject");
       FlowRouter.go("/main");
   },
 
+/*
   'click .imgMapTag': function (evt, template) {
 
       Control.playEffect("new_feedback.mp3");
 
       display.ctl["MAP"].browseWorldMap.mapTagImage = evt.target.src;
   }
+*/
+
 }
 
 //*************************************************************************

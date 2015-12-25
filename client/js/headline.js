@@ -58,13 +58,13 @@ Headline = function( _type ) {
 
             if (display.loader.totalClueCount == 1) {
 
-                this.text = "STREAM " + hack.messageID;
+                this.text = "STREAM " + hack.streamID;
             }
         }
 
         if (hack.mode == mHackDone) {
 
-            this.text = "STREAM FROM " + hack.getCountryName() + " WAS HACKED."
+            this.text = "STREAM FROM " + hack.getCountryName() + " WAS HACKED"
         }
 
         if (game.user.mode == uBrowse) this.text = "Agent " + game.user.name + " is browsing " + hack.getCountryName();
@@ -86,22 +86,17 @@ Headline = function( _type ) {
 
             if (display.loader.totalClueCount == 1)  this.text = 'Scanning for foreign transmissions ...';  
 
-            if (display.loader.totalClueCount > 1) this.text  = 'Scanning for additional messages linked to this strean ...';
+            if (display.loader.totalClueCount > 1) this.text  = 'Attempting to access other messages in this strean ...';
         }
 
         if (hack.mode == mDataFound) {
 
-            if (display.loader.totalClueCount == 1) {
-
-                this.text = ('Stream ' + hack.messageID + ' intercepted');  
-            }
-
-             if (display.loader.totalClueCount > 1) this.text = 'Additional data found linked to stream ' + hack.messageID;
+             this.text = display.loader.newControl.name + ' data found linked to stream ' + hack.streamID;
         }
 
         if (hack.mode == mHackDone) {
 
-            this.text = "Intercepted stream successfully hacked.";
+            this.text = "Intercepted stream successfully hacked";
         }
 
         if (display.moreDataAvailable() == false) {
@@ -109,7 +104,7 @@ Headline = function( _type ) {
             this.text  = "Geo-locate the stream using the map ...";
         }
 
-        if (game.user.mode == uBrowse) this.text = "All data linked to " + hack.getCountryName() + " is loaded. ";
+        if (game.user.mode == uBrowse) this.text = "All data linked to " + hack.getCountryName() + " is loaded";
 
         if (this.text  == "") this.text  = "Scan for more data or use the map to geo-locate the stream ..."
 

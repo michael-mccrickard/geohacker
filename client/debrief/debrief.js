@@ -136,9 +136,9 @@ Debrief = function() {
 
 	this.setHeadline = function( _text ) {
 
-		$("#debriefText").text( _text );
+		$("#debriefUpperText").text( _text );
 
-		Meteor.defer( function() { this.centerHeadline(); } );
+		Meteor.defer( function() { hack.debrief.centerHeadline(); } );
 	}
 
 //fix this to use the editor debrief
@@ -329,7 +329,7 @@ Template.debrief.helpers({
   		}
   		else {
 
-    		return "MISSION DEBRIEFING FOR STREAM " + hack.messageID;  			
+    		return "MISSION DEBRIEFING FOR STREAM " + hack.streamID;  			
   		}
     },
 })

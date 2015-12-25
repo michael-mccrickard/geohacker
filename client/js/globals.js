@@ -33,12 +33,14 @@ refreshWindow = function(_which) {
 
     if (name == "debrief") {
 
-        game.debrief.draw();
+        hack.debrief.draw();
 
         return;
     }
 
-    if (name == "worldMap") {
+    if (name == "worldMap"  || name == "browseWorldMap") {
+
+        display.ctl["MAP"].clearLabels();       
 
         display.ctl["MAP"].finishDraw();
 
