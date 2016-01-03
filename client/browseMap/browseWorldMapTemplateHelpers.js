@@ -132,7 +132,12 @@ Template.browseWorldMap.events = {
 
       Control.playEffect("new_feedback.mp3");
 
-display.ctl["MAP"].browseWorldMap.map.removeListener("clickMapObject");
+      if (game.user.browseHack.countryCode.length == 0) {
+
+          game.user.goHome();
+
+          return;
+      }
 
       display.feature.resetToPrevious();
 

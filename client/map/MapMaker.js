@@ -200,7 +200,14 @@ MapMaker = function() {
 
           var arr = db.ghC.find( {r: _regionID } ).fetch();
 
-          for (var i = 0; i < arr.length; i++) {  
+          for (var i = 0; i < arr.length; i++) { 
+
+            //normally we only show the user the countries they have hacked
+
+            if (gUserCountriesOnlyMode) {
+
+              if ( game.user.isCountryInAtlas( arr[i].c ) == -1) continue;
+            } 
 
             s = s + '{' + newline;
 

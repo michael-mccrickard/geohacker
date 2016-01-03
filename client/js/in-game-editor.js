@@ -2,6 +2,8 @@
 
 gInstantMode = false;
 
+gUserCountriesOnlyMode = true;
+
 gGameEditor = false;
 
 //turn in-game editor off / on
@@ -31,10 +33,11 @@ $(window).on('keyup', function(e){
 
 stopGameEditor = function() {
 
+	$(window).off('keyup.85');  //u = user countries only mode
+
 	$(window).off('keyup.69');  //e = editLabels
 
 	$(window).off('keyup.73');  //i = instant mode
-
 }
 
 stopEditLabels = function() {
@@ -53,9 +56,10 @@ stopEditLabels = function() {
 
 startGameEditor = function() {
 
-//main screen edit hacks
 
 	$(window).on('keyup', function(e){
+
+		//main screen edit hacks
 
 	    if (e.keyCode == 73) {  //i
 
@@ -66,74 +70,84 @@ startGameEditor = function() {
 	         if (!gInstantMode) showMessage( "Instant mode off");  
 	         
 	    }
-	});
 
-//map screen edit hacks
+	    //browsing hacks
 
-	$(window).on('keyup', function(e){
+	    if (e.keyCode == 85) {  //d
 
-	      if (e.keyCode == 69) {  //e
+	         gUserCountriesOnlyMode = !gUserCountriesOnlyMode;
 
-	           if (editLabels) {
+	         if (gUserCountriesOnlyMode) showMessage("MAP SHOWS USER COUNTRIES ONLY");
 
-	              editLabels = false;
+	         if (!gUserCountriesOnlyMode) showMessage( "MAP SHOWS ALL COUNTRIES");  
+	         
+	    }	    
 
-	              stopEditLabels();
 
-	              showMessage("Edit labels is off")
+		//map screen edit hacks
+	
+		if (e.keyCode == 69) {  //e
 
-	              return;
-	           }
-	           else {
+		   if (editLabels) {
 
-	              editLabels = true;
+		      editLabels = false;
 
-	              showMessage("Edit labels is on")   
+		      stopEditLabels();
 
-	              return;          
-	           }
-	      }
+		      showMessage("Edit labels is off")
 
-	      if (!editLabels) return;
+		      return;
+		   }
+		   else {
 
-	      var map = display.ctl["MAP"].worldMap.map;
+		      editLabels = true;
 
-	      var _x = map.allLabels[0].x;
+		      showMessage("Edit labels is on")   
 
-	      var _y = map.allLabels[0].y;
+		      return;          
+		   }
+		}
 
-	      if (e.keyCode == 71) {  //g
+		if (!editLabels) return;
 
-	           go();
-	      }
+		var map = display.ctl["MAP"].worldMap.map;
 
-	      if (e.keyCode == 37) {  //left
+		var _x = map.allLabels[0].x;
 
-	           map.allLabels[0].x = _x * 0.98;
+		var _y = map.allLabels[0].y;
 
-	           updateLabel();
-	      }
+		if (e.keyCode == 71) {  //g
 
-	      if (e.keyCode == 38) {  //down
+		   go();	//tells the worldMap to continue the hackDone sequence when we are in editLabels mode
+		}
 
-	           map.allLabels[0].y = _y * 0.98;
+		if (e.keyCode == 37) {  //left
 
-	           updateLabel();
-	      } 
+		   map.allLabels[0].x = _x * 0.98;
 
-	      if (e.keyCode == 39) {  //right
+		   updateLabel();
+		}
 
-	           map.allLabels[0].x = _x * 1.02;
+		if (e.keyCode == 38) {  //down
 
-	           updateLabel();
-	      }
+		   map.allLabels[0].y = _y * 0.98;
 
-	      if (e.keyCode == 40) {  //up
+		   updateLabel();
+		} 
 
-	           map.allLabels[0].y = _y * 1.02;
+		if (e.keyCode == 39) {  //right
 
-	           updateLabel();
-	      }
+		   map.allLabels[0].x = _x * 1.02;
+
+		   updateLabel();
+		}
+
+		if (e.keyCode == 40) {  //up
+
+		   map.allLabels[0].y = _y * 1.02;
+
+		   updateLabel();
+		}
 
 
 	});

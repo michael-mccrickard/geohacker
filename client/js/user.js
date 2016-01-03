@@ -364,6 +364,17 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
  	}
 
+ 	this.isCountryInAtlas = function( _code ) {
+
+		for (var i = 0; i < this.atlas.length; i++)  {
+
+			if (this.atlas[i].id == _code) return i;
+
+		}
+
+		return -1;
+ 	}
+
 	this.getAtlasDataObject = function() {
 
 		var _arr = [];

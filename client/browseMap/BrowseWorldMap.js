@@ -377,7 +377,7 @@ function handleClick(_event) {
 
         //If a different country was previously selected and we're still at the country
         //level, then the user can click on a nearby country.  We want the map to re-center and re-label
-        //in this case, but not jump to browsing yet
+        //in this case, but not jump to browsing
 
         if (worldMap.selectedCountry != worldMap.mapObjectClicked) {
 
