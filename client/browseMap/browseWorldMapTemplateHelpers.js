@@ -132,16 +132,6 @@ Template.browseWorldMap.events = {
 
       Control.playEffect("new_feedback.mp3");
 
-      //are we currently browsing? If not, just go home
-
-      if (game.user.browseHack.countryCode.length == 0) {
-
-          game.user.goHome();
-
-          return;
-
-      }
-
       display.feature.resetToPrevious();
 
       display.mainTemplateReady = false;

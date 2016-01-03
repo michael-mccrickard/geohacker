@@ -48,8 +48,6 @@ BrowseWorldMap = function( _mapCtl ) {
 
     this.zoomOnlyOnClick = false;
 
-    this.noClick = false;
-
     this.mapTagImage = "";
 
     //set the module var for the event handlers
@@ -137,11 +135,11 @@ BrowseWorldMap = function( _mapCtl ) {
         if (_level == mlRegion) rec = db.getRegionRec(_code);
 
         if (_level == mlContinent || _level == mlRegion) {
-
+/*
             this.dp.zoomLevel = rec.z1,
             this.dp.zoomLatitude = rec.z2,
             this.dp.zoomLongitude =  rec.z3
-
+*/
         }
 
         //images
@@ -328,20 +326,20 @@ BrowseWorldMap = function( _mapCtl ) {
 //                      EVENT HANDLERS
 //**********************************************************************************
 
+gNoClick = false;
 
 function handleClick(_event) {
 
-c("handleClick event")
+c("testing no click in handleClick")
 
-    //The weird early click
-    //event (that occurs when the map is first drawn) is a problem
+if (gNoClick) {
 
-    if (worldMap.noClick == true) {
+    gNoClick = false;
 
-        worldMap.noClick = false;
+    return;
+}
 
-        return;
-    }
+c("click event")
 
     Control.playEffect( worldMap.map_sound );
 
@@ -385,15 +383,11 @@ c("handleClick event")
 
     if (level >= mlCountry) {
 
-        //if the map was already centered on another country, we need to let the map
-        //re-center onto this new country and not jump straight to browsing it
+        if (worldMap.zoomOnlyOnClick) {
 
-        if (worldMap.mapObjectClicked != worldMap.selectedCountry) {
-
-            worldMap.selectedCountry = worldMap.mapObjectClicked;
+            worldMap.zoomOnlyOnClick = false;
 
             return;
-
         }
 
         worldMap.zoomDone = true;  //prevent the errors that happen when this template disappears
@@ -458,13 +452,15 @@ function handleZoomCompleted() {
         return;
     }
 
-    //this is necessary for the initial zoom-in (if a country was already selected for browsing)
+    //this is necessary for the initial zoom-in (browse always starts at the country level)
 
     if (level == mlCountry) {
 
         worldMap.labelMapObject();
 
         refreshMap();
+
+
 
         return;
     }
