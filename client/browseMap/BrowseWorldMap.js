@@ -332,6 +332,7 @@ gf = -61;
 function handleClick(_event) {
 
 
+
     Control.playEffect( worldMap.map_sound );
 
     worldMap.zoomDone = false;
@@ -340,7 +341,13 @@ function handleClick(_event) {
 
     worldMap.mapObjectClicked = _event.mapObject.id;
 
-    level = worldMap.mapCtl.level.get();
+    var level = worldMap.mapCtl.level.get();
+
+c("sel country is " + worldMap.selectedCountry)
+
+c("clicked country is " + worldMap.mapObjectClicked)
+
+c("level is " + level)
 
     //here we set the module vars for the area and the customData var for labelMapObject
 
@@ -364,7 +371,7 @@ function handleClick(_event) {
 
     }
 
-    if (level >= mlRegion) {
+    if (level == mlRegion) {
 
         worldMap.selectedCountry = worldMap.mapObjectClicked;
 
@@ -372,7 +379,18 @@ function handleClick(_event) {
 
     }
 
-    if (level >= mlCountry) {
+    if (level == mlCountry) { 
+
+c("2 sel country is " + worldMap.selectedCountry)
+
+c("2 clicked country is " + worldMap.mapObjectClicked)
+
+        if (worldMap.selectedCountry != worldMap.mapObjectClicked) {
+
+            worldMap.selectedCountry = worldMap.mapObjectClicked;
+
+            return;
+        }
 
         if (worldMap.zoomOnlyOnClick) {
 
@@ -386,32 +404,6 @@ function handleClick(_event) {
         display.worldMapTemplateReady = true;  //ditto
 
         game.user.browseCountry( worldMap.mapObjectClicked );
-/*
-        if (!worldMap.mapTagImage.length) {
-
-            c("no image selected")
-
-            return;
-        }
-
-        var info = _event.chart.getDevInfo();
-
-        c("lat (north south) is " + info.latitude );
-
-        c("long (east west) is " + info.longitude );
-
-        var image = new AmCharts.MapImage();
-
-        image.latitude = info.latitude;
-        
-        image.longitude = info.longitude;
-        
-        image.imageURL = worldMap.mapTagImage;
-        
-        worldMap.map.dataProvider.images.push(image);
-        
-        worldMap.map.validateData();
-*/
 
     }
 
@@ -469,15 +461,13 @@ function handleZoomCompleted() {
         return;
     }
 
-    //this is necessary for the initial zoom-in (browse always starts at the country level)
+    //this is necessary for the initial zoom-in (when a country has already been selected)
 
     if (level == mlCountry) {
 
         worldMap.labelMapObject();
 
         refreshMap();
-
-
 
         return;
     }
