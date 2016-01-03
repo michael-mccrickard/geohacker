@@ -70,6 +70,8 @@ Feature = function() {
 
 	    display.worldMapTemplateReady = false;
 
+	    display.ctl["MAP"].browseWorldMap.noClick = true;  //prevent click event from firing before we've even gotten started
+
 	    FlowRouter.go("/browseWorldMap");
 	}
 
