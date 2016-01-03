@@ -3,6 +3,8 @@
 
 Editor = function() {
 
+	this.hack = new Hack();
+
 	this.arrField = ["f", "dt","s"];
 
 	this.arrFieldDebrief = ["f", "t", "dt"];
@@ -10,8 +12,6 @@ Editor = function() {
 	this.arrFieldCountry = ["n","c","r","co","d"];  //name, code, region, color, dataFlag
 
 	this.scroll = 0;
-
-  	//Object.defineReactiveProperty(this, "youTubeOn", false);
 
   	Object.defineReactiveProperty(this, "controlType", cNone);
 
@@ -22,16 +22,6 @@ Editor = function() {
   	this.videoFile = null;
 
   	Session.set("sYouTubeOn", false);
-
-  	if (display) {
-
-/*  youTubeLoaded is now global
-  		if (display.ctl["VIDEO"]) {
-
-			if (display.ctl["VIDEO"].youTubeLoaded) this.youTubeLoaded = true;
-  		}
-*/
-  	}
 
 
   	this.saveScroll = function() {

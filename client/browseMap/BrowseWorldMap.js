@@ -343,12 +343,6 @@ function handleClick(_event) {
 
     var level = worldMap.mapCtl.level.get();
 
-c("sel country is " + worldMap.selectedCountry)
-
-c("clicked country is " + worldMap.mapObjectClicked)
-
-c("level is " + level)
-
     //here we set the module vars for the area and the customData var for labelMapObject
 
     if (level == mlWorld) {
@@ -381,9 +375,9 @@ c("level is " + level)
 
     if (level == mlCountry) { 
 
-c("2 sel country is " + worldMap.selectedCountry)
-
-c("2 clicked country is " + worldMap.mapObjectClicked)
+        //If a different country was previously selected and we're still at the country
+        //level, then the user can click on a nearby country.  We want the map to re-center and re-label
+        //in this case, but not jump to browsing yet
 
         if (worldMap.selectedCountry != worldMap.mapObjectClicked) {
 

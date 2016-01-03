@@ -7,7 +7,7 @@ Template.editor.helpers({
 
     dataRecord: function() {
 
-    	var ID = hack.countryCode;
+    	var ID = editor.hack.countryCode;
 
     	var control = editor.controlType;
 
@@ -74,8 +74,8 @@ Template.editor.helpers({
     },
 
     getImage: function() {
-//to do: fix refs to hack in this file to be hack to be editor.hack
-        var deb = new Debrief( hack );
+
+        var deb = new Debrief( editor.hack );
 
         deb.initForEditor( this.dt );
 
@@ -84,7 +84,7 @@ Template.editor.helpers({
 
     getText: function() {
 
-        var deb = new Debrief( hack );
+        var deb = new Debrief( editor.hack );
 
         deb.initForEditor( this.dt );
 
@@ -156,7 +156,7 @@ Template.editor.events = {
         return;
       }
 
-    	var recID = editor.addThisRecord(hack.countryCode, editor.controlType);
+    	var recID = editor.addThisRecord( editor.hack.countryCode, editor.controlType);
    
     	editor.recordID = recID;
     },
@@ -206,7 +206,7 @@ Template.editor.events = {
 
     stopVideo();
 
-    hack.mode = mNone;
+    editor.hack.mode = mNone;
 
 	  FlowRouter.go("/selectCountry");
   },
