@@ -37,6 +37,13 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     this.browseCountry = function( _code ) {
 
+      if ( db.getDataFlagForCountry( _code) == false) {
+
+      	showMessage("NO DATA FOUND FOR THIS COUNTRY");
+
+      	return;
+      }
+
       this.setMode( uBrowse );
 
       hack.initForBrowse( _code );

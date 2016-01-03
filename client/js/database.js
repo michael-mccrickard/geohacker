@@ -221,6 +221,16 @@ Database = function() {
 
   }
 
+  this.getDataFlagForCountry = function(_code) {
+
+     var rec = getCountryRec( _code);
+
+     if (rec.d == 1) return true;
+
+     return false;
+
+  }
+
   this.getFlagPicByID = function(_countryID) {
 
     var _code = this.getCountryRecByID(_countryID).c;
