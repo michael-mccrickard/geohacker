@@ -101,21 +101,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     	game.user.mode = uHack;
 
-    	//if they browsed the hacked country from the congrats screen
-    	//then the mode will still be mHackDone and we need to just
-    	//start another one ...
-
-    	if (hack.mode == mHackDone) {
-
-    		hack.startNew();  
-
-    		return;
-    	}
-
     	hack.mode = mReady;
-
-    	//if they went home with the map screen visible,
-    	//just return them to that route
 
     	if (display.feature.getName() == "MAP") {
 
@@ -312,7 +298,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 		db.updateUserRec();
 
-		hack.startNew();  //???
+		hack.startNewFromMenu();  //???
 	}
 
 	this.findAssignIndex = function( _code) {

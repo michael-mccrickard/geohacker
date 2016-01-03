@@ -98,7 +98,7 @@ Template.registerHelper("getImage", function(_file) {
 
 Template.registerHelper("messageID", function() {
 
-		return hack.streamID;
+		return hack.messageID;
 	}
 )
 

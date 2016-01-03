@@ -228,13 +228,13 @@ MapMaker = function() {
             if (_level == mlWorld || _level == mlContinent) {
 
               if (!lockMap) {
-/*
+
                 s = s + '"zoomLevel"' + ': "' + _zoomLevel + '", ' + newline;  
 
                 s = s + '"zoomLatitude"' + ': "' + _zoomLatitude + '", ' + newline;  
 
                 s = s + '"zoomLongitude"' + ': "' + _zoomLongitude + '", ' + newline; 
-*/
+
               }
 
             }
