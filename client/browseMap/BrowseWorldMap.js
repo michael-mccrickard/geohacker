@@ -326,18 +326,7 @@ BrowseWorldMap = function( _mapCtl ) {
 //                      EVENT HANDLERS
 //**********************************************************************************
 
-gNoClick = false;
-
 function handleClick(_event) {
-
-c("testing no click in handleClick")
-
-if (gNoClick) {
-
-    gNoClick = false;
-
-    return;
-}
 
 c("click event")
 
