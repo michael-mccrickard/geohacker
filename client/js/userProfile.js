@@ -31,25 +31,25 @@ UserProfile = function() {
 
       if ( game.user.editMode.get() ) {
 
-        icon1 = "#saveProfileEdit";
+        icon1 = "#saveBioEdit";
 
-        icon2 = "#cancelProfileEdit";
+        icon2 = "#cancelBioEdit";
       }
       else {
 
-        icon1 = "#startProfileEdit";
+        icon1 = "#startBioEdit";
       }
 
-   		var bottom = $(".divProfileFeaturedPic").height() +  $(".divProfileFeaturedPic").position().top;
+   		var bottom = $(".divBioFeaturedPic").height() +  $(".divBioFeaturedPic").position().top;
 
-   		var top = bottom - 0.02 * $(".divProfileFeaturedPic").height();
+   		var top = bottom - 0.02 * $(".divBioFeaturedPic").height();
 
    		$(icon1).css("top", top);
 
       if (icon2) $(icon2).css("top", top);
 
 
-   		var left = $(".divProfile").width() + $(".divProfile").position().left - 32 - 0.01 * $(".divProfileFeaturedPic").width();
+   		var left = $(".divBio").width() + $(".divBio").position().left - 32 - 0.01 * $(".divBioFeaturedPic").width();
 
      	$(icon1).css("left", left); 
 
@@ -59,33 +59,33 @@ UserProfile = function() {
 
           //edit avatar button
 
-          top = $("img.imgProfileAvatar").position().top;
+          top = $("img.imgBioAvatar").position().top;
 
-          var bottom = top + $("img.imgProfileAvatar").height();
+          var bottom = top + $("img.imgBioAvatar").height();
 
           $("#editAvatar").css("top", bottom - 32);
 
-          left = $("img.imgProfileAvatar").position().left;
+          left = $("img.imgBioAvatar").position().left;
 
          $("#editAvatar").css("left", left + 4);
 
 
           //edit featured pic button
 
-          top = $("img.imgProfileFeaturedPic").position().top;
+          top = $("img.imgBioFeaturedPic").position().top;
 
-          bottom = top + $("img.imgProfileFeaturedPic").height();
+          bottom = top + $("img.imgBioFeaturedPic").height();
 
           $("#editFeaturedPic").css("top", bottom - 36);
 
-          left = $("img.imgProfileFeaturedPic").position().left;
+          left = $("img.imgBioFeaturedPic").position().left;
 
          $("#editFeaturedPic").css("left", left + 4);
 
 
-        if ( $("#saveProfileEdit").css("opacity") == "0" ) fadeIn( "saveProfileEdit" );
+        if ( $("#saveBioEdit").css("opacity") == "0" ) fadeIn( "saveBioEdit" );
 
-        if ( $("#cancelProfileEdit").css("opacity") == "0" ) fadeIn( "cancelProfileEdit" );
+        if ( $("#cancelBioEdit").css("opacity") == "0" ) fadeIn( "cancelBioEdit" );
 
         if ( $("#editAvatar").css("opacity") == "0" ) fadeIn( "editAvatar" );
 
@@ -94,7 +94,7 @@ UserProfile = function() {
       }
       else {
 
-        if ( $("#startProfileEdit").css("opacity") == "0" ) fadeIn( "startProfileEdit" ); 
+        if ( $("#startBioEdit").css("opacity") == "0" ) fadeIn( "startBioEdit" ); 
       }
 
     }

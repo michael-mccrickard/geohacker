@@ -15,7 +15,7 @@ Template.home.events({
 
       e.preventDefault();  
 
-      game.user.setMode( uProfile );
+      game.user.setMode( uBio );
 
   },
 

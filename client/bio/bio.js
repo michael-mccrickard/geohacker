@@ -1,4 +1,4 @@
-//profile.js
+//bio.js
 
 //pictures (featured pic on the agent's home page)
 
@@ -9,7 +9,7 @@ var ghPicture = new FS.Collection("ghPicture", {
 var picturePath = "cfs/files/ghPicture/";
 
 
-Template.profile.helpers({
+Template.bio.helpers({
 
     userEditMode: function() {
 
@@ -24,19 +24,19 @@ Template.profile.helpers({
 
 }); 
 
-Template.profile.events({
+Template.bio.events({
 
-  'click #editProfile': function(e) {
+  'click #editBio': function(e) {
 
       e.preventDefault();  
 
       game.user.editMode.set( true );
 
-      redrawProfile();
+      redrawBio();
 
   },
 
-  'click #cancelProfileEdit': function(e) {
+  'click #cancelBioEdit': function(e) {
 
       e.preventDefault();  
 
@@ -44,11 +44,11 @@ Template.profile.events({
 
   },
 
-  'click #saveProfileEdit': function(e) {
+  'click #saveBioEdit': function(e) {
 
       e.preventDefault();  
 
-      db.updateUserProfile();
+      db.updateUserBio();
 
       endEditMode();
 
@@ -68,7 +68,7 @@ Template.profile.events({
 
           Meteor.setTimeout( function() { Meteor.users.update( {_id: Meteor.userId() }, { $set: { 'profile.av': url}  }); }, 500  );
 
-          Meteor.setTimeout( function() { redrawProfile(); }, 750 );
+          Meteor.setTimeout( function() { redrawBio(); }, 750 );
 
           Meteor.setTimeout( function() { game.ghAvatar.remove( { _id: getCFS_ID( oldURL) })}, 1000);
       
@@ -91,7 +91,7 @@ Template.profile.events({
 
           Meteor.setTimeout( function() { Meteor.users.update( {_id: Meteor.userId() }, { $set: { 'profile.p': url}  }); }, 500  );
 
-          Meteor.setTimeout( function() { redrawProfile(); }, 750 );
+          Meteor.setTimeout( function() { redrawBio(); }, 750 );
 
           //if it's a public picture (in our public folder) then we don't want to do this, but it's harmless (?)
 
@@ -105,11 +105,11 @@ Template.profile.events({
 
 });
 
-Template.profile.rendered = function() {
+Template.bio.rendered = function() {
 
   //Better to wait on a callback from imagesRendered, but for now ...
 
-  redrawProfile();
+  redrawBio();
 
 }
 
@@ -139,11 +139,11 @@ function endEditMode() {
 
     game.user.editMode.set( false );
 
-    redrawProfile();
+    redrawBio();
 }
 
 
-function redrawProfile() {
+function redrawBio() {
 
   Meteor.setTimeout( function() { game.user.profile.draw(); }, 100 );
 

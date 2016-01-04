@@ -1,7 +1,7 @@
 /* profile.css  */
 
 
-.divProfile {
+.divBio {
   width: 100%;
   border: 4px solid;
   border-color: green;
@@ -12,18 +12,18 @@
 
 /*  left side  */
 
-.divProfileLeft {
+.divBioLeft {
 
 	float: left;
 	width: 10%;
 	margin: 1%;
 }
 
-.divProfileAvatar {
+.divBioAvatar {
 
 }
 
-.imgProfileAvatar {
+.imgBioAvatar {
 
   width: 95%;
   border: 4px solid;
@@ -31,7 +31,7 @@
   border-radius: 4px;
 }
 
-.profileAgentNameText {
+.bioAgentNameText {
 
 	width: 95%;
 	font-family: Arial;
@@ -41,12 +41,12 @@
 	text-transform: uppercase;
 }
 
-.divProfileFlag {
+.divBioFlag {
 
   margin: 0.5%;
 }
 
-.imgProfileFlag {
+.imgBioFlag {
 
   width: 95%;
   border: 4px solid;
@@ -55,7 +55,7 @@
 }
 
 
-.divProfileTextArea {
+.divBioTextArea {
 
   	width: 95%;
 	margin: 0.5%;
@@ -67,7 +67,7 @@
 }
 
 
-.profileText {
+.bioText {
 
   	width: 100%;
 	font-family: Arial;
@@ -85,14 +85,14 @@
 }
 
 
-.divProfileEditFeaturedPicTextArea {
+.divBioEditFeaturedPicTextArea {
 
 	margin-top: 1%;
 }
 
 /* right-side */
 
-.divProfileFeaturedPic {
+.divBioFeaturedPic {
 
 	width: 65%;
 	float: left;
@@ -102,12 +102,12 @@
 	margin: 1%;
 }
 
-.imgProfileFeaturedPic {
+.imgBioFeaturedPic {
 
 	width: 100%;
 }
 
-.divProfileFeaturedPicText {
+.divBioFeaturedPicText {
 
   float: left;
   width: 15%;
@@ -121,7 +121,7 @@
 }
 
 
-.imgProfileEditIcon {
+.imgBioEditIcon {
 
 	float: right;
 	margin-bottom: 1%;
@@ -132,7 +132,7 @@
 	opacity: 0;
 }
 
-.imgProfileEditIcon2 {
+.imgBioEditIcon2 {
 	width: 32px;
 	position: absolute;
 	z-index: 1000;

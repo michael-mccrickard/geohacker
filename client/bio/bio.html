@@ -1,0 +1,143 @@
+<template name="bio">
+
+	<script>
+	   function chooseAvatarFile() {
+	      $("#avatarFileInput").click();
+	   }
+	</script>
+
+	<div class="divBio">
+
+		<div class="divBioLeft">
+
+
+				<div class="divBioAvatar">
+
+					{{#with profile}}
+
+						<img class= "imgBioAvatar" src="{{av}}" />
+					
+					{{/with}}
+
+					<p class="bioAgentNameText centered" id="agentNameText">{{agentName}}</p>
+					
+				</div>
+
+
+				{{#with profile}}
+
+					<div class="divBioFlag">
+
+						<img class= "imgBioFlag" src="{{f}}" />
+							
+						<p class="bioAgentNameText centered" id="countryNameText">{{cn}}</p>
+						
+					</div>
+
+
+
+					{{#if userEditMode}}
+
+						<div class="divBioEditTextArea">
+
+
+							<textarea id="editBioText" class="textUserEdit" rows="12" cols="20">{{t}}</textarea>
+
+						</div>		
+
+					{{else}}
+				
+						<div class="divBioTextArea">
+
+							<p class="bioText whiteText">{{t}}</p>
+							
+						</div>
+
+				
+					{{/if}}
+
+				{{/with}}
+
+				
+		</div>
+
+
+
+		<div class="divBioFeaturedPic">
+
+			{{#with profile}}
+
+				<img class="imgBioFeaturedPic" src="{{p}}">
+			
+			{{/with}}
+
+		</div>
+
+		{{#if userEditMode}}
+
+			<div class="divBioEditFeaturedPicTextArea">
+
+				{{#with profile}}
+
+					<textarea id="editBioFeaturedPicText" class="textUserEdit" rows="24" cols="20">{{pt}}</textarea>
+
+				{{/with}}
+				
+			</div>	
+
+		{{else}}
+
+			<div class="divBioFeaturedPicText">
+
+				{{#with profile}}
+
+					<p class="bioText whiteText">{{pt}}</p>
+
+				{{/with}}
+					
+			</div>
+
+		{{/if}}
+
+
+
+		{{#if userEditMode}}
+
+			<div class="divBioSaveIcon">
+				<img class= "imgBioEditIcon" id="saveBioEdit" src="save.png" />
+				<img class= "imgBioEditIcon" id="cancelBioEdit" src="close.png" />
+			</div>
+
+			<div class="divAvatarEditIcon">
+
+				<label for="avatarFileInput">
+				    <img class="imgBioEditIcon2" id="editAvatar" src="edit_icon.png"/>
+				</label>
+
+				<input id="avatarFileInput" type="file"/>
+			</div>
+
+			<div class="divFeaturedPicEditIcon">
+
+				<label for="featuredPicFileInput">
+				    <img class="imgBioEditIcon2" id="editFeaturedPic" src="edit_icon.png"/>
+				</label>
+
+				<input id="featuredPicFileInput" type="file"/>
+			</div>
+
+		{{else}}
+
+			<div class="divBioEditIcon" id="editBio">
+				<img class= "imgBioEditIcon" id="startBioEdit" src="edit_icon.png" />
+			</div>
+
+		{{/if}}
+
+
+
+	</div>
+
+
+
+</template>

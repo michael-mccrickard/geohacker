@@ -159,7 +159,7 @@ Game = function() {
 
 			_user = game.user;
 
-			db.updateUserRec();
+			db.updateUserHacks();
 		}
 
 		return _user;

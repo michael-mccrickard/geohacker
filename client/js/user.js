@@ -23,8 +23,6 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 	this.atlas = [];  //cumulative list of ticket objects  
 
-    //this.avatarURL = new Blaze.ReactiveVar( "" );  //path and filename to avatar on server 
-
     this.mode = uNone;  //determines the content on the user's home screen
 
     this.template = new Blaze.ReactiveVar( "" );  //template for the above content
@@ -56,11 +54,11 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     	this.mode = _mode;
 
-    	if (_mode == uProfile) {
+    	if (_mode == uBio) {
 
 	  		Meteor.defer( function() { $(".imgHomeAvatar").css("border-color","red") } );
 
-    		this.template.set("profile");
+    		this.template.set("bio");
     	}
 
     	if (_mode == uHack) {
@@ -305,7 +303,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 		this.assignMission( _code );
 
-		db.updateUserRec();
+		db.updateUserHacks();
 
 		hack.startNewFromMenu();  //???
 	}
@@ -398,8 +396,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 		return _arr;
 	}
 
-	//user's home screen formerly used this to show all the hacked countries (lifetime)
-	//useful enough to hang onto
+	//use this to build the list (masonry display) of countries in the user Stats section
 
 	this.atlasIDs = function() {
 
@@ -527,7 +524,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 		//save changes to db
 
-		db.updateUserRec();
+		db.updateUserHacks();
 
 	}
 

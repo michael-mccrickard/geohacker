@@ -56,14 +56,9 @@ Database = function() {
   }
 
 
-  this.updateUserRec = function() {
-
-      //res = this.ghU.update( { _id: game.user.id }, { $set: { a: game.user.assigns, c: game.user.assignCode, h: game.user.getAtlasDataObject() } } );
+  this.updateUserHacks = function() {
 
       Meteor.users.update( { _id: Meteor.user()._id }, { $set: { 'profile.a': game.user.assigns, 'profile.c': game.user.assignCode, 'profile.h': game.user.getAtlasDataObject() } } );
-
-
-      c("Meteor.user() record updated with user assigns, assignCode, atlas");
 
   }
 
@@ -339,22 +334,22 @@ this.updateRecord2 = function (_type, field, ID, value) {
     Meteor.call("updateRecordOnServer", field, _type, ID, value)
 }
 
-this.updateUserProfile = function() {
+this.updateUserBio = function() {
 
    var res =  Meteor.users.update( {_id: Meteor.userId() }, { $set: 
 
       {
-       'profile.t': $("#editProfileText").val(),
+       'profile.t': $("#editBioText").val(),
 
-       'profile.p': $(".imgProfileFeaturedPic").attr("src"), 
+       'profile.p': $(".imgBioFeaturedPic").attr("src"), 
 
-       'profile.av': $(".imgProfileAvatar").attr("src"),
+       'profile.av': $(".imgBioAvatar").attr("src"),
 
-       'profile.f': $(".imgProfileFlag").attr("src"),
+       'profile.f': $(".imgBioFlag").attr("src"),
 
        'profile.cc': $("#countryNameText").text(), 
 
-       'profile.pt': $("#editProfileFeaturedPicText").val(),
+       'profile.pt': $("#editBioFeaturedPicText").val(),
 
      }
 
