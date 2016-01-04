@@ -145,6 +145,8 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     	if (display) {
 
+    		if ( display.homeButtonDisabled() ) return;
+
 			display.pauseMedia();
 
 			display.ctl["VIDEO"].hide();

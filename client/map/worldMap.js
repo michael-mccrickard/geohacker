@@ -216,6 +216,8 @@ c("doCurrentMap");
 
         this.map.zoomControl.panControlEnabled = false;
 
+        this.map.zoomControl.homeButtonEnabled = false;
+
         this.map.addClassNames = true;
 
         this.map.areasSettings = {
@@ -490,6 +492,8 @@ c("doCurrentMap");
 
                 if (display.ctl["SOUND"].getState() == sPlaying) display.ctl["SOUND"].pauseFeaturedContent();
 
+                display.disableHomeButton();
+
                 this.doMapSuccess(mlCountry);
 
                 this.mapCtl.setState( sCountryOK );
@@ -498,7 +502,7 @@ c("doCurrentMap");
 
                 //lock out the map so the user doesn't mess up our ending sequence
 
-                //if (!editLabels) $("#divMap").css("pointer-events","none");
+                if (!editLabels) $("#divMap").css("pointer-events","none");
 
                 //update the user's record in the database (country successfully hacked)
 

@@ -223,7 +223,7 @@ Database = function() {
 
   this.getDataFlagForCountry = function(_code) {
 
-     var rec = getCountryRec( _code);
+     var rec = this.getCountryRec( _code);
 
      if (rec.d == 1) return true;
 

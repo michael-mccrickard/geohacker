@@ -34,8 +34,8 @@
       {{#if userHasAvatar}}
         
         <div class="navbar-header navbar-right">
-          <a class="navbar-brand"  href="javascript:void(0);" onclick="game.user.goHome()">
-            <img alt="Brand" src="{{avatarURL}}" width="38" height="38">
+          <a id="navHomeButton" class="navbar-brand"  href="javascript:void(0);" onclick="game.user.goHome()">
+            <img id="imgNavHomeButton" alt="Brand" src="{{avatarURL}}" width="38" height="38">
           </a>
         </div>
 
@@ -45,11 +45,7 @@
           <a class="navbar-brand">
             <img alt="Brand" src="geohacker_logo.png" width="36" height="36">
           </a>
-        </div>
-
-         <!--ul class="nav navbar-right">
-          <li role="button" class="active"><a class="menuFont" href="javascript:void(0);" onclick="game.logout()"><img src="geohacker_logo.png" /></a></li>
-        </ul-->       
+        </div>     
 
       {{/if}}
   

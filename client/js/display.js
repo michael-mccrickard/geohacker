@@ -303,6 +303,27 @@ Display = function() {
         }
     }
 
+    this.enableHomeButton = function() {
+
+        $("#navHomeButton").removeClass("disabled");
+
+        $("#imgNavHomeButton").css("opacity", "1.0");
+    }
+
+    this.disableHomeButton = function() {
+
+        $("#navHomeButton").addClass("disabled");
+
+        $("#imgNavHomeButton").css("opacity", "0.35");
+    }
+
+    this.homeButtonDisabled = function() {
+
+        if ( $("#navHomeButton").hasClass("disabled") ) return true;
+
+        return false;
+    }
+
     //*********************************************
     //      main template functions
     //*********************************************
