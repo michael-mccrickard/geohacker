@@ -502,7 +502,7 @@ c("doCurrentMap");
 
                 //lock out the map so the user doesn't mess up our ending sequence
 
-                if (!editLabels) $("#divMap").css("pointer-events","none");
+                if (!gEditLabels) $("#divMap").css("pointer-events","none");
 
                 //update the user's record in the database (country successfully hacked)
 
@@ -511,7 +511,7 @@ c("doCurrentMap");
                 //we load the country map using the preloader (so that we can read it's size)
                 //and the preloader callback will trigger the map zooming sequence
 
-                if (!editLabels) this.mapCtl.preloadCountryMap( hack.getCountryFilename().toLowerCase() )
+                if (!gEditLabels) this.mapCtl.preloadCountryMap( hack.getCountryFilename().toLowerCase() )
             }
             else {
 
@@ -756,7 +756,7 @@ c("doMapSuccess")
             
         );
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.labelMapObject(14, "yellow"); }, 1001 );
+        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.labelMapObject(14, "white"); }, 1001 );
 
         display.ctl["MAP"].setState( sMapDone );  
 

@@ -1,7 +1,7 @@
 
 
 
-User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
+User = function( _name ) {  //name, scroll pos (for content editors)
 
 	this.name = _name;
 
@@ -13,7 +13,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 	this.browseDisplay = new Display();
 
-	this.scroll = _scroll;
+	this.scroll = 0;
 
 	this.assignCode = "0";  //last-started mission; game object sets this from db
 
@@ -27,7 +27,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     this.template = new Blaze.ReactiveVar( "" );  //template for the above content
 
-    this.profile = null;
+    this.profile = Meteor.user().profile;
 
     this.editMode = new Blaze.ReactiveVar( false );  //is the user editing the profile content?
 
@@ -465,6 +465,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 		return c;
 	}
 
+/*
     this.readInBadges = function() {
 
       this.profile = Meteor.user().profile;
@@ -482,7 +483,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
       this.ft = this.profile.ft;
 
     }
-
+*/
  	/******************************************************************
 	/*			MISCELLANEOUS 											 
  	/******************************************************************/

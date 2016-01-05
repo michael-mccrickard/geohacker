@@ -269,11 +269,11 @@ Template.login.events({
 
                 game.user.makeAvatar( _gender );
 
-                game.user.readInBadges();
+               // game.user.readInBadges();
 
                 mission = null;
 
-                Meteor.defer( function() { user.goHome } );
+                Meteor.defer( function() { game.user.goHome } );
 
               }
               

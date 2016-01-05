@@ -137,11 +137,13 @@ Game = function() {
 
 		if (game.user == null)  {
 
-			_user =	new User( Meteor.user().username, Meteor.user().profile.s ); //name, scroll pos (for content editors)
+			_user =	new User( Meteor.user().username); //name
 
 			_user.assigns = Meteor.user().profile.a;
 
-			_user.readInBadges();
+			_user.scroll =  Meteor.user().profile.s; //scroll pos (for content editors)
+
+//			_user.readInBadges();
 
 
 			//eventually we may want to update the assigns with any newly-added or revised missions here

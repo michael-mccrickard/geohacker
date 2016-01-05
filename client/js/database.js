@@ -50,20 +50,53 @@ Database = function() {
     Meteor.call("clearUsers");
   }
 
-  this.clearAvatars = function() {
+  /*User profile fields:
 
-  //    Meteor.call("clearUsers");
-  }
+  The default / initial values are in login.js.
+
+  //hacking stuff
+
+  a = assigns (object array -- assigns)
+  c = assign code (current mission)
+  h = atlas (object array -- tickets)
+
+  //badge stuff  (all integers, most are arrays [gold, silver, bronze])
+  // see badge.js for details
+  ge = genius 
+  ex = expert
+  sp = speed
+  in = investigator
+  sc = scholar
+  ft = first time
+
+  //bio stuff
+  t = text
+  p = picture
+  pt = picture text
+  av = avatar or photo
+  f = flag pic
+  cn = country name
+  cc = country code  //essentially read-only, created when user is first created
+                     //but reader has no way to edit this value (or cn's value, either)
+                     //so these two not included in updates currently
+  */
 
 
   this.updateUserHacks = function() {
 
-      Meteor.users.update( { _id: Meteor.user()._id }, { $set: { 'profile.a': game.user.assigns, 'profile.c': game.user.assignCode, 'profile.h': game.user.getAtlasDataObject() } } );
+      Meteor.users.update( { _id: Meteor.user()._id }, { $set: { 
 
+        'profile.a': game.user.assigns, 
+
+        'profile.c': game.user.assignCode, 
+        
+        'profile.h': game.user.getAtlasDataObject() 
+
+        } } 
+      );
   }
 
-
-this.updateUserBio = function() {
+  this.updateUserBio = function() {
 
    var res =  Meteor.users.update( {_id: Meteor.userId() }, { $set: 
 
@@ -75,8 +108,6 @@ this.updateUserBio = function() {
        'profile.av': $(".imgBioAvatar").attr("src"),
 
        'profile.f': $(".imgBioFlag").attr("src"),
-
-       'profile.cc': $("#countryNameText").text(), 
 
        'profile.pt': $("#editBioFeaturedPicText").val(),
 
@@ -105,6 +136,14 @@ this.updateUserBadgeCount = function() {
      }
 
    }); 
+
+}
+
+this.saveScroll = function(_val) {
+
+  game.user.scroll = _val;
+
+  Meteor.users.update( {_id: Meteor.userId() }, { $set: { 'profile.s': _val}  }); 
 
 }
 
@@ -379,16 +418,6 @@ this.updateRecord2 = function (_type, field, ID, value) {
     Meteor.call("updateRecordOnServer", field, _type, ID, value)
 }
 
-this.saveScroll = function(_val) {
-
-    game.user.scroll = _val;
-
-    //db.ghU.update( {_id: this.id }, { $set: {s: _val}  }); 
-
-    Meteor.call("saveScroll", _val);
-}
-
-
   // "#a.b"   a=rec id, b = fieldname (stored as class)
 
   this.updateRecord = function( arrField, _type, ID ) {
@@ -546,7 +575,7 @@ updateRecords = function() {
 
        'profile.f': $(".imgProfileFlag").attr("src"),
 
-       'profile.cc': $("#countryNameText").text(), 
+       'profile.cn': $("#countryNameText").text(), 
 
        'profile.pt': $("#editProfileFeaturedPicText").val(),
 

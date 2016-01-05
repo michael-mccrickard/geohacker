@@ -418,8 +418,6 @@ function deriveInt(_s) {
 
 //map debug hacks
 
-editLabels = false;
-
 go = function() { display.ctl["MAP"].preloadCountryMap( hack.getCountryFilename().toLowerCase() );  c("resuming sequence")}
 
 updateLabel = function() {

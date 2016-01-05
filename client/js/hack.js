@@ -236,7 +236,7 @@ Hack = function() {
     this.getAnthemFile = function() {
 
       try {
-          var rec = db.ghS.findOne( { cc: this.countryCode, dt: "ant" } );
+          var f = db.ghS.findOne( { cc: this.countryCode, dt: "ant" } ).f;
       }
       catch(err) {
 
@@ -245,13 +245,13 @@ Hack = function() {
           return null;
       }
 
-      return rec.f;
+      return f;
     }
 
     this.getLanguageFile = function() {
 
       try {
-          var rec = db.ghS.findOne( { cc: this.countryCode, dt: "lng" } );
+          var f = db.ghS.findOne( { cc: this.countryCode, dt: "lng" } ).f;
       }
       catch(err) {
 
@@ -260,7 +260,7 @@ Hack = function() {
           return null;
       }
 
-      return rec.f;
+      return f;
 
     }
 
@@ -274,7 +274,7 @@ Hack = function() {
     this.getCapitalPic = function() {
 
       try {
-          var rec = db.ghI.findOne( { cc: this.countryCode, dt: "cap" } );
+          var f = db.ghI.findOne( { cc: this.countryCode, dt: "cap" } ).f;
       }
       catch(err) {
 
@@ -283,7 +283,7 @@ Hack = function() {
           return null;
       }
 
-      if (rec) return rec.f;
+      return f;
 
       try {
 
@@ -357,7 +357,7 @@ Hack = function() {
     this.getFlagPic = function() {
 
       try {
-          var rec = db.ghI.findOne( { cc: this.countryCode, dt: "flg" } );
+          var f = db.ghI.findOne( { cc: this.countryCode, dt: "flg" } ).f;
       }
       catch(err) {
 
@@ -366,7 +366,7 @@ Hack = function() {
           return "";
       }
 
-      return rec.f;
+      return f;
 
     }
 
@@ -375,7 +375,7 @@ Hack = function() {
     this.getHeadquartersPic = function() {
 
       try {
-          var rec = db.ghI.findOne( { cc: this.countryCode, dt: "hq" } );
+          var f = db.ghI.findOne( { cc: this.countryCode, dt: "hq" } ).f;
       }
       catch(err) {
 
@@ -384,10 +384,10 @@ Hack = function() {
           return "";
       }
 
-      return rec.f;
+      return f;
 
       try {
-          var rec = db.ghD.findOne( { cc: this.countryCode, dt: "hq" } ).f;
+          f = db.ghD.findOne( { cc: this.countryCode, dt: "hq" } ).f;
       }
       catch(err) {
 
@@ -396,12 +396,14 @@ Hack = function() {
           return "";
       }
 
+      return f;
+
     }
 
     this.getLeaderPic = function() {
 
       try {
-          var rec = db.ghI.findOne( { cc: this.countryCode, dt: "ldr" } );
+          var f = db.ghI.findOne( { cc: this.countryCode, dt: "ldr" } ).f;
       }
       catch(err) {
 
@@ -410,7 +412,7 @@ Hack = function() {
           return "";
       }
 
-      return rec.f;
+      return f;
     }
 
     this.getLeaderName = function() {
