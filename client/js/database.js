@@ -63,6 +63,51 @@ Database = function() {
   }
 
 
+this.updateUserBio = function() {
+
+   var res =  Meteor.users.update( {_id: Meteor.userId() }, { $set: 
+
+      {
+       'profile.t': $("#editBioText").val(),
+
+       'profile.p': $(".imgBioFeaturedPic").attr("src"), 
+
+       'profile.av': $(".imgBioAvatar").attr("src"),
+
+       'profile.f': $(".imgBioFlag").attr("src"),
+
+       'profile.cc': $("#countryNameText").text(), 
+
+       'profile.pt': $("#editBioFeaturedPicText").val(),
+
+     }
+
+   }); 
+
+}
+
+this.updateUserBadgeCount = function() {
+
+   var res =  Meteor.users.update( {_id: Meteor.userId() }, { $set: 
+
+      {
+       'profile.ge': game.user.profile.ge,
+
+       'profile.ex': game.user.profile.ex, 
+
+       'profile.sp': game.user.profile.sp, 
+
+       'profile.sc': game.user.profile.sc, 
+
+       'profile.in': game.user.profile.in, 
+
+       'profile.ft': game.user.profile.ft, 
+     }
+
+   }); 
+
+}
+
   //************************************************************
   //          RANDOMIZED DATA FUNCTIONS
   //************************************************************
@@ -333,52 +378,6 @@ this.updateRecord2 = function (_type, field, ID, value) {
 
     Meteor.call("updateRecordOnServer", field, _type, ID, value)
 }
-
-this.updateUserBio = function() {
-
-   var res =  Meteor.users.update( {_id: Meteor.userId() }, { $set: 
-
-      {
-       'profile.t': $("#editBioText").val(),
-
-       'profile.p': $(".imgBioFeaturedPic").attr("src"), 
-
-       'profile.av': $(".imgBioAvatar").attr("src"),
-
-       'profile.f': $(".imgBioFlag").attr("src"),
-
-       'profile.cc': $("#countryNameText").text(), 
-
-       'profile.pt': $("#editBioFeaturedPicText").val(),
-
-     }
-
-   }); 
-
-}
-
-this.updateUserBadgeCount = function() {
-
-   var res =  Meteor.users.update( {_id: Meteor.userId() }, { $set: 
-
-      {
-       'profile.ge': game.user.profile.ge,
-
-       'profile.ex': game.user.profile.ex, 
-
-       'profile.sp': game.user.profile.sp, 
-
-       'profile.sc': game.user.profile.sc, 
-
-       'profile.in': game.user.profile.in, 
-
-       'profile.ft': game.user.profile.ft, 
-     }
-
-   }); 
-
-}
-
 
 this.saveScroll = function(_val) {
 

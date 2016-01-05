@@ -269,7 +269,7 @@ Template.login.events({
 
                 game.user.makeAvatar( _gender );
 
-                game.user.profile.readInBadges();
+                game.user.readInBadges();
 
                 mission = null;
 

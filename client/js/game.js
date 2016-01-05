@@ -141,7 +141,7 @@ Game = function() {
 
 			_user.assigns = Meteor.user().profile.a;
 
-			_user.profile.readInBadges();
+			_user.readInBadges();
 
 
 			//eventually we may want to update the assigns with any newly-added or revised missions here

@@ -27,7 +27,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     this.template = new Blaze.ReactiveVar( "" );  //template for the above content
 
-    this.profile = new UserProfile();
+    this.profile = null;
 
     this.editMode = new Blaze.ReactiveVar( false );  //is the user editing the profile content?
 
@@ -93,7 +93,7 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
     	this.setMode( uBrowse );
 
-    	if (!display.countryCode.length) display.init( this.profile.profile.cc );
+    	if (!display.countryCode.length) display.init( this.profile.cc );
 
     	display.feature.browseMap();
     }
@@ -464,6 +464,25 @@ User = function( _name, _scroll ) {  //name, scroll pos (for content editors)
 
 		return c;
 	}
+
+    this.readInBadges = function() {
+
+      this.profile = Meteor.user().profile;
+
+      this.ge = this.profile.ge;
+
+      this.ex = this.profile.ex;
+
+      this.sp = this.profile.sp;
+
+      this.in = this.profile.in;
+
+      this.sc = this.profile.sc;
+
+      this.ft = this.profile.ft;
+
+    }
+
  	/******************************************************************
 	/*			MISCELLANEOUS 											 
  	/******************************************************************/
