@@ -18,9 +18,11 @@ Template.registerHelper("badge", function() {
 
 Template.registerHelper("avatarURL",  function() {
 
-		if (Meteor.user() == null) return "geohacker_logo.png";
+		var defaultPic = "geohacker_logo.png";
 
-		if (Meteor.user().profile.av == "") return "geohacker_logo.png";
+		if (Meteor.user() == null) return defaultPic;
+
+		if (Meteor.user().profile.av == "") return defaultPic;
 
 		return Meteor.user().profile.av;
 	}

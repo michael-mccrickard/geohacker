@@ -36,6 +36,8 @@ Database = function() {
 
     this.ghM = new Meteor.Collection('alMap');
 
+    this.ghG = new Meteor.Collection('alTag');
+
     this.controlsReady = true;
   }
 
@@ -52,9 +54,10 @@ Database = function() {
 
   /*User profile fields:
 
-  The default / initial values are in login.js.
+  The default / initial values are in login.js.  
 
-  //hacking stuff
+  //hacking stuff 
+  //see user.js, assignTicketAndTag.js, game.js ( .createGHUser() ) for details
 
   a = assigns (object array -- assigns)
   c = assign code (current mission)
@@ -70,10 +73,11 @@ Database = function() {
   ft = first time
 
   //bio stuff
+  //see bio.html and bio.js for details
   t = text
   p = picture
   pt = picture text
-  av = avatar or photo
+  av = avatar or photo  //widely used in the code; bio, template_helpers, newNav, userDirectory
   f = flag pic
   cn = country name
   cc = country code  //essentially read-only, created when user is first created
@@ -201,7 +205,18 @@ this.saveScroll = function(_val) {
 
   this.getCapitalName = function( _code ) {
 
-      return db.ghT.findOne( { cc: _code, dt: "cap" } ).f;
+      var rec = db.ghT.findOne( { cc: _code, dt: "cap" } );
+
+      try {
+
+        return rec.f;
+      }
+      catch(err) {
+
+        showMessage("No capital name found for " + this.getCountryName( _code ) );
+
+        return "";
+      }
   }
 
   this.getCapitalPic = function(_code) {
@@ -210,7 +225,18 @@ this.saveScroll = function(_val) {
 
     if (rec) return rec.f;
 
-    return db.ghD.findOne( { cc: _code, dt: "cap" } ).f;
+    rec = db.ghD.findOne( { cc: _code, dt: "cap" } );
+
+    try {
+
+      return rec.f;
+    }
+    catch(err) {
+
+      showMessage("No capital picture found for " + this.getCountryName( _code ) );
+
+      return "";
+    }
   }
 
   this.getContinentRec = function(_code) {

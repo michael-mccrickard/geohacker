@@ -135,6 +135,7 @@ Template.scanning.helpers({
 
 
 
+/*
 tt = function() {
 
   Meteor.call("test1", function(err, res){ $("span.scrollTextBGText").text( res ) } );  
@@ -147,5 +148,5 @@ tt = function() {
 
 
 }
-
+*/
 

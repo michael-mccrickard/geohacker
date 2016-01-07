@@ -62,11 +62,11 @@ Template.bio.events({
     
       game.ghAvatar.insert(files[i], function (err, fileObj) {
 
-          var oldURL = Meteor.user().profile.av;
+          var oldURL = game.user.avatar();
 
           var url = avatarPath + fileObj._id + "/" + fileObj.original.name;
 
-          Meteor.setTimeout( function() { Meteor.users.update( {_id: Meteor.userId() }, { $set: { 'profile.av': url}  }); }, 500  );
+          Meteor.setTimeout( function() { game.user.updateAvatar( url ); }, 500  );
 
           Meteor.setTimeout( function() { redrawBio(); }, 750 );
 
@@ -85,11 +85,11 @@ Template.bio.events({
     
       game.ghImage.insert(files[i], function (err, fileObj) {
 
-          var oldURL = Meteor.user().profile.p;
+          var oldURL = game.user.featuredPic();
 
           var url = imagePath + fileObj._id + "/" + fileObj.original.name;
 
-          Meteor.setTimeout( function() { Meteor.users.update( {_id: Meteor.userId() }, { $set: { 'profile.p': url}  }); }, 500  );
+          Meteor.setTimeout( function() { game.user.updateFeaturedPic( url ); }, 500  );
 
           Meteor.setTimeout( function() { redrawBio(); }, 750 );
 

@@ -269,7 +269,7 @@ Template.login.events({
 
                 game.user.makeAvatar( _gender );
 
-               // game.user.readInBadges();
+                game.user.profile = Meteor.user().profile;
 
                 mission = null;
 
@@ -315,47 +315,6 @@ Template.login.events({
     }
   });
 
-/*
-
-Template.templateResetPassword.events = {
-
-    'click #updatePassword': function (e) { 
-
-        e.preventDefault();
-
-        var pw = t.find('#new-password').value;
-        
-        if (isNotEmpty(pw) && isValidPassword(pw)) {
-        
-          Accounts.resetPassword(Session.get('resetPassword'), pw, function(err){
-        
-            if (err)
-        
-              customError(err.reason);
-        
-            else {
-        
-              Session.set('sResetPassword', null);
-            }
-        
-          });
-        }
-
-        return false; 
-    }
-};
-
-
-Template.templateResetPassword.helpers({
-
-  resetPassword : function(t) {
-  
-    return Session.get('sResetPassword');
-  }
-
-});
-
-*/
 
 // trim helper
 var trimInput = function(val) {

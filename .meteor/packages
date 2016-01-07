@@ -36,3 +36,5 @@ ejson
 spacebars
 check
 sacha:spin
+jonblum:jquery-cropper
+praxie:canvas-to-blob

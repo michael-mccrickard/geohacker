@@ -88,9 +88,22 @@ Ticket = function(_code, _count ) {
 
 	this.count = _count;
 
+	this.tag = [];
+
 	this.identified = function() {
 
 		this.count++;
 	}
+}
+
+Tag = function(_file, _text, _longitude, _latitude) {
+
+	this.f = _file;
+
+	this.t = _text;
+	
+	this.lo = _longitude;
+	
+	this.la = _latitude;
 }
 

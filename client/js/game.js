@@ -31,6 +31,10 @@ Game = function() {
   		stores: [new FS.Store.FileSystem("ghImage")]
 	});
 
+	this.ghTag = new FS.Collection("ghTag", {
+  		stores: [new FS.Store.FileSystem("ghTag")]
+	});
+
 	//this is called by an eventListener and executes in a different context,
 	//so "this" is replaced by "game"  here
 
@@ -139,12 +143,11 @@ Game = function() {
 
 			_user =	new User( Meteor.user().username); //name
 
+			_user.profile = Meteor.user().profile;
+
 			_user.assigns = Meteor.user().profile.a;
 
 			_user.scroll =  Meteor.user().profile.s; //scroll pos (for content editors)
-
-//			_user.readInBadges();
-
 
 			//eventually we may want to update the assigns with any newly-added or revised missions here
 

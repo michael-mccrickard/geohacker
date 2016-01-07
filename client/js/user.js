@@ -27,7 +27,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.template = new Blaze.ReactiveVar( "" );  //template for the above content
 
-    this.profile = Meteor.user().profile;
+    this.profile = null;
 
     this.editMode = new Blaze.ReactiveVar( false );  //is the user editing the profile content?
 
@@ -186,6 +186,26 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 			  console.log(result);
 		});
 	} 
+
+	this.avatar = function() {
+
+		return this.profile.av;
+	}
+
+	this.updateAvatar = function( url ) {
+
+		Meteor.users.update( {_id: Meteor.userId() }, { $set: { 'profile.av': url}  });
+	}
+
+	this.featuredPic = function() {
+
+		return this.profile.p;
+	}
+
+	this.updateFeaturedPic = function( url ) {
+
+		Meteor.users.update( {_id: Meteor.userId() }, { $set: { 'profile.p': url}  })
+	}
 
 
  	/************************************************************************************************
@@ -388,7 +408,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		for (var i = 0; i < this.atlas.length; i++)  {
 
-			var obj = {id: this.atlas[i].id, c: this.atlas[i].count }
+			var obj = {id: this.atlas[i].id, c: this.atlas[i].count, t: this.atlas[i].tag }
 
 			_arr.push( obj );
 		}

@@ -49,8 +49,6 @@ CloseUp = function() {
 
   this.draw = function() {
 
-    c("draw");
-
       var img = display.feature.imageSrc;
 
       if (display.feature.getName() == "MAP") {
@@ -120,5 +118,71 @@ CloseUp = function() {
 
       $( container ).text( "SOURCE: " + s );
   }
+
+}
+
+/*
+
+          newFile.attachData( buffer, {type: 'image/png'},  function(error){
+
+              if(error) console.log(error.message);
+
+              newFile.name(userID + '.png');  
+
+              //This callback from attachData inserts the file into the CFS collection
+              //and then that callback builds the URL and puts it in the user profile record
+
+              ghAvatar.insert(newFile, function (err, fileObj) {
+
+
+                  if(err) console.log(err.message);
+
+                  var url = avatarPath + fileObj._id + "/" + userID + ".png";
+
+                  Meteor.setTimeout( function() { Meteor.users.update( {_id: userID }, { $set: { 'profile.av': url }  }); }, 1000 );
+                  
+              });
+
+          });
+*/
+
+
+tt = function() {
+
+  $("#closeUpPic").cropper('getCroppedCanvas').toBlob(function (_blob) {
+
+
+      var newFile = new FS.File();
+
+      newFile.name("t.png");
+
+      newFile.attachData( _blob, {type: 'image/png'},  function(error){
+
+          if(error) console.log(error.message);
+
+          //This callback from attachData inserts the file into the CFS collection
+          //and then that callback builds the URL and tries to display it
+
+          game.ghTag.insert(newFile, function (err, fileObj) {
+
+            if (err) {
+              console.log(err);
+              return;
+            }
+
+            var url = tagPath + fileObj._id + "/" + fileObj.original.name;
+
+c("derived url = " + url);
+
+c("fileObj.url = " + fileObj.url );
+            
+             Meteor.setTimeout( function() { $("#closeUpPic").attr("src", url); }, 1000 );
+
+             Meteor.setTimeout( function() { $("#closeUpPic").cropper('destroy') }, 1001 );     
+           });
+
+      });
+
+  });
 
 }

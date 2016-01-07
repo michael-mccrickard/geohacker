@@ -6,6 +6,35 @@ gInstantMode = false;
 
 gUserCountriesOnlyMode = true;
 
+gCropPicture = false;
+
+jcrop_api = null;
+
+
+showSize = function(_c) {
+
+	c("size x = " + _c.w)
+
+	c("size y = " + _c.h)
+}
+
+/*
+$('.featuredPic').Jcrop( { 
+
+	onSelect: showSize,
+
+	aspectRatio: 1/1
+
+}
+,function(){
+
+  jcrop_api = this;
+
+  this.disable();
+
+});
+*/
+
 gGameEditor = false;
 
 //turn in-game editor off / on  (only on for now, need named functions for $(window).on() calls to unbind them)
@@ -49,6 +78,8 @@ stopGameEditor = function() {
 /*
 	$(window).off('keyup.85');  //u = user countries only mode
 
+	$(window).off('keyup.67');  //c = crop picture
+
 	$(window).off('keyup.69');  //e = editLabels
 
 	$(window).off('keyup.73');  //i = instant mode
@@ -59,6 +90,8 @@ stopGameEditor = function() {
 	gInstantMode = false;
 
 	gUserCountriesOnlyMode = true;
+
+	gCropPicture = false;
 }
 
 stopEditLabels = function() {
@@ -104,7 +137,30 @@ startGameEditor = function() {
 
 	         if (!gUserCountriesOnlyMode) showMessage( "MAP SHOWS ALL COUNTRIES");  
 	         
-	    }	    
+	    }	
+
+	    if (e.keyCode == 67) {  //c
+
+	         gCropPicture = !gCropPicture;
+
+	         if (gCropPicture) {
+
+				$('#closeUpPic').cropper({
+				  aspectRatio: 1 / 1,
+				  viewMode: 0
+
+				  });
+				}
+
+
+	         	showMessage( "CROPPING TURNED ON");  
+	         	
+	         
+	         if (!gCropPicture) {
+
+	         	showMessage( "CROPPING TURNED OFF");  
+	         }
+	    }	       
 
 
 		//map screen edit hacks
@@ -181,6 +237,5 @@ startGameEditor = function() {
 
 
 }
-
 
 
