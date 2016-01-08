@@ -35,7 +35,7 @@ WorldMap = function( _mapCtl ) {
 
     this.selectedRegion = '';
 
-    this.selectedCountry = '';
+    this.selectedCountry = new Blaze.ReactiveVar('');
 
     //objects
 
@@ -147,7 +147,7 @@ c("doCurrentMap");
 
            this.mapCtl.setState( sMapDone );
 
-            var mapObject = this.map.getObjectById( this.selectedCountry );
+            var mapObject = this.map.getObjectById( this.selectedCountry.get() );
 
             this.map.clickMapObject(mapObject);
         }    
@@ -486,7 +486,7 @@ c("doCurrentMap");
 
         if (state == sTestCountry) {
 
-            if (this.selectedCountry == theCountry) {
+            if (this.selectedCountry.get() == theCountry) {
 
                 //A sound file (from the sound control) might be playing in the bg
 
@@ -632,7 +632,7 @@ c("doMapSuccess")
 
            this.mapCtl.level.set( mlRegion );
 
-            this.selectedCountry = "";
+            this.selectedCountry.set( "" );
         }
 
 
@@ -850,7 +850,7 @@ function handleClick(_event) {
 
     if (state == sIDCountry || state == sMapDone) {
 
-        worldMap.selectedCountry = worldMap.mapObjectClicked;
+        worldMap.selectedCountry.set( worldMap.mapObjectClicked );
 
         worldMap.customData = _event.mapObject.customData;
 

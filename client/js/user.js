@@ -106,6 +106,15 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	game.user.mode = uHack;
 
+    	//user might be resuming after immediately browsing the newly-hacked country ...
+
+    	if (hack.mode == mHackDone) {
+
+    		hack.startNewFromMenu();
+
+    		return;
+    	}
+
     	hack.mode = mReady;
 
     	if (display.feature.getName() == "MAP") {
@@ -384,7 +393,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
  		for (var i = 0; i < _arr.length; i++)  {
 
-			var _ticket = new Ticket( _arr[i].id, _arr[i].c );
+			var _ticket = new Ticket( _arr[i].id, _arr[i].cn, _arr[i].t );
 
 			this.atlas.push( _ticket );
 		}		
@@ -396,7 +405,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 		for (var i = 0; i < this.atlas.length; i++)  {
 
 			if (this.atlas[i].id == _code) return i;
-
 		}
 
 		return -1;
@@ -408,7 +416,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		for (var i = 0; i < this.atlas.length; i++)  {
 
-			var obj = {id: this.atlas[i].id, c: this.atlas[i].count, t: this.atlas[i].tag }
+			var obj = {id: this.atlas[i].id, cn: this.atlas[i].count, t: this.atlas[i].tag }
 
 			_arr.push( obj );
 		}
@@ -429,6 +437,15 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 	/*					   currently just the hack count is stored, 
 	/*					   but more to come ...
  	/******************************************************************/
+
+ 	this.getTicket = function( _code ) {
+
+ 		var _index = this.findTicketIndex( _code );
+
+ 		if (_index != -1) return this.atlas[ _index ];
+
+ 		showMessage( "No ticket found for country " + _code);
+ 	}
 
 	this.getTicketCount = function( _code ) {
 
@@ -485,25 +502,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 		return c;
 	}
 
-/*
-    this.readInBadges = function() {
-
-      this.profile = Meteor.user().profile;
-
-      this.ge = this.profile.ge;
-
-      this.ex = this.profile.ex;
-
-      this.sp = this.profile.sp;
-
-      this.in = this.profile.in;
-
-      this.sc = this.profile.sc;
-
-      this.ft = this.profile.ft;
-
-    }
-*/
  	/******************************************************************
 	/*			MISCELLANEOUS 											 
  	/******************************************************************/
@@ -527,7 +525,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		if (_index == -1) {
 
-			_ticket = new Ticket( _code, 1 );
+			_ticket = new Ticket( _code, 1, [] );
 		}
 		else {
 

@@ -24,6 +24,16 @@ refreshWindow = function(_which) {
 
     var name = FlowRouter.getRouteName();
 
+
+    if (name == "browseWorldMap") {
+
+        display.ctl["MAP"].browseWorldMap.map.clearLabels();
+
+        display.ctl["MAP"].browseFinishDraw();
+
+        return;
+    }
+
     if (name == "closeup") {
 
         display.closeUp.draw();
@@ -39,6 +49,8 @@ refreshWindow = function(_which) {
     }
 
     if (name == "worldMap") {
+
+        display.ctl["MAP"].worldMap.map.clearLabels();
 
         display.ctl["MAP"].finishDraw();
 

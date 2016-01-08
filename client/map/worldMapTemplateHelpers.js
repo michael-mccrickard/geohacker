@@ -344,7 +344,7 @@ updateLabelPosition = function(_which) {
 
     var selectedRegion = display.ctl["MAP"].worldMap.selectedRegion;
 
-    var selectedCountry = display.ctl["MAP"].worldMap.selectedCountry;
+    var selectedCountry = display.ctl["MAP"].worldMap.selectedCountry.get();
 
     var xName = "xl";
 
@@ -450,7 +450,7 @@ dm = function() {
 
   s = s + "selectedRegion = " + map.selectedRegion + "\n\r";
 
-  s = s + "selectedCountry = " + map.selectedCountry + "\n\r";
+  s = s + "selectedCountry = " + map.selectedCountry.get() + "\n\r";
 
   return s;
 }

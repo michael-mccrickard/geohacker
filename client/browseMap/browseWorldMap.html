@@ -6,27 +6,44 @@
 	}
 
 	function drag(ev) {
+
+		gDontUpdateMap = true;
+
 	    ev.dataTransfer.setData("text", ev.target.src);
 	}
 
 	function drop(ev) {
 
+
 	    ev.preventDefault();
 
 	    var map = display.ctl["MAP"].browseWorldMap.map;
 
-	    var _lat = map.stageXToLongitude( ev.offsetX )
+	    var _long = map.stageXToLongitude( ev.offsetX );
 
-	    var _long = map.stageYToLatitude( ev.offsetY )
-
-		c("lat (north south) is " + _lat );
-
-		c("long (east west) is " + _long );
+	    var _lat = map.stageYToLatitude( ev.offsetY );
 
 		var data = ev.dataTransfer.getData("text");
 
-		c("dropped " + data)
+		var image = new AmCharts.MapImage();
+
+        image.latitude = _lat;
+        image.longitude = _long;
+
+        image.width = 64;
+        image.height = 64;
+        image.imageURL = data;
+  
+        map.dataProvider.images.push(image);
+        map.validateData();		
+
+        var _ticket = game.user.getTicket( display.ctl["MAP"].browseWorldMap.selectedCountry.get() );
+
+        _ticket.addTag( data, _long, _lat ); 
+
+        db.updateUserHacks();
 	    
+
 	}
 </script>
 
@@ -54,17 +71,14 @@
 
 	<div class="mapTags" style="position: relative; top: 55px; width:8%;">
 
-		<div>
-			<img class="imgMapTag"   draggable="true" ondragstart="drag(event)"  id="tag1" src="putin_tag.png">
-		</div>
+		{{#each tag}}
 
-		<div>
-			<img class="imgMapTag"   draggable="true" ondragstart="drag(event)" id="tag2" src="redsquare_tag.png">
-		</div>
+			<div>
+				<img class="imgMapTag"   draggable="true" ondragstart="drag(event)"  id="tag1" src="{{this.url}}">
+			</div>
+		
+		{{/each}}
 
-		<div>
-			<img class="imgMapTag"  draggable="true" ondragstart="drag(event)" id="tag3" src="stbasils_tag.png">
-		</div>
 
 	</div>
 

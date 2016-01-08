@@ -4,6 +4,14 @@
 
 Template.browseWorldMap.helpers({
 
+
+  tag: function() {
+
+    if (!display) return;
+
+     return game.ghTag.find( { cc: display.ctl["MAP"].browseWorldMap.selectedCountry.get() });
+  },
+
   continentName: function() { 
 
     if (!display) return;

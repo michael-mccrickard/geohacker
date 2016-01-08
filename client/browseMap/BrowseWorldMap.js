@@ -9,6 +9,8 @@
 
 var worldMap = null;
 
+gDontUpdateMap = false;
+
 /*
 var areaTop = 0;
 var areaLeft = 0;
@@ -26,7 +28,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
     this.selectedRegion = '';
 
-    this.selectedCountry = '';
+    this.selectedCountry = new Blaze.ReactiveVar('');
 
     //objects
 
@@ -89,7 +91,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
            this.mapCtl.level.set( mlCountry );
 
-            var mapObject = this.map.getObjectById( this.selectedCountry );
+            var mapObject = this.map.getObjectById( this.selectedCountry.get() );
 
             this.zoomOnlyOnClick = true;
 
@@ -329,11 +331,11 @@ this.dp.images[0].centered = false;
 //                      EVENT HANDLERS
 //**********************************************************************************
 
-gf = -61;
+gIgnoreClick = false;
 
 function handleClick(_event) {
 
-
+if (gIgnoreClick) return;
 
     Control.playEffect( worldMap.map_sound );
 
@@ -368,8 +370,8 @@ function handleClick(_event) {
     }
 
     if (level == mlRegion) {
-
-        worldMap.selectedCountry = worldMap.mapObjectClicked;
+c("level is region in handleClick")
+        worldMap.selectedCountry.set( worldMap.mapObjectClicked );
 
         worldMap.customData = _event.mapObject.customData;
 
@@ -381,9 +383,9 @@ function handleClick(_event) {
         //level, then the user can click on a nearby country.  We want the map to re-center and re-label
         //in this case, but not jump to browsing
 
-        if (worldMap.selectedCountry != worldMap.mapObjectClicked) {
+        if (worldMap.selectedCountry.get() != worldMap.mapObjectClicked) {
 
-            worldMap.selectedCountry = worldMap.mapObjectClicked;
+            worldMap.selectedCountry.set( worldMap.mapObjectClicked );
 
             return;
         }
@@ -412,7 +414,14 @@ function handleZoomCompleted() {
 
     var _code;
 
-    if (worldMap.zoomDone == true) return;
+    if (worldMap.zoomDone == true) { c("returning from hZC b/c zoomDone"); return; }
+
+    if (gDontUpdateMap) {
+
+        gDontUpdateMap = false;
+
+        return;
+    }
 
     var level = worldMap.mapCtl.level.get();
 
@@ -452,6 +461,29 @@ function handleZoomCompleted() {
 
         worldMap.labelMapObject();
 
+        gDontUpdateMap = true;
+
+        var _ticket = game.user.getTicket( worldMap.mapObjectClicked );
+
+        var tag = _ticket.tag;
+
+        for (var i = 0; i < tag.length; i++) {
+
+            var image = new AmCharts.MapImage();
+
+            image.latitude = tag[i].la;
+            image.longitude = tag[i].lo;
+
+            image.width = 64;
+            image.height = 64;
+            image.imageURL = tag[i].f;
+      
+            worldMap.map.dataProvider.images.push(image);           
+        }
+
+
+        worldMap.map.validateData();
+
         refreshMap();
 
         return;
@@ -462,6 +494,8 @@ function handleZoomCompleted() {
     if (level == mlCountry) {
 
         worldMap.labelMapObject();
+
+        gDontUpdateMap = true;
 
         refreshMap();
 
@@ -493,7 +527,7 @@ dbm = function() {
 
   s = s + "selectedRegion = " + map.selectedRegion + "\n\r";
 
-  s = s + "selectedCountry = " + map.selectedCountry + "\n\r";
+  s = s + "selectedCountry = " + map.selectedCountry.get() + "\n\r";
 
   return s;
 }

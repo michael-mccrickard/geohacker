@@ -331,7 +331,7 @@ ghMap = function() {
 
       this.worldMap.selectedRegion = '';
 
-      this.worldMap.selectedCountry = '';
+      this.worldMap.selectedCountry.set('');
     }
 
     this.setContinent = function( _code ) {

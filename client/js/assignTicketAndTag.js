@@ -82,25 +82,32 @@ Assign = function( _code, _hacked, _level, _name, _pool, _completions) {
 }
 
 
-Ticket = function(_code, _count ) {
+Ticket = function(_code, _count, _arr ) {
 
 	this.id = _code;
 
 	this.count = _count;
 
-	this.tag = [];
+	this.tag = _arr;
 
 	this.identified = function() {
 
 		this.count++;
 	}
+
+	this.addTag = function(_file, _longitude, _latitude) {
+
+		var _tag = new Tag(_file, _longitude, _latitude);
+
+		this.tag.push( _tag );
+	}
 }
 
-Tag = function(_file, _text, _longitude, _latitude) {
+Tag = function(_file, _longitude, _latitude) {
 
 	this.f = _file;
 
-	this.t = _text;
+	this.t = '';
 	
 	this.lo = _longitude;
 	

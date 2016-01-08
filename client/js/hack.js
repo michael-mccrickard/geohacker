@@ -175,7 +175,7 @@ Hack = function() {
 
       map.selectedRegion = this.regionCode;
 
-      map.selectedCountry = this.countryCode;
+      map.selectedCountry.set( this.countryCode );
 
       display.ctl["MAP"].autoFeatured = false;
 
@@ -200,7 +200,7 @@ Hack = function() {
 
         map.selectedRegion = this.regionCode;
 
-        map.selectedCountry = this.countryCode;
+        map.selectedCountry.set( this.countryCode );
 
         display.ctl["MAP"].level.set( mlCountry );
 
