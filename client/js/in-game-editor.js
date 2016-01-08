@@ -6,34 +6,7 @@ gInstantMode = false;
 
 gUserCountriesOnlyMode = true;
 
-gCropPicture = false;
-
-jcrop_api = null;
-
-
-showSize = function(_c) {
-
-	c("size x = " + _c.w)
-
-	c("size y = " + _c.h)
-}
-
-/*
-$('.featuredPic').Jcrop( { 
-
-	onSelect: showSize,
-
-	aspectRatio: 1/1
-
-}
-,function(){
-
-  jcrop_api = this;
-
-  this.disable();
-
-});
-*/
+gCropPictureMode = new Blaze.ReactiveVar(false);
 
 gGameEditor = false;
 
@@ -68,7 +41,11 @@ gGameEditor = true;
          	showMessage( "Game editor off");
          }
 */
+    }
 
+    if (e.keyCode == 117) {  //f6
+
+    	startCropMode();
     }
 });
 
@@ -77,8 +54,6 @@ stopGameEditor = function() {
 
 /*
 	$(window).off('keyup.85');  //u = user countries only mode
-
-	$(window).off('keyup.67');  //c = crop picture
 
 	$(window).off('keyup.69');  //e = editLabels
 
@@ -90,8 +65,6 @@ stopGameEditor = function() {
 	gInstantMode = false;
 
 	gUserCountriesOnlyMode = true;
-
-	gCropPicture = false;
 }
 
 stopEditLabels = function() {
@@ -107,6 +80,27 @@ stopEditLabels = function() {
 	$(window).off('keyup.71');  //g = go() (continue hackDone sequence)
 
 	gEditLabels = false;
+}
+
+function startCropMode() {
+
+	if (gCropPictureMode.get() == false ) {
+
+    	gCropPictureMode.set( true );	
+
+		Meteor.defer( function() { $('#closeUpPic').cropper({
+		  aspectRatio: 1 / 1,
+		  viewMode: 0
+
+		  });
+
+		});	
+	}
+	else {
+
+    	gCropPictureMode.set( false );				
+	}
+
 }
 
 
@@ -137,30 +131,7 @@ startGameEditor = function() {
 
 	         if (!gUserCountriesOnlyMode) showMessage( "MAP SHOWS ALL COUNTRIES");  
 	         
-	    }	
-
-	    if (e.keyCode == 67) {  //c
-
-	         gCropPicture = !gCropPicture;
-
-	         if (gCropPicture) {
-
-				$('#closeUpPic').cropper({
-				  aspectRatio: 1 / 1,
-				  viewMode: 0
-
-				  });
-				}
-
-
-	         	showMessage( "CROPPING TURNED ON");  
-	         	
-	         
-	         if (!gCropPicture) {
-
-	         	showMessage( "CROPPING TURNED OFF");  
-	         }
-	    }	       
+	    }	  
 
 
 		//map screen edit hacks

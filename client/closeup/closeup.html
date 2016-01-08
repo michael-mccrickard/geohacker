@@ -9,6 +9,22 @@
 
 			<h4 class="sourceText" id="closeUpSource">Source: Unknown</h4>
 
+			{{#if cropMode}}
+
+				<div class="mapTags" style="position: relative; top: -5%; width:8%; float:right; left: -0.5%;">
+
+					{{#each tag}}
+
+						<img class="imgMapTag" src="{{this.url}}" />
+
+					{{/each}}
+
+				</div>
+
+				<button class="btn btn-primary" style="position: relative; top: -14%; width: 10%; float:left; left: 0.5%;" id="btnFinishCrop">SAVE</button>
+
+			{{/if}}
+
 		</div>
 
 

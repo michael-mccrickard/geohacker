@@ -145,6 +145,8 @@ Meteor.startup(function() {
 
   Meteor.subscribe("ghAvatar", function() { Session.set("sAReady", true ) });
 
+  Meteor.subscribe("ghTag", function() { Session.set("sGReady", true ) });
+
 //ps("US")
 
   //start screen
@@ -162,7 +164,7 @@ Meteor.startup(function() {
 
 Tracker.autorun( function(comp) {
 
-  if (Session.get("sZReady") && Session.get("sRReady") && Session.get("sCReady") && Session.get("sFReady") && Session.get("sAReady")) {
+  if (Session.get("sZReady") && Session.get("sRReady") && Session.get("sCReady") && Session.get("sFReady") && Session.get("sAReady") && Session.get("sGReady")) {
 
     Session.set("sWaitingOnCoreData", false);
   

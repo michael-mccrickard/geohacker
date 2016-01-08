@@ -72,9 +72,16 @@ MapMaker = function() {
 
       s = s.substr(0, s.length - 1);
 
-      s = s + "]";
+      if (s.length) {
 
-      //console.log(s);
+        s = s + "]";
+      }
+      else {
+
+        s = '[]';
+      }
+      
+  //console.log(s);
 
       return JSON.parse(s);
 

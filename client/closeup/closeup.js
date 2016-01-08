@@ -34,13 +34,28 @@ Template.closeup.events = {
 
         window.open(display.closeUp.source);
       }
+    },
 
+    'click #btnFinishCrop': function(e) {
+
+      e.preventDefault();
+
+      finishCrop();
     }
 }
 
 Template.closeup.helpers({
 
+    tag: function() {
 
+       return game.ghTag.find( { cc: hack.countryCode });
+    },
+
+    cropMode: function() {
+
+      return gCropPictureMode.get();
+    }
+  
 })
 
 CloseUp = function() {
@@ -121,33 +136,8 @@ CloseUp = function() {
 
 }
 
-/*
 
-          newFile.attachData( buffer, {type: 'image/png'},  function(error){
-
-              if(error) console.log(error.message);
-
-              newFile.name(userID + '.png');  
-
-              //This callback from attachData inserts the file into the CFS collection
-              //and then that callback builds the URL and puts it in the user profile record
-
-              ghAvatar.insert(newFile, function (err, fileObj) {
-
-
-                  if(err) console.log(err.message);
-
-                  var url = avatarPath + fileObj._id + "/" + userID + ".png";
-
-                  Meteor.setTimeout( function() { Meteor.users.update( {_id: userID }, { $set: { 'profile.av': url }  }); }, 1000 );
-                  
-              });
-
-          });
-*/
-
-
-tt = function() {
+function finishCrop() {
 
   $("#closeUpPic").cropper('getCroppedCanvas').toBlob(function (_blob) {
 
@@ -161,7 +151,7 @@ tt = function() {
           if(error) console.log(error.message);
 
           //This callback from attachData inserts the file into the CFS collection
-          //and then that callback builds the URL and tries to display it
+          //and then that callback updates the new record with the country code
 
           game.ghTag.insert(newFile, function (err, fileObj) {
 
@@ -170,15 +160,11 @@ tt = function() {
               return;
             }
 
-            var url = tagPath + fileObj._id + "/" + fileObj.original.name;
+            game.ghTag.update( {_id: fileObj._id }, { $set: { cc: hack.countryCode } });
 
-c("derived url = " + url);
+             Meteor.setTimeout( function() { $("#closeUpPic").cropper('destroy') }, 1000 );
 
-c("fileObj.url = " + fileObj.url );
-            
-             Meteor.setTimeout( function() { $("#closeUpPic").attr("src", url); }, 1000 );
 
-             Meteor.setTimeout( function() { $("#closeUpPic").cropper('destroy') }, 1001 );     
            });
 
       });

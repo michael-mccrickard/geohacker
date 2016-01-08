@@ -130,6 +130,8 @@ BrowseWorldMap = function( _mapCtl ) {
 
         this.dp.areas = this.mm.getJSONForMap(_code, _level, false);
 
+        this.mm.getJSONForMap(_code, _level, false);
+
         if (_level == mlContinent) rec = db.getContinentRec(_code);
 
         if (_level == mlRegion) rec = db.getRegionRec(_code);
