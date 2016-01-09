@@ -9,8 +9,6 @@
 
 var worldMap = null;
 
-gDontUpdateMap = false;
-
 /*
 var areaTop = 0;
 var areaLeft = 0;
@@ -46,7 +44,16 @@ BrowseWorldMap = function( _mapCtl ) {
 
     this.mapObjectClicked = null;
 
+    //the handleZoomComplete function (called by the zoomCompleted event)
+    //needs regulation b/c we re-draw the map at the end of the zoom, which causes
+    //the event to fire again. We only want to execute our code in handleZoomComplete 
+    //on the first occurence (after the actual zoom)
+
     this.zoomDone = false;
+
+    //slightly different case, when we initially simulate the click on the browse map country
+    //(in the case where the browse country is previously selected) then we want to execute part
+    //of the code in handleZoomComplete but not all of it (don't want to jump back to browse data screen)
 
     this.zoomOnlyOnClick = false;
 
@@ -93,10 +100,16 @@ BrowseWorldMap = function( _mapCtl ) {
 
             var mapObject = this.map.getObjectById( this.selectedCountry.get() );
 
+            //prevent zoomCompleted from jumping us to the browse data screen
+
             this.zoomOnlyOnClick = true;
 
-        this.zoomDone = false;
-c("calling clickMapObject")
+            //prevent the zoomDone test from kicking us out of zoomComplete prematurely
+
+            this.zoomDone = false;
+
+            c("calling clickMapObject")
+
             this.map.clickMapObject(mapObject);
         }    
     }
@@ -112,7 +125,8 @@ c("calling clickMapObject")
 
         this.mapCtl.level.set( _level );
 
-        this.zoomDone = true;  //this is used to keep the zoomCompleted event from triggering b4 we're ready
+        this.zoomDone = true;  //this is used to keep the zoomCompleted event from redrawing / validating map 
+                                //before we're ready
 
 
         //initialize the map object and basic map variables
@@ -313,13 +327,12 @@ c("calling clickMapObject")
 //                      EVENT HANDLERS
 //**********************************************************************************
 
-gIgnoreClick = false;
-
 function handleClick(_event) {
 
-if (gIgnoreClick) return;
-
     Control.playEffect( worldMap.map_sound );
+
+    //allow zoomComplete to set the new map level and redraw the map
+    //when the zoom is complete
 
     worldMap.zoomDone = false;
 
@@ -333,7 +346,7 @@ if (gIgnoreClick) return;
 
     if (level == mlWorld) {
 
-        var _code = db.getContinentCodeForCountry(worldMap.mapObjectClicked);  //in data_handling.js
+        var _code = db.getContinentCodeForCountry(worldMap.mapObjectClicked);  //in database.js
 
         worldMap.selectedContinent = _code;
 
@@ -352,15 +365,18 @@ if (gIgnoreClick) return;
     }
 
     if (level == mlRegion) {
-c("level is region in handleClick")
+
+        c("level is region in handleClick")
+        
         worldMap.selectedCountry.set( worldMap.mapObjectClicked );
 
         worldMap.customData = _event.mapObject.customData;
-
     }
 
     if (level == mlCountry) { 
-c("level is country in handleClick")
+
+        c("level is country in handleClick")
+        
         //If a different country was previously selected and we're still at the country
         //level, then the user can click on a nearby country.  We want the map to re-center and re-label
         //in this case, but not jump to browsing
@@ -369,13 +385,23 @@ c("level is country in handleClick")
 
             worldMap.selectedCountry.set( worldMap.mapObjectClicked );
 
+            //in ths case, we need zoomComplete to redraw and validate, so reset the level
+            //and unset the zoomDone flag
+
+            worldMap.mapCtl.level.set( mlRegion );
+
+            worldMap.zoomDone = false;
+
             return;
         }
 
+        //we set this flag when we simulate the click on the country
+        //so that the autoZoom will just center the map on the country
+        //but we can exit before the jump to the browse screen
+
         if (worldMap.zoomOnlyOnClick) {
 
-
-worldMap.mapCtl.level.set(mlRegion); 
+            worldMap.mapCtl.level.set(mlRegion); 
 
             worldMap.zoomOnlyOnClick = false;
 
@@ -401,16 +427,7 @@ function handleZoomCompleted() {
 
     if (worldMap.zoomDone == true) { c("returning from hZC b/c zoomDone"); return; }
 
-c("zoomDone false in hZC")
-
-    if (gDontUpdateMap) {
-
-c("returning from hZC b/c gDontUpdateMap");
-
-        gDontUpdateMap = false;
-
-        return;
-    }
+    c("zoomDone false in hZC")
 
     var level = worldMap.mapCtl.level.get();
 
@@ -443,14 +460,14 @@ c("returning from hZC b/c gDontUpdateMap");
 
     if (level == mlRegion) {
 
-        //since the zoom in to the country happens with autozoom and not
+        //since the zoom in to the country happens with autoZoom and not
         //by our handling some event, we have to set the map level manually
 
         worldMap.mapCtl.level.set( mlCountry );
 
         worldMap.labelMapObject();
 
-        gDontUpdateMap = true;
+        worldMap.zoomDone = true;
 
         var _ticket = game.user.getTicket( worldMap.mapObjectClicked );
 
@@ -488,8 +505,6 @@ c("returning from hZC b/c gDontUpdateMap");
     if (level == mlCountry) {
 
         worldMap.labelMapObject();
-
-        gDontUpdateMap = true;
 
         refreshMap();
 
