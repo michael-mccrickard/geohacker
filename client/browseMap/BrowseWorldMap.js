@@ -95,6 +95,8 @@ BrowseWorldMap = function( _mapCtl ) {
 
             this.zoomOnlyOnClick = true;
 
+        this.zoomDone = false;
+c("calling clickMapObject")
             this.map.clickMapObject(mapObject);
         }    
     }
@@ -146,23 +148,6 @@ BrowseWorldMap = function( _mapCtl ) {
 
         }
 
-        //images
-
-/*
-this.dp.images[0].imageURL = "putin_tag.png";
-
-this.dp.images[0].longitude = gLong;
-
-this.dp.images[0].latitude = gLat;
-
-this.dp.images[0].percentHeight = 8;
-
-this.dp.images[0].percentWidth = 3.5;
-
-this.dp.images[0].centered = false;
-*/
-
-
         //set the data provider and areas settings
 
         this.map.dataProvider = this.dp;
@@ -195,9 +180,6 @@ this.dp.images[0].centered = false;
 
         // handle the clicks on any map object
         this.map.addListener("clickMapObject", handleClick);
-
-        // handle the clicks on any map object
-//        this.map.addListener("ondrop", handleDrop);
 
         this.map.write("browseDivMap");
 
@@ -378,7 +360,7 @@ c("level is region in handleClick")
     }
 
     if (level == mlCountry) { 
-
+c("level is country in handleClick")
         //If a different country was previously selected and we're still at the country
         //level, then the user can click on a nearby country.  We want the map to re-center and re-label
         //in this case, but not jump to browsing
@@ -391,6 +373,9 @@ c("level is region in handleClick")
         }
 
         if (worldMap.zoomOnlyOnClick) {
+
+
+worldMap.mapCtl.level.set(mlRegion); 
 
             worldMap.zoomOnlyOnClick = false;
 
@@ -416,7 +401,11 @@ function handleZoomCompleted() {
 
     if (worldMap.zoomDone == true) { c("returning from hZC b/c zoomDone"); return; }
 
+c("zoomDone false in hZC")
+
     if (gDontUpdateMap) {
+
+c("returning from hZC b/c gDontUpdateMap");
 
         gDontUpdateMap = false;
 
@@ -481,6 +470,11 @@ function handleZoomCompleted() {
             worldMap.map.dataProvider.images.push(image);           
         }
 
+        worldMap.map.dataProvider.zoomLongitude = worldMap.map.zLongTemp;
+
+        worldMap.map.dataProvider.zoomLatitude =  worldMap.map.zLatTemp;
+
+        worldMap.map.dataProvider.zoomLevel =  worldMap.map.zLevelTemp;
 
         worldMap.map.validateData();
 

@@ -93,6 +93,8 @@ ghMap = function() {
 
         if (game.user.mode == uBrowse) {
 
+          this.browseWorldMap.selectedCountry.set("");
+
           this.browseWorldMap.backupMap();
 
           return;
