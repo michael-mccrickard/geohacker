@@ -102,7 +102,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
 
 
-    this.doMap = function(_code, _level, _lockMap) {
+    this.doMap = function(_code, _level) {
 
         //initialize variables related to the map
 
@@ -142,9 +142,25 @@ BrowseWorldMap = function( _mapCtl ) {
 
             this.dp.zoomLevel = rec.z1,
             this.dp.zoomLatitude = rec.z2,
-            this.dp.zoomLongitude =  rec.z3               
+            this.dp.zoomLongitude =  rec.z3
 
         }
+
+        //images
+
+/*
+this.dp.images[0].imageURL = "putin_tag.png";
+
+this.dp.images[0].longitude = gLong;
+
+this.dp.images[0].latitude = gLat;
+
+this.dp.images[0].percentHeight = 8;
+
+this.dp.images[0].percentWidth = 3.5;
+
+this.dp.images[0].centered = false;
+*/
 
 
         //set the data provider and areas settings
@@ -170,6 +186,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
         };
 
+
         //set the ballon text (popup text) for each area (this will be continent, region or country)
         this.map.areasSettings.balloonText = "[[customData]]";
 
@@ -178,6 +195,9 @@ BrowseWorldMap = function( _mapCtl ) {
 
         // handle the clicks on any map object
         this.map.addListener("clickMapObject", handleClick);
+
+        // handle the clicks on any map object
+//        this.map.addListener("ondrop", handleDrop);
 
         this.map.write("browseDivMap");
 
@@ -350,7 +370,7 @@ if (gIgnoreClick) return;
     }
 
     if (level == mlRegion) {
-
+c("level is region in handleClick")
         worldMap.selectedCountry.set( worldMap.mapObjectClicked );
 
         worldMap.customData = _event.mapObject.customData;
