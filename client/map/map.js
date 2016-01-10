@@ -154,6 +154,51 @@ ghMap = function() {
         Meteor.setTimeout( function() { $("#mapButton").addClass("faded"), 250 });
     }
 
+    this.addContinentTags = function(_dp, _size) {
+
+        //get an array of the regions for each continent
+
+        arrR = db.ghR.find( {} ).fetch();
+
+        for (var i = 0; i < arrR.length; i++) {  
+
+            this.addRegionTags( arrR[i].c, _dp, _size);
+      }
+    }
+
+    this.addRegionTags = function(_regionID, _dp, _size) {
+
+      var arr = db.ghC.find( {r: _regionID } ).fetch();
+
+      for (var i = 0; i < arr.length; i++) {  
+
+         if (game.user.isCountryInAtlas( arr[i].c ) != -1 ) {
+
+            this.addCountryTags( arr[i].c, _dp, _size)
+         }
+      }
+    }
+
+    this.addCountryTags = function(_mapObjectID, _dp, _size) {
+
+        var _ticket = game.user.getTicket( _mapObjectID );
+
+        var _tag = _ticket.tag;
+
+        for (var i = 0; i < _tag.length; i++) {
+
+            var image = new AmCharts.MapImage();
+
+            image.latitude = _tag[i].la;
+            image.longitude = _tag[i].lo;
+
+            image.width = _size;
+            image.height = _size;
+            image.imageURL = _tag[i].f;
+      
+            _dp.images.push(image);           
+        }
+    }
 
     this.draw = function() {
 

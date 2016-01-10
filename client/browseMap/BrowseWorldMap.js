@@ -133,8 +133,6 @@ BrowseWorldMap = function( _mapCtl ) {
 
         this.map = new AmCharts.AmMap();
 
-        //map = this.map;
-
         this.map.fontFamily = "Lucida Console, Monaco, monospace";
 
         this.map.pathToImages = "packages/mikemccrickard_ammap/lib/images/";
@@ -162,6 +160,8 @@ BrowseWorldMap = function( _mapCtl ) {
 
         }
 
+        this.dp.images = [];
+
         //set the data provider and areas settings
 
         this.map.dataProvider = this.dp;
@@ -188,6 +188,10 @@ BrowseWorldMap = function( _mapCtl ) {
 
         //set the ballon text (popup text) for each area (this will be continent, region or country)
         this.map.areasSettings.balloonText = "[[customData]]";
+
+        if (_level == mlContinent) this.mapCtl.addContinentTags(this.map.dataProvider, 16);
+
+        if (_level == mlRegion) this.mapCtl.addRegionTags( this.selectedRegion, this.map.dataProvider, 48);
 
         // when the zoom is done (going to continent or region) then we need to adjust the zoom on the new map
         this.map.addListener("zoomCompleted", handleZoomCompleted);
@@ -469,23 +473,7 @@ function handleZoomCompleted() {
 
         worldMap.zoomDone = true;
 
-        var _ticket = game.user.getTicket( worldMap.mapObjectClicked );
-
-        var tag = _ticket.tag;
-
-        for (var i = 0; i < tag.length; i++) {
-
-            var image = new AmCharts.MapImage();
-
-            image.latitude = tag[i].la;
-            image.longitude = tag[i].lo;
-
-            image.width = 64;
-            image.height = 64;
-            image.imageURL = tag[i].f;
-      
-            worldMap.map.dataProvider.images.push(image);           
-        }
+        worldMap.mapCtl.addCountryTags( worldMap.mapObjectClicked, worldMap.map.dataProvider, 64);
 
         worldMap.map.dataProvider.zoomLongitude = worldMap.map.zLongTemp;
 

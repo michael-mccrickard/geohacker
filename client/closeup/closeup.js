@@ -139,7 +139,11 @@ CloseUp = function() {
 
 function finishCrop() {
 
-  $("#closeUpPic").cropper('getCroppedCanvas').toBlob(function (_blob) {
+  //var width = $("#closeUpPic").cropper('getData').width;
+
+  //$("#closeUpPic").cropper("scale", 64/width);
+
+  $("#closeUpPic").cropper('getCroppedCanvas', { width: 128, height: 128 }).toBlob(function (_blob) {
 
 
       var newFile = new FS.File();

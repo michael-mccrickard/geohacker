@@ -25,15 +25,16 @@
 
 		var image = new AmCharts.MapImage();
 
-        image.latitude = _lat;
+		image.latitude = _lat;
         image.longitude = _long;
 
         image.width = 64;
         image.height = 64;
+
         image.imageURL = data;
   
         map.dataProvider.images.push(image);
-        map.validateData();		
+        map.validateData();   
 
         var _ticket = game.user.getTicket( display.ctl["MAP"].browseWorldMap.selectedCountry.get() );
 
