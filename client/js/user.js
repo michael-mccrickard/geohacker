@@ -192,7 +192,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 			    return;
 			  }
 
-			  console.log(result);
+			 Meteor.setTimeout( function(){ game.user.profile = Meteor.user().profile; }, 1500);
 		});
 	} 
 

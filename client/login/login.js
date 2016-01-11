@@ -269,11 +269,7 @@ Template.login.events({
 
                 game.user.makeAvatar( _gender );
 
-                game.user.profile = Meteor.user().profile;
-
                 mission = null;
-
-                Meteor.defer( function() { game.user.goHome } );
 
               }
               

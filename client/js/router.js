@@ -77,11 +77,11 @@ FlowRouter.route('/home', {
 
   action: function (params, queryParams) { 
 
-   if (display) display.closeOutMain();
+    if (display) display.closeOutMain();
 
-   BlazeLayout.render('layout', { content: "home" } ) 
+    BlazeLayout.render('layout', { content: "home" } ) 
 
- },
+  },
 
     name:  "home",
 
