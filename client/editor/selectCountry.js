@@ -10,12 +10,7 @@ var contButtons = ["#editAsia", "#editAmerica", "#editAfrica", "#editEurope", "#
 
 Session.set("sUpdateEditScreenFlag", true);
 
-/*
-Template.selectCountry.rendered = function() {
 
-  display.switchToEditor();
-}
-*/
 
 Template.selectCountry.helpers({
 

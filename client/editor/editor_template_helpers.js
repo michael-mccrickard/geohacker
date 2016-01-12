@@ -1,7 +1,9 @@
+/*
 Template.editor.rendered = function() {
 
   display.switchToEditor();
 }
+*/
 
 Template.editor.helpers({
 
@@ -55,6 +57,17 @@ Template.editor.helpers({
   			return db.ghD.find( { cc: ID });
   		}
 
+    },
+
+    getThisCountryCode: function() {
+
+      return editor.hack.countryCode;
+    },
+  
+
+    getThisCountryName: function() {
+
+      return editor.hack.getCountryName();
     },
 
     getEditControlName: function() {

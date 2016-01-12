@@ -104,15 +104,3 @@ Template.registerHelper("messageID", function() {
 	}
 )
 
-Template.registerHelper("getThisCountryCode", function() {
-
-    	return hack.countryCode;
-    }
-)    
-
-Template.registerHelper("getThisCountryName", function() {
-
-    	return hack.getCountryName();
-    }
-)
-
