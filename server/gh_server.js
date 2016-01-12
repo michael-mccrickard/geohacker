@@ -1,3 +1,9 @@
+var countryCode;
+
+//email settings
+
+process.env.MAIL_URL = Meteor.settings.MAIL_URL;
+
 Accounts.emailTemplates.siteName = "Geohacker";
 Accounts.emailTemplates.from = "Geohacker In Chief <mikemccrickard@gmail.com>";
 Accounts.emailTemplates.resetPassword.subject = function (user) {
@@ -11,17 +17,7 @@ Accounts.emailTemplates.resetPassword.text = function (user, url) {
      + "Keep on hacking, " + user.username + "!" 
 };
 
-var countryCode;
-
-//avatar
-
-/*
-AWS.config.update({
-    accessKeyId: Meteor.settings.AWSAccessKeyId,
-    secretAccessKey: Meteor.settings.AWSSecretAccessKeyId,
-    region: Meteor.settings.AWSRegion
-});
-*/
+//avatars and other "user-generated" content
 
 var avatarStore = new FS.Store.S3("images", {
   region: "us-east-1", //optional in most cases
@@ -43,7 +39,7 @@ var ghTag = new FS.Collection("ghTag", {
   stores: [new FS.Store.FileSystem("ghTag")]
 });
 
-
+//startup
 
 Meteor.startup(
 
@@ -228,10 +224,10 @@ Meteor.startup(
       }
     });
 
-    console.log( Meteor.settings.AWS_ACCESS_KEY_ID);
-
 });
 
+
+//functions
 
 function getCollectionForType(_type) {
 
@@ -268,7 +264,7 @@ function getCollectionForType(_type) {
     return col;
   }
 
-
+//Methods
 
 Meteor.methods({
 
