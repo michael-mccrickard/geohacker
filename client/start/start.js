@@ -120,7 +120,7 @@ Meteor.startup(function() {
 
   youTubeLoaded = false;
 
-  display = null;
+  display = new Display();
 
   editor = null;
 

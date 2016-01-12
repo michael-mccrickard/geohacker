@@ -274,60 +274,13 @@ function checkForFeature() {
     this.redirect("/main");
   }
 
-  //this.next();
 }
-
-/*
-function doRefreshCloseupWindow() {
-
-  //if there is no control featured, then don't refresh
-  //the close-up view
-
-  if (display.feature.getName().length == 0) return;
-
-  Meteor.setTimeout(function () {display.closeUp.draw(); 100} );
-}
-*/
-
-/*
-function checkHackScreen() {
-
-  if (display) display.checkMainScreen();
-
-}
-*/
 
 function playDebriefSound() {
 
   Control.playEffect( debrief_sound );
 }
 
-/*
-
-function switchToEditor() {
-
-   if (db == null) {
-
-      db = new Database();
-
-      db.initCore();
-
-      db.initControls();
-  }
-
-  if (editor == null) editor = new Editor();
-
-  editor.controlType = cNone;
-
-  if (hack == null)  hack = new Hack();
-
-  hack.mode = mEdit;
-
-  display.closeOutMain();
-
-  //this.next();
-}
-*/
 
 function doSelectCountryWindow() {
 

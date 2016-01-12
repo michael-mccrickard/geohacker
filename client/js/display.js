@@ -529,6 +529,13 @@ Display = function() {
         FlowRouter.go("/editor");
     }
 
+    this.switchToSelectCountry = function() {
+
+        this.switchToEditor();
+
+        FlowRouter.go("/selectCountry");       
+    }
+
     this.switchToEditor = function() {
 
        if (db == null) {
