@@ -19,8 +19,6 @@ Game = function() {
 
 	this.musicCount = 0;
 
-	this.debrief = null;
-
 	this.music = ["amber.mp3","yellow.mp3","agent_d_cooper.mp3", "geohackerAmbientSofter.mp3", "geohackerThemeSoftest.mp3"];
 
 	this.ghAvatar = new FS.Collection("ghAvatar", {

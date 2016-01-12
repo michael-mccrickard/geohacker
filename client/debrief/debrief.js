@@ -34,11 +34,6 @@ Debrief = function() {
 		this.index = Database.getRandomValue(this.arr.length);
 
 		this.alreadyLoaded = false;
-
-		//assign this object to the game, so that we can differentiate between
-		//the debrief for the global hack, and user.hack and editor.hack
-
-		//game.debrief = this;
 	}
 
 	this.draw = function() {
@@ -141,7 +136,6 @@ Debrief = function() {
 		Meteor.defer( function() { this.centerHeadline(); } );
 	}
 
-//fix this to use the editor debrief
 
 	this.initForEditor = function( _type ) {
 
@@ -158,15 +152,13 @@ Debrief = function() {
 		this.setImage();
 
 		this.setText();
-
-		game.debrief = this;
 	}
 
 	this.setImage = function() {
 
 		this.image = "";
 
-		if (this.code == "lng") this.image = display.ctl["SOUND"].soundPlayingPic;
+		if (this.code == "lng") this.image = display.soundPlayingPic;
 
 		if (this.code == "flg")  this.image = hack.getFlagPic();
 

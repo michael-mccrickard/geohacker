@@ -156,7 +156,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 			display.pauseMedia();
 
-			display.ctl["VIDEO"].hide();
+			if ( typeof display.ctl["VIDEO"] !== 'undefined' ) display.ctl["VIDEO"].hide();
 
     	}
     		

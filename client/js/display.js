@@ -46,6 +46,8 @@ Display = function() {
 
     this.countryCode = "";  //To enable us to tell when the country has changed in browse mode
 
+    this.soundPlayingPic =  "vu_meter1.gif";  //should match the prop in sound.js (used by debrief when there is no sound control)
+
     //arrays
 
     //to do: merge the functionality of these two arrays, if possible
@@ -551,7 +553,7 @@ Display = function() {
 
       editor.controlType = cNone;
 
-      if (hack == null)  hack = new Hack();
+      hack = editor.hack;
 
       hack.mode = mEdit;
 

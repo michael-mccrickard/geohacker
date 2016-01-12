@@ -38,7 +38,7 @@ FlowRouter.route('/missionSelect', {
 
   action: function (params, queryParams) { 
 
-   display.closeOutMain();
+   if ( typeof display !== 'undefined') display.closeOutMain();
 
    BlazeLayout.render('layout', { content: "missionSelect" } ) 
 
@@ -200,7 +200,7 @@ FlowRouter.route('/editor', {
 
    pageRefreshed = false;
 
-   display.closeOutMain();
+   if ( typeof display !== 'undefined') display.closeOutMain();
 
    BlazeLayout.render('layout', { content: "editor" } ) 
 

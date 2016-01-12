@@ -610,6 +610,22 @@ updateRecords = function() {
    }); 
 }
 
+findImages = function() {
+
+  var arr = db.ghD.find( {}).fetch();
+
+      for (var i = 0; i < arr.length; i++) {
+
+        if ( typeof arr[i].f === 'undefined') continue;
+
+        if (arr[i].f.length) {
+
+          c( db.getCountryName( arr[i].cc) + " -- " + arr[i].f + " -- " + arr[i].dt );
+        }
+
+      }
+}
+
 fixlc = function(_code, _val) {
 
   var rec = db.ghR.find( { c: _code }).fetch();

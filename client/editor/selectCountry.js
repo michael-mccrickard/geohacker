@@ -208,9 +208,20 @@ Template.selectCountry.events = {
 
      editor.hack.mode = mNone;
 
-  	 FlowRouter.go("/main");
-  
-     Meteor.setTimeout( function() { display.redraw(); }, 500);
+     //we really need to know where the user was before this screen,
+     //but for now ...
+
+  	 if (mission != null) {
+
+        display.mainTemplateReady = false;
+
+        FlowRouter.go("/main");
+    }
+    else {
+
+        game.user.goHome();
+    }
+     
   },
 
   'click .updateCountryButton': function (evt, template) {
