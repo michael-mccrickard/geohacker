@@ -82,16 +82,20 @@ Control = {
       
       //process items here
 
-      this.items = Database.shuffle(this.items);      
+      this.items = Database.shuffle(this.items);   
 
-   // }
+      this.processItems( this.items );   
+
     
   }, //end setCountry
 
   processItems: function( _arr ) {
 
+      if (this.name != "IMAGE") return;
+
       for (var i = 0; i < _arr.length; i++) {
 
+          _arr[i].f = getS3URL( _arr[i] );
 
       }
   },

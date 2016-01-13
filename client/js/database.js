@@ -398,7 +398,7 @@ this.saveScroll = function(_val) {
 
     if (_type == cSound) col = this.ghS;
 
-    if (_type == cImage) col = this.ghI; 
+if (_type == cImage) col = this.ghPublicImage; 
 
     if (_type == cVideo) col = this.ghV;
 
@@ -430,7 +430,7 @@ this.saveScroll = function(_val) {
 
     if (_name == "SOUND") col = this.ghS;
 
-if (_name == "IMAGE") col = this.ghI; 
+if (_name == "IMAGE") col = this.ghPublicImage; 
 
     if (_name == "VIDEO") col = this.ghV;
 
