@@ -1,3 +1,5 @@
+
+
 Template.closeup.rendered = function() {
 
   display.closeUp.draw();
@@ -48,7 +50,7 @@ Template.closeup.helpers({
 
     tag: function() {
 
-       return game.ghTag.find( { cc: hack.countryCode });
+       return db.ghTag.find( { cc: hack.countryCode });
     },
 
     cropMode: function() {
@@ -157,14 +159,14 @@ function finishCrop() {
           //This callback from attachData inserts the file into the CFS collection
           //and then that callback updates the new record with the country code
 
-          game.ghTag.insert(newFile, function (err, fileObj) {
+          db.ghTag.insert(newFile, function (err, fileObj) {
 
             if (err) {
               console.log(err);
               return;
             }
 
-            game.ghTag.update( {_id: fileObj._id }, { $set: { cc: hack.countryCode } });
+            db.ghTag.update( {_id: fileObj._id }, { $set: { cc: hack.countryCode } });
 
              Meteor.setTimeout( function() { $("#closeUpPic").cropper('destroy') }, 1000 );
 

@@ -71,6 +71,10 @@ Session.set("isIOS", false);
 
   Session.set("sAReady", false);
 
+  Session.set("sTagReady", false);  //tags
+
+  Session.set("sImageReady", false) //images
+
  
   //display-related
 
@@ -145,7 +149,9 @@ Meteor.startup(function() {
 
   Meteor.subscribe("ghAvatar", function() { Session.set("sAReady", true ) });
 
-  Meteor.subscribe("ghTag", function() { Session.set("sGReady", true ) });
+  Meteor.subscribe("ghTag", function() { Session.set("sTagReady", true ) });
+
+    Meteor.subscribe("ghPublicImage", function() { Session.set("sImageReady", true ) });
 
 //ps("US")
 
@@ -164,7 +170,14 @@ Meteor.startup(function() {
 
 Tracker.autorun( function(comp) {
 
-  if (Session.get("sZReady") && Session.get("sRReady") && Session.get("sCReady") && Session.get("sFReady") && Session.get("sAReady") && Session.get("sGReady")) {
+  if (Session.get("sZReady") && 
+      Session.get("sRReady") && 
+      Session.get("sCReady") && 
+      Session.get("sFReady") && 
+      Session.get("sAReady") && 
+      Session.get("sTagReady") &&
+      Session.get("sImageReady") 
+  ) {
 
     Session.set("sWaitingOnCoreData", false);
   

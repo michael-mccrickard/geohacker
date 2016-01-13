@@ -128,7 +128,7 @@ Display = function() {
 
                 if (_name == "WEB") this.ctl[ _name ] = new Web();
                 
-                if (_name == "IMAGE") this.ctl[ _name ] = new ghImage();       
+                if (_name == "IMAGE") this.ctl[ _name ] = new ghImageCtl();       
 
                 if (_name == "TEXT") this.ctl[ _name ] = new Text(); 
 

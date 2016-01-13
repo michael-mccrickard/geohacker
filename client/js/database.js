@@ -6,6 +6,20 @@ Database = function() {
 
   this.controlsReady = false;
 
+  this.publicStore = new FS.Store.S3("publicStore");
+
+  this.ghPublicImage = new FS.Collection("ghPublicImage", {
+      stores: [ this.publicStore ]
+  });
+
+  this.ghAvatar = new FS.Collection("ghAvatar", {
+      stores: [ this.publicStore ]
+  });
+
+  this.ghTag = new FS.Collection("ghTag", {
+      stores: [ this.publicStore ]
+  });
+
   //************************************************************
   //          COLLECTIONS
   //************************************************************
@@ -416,7 +430,7 @@ this.saveScroll = function(_val) {
 
     if (_name == "SOUND") col = this.ghS;
 
-    if (_name == "IMAGE") col = this.ghI; 
+if (_name == "IMAGE") col = this.ghI; 
 
     if (_name == "VIDEO") col = this.ghV;
 
@@ -684,6 +698,63 @@ return;
 
 }
 
+  var arrImage = [];
+
+  var _index = -1;
+
+
+uploadPublic = function() {
+
+   arrImage = db.ghI.find().fetch();
+
+   uploadPublic2();
+}
+
+uploadPublic2 = function() {
+
+  _index++;
+
+  if (_index == arrImage.length) return;
+
+  var _file = "";
+
+  var _name = arrImage[ _index ].f;
+
+  if (_name.substr(0,7) == "http://" || _name.substr(0,8) == "https://") {
+
+    _file = _name;
+  }
+  else {
+    _file = "http://localhost:3000/" + _name;
+  }
+
+  console.log("trying to insert " + _file )
+
+  var _fileObj = new FS.File();
+
+  _fileObj.attachData( _file, {type: 'image/png'},  function(error){
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    db.ghPublicImage.insert(_fileObj, function (err, fileObj) {
+
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      db.ghPublicImage.update( {_id: fileObj._id }, { $set: { s: arrImage[ _index ].s, dt: arrImage[ _index ].dt, cc: arrImage[ _index].cc } });
+
+      Meteor.defer( function() { uploadPublic2(); } );
+
+
+   });   
+
+  });
+}
 
 
 fixgif = function() {

@@ -74,17 +74,6 @@ Control = {
 
     this.items = [];
 
-    //If the collection is empty, then set the full and loaded properties to 1
-    //to ensure that we skip these during random loading and data available checks
-/*
-    if (!_collection) {
-
-      this.loadedCount = 1;
-
-      this.fullCount = 1;
-    }
-    else {
-*/
       //***************************************************
       //      Set the items array (process and shuffle)
       //***************************************************
@@ -133,7 +122,7 @@ Control = {
 
   setControlPicSource: function() {
 
-    if (this.items[ this.getIndex() ] === undefined) return;
+    if ( typeof this.items[ this.getIndex() ] === 'undefined') return;
 
     var pic = this.items[ this.getIndex() ].f;
 
@@ -247,7 +236,7 @@ Control = {
 
     return false;
   },
-
+/*
   getItemIndex : function( _which ) {
 
      for (i = 0; i < this.items.length; i++) {
@@ -260,7 +249,7 @@ Control = {
 
      return -1; 
   },
-
+*/
   //********************************************
   //          General media functions
   //********************************************
@@ -362,7 +351,7 @@ Control.getImageFromFile = function(_file) {
 // CONTROL CHILD OBJECTS  (SOUND, VIDEO AND MAP IN SEPARATE FILES)
 //*****************************************************************
 
-ghImage = function() {
+ghImageCtl = function() {
 
   this.name = "IMAGE";
 
@@ -411,7 +400,7 @@ Text = function() {
   }
 }
 
-ghImage.prototype = Control;
+ghImageCtl.prototype = Control;
 
 Web.prototype = Control;
 

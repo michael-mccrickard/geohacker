@@ -21,18 +21,6 @@ Game = function() {
 
 	this.music = ["amber.mp3","yellow.mp3","agent_d_cooper.mp3", "geohackerAmbientSofter.mp3", "geohackerThemeSoftest.mp3"];
 
-	this.ghAvatar = new FS.Collection("ghAvatar", {
-  		stores: [new FS.Store.FileSystem("ghAvatar")]
-	});
-
-	this.ghImage = new FS.Collection("ghImage", {
-  		stores: [new FS.Store.FileSystem("ghImage")]
-	});
-
-	this.ghTag = new FS.Collection("ghTag", {
-  		stores: [new FS.Store.FileSystem("ghTag")]
-	});
-
 	//this is called by an eventListener and executes in a different context,
 	//so "this" is replaced by "game"  here
 

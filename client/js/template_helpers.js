@@ -1,3 +1,17 @@
+var prefix = 'https://s3.amazonaws.com/gh-resource/';
+
+getS3URL = function(_rec) {
+
+	return prefix + _rec.copies.ghPublic.key;
+}
+
+Template.registerHelper("s3URL", function( _rec) {
+
+    return getS3URL( _rec );  
+	
+	}
+)
+
 Template.registerHelper("agentName",  function() {
 
 		 return game.user.name.toUpperCase();
@@ -26,7 +40,6 @@ Template.registerHelper("avatarURL",  function() {
 
 		return Meteor.user().profile.av;
 	}
-
 )
 
 Template.registerHelper("avatarURLForUserID",  function(ID) {

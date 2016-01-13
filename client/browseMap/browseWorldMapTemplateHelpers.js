@@ -2,14 +2,15 @@
 //              TEMPLATE HELPERS FOR BROWSE WORLD MAP
 //*************************************************************************
 
+
+
 Template.browseWorldMap.helpers({
-
-
+  
   tag: function() {
 
     if (!display) return;
 
-     return game.ghTag.find( { cc: display.ctl["MAP"].browseWorldMap.selectedCountry.get() });
+     return db.ghTag.find( { cc: display.ctl["MAP"].browseWorldMap.selectedCountry.get() });
   },
 
   continentName: function() { 

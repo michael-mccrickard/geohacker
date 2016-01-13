@@ -17,27 +17,26 @@ Accounts.emailTemplates.resetPassword.text = function (user, url) {
      + "Keep on hacking, " + user.username + "!" 
 };
 
-//avatars and other "user-generated" content
-
-var avatarStore = new FS.Store.S3("images", {
+var publicStore = new FS.Store.S3("ghPublic", {
   region: "us-east-1", //optional in most cases
-  bucket: "gh-avatar", //required
+  bucket: "gh-resource", //required
   accessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
   secretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
   ACL: "public-read-write", //optional, default is 'private', but you can allow public or secure access routed through your app URL
 });
 
 var ghAvatar = new FS.Collection("ghAvatar", {
-  stores: [avatarStore]
-});
-
-var ghImage = new FS.Collection("ghImage", {
-  stores: [new FS.Store.FileSystem("ghImage")]
+    stores: [ publicStore ]
 });
 
 var ghTag = new FS.Collection("ghTag", {
-  stores: [new FS.Store.FileSystem("ghTag")]
+    stores: [ publicStore ]
 });
+
+var ghPublicImage = new FS.Collection("ghPublicImage", {
+    stores: [ publicStore ]
+});
+
 
 //startup
 
@@ -175,6 +174,12 @@ Meteor.startup(
       return ghTag.find();
     });
 
+    //images (all for now)
+
+    Meteor.publish("ghPublicImage", function () {
+      return ghPublicImage.find();
+    });
+
     ghAvatar.allow({
 
       insert: function() {
@@ -192,7 +197,7 @@ Meteor.startup(
     });
 
 
-    ghImage.allow({
+    ghPublicImage.allow({
 
       insert: function() {
           return true;
@@ -291,7 +296,7 @@ Meteor.methods({
 
   clearImages: function() {
 
-    ghImage.remove({});
+    ghPublicImage.remove({});
   },
 
   clearTags: function() {
@@ -324,7 +329,6 @@ Meteor.methods({
               //and then that callback builds the URL and puts it in the user profile record
 
               ghAvatar.insert(newFile, function (err, fileObj) {
-
 
                   if(err) console.log(err.message);
 
@@ -383,5 +387,7 @@ Meteor.methods({
 
       if (res) console.log("Fields updated on server: " + res);   
   }
+
+
 
 });

@@ -1,8 +1,6 @@
 
 <template name='closeup'>
 
-
-		   
 		<div id="closeUpBox">
 
 			<img id="closeUpPic" src={{featuredImage}} />
@@ -15,7 +13,7 @@
 
 					{{#each tag}}
 
-						<img class="imgMapTag" src="{{this.url}}" />
+						<img class="imgMapTag" src="{{s3URL this}}" />
 
 					{{/each}}
 

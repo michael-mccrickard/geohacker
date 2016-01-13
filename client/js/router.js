@@ -73,11 +73,20 @@ FlowRouter.route('/congrats', {
 //      HOME
 //*********************************************
 
+noDisplay = function() {
+
+  if (typeof display === "undefined") return true;
+
+  return false;
+}
+
 FlowRouter.route('/home', {
 
   action: function (params, queryParams) { 
 
-    if (display) display.closeOutMain();
+    if ( noDisplay() ) return
+
+    display.closeOutMain();
 
     BlazeLayout.render('layout', { content: "home" } ) 
 

@@ -60,7 +60,7 @@ Template.bio.events({
     
     for (var i = 0, ln = files.length; i < ln; i++) {
     
-      game.ghAvatar.insert(files[i], function (err, fileObj) {
+      db.ghAvatar.insert(files[i], function (err, fileObj) {
 
           var oldURL = game.user.avatar();
 
@@ -70,7 +70,7 @@ Template.bio.events({
 
           Meteor.setTimeout( function() { redrawBio(); }, 750 );
 
-          Meteor.setTimeout( function() { game.ghAvatar.remove( { _id: getCFS_ID( oldURL) })}, 1000);
+          Meteor.setTimeout( function() { db.ghAvatar.remove( { _id: getCFS_ID( oldURL) })}, 1000);
       
       });
 
@@ -83,7 +83,7 @@ Template.bio.events({
     
     for (var i = 0, ln = files.length; i < ln; i++) {
     
-      game.ghImage.insert(files[i], function (err, fileObj) {
+      db.ghImage.insert(files[i], function (err, fileObj) {
 
           var oldURL = game.user.featuredPic();
 
@@ -95,7 +95,7 @@ Template.bio.events({
 
           //if it's a public picture (in our public folder) then we don't want to do this, but it's harmless (?)
 
-          Meteor.setTimeout( function() { game.ghImage.remove( { _id: getCFS_ID( oldURL) })}, 1000);
+          Meteor.setTimeout( function() { db.ghImage.remove( { _id: getCFS_ID( oldURL) })}, 1000);
       
       });
 
