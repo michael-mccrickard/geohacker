@@ -233,6 +233,11 @@ Hack = function() {
 /*              GETTERS FOR CURRENT COUNTRY PROPERTIES          
 /**************************************************************/
 
+
+    /**************************************************************/
+    /*              GETTERS FOR SOUNDS         
+    /**************************************************************/
+
     this.getAnthemFile = function() {
 
       try {
@@ -264,17 +269,15 @@ Hack = function() {
 
     }
 
-    this.getCapitalName = function() {
 
-      return db.ghT.findOne( { cc: this.countryCode, dt: "cap" } ).f;
-    }
-
-    //to do: get rid of the capital images in debriefs
+    /**************************************************************/
+    /*              GETTERS FOR PICTURES         
+    /**************************************************************/
 
     this.getCapitalPic = function() {
 
       try {
-          var f = db.ghI.findOne( { cc: this.countryCode, dt: "cap" } ).f;
+          var f = db.ghPublicImage.findOne( { cc: this.countryCode, dt: "cap" } );
       }
       catch(err) {
 
@@ -283,18 +286,82 @@ Hack = function() {
           return null;
       }
 
-      return f;
+      return getS3URL( f );
+    }
+
+    this.getFlagPic = function() {
 
       try {
-
-          return db.ghD.findOne( { cc: this.countryCode, dt: "cap" } ).f;
+          var f = db.ghPublicImage.findOne( { cc: this.countryCode, dt: "flg" } );
       }
       catch(err) {
 
-          showMessage( "No capital image file found in debriefs for " + hack.getCountryName() );
+          showMessage( "No flag file found for " + hack.getCountryName() );
 
-          return null;
+          return "";
       }
+
+      return getS3URL( f );
+
+    }
+
+    this.getHeadquartersPic = function() {
+
+      try {
+
+          var f = db.ghPublicImage.findOne( { cc: this.countryCode, dt: "hq" } );
+      }
+      catch(err) {
+
+          showMessage( "No hq file found in images for " + hack.getCountryName() );
+
+          return "";
+      }
+
+      return getS3URL( f );
+
+    }
+
+    this.getLeaderPic = function() {
+
+      try {
+
+          var f = db.ghPublicImage.findOne( { cc: this.countryCode, dt: "ldr" } );
+      }
+      catch(err) {
+
+          showMessage( "No leader file found in images for " + hack.getCountryName() );
+
+          return "";
+      }
+
+      return getS3URL( f );
+    }
+
+    this.getCustomPic = function(_code) {
+
+      var rec = db.ghPublicImage.findOne( { cc: this.countryCode, dt: _code } );
+
+      if (rec) return getS3URL( rec );
+    }
+
+
+//these are on S3 but we need a query that will access them
+    this.getCountryMapSource = function() {
+
+      var rec = db.getCountryRec( this.countryCode );
+
+      return rec.s;
+    }
+
+    /**************************************************************/
+    /*              GETTERS FOR TEXT         
+    /**************************************************************/
+
+
+    this.getCapitalName = function() {
+
+      return db.ghT.findOne( { cc: this.countryCode, dt: "cap" } ).f;
     }
 
     this.getContinentName = function() {
@@ -311,13 +378,6 @@ Hack = function() {
       return rec.n;
     }
 
-    this.getCountryMapSource = function() {
-
-      var rec = db.getCountryRec( this.countryCode );
-
-      return rec.s;
-    }
-
     this.getCountryFilename = function() {
 
       var _name = this.getCountryName();
@@ -325,94 +385,6 @@ Hack = function() {
       var name = _name.replaceAll(" ","_");
 
       return name.toLowerCase();
-    }
-
-    this.getCustomPic = function(_code) {
-
-      var rec = db.ghI.findOne( { cc: this.countryCode, dt: _code } );
-
-      if (rec) return rec.f;
-
-      return db.ghD.findOne( { cc: this.countryCode, dt: _code } ).f;
-    }
-
-    this.setMessageID = function() {
-
-        var id = '#';
-
-        var num = parseInt( Math.random() * 10000 ) ;
-
-        for (var i = 1; i <= 4; i++) {
-
-            var charCode = Math.floor( Math.random() * ( 90 - 65 + 1) + 65);
-
-            id = id + String.fromCharCode(charCode);
-        }
-
-        id = id + num;
-
-        this.messageID = id;
-    }
-
-    this.getFlagPic = function() {
-
-      try {
-          var f = db.ghI.findOne( { cc: this.countryCode, dt: "flg" } ).f;
-      }
-      catch(err) {
-
-          showMessage( "No flag file found for " + hack.getCountryName() );
-
-          return "";
-      }
-
-      return f;
-
-    }
-
-    //to do: get rid of hq pics in debrief
-
-    this.getHeadquartersPic = function() {
-
-      try {
-          var f = db.ghI.findOne( { cc: this.countryCode, dt: "hq" } ).f;
-      }
-      catch(err) {
-
-          showMessage( "No hq file found in images for " + hack.getCountryName() );
-
-          return "";
-      }
-
-      return f;
-
-      try {
-          f = db.ghD.findOne( { cc: this.countryCode, dt: "hq" } ).f;
-      }
-      catch(err) {
-
-          showMessage( "No hq file found in debriefs for " + hack.getCountryName() );
-
-          return "";
-      }
-
-      return f;
-
-    }
-
-    this.getLeaderPic = function() {
-
-      try {
-          var f = db.ghI.findOne( { cc: this.countryCode, dt: "ldr" } ).f;
-      }
-      catch(err) {
-
-          showMessage( "No leader file found in images for " + hack.getCountryName() );
-
-          return "";
-      }
-
-      return f;
     }
 
     this.getLeaderName = function() {
@@ -430,6 +402,28 @@ Hack = function() {
       var _code = db.getRegionCodeForCountry( this.countryCode ) ;
 
       return db.getRegionRec( _code ).n;
+    }
+
+    /**************************************************************/
+    /*              MISC FUNCTIONS   
+    /**************************************************************/
+
+    this.setMessageID = function() {
+
+        var id = '#';
+
+        var num = parseInt( Math.random() * 10000 ) ;
+
+        for (var i = 1; i <= 4; i++) {
+
+            var charCode = Math.floor( Math.random() * ( 90 - 65 + 1) + 65);
+
+            id = id + String.fromCharCode(charCode);
+        }
+
+        id = id + num;
+
+        this.messageID = id;
     }
 
 

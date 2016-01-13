@@ -14,35 +14,35 @@ Template.main.helpers({
 
     controlPic: function() {
 
-        if (!display) return;
+        if ( noDisplay() ) return;
 
         return display.ctl[ this ].getControlPic();
     },
 
     controlPicLeft: function() {
 
-        if (!display) return;
+        if ( noDisplay() ) return;
 
       return display.ctl[ this ].picFrame.left;
     },
 
     controlPicTop: function() {
 
-        if (!display) return;
+        if ( noDisplay() ) return;
 
       return display.ctl[ this ].picFrame.top;
     },
 
     controlPicWidth: function() {
 
-        if (!display) return;
+        if ( noDisplay() ) return;
 
       return display.ctl[ this ].picFrame.width;
     },
 
     controlPicHeight: function() {
 
-        if (!display) return;
+        if ( noDisplay() ) return;
 
       return display.ctl[ this ].picFrame.height;
     },
@@ -51,7 +51,7 @@ Template.main.helpers({
 
     controlBackdrop: function(_name) {
 
-        if (!display) return;
+        if ( noDisplay() ) return;
 
       if (_name == display.feature.getName() ) return "hilitedBackdrop.jpg"
 
@@ -70,7 +70,7 @@ Template.main.helpers({
 
     opacityClass: function() {
 
-      if (!display) return;
+        if ( noDisplay() ) return;
 
       if (display.ctl[ this ].getState() <= sIcon) return "faded";
 
@@ -80,7 +80,7 @@ Template.main.helpers({
 
     opacityClassMap: function() {
 
-      if (!display) return;
+        if ( noDisplay() ) return;
 
       var _s = display.ctl[ this ].getState();  //any state change to a control will trigger this?
 
@@ -92,7 +92,7 @@ Template.main.helpers({
 
     navButtonPrevVisible: function() { 
 
-      if (!display) return;
+        if ( noDisplay() ) return;
 
       if (display.feature.off() ) return "invisible"; 
 
@@ -105,7 +105,7 @@ Template.main.helpers({
 
     navButtonNextVisible: function() { 
 
-      if (!display) return;
+        if ( noDisplay() ) return;
 
       if (display.feature.off() ) return "invisible"; 
 
@@ -125,7 +125,7 @@ Template.main.helpers({
 
     TextIsDisplayed: function() {
 
-        if (!display) return;
+        if ( noDisplay() ) return;
 
         if (display.feature.getName() == "TEXT") return true;
 
@@ -138,7 +138,7 @@ Template.main.helpers({
 
     featuredAreaFont: function() {
 
-        if (!display) return;
+        if ( noDisplay() ) return;
 
         if (display.feature.displayMessage.get() ) return "featuredMessageFont";
 
@@ -147,22 +147,22 @@ Template.main.helpers({
 
 
     displayTextContent: function() {
-
-        if (!display) return;
+      
+        if ( noDisplay() ) return;
 
         if (display.feature.getName() == "TEXT") return display.ctl["TEXT"].getTextContent();       
     },
 
     textControlContent: function() { 
 
-        if (!display) return;
+        if ( noDisplay() ) return;
 
         return display.ctl["TEXT"].getTextContent();   
     },
 
     displayTextControlText: function() {
 
-        if (!display) return;
+        if ( noDisplay() ) return;
 
         if (this == "TEXT" && display.ctl["TEXT"].getState() >= sLoaded) return true;
 
@@ -171,7 +171,7 @@ Template.main.helpers({
 
     youTubeWaiting: function() {
 
-        if (!display) return;
+        if ( noDisplay() ) return;
 
       return display.ctl["VIDEO"].youTubeWaiting.get();
     },
@@ -179,7 +179,7 @@ Template.main.helpers({
 
     scannerNotVisible: function() {
 
-        if (!display) return;
+        if ( noDisplay() ) return;
 
       if ( display.scanner.visible.get() ) return false;
 
@@ -188,7 +188,7 @@ Template.main.helpers({
 
     scannerNotLoaded: function() {
 
-        if (!display) return;
+        if ( noDisplay() ) return;
 
       if ( display.scanner.centerState.get() != "loaded" ) return true;
 

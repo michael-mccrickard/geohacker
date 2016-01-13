@@ -170,7 +170,7 @@ Debrief = function() {
 
 		if (this.code == "cus")  this.image = hack.getCustomPic( this.rec.dt );		
 
-		if (!this.image.length) this.image = this.rec.f;
+		if (!this.image.length) this.image = getS3URL( this.rec.f );
 
 	} 
 
