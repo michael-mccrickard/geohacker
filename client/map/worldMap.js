@@ -60,6 +60,10 @@ WorldMap = function( _mapCtl ) {
 
     this.prevMapState = sIcon;
 
+    this.mapFilename = '';
+
+    this.imgSrc = null;
+
     //set the module var for the event handlers
 
     worldMap = this;
@@ -643,6 +647,10 @@ c("doMapSuccess")
 
     this.hackDone = function() {
 
+        this.mapFilename = hack.getCountryMapURL( hack.getCountryName() );
+
+        this.imgSrc = Control.getImageFromFile( this.mapFilename );
+
         areaTop = $("#divMap").position().top;
         areaLeft = $("#divMap").position().left;
         areaWidth = $("#divMap").width();
@@ -699,9 +707,7 @@ c("doMapSuccess")
 
     this.hackDone4 = function() {
 
-        var _filename = hack.getCountryFilename() + "_map.jpg"
 
-        var imgSrc = Control.getImageFromFile( _filename );
 
         var imageWidth = 4;
         var imageHeight = 4;
@@ -714,7 +720,11 @@ c("doMapSuccess")
 
         var sideBorder = areaWidth * 0.015;
 
-        targHeight = (targWidth / imgSrc.width ) * imgSrc.height; 
+c("w = " + this.imgSrc.width)
+
+c("h = " + this.imgSrc.height)
+
+        targHeight = (targWidth / this.imgSrc.width ) * this.imgSrc.height; 
 
         //Clamp the width if necessary and determine the position on the screen
 
@@ -742,7 +752,7 @@ c("doMapSuccess")
 
         var deltaWidth = '+=' + (targWidth - 4) + 'px';
 
-        $("#mapImage").attr("src", _filename);     
+        $("#mapImage").attr("src", this.mapFilename);     
 
 
         $("#mapImage").velocity({

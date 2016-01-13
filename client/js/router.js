@@ -128,7 +128,7 @@ FlowRouter.route('/worldMap', {
 
   action: function (params, queryParams) { 
 
-   display.closeOutMain();
+  if ( !noDisplay() ) display.closeOutMain();
 
    BlazeLayout.render('layout', { content: "worldMap" } ) 
 

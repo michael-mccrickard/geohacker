@@ -273,6 +273,7 @@ Hack = function() {
     /**************************************************************/
     /*              GETTERS FOR PICTURES         
     /**************************************************************/
+//to do: fix these error traps -- test for returned rec for null instead of try/catch
 
     this.getCapitalPic = function() {
 
@@ -281,7 +282,7 @@ Hack = function() {
       }
       catch(err) {
 
-          showMessage( "No capital image file found images for " + hack.getCountryName() );
+          showMessage( "No capital image file found images for " + this.getCountryName() );
 
           return null;
       }
@@ -296,7 +297,7 @@ Hack = function() {
       }
       catch(err) {
 
-          showMessage( "No flag file found for " + hack.getCountryName() );
+          showMessage( "No flag file found for " + this.getCountryName() );
 
           return "";
       }
@@ -313,7 +314,7 @@ Hack = function() {
       }
       catch(err) {
 
-          showMessage( "No hq file found in images for " + hack.getCountryName() );
+          showMessage( "No hq file found in images for " + this.getCountryName() );
 
           return "";
       }
@@ -330,7 +331,7 @@ Hack = function() {
       }
       catch(err) {
 
-          showMessage( "No leader file found in images for " + hack.getCountryName() );
+          showMessage( "No leader file found in images for " + this.getCountryName() );
 
           return "";
       }
@@ -345,8 +346,16 @@ Hack = function() {
       if (rec) return getS3URL( rec );
     }
 
+    this.getCountryMapURL = function() {
 
-//these are on S3 but we need a query that will access them
+      var _name = this.getCountryFilename() + "_map.jpg";
+
+      var rec = db.ghPublicImage.findOne( {'copies.ghPublic.name':  _name } );
+
+      if (typeof rec !== 'undefined') return getS3URL( rec );
+    }
+
+
     this.getCountryMapSource = function() {
 
       var rec = db.getCountryRec( this.countryCode );

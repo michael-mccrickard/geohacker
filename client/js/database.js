@@ -707,7 +707,54 @@ uploadPublic = function() {
 
    arrImage = db.ghI.find().fetch();
 
+   //arrImage = db.ghC.find( { d: 1 } ).fetch();
+
    uploadPublic2();
+}
+
+uploadPublic3 = function() {
+
+  _index++;
+
+  if (_index == arrImage.length) return;
+
+  var _file = "";
+
+  var _code = arrImage[ _index ].c;
+
+  var rec = db.getCountryRec( _code );
+
+  var name = rec.n.replaceAll(" ","_");
+
+  _file = getLocalPrefix() +  name.toLowerCase() + "_map.jpg";
+
+
+  console.log("trying to insert " + _file )
+
+  var _fileObj = new FS.File();
+
+  _fileObj.attachData( _file, {type: 'image/png'},  function(error){
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    db.ghPublicImage.insert(_fileObj, function (err, fileObj) {
+
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      db.ghPublicImage.update( {_id: fileObj._id }, { $set: { cc: _code, dt: "cmp" } });
+
+      Meteor.defer( function() { uploadPublic3(); } );
+
+
+   });   
+
+  });
 }
 
 uploadPublic2 = function() {
