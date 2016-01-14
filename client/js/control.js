@@ -91,12 +91,20 @@ Control = {
 
   processItems: function( _arr ) {
 
-      if (this.name != "IMAGE") return;
+      if (this.name == "IMAGE") {
 
-      for (var i = 0; i < _arr.length; i++) {
+        for (var i = 0; i < _arr.length; i++) {
 
-          _arr[i].f = getS3URL( _arr[i] );
+            _arr[i].f = getS3URL( _arr[i] );
+        }
+      }
 
+      if (this.name == "SOUND") {
+
+        for (var i = 0; i < _arr.length; i++) {
+
+            if ( !isURL( _arr[i].f ) ) _arr[i].f = getS3URL( _arr[i] ) ;
+        }
       }
   },
 
@@ -240,20 +248,6 @@ Control = {
 
     return false;
   },
-/*
-  getItemIndex : function( _which ) {
-
-     for (i = 0; i < this.items.length; i++) {
-
-        if ( this.items[i].f == _which ) {
-
-            return i;
-        }
-     }
-
-     return -1; 
-  },
-*/
   //********************************************
   //          General media functions
   //********************************************

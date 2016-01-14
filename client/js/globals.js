@@ -1,5 +1,28 @@
 //************************************************************
-//                 Update the screen element proportions
+//     filename utilities
+//************************************************************
+
+var prefix = 'https://s3.amazonaws.com/gh-resource/';
+
+getS3Prefix = function() { return prefix; } 
+
+getLocalPrefix = function() { return "http://localhost:3000/";}
+
+getS3URL = function(_rec) {
+
+    return prefix + _rec.copies.ghPublic.key;
+}
+
+isURL = function( _name ) {
+
+  if (_name.substr(0,7) == "http://" || _name.substr(0,8) == "https://") return true;
+
+  return false;
+}
+
+
+//************************************************************
+//     Update the screen element proportions
 //************************************************************
 
 $(window).resize(function(){

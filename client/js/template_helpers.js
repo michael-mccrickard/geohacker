@@ -1,13 +1,5 @@
-var prefix = 'https://s3.amazonaws.com/gh-resource/';
 
-getS3Prefix = function() { return prefix; } 
 
-getLocalPrefix = function() { return "http://localhost:3000/";}
-
-getS3URL = function(_rec) {
-
-	return prefix + _rec.copies.ghPublic.key;
-}
 
 Template.registerHelper("s3URL", function( _rec) {
 

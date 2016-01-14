@@ -501,10 +501,6 @@ function handleZoomCompleted() {
 
 }
 
-function handleDrop(_event) {
-
-    c("drop");
-}
 
 function refreshMap() {
     Meteor.setTimeout( function() { display.ctl["MAP"].browseFinishDraw(); }, 250);

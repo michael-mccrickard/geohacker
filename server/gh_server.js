@@ -1,6 +1,14 @@
+//*********************************************
+//      GEOHACKER SERVER
+//*********************************************
+
 var countryCode;
 
-//email settings
+
+//*********************************************
+//      EMAIL SETTINGS
+//*********************************************
+
 
 process.env.MAIL_URL = Meteor.settings.MAIL_URL;
 
@@ -16,6 +24,10 @@ Accounts.emailTemplates.resetPassword.text = function (user, url) {
      + url + "\n\n"
      + "Keep on hacking, " + user.username + "!" 
 };
+
+//*********************************************
+//      AWS S3 / CFS OBJECTS
+//*********************************************
 
 var publicStore = new FS.Store.S3("ghPublic", {
   region: "us-east-1", //optional in most cases
@@ -37,8 +49,14 @@ var ghPublicImage = new FS.Collection("ghPublicImage", {
     stores: [ publicStore ]
 });
 
+var ghPublicSound = new FS.Collection("ghPublicSound", {
+    stores: [ publicStore ]
+});
 
-//startup
+
+//*********************************************
+//      STARTUP
+//*********************************************
 
 Meteor.startup(
 
@@ -174,10 +192,14 @@ Meteor.startup(
       return ghTag.find();
     });
 
-    //images (all for now)
+    //images and sounds (publish all for now)
 
     Meteor.publish("ghPublicImage", function () {
       return ghPublicImage.find();
+    });
+
+    Meteor.publish("ghPublicSound", function () {
+      return ghPublicSound.find();
     });
 
     ghAvatar.allow({
@@ -213,6 +235,22 @@ Meteor.startup(
       }
     });
 
+    ghPublicSound.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      },
+      download: function() {
+          return true;
+      }
+    });
+
     ghTag.allow({
 
       insert: function() {
@@ -232,7 +270,9 @@ Meteor.startup(
 });
 
 
-//functions
+//*********************************************
+//      FUNCTIONS
+//*********************************************
 
 function getCollectionForType(_type) {
 
@@ -254,9 +294,9 @@ function getCollectionForType(_type) {
 
     if (_type == cMap) col = ghM;
 
-    if (_type == cSound) col = ghS;
+if (_type == cSound) col = ghPublicSound;
 
-    if (_type == cImage) col = ghI; 
+if (_type == cImage) col = ghPublicImage; 
 
     if (_type == cVideo) col = ghV;
 
@@ -269,7 +309,9 @@ function getCollectionForType(_type) {
     return col;
   }
 
-//Methods
+//*********************************************
+//      METHODS
+//*********************************************
 
 Meteor.methods({
 
@@ -297,6 +339,11 @@ Meteor.methods({
   clearImages: function() {
 
     ghPublicImage.remove({});
+  },
+
+  clearSounds: function() {
+
+    ghPublicSound.remove({});
   },
 
   clearTags: function() {

@@ -20,8 +20,6 @@ Display = function() {
 
     //media files
 
-    this.beep_sound = "beep3.wav";
-
     this.fb_sound_file = "msg.mp3";
 
     this.scan_sound_file = "token.mp3";

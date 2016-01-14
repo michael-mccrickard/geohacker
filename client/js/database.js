@@ -4,11 +4,13 @@ Database = function() {
 
   var res = null;
 
-  this.controlsReady = false;
-
   this.publicStore = new FS.Store.S3("publicStore");
 
   this.ghPublicImage = new FS.Collection("ghPublicImage", {
+      stores: [ this.publicStore ]
+  });
+
+  this.ghPublicSound = new FS.Collection("ghPublicSound", {
       stores: [ this.publicStore ]
   });
 
@@ -51,8 +53,6 @@ Database = function() {
     this.ghM = new Meteor.Collection('alMap');
 
     this.ghG = new Meteor.Collection('alTag');
-
-    this.controlsReady = true;
   }
 
   //************************************************************
@@ -396,7 +396,7 @@ this.saveScroll = function(_val) {
 
     if (_type == cMap) col = this.ghM;
 
-    if (_type == cSound) col = this.ghS;
+if (_type == cSound) col = this.ghPublicSound;
 
 if (_type == cImage) col = this.ghPublicImage; 
 
@@ -428,7 +428,7 @@ if (_type == cImage) col = this.ghPublicImage;
 
     if (_name == "MAP") col = this.ghM;
 
-    if (_name == "SOUND") col = this.ghS;
+if (_name == "SOUND") col = this.ghPublicSound;
 
 if (_name == "IMAGE") col = this.ghPublicImage; 
 
@@ -705,11 +705,67 @@ return;
 
 uploadPublic = function() {
 
-   arrImage = db.ghI.find().fetch();
+   //arrImage = db.ghI.find().fetch();
 
    //arrImage = db.ghC.find( { d: 1 } ).fetch();
 
-   uploadPublic2();
+   arrImage = db.ghS.find().fetch();
+
+   uploadPublic4();
+}
+
+uploadPublic4 = function() {
+
+  _index++;
+
+  if (_index == arrImage.length) return;
+
+  var _file = "";
+
+  var _name = arrImage[ _index ].f;
+
+  if (!_name.length) {
+
+    uploadPublic4();
+
+    return;
+  }
+
+  console.log("trying to insert " + _name )
+
+  var _fileObj = new FS.File();
+
+  if (_name.substr(0,7) == "http://" || _name.substr(0,8) == "https://") {
+
+    _file = getLocalPrefix() + "dummy.mp3";
+  }
+  else {
+
+    _file = getLocalPrefix() + _name;
+  }
+
+  _fileObj.attachData( _file, {type: 'audio/mp3'},  function(error){
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    db.ghPublicSound.insert(_fileObj, function (err, fileObj) {
+
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      db.ghPublicSound.update( {_id: fileObj._id }, { $set: { f: arrImage[ _index ].f, s: arrImage[ _index ].s, dt: arrImage[ _index ].dt, cc: arrImage[ _index].cc } });
+
+      Meteor.defer( function() { uploadPublic4(); } );
+
+
+   });   
+  });
+
 }
 
 uploadPublic3 = function() {

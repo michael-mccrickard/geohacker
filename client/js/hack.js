@@ -241,7 +241,7 @@ Hack = function() {
     this.getAnthemFile = function() {
 
       try {
-          var f = db.ghS.findOne( { cc: this.countryCode, dt: "ant" } ).f;
+          var f = db.ghPublicSound.findOne( { cc: this.countryCode, dt: "ant" } ).f;
       }
       catch(err) {
 
@@ -256,7 +256,7 @@ Hack = function() {
     this.getLanguageFile = function() {
 
       try {
-          var f = db.ghS.findOne( { cc: this.countryCode, dt: "lng" } ).f;
+          var f = db.ghPublicSound.findOne( { cc: this.countryCode, dt: "lng" } ).f;
       }
       catch(err) {
 

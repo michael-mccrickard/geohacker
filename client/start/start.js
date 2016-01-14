@@ -75,7 +75,9 @@ Session.set("isIOS", false);
 
   Session.set("sImageReady", false) //images
 
- 
+  Session.set("sSoundReady", false) //sounds
+
+
   //display-related
 
   Session.set("sImagesReady", false); 
@@ -93,8 +95,6 @@ Session.set("isIOS", false);
   Session.set("sUserRegion", "");
 
   Session.set("sHomeContent", "");
-
-  Blaze._allowJavascriptUrls();
 
 //****************************************************************
 //                  STARTUP
@@ -151,7 +151,11 @@ Meteor.startup(function() {
 
   Meteor.subscribe("ghTag", function() { Session.set("sTagReady", true ) });
 
-    Meteor.subscribe("ghPublicImage", function() { Session.set("sImageReady", true ) });
+//temporarily subscribing to these all-records collections while we implement S3 storage
+
+  Meteor.subscribe("ghPublicImage", function() { Session.set("sImageReady", true ) });
+
+  Meteor.subscribe("ghPublicSound", function() { Session.set("sSoundReady", true ) });
 
 //ps("US")
 
@@ -176,7 +180,8 @@ Tracker.autorun( function(comp) {
       Session.get("sFReady") && 
       Session.get("sAReady") && 
       Session.get("sTagReady") &&
-      Session.get("sImageReady") 
+      Session.get("sImageReady") &&
+      Session.get("sSoundReady")       
   ) {
 
     Session.set("sWaitingOnCoreData", false);
@@ -256,7 +261,7 @@ Template.start.rendered = function () {
   }
 }
 //****************************************************************
-//          HACKS
+//          TESTING / DEBUGGING
 //****************************************************************
 
 
