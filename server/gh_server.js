@@ -53,6 +53,9 @@ var ghPublicSound = new FS.Collection("ghPublicSound", {
     stores: [ publicStore ]
 });
 
+var ghPublicWeb = new FS.Collection("ghPublicWeb", {
+    stores: [ publicStore ]
+});
 
 //*********************************************
 //      STARTUP
@@ -202,6 +205,10 @@ Meteor.startup(
       return ghPublicSound.find();
     });
 
+    Meteor.publish("ghPublicWeb", function () {
+      return ghPublicWeb.find();
+    });
+
     ghAvatar.allow({
 
       insert: function() {
@@ -236,6 +243,22 @@ Meteor.startup(
     });
 
     ghPublicSound.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      },
+      download: function() {
+          return true;
+      }
+    });
+
+    ghPublicWeb.allow({
 
       insert: function() {
           return true;
@@ -300,7 +323,7 @@ if (_type == cImage) col = ghPublicImage;
 
     if (_type == cVideo) col = ghV;
 
-    if (_type == cWeb) col = ghW;
+if (_type == cWeb) col = ghPublicWeb;
 
     if (_type == cText) col = ghT;
 

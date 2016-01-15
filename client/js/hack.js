@@ -237,7 +237,7 @@ Hack = function() {
     /**************************************************************/
     /*              GETTERS FOR SOUNDS         
     /**************************************************************/
-
+/*
     this.getAnthemFile = function() {
 
       try {
@@ -251,6 +251,13 @@ Hack = function() {
       }
 
       return f;
+    }
+*/
+    this.getAnthemFile = function() {
+
+      var rec = db.ghPublicSound.findOne( {'cc':  this.countryCode, 'dt': 'ant' } );
+
+      if (typeof rec !== 'undefined') return getS3URL( rec );
     }
 
     this.getLanguageFile = function() {

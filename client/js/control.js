@@ -91,7 +91,7 @@ Control = {
 
   processItems: function( _arr ) {
 
-      if (this.name == "IMAGE") {
+      if (this.name == "IMAGE" || this.name == "WEB") {
 
         for (var i = 0; i < _arr.length; i++) {
 

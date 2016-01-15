@@ -14,6 +14,10 @@ Database = function() {
       stores: [ this.publicStore ]
   });
 
+  this.ghPublicWeb = new FS.Collection("ghPublicWeb", {
+      stores: [ this.publicStore ]
+  });
+
   this.ghAvatar = new FS.Collection("ghAvatar", {
       stores: [ this.publicStore ]
   });
@@ -402,7 +406,7 @@ if (_type == cImage) col = this.ghPublicImage;
 
     if (_type == cVideo) col = this.ghV;
 
-    if (_type == cWeb) col = this.ghW;
+if (_type == cWeb) col = this.ghPublicWeb;
 
     if (_type == cText) col = this.ghT;
 
@@ -434,7 +438,7 @@ if (_name == "IMAGE") col = this.ghPublicImage;
 
     if (_name == "VIDEO") col = this.ghV;
 
-    if (_name == "WEB") col = this.ghW;
+if (_name == "WEB") col = this.ghPublicWeb;
 
     if (_name == "TEXT") col = this.ghT;
 
@@ -709,9 +713,9 @@ uploadPublic = function() {
 
    //arrImage = db.ghC.find( { d: 1 } ).fetch();
 
-   arrImage = db.ghS.find().fetch();
+   arrImage = db.ghW.find().fetch();
 
-   uploadPublic4();
+   uploadPublic2();
 }
 
 uploadPublic4 = function() {
@@ -835,21 +839,21 @@ uploadPublic2 = function() {
 
   var _fileObj = new FS.File();
 
-  _fileObj.attachData( _file, {type: 'image/png'},  function(error){
+  _fileObj.attachData( _file, {type: 'image/*'},  function(error){
 
     if (error) {
       console.log(error);
       return;
     }
 
-    db.ghPublicImage.insert(_fileObj, function (err, fileObj) {
+    db.ghPublicWeb.insert(_fileObj, function (err, fileObj) {
 
       if (err) {
         console.log(err);
         return;
       }
 
-      db.ghPublicImage.update( {_id: fileObj._id }, { $set: { s: arrImage[ _index ].s, dt: arrImage[ _index ].dt, cc: arrImage[ _index].cc } });
+      db.ghPublicWeb.update( {_id: fileObj._id }, { $set: { s: arrImage[ _index ].s, f: arrImage[ _index ].f, cc: arrImage[ _index].cc } });
 
       Meteor.defer( function() { uploadPublic2(); } );
 

@@ -77,7 +77,8 @@ Session.set("isIOS", false);
 
   Session.set("sSoundReady", false) //sounds
 
-
+  Session.set("sWebReady", false) //sounds
+ 
   //display-related
 
   Session.set("sImagesReady", false); 
@@ -157,6 +158,8 @@ Meteor.startup(function() {
 
   Meteor.subscribe("ghPublicSound", function() { Session.set("sSoundReady", true ) });
 
+    Meteor.subscribe("ghPublicWeb", function() { Session.set("sWebReady", true ) });
+
 //ps("US")
 
   //start screen
@@ -181,7 +184,8 @@ Tracker.autorun( function(comp) {
       Session.get("sAReady") && 
       Session.get("sTagReady") &&
       Session.get("sImageReady") &&
-      Session.get("sSoundReady")       
+      Session.get("sSoundReady") &&
+      Session.get("sWebReady")      
   ) {
 
     Session.set("sWaitingOnCoreData", false);
