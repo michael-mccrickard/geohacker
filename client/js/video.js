@@ -104,7 +104,7 @@ Video = function() {
     }
 
     this.show = function() {
-
+console.log("video.show() is turning on YT")
         Session.set("sYouTubeOn", true);
     }
 
@@ -207,7 +207,7 @@ Video = function() {
 	this.playYouTube = function( _file) {
 
 		this.setState( sPlaying );
-
+console.log("video.playYouTube is setting sYouTubeOn to true")
 		Session.set("sYouTubeOn", true);    
 
 		this.isYouTube = true;

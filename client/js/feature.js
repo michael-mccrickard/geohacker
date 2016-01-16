@@ -119,10 +119,15 @@ Feature = function() {
 
 		if ( _name == "VIDEO") {
 
-			console.log("display loadAgain returning b/c file is YT")
-			
-			if ( this.ctl.isYouTube )  return;
+			if ( this.ctl.isYouTube )  {
+
+				console.log("feature.loadAgain returning b/c file is YT")
+
+				return;
+			}
 		}
+
+		console.log("feature.loadAgain setting file and imageSrc for animated gif")
 
 		this.file = this.getFile( _name);
 
@@ -264,29 +269,66 @@ c("feature.js: set()")
 			return;
 		}
 
-		if (_name == "VIDEO" || _name == "SOUND") {
+		if (_name == "SOUND") {
 	
 			var _state = this.ctl.getState();
 
-			if ( _name == "VIDEO" ) this.ctl.show();
+			if (_state == sPaused) {
+
+				console.log("feature.set is pausing content b/c state is paused")	
+
+				this.ctl.pauseFeaturedContent();	
+
+				this.loadAgain( _name );  //redundant except if we're returning here from another user mode				
+			}
+			
+			if (_state == sPlaying || _state == sLoaded) {
+				
+				console.log("feature.set is calling playFeaturedContent for audio")
+				
+				this.ctl.playFeaturedContent();
+			}
+		}
+
+		if (_name == "VIDEO") {
+	
+			var _state = this.ctl.getState();
 
 			if (_state == sPaused) {
 
-				console.log("feature.set is pausing content b/c state is paused")
+				if (!this.ctl.isYouTube)  {
 
-				this.ctl.pauseFeaturedContent();
+					console.log("feature reports that video is gif")
+					
+					this.ctl.setState( sPlaying )
 
-				this.loadAgain( _name );  //redundant except if we're returning here from another user mode
+					_state = sPlaying;
+				}
+				else {
+
+					this.ctl.show();
+
+					console.log("feature reports that video is YT")
+
+					console.log("feature.set is pausing video content b/c state is paused")	
+
+					this.ctl.pauseFeaturedContent();					
+				}
+
+				//this.loadAgain( _name );  //redundant except if we're returning here from another user mode
 			}
+
 			if (_state == sPlaying || _state == sLoaded) {
 				
 				console.log("feature.set is calling playFeaturedContent")
 				
 				this.ctl.playFeaturedContent();
 			}
-			//nothing more to do for a YT video
+			//nothing more to do for videos (playFeaturedContent will draw if needed)
 
-			if ( _name == "VIDEO" && this.ctl.isYouTube ) return;
+			return;
+
+			//if (this.ctl.isYouTube ) { console.log("feature is returning b4 draw b/c video is YT"); return; }
 		}
 
 		this.draw();

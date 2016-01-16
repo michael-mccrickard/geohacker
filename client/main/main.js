@@ -495,7 +495,7 @@ Template.main.rendered = function () {
 
             display.feature.set( display.feature.getName() );
 
-            if (display.feature.getName() == "VIDEO")  display.ctl["VIDEO"].show();
+            //if (display.feature.getName() == "VIDEO")  display.ctl["VIDEO"].show();
 
           }       
       }
