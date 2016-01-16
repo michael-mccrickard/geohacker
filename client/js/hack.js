@@ -237,42 +237,41 @@ Hack = function() {
     /**************************************************************/
     /*              GETTERS FOR SOUNDS         
     /**************************************************************/
-/*
-    this.getAnthemFile = function() {
 
-      try {
-          var f = db.ghPublicSound.findOne( { cc: this.countryCode, dt: "ant" } ).f;
-      }
-      catch(err) {
-
-          showMessage( "No anthem file found for " + hack.getCountryName() );
-
-          return null;
-      }
-
-      return f;
-    }
-*/
     this.getAnthemFile = function() {
 
       var rec = db.ghPublicSound.findOne( {'cc':  this.countryCode, 'dt': 'ant' } );
 
-      if (typeof rec !== 'undefined') return getS3URL( rec );
+      if (typeof rec !== 'undefined') {
+
+        return getS3URL( rec );
+      }
+      else {
+
+          showMessage( "No anthem file found for " + this.getCountryName() );        
+      }
+
     }
 
     this.getLanguageFile = function() {
 
-      try {
-          var f = db.ghPublicSound.findOne( { cc: this.countryCode, dt: "lng" } ).f;
+      var rec = db.ghPublicSound.findOne( {'cc':  this.countryCode, 'dt': 'lng' } );
+
+      if (typeof rec !== 'undefined') {
+
+        if ( isURL( rec.f) ) {
+
+          return rec.f;
+        }
+        else {
+          
+          return getS3URL( rec );        
+        }
       }
-      catch(err) {
+      else {
 
-          showMessage( "No language file found for " + hack.getCountryName() );
-
-          return null;
+          showMessage( "No anthem file found for " + this.getCountryName() );        
       }
-
-      return f;
 
     }
 
