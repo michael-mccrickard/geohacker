@@ -379,6 +379,8 @@ c("feature.js: set()")
 
         if (_name == "VIDEO"  && this.ctl.isYouTube ) {
 
+			console.log("feature.drawNow is calling dimension(video)")
+            
             this.dimension("video", null);
         }
         else {

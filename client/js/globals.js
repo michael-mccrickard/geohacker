@@ -66,7 +66,7 @@ refreshWindow = function(_which) {
 
     if (name == "debrief") {
 
-        game.debrief.draw();
+        hack.debrief.draw();
 
         return;
     }

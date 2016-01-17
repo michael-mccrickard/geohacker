@@ -190,7 +190,7 @@ Template.congrats.events = {
 
       e.preventDefault();
 
-      hack.startNewFromMenu();
+      hack.startNext();
 
     },
 

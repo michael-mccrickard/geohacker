@@ -47,6 +47,8 @@ Hack = function() {
 
         this.debrief.init( this.countryCode );
 
+        this.debrief.set( this.debrief.index );
+
         game.user.assign.resetMap();
 
         this.mode = mReady;
@@ -57,19 +59,17 @@ Hack = function() {
     };
 
 
-    this.startNewFromMenu = function() {
+    this.startNext = function() {
 
         this.mode = mNone;
-
-        this.init();
-
-        display.init( hack.countryCode );
 
         display.feature.clear();    
         
         display.reset();
 
         Control.playEffect("goMission.mp3");
+
+        this.init();
 
         FlowRouter.go("/waiting");
 
@@ -264,7 +264,7 @@ Hack = function() {
           return rec.f;
         }
         else {
-          
+
           return getS3URL( rec );        
         }
       }

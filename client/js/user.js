@@ -110,7 +110,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	if (hack.mode == mHackDone) {
 
-    		hack.startNewFromMenu();
+    		hack.startNext();
 
     		return;
     	}
@@ -334,7 +334,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		db.updateUserHacks();
 
-		hack.startNewFromMenu();  //???
+		hack.startNext();  
 	}
 
 	this.findAssignIndex = function( _code) {

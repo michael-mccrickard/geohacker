@@ -115,11 +115,6 @@ Debrief = function() {
 
 		this.code = this.rec.dt.substr(0,3);	
 
-		if (this.code == "lng") {
-
-			hack.playLanguageFile();	
-		} 
-
 		this.setText();
 
 		this.setImage();
@@ -200,7 +195,10 @@ Debrief = function() {
 
 				hack.debrief.alreadyLoaded = true; 
 			}
+
+
         });
+
 	}
 
 	this.setText = function() {
@@ -255,6 +253,11 @@ Template.debrief.rendered = function () {
 
 	hack.debrief.draw();
 
+	if (hack.debrief.code == "lng") {
+
+		hack.playLanguageFile();	
+	} 
+
 }
 
 Template.debrief.events = {
@@ -292,6 +295,11 @@ Template.debrief.events = {
   		if (debrief.index == -1) debrief.index = debrief.arr.length - 1;
 
   		debrief.set( debrief.index );
+
+		if (debrief.code == "lng") {
+
+			hack.playLanguageFile();	
+		} 
   	},
 
   'click #debriefNavNext': function (e) { 
@@ -307,6 +315,11 @@ Template.debrief.events = {
   		if (debrief.index == debrief.arr.length) debrief.index =  0;
 
   		debrief.set( debrief.index );
+
+ 		if (debrief.code == "lng") {
+
+			hack.playLanguageFile();	
+		} 
   	},
 
 }
