@@ -23,8 +23,6 @@ Debrief = function() {
 
 	this.arr = [];
 
-	this.alreadyLoaded = false;
-
 	this.waitingNow = false;
 
 	this.init = function( _code ) {
@@ -121,8 +119,6 @@ c("deb.draw()");
 
 		this.setImage();
 
-		this.alreadyLoaded = false;
-
 		this.preloadImage();
 	}
 
@@ -185,19 +181,18 @@ c("deb.draw()");
 
 	this.preloadImage = function() {
 
-		this.alreadyLoaded = false;
-
 		$("#preloadDebrief").attr("src", this.image );
 
         imagesLoaded( document.querySelector('#preloadDebrief'), function( instance ) {
-
-        	hack.debrief.alreadyLoaded = true; 
 
         	hack.debrief.imageSrc = Control.getImageFromFile( hack.debrief.image );  
 
         	if (hack.debrief.waitingNow) {
 
         		hack.debrief.waitingNow = false;
+
+        		//it takes a moment to create the off-screen image (for dimensioning)
+        		//in the call the getImageFromFile() above
 
         		Meteor.setTimeout( function() { hack.debrief.draw(); }, 200 );
         	}
@@ -273,7 +268,7 @@ c("deb.draw()");
 
 Template.debrief.rendered = function () {
 
-	if (hack.debrief.waitingNow) return;
+	if (hack.debrief.waitingNow) return;  //in this case, imagesLoaded will call draw()
 
 	hack.debrief.draw();
 

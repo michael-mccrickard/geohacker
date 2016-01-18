@@ -59,6 +59,8 @@ BrowseWorldMap = function( _mapCtl ) {
 
     this.mapTagImage = "";
 
+    this.map_sound = "browseMapFeedback.mp3";
+
     //set the module var for the event handlers
 
     worldMap = this;
@@ -68,7 +70,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
     this.doCurrentMap = function() {
 
-        //reset this each time, b/c it disappears if switch hack/display objects
+        //reset this each time, b/c it disappears if we switch hack/display objects
 
         worldMap = this;
 
