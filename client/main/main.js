@@ -434,7 +434,9 @@ c("click control is setting media state to play")
 
         display.feature.clear();
 
-        hack.debrief.set( hack.debrief.index );
+        //hack.debrief.set( hack.debrief.index );
+
+        hack.debrief.goNext();
 
         FlowRouter.go("/debrief");
     }

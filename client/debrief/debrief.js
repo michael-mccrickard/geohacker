@@ -25,24 +25,26 @@ Debrief = function() {
 
 	this.alreadyLoaded = false;
 
+	this.waitingNow = false;
+
 	this.init = function( _code ) {
+
+		this.waitingNow = false;
 
 		this.countryCode = _code;
 
 		this.arr = db.ghD.find( { cc: this.countryCode } ).fetch();
 
 		this.index = Database.getRandomValue(this.arr.length);
-
-		this.alreadyLoaded = false;
 	}
 
 	this.draw = function() {
 
+c("deb.draw()");
+
 		$("#debriefText").text( this.text );
 
-		 this.imageSrc = Control.getImageFromFile( this.image );  
-
-		 Meteor.setTimeout( function() { hack.debrief.finishDraw(); }, 100);
+		 Meteor.defer( function() { hack.debrief.finishDraw(); } );
 	}
 
 	this.finishDraw = function() {
@@ -119,6 +121,8 @@ Debrief = function() {
 
 		this.setImage();
 
+		this.alreadyLoaded = false;
+
 		this.preloadImage();
 	}
 
@@ -128,7 +132,7 @@ Debrief = function() {
 
 		$("#debriefText").text( _text );
 
-		Meteor.defer( function() { this.centerHeadline(); } );
+		Meteor.defer( function() { hack.debrief.centerHeadline(); } );
 	}
 
 
@@ -181,21 +185,22 @@ Debrief = function() {
 
 	this.preloadImage = function() {
 
+		this.alreadyLoaded = false;
+
 		$("#preloadDebrief").attr("src", this.image );
 
         imagesLoaded( document.querySelector('#preloadDebrief'), function( instance ) {
-    
-			if (hack.debrief.alreadyLoaded)  {
 
-				hack.debrief.draw(); 
-			}
-			else {
+        	hack.debrief.alreadyLoaded = true; 
 
-				//in this case, template.rendered will call draw();
+        	hack.debrief.imageSrc = Control.getImageFromFile( hack.debrief.image );  
 
-				hack.debrief.alreadyLoaded = true; 
-			}
+        	if (hack.debrief.waitingNow) {
 
+        		hack.debrief.waitingNow = false;
+
+        		Meteor.setTimeout( function() { hack.debrief.draw(); }, 200 );
+        	}
 
         });
 
@@ -247,16 +252,32 @@ Debrief = function() {
 
 	}
 
+	this.checkAudio = function() {
+
+		if (this.code == "lng") {
+
+			hack.playLanguageFile();	
+		} 
+	}
+
+	this.goNext = function() {
+
+  		this.waitingNow = true;
+
+  		this.set( this.index );
+
+  		this.checkAudio();
+	}
+
 }
 
 Template.debrief.rendered = function () {
 
+	if (hack.debrief.waitingNow) return;
+
 	hack.debrief.draw();
 
-	if (hack.debrief.code == "lng") {
-
-		hack.playLanguageFile();	
-	} 
+  	hack.debrief.checkAudio();
 
 }
 
@@ -294,12 +315,8 @@ Template.debrief.events = {
 
   		if (debrief.index == -1) debrief.index = debrief.arr.length - 1;
 
-  		debrief.set( debrief.index );
+  		hack.debrief.goNext();
 
-		if (debrief.code == "lng") {
-
-			hack.playLanguageFile();	
-		} 
   	},
 
   'click #debriefNavNext': function (e) { 
@@ -314,12 +331,8 @@ Template.debrief.events = {
 
   		if (debrief.index == debrief.arr.length) debrief.index =  0;
 
-  		debrief.set( debrief.index );
+  		hack.debrief.goNext();
 
- 		if (debrief.code == "lng") {
-
-			hack.playLanguageFile();	
-		} 
   	},
 
 }

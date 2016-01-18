@@ -17,3 +17,12 @@ Template.newNav.helpers({
   }
 
 })
+
+Template.waiting.rendered = function() {
+
+	if (typeof hack === "undefined") return
+
+	if (hack.debrief == null) return;
+
+	//if (hack.debrief.waitingNow) hack.debrief.goNext();
+}
