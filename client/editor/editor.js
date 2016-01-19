@@ -48,7 +48,14 @@ Editor = function() {
 	}
 
 
-	this.addThisRecord = function(_ID, _type)  {
+	this.addThisRecord = function(_countryCode, _controlType)  {
+
+		if (this.controlType == cImage) {
+
+			db.addContentRecord( _countryCode, _controlType );
+		
+			return;
+		}
 
 		db.addRecord(_ID, _type);
 	}
@@ -58,24 +65,33 @@ Editor = function() {
 		Meteor.call("deleteRecord", _ID, _type);
 	}
 
-	this.doUpdateRecord = function(ID) {
+	this.doUpdateRecord = function(_id, _countryCode) {
 
 		var _type = this.controlType;
 
 		if (_type == cCountry) {
 
-			db.updateRecord(this.arrFieldCountry, _type, ID);
+			db.updateRecord(this.arrFieldCountry, _type, _id);
 
 			return;
 		}
 
 		if (_type == cDebrief) {
 
-			db.updateRecord(this.arrFieldDebrief, _type, ID);
+      		var data = {};
+
+      		data[ field ] = value;
+
+			db.updateRecord(this.arrFieldDebrief, _type, _id);
+		}
+
+		if (_type == cImage) {
+
+			db.updateContentRecord(this.arrField, _type, _id, _countryCode);
 		}
 		else {
 
-			db.updateRecord(this.arrField, _type, ID);
+			db.updateRecord(this.arrField, _type, _id);
 		}
 
 	}

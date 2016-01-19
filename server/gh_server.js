@@ -456,8 +456,60 @@ Meteor.methods({
       var res = col.update( {_id: ID }, { $set: data  }); 
 
       if (res) console.log("Fields updated on server: " + res);   
+  },
+
+  updateContentRecordOnServer: function (data, _type, ID) {
+
+      var col = getCollectionForType( _type );
+
+      var _file = "http://localhost:3000/" + data["f"];
+
+      console.log("trying to update content record with " + _file )
+
+      col.remove( { _id: ID }, function(err, res) {
+
+            var _fileObj = new FS.File();
+
+            _fileObj.attachData( _file, {type: 'image/*'},  function(error){
+
+            if (error) {
+              console.log(error);
+              return;
+            }
+
+            col.insert(_fileObj, function (err, fileObj) {
+
+               if (err) {
+                 console.log(err);
+                 return;
+               }
+
+               console.log(fileObj.original.name + " was inserted into collection.");
+
+               col.update( { _id: fileObj._id }, { $set: data }, function(err, res) { 
+
+               if (err) {
+                console.log(err);
+                return;
+               }             
+
+               if (res > 0) {
+
+                console.log( fileObj.original.name + "'s record was updated." );
+               }
+               else {
+
+                console.log("Record wasn't found for: " + fileObj.original.name);
+               }
+
+            }); //end update
+
+          });  //end insert 
+
+        }); //end attachData
+
+    }) //end col.remove
+ 
   }
-
-
 
 });

@@ -452,9 +452,60 @@ if (_name == "WEB") col = this.ghPublicWeb;
   //          DATABASE UPDATES
   //************************************************************
 
-this.addRecord = function( _ID, _type) {
+this.addRecord = function( _countryCode, _type) {
 
-  Meteor.call("addRecord", _ID, _type);
+  Meteor.call("addRecord", _countryCode, _type);
+}
+
+this.addContentRecord = function( _countryCode, _type) {
+
+  if (_type == cImage) {
+
+    _file = getLocalPrefix() + "dummy.png";
+  }
+
+  var col = this.getCollectionForType( _type );
+
+  var _fileObj = new FS.File();
+
+  _fileObj.attachData( _file, {type: 'image/*'},  function(error){
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    col.insert(_fileObj, function (err, fileObj) {
+
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      col.update( {_id: fileObj._id }, { $set: { cc: _countryCode } }, function(err, res) {
+
+         if (err) {
+          console.log(err);
+          return;
+         }             
+
+         if (res > 0) {
+
+          console.log( _fileObj.original.name + "'s record was updated." );
+         }
+         else {
+
+          console.log("Record wasn't found for: " + _fileObj.original.name);
+         }
+
+      });
+
+
+
+   });   
+
+  });
+
 }
 
 this.updateRecord2 = function (_type, field, ID, value) {
@@ -509,6 +560,39 @@ this.updateRecord2 = function (_type, field, ID, value) {
       } //end looping thru fields
 
     }  //end if we have a control type and a record id
+
+  }  //end updateRecord
+
+  // "#a.b"   a=rec id, b = fieldname (stored as class)
+
+  this.updateContentRecord = function( arrField, _type, _id, _countryCode ) {
+
+    if (_type && _id) {
+
+      var data = {};
+
+      var col = this.getCollectionForType( _type );
+
+      var sel = "#" + _id + ".";
+      
+      for (var i = 0; i < arrField.length; i++) {
+
+          var selField = sel + arrField[i];
+
+          value = $(selField).val();
+
+          data[ arrField[i] ] = value;
+        
+      } //end looping thru fields
+
+      //we have to replace all the fields, b/c a content update
+      //creates a whole new file
+
+      data["cc"] = _countryCode;
+
+    }  //end if we have a control type and a record id
+
+    Meteor.call("updateContentRecordOnServer", data, _type, _id)
 
   }  //end updateRecord
 

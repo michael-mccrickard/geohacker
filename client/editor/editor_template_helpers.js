@@ -19,7 +19,7 @@ Template.editor.helpers({
 
   			editor.controlName = "SOUND"; 
 
-  			return db.ghS.find( { cc: ID });
+  			return db.ghPublicSound.find( { cc: ID });
   		}
 
   		if (control == cText) {
@@ -33,7 +33,7 @@ Template.editor.helpers({
 
         editor.controlName = "IMAGE"; 
 
-  			return db.ghI.find( { cc: ID });
+  			return db.ghPublicImage.find( { cc: ID });
   		}
 
   		if (control == cVideo) {
@@ -47,7 +47,7 @@ Template.editor.helpers({
 
         editor.controlName = "WEB"; 
 
-  			return db.ghW.find( { cc: ID });
+  			return db.ghPublicWeb.find( { cc: ID });
   		}
 
   		if (control == cDebrief) {
@@ -81,6 +81,8 @@ Template.editor.helpers({
 
     getNonYouTubeFile: function(_file) {
 
+      if (editor.controlType == cImage) return getS3URL(this);
+
       if (_file) return Control.getNonYouTubeFile( _file ); 
 
       return _file;
@@ -92,7 +94,7 @@ Template.editor.helpers({
 
         deb.initForEditor( this.dt );
 
-        return deb.image;
+        return deb.image;    
     },
 
     getText: function() {
@@ -287,7 +289,7 @@ Template.editor.events = {
       
       }
 
-      editor.doUpdateRecord(evt.target.id);
+      editor.doUpdateRecord(evt.target.id, editor.hack.countryCode);
 
   },
 

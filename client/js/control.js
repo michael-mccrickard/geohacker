@@ -298,6 +298,8 @@ Control.unfocusMyClass = function(which) {
 
 Control.playEffect = function(_file) {
 
+c(_file);
+
   $("#effectsPlayer").attr("src", _file);
 
   document.getElementById("effectsPlayer").play();
