@@ -463,16 +463,28 @@ this.addRecord = function( _countryCode, _type) {
 
 this.addContentRecord = function( _countryCode, _type) {
 
+  var _filter = '';
+
+
   if (_type == cImage) {
 
     _file = getLocalPrefix() + "dummy.png";
+
+    _filter = 'image/*';
+  }
+
+  if (_type == cSound) {
+
+    _file = getLocalPrefix() + "dummy.mp3";
+
+    _filter = 'audio/mp3';
   }
 
   var col = this.getCollectionForType( _type );
 
   var _fileObj = new FS.File();
 
-  _fileObj.attachData( _file, {type: 'image/*'},  function(error){
+  _fileObj.attachData( _file, {type: _filter},  function(error){
 
     if (error) {
       console.log(error);

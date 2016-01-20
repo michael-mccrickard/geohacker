@@ -263,9 +263,9 @@ Template.editor.events = {
 
        if (document.getElementById("editorSoundPlayer") == null) return;
 
-        var rec = db.ghS.findOne( { _id: editor.recordID } );
+        var rec = db.ghPublicSound.findOne( { _id: editor.recordID } );
 
-        $("#editorSoundPlayer").attr("src", rec.f);
+        $("#editorSoundPlayer").attr("src", getS3URL(rec) ) ;
 
         document.getElementById("editorSoundPlayer").play();
      }
