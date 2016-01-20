@@ -19,6 +19,8 @@ Editor = function() {
 
   	Object.defineReactiveProperty(this, "recordID", "");
 
+  	this.youTubeLoaded = false;
+
   	this.videoFile = null;
 
   	Session.set("sYouTubeOn", false);
@@ -60,7 +62,7 @@ Editor = function() {
 		db.addRecord(_ID, _type);
 	}
 
-	this.deleteCurrentRecord = function(_ID, _type)  {
+	this.deleteCurrentRecord = function(_ID, _type)  { 
 
 		Meteor.call("deleteRecord", _ID, _type);
 	}

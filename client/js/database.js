@@ -14,6 +14,10 @@ Database = function() {
       stores: [ this.publicStore ]
   });
 
+    this.ghPublicVideo = new FS.Collection("ghPublicVideo", {
+      stores: [ this.publicStore ]
+  });
+
   this.ghPublicWeb = new FS.Collection("ghPublicWeb", {
       stores: [ this.publicStore ]
   });
@@ -797,9 +801,57 @@ uploadPublic = function() {
 
    //arrImage = db.ghC.find( { d: 1 } ).fetch();
 
-   arrImage = db.ghW.find().fetch();
+   //arrImage = db.ghW.find().fetch();
 
-   uploadPublic2();
+   arrImage = db.ghV.find().fetch();
+
+/*
+   for (var i = 0; i < arrImage.length; i++) {
+
+      if ( arrImage[i].f.substr(0,2) == "f@") console.log( arrImage[i].f );
+   }
+
+   c(i + " files checked")
+*/
+
+   uploadPublic5();
+}
+
+uploadPublic5 = function() {
+
+  _index++;
+
+  if (_index == arrImage.length) return;
+
+  if ( arrImage[_index].f.substr(0,3) != "s3@") {
+
+    uploadPublic5();
+
+    return;
+  }
+
+  if ( arrImage[_index].f.substr( arrImage[_index].f.length - 4 ) != ".gif") {
+
+    uploadPublic5();
+
+    return;
+  }  
+
+c("seeking " + arrImage[_index].f.substring(3) )
+
+  var rec = db.ghPublicVideo.find( { f: arrImage[_index].f.substring(3) } ).fetch();
+
+  if (rec.length == 0) {
+  console.log("can't find " + arrImage[_index].f.substring(3) + " in public video");
+   return;
+  }
+
+  db.ghV.update( { _id: arrImage[_index]._id }, { $set: { f: "s3@" + rec[0]._id } }, function() {
+
+      uploadPublic5();
+
+  } );
+
 }
 
 uploadPublic4 = function() {
@@ -819,34 +871,40 @@ uploadPublic4 = function() {
     return;
   }
 
+  if ( _name.substring(0,2) != "f@") {
+
+    uploadPublic4();
+
+    return;   
+  }
+
+  _name = _name.substring(2);
+
   console.log("trying to insert " + _name )
 
   var _fileObj = new FS.File();
+ 
 
-  if (_name.substr(0,7) == "http://" || _name.substr(0,8) == "https://") {
+  _file = getLocalPrefix() + _name;
 
-    _file = getLocalPrefix() + "dummy.mp3";
-  }
-  else {
 
-    _file = getLocalPrefix() + _name;
-  }
-
-  _fileObj.attachData( _file, {type: 'audio/mp3'},  function(error){
+  _fileObj.attachData( _file, {type: 'image/gif'},  function(error){
 
     if (error) {
       console.log(error);
       return;
     }
 
-    db.ghPublicSound.insert(_fileObj, function (err, fileObj) {
+    db.ghPublicVideo.insert(_fileObj, function (err, fileObj) {
 
       if (err) {
         console.log(err);
         return;
       }
 
-      db.ghPublicSound.update( {_id: fileObj._id }, { $set: { f: arrImage[ _index ].f, s: arrImage[ _index ].s, dt: arrImage[ _index ].dt, cc: arrImage[ _index].cc } });
+      db.ghPublicVideo.update( {_id: fileObj._id }, { $set: { f: _name, s: arrImage[ _index ].s, cc: arrImage[ _index].cc } });
+
+      db.ghV.update( {_id: arrImage[ _index]._id }, { $set: { f: "s3@" + _name } } );
 
       Meteor.defer( function() { uploadPublic4(); } );
 
@@ -855,6 +913,8 @@ uploadPublic4 = function() {
   });
 
 }
+
+
 
 uploadPublic3 = function() {
 

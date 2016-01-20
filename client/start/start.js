@@ -160,6 +160,10 @@ Meteor.startup(function() {
 
     Meteor.subscribe("ghPublicWeb", function() { Session.set("sWebReady", true ) });
 
+    Meteor.subscribe("ghPublicVideo", function() { Session.set("sVideoReady2", true ) });
+
+    Meteor.subscribe("allVideos", function() { Session.set("sVideoReady", true ) });
+
 //ps("US")
 
   //start screen
@@ -185,7 +189,9 @@ Tracker.autorun( function(comp) {
       Session.get("sTagReady") &&
       Session.get("sImageReady") &&
       Session.get("sSoundReady") &&
-      Session.get("sWebReady")      
+      Session.get("sWebReady")  &&
+      Session.get("sVideoReady")  &&
+      Session.get("sVideoReady2")       
   ) {
 
     Session.set("sWaitingOnCoreData", false);

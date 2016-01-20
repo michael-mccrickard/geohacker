@@ -308,6 +308,8 @@ c(_file);
 
 Control.stopSound = function(_which) {
 
+c(_which + " was stopped.")
+
   document.getElementById( _which + "Player").pause();
 }
 
@@ -322,14 +324,19 @@ Control.isYouTubeURL = function(_s) {
 
     if (_s == undefined) return false;
 
-    if (_s.substr(0,2) == "f@") return false;
+    if (_s.substr(0,3) == "s3@") return false;
 
     return true;
  }
 
 Control.getNonYouTubeFile = function(_file) { 
 
-      if (_file.substr(0,2) == "f@") return _file.substr(2);
+      if (_file.substr(0,3) == "s3@") {
+
+          var rec = db.ghPublicVideo.findOne( { _id: _file.substring(3) } );
+
+          return getS3URL( rec );
+      }
 
       return _file;
 }

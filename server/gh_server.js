@@ -53,6 +53,10 @@ var ghPublicSound = new FS.Collection("ghPublicSound", {
     stores: [ publicStore ]
 });
 
+var ghPublicVideo = new FS.Collection("ghPublicVideo", {
+    stores: [ publicStore ]
+});
+
 var ghPublicWeb = new FS.Collection("ghPublicWeb", {
     stores: [ publicStore ]
 });
@@ -209,6 +213,10 @@ Meteor.startup(
       return ghPublicWeb.find();
     });
 
+    Meteor.publish("ghPublicVideo", function () {
+      return ghPublicVideo.find();
+    });
+
     ghAvatar.allow({
 
       insert: function() {
@@ -270,6 +278,35 @@ Meteor.startup(
           return true;
       },
       download: function() {
+          return true;
+      }
+    });
+
+    ghPublicVideo.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      },
+      download: function() {
+          return true;
+      }
+    });
+
+    ghV.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
           return true;
       }
     });
@@ -368,6 +405,12 @@ Meteor.methods({
 
     ghPublicSound.remove({});
   },
+
+  clearVideos: function() {
+
+    ghPublicVideo.remove({});
+  },
+
 
   clearTags: function() {
 
