@@ -81,7 +81,7 @@ Template.editor.helpers({
 
     getNonYouTubeFile: function(_file) {
 
-      if (editor.controlType == cImage) return getS3URL(this);
+      if (editor.controlType == cImage || editor.controlType == cWeb ) return getS3URL(this);
 
       if (_file) return Control.getNonYouTubeFile( _file ); 
 

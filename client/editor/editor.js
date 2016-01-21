@@ -52,7 +52,7 @@ Editor = function() {
 
 	this.addThisRecord = function(_countryCode, _controlType)  {
 
-		if (this.controlType == cImage || this.controlType == cSound) {
+		if (this.controlType == cImage || this.controlType == cSound || this.controlType == cWeb) {
 
 			db.addContentRecord( _countryCode, _controlType );
 		
@@ -87,7 +87,7 @@ Editor = function() {
 			db.updateRecord(this.arrFieldDebrief, _type, _id);
 		}
 
-		if (_type == cImage || _type == cSound) {
+		if (_type == cImage || _type == cSound || _type == cWeb) {
 
 			db.updateContentRecord(this.arrField, _type, _id, _countryCode);
 		}

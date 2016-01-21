@@ -466,7 +466,7 @@ this.addContentRecord = function( _countryCode, _type) {
   var _filter = '';
 
 
-  if (_type == cImage) {
+  if (_type == cImage || _type == cWeb) {
 
     _file = getLocalPrefix() + "dummy.png";
 
@@ -515,8 +515,6 @@ this.addContentRecord = function( _countryCode, _type) {
          }
 
       });
-
-
 
    });   
 
