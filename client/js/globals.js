@@ -165,7 +165,7 @@ onYouTubeIframeAPIReady = function () {
 
                 // Play video when player ready.
 
-                display.ctl["VIDEO"].youTubeWaiting.set( false );
+                if (typeof display.ctl["VIDEO"] !== "undefined") display.ctl["VIDEO"].youTubeWaiting.set( false );
 
                 if (_file) event.target.playVideo();
 
@@ -177,23 +177,29 @@ onYouTubeIframeAPIReady = function () {
 
                 if (event.data == YT.PlayerState.PLAYING) {
 
-                    display.ctl["VIDEO"].setState( sPlaying );
+                    if (typeof display.ctl["VIDEO"] !== "undefined") {
 
-                    $("img#picVIDEO").attr("src", display.ctl["VIDEO"].pauseControlPic);
+                        display.ctl["VIDEO"].setState( sPlaying );
+
+                        $("img#picVIDEO").attr("src", display.ctl["VIDEO"].pauseControlPic);
+                    }
                 }
 
                 if (event.data == YT.PlayerState.PAUSED) {
 
-                    display.ctl["VIDEO"].setState( sPaused );
+                    if (typeof display.ctl["VIDEO"] !== "undefined") {
 
-                    $("img#picVIDEO").attr("src", display.ctl["VIDEO"].playControlPic);
+                        display.ctl["VIDEO"].setState( sPaused );
+
+                        $("img#picVIDEO").attr("src", display.ctl["VIDEO"].playControlPic);
+                     }
                 }
 
-            }
+            }  //onStateChange
 
-        }
+        } //events object
 
-    });
+    });  //ytplayer definition
 
-}; 
+}; //onYouTubeAPIReady
 
