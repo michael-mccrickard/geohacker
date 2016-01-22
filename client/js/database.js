@@ -461,12 +461,12 @@ this.addRecord = function( _countryCode, _type) {
   Meteor.call("addRecord", _countryCode, _type);
 }
 
-this.addContentRecord = function( _countryCode, _type, _masterID) {  //masterID is only sent for a video
+this.addContentRecord = function( _countryCode, _type) {
 
   var _filter = '';
 
 
-  if (_type == cImage || _type == cWeb || _type == cVideo ) {
+  if (_type == cImage || _type == cWeb) {
 
     _file = getLocalPrefix() + "dummy.png";
 
@@ -498,16 +498,6 @@ this.addContentRecord = function( _countryCode, _type, _masterID) {  //masterID 
         return;
       }
 
-      //we need to update the master record for an uploaded video with the CFS record id
-
-      if ( _type == cVideo) {
-
-console.log(fileObj);
-
-        db.ghV.update( { _id: _masterID }, { $set: { f: "s3@" + fileObj } } );
-
-      }
-
       col.update( {_id: fileObj._id }, { $set: { cc: _countryCode } }, function(err, res) {
 
          if (err) {
@@ -524,11 +514,11 @@ console.log(fileObj);
           console.log("Record wasn't found for: " + _fileObj.original.name);
          }
 
-      });  //update
+      });
 
-   });  //insert   
+   });   
 
-  });  //attachData
+  });
 
 }
 
@@ -597,11 +587,6 @@ this.updateRecord2 = function (_type, field, ID, value) {
 
       var col = this.getCollectionForType( _type );
 
-      //special case of uploaded video content
-
-      if ( _type == cVideo) col = this.ghPublicVideo;
-
-
       var sel = "#" + _id + ".";
       
       for (var i = 0; i < arrField.length; i++) {
@@ -614,10 +599,6 @@ this.updateRecord2 = function (_type, field, ID, value) {
         
       } //end looping thru fields
 
-      //special case of uploaded video content  (lop off the "f@")
-
-      if ( _type == cVideo) data["f"] = editor.videoFile.substring(2);      
-
       //we have to replace all the fields, b/c a content update
       //creates a whole new file
 
@@ -625,7 +606,7 @@ this.updateRecord2 = function (_type, field, ID, value) {
 
     }  //end if we have a control type and a record id
 
-    Meteor.call("updateContentRecordOnServer", data, _type, _id, _countryCode)
+    Meteor.call("updateContentRecordOnServer", data, _type, _id)
 
   }  //end updateRecord
 

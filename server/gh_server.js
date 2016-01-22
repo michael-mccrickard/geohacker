@@ -501,31 +501,11 @@ Meteor.methods({
       if (res) console.log("Fields updated on server: " + res);   
   },
 
-  updateContentRecordOnServer: function (data, _type, ID, _countryCode) {
-
-console.log(ID);
+  updateContentRecordOnServer: function (data, _type, ID) {
 
       var col = getCollectionForType( _type );
 
       var _file = "http://localhost:3000/" + data["f"];
-
-      //special case of uploaded video content; look up the ID for the linked
-      //CFS file and use that ID and collection
-
-      if (_type == cVideo)  {
-
-        //var _contentID = col.findOne( { _id: ID } ).f;
-
-        //lop off the 'f@'
-
-        //_contentID = _contentID.substring(2);
-
-        //change the ID and collection so that we access the CFS record and file
-
-        //ID = _contentID;
-
-        col = ghPublicVideo;
-      }
 
       console.log("trying to update content record with " + _file )
 
@@ -533,7 +513,7 @@ console.log(ID);
 
             var _fileObj = new FS.File();
 
-            _fileObj.attachData( _file,  function(error){
+            _fileObj.attachData( _file, {type: 'image/*'},  function(error){
 
             if (error) {
               console.log(error);
@@ -548,17 +528,6 @@ console.log(ID);
                }
 
                console.log(fileObj.original.name + " was inserted into collection.");
-
-               var fileToUpdateID = fileObj._id;
-
-              //special case of uploaded video content; update the master collection
-              //with the CFS record id
-
-              if (_type == cVideo)  {
-
-                  this.ghV.update( { f: "s3@" + ID }, { $set: { f: "s3@" + fileObj._id } } );
-
-              }
 
                col.update( { _id: fileObj._id }, { $set: data }, function(err, res) { 
 
