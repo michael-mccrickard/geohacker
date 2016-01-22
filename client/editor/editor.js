@@ -52,14 +52,14 @@ Editor = function() {
 
 	this.addThisRecord = function(_countryCode, _controlType)  {
 
-		if (this.controlType == cImage || this.controlType == cSound || this.controlType == cWeb) {
+		if (this.controlType == cImage || this.controlType == cSound || this.controlType == cWeb || this.controlType == cVideo) {
 
 			db.addContentRecord( _countryCode, _controlType );
 		
 			return;
 		}
 
-		db.addRecord(_ID, _type);
+		db.addRecord(_countryCode, _type);
 	}
 
 	this.deleteCurrentRecord = function(_ID, _type)  { 
@@ -87,7 +87,7 @@ Editor = function() {
 			db.updateRecord(this.arrFieldDebrief, _type, _id);
 		}
 
-		if (_type == cImage || _type == cSound || _type == cWeb) {
+		if (_type == cImage || _type == cSound || _type == cWeb || _type == cVideo) {
 
 			db.updateContentRecord(this.arrField, _type, _id, _countryCode);
 		}

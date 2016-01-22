@@ -463,21 +463,16 @@ this.addRecord = function( _countryCode, _type) {
 
 this.addContentRecord = function( _countryCode, _type) {
 
-  var _filter = '';
-
+  var _file = '';
 
   if (_type == cImage || _type == cWeb) {
 
     _file = getLocalPrefix() + "dummy.png";
-
-    _filter = 'image/*';
   }
 
-  if (_type == cSound) {
+  if (_type == cSound || _type == cVideo) {
 
     _file = getLocalPrefix() + "dummy.mp3";
-
-    _filter = 'audio/mp3';
   }
 
   var col = this.getCollectionForType( _type );
@@ -486,7 +481,7 @@ this.addContentRecord = function( _countryCode, _type) {
 
   _fileObj.cc = _countryCode;
 
-  _fileObj.attachData( _file, {type: _filter},  function(error){
+  _fileObj.attachData( _file,  function(error){
 
     if (error) {
       console.log(error);
@@ -588,9 +583,30 @@ this.updateRecord2 = function (_type, field, ID, value) {
 
       data["cc"] = _countryCode;
 
-    }  //end if we have a control type and a record id
+      if (_type == cVideo) {
 
-    Meteor.call("updateContentRecordOnServer", data, _type, _id)
+        if (Control.isYouTubeURL( editor.videoFile ) == false) {
+
+           data["f"] = getLocalPrefix() + editor.videoFile;   
+
+           Meteor.call("updateContentRecordOnServer", data, _type, _id);
+
+           return;   
+        }
+     }
+
+     if (_type == cVideo) {  //must be YT, so only update the record (no need to upload new file)
+
+        Meteor.call("updateRecordOnServerWithDataObject", _type, _id, data);
+      
+        return;
+     }
+
+     //all others:  web, image or sound
+
+     Meteor.call("updateContentRecordOnServer", data, _type, _id);
+
+    }  //end if we have a control type and a record id
 
   }  //end updateRecord
 

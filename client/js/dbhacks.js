@@ -119,13 +119,13 @@ return;
 
 uploadPublic = function() {
 
-   //arrImage = db.ghI.find().fetch();
+   arrImage = db.ghPublicImage.find().fetch();
 
    //arrImage = db.ghC.find( { d: 1 } ).fetch();
 
    //arrImage = db.ghW.find().fetch();
 
-   arrImage = db.ghV.find().fetch();
+   //arrImage = db.ghV.find().fetch();
 
 /*
    for (var i = 0; i < arrImage.length; i++) {
@@ -136,8 +136,9 @@ uploadPublic = function() {
    c(i + " files checked")
 */
 
-   uploadPublic5();
+   //uploadPublic5();
 }
+
 
 uploadPublic5 = function() {
 

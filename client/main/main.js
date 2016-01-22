@@ -406,7 +406,7 @@ Template.main.events({
 
           if ((id == "SOUND") || (id == "VIDEO")) {
 
-c("click control is setting media state to play")
+          console.log("click control is setting media state to play")
 
             display.ctl[ id ].setState( sPlaying ); 
           }  

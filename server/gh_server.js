@@ -112,7 +112,7 @@ Meteor.startup(
     });
 
     Meteor.publish("allVideos", function() {
-      return ghV.find( {} );
+      return ghPublicVideo.find( {} );
     });
 
     Meteor.publish("allWebs", function() {
@@ -174,7 +174,7 @@ Meteor.startup(
     });
 
     Meteor.publish("ghVideo", function () {
-      return ghV.find( { cc: countryCode });
+      return ghPublicVideo.find( { cc: countryCode });
     });
 
     Meteor.publish("ghWeb", function () {
@@ -498,14 +498,23 @@ Meteor.methods({
 
       var res = col.update( {_id: ID }, { $set: data  }); 
 
-      if (res) console.log("Fields updated on server: " + res);   
+      if (res) console.log("Records updated on server: " + res);   
   },
 
-  updateContentRecordOnServer: function (data, _type, ID) {
+  updateRecordOnServerWithDataObject: function (_type, ID, data) {
 
       var col = getCollectionForType( _type );
 
-      var _file = "http://localhost:3000/" + data["f"];
+      var res = col.update( {_id: ID }, { $set: data  }); 
+
+      if (res) console.log("Records updated on server: " + res);   
+  },
+
+  updateContentRecordOnServer: function (data, _type, ID, _file) {
+
+      var col = getCollectionForType( _type );
+
+      var _file = data["f"];
 
       console.log("trying to update content record with " + _file )
 
@@ -513,9 +522,7 @@ Meteor.methods({
 
             var _fileObj = new FS.File();
 
-
-
-            _fileObj.attachData( _file, {type: 'image/*'},  function(error){
+            _fileObj.attachData( _file,  function(error){
 
             if (error) {
               console.log(error);

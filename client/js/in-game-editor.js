@@ -179,8 +179,8 @@ startGameEditor = function() {
 
 		if (e.keyCode == 37) {  //left
 
-//goImage(-1);
-//return;
+goImage(-1);
+return;
 
 		   map.allLabels[0].x = _x * 0.98;
 
@@ -196,8 +196,8 @@ startGameEditor = function() {
 
 		if (e.keyCode == 39) {  //right
 
-//goImage(1);
-//return;
+goImage(1);
+return;
 
 
 		   map.allLabels[0].x = _x * 1.02;
@@ -222,7 +222,7 @@ arrI = [];
 
 ti = function() {
 
-	Meteor.subscribe("allWebs", function() { arrI = db.ghPublicWeb.find().fetch(); c("images ready") });
+	Meteor.subscribe("allImages", function() { arrI = db.ghPublicImage.find().fetch(); c("images ready") });
 }
 
 iIndex = -1;
@@ -235,7 +235,7 @@ goImage = function ( _val ) {
 
 	hack.debrief.image = getS3URL( arrI[ iIndex ] );
 
-	hack.debrief.text = arrI[ iIndex ].copies.ghPublic.name + " -- " + arrI[ iIndex ].cc;
+	hack.debrief.text = iIndex + " of " + arrI.length + " -- " + arrI[ iIndex ].copies.ghPublic.name + " -- " + arrI[ iIndex ].cc;
 
 	hack.debrief.draw();
 }

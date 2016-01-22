@@ -104,7 +104,9 @@ Video = function() {
     }
 
     this.show = function() {
-console.log("video.show() is turning on YT")
+
+		console.log("video.show() is turning on YT")
+        
         Session.set("sYouTubeOn", true);
     }
 
@@ -183,7 +185,6 @@ console.log("video.show() is turning on YT")
 
 		   	this.pauseVideo();
 		}
-
 
 	}, //end pauseMedia
 

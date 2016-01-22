@@ -192,11 +192,13 @@ Feature = function() {
 			return;
 		}
 
-		if (this.lastName == "VIDEO") display.ctl["VIDEO"].setState( sPlaying );
+		//if (this.lastName == "VIDEO") display.ctl["VIDEO"].setState( sPlaying );
 
 		if (display.scanner.centerState.get() != "loaded") { // && this.lastName != "MAP") {
 
-			this.set( this.lastName );	
+			//this.set( this.lastName );	
+		
+			this.setName( this.lastName );
 		}
 		else {
 
@@ -233,7 +235,7 @@ if ( this.off() ) return;
 
 	this.set = function( _name ) {
 
-c("feature.js: set()")
+		c("feature.js: set()")
 
 		$(".featuredPic").css("opacity", "1.0");
 
@@ -300,9 +302,9 @@ c("feature.js: set()")
 
 					console.log("feature reports that video is gif")
 					
-					this.ctl.setState( sPlaying )
+					this.ctl.pauseFeaturedContent();
 
-					_state = sPlaying;
+					this.draw();
 				}
 				else {
 
@@ -315,7 +317,7 @@ c("feature.js: set()")
 					this.ctl.pauseFeaturedContent();					
 				}
 
-				//this.loadAgain( _name );  //redundant except if we're returning here from another user mode
+				this.loadAgain( _name );  //redundant except if we're returning here from another user mode
 			}
 
 			if (_state == sPlaying || _state == sLoaded) {
@@ -324,14 +326,10 @@ c("feature.js: set()")
 				
 				this.ctl.playFeaturedContent();
 			}
-			//nothing more to do for videos (playFeaturedContent will draw if needed)
 
-			return;
 
-			//if (this.ctl.isYouTube ) { console.log("feature is returning b4 draw b/c video is YT"); return; }
 		}
 
-		this.draw();
 	}
 
 	this.refreshWindow = function() {

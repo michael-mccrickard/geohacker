@@ -40,7 +40,7 @@ Template.editor.helpers({
 
         editor.controlName = "VIDEO"; 
 
-  			return db.ghV.find( { cc: ID });
+  			return db.ghPublicVideo.find( { cc: ID });
   		}
 
   		if (control == cWeb) {
@@ -233,7 +233,7 @@ Template.editor.events = {
 
      if (editor.controlType == cVideo) {
 
-        var rec = db.ghV.findOne( { _id: editor.recordID } );
+        var rec = db.ghPublicVideo.findOne( { _id: editor.recordID } );
 
         if(!rec) return;
         
