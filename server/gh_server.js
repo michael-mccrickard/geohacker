@@ -358,7 +358,7 @@ if (_type == cSound) col = ghPublicSound;
 
 if (_type == cImage) col = ghPublicImage; 
 
-    if (_type == cVideo) col = ghV;
+if (_type == cVideo) col = ghPublicVideo;
 
 if (_type == cWeb) col = ghPublicWeb;
 
@@ -512,6 +512,8 @@ Meteor.methods({
       col.remove( { _id: ID }, function(err, res) {
 
             var _fileObj = new FS.File();
+
+
 
             _fileObj.attachData( _file, {type: 'image/*'},  function(error){
 

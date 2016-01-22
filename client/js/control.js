@@ -106,6 +106,16 @@ Control = {
             if ( !isURL( _arr[i].f ) ) _arr[i].f = getS3URL( _arr[i] ) ;
         }
       }
+/*
+      if (this.name == "VIDEO") {
+
+        for (var i = 0; i < _arr.length; i++) {
+
+            if ( !isURL( _arr[i].f ) ) _arr[i].f = getS3URL( _arr[i] ) ;
+        }
+      }
+*/
+
   },
 
   setItems: function() {
@@ -322,18 +332,18 @@ Control.isYouTubeURL = function(_s) {
 
     //check for the file type designator and return false if found
 
-    if (_s == undefined) return false;
+    if (typeof _s === 'undefined') return false;
 
-    if (_s.substr(0,3) == "s3@") return false;
+    if (_s.substr(_s.length - 4) == ".gif") return false;
 
     return true;
  }
 
 Control.getNonYouTubeFile = function(_file) { 
 
-      if (_file.substr(0,3) == "s3@") {
+      if (!Control.isYouTubeURL(_file) ) {
 
-          var rec = db.ghPublicVideo.findOne( { _id: _file.substring(3) } );
+          var rec = db.ghPublicVideo.findOne( { f: _file } );
 
           return getS3URL( rec );
       }
