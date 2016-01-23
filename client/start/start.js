@@ -97,8 +97,6 @@ Session.set("isIOS", false);
 
   Session.set("sHomeContent", "");
 
-   Session.set("sCountryIsSelected", false);
-
 //****************************************************************
 //                  STARTUP
 //****************************************************************

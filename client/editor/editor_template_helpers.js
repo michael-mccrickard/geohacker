@@ -88,8 +88,6 @@ Template.editor.helpers({
         return this.original.name;
       }
 
-      if (editor.controlType == cImage) return this.original.name;
-
       return this.f;
     },
 
@@ -260,11 +258,11 @@ Template.editor.events = {
           editor.videoFile = rec.f;
 
           if (youTubeLoaded == false) {
-
+c("calling YT.load() in editor")
             YT.load();
           }
           else {
-
+c("loading YT vid by ID in editor")
             ytplayer.loadVideoById( rec.f );            
           }
 

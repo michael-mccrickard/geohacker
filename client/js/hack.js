@@ -81,8 +81,6 @@ Hack = function() {
 
         this.countryCode = _code;
 
-        Session.set("sCountryIsSelected", true);
-
         this.continentCode = db.getContinentCodeForCountry( _code );
 
         this.regionCode = db.getRegionCodeForCountry( _code );
@@ -121,8 +119,6 @@ Hack = function() {
         }
 
         this.countryCode = rec.c;
-
-        Session.set("sCountryIsSelected", true);
 
         this.regionCode = rec.r;
 
