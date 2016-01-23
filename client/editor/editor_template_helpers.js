@@ -88,6 +88,8 @@ Template.editor.helpers({
         return this.original.name;
       }
 
+      if (editor.controlType == cImage) return this.original.name;
+
       return this.f;
     },
 

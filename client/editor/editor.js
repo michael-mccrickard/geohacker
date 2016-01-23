@@ -5,9 +5,9 @@ Editor = function() {
 
 	this.hack = new Hack();
 
-	this.arrField = ["f", "dt","s"];
+	this.arrField = ["f","dt","s"];
 
-	this.arrFieldDebrief = ["f", "t", "dt"];
+	this.arrFieldDebrief = ["t", "dt"];
 
 	this.arrFieldCountry = ["n","c","r","co","d"];  //name, code, region, color, dataFlag
 

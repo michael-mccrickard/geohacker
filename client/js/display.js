@@ -523,10 +523,21 @@ Display = function() {
     }
 
     this.switchToEditCountry = function() {
+        
+        if (!hack) {
 
-      //bring over the countryCode from the global hack
+            showMessage("No country selected.");
 
-        editor.hack.countryCode = hack.countryCode;
+            return;
+        }
+
+        if (!hack.countryCode.length) {
+
+            showMessage("No country selected.");
+
+            return;            
+        }
+
 
         this.switchToEditor();
 
@@ -553,13 +564,22 @@ Display = function() {
 
       if (editor == null) editor = new Editor();
 
-      editor.controlType = cNone;
+editor.controlType = cSound;
+
+      //bring over the countryCode from the global hack
+
+      if (hack) {
+
+        if (hack.countryCode.length)  editor.hack.countryCode = hack.countryCode;
+      }
 
       //Switch the global to be the edit hack
 
       hack = editor.hack;
 
       hack.mode = mEdit;
+
+      game.stopMusic();
 
       this.closeOutMain();
 
