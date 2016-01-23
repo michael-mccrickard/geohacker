@@ -524,8 +524,6 @@ Display = function() {
 
     this.switchToEditCountry = function() {
 
-      //bring over the countryCode from the global hack
-
         editor.hack.countryCode = hack.countryCode;
 
         this.switchToEditor();

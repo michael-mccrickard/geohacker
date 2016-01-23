@@ -1,5 +1,12 @@
 Template.newNav.helpers({
 
+  countryIsSelected: function() {
+
+    if ( Session.get("sCountryIsSelected") ) return true;
+
+    return false;
+  }
+
   userHasAvatar: function() {
 
     if (Meteor.user() == null) return false;
