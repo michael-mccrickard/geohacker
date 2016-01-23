@@ -524,6 +524,10 @@ Display = function() {
 
     this.switchToEditCountry = function() {
 
+      //bring over the countryCode from the global hack
+
+        editor.hack.countryCode = hack.countryCode;
+
         this.switchToEditor();
 
         FlowRouter.go("/editor");
@@ -550,6 +554,8 @@ Display = function() {
       if (editor == null) editor = new Editor();
 
       editor.controlType = cNone;
+
+      //Switch the global to be the edit hack
 
       hack = editor.hack;
 

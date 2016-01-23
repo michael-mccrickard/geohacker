@@ -20,7 +20,14 @@ isURL = function( _name ) {
   return false;
 }
 
+videoControl = function() {
 
+    if (display == null) return false;
+
+    if (typeof display.ctl["VIDEO"] == "undefined") return false;
+
+    return true;
+}
 //************************************************************
 //     Update the screen element proportions
 //************************************************************
@@ -105,11 +112,11 @@ onYouTubeIframeAPIReady = function () {
 
     var _file = null;
 
+    youTubeLoaded = true;
+
     if (display != null) {
 
       if (display.ctl["VIDEO"]) {
-
-        youTubeLoaded = true;
 
         _file = display.feature.video;
 
@@ -117,8 +124,6 @@ onYouTubeIframeAPIReady = function () {
 
       if (editor && hack.mode == mEdit) {
 
-        youTubeLoaded = true;
-        
         if (editor.videoFile) {
 
           _file = editor.videoFile;
@@ -165,7 +170,10 @@ onYouTubeIframeAPIReady = function () {
 
                 // Play video when player ready.
 
-                display.ctl["VIDEO"].youTubeWaiting.set( false );
+               if ( videoControl() ) {
+
+                    display.ctl["VIDEO"].youTubeWaiting.set( false );
+                }
 
                 if (_file) event.target.playVideo();
 
@@ -177,16 +185,22 @@ onYouTubeIframeAPIReady = function () {
 
                 if (event.data == YT.PlayerState.PLAYING) {
 
-                    display.ctl["VIDEO"].setState( sPlaying );
+                    if ( videoControl() ) {
 
-                    $("img#picVIDEO").attr("src", display.ctl["VIDEO"].pauseControlPic);
+                        display.ctl["VIDEO"].setState( sPlaying );
+
+                        $("img#picVIDEO").attr("src", display.ctl["VIDEO"].pauseControlPic);
+                    }
                 }
 
                 if (event.data == YT.PlayerState.PAUSED) {
 
-                    display.ctl["VIDEO"].setState( sPaused );
+                    if ( videoControl() ) {
 
-                    $("img#picVIDEO").attr("src", display.ctl["VIDEO"].playControlPic);
+                        display.ctl["VIDEO"].setState( sPaused );
+
+                        $("img#picVIDEO").attr("src", display.ctl["VIDEO"].playControlPic);
+                    }
                 }
 
             }

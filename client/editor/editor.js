@@ -19,8 +19,6 @@ Editor = function() {
 
   	Object.defineReactiveProperty(this, "recordID", "");
 
-  	this.youTubeLoaded = false;
-
   	this.videoFile = null;
 
   	Session.set("sYouTubeOn", false);

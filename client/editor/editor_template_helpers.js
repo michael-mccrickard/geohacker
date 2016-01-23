@@ -79,6 +79,18 @@ Template.editor.helpers({
     	return "(no control selected)";
     },
 
+    getThisFile: function() {
+
+      if (editor.controlType == cVideo) {
+
+        if ( Control.isYouTubeURL( this.f) ) return this.f;
+
+        return this.original.name;
+      }
+
+      return this.f;
+    },
+
     getNonYouTubeFile: function(_file) {
 
       if (editor.controlType == cImage || editor.controlType == cWeb ) return getS3URL(this);
@@ -245,12 +257,12 @@ Template.editor.events = {
 
           editor.videoFile = rec.f;
 
-          if (editor.youTubeLoaded == false) {
-
+          if (youTubeLoaded == false) {
+c("calling YT.load() in editor")
             YT.load();
           }
           else {
-
+c("loading YT vid by ID in editor")
             ytplayer.loadVideoById( rec.f );            
           }
 

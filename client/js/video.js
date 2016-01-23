@@ -16,11 +16,6 @@ Video = function() {
 	this.youTubeWaiting = new Blaze.ReactiveVar( false );  //are waiting on the YT player to load?
 
 
-	//nullify the youtube player object any time
-	//we create the video control (????)
-
-	//ytplayer = null;
-
 	this.init = function() {
 
 		this.index = new Blaze.ReactiveVar(0);
@@ -208,7 +203,9 @@ Video = function() {
 	this.playYouTube = function( _file) {
 
 		this.setState( sPlaying );
-console.log("video.playYouTube is setting sYouTubeOn to true")
+
+		console.log("video.playYouTube is setting sYouTubeOn to true")
+		
 		Session.set("sYouTubeOn", true);    
 
 		this.isYouTube = true;
