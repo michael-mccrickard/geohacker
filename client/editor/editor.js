@@ -44,7 +44,7 @@ Editor = function() {
 
     	ytplayer.stopVideo();
 
-    	this.youTubeOn = false;   
+  		Session.set("sYouTubeOn", false);  
 	}
 
 

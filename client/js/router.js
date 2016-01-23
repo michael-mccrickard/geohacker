@@ -251,7 +251,7 @@ FlowRouter.route('/waiting', {
 });
 
 //*********************************************
-//      User Directory
+//      USER DIRECTORY
 //*********************************************
 
 FlowRouter.route('/userDirectory',  {
@@ -262,7 +262,20 @@ FlowRouter.route('/userDirectory',  {
   },
 
 
-  action: function (params, queryParams) { $('body').removeClass('noscroll'); BlazeLayout.render('layout', { content: "userDirectory" } ) }
+  action: function (params, queryParams) { 
+
+    $('body').removeClass('noscroll'); 
+
+    BlazeLayout.render('layout', { content: "userDirectory" } );
+
+    if ( Session.get("sYouTubeOn") == true ) {
+
+        if (ytplayer) ytplayer.pauseVideo();
+
+        Session.set("sYouTubeOn", false);
+    } 
+
+  }
 
 });
 
