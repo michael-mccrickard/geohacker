@@ -362,11 +362,13 @@ this.saveScroll = function(_val) {
 
     var _code = this.getCountryRecByID(_countryID).c;
 
-    if (db.ghI.findOne( { cc: _code, dt: "flg" } ) != undefined) {
+    if (typeof db.ghPublicImage.findOne( { cc: _code, dt: "flg" } ) !== 'undefined') {
 
-      return db.ghI.findOne( { cc: _code, dt: "flg" } ).f;
+      return getS3URL( db.ghPublicImage.findOne( { cc: _code, dt: "flg" } ) );
     }
     else {
+
+      showMessage("No flag pic found for " + getCountryName( _countryID ));
 
       return _code;
     }
@@ -374,11 +376,13 @@ this.saveScroll = function(_val) {
 
   this.getFlagPicByCode = function(_code) {
 
-    if (db.ghI.findOne( { cc: _code, dt: "flg" } ) != undefined) {
+    if (typeof db.ghPublicImage.findOne( { cc: _code, dt: "flg" } ) !== 'undefined') {
 
-      return db.ghI.findOne( { cc: _code, dt: "flg" } ).f;
+      return getS3URL( db.ghPublicImage.findOne( { cc: _code, dt: "flg" } ) );
     }
     else {
+
+      showMessage("No flag pic found for " + getCountryName( _countryID ));
 
       return _code;
     }
