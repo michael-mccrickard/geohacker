@@ -327,8 +327,9 @@ if ( this.off() ) return;
 				this.ctl.playFeaturedContent();
 			}
 
-
 		}
+
+		this.draw();
 
 	}
 

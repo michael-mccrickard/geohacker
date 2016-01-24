@@ -26,13 +26,13 @@ Template.atlas.helpers({
 
 Template.atlas.events({
 
-  'click div.item': function(e) { 
+  'click .item': function(e) { 
 
       e.preventDefault();  
 
       var _code = e.currentTarget.id;
 
-      user.browseCountry( _code );
+      game.user.browseCountry( _code );
 
     },
 
