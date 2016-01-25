@@ -308,8 +308,6 @@ Control.unfocusMyClass = function(which) {
 
 Control.playEffect = function(_file) {
 
-c(_file);
-
   $("#effectsPlayer").attr("src", _file);
 
   document.getElementById("effectsPlayer").play();
@@ -317,8 +315,6 @@ c(_file);
 
 
 Control.stopSound = function(_which) {
-
-c(_which + " was stopped.")
 
   document.getElementById( _which + "Player").pause();
 }

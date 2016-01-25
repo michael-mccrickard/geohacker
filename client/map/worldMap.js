@@ -261,7 +261,7 @@ c("doCurrentMap");
 
     //label the clicked map object and pos it appropriately
 
-    this.labelMapObject = function(_fontSize, _col) {
+    this.labelMapObject = function(_fontSize, _col, _x, _y) {
 
         var level = this.mapCtl.level.get();
 
@@ -299,9 +299,9 @@ c("doCurrentMap");
 
             //Some countries don't have hard-coded label positions but most do
 
-            if (this.mapCtl.getState() == sMapDone) {
+            if (this.mapCtl.getState() == sCountryOK) {
 
-                if (rec.xl2 != undefined) {
+                if (typeof rec.xl2 !== 'undefined') {
 
                     x = rec.xl2 * this.map.divRealWidth;
 
@@ -312,7 +312,7 @@ c("doCurrentMap");
                     x = this.map.divRealWidth / 2;
 
                     y = this.map.divRealHeight / 2;    
-                }                 
+              }                 
             }
             else {
 
@@ -333,11 +333,16 @@ c("doCurrentMap");
             _name = rec.n;
 
         }
-
         
-        if (_fontSize == undefined) _fontSize = 24;
+        if (typeof _fontSize == 'undefined') _fontSize = 24;
 
-        if (_col == undefined) _col = "white";
+        if (typeof _col == 'undefined') _col = "white";
+
+        if (typeof _x !== 'undefined') x = _x;
+
+        if (typeof _y !== 'undefined') y = _y;       
+
+c("LMO in WM is calling addLabel")
 
         Meteor.defer( function() { display.ctl["MAP"].worldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
     }
@@ -516,6 +521,8 @@ c("doCurrentMap");
                 //and the preloader callback will trigger the map zooming sequence
 
                 if (!gEditLabels) this.mapCtl.preloadCountryMap( hack.getCountryFilename().toLowerCase() )
+
+                
             }
             else {
 
@@ -651,18 +658,20 @@ c("doMapSuccess")
 
         this.imgSrc = Control.getImageFromFile( this.mapFilename );
 
+        //change the color of the country here back to it's normal color?
+
         areaTop = $("#divMap").position().top;
         areaLeft = $("#divMap").position().left;
         areaWidth = $("#divMap").width();
         areaHeight = $("#divMap").height();
-
+/*
         $("#divMap").velocity({
             opacity: 0
 
         },{
             duration: 750,
         });
-
+*/
         Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone2()}, 751);
     }
 
@@ -674,31 +683,47 @@ c("doMapSuccess")
 
         this.map.clearLabels();
 
-        $("#divMap").css("width", "43%");
-        $("#divMap").css("left", "10.5%");
+        //$("#divMap").css("width", "43%");
+        //$("#divMap").css("left", "10.5%");
 
-        this.map.invalidateSize();
+        $("#divMap").velocity({
+            width: "43%",
+            left: "10.5%",
+        }),{
+            duration: 1000,
+        };
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone3()}, 100);
+//These two commands should center us on the selected country, with the map properly
+//proportioned for the new size, but this method is unreliable.
+//But by not calling either of these, we at least reliably have the selected country
+//in the center of the map, even if the map is a little squashed.
+
+        //this.map.invalidateSize();
+
+        //this.map.zoomToGroup([this.map.getObjectById( hack.countryCode )]);
+
+        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone3()}, 600);
 
     }
 
     //Fade in the half-size map and label the country
 
     this.hackDone3 = function() {
-
+/*
         $("#divMap").velocity({
             opacity: 1
 
         },{
             duration: 500,
         });
-
+*/
         this.mapCtl.level.set( mlCountry );
 
         this.zoomDone = true;
 
         var rec = db.getCountryRec( hack.countryCode );
+
+        display.ctl["MAP"].worldMap.labelMapObject(14, "white");
 
         Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone4()}, 504);       
     }
@@ -706,8 +731,6 @@ c("doMapSuccess")
     //Zoom the country map out from the center of the world map 
 
     this.hackDone4 = function() {
-
-
 
         var imageWidth = 4;
         var imageHeight = 4;
@@ -719,10 +742,6 @@ c("doMapSuccess")
         targWidth = areaWidth * 0.49;
 
         var sideBorder = areaWidth * 0.015;
-
-c("w = " + this.imgSrc.width)
-
-c("h = " + this.imgSrc.height)
 
         targHeight = (targWidth / this.imgSrc.width ) * this.imgSrc.height; 
 
@@ -765,8 +784,6 @@ c("h = " + this.imgSrc.height)
         }
             
         );
-
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.labelMapObject(14, "white"); }, 1001 );
 
         display.ctl["MAP"].setState( sMapDone );  
 

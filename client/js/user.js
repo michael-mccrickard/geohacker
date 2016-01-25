@@ -104,11 +104,19 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	this.setGlobals("mission");
 
-    	game.user.mode = uHack;
+    	this.mode = uHack;
 
-    	//user might be resuming after immediately browsing the newly-hacked country ...
+    	if (this.assign == null) {
 
-    	if (hack.mode == mHackDone) {
+    		this.assignAndStartMission( mission.code );
+
+    		return;
+    	}
+
+    	//user might be resuming after immediately browsing the newly-hacked country 
+    	//or they might have just clocked in ...
+
+    	if ( hack.mode == mHackDone || hack.mode == mNone ) {
 
     		hack.startNext();
 

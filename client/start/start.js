@@ -164,7 +164,7 @@ Meteor.startup(function() {
 
     Meteor.subscribe("allVideos", function() { Session.set("sVideoReady", true ) });
 
-//ps("US")
+//ps("AE")
 
   //start screen
 

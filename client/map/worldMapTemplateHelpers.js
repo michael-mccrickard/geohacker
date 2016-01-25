@@ -332,11 +332,15 @@ updateLabelPosition = function(_which) {
 
     var x = display.ctl["MAP"].worldMap.map.allLabels[0].x;
 
+c("x in updateLabelPosition is " + x)
+
     var y = display.ctl["MAP"].worldMap.map.allLabels[0].y;
 
-    x = ( x ) / totalWidth;
+    x =  x  / totalWidth;
 
-    y = ( y ) / totalHeight;
+c("x normalized in updateLabelPosition is " + x)
+
+    y =  y  / totalHeight;
 
     var _level = display.ctl["MAP"].level.get();
 
@@ -391,6 +395,10 @@ updateLabelPosition = function(_which) {
         console.log("country " + "(" + _which + ") " + selectedCountry + " label updated to " + x + ", " + y);
     }
 
+//this just messes up the label's position, which has been carefully placed with the editor. Timing / sync issue with db?
+
+/*
+
     display.ctl["MAP"].worldMap.map.clearLabels();
 
     if ( display.ctl["MAP"].getState() == sMapDone) {
@@ -399,9 +407,9 @@ updateLabelPosition = function(_which) {
     }
     else {
 
-        Meteor.defer( function() { display.ctl["MAP"].worldMap.labelMapObject(); } );      
+        Meteor.defer( function() { display.ctl["MAP"].worldMap.labelMapObject( 24, "yellow", x, y ); } );      
     }
-
+*/
     
 
 }
