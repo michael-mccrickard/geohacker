@@ -49,16 +49,17 @@
     position: absolute;
     top: 50%;  
     z-index: 60;
+    width: 4%;
     cursor:pointer;
 }
 
 .navPrevDebrief {
     
-    left: 1.75%;
+    left: 4.75%;
 }
 
 .navNextDebrief {
-    left: 96.5%;
+    left: 91.5%;
 }   
 
 .miniDebriefText {

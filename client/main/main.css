@@ -98,6 +98,7 @@ img.featuredBackdrop {
 .navButton {
 
     position: absolute;
+    width: 4%;
     top: 37%;  
     z-index: 60;
     cursor: pointer;
@@ -105,11 +106,11 @@ img.featuredBackdrop {
 
 .navPrev {
     
-    left: 2.75%;
+    left: 2.63%;
 }
 
 .navNext {
-    left: 82.25%;
+    left: 80.75%;
 }  
 
 

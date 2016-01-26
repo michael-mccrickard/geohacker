@@ -695,7 +695,7 @@ c("doMapSuccess")
 
 //These two commands should center us on the selected country, with the map properly
 //proportioned for the new size, but this method is unreliable.
-//But by not calling either of these, we at least reliably have the selected country
+//But by not calling either of these, we reliably have the selected country
 //in the center of the map, even if the map is a little squashed.
 
         //this.map.invalidateSize();
@@ -721,9 +721,15 @@ c("doMapSuccess")
 
         this.zoomDone = true;
 
-        var rec = db.getCountryRec( hack.countryCode );
+    this.map.dataProvider.zoomLongitude = this.map.zLongTemp;
 
-        display.ctl["MAP"].worldMap.labelMapObject(14, "white");
+    this.map.dataProvider.zoomLatitude =  this.map.zLatTemp;
+
+    this.map.dataProvider.zoomLevel =  this.map.zLevelTemp;
+
+    this.map.validateData();
+
+        this.labelMapObject(14, "white");
 
         Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone4()}, 504);       
     }
