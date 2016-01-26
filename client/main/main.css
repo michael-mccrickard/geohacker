@@ -100,7 +100,7 @@ img.featuredBackdrop {
     position: absolute;
     width: 4%;
     top: 37%;  
-    z-index: 60;
+    z-index: 1000;
     cursor: pointer;
 }
 

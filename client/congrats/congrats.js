@@ -220,7 +220,9 @@ Template.congrats.events = {
 
       mission = null;
 
-      FlowRouter.go( "/missionSelect" );
+      game.user.mode = uHack;
+
+      game.user.goHome();
 
     },
 
