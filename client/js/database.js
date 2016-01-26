@@ -608,6 +608,11 @@ this.updateRecord2 = function (_type, field, ID, value) {
 
      //all others:  web, image or sound
 
+    data["f"] = getLocalPrefix() + data["f"];
+
+c("data for the uCRS call follows")
+c(data)
+
      Meteor.call("updateContentRecordOnServer", data, _type, _id);
 
     }  //end if we have a control type and a record id

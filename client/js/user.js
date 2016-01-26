@@ -106,6 +106,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	this.mode = uHack;
 
+		//they might have just clocked in ...
+
     	if (this.assign == null) {
 
     		this.assignAndStartMission( mission.code );
@@ -114,8 +116,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     	}
 
     	//user might be resuming after immediately browsing the newly-hacked country 
-    	//or they might have just clocked in ...
-
+    	
     	if ( hack.mode == mHackDone || hack.mode == mNone ) {
 
     		hack.startNext();

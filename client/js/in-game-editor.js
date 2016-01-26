@@ -26,33 +26,39 @@ $(document).keydown(function(e) {
 
     switch(e.which) {
 
-    	case 37: 
+    	case 37: //arrow key 
 
     		if (gEditLabels) nudgeLabel( e.which );
 
     		break;
 
-    	case 38: 
+    	case 38: //arrow key 
 
     		if (gEditLabels) nudgeLabel( e.which );
 
     		break;
 
-    	case 39: 
+    	case 39: //arrow key 
 
     		if (gEditLabels) nudgeLabel( e.which );
 
     		break;
 
-    	case 40: 
+    	case 40: //arrow key 
 
     		if (gEditLabels) nudgeLabel( e.which );
 
     		break;
+
+  	    case 65: //a
+
+	    	hack.autoHack();
+
+	    	break;
 
 	    case 69: //e
 
-	    	if (gGameEditor) toggleEditLabels();
+	    	toggleEditLabels();
 
 	    	break;
 
@@ -189,6 +195,8 @@ function moveLabel() {
 }
 
 function updateLabelRecord() {
+
+	showMessage("updating label pos in db");
 
     if ( display.ctl["MAP"].getState() == sMapDone) {
 

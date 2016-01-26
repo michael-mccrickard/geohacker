@@ -426,7 +426,7 @@ function deriveInt(_s) {
 
 //map debug hacks
 
-go = function() { display.ctl["MAP"].preloadCountryMap( hack.getCountryFilename().toLowerCase() );  c("resuming sequence")}
+go = function() { display.ctl["MAP"].preloadCountryMap( hack.getCountryFilename().toLowerCase() );  showMessage("resuming sequence");}
 
 updateLabel = function() {
 
