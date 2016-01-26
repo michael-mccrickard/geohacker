@@ -1,13 +1,5 @@
 /* scanning.css  */
 
-/*
-*{
-padding : 0;
-margin : 0;
-border : 0;
-}
-*/
-
 
 .scanScreen{
 	display : block;
@@ -37,26 +29,7 @@ border : 0;
    	background-color: #2a2a3a;
 }
 
-/*
 
-.scrollTextBG {
-	position: fixed;
-	margin-left: 1%;	
-	overflow: hidden;
-}
-
-.scrollTextBGText {
-
-	font-size: 14px;
-	color: #6d6e7b;
-	white-space: pre;
-	height: 100%;
-	text-transform: uppercase;
-	opacity: 0.75;
-
-}
-
-*/
 .divScanFeaturedText {
   	border: 2px solid;
   	border-color: #969696;
@@ -158,7 +131,6 @@ border : 0;
 
 .scanCenterImg {
 	width: 100%;
-	cursor: pointer;
 }
 
 .scanCenterText{

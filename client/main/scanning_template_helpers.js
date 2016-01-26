@@ -9,7 +9,11 @@ Template.main.events({
 
       var _mode = display.scanner.mode;
 
-      if (_mode != "scan" && _mode != "rescan") {
+      var _state = display.scanner.centerState.get();
+
+      //if ( (_mode != "scan" && _mode != "rescan") || display.scanner.centerState != "idle") {
+
+    if (_state == "loaded") {
 
         display.scanner.fadeOut( 250 );
 
@@ -26,6 +30,20 @@ Template.main.events({
 
 
 Template.scanning.helpers({
+
+    cursorForScanCenter: function() {
+
+      //var _mode = display.scanner.mode;
+
+      //if (_mode != "scan" && _mode != "rescan" && display.scanner.centerState != "idle") return "default";
+
+        var _state = display.scanner.centerState.get();
+
+        if (_state == "loaded") return "pointer";
+
+        return "default";
+
+    },
 
     scanningNow: function() {
 
