@@ -515,7 +515,7 @@ c("LMO in WM is calling addLabel")
 
                 //update the user's record in the database (country successfully hacked)
 
-                game.user.countryHacked( theCountry );
+                if (!hack.auto) game.user.countryHacked( theCountry );
 
                 //we load the country map using the preloader (so that we can read it's size)
                 //and the preloader callback will trigger the map zooming sequence

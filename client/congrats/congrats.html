@@ -17,33 +17,45 @@
                   <div class="congratsAgentReport">
                     <p class="hackReportHeadline greenText">{{hackReport2}}</p>
                     <p class="hackReportText whiteText"><span class="yellowText">AGENT: </span>{{agentName}}</p>
-                    <p class="hackReportText whiteText"><span class="yellowText">TIME: </span>{{hackReport3}}</p>
-                    <p class="hackReportText whiteText"><span class="yellowText">MESSAGES ANALYZED: </span>{{hackReport4}}</p>
-                    <p class="hackReportText whiteText"><span class="yellowText">HACKED THIS COUNTRY: </span>{{hackedCount}}x</p>
-                  </div>
 
-                  <div class="clear ghBadge">
-
-                    {{#each badge}}
-
-                      <div class="compositeBadge" id="b{{this.index}}">
-
-                        <img class="badgePic" src="{{this.pic}}" width="144"/>
-
-                        <div class="badgeLabel whiteText">{{this.text}}</div> 
-
-                      </div>
-
-
-                    {{/each}}
-                
-                    {{#if needBlankBadge}}
-
-                        <div class="blankBadge badgePic"></div>
+                    {{#if wasHacked}}
                     
+                      <p class="hackReportText whiteText"><span class="yellowText">TIME: </span>{{hackReport3}}</p>
+                      <p class="hackReportText whiteText"><span class="yellowText">MESSAGES ANALYZED: </span>{{hackReport4}}</p>
+                      <p class="hackReportText whiteText"><span class="yellowText">HACKED THIS COUNTRY: </span>{{hackedCount}}x</p>
+                    
+                    {{else}}
+                      <p class="hackReportText whiteText"><span class="yellowText">AUTO-HACKED</span></p>
                     {{/if}}
 
                   </div>
+
+                  {{#if wasHacked}}
+
+                    <div class="clear ghBadge">
+
+                      {{#each badge}}
+
+                        <div class="compositeBadge" id="b{{this.index}}">
+
+                          <img class="badgePic" src="{{this.pic}}" width="144"/>
+
+                          <div class="badgeLabel whiteText">{{this.text}}</div> 
+
+                        </div>
+
+
+                      {{/each}}
+                  
+                      {{#if needBlankBadge}}
+
+                          <div class="blankBadge badgePic"></div>
+                      
+                      {{/if}}
+
+                    </div>
+                  
+                  {{/if}}
 
               </div>
 

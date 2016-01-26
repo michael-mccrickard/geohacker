@@ -24,20 +24,23 @@ Template.congrats.rendered = function () {
 
   $("#hackReportBottom" ).velocity("fadeIn", { duration: 1500 })
 
+  if (!hack.auto) {
 
-  for (var i = 0; i <= game.user.badgeLimit; i++) {
+    for (var i = 0; i <= game.user.badgeLimit; i++) {
 
-      $("#b" + i.toString() ).velocity({
+        $("#b" + i.toString() ).velocity({
 
-          translateX: "800px",
+            translateX: "800px",
 
-      }, {
+        }, {
 
-        delay: 500 + i * timeInc,
+          delay: 500 + i * timeInc,
 
-        easing: "easeOutCubic"
-      });
+          easing: "easeOutCubic"
+        });
 
+    }
+    
   }
 
   Meteor.setTimeout( function() { hack.playAnthem(); }, 3000);
@@ -181,6 +184,12 @@ Template.congrats.helpers({
     return false;
   },
 
+  wasHacked: function() {
+
+     if (!hack.auto) return true;
+
+     return false;
+  }
 
 });
 
