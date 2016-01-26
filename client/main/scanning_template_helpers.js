@@ -31,6 +31,12 @@ Template.main.events({
 
 Template.scanning.helpers({
 
+    nationsCount: function() {
+
+        return db.ghC.find( { d: 1 } ).fetch().length;
+
+    },
+
     cursorForScanCenter: function() {
 
       //var _mode = display.scanner.mode;
