@@ -25,6 +25,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.mode = uNone;  //determines the content on the user's home screen
 
+    this.bio = new Bio();
+
     this.template = new Blaze.ReactiveVar( "" );  //template for the above content
 
     this.profile = null;

@@ -1,226 +1,35 @@
 //bio.js
 
-//pictures (featured pic on the agent's home page)
+Bio = function() {
 
-var ghPicture = new FS.Collection("ghPicture", {
-  stores: [new FS.Store.FileSystem("ghPicture")]
-});
+	this.imageSrc = null;
 
-var picturePath = "cfs/files/ghPicture/";
 
+	this.getImageHeight = function() {
 
-Template.bio.helpers({
+		return this.imageSrc.height;
+	}
 
-    userEditMode: function() {
+	this.getImageWidth = function() {
 
-      return game.user.editMode.get();
-    },
+		return this.imageSrc.width;
+	}	
 
-    profile: function() {
+	//borrow the debrief preload element
 
-      return Meteor.user().profile;
-    }
+	this.preloadImage = function() {
 
+		$("#preloadDebrief").attr("src", this.image );
 
-}); 
+        imagesLoaded( document.querySelector('#preloadDebrief'), function( instance ) {
 
-Template.bio.events({
+        	game.user.bio.imageSrc = Control.getImageFromFile(game.user.bio.image );  
 
-  'click #editBio': function(e) {
+        	Meteor.setTimeout( function() { game.user.bio.draw(); }, 200 );
 
-      e.preventDefault();  
 
-      game.user.editMode.set( true );
+        });
 
-      redrawBio();
-
-  },
-
-  'click #cancelBioEdit': function(e) {
-
-      e.preventDefault();  
-
-      endEditMode();
-
-  },
-
-  'click #saveBioEdit': function(e) {
-
-      e.preventDefault();  
-
-      db.updateUserBio();
-
-      endEditMode();
-
-  },
-
-  'change #avatarFileInput': function(event, template) {
-
-    var files = event.target.files;
-    
-    for (var i = 0, ln = files.length; i < ln; i++) {
-    
-      db.ghAvatar.insert(files[i], function (err, fileObj) {
-
-          var oldURL = game.user.avatar();
-
-          var url = avatarPath + fileObj._id + "/" + fileObj.original.name;
-
-          Meteor.setTimeout( function() { game.user.updateAvatar( url ); }, 500  );
-
-          Meteor.setTimeout( function() { redrawBio(); }, 750 );
-
-          Meteor.setTimeout( function() { db.ghAvatar.remove( { _id: getCFS_ID( oldURL) })}, 1000);
-      
-      });
-
-    }
-  },
-
-   'change #featuredPicFileInput': function(event, template) {
-
-    var files = event.target.files;
-    
-    for (var i = 0, ln = files.length; i < ln; i++) {
-    
-      db.ghImage.insert(files[i], function (err, fileObj) {
-
-          var oldURL = game.user.featuredPic();
-
-          var url = imagePath + fileObj._id + "/" + fileObj.original.name;
-
-          Meteor.setTimeout( function() { game.user.updateFeaturedPic( url ); }, 500  );
-
-          Meteor.setTimeout( function() { redrawBio(); }, 750 );
-
-          //if it's a public picture (in our public folder) then we don't want to do this, but it's harmless (?)
-
-          Meteor.setTimeout( function() { db.ghImage.remove( { _id: getCFS_ID( oldURL) })}, 1000);
-      
-      });
-
-    }
-  }, 
-
-
-});
-
-Template.bio.rendered = function() {
-
-  //Better to wait on a callback from imagesRendered, but for now ...
-
-  redrawBio();
-
-}
-
-function getCFS_ID (_url) {
-
-  var _index = _url.lastIndexOf("/");
-
-  //lop off the actual filename part
-
-  _url = _url.substring(0, _index);
-
-  _index = _url.lastIndexOf("/");
-
-  _url = _url.substring(_index + 1);
-
-  return (_url);
-
-}
-
-
-function chooseAvatarFile() {
-
-  $("#avFileInput").click();
-}
-
-function endEditMode() {
-
-    game.user.editMode.set( false );
-
-    redrawBio();
-}
-
-
-function redrawBio() {
-
-  Meteor.setTimeout( function() { draw(); }, 100 );
-
-}
-
-function draw() {
-
-  var icon1 = null;
-
-  var icon2 = null;
-
-  if ( game.user.editMode.get() ) {
-
-    icon1 = "#saveBioEdit";
-
-    icon2 = "#cancelBioEdit";
-  }
-  else {
-
-    icon1 = "#startBioEdit";
-  }
-
-  var bottom = $(".divBioFeaturedPic").height() +  $(".divBioFeaturedPic").position().top;
-
-  var top = bottom - 0.02 * $(".divBioFeaturedPic").height();
-
-  $(icon1).css("top", top);
-
-  if (icon2) $(icon2).css("top", top);
-
-
-  var left = $(".divBio").width() + $(".divBio").position().left - 32 - 0.01 * $(".divBioFeaturedPic").width();
-
-  $(icon1).css("left", left); 
-
-  if (icon2) $(icon2).css("left", left - 48); 
-
-  if (game.user.editMode.get() ) {        
-
-      //edit avatar button
-
-      top = $("img.imgBioAvatar").position().top;
-
-      var bottom = top + $("img.imgBioAvatar").height();
-
-      $("#editAvatar").css("top", bottom - 32);
-
-      left = $("img.imgBioAvatar").position().left;
-
-     $("#editAvatar").css("left", left + 4);
-
-
-      //edit featured pic button
-
-      top = $("img.imgBioFeaturedPic").position().top;
-
-      bottom = top + $("img.imgBioFeaturedPic").height();
-
-      $("#editFeaturedPic").css("top", bottom - 36);
-
-      left = $("img.imgBioFeaturedPic").position().left;
-
-     $("#editFeaturedPic").css("left", left + 4);
-
-
-    if ( $("#saveBioEdit").css("opacity") == "0" ) fadeIn( "saveBioEdit" );
-
-    if ( $("#cancelBioEdit").css("opacity") == "0" ) fadeIn( "cancelBioEdit" );
-
-    if ( $("#editAvatar").css("opacity") == "0" ) fadeIn( "editAvatar" );
-
-    if ( $("#editFeaturedPic").css("opacity") == "0" ) fadeIn( "editFeaturedPic" );
-
-  }
-  else {
-
-    if ( $("#startBioEdit").css("opacity") == "0" ) fadeIn( "startBioEdit" ); 
-  }
+	}
 
 }

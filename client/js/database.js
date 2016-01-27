@@ -14,7 +14,7 @@ Database = function() {
       stores: [ this.publicStore ]
   });
 
-    this.ghPublicVideo = new FS.Collection("ghPublicVideo", {
+  this.ghPublicVideo = new FS.Collection("ghPublicVideo", {
       stores: [ this.publicStore ]
   });
 
@@ -27,6 +27,10 @@ Database = function() {
   });
 
   this.ghTag = new FS.Collection("ghTag", {
+      stores: [ this.publicStore ]
+  });
+
+  this.ghUserFeaturedPic = new FS.Collection("ghUserFeaturedPic", {
       stores: [ this.publicStore ]
   });
 

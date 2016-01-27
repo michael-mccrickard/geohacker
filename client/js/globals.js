@@ -2,7 +2,7 @@
 //     filename utilities
 //************************************************************
 
-var prefix = 'https://s3.amazonaws.com/gh-resource/';
+
 
 getS3Prefix = function() { return prefix; } 
 

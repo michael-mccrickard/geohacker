@@ -4,6 +4,8 @@ Template.newNav.helpers({
 
     if (Meteor.user() == null) return false;
 
+    if (Meteor.user().profile.av == null) return;
+
     if (Meteor.user().profile.av.length) return true;
 
     return false;
@@ -20,9 +22,5 @@ Template.newNav.helpers({
 
 Template.waiting.rendered = function() {
 
-	if (typeof hack === "undefined") return
 
-	if (hack.debrief == null) return;
-
-	//if (hack.debrief.waitingNow) hack.debrief.goNext();
 }

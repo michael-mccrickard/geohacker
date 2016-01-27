@@ -45,6 +45,10 @@ var ghTag = new FS.Collection("ghTag", {
     stores: [ publicStore ]
 });
 
+var ghUserFeaturedPic = new FS.Collection("ghUserFeaturedPic", {
+  stores: [ publicStore ]
+});
+
 var ghPublicImage = new FS.Collection("ghPublicImage", {
     stores: [ publicStore ]
 });
@@ -187,17 +191,20 @@ Meteor.startup(
       return ghD.find( { cc: countryCode });
     });
 
-    //avatar
+    //user collection
 
     Meteor.publish("ghAvatar", function () {
       return ghAvatar.find();
     });
 
-    //tags
-
     Meteor.publish("ghTag", function () {
       return ghTag.find();
     });
+
+    Meteor.publish("ghUserFeaturedPic", function () {
+      return ghUserFeaturedPic.find();
+    });
+
 
     //images and sounds (publish all for now)
 
@@ -215,22 +222,6 @@ Meteor.startup(
 
     Meteor.publish("ghPublicVideo", function () {
       return ghPublicVideo.find();
-    });
-
-    ghAvatar.allow({
-
-      insert: function() {
-          return true;
-      },
-      update: function() {
-          return true;
-      },
-      remove: function() {
-          return true;
-      },
-      download: function() {
-          return true;
-      }
     });
 
 
@@ -298,7 +289,7 @@ Meteor.startup(
       }
     });
 
-    ghV.allow({
+    ghAvatar.allow({
 
       insert: function() {
           return true;
@@ -308,10 +299,29 @@ Meteor.startup(
       },
       remove: function() {
           return true;
+      },
+      download: function() {
+          return true;
       }
     });
 
     ghTag.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      },
+      download: function() {
+          return true;
+      }
+    });
+
+    ghUserFeaturedPic.allow({
 
       insert: function() {
           return true;
@@ -368,6 +378,16 @@ if (_type == cWeb) col = ghPublicWeb;
 
     return col;
   }
+
+
+/*
+ghAvatar.on('uploaded', function (fileObj) {
+
+
+});
+*/
+
+
 
 //*********************************************
 //      METHODS
