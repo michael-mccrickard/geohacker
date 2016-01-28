@@ -4,6 +4,32 @@
 
 var countryCode;
 
+Slingshot.createDirective("myFileUploads", Slingshot.S3Storage, {
+  bucket: "gh-resource",
+
+  acl: "public-read",
+
+  AWSAccessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
+  AWSSecretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
+
+  authorize: function () {
+
+    //Deny uploads if user is not logged in.
+    if (!this.userId) {
+      var message = "Please login before posting files";
+      throw new Meteor.Error("Login Required", message);
+    }
+
+    return true;
+  },
+
+  key: function (file) {
+    //Store file into a directory by the user's username.
+    //var user = Meteor.users.findOne(this.userId);
+
+    return "ghAvatar/" + this.userId + "-" + file.name;
+  }
+});
 
 //*********************************************
 //      EMAIL SETTINGS
@@ -381,7 +407,11 @@ if (_type == cWeb) col = ghPublicWeb;
 
 
 /*
-ghAvatar.on('uploaded', function (fileObj) {
+ghAvatar.on('stored', function (error, fileObj) {
+
+    if(error) console.log(error.message);
+
+    Meteor.users.update( { _id: fileObj.userID }, { $set: { 'profile.av': getS3URL_byAttributes( "ghAvatar", fileObj._id, fileObj.original.name)} } );
 
 
 });

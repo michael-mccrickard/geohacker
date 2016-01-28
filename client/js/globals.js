@@ -3,7 +3,6 @@
 //************************************************************
 
 
-
 getS3Prefix = function() { return prefix; } 
 
 getLocalPrefix = function() { return "http://localhost:3000/";}

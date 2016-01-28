@@ -47,28 +47,46 @@ Template.bio.events({
 
   'change #avatarFileInput': function(event, template) {
 
-    var files = event.target.files;
-    
-    for (var i = 0, ln = files.length; i < ln; i++) {
-    
-      db.ghAvatar.insert(files[i], function (err, fileObj) {
+    var uploader = new Slingshot.Upload("myFileUploads");
 
-          var oldURL = game.user.avatar();
+    var _file = event.target.files[0];
 
-          Meteor.setTimeout( function() { game.user.updateAvatar( getS3URL_byAttributes("ghAvatar", fileObj._id, fileObj.name() ) ); }, 1000 );
+    uploader.send(_file, function (error, downloadUrl) {
 
-         // Meteor.setTimeout( function() { redrawBio(); }, 750 );
+      if (error) {
+       
+        // Log service detailed response.
+        console.error('Error uploading', uploader.xhr.response);
+        alert (error);
+      }
+      else {
 
-          //Meteor.setTimeout( function() { db.ghAvatar.remove( { _id: getCFS_ID( oldURL) })}, 1000);
+        game.user.updateAvatar( downloadUrl );
+
+        //Meteor.users.update(Meteor.userId(), {$push: {"profile.files": downloadUrl}});
       
-      });
+      }
+    });
 
-    }
   },
 
    'change #featuredPicFileInput': function(event, template) {
 
-    var files = event.target.files;
+    var file = event.target.files[0];
+    
+      db.ghAvatar.insert(file, function (err, fileObj) {
+
+          var oldURL = game.user.avatar();
+
+          Meteor.setTimeout( function() { game.user.updateAvatar( getS3URL_byAttributes("ghAvatar", fileObj._id, fileObj.name() ) ); }, 1500 );
+
+          Meteor.setTimeout( function() { redrawBio(); }, 1501 );
+
+          Meteor.setTimeout( function() { db.ghAvatar.remove( { _id: getCFS_ID( oldURL) })}, 1502);
+      
+      });
+
+
     
     for (var i = 0, ln = files.length; i < ln; i++) {
     
@@ -106,13 +124,13 @@ getCFS_ID = function (_url) {
 
   var _index = _url.lastIndexOf("/");
 
-  //lop off the actual filename part
-
-  _url = _url.substring(0, _index);
-
-  _index = _url.lastIndexOf("/");
+  //lop off the path
 
   _url = _url.substring(_index + 1);
+
+  _index = _url.lastIndexOf("-");
+
+  _url = _url.substring(0, _index);
 
   return (_url);
 
@@ -222,3 +240,33 @@ function draw() {
   }
 
 }
+
+/*
+
+    var _file = event.target.files[0];
+
+    var _fileObj = new FS.File();
+
+    _fileObj.userID = Meteor.user()._id;
+
+    _fileObj.attachData( _file,  function(error, fileObj){
+
+      if (error) {
+        console.log(error);
+        return;
+      }
+
+      db.ghAvatar.insert(_fileObj, function (err, fileObj) {
+
+          var oldURL = game.user.avatar();
+
+          //Meteor.setTimeout( function() { game.user.updateAvatar( getS3URL_byAttributes("ghAvatar", fileObj._id, fileObj.name() ) ); }, 1000 );
+
+          //Meteor.setTimeout( function() { redrawBio(); }, 1001 );
+
+          Meteor.setTimeout( function() { db.ghAvatar.remove( { _id: getCFS_ID( oldURL) })}, 1002);
+      
+      });
+
+    });
+  */

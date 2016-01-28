@@ -215,6 +215,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 	this.updateAvatar = function( url ) {
 
 		Meteor.users.update( {_id: Meteor.userId() }, { $set: { 'profile.av': url}  });
+
+		this.profile.av = url;
 	}
 
 	this.featuredPic = function() {
