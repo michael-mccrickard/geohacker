@@ -47,7 +47,6 @@ Template.bio.events({
 
   'change #avatarFileInput': function(event, template) {
 
-/*
     var uploader = game.user.bio.avatarUploader;
 
     var _file = event.target.files[0];
@@ -66,7 +65,6 @@ Template.bio.events({
       
       }
     });
-*/
 
   },
 
