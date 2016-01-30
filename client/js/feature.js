@@ -401,6 +401,7 @@ if ( this.off() ) return;
             }
         }
 
+        c("removing hidden class")
 		$("img.featuredPic").removeClass("hidden");
 	}
 

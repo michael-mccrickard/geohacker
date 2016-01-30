@@ -4,8 +4,62 @@
 
 var countryCode;
 
+/*
+Slingshot.createDirective("ghAvatar", Slingshot.S3Storage, {
+  bucket: "gh-resource",
 
+  acl: "public-read",
 
+  AWSAccessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
+  AWSSecretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
+
+  authorize: function () {
+
+    //Deny uploads if user is not logged in.
+    if (!this.userId) {
+      var message = "Please login before posting files";
+      throw new Meteor.Error("Login Required", message);
+    }
+
+    return true;
+  },
+
+  key: function (file) {
+    //Store file into a directory by the user's username.
+    //var user = Meteor.users.findOne(this.userId);
+
+    return "ghAvatar/" + this.userId + "-" + file.name;
+  }
+});
+
+Slingshot.createDirective("ghFeaturedUserPic", Slingshot.S3Storage, {
+  bucket: "gh-resource",
+
+  acl: "public-read",
+
+  AWSAccessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
+  AWSSecretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
+
+  authorize: function () {
+
+    //Deny uploads if user is not logged in.
+    if (!this.userId) {
+      var message = "Please login before posting files";
+      throw new Meteor.Error("Login Required", message);
+    }
+
+    return true;
+  },
+
+  key: function (file) {
+    //Store file into a directory by the user's username.
+    //var user = Meteor.users.findOne(this.userId);
+
+    return "ghFeaturedUserPic/" + this.userId + "-" + file.name;
+  }
+});
+
+*/
 
 //*********************************************
 //      EMAIL SETTINGS
@@ -339,8 +393,6 @@ Meteor.startup(
       }
     });
 
-    initSlingshot();
-
 });
 
 
@@ -395,62 +447,7 @@ ghAvatar.on('stored', function (error, fileObj) {
 });
 */
 
-  function initSlingshot () {
 
-    Slingshot.createDirective("ghAvatar", Slingshot.S3Storage, {
-      bucket: "gh-resource",
-
-      acl: "public-read",
-
-      AWSAccessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
-      AWSSecretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
-
-      authorize: function () {
-
-        //Deny uploads if user is not logged in.
-        if (!this.userId) {
-          var message = "Please login before posting files";
-          throw new Meteor.Error("Login Required", message);
-        }
-
-        return true;
-      },
-
-      key: function (file) {
-        //Store file into a directory by the user's username.
-        //var user = Meteor.users.findOne(this.userId);
-
-        return "ghAvatarSS/" + this.userId + "-" + file.name;
-      }
-    });
-
-    Slingshot.createDirective("ghFeaturedUserPic", Slingshot.S3Storage, {
-      bucket: "gh-resource",
-
-      acl: "public-read",
-
-      AWSAccessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
-      AWSSecretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
-
-      authorize: function () {
-
-        //Deny uploads if user is not logged in.
-        if (!this.userId) {
-          var message = "Please login before posting files";
-          throw new Meteor.Error("Login Required", message);
-        }
-
-        return true;
-      },
-
-      key: function (file) {
-        //Store file into a directory by the user's username.
-        //var user = Meteor.users.findOne(this.userId);
-
-        return "ghFeaturedUserPic/" + this.userId + "-" + file.name;
-      }
-    });
-  }
 
 //*********************************************
 //      METHODS
@@ -650,9 +647,6 @@ Meteor.methods({
 
     }) //end col.remove
  
-  },
-
-
+  }
 
 });
-
