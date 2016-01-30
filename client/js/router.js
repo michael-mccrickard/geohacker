@@ -47,6 +47,16 @@ FlowRouter.route('/missionSelect', {
 });
 
 
+FlowRouter.route('/help2', {
+
+    name: "help2",
+
+    action: function (params, queryParams) { BlazeLayout.render('layout', { content: "help2" } ) },
+
+});
+
+
+
 //*********************************************
 //      CONGRATS
 //*********************************************

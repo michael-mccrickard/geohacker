@@ -21,6 +21,11 @@ Game = function() {
 
 	this.music = ["amber.mp3","yellow.mp3","agent_d_cooper.mp3", "geohackerAmbientSofter.mp3", "geohackerThemeSoftest.mp3"];
 
+	this.showHelp = function() {
+
+		FlowRouter.go("/help2");
+	}
+
 	//this is called by an eventListener and executes in a different context,
 	//so "this" is replaced by "game"  here
 

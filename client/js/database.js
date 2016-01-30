@@ -247,17 +247,14 @@ this.saveScroll = function(_val) {
 
   this.getCapitalPic = function(_code) {
 
-    var rec = db.ghI.findOne( { cc: _code, dt: "cap" } );
+    var rec = db.ghPublicImage.findOne( { cc: _code, dt: "cap" } );
 
-    if (rec) return rec.f;
+    if (rec) {
 
-    rec = db.ghD.findOne( { cc: _code, dt: "cap" } );
+      return getS3URL(rec);
 
-    try {
-
-      return rec.f;
     }
-    catch(err) {
+    else {
 
       showMessage("No capital picture found for " + this.getCountryName( _code ) );
 

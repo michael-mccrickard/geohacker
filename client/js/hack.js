@@ -305,7 +305,7 @@ Hack = function() {
 
           showMessage( "No flag file found for " + this.getCountryName() );
 
-          return "";
+          return null;
       }
 
       return getS3URL( f );
@@ -322,7 +322,7 @@ Hack = function() {
 
           showMessage( "No hq file found in images for " + this.getCountryName() );
 
-          return "";
+          return null;
       }
 
       return getS3URL( f );

@@ -47,7 +47,8 @@ Template.bio.events({
 
   'change #avatarFileInput': function(event, template) {
 
-    var uploader = new Slingshot.Upload("myFileUploads");
+/*
+    var uploader = game.user.bio.avatarUploader;
 
     var _file = event.target.files[0];
 
@@ -62,16 +63,15 @@ Template.bio.events({
       else {
 
         game.user.updateAvatar( downloadUrl );
-
-        //Meteor.users.update(Meteor.userId(), {$push: {"profile.files": downloadUrl}});
       
       }
     });
+*/
 
   },
 
    'change #featuredPicFileInput': function(event, template) {
-
+/*
     var file = event.target.files[0];
     
       db.ghAvatar.insert(file, function (err, fileObj) {
@@ -107,6 +107,7 @@ Template.bio.events({
       });
 
     }
+  */
   }, 
 
 

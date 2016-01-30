@@ -1,0 +1,84 @@
+
+
+.divHelp {
+
+	width: 75%;
+	background-color: DarkGray;
+
+	position: relative;
+	top: 60px;
+
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.helpText {
+
+    font-family: Arial;
+    color: black;
+    margin-top: 1%;
+    margin-bottom: 3%;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.helpText2 {
+    margin-top: 1%;
+    margin-left: 1%;
+    font-family: Arial;
+    color: black;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.helpText3 {
+	position: relative;
+	margin-top: -1%;
+    margin-left: 1%;
+    font-family: Arial;
+    color: black;
+    padding-left: 1%;
+    padding-right: 1%;
+    clear: left;
+}
+
+.imgHelp {
+
+
+
+}
+
+.imgHelp4 {
+
+	width: 75%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.imgHelp5 {
+
+	margin-top: 3%;
+	width: 75%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.divSpacer {
+	color: DarkGrey;
+	clear: left;
+}
+
+.imgHelpSmall {
+
+	width: 256px;
+	float: left;
+	margin-right: 1%;
+}
+
+.imgHelpSmall2 {
+
+	width: 22%;
+	float: left;
+	margin-right: 1%;
+
+}

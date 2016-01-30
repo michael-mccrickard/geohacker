@@ -4,7 +4,8 @@
 
 var countryCode;
 
-Slingshot.createDirective("myFileUploads", Slingshot.S3Storage, {
+/*
+Slingshot.createDirective("ghAvatar", Slingshot.S3Storage, {
   bucket: "gh-resource",
 
   acl: "public-read",
@@ -30,6 +31,35 @@ Slingshot.createDirective("myFileUploads", Slingshot.S3Storage, {
     return "ghAvatar/" + this.userId + "-" + file.name;
   }
 });
+
+Slingshot.createDirective("ghFeaturedUserPic", Slingshot.S3Storage, {
+  bucket: "gh-resource",
+
+  acl: "public-read",
+
+  AWSAccessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
+  AWSSecretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
+
+  authorize: function () {
+
+    //Deny uploads if user is not logged in.
+    if (!this.userId) {
+      var message = "Please login before posting files";
+      throw new Meteor.Error("Login Required", message);
+    }
+
+    return true;
+  },
+
+  key: function (file) {
+    //Store file into a directory by the user's username.
+    //var user = Meteor.users.findOne(this.userId);
+
+    return "ghFeaturedUserPic/" + this.userId + "-" + file.name;
+  }
+});
+
+*/
 
 //*********************************************
 //      EMAIL SETTINGS
@@ -476,11 +506,14 @@ Meteor.methods({
 
       //create the file with the supplied params
 
+      //var uploader = new Slingshot.Upload("ghAvatar");
+
       avatar(userID, _gender, 256).toBuffer( Meteor.bindEnvironment( function(error, buffer) { 
 
           if(error) console.log(error.message);
 
           //When get the callback we attach the picture data to the file
+
 
           newFile.attachData( buffer, {type: 'image/png'},  function(error){
 
@@ -500,7 +533,9 @@ Meteor.methods({
               });
 
           });
+
         }
+
 
       )); 
 

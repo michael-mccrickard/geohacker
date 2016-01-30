@@ -359,8 +359,6 @@ if ( this.off() ) return;
 
 	this.draw = function() {
 
-		var _name = this.getName();
-
 		Meteor.defer( function(){ display.feature.drawNow( display.feature.file, display.feature.imageSrc); });
 		
 	}
@@ -402,6 +400,9 @@ if ( this.off() ) return;
 
             }
         }
+
+        c("removing hidden class")
+		$("img.featuredPic").removeClass("hidden");
 	}
 
     this.dimension = function( _type, _obj, _src ) {
