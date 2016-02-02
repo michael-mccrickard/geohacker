@@ -83,7 +83,7 @@
 		
 		c("SOUND playing")
 
-		var _file = this.items[ this.getIndex() ].f;
+		var _file = this.items[ this.getIndex() ].u;
 
 		if (_file == $("#soundPlayer").attr("src")) {
 

@@ -6,22 +6,6 @@ Database = function() {
 
   this.publicStore = new FS.Store.S3("publicStore");
 
-  this.ghPublicImage = new FS.Collection("ghPublicImage", {
-      stores: [ this.publicStore ]
-  });
-
-  this.ghPublicSound = new FS.Collection("ghPublicSound", {
-      stores: [ this.publicStore ]
-  });
-
-  this.ghPublicVideo = new FS.Collection("ghPublicVideo", {
-      stores: [ this.publicStore ]
-  });
-
-  this.ghPublicWeb = new FS.Collection("ghPublicWeb", {
-      stores: [ this.publicStore ]
-  });
-
   this.ghAvatar = new FS.Collection("ghAvatar", {
       stores: [ this.publicStore ]
   });
@@ -50,21 +34,20 @@ Database = function() {
 
   this.initControls = function() {
 
-    this.ghT = new Meteor.Collection('alText');    
+    this.ghText = new Meteor.Collection('alText');    
 
-    this.ghI = new Meteor.Collection('alImage');
+    this.ghImage = new Meteor.Collection('ghImage');
 
-    this.ghS = new Meteor.Collection('alSound');   
+    this.ghSound = new Meteor.Collection('ghSound');   
 
-    this.ghV = new Meteor.Collection('alVideo');
+    this.ghVideo = new Meteor.Collection('ghVideo');
 
-    this.ghW = new Meteor.Collection('alWeb');
+    this.ghWeb = new Meteor.Collection('ghWeb');
 
-    this.ghD = new Meteor.Collection('alDebrief');
+    this.ghDebrief = new Meteor.Collection('alDebrief');
 
-    this.ghM = new Meteor.Collection('alMap');
+    this.ghMap = new Meteor.Collection('alMap');
 
-    this.ghG = new Meteor.Collection('alTag');
   }
 
   //************************************************************
@@ -231,7 +214,7 @@ this.saveScroll = function(_val) {
 
   this.getCapitalName = function( _code ) {
 
-      var rec = db.ghT.findOne( { cc: _code, dt: "cap" } );
+      var rec = db.ghText.findOne( { cc: _code, dt: "cap" } );
 
       try {
 
@@ -247,7 +230,7 @@ this.saveScroll = function(_val) {
 
   this.getCapitalPic = function(_code) {
 
-    var rec = db.ghPublicImage.findOne( { cc: _code, dt: "cap" } );
+    var rec = db.ghImage.findOne( { cc: _code, dt: "cap" } );
 
     if (rec) {
 
@@ -363,9 +346,9 @@ this.saveScroll = function(_val) {
 
     var _code = this.getCountryRecByID(_countryID).c;
 
-    if (typeof db.ghPublicImage.findOne( { cc: _code, dt: "flg" } ) !== 'undefined') {
+    if (typeof db.ghImage.findOne( { cc: _code, dt: "flg" } ) !== 'undefined') {
 
-      return getS3URL( db.ghPublicImage.findOne( { cc: _code, dt: "flg" } ) );
+      return getS3URL( db.ghImage.findOne( { cc: _code, dt: "flg" } ) );
     }
     else {
 
@@ -377,9 +360,9 @@ this.saveScroll = function(_val) {
 
   this.getFlagPicByCode = function(_code) {
 
-    if (typeof db.ghPublicImage.findOne( { cc: _code, dt: "flg" } ) !== 'undefined') {
+    if (typeof db.ghImage.findOne( { cc: _code, dt: "flg" } ) !== 'undefined') {
 
-      return getS3URL( db.ghPublicImage.findOne( { cc: _code, dt: "flg" } ) );
+      return getS3URL( db.ghImage.findOne( { cc: _code, dt: "flg" } ) );
     }
     else {
 
@@ -407,19 +390,19 @@ this.saveScroll = function(_val) {
 
     //data controls
 
-    if (_type == cMap) col = this.ghM;
+    if (_type == cMap) col = this.ghMap;
 
-if (_type == cSound) col = this.ghPublicSound;
+    if (_type == cSound) col = this.ghSound;
 
-if (_type == cImage) col = this.ghPublicImage; 
+    if (_type == cImage) col = this.ghImage; 
 
-if (_type == cVideo) col = this.ghPublicVideo;
+    if (_type == cVideo) col = this.ghVideo;
 
-if (_type == cWeb) col = this.ghPublicWeb;
+    if (_type == cWeb) col = this.ghWeb;
 
-    if (_type == cText) col = this.ghT;
+    if (_type == cText) col = this.ghText;
 
-    if (_type == cDebrief) col = this.ghD;
+    if (_type == cDebrief) col = this.ghDebrief;
 
     return col;
   }
@@ -439,19 +422,19 @@ if (_type == cWeb) col = this.ghPublicWeb;
 
     //data controls
 
-    if (_name == "MAP") col = this.ghM;
+    if (_name == "MAP") col = this.ghMap;
 
-if (_name == "SOUND") col = this.ghPublicSound;
+    if (_name == "SOUND") col = this.ghSound;
 
-if (_name == "IMAGE") col = this.ghPublicImage; 
+    if (_name == "IMAGE") col = this.ghImage; 
 
-if (_name == "VIDEO") col = this.ghPublicVideo;
+    if (_name == "VIDEO") col = this.ghVideo;
 
-if (_name == "WEB") col = this.ghPublicWeb;
+    if (_name == "WEB") col = this.ghWeb;
 
-    if (_name == "TEXT") col = this.ghT;
+    if (_name == "TEXT") col = this.ghText;
 
-    if (_name == "DEBRIEF") col = this.ghD;
+    if (_name == "DEBRIEF") col = this.ghDebrief;
 
     return col;
   }
@@ -610,9 +593,6 @@ this.updateRecord2 = function (_type, field, ID, value) {
      //all others:  web, image or sound
 
     data["f"] = getLocalPrefix() + data["f"];
-
-c("data for the uCRS call follows")
-c(data)
 
      Meteor.call("updateContentRecordOnServer", data, _type, _id);
 

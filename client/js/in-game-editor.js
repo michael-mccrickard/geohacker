@@ -273,7 +273,7 @@ arrI = [];
 
 ti = function() {
 
-	Meteor.subscribe("allImages", function() { arrI = db.ghPublicImage.find().fetch(); c("images ready") });
+	Meteor.subscribe("allImages", function() { arrI = db.ghImage.find().fetch(); c("images ready") });
 }
 
 iIndex = -1;

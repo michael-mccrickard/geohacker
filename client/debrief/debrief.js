@@ -31,7 +31,7 @@ Debrief = function() {
 
 		this.countryCode = _code;
 
-		this.arr = db.ghD.find( { cc: this.countryCode } ).fetch();
+		this.arr = db.ghDebrief.find( { cc: this.countryCode } ).fetch();
 
 		this.index = Database.getRandomValue(this.arr.length);
 	}
@@ -138,7 +138,7 @@ c("deb.draw()");
 
 		if (_type == undefined) return;
 
-		this.rec = db.ghD.findOne( { cc: this.countryCode, dt: _type } );
+		this.rec = db.ghDebrief.findOne( { cc: this.countryCode, dt: _type } );
 
 		this.code = _type.substr(0,3);
 
@@ -165,7 +165,7 @@ c("deb.draw()");
 
 		if (this.code == "cus")  this.image = hack.getCustomPic( this.rec.dt );		
 
-		if (!this.image.length) this.image = getS3URL( this.rec.f );
+		if (!this.image.length) this.image = this.rec.u;
 
 	} 
 
@@ -367,7 +367,7 @@ dodb = function() {
 
 	Session.set("mode", mEdit);
 
-	arrDebrief = db.ghD.find( { } ).fetch();
+	arrDebrief = db.ghDebrief.find( { } ).fetch();
 
 	Session.set("dIndex", 0);
 }

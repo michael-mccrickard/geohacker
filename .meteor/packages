@@ -19,7 +19,7 @@ meteorhacks:npm
 npm-container
 cfs:standard-packages
 cfs:filesystem
-cfs:gridfs
+cfs:s3
 ddh:svg-circle-progress
 standard-minifiers
 meteor-base
@@ -38,5 +38,4 @@ check
 sacha:spin
 jonblum:jquery-cropper
 praxie:canvas-to-blob
-cfs:s3
 edgee:slingshot

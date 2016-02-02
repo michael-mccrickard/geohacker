@@ -19,42 +19,42 @@ Template.editor.helpers({
 
   			editor.controlName = "SOUND"; 
 
-  			return db.ghPublicSound.find( { cc: ID });
+  			return db.ghSound.find( { cc: ID });
   		}
 
   		if (control == cText) {
 
         editor.controlName = "TEXT"; 
 
-  			return db.ghT.find( { cc: ID });
+  			return db.ghText.find( { cc: ID });
   		}
 
   		if (control == cImage) {
 
         editor.controlName = "IMAGE"; 
 
-  			return db.ghPublicImage.find( { cc: ID });
+  			return db.ghImage.find( { cc: ID });
   		}
 
   		if (control == cVideo) {
 
         editor.controlName = "VIDEO"; 
 
-  			return db.ghPublicVideo.find( { cc: ID });
+  			return db.ghVideo.find( { cc: ID });
   		}
 
   		if (control == cWeb) {
 
         editor.controlName = "WEB"; 
 
-  			return db.ghPublicWeb.find( { cc: ID });
+  			return db.ghWeb.find( { cc: ID });
   		}
 
   		if (control == cDebrief) {
 
         editor.controlName = "DEBRIEF"; 
 
-  			return db.ghD.find( { cc: ID });
+  			return db.ghDebrief.find( { cc: ID });
   		}
 
     },
@@ -85,21 +85,27 @@ Template.editor.helpers({
 
         if ( Control.isYouTubeURL( this.f) ) return this.f;
 
-        return this.original.name;
+        return this.f;
       }
 
-      if (editor.controlType == cImage) return this.original.name;
+      if (editor.controlType == cWeb || editor.controlType == cImage) return this.f;
 
       return this.f;
     },
 
-    getNonYouTubeFile: function(_file) {
+    getNonYouTubeFile: function() {
 
-      if (editor.controlType == cImage || editor.controlType == cWeb ) return getS3URL(this);
+return this.u;
 
-      if (_file) return Control.getNonYouTubeFile( _file ); 
+      if (editor.controlType == cWeb) return this.u;
 
-      return _file;
+      if (editor.controlType == cImage) return this.u; //getS3URL(this);
+
+      if (editor.controlType == cSound) return this.u;
+
+      if (editor.controlType == cVideo) return this.u;      
+
+      return this.f;
     },
 
     getImage: function() {
@@ -247,39 +253,44 @@ Template.editor.events = {
 
      if (editor.controlType == cVideo) {
 
-        var rec = db.ghPublicVideo.findOne( { _id: editor.recordID } );
+        var rec = db.ghVideo.findOne( { _id: editor.recordID } );
 
         if(!rec) return;
         
-        if(!rec.f) return;
+        if(!rec.u) return;
 
         Session.set("sYouTubeOn", false);
 
-        if (Control.isYouTubeURL(rec.f)) {
+        editor.videoFile = rec.u;
 
-          editor.videoFile = rec.f;
+        if (Control.isYouTubeURL(rec.u)) {
 
           if (youTubeLoaded == false) {
-c("calling YT.load() in editor")
+            
+            c("calling YT.load() in editor")
+            
             YT.load();
           }
           else {
-c("loading YT vid by ID in editor")
-            ytplayer.loadVideoById( rec.f );            
+
+          c("loading YT vid by ID in editor")
+            
+            ytplayer.loadVideoById( rec.u );            
           }
 
          Session.set("sYouTubeOn", true);
 
         }
+
      }
 
      if (editor.controlType == cSound) {
 
        if (document.getElementById("editorSoundPlayer") == null) return;
 
-        var rec = db.ghPublicSound.findOne( { _id: editor.recordID } );
+        var rec = db.ghSound.findOne( { _id: editor.recordID } );
 
-        $("#editorSoundPlayer").attr("src", getS3URL(rec) ) ;
+        $("#editorSoundPlayer").attr("src", rec.u ) ;
 
         document.getElementById("editorSoundPlayer").play();
      }

@@ -145,7 +145,7 @@ Feature = function() {
 
 		var _index = display.ctl[ _name ].getIndex();
 
-		if ( _name == "MAP") return _file;
+		if ( _name == "MAP") return null;
 
 		//set the source property for the credit line in closeup view
 
@@ -155,7 +155,7 @@ Feature = function() {
 		}
 
 	
-		if (_name == "TEXT") return _file;
+		if (_name == "TEXT") return null;
 
 		if ( _name == "SOUND" || _name == "VIDEO") {
 			
@@ -163,7 +163,7 @@ Feature = function() {
 		}
 		else {
 
-			_file = display.ctl[ _name ].items[ _index ].f;
+			_file = display.ctl[ _name ].items[ _index ].u;
 		}
 
 		return _file;

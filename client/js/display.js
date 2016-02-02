@@ -134,7 +134,7 @@ Display = function() {
 
                 if (_name == "VIDEO") this.ctl[ _name ] = new Video(); 
 
-                if (_name == "MAP") this.ctl[ _name ] = new ghMap();        
+                if (_name == "MAP") this.ctl[ _name ] = new ghMapCtl();        
 
             }
 

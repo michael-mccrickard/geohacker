@@ -84,14 +84,14 @@ Control = {
 
       this.items = Database.shuffle(this.items);   
 
-      this.processItems( this.items );   
+      //this.processItems( this.items );   
 
     
   }, //end setCountry
 
   processItems: function( _arr ) {
-
-      if (this.name == "IMAGE" || this.name == "WEB") {
+/*
+      if (this.name == "IMAGE") {
 
         for (var i = 0; i < _arr.length; i++) {
 
@@ -106,7 +106,7 @@ Control = {
             if ( !isURL( _arr[i].f ) ) _arr[i].f = getS3URL( _arr[i] ) ;
         }
       }
-/*
+
       if (this.name == "VIDEO") {
 
         for (var i = 0; i < _arr.length; i++) {
@@ -120,7 +120,14 @@ Control = {
 
   setItems: function() {
 
-    this.items = this.collection.find( { cc: this.countryCode } ).fetch();
+    if (this.name == "MAP") {
+
+      this.items = this.collection.find({}).fetch();  //this must be happening somewhere else and failing, b/c this should not be necessary
+    }
+    else {
+      this.items = this.collection.find( { cc: this.countryCode } ).fetch();
+    }
+    
   },
 
   //********************************************
@@ -339,7 +346,7 @@ Control.getNonYouTubeFile = function(_file) {
 
       if (!Control.isYouTubeURL(_file) ) {
 
-          var rec = db.ghPublicVideo.findOne( { f: _file } );
+          var rec = db.ghVideo.findOne( { f: _file } );
 
           return getS3URL( rec );
       }

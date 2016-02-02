@@ -140,19 +140,22 @@ Hack = function() {
         //                  SUBSCRIBE TO HACK DATA
         //****************************************************************
 
-        this.hImage = Meteor.subscribe("ghImage", function() { Session.set("sIReady", true ) });
 
-        this.hText = Meteor.subscribe("ghText", function() { Session.set("sTReady", true ) });
+//4 new collections
+        this.hImage = Meteor.subscribe("ghImage", function() { Session.set("sImageReady", true ) });
 
-        this.hSound = Meteor.subscribe("ghSound", function() { Session.set("sSReady", true ) });
+        this.hSound = Meteor.subscribe("ghSound", function() { Session.set("sSoundReady", true ) });
 
-        this.hVideo = Meteor.subscribe("ghVideo", function() { Session.set("sVReady", true ) });
+        this.hVideo = Meteor.subscribe("ghVideo", function() { Session.set("sVideoReady", true ) });
 
-        this.hWeb = Meteor.subscribe("ghWeb", function() { Session.set("sWReady", true ) });
+        this.hWeb = Meteor.subscribe("ghWeb", function() { Session.set("sWebReady", true ) });
 
-        this.hMap = Meteor.subscribe("ghMap", function() { Session.set("sMReady", true ) });
 
-        this.hDebrief = Meteor.subscribe("ghDebrief", function() { Session.set("sDReady", true ) });     
+        this.hText = Meteor.subscribe("ghText", function() { Session.set("sTextReady", true ) });
+
+        this.hMap = Meteor.subscribe("ghMap", function() { Session.set("sMapReady", true ) });
+
+        this.hDebrief = Meteor.subscribe("ghDebrief", function() { Session.set("sDebriefReady", true ) });     
     }
 
     this.autoHack = function() {
@@ -240,11 +243,11 @@ Hack = function() {
 
     this.getAnthemFile = function() {
 
-      var rec = db.ghPublicSound.findOne( {'cc':  this.countryCode, 'dt': 'ant' } );
+      var rec = db.ghSound.findOne( {'cc':  this.countryCode, 'dt': 'ant' } );
 
       if (typeof rec !== 'undefined') {
 
-        return getS3URL( rec );
+        return rec.u;
       }
       else {
 
@@ -255,18 +258,12 @@ Hack = function() {
 
     this.getLanguageFile = function() {
 
-      var rec = db.ghPublicSound.findOne( {'cc':  this.countryCode, 'dt': 'lng' } );
+      var rec = db.ghSound.findOne( {'cc':  this.countryCode, 'dt': 'lng' } );
 
       if (typeof rec !== 'undefined') {
 
-        if ( isURL( rec.f) ) {
+          return rec.u;        
 
-          return rec.f;
-        }
-        else {
-
-          return getS3URL( rec );        
-        }
       }
       else {
 
@@ -284,7 +281,7 @@ Hack = function() {
     this.getCapitalPic = function() {
 
       try {
-          var f = db.ghPublicImage.findOne( { cc: this.countryCode, dt: "cap" } );
+          var u = db.ghImage.findOne( { cc: this.countryCode, dt: "cap" } ).u;
       }
       catch(err) {
 
@@ -293,13 +290,13 @@ Hack = function() {
           return null;
       }
 
-      return getS3URL( f );
+      return u;
     }
 
     this.getFlagPic = function() {
 
       try {
-          var f = db.ghPublicImage.findOne( { cc: this.countryCode, dt: "flg" } );
+          var u = db.ghImage.findOne( { cc: this.countryCode, dt: "flg" } ).u;
       }
       catch(err) {
 
@@ -308,7 +305,7 @@ Hack = function() {
           return null;
       }
 
-      return getS3URL( f );
+      return u;
 
     }
 
@@ -316,7 +313,7 @@ Hack = function() {
 
       try {
 
-          var f = db.ghPublicImage.findOne( { cc: this.countryCode, dt: "hq" } );
+          var u = db.ghImage.findOne( { cc: this.countryCode, dt: "hq" } ).u;
       }
       catch(err) {
 
@@ -325,7 +322,7 @@ Hack = function() {
           return null;
       }
 
-      return getS3URL( f );
+      return u;
 
     }
 
@@ -333,7 +330,7 @@ Hack = function() {
 
       try {
 
-          var f = db.ghPublicImage.findOne( { cc: this.countryCode, dt: "ldr" } );
+          var u = db.ghImage.findOne( { cc: this.countryCode, dt: "ldr" } ).u;
       }
       catch(err) {
 
@@ -342,23 +339,32 @@ Hack = function() {
           return "";
       }
 
-      return getS3URL( f );
+      return u;
     }
 
     this.getCustomPic = function(_code) {
 
-      var rec = db.ghPublicImage.findOne( { cc: this.countryCode, dt: _code } );
+      var rec = db.ghImage.findOne( { cc: this.countryCode, dt: _code } );
 
-      if (rec) return getS3URL( rec );
+      if (rec) return rec.u;
     }
 
     this.getCountryMapURL = function() {
 
       var _name = this.getCountryFilename() + "_map.jpg";
 
-      var rec = db.ghPublicImage.findOne( {'copies.ghPublic.name':  _name } );
+      //var rec = db.ghImage.findOne( {'f':  _name } );
 
-      if (typeof rec !== 'undefined') return getS3URL( rec );
+      var rec = db.ghImage.findOne( { dt: "cmp" } );
+
+      if (typeof rec !== 'undefined') {
+
+        return getS3URL( rec );
+      }
+      else {
+
+        showMessage("No map image found for " + this.getCountryName() + " (where dt = cmp)");
+      }
     }
 
 
@@ -376,7 +382,7 @@ Hack = function() {
 
     this.getCapitalName = function() {
 
-      return db.ghT.findOne( { cc: this.countryCode, dt: "cap" } ).f;
+      return db.ghText.findOne( { cc: this.countryCode, dt: "cap" } ).f;
     }
 
     this.getContinentName = function() {
@@ -404,12 +410,12 @@ Hack = function() {
 
     this.getLeaderName = function() {
 
-      return db.ghT.findOne( { cc: this.countryCode, dt: "ldr" } ).f;
+      return db.ghText.findOne( { cc: this.countryCode, dt: "ldr" } ).f;
     }
 
     this.getLeaderType = function() {
 
-      return db.ghD.findOne( { cc: this.countryCode, dt: "ldr" } ).t;
+      return db.ghDebrief.findOne( { cc: this.countryCode, dt: "ldr" } ).t;
     }
 
     this.getRegionName = function() {
@@ -446,25 +452,33 @@ Hack = function() {
 
 Hack.resetDataFlags = function() {
 
-      Session.set("sIReady", false );
+      Session.set("sImageReady", false );
 
-      Session.set("sSReady", false );
+      Session.set("sSoundReady", false );
 
-      Session.set("sTReady", false );
+      Session.set("sTextReady", false );
 
-      Session.set("sVReady", false );
+      Session.set("sVideoReady", false );
 
-      Session.set("sWReady", false );
+      Session.set("sWebReady", false );
 
-      Session.set("sDReady", false );
+      Session.set("sDebriefReady", false );
 
-      Session.set("sMReady", false );
+      Session.set("sMapReady", false );
 
 }
 
 Tracker.autorun( function(comp) {
 
-  if (Session.get("sIReady") && Session.get("sTReady") && Session.get("sVReady") && Session.get("sWReady") && Session.get("sSReady") && Session.get("sDReady") && Session.get("sMReady")) {
+  if (Session.get("sImageReady") && 
+      Session.get("sTextReady") && 
+      Session.get("sVideoReady") && 
+      Session.get("sWebReady") && 
+      Session.get("sSoundReady") && 
+      Session.get("sDebriefReady") && 
+      Session.get("sMapReady")
+
+      ) {
 
           console.log("hack data ready")
 

@@ -1,4 +1,4 @@
-ghMap = function() {
+ghMapCtl = function() {
 
 	this.name = "MAP";
 
@@ -395,4 +395,4 @@ ghMap = function() {
 
 }//end Map constructor
 
-ghMap.prototype = Control;
+ghMapCtl.prototype = Control;

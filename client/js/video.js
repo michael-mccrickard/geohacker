@@ -66,7 +66,7 @@ Video = function() {
 
 		var _state = this.getState();
 
-		var _file = this.items[ this.getIndex() ].f;
+		var _file = this.items[ this.getIndex() ].u;
 
 		//We don't need to do anything special for a YT file
 
@@ -74,7 +74,7 @@ Video = function() {
 
 			this.isYouTube = false;
 
-			_file = Control.getNonYouTubeFile( _file );
+			//_file = Control.getNonYouTubeFile( _file );
 
 			//Non-YT file, so if we're paused, we just show the big play button
 

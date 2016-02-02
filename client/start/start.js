@@ -53,31 +53,7 @@ Session.set("isIOS", false);
 
   Session.set("sRReady", false);
 
-  Session.set("sIReady", false);
-
-  Session.set("sTReady", false);
-
-  Session.set("sWReady", false);
-
-  Session.set("sVReady", false);
-
-  Session.set("sSReady", false);
-
-  Session.set("sDReady", false);
-
-  Session.set("sMReady", false);
-
-  Session.set("sFReady", false);
-
-  Session.set("sAReady", false);
-
-  Session.set("sTagReady", false);  //tags
-
-  Session.set("sImageReady", false) //images
-
-  Session.set("sSoundReady", false) //sounds
-
-  Session.set("sWebReady", false) //sounds
+  Session.set("sFReady", false);  //flags (for stats screen)
  
   //display-related
 
@@ -89,7 +65,7 @@ Session.set("isIOS", false);
 
   Session.set("sDisplayReady", false); 
 
-  //misc
+  //user's home area
 
   Session.set("sUserContinent","");
 
@@ -102,7 +78,6 @@ Session.set("isIOS", false);
 //****************************************************************
 
 Meteor.startup(function() {
-
 
 
   Session.set("gWindowHeight", $(window).height() );
@@ -146,23 +121,7 @@ Meteor.startup(function() {
 
   Meteor.subscribe("country", function() { Session.set("sCReady", true ) });
 
-  Meteor.subscribe("allFlags", function() { Session.set("sFReady", true ) });
-
-  Meteor.subscribe("ghAvatar", function() { Session.set("sAReady", true ) });
-
-  Meteor.subscribe("ghTag", function() { Session.set("sTagReady", true ) });
-
-//temporarily subscribing to these all-records collections while we implement S3 storage
-
-  Meteor.subscribe("ghPublicImage", function() { Session.set("sImageReady", true ) });
-
-  Meteor.subscribe("ghPublicSound", function() { Session.set("sSoundReady", true ) });
-
-    Meteor.subscribe("ghPublicWeb", function() { Session.set("sWebReady", true ) });
-
-    Meteor.subscribe("ghPublicVideo", function() { Session.set("sVideoReady2", true ) });
-
-    Meteor.subscribe("allVideos", function() { Session.set("sVideoReady", true ) });
+  Meteor.subscribe("allFlags", function() { Session.set("sFReady", true ) })
 
 //ps("AE")
 
@@ -184,14 +143,8 @@ Tracker.autorun( function(comp) {
   if (Session.get("sZReady") && 
       Session.get("sRReady") && 
       Session.get("sCReady") && 
-      Session.get("sFReady") && 
-      Session.get("sAReady") && 
-      Session.get("sTagReady") &&
-      Session.get("sImageReady") &&
-      Session.get("sSoundReady") &&
-      Session.get("sWebReady")  &&
-      Session.get("sVideoReady")  &&
-      Session.get("sVideoReady2")       
+      Session.get("sFReady") 
+       
   ) {
 
     Session.set("sWaitingOnCoreData", false);

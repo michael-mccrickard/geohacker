@@ -4,62 +4,6 @@
 
 var countryCode;
 
-/*
-Slingshot.createDirective("ghAvatar", Slingshot.S3Storage, {
-  bucket: "gh-resource",
-
-  acl: "public-read",
-
-  AWSAccessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
-  AWSSecretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
-
-  authorize: function () {
-
-    //Deny uploads if user is not logged in.
-    if (!this.userId) {
-      var message = "Please login before posting files";
-      throw new Meteor.Error("Login Required", message);
-    }
-
-    return true;
-  },
-
-  key: function (file) {
-    //Store file into a directory by the user's username.
-    //var user = Meteor.users.findOne(this.userId);
-
-    return "ghAvatar/" + this.userId + "-" + file.name;
-  }
-});
-
-Slingshot.createDirective("ghFeaturedUserPic", Slingshot.S3Storage, {
-  bucket: "gh-resource",
-
-  acl: "public-read",
-
-  AWSAccessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
-  AWSSecretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
-
-  authorize: function () {
-
-    //Deny uploads if user is not logged in.
-    if (!this.userId) {
-      var message = "Please login before posting files";
-      throw new Meteor.Error("Login Required", message);
-    }
-
-    return true;
-  },
-
-  key: function (file) {
-    //Store file into a directory by the user's username.
-    //var user = Meteor.users.findOne(this.userId);
-
-    return "ghFeaturedUserPic/" + this.userId + "-" + file.name;
-  }
-});
-
-*/
 
 //*********************************************
 //      EMAIL SETTINGS
@@ -142,45 +86,47 @@ Meteor.startup(
 
     ghC = new Meteor.Collection('alCountry');    //n = name, c = code, r = region code
 
-    ghT = new Meteor.Collection('alText');    
 
-    ghI = new Meteor.Collection('alImage');
+//new collections
 
-    ghS = new Meteor.Collection('alSound');  
+    ghImage = new Meteor.Collection('ghImage');
 
-    ghV = new Meteor.Collection('alVideo');
+    ghSound = new Meteor.Collection('ghSound');  
 
-    ghW = new Meteor.Collection('alWeb');
+    ghVideo = new Meteor.Collection('ghVideo');
 
-    ghD = new Meteor.Collection('alDebrief');
+    ghWeb = new Meteor.Collection('ghWeb');
 
-    ghM = new Meteor.Collection('alMap');
+    ghDebrief = new Meteor.Collection('alDebrief');
 
+    ghMap = new Meteor.Collection('alMap');
+
+    ghText = new Meteor.Collection('alText');
 
     //editing collections
 
     Meteor.publish("allImages", function() {
-      return ghI.find( {} );
+      return ghImage.find( {} );
     });
 
     Meteor.publish("allSounds", function() {
-      return ghS.find( {} );
+      return ghSound.find( {} );
     });
 
     Meteor.publish("allTexts", function() {
-      return ghT.find( {} );
+      return ghText.find( {} );
     });
 
     Meteor.publish("allVideos", function() {
-      return ghPublicVideo.find( {} );
+      return ghVideo.find( {} );
     });
 
     Meteor.publish("allWebs", function() {
-      return ghW.find( {} );
+      return ghWeb.find( {} );
     });
 
     Meteor.publish("allDebriefs", function() {
-      return ghD.find( {} );
+      return ghDebrief.find( {} );
       });
 
   //user collection
@@ -210,44 +156,46 @@ Meteor.startup(
 
     //debrief  (all flags)
     Meteor.publish("allFlags", function () {
-      return ghI.find( { dt: "flg" } );
+      return ghImage.find( { dt: "flg" } );
     });  
 
     //map control -- generic clues, not specific to countries
 
     Meteor.publish("ghMap", function () {
-      return ghM.find( {} );
+      return ghMap.find( {} );
     });
 
     //"normal" controls
 
+    //hack collections, single country
+
     Meteor.publish("ghText", function () {
-      return ghT.find( { cc: countryCode });
+      return ghText.find( { cc: countryCode });
     });
 
     Meteor.publish("ghSound", function () {
-      return ghS.find( { cc: countryCode });
+      return ghSound.find( { cc: countryCode });
     });
 
     Meteor.publish("ghImage", function () {
-      return ghI.find( { cc: countryCode });
+      return ghImage.find( { cc: countryCode });
     });
 
     Meteor.publish("ghVideo", function () {
-      return ghPublicVideo.find( { cc: countryCode });
+      return ghVideo.find( { cc: countryCode });
     });
 
     Meteor.publish("ghWeb", function () {
-      return ghW.find( { cc: countryCode });
+      return ghWeb.find( { cc: countryCode });
     });
 
     //debriefs
 
     Meteor.publish("ghDebrief", function () {
-      return ghD.find( { cc: countryCode });
+      return ghDebrief.find( { cc: countryCode });
     });
 
-    //user collection
+    //user collections
 
     Meteor.publish("ghAvatar", function () {
       return ghAvatar.find();
@@ -261,27 +209,7 @@ Meteor.startup(
       return ghUserFeaturedPic.find();
     });
 
-
-    //images and sounds (publish all for now)
-
-    Meteor.publish("ghPublicImage", function () {
-      return ghPublicImage.find();
-    });
-
-    Meteor.publish("ghPublicSound", function () {
-      return ghPublicSound.find();
-    });
-
-    Meteor.publish("ghPublicWeb", function () {
-      return ghPublicWeb.find();
-    });
-
-    Meteor.publish("ghPublicVideo", function () {
-      return ghPublicVideo.find();
-    });
-
-
-    ghPublicImage.allow({
+    ghImage.allow({
 
       insert: function() {
           return true;
@@ -291,13 +219,10 @@ Meteor.startup(
       },
       remove: function() {
           return true;
-      },
-      download: function() {
-          return true;
       }
     });
 
-    ghPublicSound.allow({
+    ghSound.allow({
 
       insert: function() {
           return true;
@@ -307,13 +232,10 @@ Meteor.startup(
       },
       remove: function() {
           return true;
-      },
-      download: function() {
-          return true;
       }
     });
 
-    ghPublicWeb.allow({
+    ghWeb.allow({
 
       insert: function() {
           return true;
@@ -323,13 +245,10 @@ Meteor.startup(
       },
       remove: function() {
           return true;
-      },
-      download: function() {
-          return true;
       }
     });
 
-    ghPublicVideo.allow({
+    ghVideo.allow({
 
       insert: function() {
           return true;
@@ -339,11 +258,9 @@ Meteor.startup(
       },
       remove: function() {
           return true;
-      },
-      download: function() {
-          return true;
       }
     });
+//end new, start CFS collections
 
     ghAvatar.allow({
 
@@ -418,35 +335,22 @@ function getCollectionForType(_type) {
 
     //data controls
 
-    if (_type == cMap) col = ghM;
+    if (_type == cMap) col = ghMap;
 
-if (_type == cSound) col = ghPublicSound;
+    if (_type == cSound) col = ghSound;
 
-if (_type == cImage) col = ghPublicImage; 
+    if (_type == cImage) col = ghImage; 
 
-if (_type == cVideo) col = ghPublicVideo;
+    if (_type == cVideo) col = ghVideo;
 
-if (_type == cWeb) col = ghPublicWeb;
+    if (_type == cWeb) col = ghWeb;
 
-    if (_type == cText) col = ghT;
+    if (_type == cText) col = ghText;
 
-    if (_type == cDebrief) col = ghD;
+    if (_type == cDebrief) col = ghDebrief;
 
     return col;
   }
-
-
-/*
-ghAvatar.on('stored', function (error, fileObj) {
-
-    if(error) console.log(error.message);
-
-    Meteor.users.update( { _id: fileObj.userID }, { $set: { 'profile.av': getS3URL_byAttributes( "ghAvatar", fileObj._id, fileObj.original.name)} } );
-
-
-});
-*/
-
 
 
 //*********************************************
@@ -475,22 +379,6 @@ Meteor.methods({
 
     ghAvatar.remove({});
   },
-
-  clearImages: function() {
-
-    ghPublicImage.remove({});
-  },
-
-  clearSounds: function() {
-
-    ghPublicSound.remove({});
-  },
-
-  clearVideos: function() {
-
-    ghPublicVideo.remove({});
-  },
-
 
   clearTags: function() {
 

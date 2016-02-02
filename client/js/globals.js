@@ -9,7 +9,9 @@ getLocalPrefix = function() { return "http://localhost:3000/";}
 
 getS3URL = function(_rec) {
 
-    return prefix + _rec.copies.ghPublic.key;
+    //if ( _rec.u.indexOf("/ghPublicWeb/") != -1) return _rec.u;
+
+    return prefix + _rec.u;
 }
 
 isURL = function( _name ) {
