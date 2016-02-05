@@ -433,7 +433,9 @@ Meteor.methods({
 
     var col = getCollectionForType(_type);
 
-    return ( col.insert( { cc: _ID } ) );
+    var rec = col.insert( { cc: _ID } );
+
+    return rec;
 
   },
 
@@ -471,7 +473,7 @@ Meteor.methods({
 
       var res = col.update( {_id: ID }, { $set: data  }); 
 
-      if (res) console.log("Records updated on server: " + res);   
+      return res;
   },
 
   updateRecordOnServerWithDataObject: function (_type, ID, data) {
@@ -480,7 +482,7 @@ Meteor.methods({
 
       var res = col.update( {_id: ID }, { $set: data  }); 
 
-      if (res) console.log("Records updated on server: " + res);   
+      return res;  
   },
 
   updateContentRecordOnServer: function (data, _type, ID, _file) {

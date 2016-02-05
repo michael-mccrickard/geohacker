@@ -66,7 +66,21 @@
 
 					  <tr class="dataRow">
 						<td><button class="btn btn-success updateRecord" id="{{this._id}}">SAV</button></td>
-					    <td><input type="text" class="f" id="{{this._id}}" size="40" value="{{getThisFile}}"></td> 
+
+						{{#if isNewRecord}}
+
+							<td>
+								<input type="file" id="newFileInput" />
+								<label id="newFileInput-label" for="newFileInput">FILE</label>
+
+							</td>
+
+						{{else}}
+
+					    	<td><label class="f" id="{{this._id}}" size="40">{{getThisFile}}</label></td> 
+					    
+					    {{/if}}
+
 					    <td><input type="text" class="s" id="{{this._id}}" size="40" value="{{this.s}}"></td> 
 					    <td><input type="text" class="dt" id="{{this._id}}" value="{{this.dt}}"></td>
 						<td><button class="btn btn-danger deleteRecord" id="{{this._id}}">DEL</button></td>

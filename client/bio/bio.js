@@ -6,7 +6,7 @@ Bio = function() {
 
 	this.avatarUploader = new Slingshot.Upload("ghAvatar");
 
-	this.featuredUploader = new Slingshot.Upload("ghFeaturedPic");
+	this.featuredUserPicUploader = new Slingshot.Upload("ghFeaturedUserPic");
 
 
 	this.getImageHeight = function() {

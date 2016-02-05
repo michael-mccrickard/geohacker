@@ -7,11 +7,15 @@ getS3Prefix = function() { return prefix; }
 
 getLocalPrefix = function() { return "http://localhost:3000/";}
 
-getS3URL = function(_rec) {
+getS3FileFromPath = function(_path) {
 
-    //if ( _rec.u.indexOf("/ghPublicWeb/") != -1) return _rec.u;
+    var i = _path.lastIndexOf("/");
 
-    return prefix + _rec.u;
+    var s = _path.substring(i+1);
+
+    i = s.indexOf("-");
+
+    return (s.substring(i+1));
 }
 
 isURL = function( _name ) {
@@ -43,7 +47,7 @@ $(window).resize(function(){
 
 refreshWindow = function(_which) {
 
-    c("refreshWindow -- " + _which);
+    //c("refreshWindow -- " + _which);
 
     Session.set("gWindowHeight", $(window).height() );
 

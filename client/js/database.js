@@ -10,6 +10,7 @@ Database = function() {
       stores: [ this.publicStore ]
   });
 
+/*
   this.ghTag = new FS.Collection("ghTag", {
       stores: [ this.publicStore ]
   });
@@ -17,7 +18,7 @@ Database = function() {
   this.ghUserFeaturedPic = new FS.Collection("ghUserFeaturedPic", {
       stores: [ this.publicStore ]
   });
-
+*/
   //************************************************************
   //          COLLECTIONS
   //************************************************************
@@ -214,11 +215,9 @@ this.saveScroll = function(_val) {
 
   this.getCapitalName = function( _code ) {
 
-      var rec = db.ghText.findOne( { cc: _code, dt: "cap" } );
-
       try {
 
-        return rec.f;
+        var f = db.ghText.findOne( { cc: _code, dt: "cap" } ).f;
       }
       catch(err) {
 
@@ -226,23 +225,24 @@ this.saveScroll = function(_val) {
 
         return "";
       }
+
+      return f;
   }
 
   this.getCapitalPic = function(_code) {
 
-    var rec = db.ghImage.findOne( { cc: _code, dt: "cap" } );
+      try {
 
-    if (rec) {
+        var u = db.ghImage.findOne( { cc: _code, dt: "cap" } ).u;
+      }
+      catch(err) {
 
-      return getS3URL(rec);
+        showMessage("No capital picture found for " + this.getCountryName( _code ) );
 
-    }
-    else {
+        return "";
+      }
 
-      showMessage("No capital picture found for " + this.getCountryName( _code ) );
-
-      return "";
-    }
+      return u;
   }
 
   this.getContinentRec = function(_code) {
@@ -348,7 +348,7 @@ this.saveScroll = function(_val) {
 
     if (typeof db.ghImage.findOne( { cc: _code, dt: "flg" } ) !== 'undefined') {
 
-      return getS3URL( db.ghImage.findOne( { cc: _code, dt: "flg" } ) );
+      return db.ghImage.findOne( { cc: _code, dt: "flg" } ).u;
     }
     else {
 
@@ -362,7 +362,7 @@ this.saveScroll = function(_val) {
 
     if (typeof db.ghImage.findOne( { cc: _code, dt: "flg" } ) !== 'undefined') {
 
-      return getS3URL( db.ghImage.findOne( { cc: _code, dt: "flg" } ) );
+      return db.ghImage.findOne( { cc: _code, dt: "flg" } ).u;
     }
     else {
 
@@ -444,9 +444,19 @@ this.saveScroll = function(_val) {
   //          DATABASE UPDATES
   //************************************************************
 
-this.addRecord = function( _countryCode, _type) {
+this.addRecord = function( _countryCode, _type, cb) {
 
-  Meteor.call("addRecord", _countryCode, _type);
+  Meteor.call("addRecord", _countryCode, _type, function(error, result){
+
+    if (error) {
+
+      showMessage(error.reason);
+    }
+    else  {
+
+      cb(error, result);
+    }
+  });
 }
 
 this.addContentRecord = function( _countryCode, _type) {
@@ -489,9 +499,19 @@ this.addContentRecord = function( _countryCode, _type) {
 
 }
 
-this.updateRecord2 = function (_type, field, ID, value) {
+this.updateRecord2 = function (_type, field, ID, value, cb) {
 
-    Meteor.call("updateRecordOnServer", field, _type, ID, value)
+    Meteor.call("updateRecordOnServer", field, _type, ID, value, function(error, result){
+
+      if (error) {
+
+        showMessage(error.reason);
+      }
+      else  {
+
+        cb(error, result);
+      }
+  });
 }
 
   // "#a.b"   a=rec id, b = fieldname (stored as class)
@@ -552,8 +572,6 @@ this.updateRecord2 = function (_type, field, ID, value) {
 
       var data = {};
 
-      var col = this.getCollectionForType( _type );
-
       var sel = "#" + _id + ".";
       
       for (var i = 0; i < arrField.length; i++) {
@@ -571,34 +589,11 @@ this.updateRecord2 = function (_type, field, ID, value) {
 
       data["cc"] = _countryCode;
 
-      if (_type == cVideo) {
+      Meteor.call("updateRecordOnServerWithDataObject", _type, _id, data);
 
-        if (Control.isYouTubeURL( editor.videoFile ) == false) {
+    }  //end if _type and ID
 
-           data["f"] = getLocalPrefix() + editor.videoFile;   
-
-           Meteor.call("updateContentRecordOnServer", data, _type, _id);
-
-           return;   
-        }
-     }
-
-     if (_type == cVideo) {  //must be YT, so only update the record (no need to upload new file)
-
-        Meteor.call("updateRecordOnServerWithDataObject", _type, _id, data);
-      
-        return;
-     }
-
-     //all others:  web, image or sound
-
-    data["f"] = getLocalPrefix() + data["f"];
-
-     Meteor.call("updateContentRecordOnServer", data, _type, _id);
-
-    }  //end if we have a control type and a record id
-
-  }  //end updateRecord
+  }//end updateContentRecord
 
 } //end database constructor
 

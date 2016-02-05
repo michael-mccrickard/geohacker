@@ -194,7 +194,7 @@ ghMapCtl = function() {
 
             image.width = _size;
             image.height = _size;
-            image.imageURL = _tag[i].f;
+            image.imageURL = _tag[i].u;
       
             _dp.images.push(image);           
         }

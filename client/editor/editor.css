@@ -31,6 +31,20 @@
     margin-top: 55px;
 }
 
+.imgPickFileIcon {
+  width: 32px;
+  position: absolute;
+}
+
+#newFileInput{
+  height: 0;
+  width: 0;
+}
+
+#newFileInput-label {
+    border: 1px solid #cccccc;
+    padding: 5px;
+}
 
 .control-label {
   color: black;

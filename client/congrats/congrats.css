@@ -116,8 +116,8 @@
     position: relative;
     text-align: center;
     font-family: Arial;
-    font-size: 14px;
-    top: -5%;
+    font-size: 0.72vw;
+    top: -6%;
     pointer-events: none;
 }
 

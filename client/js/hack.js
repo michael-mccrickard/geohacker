@@ -359,7 +359,7 @@ Hack = function() {
 
       if (typeof rec !== 'undefined') {
 
-        return getS3URL( rec );
+        return rec.u;
       }
       else {
 

@@ -95,17 +95,8 @@ Template.editor.helpers({
 
     getNonYouTubeFile: function() {
 
-return this.u;
+      return this.u;
 
-      if (editor.controlType == cWeb) return this.u;
-
-      if (editor.controlType == cImage) return this.u; //getS3URL(this);
-
-      if (editor.controlType == cSound) return this.u;
-
-      if (editor.controlType == cVideo) return this.u;      
-
-      return this.f;
     },
 
     getImage: function() {
@@ -124,6 +115,13 @@ return this.u;
         deb.initForEditor( this.dt );
 
         return deb.text;
+    },
+
+    isNewRecord: function() {
+
+      if (this._id == editor.newRecordID.get() ) return true;
+
+      return false;
     },
 
     selectedDataRecord: function() {
@@ -191,9 +189,15 @@ Template.editor.events = {
         return;
       }
 
-    	var recID = editor.addThisRecord( editor.hack.countryCode, editor.controlType);
-   
-    	editor.recordID = recID;
+    	editor.addThisRecord( editor.hack.countryCode, editor.controlType, function(err, result) {
+
+        editor.recordID = result;
+
+        editor.newRecordID.set( result );
+
+      });
+
+
     },
 
 
@@ -251,6 +255,8 @@ Template.editor.events = {
 
      editor.recordID = evt.target.id;
 
+if (editor.recordID == editor.newRecordID.get() ) return;
+
      if (editor.controlType == cVideo) {
 
         var rec = db.ghVideo.findOne( { _id: editor.recordID } );
@@ -287,10 +293,17 @@ Template.editor.events = {
      if (editor.controlType == cSound) {
 
        if (document.getElementById("editorSoundPlayer") == null) return;
+ 
+       try {
 
-        var rec = db.ghSound.findOne( { _id: editor.recordID } );
+          var u = db.ghSound.findOne( { _id: editor.recordID } ).u;
+       }
+       catch(err) {
 
-        $("#editorSoundPlayer").attr("src", rec.u ) ;
+          return;
+       }
+
+        $("#editorSoundPlayer").attr("src", u ) ;
 
         document.getElementById("editorSoundPlayer").play();
      }
@@ -315,6 +328,41 @@ Template.editor.events = {
       }
 
       editor.doUpdateRecord(evt.target.id, editor.hack.countryCode);
+
+  },
+
+  'change #newFileInput': function(event, template) {
+
+    document.getElementById("newFileInput").blur();
+
+    var _ID = editor.newRecordID.get();
+
+    var sel = "input#" + _ID + ".dt";
+
+    var _dt = $(sel).val();
+
+    sel = "input#" + _ID + ".s";
+
+    var _s = $(sel).val();   
+
+    var uploader = editor.soundUploader;
+
+    var _file = event.target.files[0];
+
+    uploader.send(_file, function (error, downloadUrl) {
+
+      if (error) {
+       
+        // Log service detailed response.
+        console.log(error);
+
+      }
+      else {
+
+        editor.updateURLForNewRecord( downloadUrl, _ID, _dt, _s );
+
+      }
+    });
 
   },
 

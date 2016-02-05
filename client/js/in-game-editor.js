@@ -284,9 +284,9 @@ goImage = function ( _val ) {
 
 	if (iIndex < 0 || iIndex >= arrI.length) { c("val out of range"); return;}
 
-	hack.debrief.image = getS3URL( arrI[ iIndex ] );
+	hack.debrief.image = arrI[ iIndex ].u;
 
-	hack.debrief.text = iIndex + " of " + arrI.length + " -- " + arrI[ iIndex ].copies.ghPublic.name + " -- " + arrI[ iIndex ].cc;
+	hack.debrief.text = iIndex + " of " + arrI.length + " -- " + arrI[ iIndex ].u + " -- " + arrI[ iIndex ].cc;
 
 	hack.debrief.draw();
 }

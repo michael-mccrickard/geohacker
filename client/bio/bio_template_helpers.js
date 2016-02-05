@@ -47,7 +47,6 @@ Template.bio.events({
 
   'change #avatarFileInput': function(event, template) {
 
-
     var uploader = game.user.bio.avatarUploader;
 
     var _file = event.target.files[0];
@@ -58,8 +57,8 @@ Template.bio.events({
       if (error) {
        
         // Log service detailed response.
-        console.error('Error uploading', uploader.xhr.response);
-        alert (error);
+        console.log(error);
+
       }
       else {
 
@@ -71,43 +70,24 @@ Template.bio.events({
   },
 
    'change #featuredPicFileInput': function(event, template) {
-/*
-    var file = event.target.files[0];
     
-      db.ghAvatar.insert(file, function (err, fileObj) {
+      var uploader = game.user.bio.featuredUserPicUploader;
 
-          var oldURL = game.user.avatar();
+      var _file = event.target.files[0];
 
-          Meteor.setTimeout( function() { game.user.updateAvatar( getS3URL_byAttributes("ghAvatar", fileObj._id, fileObj.name() ) ); }, 1500 );
+      uploader.send(_file, function (error, downloadUrl) {
 
-          Meteor.setTimeout( function() { redrawBio(); }, 1501 );
+        if (error) {
+         
+          // Log service detailed response.
+          console.log(error);
+        }
+        else {
 
-          Meteor.setTimeout( function() { db.ghAvatar.remove( { _id: getCFS_ID( oldURL) })}, 1502);
-      
+          game.user.updateFeaturedPic( downloadUrl );
+        
+        }
       });
-
-
-    
-    for (var i = 0, ln = files.length; i < ln; i++) {
-    
-      db.ghImage.insert(files[i], function (err, fileObj) {
-
-          var oldURL = game.user.featuredPic();
-
-          var url = imagePath + fileObj._id + "/" + fileObj.original.name;
-
-          Meteor.setTimeout( function() { game.user.updateFeaturedPic( url ); }, 500  );
-
-          Meteor.setTimeout( function() { redrawBio(); }, 750 );
-
-          //if it's a public picture (in our public folder) then we don't want to do this, but it's harmless (?)
-
-          Meteor.setTimeout( function() { db.ghImage.remove( { _id: getCFS_ID( oldURL) })}, 1000);
-      
-      });
-
-    }
-  */
   }, 
 
 
@@ -119,28 +99,6 @@ Template.bio.rendered = function() {
 
   redrawBio();
 
-}
-
-getCFS_ID = function (_url) {
-
-  var _index = _url.lastIndexOf("/");
-
-  //lop off the path
-
-  _url = _url.substring(_index + 1);
-
-  _index = _url.lastIndexOf("-");
-
-  _url = _url.substring(0, _index);
-
-  return (_url);
-
-}
-
-
-function chooseAvatarFile() {
-
-  $("#avFileInput").click();
 }
 
 function endEditMode() {
@@ -241,33 +199,3 @@ function draw() {
   }
 
 }
-
-/*
-
-    var _file = event.target.files[0];
-
-    var _fileObj = new FS.File();
-
-    _fileObj.userID = Meteor.user()._id;
-
-    _fileObj.attachData( _file,  function(error, fileObj){
-
-      if (error) {
-        console.log(error);
-        return;
-      }
-
-      db.ghAvatar.insert(_fileObj, function (err, fileObj) {
-
-          var oldURL = game.user.avatar();
-
-          //Meteor.setTimeout( function() { game.user.updateAvatar( getS3URL_byAttributes("ghAvatar", fileObj._id, fileObj.name() ) ); }, 1000 );
-
-          //Meteor.setTimeout( function() { redrawBio(); }, 1001 );
-
-          Meteor.setTimeout( function() { db.ghAvatar.remove( { _id: getCFS_ID( oldURL) })}, 1002);
-      
-      });
-
-    });
-  */

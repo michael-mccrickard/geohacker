@@ -19,7 +19,11 @@ Editor = function() {
 
   	Object.defineReactiveProperty(this, "recordID", "");
 
+  	this.newRecordID = new Blaze.ReactiveVar("0");
+
   	this.videoFile = null;
+
+  	this.soundUploader = new Slingshot.Upload("ghSound");
 
   	Session.set("sYouTubeOn", false);
 
@@ -48,16 +52,43 @@ Editor = function() {
 	}
 
 
-	this.addThisRecord = function(_countryCode, _controlType)  {
+	this.addThisRecord = function(_countryCode, _controlType, cb)  {
 
-		if (this.controlType == cImage || this.controlType == cSound || this.controlType == cWeb || this.controlType == cVideo) {
+		db.addRecord(_countryCode, _controlType, function(err, result) {
 
-			db.addContentRecord( _countryCode, _controlType );
-		
-			return;
-		}
+			cb(err, result);
 
-		db.addRecord(_countryCode, _type);
+		});
+
+	}
+
+	this.updateURLForNewRecord = function( _url, ID, _dt, _source ) {
+
+		var data = {};
+
+		data["u"] = _url;
+
+		data["f"] = getS3FileFromPath(_url);
+
+		data["cc"] = this.hack.countryCode;
+
+		data["dt"] = _dt;
+
+		data["s"] = _source;
+
+console.log(data);
+
+		Meteor.call("updateRecordOnServerWithDataObject", this.controlType, ID, data, function(err, result) {
+
+			if (err) {
+
+				console.log(err);
+			}
+
+			editor.newRecordID.set("0");
+
+		}); 
+
 	}
 
 	this.deleteCurrentRecord = function(_ID, _type)  { 

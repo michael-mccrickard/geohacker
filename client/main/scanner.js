@@ -34,9 +34,9 @@ Scanner = function() {
 
 	this.streamAnalyzerCount = 0;
 
-	this.maxIdlePause = 3000;
+	this.maxIdlePause = 9000;
 
-	this.minIdlePause = 500;
+	this.minIdlePause = 5000;
 
 	this.minIdlePlay = 1000;
 

@@ -83,40 +83,8 @@ Control = {
       //process items here
 
       this.items = Database.shuffle(this.items);   
-
-      //this.processItems( this.items );   
-
     
   }, //end setCountry
-
-  processItems: function( _arr ) {
-/*
-      if (this.name == "IMAGE") {
-
-        for (var i = 0; i < _arr.length; i++) {
-
-            _arr[i].f = getS3URL( _arr[i] );
-        }
-      }
-
-      if (this.name == "SOUND") {
-
-        for (var i = 0; i < _arr.length; i++) {
-
-            if ( !isURL( _arr[i].f ) ) _arr[i].f = getS3URL( _arr[i] ) ;
-        }
-      }
-
-      if (this.name == "VIDEO") {
-
-        for (var i = 0; i < _arr.length; i++) {
-
-            if ( !isURL( _arr[i].f ) ) _arr[i].f = getS3URL( _arr[i] ) ;
-        }
-      }
-*/
-
-  },
 
   setItems: function() {
 
@@ -144,7 +112,7 @@ Control = {
 
     if (this.getState() == sScanning) pic = this.scanningPic;
 
-    if (pic == "") pic = this.items[ this.getIndex() ].f;
+    if (pic == "") pic = this.items[ this.getIndex() ].u;
 
     return pic;
   },
@@ -153,7 +121,7 @@ Control = {
 
     if ( typeof this.items[ this.getIndex() ] === 'undefined') return;
 
-    var pic = this.items[ this.getIndex() ].f;
+    var pic = this.items[ this.getIndex() ].u;
 
     this.src = Control.getImageFromFile( pic );
 
@@ -344,12 +312,14 @@ Control.isYouTubeURL = function(_s) {
 
 Control.getNonYouTubeFile = function(_file) { 
 
+/*
       if (!Control.isYouTubeURL(_file) ) {
 
           var rec = db.ghVideo.findOne( { f: _file } );
 
           return getS3URL( rec );
       }
+*/
 
       return _file;
 }

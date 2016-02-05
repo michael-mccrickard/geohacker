@@ -69,7 +69,8 @@ NewLoader = function() {
 
 	this.showLoadedControl = function() {
 
-		 //also have the control object dimension the small version of the picture
+		 //Have the control object dimension the small version of the picture
+		 
 	    display.ctl[ this.newControl.name ].setControlPicSource();
 
 		hack.mode = mDataFound;
@@ -102,9 +103,6 @@ NewLoader = function() {
 
 			this.newControl.setPicDimensions();
 
-			//not immediately showing the randomly-loaded control in the feature area anymore
-
-			//display.feature.set( this.newControl.name );
 
 		}
 

@@ -111,7 +111,7 @@ Video = function() {
 
 		if (this.isYouTube) {
 
-			var _file = this.items[ this.getIndex() ].f;
+			var _file = this.items[ this.getIndex() ].u;
 
 			if (_file == ytplayer.getVideoData()['video_id']) {
 
@@ -136,7 +136,7 @@ Video = function() {
 
 		this.setState( sPlaying );
 
-		var _file = this.items[ this.getIndex() ].f;
+		var _file = this.items[ this.getIndex() ].u;
 
 		//First, is it a YT?
 

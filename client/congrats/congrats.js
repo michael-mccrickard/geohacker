@@ -177,13 +177,6 @@ Template.congrats.helpers({
     return ratio.toPrecision(2);
   },
 
-  needBlankBadge: function() {
-
-    if ( Session.get("sBadgeCount") < 4 ) return true;
-
-    return false;
-  },
-
   wasHacked: function() {
 
      if (!hack.auto) return true;
