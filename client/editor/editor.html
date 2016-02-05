@@ -4,6 +4,9 @@
 
 <span>
 	<button class="btn btn-success" id="addRecord" style="margin-left: 70px; margin-top: 10px;"><strong>+</strong></button> 
+
+	<button class="btn btn-danger" id="testCountry" style="position: relative; left: 39%; margin-top: 10px;"><strong>TEST</strong></button> 
+
 	<button class="btn btn-default pull-right" style="margin-right: 70px; margin-top: 10px;" id="closeEditor"><strong>X</strong></button>    
 </span>
 
@@ -70,14 +73,27 @@
 						{{#if isNewRecord}}
 
 							<td>
-								<input type="file" id="newFileInput" />
-								<label id="newFileInput-label" for="newFileInput">FILE</label>
+								<input type="file" class="hiddenInput" id="newFileInput" />
+								<label class="fakeButton" id="newFileInput-label" for="newFileInput">FILE</label>
+							
+							{{#if isMedia}}
+								<input type="text"  class="hiddenInput" id="newTextInput" />
+								<label class="fakeButton" id="newTextInput-label" for="newTextInput">{{getURLButtonText}}</label>
+							{{/if}}
 
 							</td>
-
+								
 						{{else}}
 
-					    	<td><label class="f" id="{{this._id}}" size="40">{{getThisFile}}</label></td> 
+							{{#if notText}}
+
+					    		<td><label class="f" id="{{this._id}}" size="40">{{this.f}}</label></td> 
+					    	
+					    	{{else}}
+
+					    	    <td><input type="text" class="f" id="{{this._id}}" size="40" value="{{this.f}}"></td> 
+
+					    	{{/if}}
 					    
 					    {{/if}}
 
@@ -132,7 +148,7 @@
 
 					<div class="bigPicFrame editFrame">
 
-						<img class="bigPic" id="editFeaturedControlPic" src="{{getNonYouTubeFile}}" /> 
+						<img class="bigPic" id="editFeaturedControlPic" src="{{this.u}}" /> 
 
 					</div>	
 

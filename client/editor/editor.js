@@ -5,7 +5,9 @@ Editor = function() {
 
 	this.hack = new Hack();
 
-	this.arrField = ["f","dt","s"];
+	this.arrField = ["dt","s"];
+
+	this.arrFieldText = ["f","dt","s"];	
 
 	this.arrFieldDebrief = ["t", "dt"];
 
@@ -24,6 +26,12 @@ Editor = function() {
   	this.videoFile = null;
 
   	this.soundUploader = new Slingshot.Upload("ghSound");
+
+  	this.imageUploader = new Slingshot.Upload("ghImage");
+
+  	this.webUploader = new Slingshot.Upload("ghWeb");
+
+  	this.videoUploader = new Slingshot.Upload("ghVideo");
 
   	Session.set("sYouTubeOn", false);
 
@@ -62,6 +70,19 @@ Editor = function() {
 
 	}
 
+	this.getUploader = function() {
+
+		if (this.controlType == cSound) return this.soundUploader;
+
+		if (this.controlType == cImage) return this.imageUploader;
+
+		if (this.controlType == cWeb) return this.webUploader;
+
+		if (this.controlType == cVideo) return this.videoUploader;
+
+
+	}
+
 	this.updateURLForNewRecord = function( _url, ID, _dt, _source ) {
 
 		var data = {};
@@ -75,8 +96,6 @@ Editor = function() {
 		data["dt"] = _dt;
 
 		data["s"] = _source;
-
-console.log(data);
 
 		Meteor.call("updateRecordOnServerWithDataObject", this.controlType, ID, data, function(err, result) {
 
@@ -107,22 +126,36 @@ console.log(data);
 			return;
 		}
 
+
 		if (_type == cDebrief) {
 
       		var data = {};
 
-      		data[ field ] = value;
+      		for (var i = 0; i < arrFieldDebrief.length; i++) {
 
-			db.updateRecord(this.arrFieldDebrief, _type, _id);
+				var sel = "#" + _ID + "." + arrFieldDebrief[i];
+
+      			data[ arrFieldDebrief[i] ] = $(sel).val();
+      		}
+
+			Meteor.call("updateRecordOnServerWithDataObject", _type, _id, data, function(err, result) {
+
+				if (err) {
+
+					console.log(err);
+				}
+
+			}); 
 		}
 
 		if (_type == cImage || _type == cSound || _type == cWeb || _type == cVideo) {
 
 			db.updateContentRecord(this.arrField, _type, _id, _countryCode);
 		}
-		else {
+		
+		if (_type == cText) {
 
-			db.updateRecord(this.arrField, _type, _id);
+			db.updateRecord(this.arrFieldText, _type, _id);
 		}
 
 	}

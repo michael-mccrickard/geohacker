@@ -79,26 +79,6 @@ Template.editor.helpers({
     	return "(no control selected)";
     },
 
-    getThisFile: function() {
-
-      if (editor.controlType == cVideo) {
-
-        if ( Control.isYouTubeURL( this.f) ) return this.f;
-
-        return this.f;
-      }
-
-      if (editor.controlType == cWeb || editor.controlType == cImage) return this.f;
-
-      return this.f;
-    },
-
-    getNonYouTubeFile: function() {
-
-      return this.u;
-
-    },
-
     getImage: function() {
 
         var deb = new Debrief( editor.hack );
@@ -117,9 +97,35 @@ Template.editor.helpers({
         return deb.text;
     },
 
+    getURLButtonText: function() {
+
+      var _type = editor.controlType;
+
+      if (_type == cSound) return "URL";
+
+      if (_type == cVideo) return "YOUTUBE";
+    },
+
+
+    isMedia: function() {
+
+      var _type = editor.controlType;
+
+      if (_type == cSound || _type == cVideo) return true;
+
+      return false;
+    },
+
     isNewRecord: function() {
 
       if (this._id == editor.newRecordID.get() ) return true;
+
+      return false;
+    },
+
+    notText: function() {
+
+      if (editor.controlType != cText) return true;
 
       return false;
     },
@@ -199,6 +205,12 @@ Template.editor.events = {
 
 
     },
+
+  'click #testCountry' : function(evt, template) {
+
+      game.user.browseCountry( editor.hack.countryCode );
+
+  }, 
 
 
   'click #editSound' : function(evt, template) {
@@ -345,7 +357,7 @@ if (editor.recordID == editor.newRecordID.get() ) return;
 
     var _s = $(sel).val();   
 
-    var uploader = editor.soundUploader;
+    var uploader = editor.getUploader();
 
     var _file = event.target.files[0];
 
@@ -365,6 +377,35 @@ if (editor.recordID == editor.newRecordID.get() ) return;
     });
 
   },
+
+  'click #newTextInput-label': function(event, template) {
+
+      document.getElementById("newTextInput").blur();
+
+      var _val = prompt("Please enter the URL or YouTube ID:");
+
+      if (_val != null) {
+
+          var data = {};
+
+          data["f"] = _val;
+
+          data["u"] = _val;
+
+          Meteor.call("updateRecordOnServerWithDataObject", editor.controlType, editor.newRecordID.get(), data, function(err, result) {
+
+              if (err) {
+                showMessage(err.reason);
+              }
+              else {
+
+                editor.newRecordID.set("0");
+
+              }
+          });
+      }
+
+    },
 
 };
 

@@ -31,17 +31,13 @@
     margin-top: 55px;
 }
 
-.imgPickFileIcon {
-  width: 32px;
-  position: absolute;
-}
 
-#newFileInput{
+.hiddenInput{
   height: 0;
   width: 0;
 }
 
-#newFileInput-label {
+.fakeButton {
     border: 1px solid #cccccc;
     padding: 5px;
 }

@@ -74,7 +74,6 @@ Video = function() {
 
 			this.isYouTube = false;
 
-			//_file = Control.getNonYouTubeFile( _file );
 
 			//Non-YT file, so if we're paused, we just show the big play button
 
@@ -152,16 +151,27 @@ Video = function() {
 
 		Session.set("sYouTubeOn", false);
 
+		this.isYouTube = false; 
+
+		if (game.user.mode == uBrowse) {
+
+			display.feature.load( "VIDEO" );  //the imagesLoaded callback will update the screen
+
+			return;
+		}		
+
+/*
+
 		console.log("video.playFeaturedContent is playing animated gif")
 
-		_file = Control.getNonYouTubeFile( _file );
+		//_file = Control.getNonYouTubeFile( _file );
 
 		display.feature.loadAgain( "VIDEO" );
 
 		//for newly-featured vids, this is redundant, but not for re-features
 
 		Meteor.defer( function() { display.feature.draw(); } );
-
+*/
 
 	},// end playFeaturedContent
 

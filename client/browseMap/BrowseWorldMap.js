@@ -414,10 +414,6 @@ function handleClick(_event) {
             return;
         }
 
-        worldMap.zoomDone = true;  //prevent the errors that happen when this template disappears
-
-        display.worldMapTemplateReady = true;  //ditto
-
         game.user.browseCountry( worldMap.mapObjectClicked );
 
     }
