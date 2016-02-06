@@ -60,6 +60,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	  		Meteor.defer( function() { $(".imgHomeAvatar").css("border-color","red") } );
 
+	  		this.bio.load();
+
     		this.template.set("bio");
     	}
 

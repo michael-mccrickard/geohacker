@@ -45,9 +45,13 @@ Database = function() {
 
     this.ghWeb = new Meteor.Collection('ghWeb');
 
+    this.ghMap = new Meteor.Collection('alMap');
+
     this.ghDebrief = new Meteor.Collection('alDebrief');
 
-    this.ghMap = new Meteor.Collection('alMap');
+    this.ghTag = new Meteor.Collection("ghTag");
+
+    this.ghUserFeaturedPic = new Meteor.Collection("ghUserFeaturedPic");
 
   }
 

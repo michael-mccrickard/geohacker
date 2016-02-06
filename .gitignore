@@ -2,3 +2,5 @@ local
 bundled
 docs
 settings.json
+compose_settings.json
+settingsModulus.json

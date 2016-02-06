@@ -37,10 +37,14 @@ var publicStore = new FS.Store.S3("ghPublic", {
   ACL: "public-read-write", //optional, default is 'private', but you can allow public or secure access routed through your app URL
 });
 
+//we only need this to be able to upload the initial avatar file from the 
+//server, b/c those are created on the server (makeAvatar)
+
 var ghAvatar = new FS.Collection("ghAvatar", {
     stores: [ publicStore ]
 });
 
+/*
 var ghTag = new FS.Collection("ghTag", {
     stores: [ publicStore ]
 });
@@ -64,7 +68,7 @@ var ghPublicVideo = new FS.Collection("ghPublicVideo", {
 var ghPublicWeb = new FS.Collection("ghPublicWeb", {
     stores: [ publicStore ]
 });
-
+*/
 //*********************************************
 //      STARTUP
 //*********************************************
@@ -102,6 +106,10 @@ Meteor.startup(
     ghMap = new Meteor.Collection('alMap');
 
     ghText = new Meteor.Collection('alText');
+
+    ghTag = new Meteor.Collection("ghTag");
+
+    ghUserFeaturedPic = new Meteor.Collection("ghUserFeaturedPic")
 
     //editing collections
 
@@ -196,11 +204,11 @@ Meteor.startup(
     });
 
     //user collections
-
+/*
     Meteor.publish("ghAvatar", function () {
       return ghAvatar.find();
     });
-
+*/
     Meteor.publish("ghTag", function () {
       return ghTag.find();
     });
@@ -289,9 +297,6 @@ Meteor.startup(
       remove: function() {
           return true;
       },
-      download: function() {
-          return true;
-      }
     });
 
     ghUserFeaturedPic.allow({
@@ -305,9 +310,6 @@ Meteor.startup(
       remove: function() {
           return true;
       },
-      download: function() {
-          return true;
-      }
     });
 
 });
@@ -393,8 +395,6 @@ Meteor.methods({
       var newFile = new FS.File();
 
       //create the file with the supplied params
-
-      //var uploader = new Slingshot.Upload("ghAvatar");
 
       avatar(userID, _gender, 256).toBuffer( Meteor.bindEnvironment( function(error, buffer) { 
 
