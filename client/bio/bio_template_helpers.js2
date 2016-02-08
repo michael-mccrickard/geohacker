@@ -1,4 +1,4 @@
-//bio.js
+
 
 Template.bio.helpers({
 
@@ -23,7 +23,7 @@ Template.bio.events({
 
       game.user.editMode.set( true );
 
-      redrawBio();
+      game.user.bio.redraw();
 
   },
 
@@ -71,7 +71,7 @@ Template.bio.events({
 
    'change #featuredPicFileInput': function(event, template) {
     
-      var uploader = game.user.bio.featuredUserPicUploader;
+      var uploader = game.user.bio.userFeaturedPicUploader;
 
       var _file = event.target.files[0];
 
@@ -107,7 +107,7 @@ function endEditMode() {
 
     game.user.editMode.set( false );
 
-    redrawBio();
+    game.user.bio.redraw();
 }
 
 

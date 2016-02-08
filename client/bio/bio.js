@@ -31,14 +31,14 @@ Bio = function() {
 
         	game.user.bio.imageSrc = Control.getImageFromFile(game.user.bio.image );  
 
-        	Meteor.setTimeout( function() { game.user.bio.draw(); }, 200 );
+        	//Meteor.setTimeout( function() { game.user.bio.draw(); }, 200 );
 
         });
 	}
 
 	this.redraw = function() {
 
-	  Meteor.setTimeout( function() { draw(); }, 100 );
+	  //Meteor.setTimeout( function() { game.user.bio.draw(); }, 100 );
 
 	}
 
@@ -69,23 +69,29 @@ Bio = function() {
 
 	  var picWidth = this.imageSrc.width;
 
+	  //clamp the dependent dimension, if necessary
+
 	  if (picWidth > picHeight) {
 
-	  	  $(".imgBioFeaturedPic").width() = 0.7 * _width;
+	  	  $(".divBioFeaturedPic").width( 0.65 * _width );
+
+	  	  //if (picHeight > )
 	  }
 	  else {
 
-	  	  $(".imgBioFeaturedPic").height() = 0.9 * $(".divBio").height();	  	
+	  	  $(".divBioFeaturedPic").height( 0.9 * $(".divBio").height() );	  	
 	  }
 
-	  var top = bottom - 0.02 * $(".divBioFeaturedPic").height();
-
-	  $(icon1).css("top", top);
-
-	  if (icon2) $(icon2).css("top", top);
 
 
-	  var left = $(".divBio").width() + $(".divBio").position().left - 32 - 0.01 * $(".divBioFeaturedPic").width();
+	  var bottom = $(".divBio").position().top + $(".divBio").height();
+
+	  $(icon1).css("top", bottom - 32);
+
+	  if (icon2) $(icon2).css("top", bottom - 32);
+
+
+	  var left = $(".divBio").width() + $(".divBio").position().left - 32;
 
 	  $(icon1).css("left", left); 
 
@@ -95,15 +101,16 @@ Bio = function() {
 
 	      //edit avatar button
 
-	      top = $("img.imgBioAvatar").position().top;
+	      var top = $("img.imgBioAvatar").position().top; 
 
-	      var bottom = top + $("img.imgBioAvatar").height();
+	      bottom = top + $("img.imgBioAvatar").height();
 
-	      $("#editAvatar").css("top", bottom - 32);
+	      $(".divAvatarEditIcon").css("top", bottom - 32);
+
 
 	      left = $("img.imgBioAvatar").position().left;
 
-	     $("#editAvatar").css("left", left + 4);
+	     $(".divAvatarEditIcon").css("left", left + 4);
 
 
 	      //edit featured pic button
@@ -111,12 +118,12 @@ Bio = function() {
 	      top = $("img.imgBioFeaturedPic").position().top;
 
 	      bottom = top + $("img.imgBioFeaturedPic").height();
-
-	      $("#editFeaturedPic").css("top", bottom - 36);
+	      
+	      $(".divFeaturedPicEditIcon").css("top", bottom - 36);
 
 	      left = $("img.imgBioFeaturedPic").position().left;
-
-	     $("#editFeaturedPic").css("left", left + 4);
+	     
+	     $(".divFeaturedPicEditIcon").css("left", left + 4);
 
 
 	    if ( $("#saveBioEdit").css("opacity") == "0" ) fadeIn( "saveBioEdit" );
