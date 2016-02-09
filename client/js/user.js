@@ -588,8 +588,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 function deselectAllModes() {
 
-	$(".divHomeButtonPic").css("border-color","gray");
+	$(".divHomeButtonPic").css("border-color","black");
 
-	$(".imgHomeAvatar").css("border-color","gray");
+	$(".imgHomeAvatar").css("border-color","black");
 
 }

@@ -3,8 +3,6 @@
 
   margin-top: 60px;
 
-  border: 6px solid;
-  border-color: yellow;
   border-radius: 6px;
 
   width: 96%;
@@ -28,8 +26,6 @@
 
   width: 128px;
   height: 128px;
-  border: 6px solid;
-  border-color: #383838;
   border-radius: 6px;
 }
 
@@ -46,8 +42,8 @@
 
 .divHomeButtonPic {
   height: 100%;
-  border: 6px solid;
-  border-color: gray;
+  border: 2px solid;
+  border-color: black;
   border-radius: 6px;
 }
 
