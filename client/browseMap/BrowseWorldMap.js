@@ -100,7 +100,9 @@ BrowseWorldMap = function( _mapCtl ) {
 
            this.mapCtl.level.set( mlCountry );
 
-            var mapObject = this.map.getObjectById( this.selectedCountry.get() );
+            var mapObject = null;
+
+            if (this.selectedCountry.get().length) mapObject = this.map.getObjectById( this.selectedCountry.get() );
 
             //prevent zoomCompleted from jumping us to the browse data screen
 
@@ -112,7 +114,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
             c("calling clickMapObject")
 
-            this.map.clickMapObject(mapObject);
+            if (mapObject) this.map.clickMapObject(mapObject);
         }    
     }
 
@@ -373,7 +375,7 @@ function handleClick(_event) {
     if (level == mlRegion) {
 
         c("level is region in handleClick")
-        
+
         worldMap.selectedCountry.set( worldMap.mapObjectClicked );
 
         worldMap.customData = _event.mapObject.customData;
@@ -427,9 +429,7 @@ function handleZoomCompleted() {
 
     var _code;
 
-    if (worldMap.zoomDone == true) { c("returning from hZC b/c zoomDone"); return; }
-
-    c("zoomDone false in hZC")
+    if (worldMap.zoomDone == true)  return; 
 
     var level = worldMap.mapCtl.level.get();
 
@@ -470,6 +470,8 @@ function handleZoomCompleted() {
         worldMap.labelMapObject();
 
         worldMap.zoomDone = true;
+
+c("in hZC, wm.mOC is " + worldMap.mapObjectClicked);
 
         worldMap.mapCtl.addCountryTags( worldMap.mapObjectClicked, worldMap.map.dataProvider, 64);
 

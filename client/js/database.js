@@ -10,15 +10,6 @@ Database = function() {
       stores: [ this.publicStore ]
   });
 
-/*
-  this.ghTag = new FS.Collection("ghTag", {
-      stores: [ this.publicStore ]
-  });
-
-  this.ghUserFeaturedPic = new FS.Collection("ghUserFeaturedPic", {
-      stores: [ this.publicStore ]
-  });
-*/
   //************************************************************
   //          COLLECTIONS
   //************************************************************
@@ -50,8 +41,6 @@ Database = function() {
     this.ghDebrief = new Meteor.Collection('alDebrief');
 
     this.ghTag = new Meteor.Collection("ghTag");
-
-    this.ghUserFeaturedPic = new Meteor.Collection("ghUserFeaturedPic");
 
   }
 

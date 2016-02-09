@@ -44,31 +44,6 @@ var ghAvatar = new FS.Collection("ghAvatar", {
     stores: [ publicStore ]
 });
 
-/*
-var ghTag = new FS.Collection("ghTag", {
-    stores: [ publicStore ]
-});
-
-var ghUserFeaturedPic = new FS.Collection("ghUserFeaturedPic", {
-  stores: [ publicStore ]
-});
-
-var ghPublicImage = new FS.Collection("ghPublicImage", {
-    stores: [ publicStore ]
-});
-
-var ghPublicSound = new FS.Collection("ghPublicSound", {
-    stores: [ publicStore ]
-});
-
-var ghPublicVideo = new FS.Collection("ghPublicVideo", {
-    stores: [ publicStore ]
-});
-
-var ghPublicWeb = new FS.Collection("ghPublicWeb", {
-    stores: [ publicStore ]
-});
-*/
 //*********************************************
 //      STARTUP
 //*********************************************
@@ -204,19 +179,16 @@ Meteor.startup(
     });
 
     //user collections
-/*
-    Meteor.publish("ghAvatar", function () {
-      return ghAvatar.find();
-    });
-*/
+
     Meteor.publish("ghTag", function () {
       return ghTag.find();
     });
 
+/*
     Meteor.publish("ghUserFeaturedPic", function () {
       return ghUserFeaturedPic.find();
     });
-
+*/
     ghImage.allow({
 
       insert: function() {
@@ -268,7 +240,21 @@ Meteor.startup(
           return true;
       }
     });
-//end new, start CFS collections
+
+    ghTag.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      },
+    });
+
+//CFS collections
 
     ghAvatar.allow({
 
@@ -286,31 +272,7 @@ Meteor.startup(
       }
     });
 
-    ghTag.allow({
 
-      insert: function() {
-          return true;
-      },
-      update: function() {
-          return true;
-      },
-      remove: function() {
-          return true;
-      },
-    });
-
-    ghUserFeaturedPic.allow({
-
-      insert: function() {
-          return true;
-      },
-      update: function() {
-          return true;
-      },
-      remove: function() {
-          return true;
-      },
-    });
 
 });
 

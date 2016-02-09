@@ -8,14 +8,10 @@ Template.browseWorldMap.helpers({
   
   tag: function() {
 
-    if (!display) return;
-
      return db.ghTag.find( { cc: display.ctl["MAP"].browseWorldMap.selectedCountry.get() });
   },
 
   continentName: function() { 
-
-    if (!display) return;
 
     var level = display.ctl["MAP"].level.get();
 
@@ -29,8 +25,6 @@ Template.browseWorldMap.helpers({
 
   regionName: function() { 
 
-    if (!display) return;
-
     var level = display.ctl["MAP"].level.get();
 
     var name = "";
@@ -41,8 +35,6 @@ Template.browseWorldMap.helpers({
   },
 
   continentIcon: function() { 
-
-    if (!display) return;
 
     var level = display.ctl["MAP"].level.get();
 
@@ -58,8 +50,6 @@ Template.browseWorldMap.helpers({
 
   regionIcon: function()  { 
 
-    if (!display) return;
-
     var level = display.ctl["MAP"].level.get();
 
     var name = "";
@@ -74,8 +64,6 @@ Template.browseWorldMap.helpers({
   },
 
   labelYCorrection: function() {
-
-    if (!display) return;
 
     var level = display.ctl["MAP"].level.get();
 

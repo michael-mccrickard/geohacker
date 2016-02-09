@@ -54,6 +54,8 @@ Session.set("isIOS", false);
   Session.set("sRReady", false);
 
   Session.set("sFReady", false);  //flags (for stats screen)
+
+  Session.set("sTReady", false);  //tags
  
   //display-related
 
@@ -123,6 +125,8 @@ Meteor.startup(function() {
 
   Meteor.subscribe("allFlags", function() { Session.set("sFReady", true ) })
 
+  Meteor.subscribe("ghTag", function() { Session.set("sTReady", true ) });  
+
 //ps("AE")
 
   //start screen
@@ -143,7 +147,8 @@ Tracker.autorun( function(comp) {
   if (Session.get("sZReady") && 
       Session.get("sRReady") && 
       Session.get("sCReady") && 
-      Session.get("sFReady") 
+      Session.get("sFReady") && 
+      Session.get("sTReady") 
        
   ) {
 

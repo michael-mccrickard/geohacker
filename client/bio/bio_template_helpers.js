@@ -98,7 +98,7 @@ Template.bio.rendered = function() {
 
   //Better to wait on a callback from imagesRendered, but for now ...
 
-  redrawBio();
+  game.user.bio.redraw();
 
 }
 */

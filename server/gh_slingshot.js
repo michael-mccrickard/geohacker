@@ -158,7 +158,9 @@ Slingshot.createDirective("ghTag", Slingshot.S3Storage, {
 
     //Store file into a directory by the user's ID.
 
-    return "ghTag/" + this.userId + "-" + file.name;
+    var d = new Date();
+
+    return "ghTag/" + this.userId + "-" + d.getTime() + ".png";
   }
 });
 

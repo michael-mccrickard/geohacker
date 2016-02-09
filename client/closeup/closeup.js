@@ -141,39 +141,32 @@ CloseUp = function() {
 
 function finishCrop() {
 
-  //var width = $("#closeUpPic").cropper('getData').width;
-
-  //$("#closeUpPic").cropper("scale", 64/width);
+  var uploader = game.user.bio.tagUploader;
 
   $("#closeUpPic").cropper('getCroppedCanvas', { width: 128, height: 128 }).toBlob(function (_blob) {
 
+      uploader.send(_blob, function (error, downloadUrl) {
 
-      var newFile = new FS.File();
+        if (error) {
 
-      newFile.name("t.png");
+          console.log(error);
+        }
+        else {
 
-      newFile.attachData( _blob, {type: 'image/png'},  function(error){
+            db.ghTag.insert( { cc: hack.countryCode, f: downloadUrl }, function(error, result) {
 
-          if(error) console.log(error.message);
+              if (error) {
 
-          //This callback from attachData inserts the file into the CFS collection
-          //and then that callback updates the new record with the country code
+                console.log(error);
+              }
+                         
+              Meteor.setTimeout( function() { $("#closeUpPic").cropper('destroy') }, 1000 );   
+            
+          });        
+        
+        }
 
-          db.ghTag.insert(newFile, function (err, fileObj) {
-
-            if (err) {
-              console.log(err);
-              return;
-            }
-
-            db.ghTag.update( {_id: fileObj._id }, { $set: { cc: hack.countryCode } });
-
-             Meteor.setTimeout( function() { $("#closeUpPic").cropper('destroy') }, 1000 );
-
-
-           });
-
-      });
+      });           
 
   });
 

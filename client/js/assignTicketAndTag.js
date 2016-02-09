@@ -105,7 +105,7 @@ Ticket = function(_code, _count, _arr ) {
 
 Tag = function(_file, _longitude, _latitude) {
 
-	this.f = _file;
+	this.u = _file;
 
 	this.t = '';
 	

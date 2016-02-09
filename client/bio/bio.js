@@ -8,6 +8,8 @@ Bio = function() {
 
 	this.userFeaturedPicUploader = new Slingshot.Upload("ghUserFeaturedPic");
 
+	this.tagUploader = new Slingshot.Upload("ghTag");  //only for curators initially
+
 
 	this.getImageHeight = function() {
 
@@ -31,7 +33,7 @@ Bio = function() {
 
         	game.user.bio.imageSrc = Control.getImageFromFile(game.user.bio.image );  
 
-        	Meteor.setTimeout( function() { game.user.bio.draw(); }, 500 );
+        	Meteor.setTimeout( function() { game.user.bio.draw(); }, 100 );
 
         });
 	}

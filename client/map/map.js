@@ -312,6 +312,8 @@ ghMapCtl = function() {
 
     this.browseFinishDraw = function() {
 
+        if ($("#browseDivMap").length == 0) return;
+
         var left = $("#browseDivMap").position().left + $("#browseDivMap").outerWidth() - $("#browseMapClose").outerWidth() - 5;
 
         $("#browseMapClose").css("left", left + "px");

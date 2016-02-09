@@ -70,6 +70,8 @@ Feature = function() {
 
 	    display.worldMapTemplateReady = false;
 
+	    if (hack.countryCode.length) display.ctl["MAP"].browseWorldMap.selectedCountry.set( hack.countryCode );
+
 	    FlowRouter.go("/browseWorldMap");
 	}
 
@@ -125,10 +127,11 @@ Feature = function() {
 
 				return;
 			}
+
+			console.log("feature.loadAgain setting file and imageSrc for animated gif")
 		}
 
-		console.log("feature.loadAgain setting file and imageSrc for animated gif")
-
+	
 		this.file = this.getFile( _name);
 
 		if (this.file) this.imageSrc = Control.getImageFromFile( this.file );
