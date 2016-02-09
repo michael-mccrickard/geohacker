@@ -152,13 +152,3 @@ width: 100%;
 	z-index: 50;
 	position: absolute;
 }
-
-.divAvatarEditIcon > input
-{
-    display: none;
-}
-
-.divFeaturedPicEditIcon > input
-{
-    display: none;
-}
