@@ -23,9 +23,7 @@ Template.bio.events({
 
       game.user.editMode.set( true );
 
-      //game.user.bio.redraw();
-
-Meteor.setTimeout( function() {drawEditBio();}, 200);
+      game.user.bio.redraw();
 
   },
 

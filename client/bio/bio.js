@@ -31,114 +31,77 @@ Bio = function() {
 
         	game.user.bio.imageSrc = Control.getImageFromFile(game.user.bio.image );  
 
-        	//Meteor.setTimeout( function() { game.user.bio.draw(); }, 200 );
+        	Meteor.setTimeout( function() { game.user.bio.draw(); }, 500 );
 
         });
 	}
 
 	this.redraw = function() {
 
-	  //Meteor.setTimeout( function() { game.user.bio.draw(); }, 100 );
+	  Meteor.setTimeout( function() { game.user.bio.draw(); }, 100 );
 
 	}
 
 	this.draw = function() {
 
-	  var icon1 = null;
+		var top = 60 + $(".divHomeTop").height();
 
-	  var icon2 = null;
+		var availHeight = $(window).height() - top;
 
-	  if ( game.user.editMode.get() ) {
-
-	    icon1 = "#saveBioEdit";
-
-	    icon2 = "#cancelBioEdit";
-	  }
-	  else {
-
-	    icon1 = "#startBioEdit";
-	  }
-
-	  var _height = $(window).height();
-
-	  var _width = $(window).width();
-
-	  var thisDivTop = $("div.divHomeTop").position().top + $("div.divHomeTop").height();
-
-	  var picHeight = this.imageSrc.height;
-
-	  var picWidth = this.imageSrc.width;
-
-	  //clamp the dependent dimension, if necessary
-
-	  if (picWidth > picHeight) {
-
-	  	  $(".divBioFeaturedPic").width( 0.65 * _width );
-
-	  	  //if (picHeight > )
-	  }
-	  else {
-
-	  	  $(".divBioFeaturedPic").height( 0.9 * $(".divBio").height() );	  	
-	  }
+		var availWidth = $("#divBio").width() * 0.75;
 
 
+		//if wide
 
-	  var bottom = $(".divBio").position().top + $(".divBio").height();
+		if (this.imageSrc.width > this.imageSrc.height) {
 
-	  $(icon1).css("top", bottom - 32);
+			var newWidth = this.imageSrc.width * availHeight / this.imageSrc.height;
 
-	  if (icon2) $(icon2).css("top", bottom - 32);
+			if (newWidth < availWidth) {
 
-
-	  var left = $(".divBio").width() + $(".divBio").position().left - 32;
-
-	  $(icon1).css("left", left); 
-
-	  if (icon2) $(icon2).css("left", left - 48); 
-
-	  if (game.user.editMode.get() ) {        
-
-	      //edit avatar button
-
-	      var top = $("img.imgBioAvatar").position().top; 
-
-	      bottom = top + $("img.imgBioAvatar").height();
-
-	      $(".divAvatarEditIcon").css("top", bottom - 32);
+				$("#flex-image-main").css("height", availHeight * 0.875);
 
 
-	      left = $("img.imgBioAvatar").position().left;
+			}
+			else {
 
-	     $(".divAvatarEditIcon").css("left", left + 4);
+				$("#flex-image-main").css("width", availWidth * 0.875);
+			}		
+		
+		} else  { // then it's tall
+
+			var newHeight = this.imageSrc.height * availWidth / this.imageSrc.width;
+
+			$("#flex-image-main").css("height", availHeight * 0.875);
+		
+		}
+
+		var top = $("div.flex-container-right").position().top + $("div.flex-container-right").innerHeight();
+
+		top = top - 40;
+
+		$("div.divBioEditIcon").css("top", top + "px");
+
+		if ( $("#startBioEdit").css("opacity") == "0" ) fadeIn( "startBioEdit" ); 
 
 
-	      //edit featured pic button
-
-	      top = $("img.imgBioFeaturedPic").position().top;
-
-	      bottom = top + $("img.imgBioFeaturedPic").height();
-	      
-	      $(".divFeaturedPicEditIcon").css("top", bottom - 36);
-
-	      left = $("img.imgBioFeaturedPic").position().left;
-	     
-	     $(".divFeaturedPicEditIcon").css("left", left + 4);
+		if (game.user.editMode.get() ) {	
 
 
-	    if ( $("#saveBioEdit").css("opacity") == "0" ) fadeIn( "saveBioEdit" );
+		    if ( $("#saveBioEdit").css("opacity") == "0" ) fadeIn( "saveBioEdit" );
 
-	    if ( $("#cancelBioEdit").css("opacity") == "0" ) fadeIn( "cancelBioEdit" );
+		    if ( $("#cancelBioEdit").css("opacity") == "0" ) fadeIn( "cancelBioEdit" );
 
-	    if ( $("#editAvatar").css("opacity") == "0" ) fadeIn( "editAvatar" );
+		    if ( $("#editAvatar").css("opacity") == "0" ) fadeIn( "editAvatar" );
 
-	    if ( $("#editFeaturedPic").css("opacity") == "0" ) fadeIn( "editFeaturedPic" );
+		    if ( $("#editFeaturedPic").css("opacity") == "0" ) fadeIn( "editFeaturedPic" );
 
-	  }
-	  else {
+	  	}
+	  	else {
 
-	    if ( $("#startBioEdit").css("opacity") == "0" ) fadeIn( "startBioEdit" ); 
-	  }
+	    	if ( $("#startBioEdit").css("opacity") == "0" ) fadeIn( "startBioEdit" ); 
+
+	  	}
 
 	}	
 

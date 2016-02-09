@@ -1,137 +1,129 @@
-<template name="bio2">
+<template name="bio">
 
-	<div class="divBio">
+	<div class="flex-container flex-rounded" id="divBio">
 
-		<div class="divBioLeft">
+		<div class="flex-container-vert flex-rounded">
 
+			{{#with profile}}
 
-				<div class="divBioAvatar">
+				<div class="flex-item-vert flex-rounded flexCenter">
+					<img class= "flex-rounded flex-image-vert" src="{{av}}" />
+				</div>		
 
-					{{#with profile}}
+				{{#if userEditMode}}
 
-						<img class= "imgBioAvatar" src="{{av}}" />
-					
-					{{/with}}
+					<div class="divAvatarEditIcon">
 
-					<p class="bioAgentNameText centered" id="agentNameText">{{agentName}}</p>
-					
+						<label for="avatarFileInput">
+						    <img class="imgBioEditIcon" id="editAvatar" src="edit_icon.png"/>
+						</label>
+
+						<input id="avatarFileInput" type="file"/>
+					</div>
+				
+				{{/if}}
+				
+				<div class="flex-label  flex-rounded">
+					<div class="flexCenter" id="agentNameText">{{agentName}}</div>
 				</div>
 
 
-				{{#with profile}}
-
-					<div class="divBioFlag">
-
-						<img class= "imgBioFlag" src="{{f}}" />
-							
-						<p class="bioAgentNameText centered" id="countryNameText">{{cn}}</p>
-						
-					</div>
+				<div class="flex-item-vert flex-rounded flexCenter">
+					<img class= "flex-rounded flex-image-vert" src="{{f}}" />
+				</div>
 
 
+				<div class="flex-label flex-rounded">
+					<div class="flexCenter" id="countryNameText">{{cn}}</div>
+				</div>
 
-					{{#if userEditMode}}
+		  
+				{{#if userEditMode}}
 
-						<div class="divBioEditTextArea">
+					  <div class="flex-item-vert-text flex-item-vert flex-rounded flex-text">
 
-
-							<textarea id="editBioText" class="textUserEdit" rows="12" cols="20">{{t}}</textarea>
+							<textarea id="editBioText" class="textUserEdit" rows="12" cols="25">{{t}}</textarea>
 
 						</div>		
 
 					{{else}}
 				
-						<div class="divBioTextArea">
+					  <div class="flex-item-vert-text flex-item-vert flex-rounded flex-text">
 
-							<p class="bioText whiteText">{{t}}</p>
-							
-						</div>
+					  	<div>
+					  		{{t}}
+					  	</div>
+					  
+					  </div>
 
-				
-					{{/if}}
-
-				{{/with}}
-
-				
-		</div>
-
-
-
-		<div class="divBioFeaturedPic">
-
-			{{#with profile}}
-
-				<img class="imgBioFeaturedPic" src="{{p}}">
 			
+				{{/if}}
+
 			{{/with}}
 
+
+		
 		</div>
 
-		{{#if userEditMode}}
+		<div class="flex-container-main">
+			{{#with profile}}
+				<div class="flexCenter">
 
-			<div class="divBioEditFeaturedPicTextArea">
+					<img class="flex-rounded" id="flex-image-main" src="{{p}}">
+				</div>	
+			{{/with}}
 
-				{{#with profile}}
+			{{#if userEditMode}}
+				<div class="divFeaturedPicEditIcon">
 
-					<textarea id="editBioFeaturedPicText" class="textUserEdit" rows="24" cols="20">{{pt}}</textarea>
+					<label for="featuredPicFileInput">
+					    <img class="imgBioEditIcon" id="editFeaturedPic" src="edit_icon.png"/>
+					</label>
 
-				{{/with}}
+					<input id="featuredPicFileInput" type="file"/>
+				</div>
+			{{/if}}
+
+		</div>
+
+
+		  <div class="flex-container-right flex-rounded flex-text">
+
+		  	{{#with profile}}
+
+			  	{{#if userEditMode}}
+
+			  		<textarea id="editBioFeaturedPicText" class="textUserEdit" rows="24" cols="27">{{pt}}</textarea>
+
+			  	{{else}}
+
+				  	<div>
+				  		{{pt}}
+					</div>
 				
-			</div>	
+				{{/if}}		
 
-		{{else}}
+				{{#if userEditMode}}
 
-			<div class="divBioFeaturedPicText">
-
-				{{#with profile}}
-
-					<p class="bioText whiteText">{{pt}}</p>
-
-				{{/with}}
-					
-			</div>
-
-		{{/if}}
+					<div class="divBioSaveIcon">
+						<img class= "imgBioEditIcon" id="saveBioEdit" src="save.png" />
+						<img class= "imgBioEditIcon" id="cancelBioEdit" src="close.png" />
+					</div>
 
 
+				{{else}}
 
-		{{#if userEditMode}}
+					<div class="divBioEditIcon" id="editBio">
+						<img class= "imgBioEditIcon" id="startBioEdit" src="edit_icon.png" />
+					</div>
 
-			<div class="divBioSaveIcon">
-				<img class= "imgBioEditIcon" id="saveBioEdit" src="save.png" />
-				<img class= "imgBioEditIcon" id="cancelBioEdit" src="close.png" />
-			</div>
+				{{/if}}
 
-			<div class="divAvatarEditIcon">
-
-				<label for="avatarFileInput">
-				    <img class="imgBioEditIcon2" id="editAvatar" src="edit_icon.png"/>
-				</label>
-
-				<input id="avatarFileInput" type="file"/>
-			</div>
-
-			<div class="divFeaturedPicEditIcon">
-
-				<label for="featuredPicFileInput">
-				    <img class="imgBioEditIcon2" id="editFeaturedPic" src="edit_icon.png"/>
-				</label>
-
-				<input id="featuredPicFileInput" type="file"/>
-			</div>
-
-		{{else}}
-
-			<div class="divBioEditIcon" id="editBio">
-				<img class= "imgBioEditIcon" id="startBioEdit" src="edit_icon.png" />
-			</div>
-
-		{{/if}}
+			{{/with}}
 
 
+		  </div>
 
 	</div>
-
-
 
 </template>
