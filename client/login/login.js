@@ -52,7 +52,7 @@ Template.login.helpers({
 
   country: function() {
 
-    return db.ghC.find( {r: Session.get("sUserRegion")}, {sort: { n: 1 }} );
+    return db.ghC.find( {r: Session.get("sUserRegion"), d: 1 }, {sort: { n: 1 }} );
   },
 
   loginStatus:  function() {
@@ -96,6 +96,11 @@ Template.login.helpers({
 
 
 Template.login.events({
+
+    'click #countryNotListed': function(event, template) {
+
+          $('#countryNotListedModal').modal('show');
+      },
 
     'change #selectContinent': function(event, template) {
 

@@ -71,6 +71,11 @@ html[xmlns] .clearfix { display: block;}
 .clearfix {display: block}
 */
 
+.modalText {
+    color: black; 
+    font-family: Arial;
+}
+
 .auto {
     margin: auto
 }

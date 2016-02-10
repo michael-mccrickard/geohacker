@@ -12,6 +12,13 @@ showMessage = function( _text ) {
 
     	return;
     }
+    
+    if (url == "/closeup") {
+
+        display.closeUp.setText(_text );
+
+        return;
+    }
 
 
     if (url == '/debrief') {

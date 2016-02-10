@@ -8,9 +8,11 @@ Template.closeup.rendered = function() {
 
 Template.closeup.events = {
 
-  'click #closeUpPic': function (e) { 
+  'click #closeUpBox': function (e) { 
 
   		e.preventDefault();
+
+      if ( gCropPictureMode.get() ) return;
 
       display.mainTemplateReady = false;
 
@@ -64,13 +66,20 @@ CloseUp = function() {
 
   this.source = null;
 
+  this.setText = function(_str) {
+
+      var container = "h4#closeUpSource.sourceText";
+
+      $( container ).text(_str );
+  }
+
   this.draw = function() {
 
       var img = display.feature.imageSrc;
 
       if (display.feature.getName() == "MAP") {
 
-        var _filename = hack.getCountryFilename() + "_map.jpg"
+        var _filename = hack.getCountryMapURL();
 
         img = Control.getImageFromFile( _filename );
       }
@@ -129,14 +138,29 @@ CloseUp = function() {
         s = display.feature.source;
       }
 
+      var s = null;
+
+      if (hack.mode == mHackDone)  {
+
+        s = hack.getCountryMapSource();
+      }
+      else{
+
+        s = display.feature.source;
+      }
+
       this.source = s;
 
       if (s == "0") s = "Unknown";
 
-      $( container ).text( "SOURCE: " + s );
+      s = "SOURCE: " + s;
+
+      this.setText(s);
   }
 
 }
+
+
 
 
 function finishCrop() {
@@ -159,7 +183,9 @@ function finishCrop() {
 
                 console.log(error);
               }
-                         
+              
+              gCropPictureMode.set( false ); 
+
               Meteor.setTimeout( function() { $("#closeUpPic").cropper('destroy') }, 1000 );   
             
           });        

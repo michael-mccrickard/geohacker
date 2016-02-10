@@ -246,7 +246,7 @@ function toggleInstantMode() {
 
 function startCropMode() {
 
-	if (gCropPictureMode.get() == false ) {
+	//if (gCropPictureMode.get() == true ) {
 
     	gCropPictureMode.set( true );	
 
@@ -257,12 +257,14 @@ function startCropMode() {
 		  });
 
 		});	
-	}
+
+//	}
+/*
 	else {
 
     	gCropPictureMode.set( false );				
 	}
-
+*/
 }
 
 

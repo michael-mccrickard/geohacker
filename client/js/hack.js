@@ -351,11 +351,9 @@ Hack = function() {
 
     this.getCountryMapURL = function() {
 
-      var _name = this.getCountryFilename() + "_map.jpg";
+      var _cc = this.countryCode;
 
-      //var rec = db.ghImage.findOne( {'f':  _name } );
-
-      var rec = db.ghImage.findOne( { dt: "cmp" } );
+      var rec = db.ghImage.findOne( { cc: _cc, dt: "cmp" } );
 
       if (typeof rec !== 'undefined') {
 
