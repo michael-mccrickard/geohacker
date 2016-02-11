@@ -95,22 +95,35 @@ Ticket = function(_code, _count, _arr ) {
 		this.count++;
 	}
 
-	this.addTag = function(_file, _longitude, _latitude) {
+	this.addTag = function(_longitude, _latitude, _dt) {
 
-		var _tag = new Tag(_file, _longitude, _latitude);
+		var _tag = new Tag(_longitude, _latitude, _dt);
 
 		this.tag.push( _tag );
 	}
 }
 
-Tag = function(_file, _longitude, _latitude) {
+//see the DEBRIEF TYPES documentation in debrief.js for explanation about the _dt value
 
-	this.u = _file;
+//the combination of the dt value and the countryCode determines the tag content
 
-	this.t = '';
+//all tags must have a rec in ghText with a countryCode and a dt value 
+//that matches the tag dt value, and a url (_file) for the tag pic
+
+//the exception to this is the agent tag (dt == "agt") where the pic / text
+//are gleaned from ghUser
+
+
+Tag = function(_longitude, _latitude, _dt) {
+
+	//this.u = _file;
+
+	//this.t = _text;
 	
 	this.lo = _longitude;
 	
 	this.la = _latitude;
+
+	this.dt = _dt;
 }
 

@@ -7,7 +7,9 @@
 
 	function drag(ev) {
 
-	    ev.dataTransfer.setData("text", ev.target.src);
+	    ev.dataTransfer.setData("text", ev.target.id);
+
+	    //ev.dataTransfer.setData("url", ev.target.src);
 	}
 
 	function drop(ev) {
@@ -21,8 +23,6 @@
 
 	    var _lat = map.stageYToLatitude( ev.offsetY );
 
-		var data = ev.dataTransfer.getData("text");
-
 		var image = new AmCharts.MapImage();
 
 		image.latitude = _lat;
@@ -31,14 +31,23 @@
         image.width = 64;
         image.height = 64;
 
-        image.imageURL = data;
+		var _id = ev.dataTransfer.getData("text");
+
+		var sel = "#" + _id;
+
+		var _dt = $(sel).attr("data-text");
+
+		image.balloonText = $(sel).attr("title");
+
+        image.imageURL = $(sel).attr("src");
+
   
         map.dataProvider.images.push(image);
         map.validateData();   
 
         var _ticket = game.user.getTicket( display.ctl["MAP"].browseWorldMap.selectedCountry.get() );
 
-        _ticket.addTag( data, _long, _lat ); 
+        _ticket.addTag(_long, _lat, _dt ); 
 
         db.updateUserHacks();
 	    
@@ -73,7 +82,7 @@
 		{{#each tag}}
 
 			<div>
-				<img class="imgMapTag"   draggable="true" ondragstart="drag(event)"  id="tag1" src="{{this.f}}">
+				<img class="imgMapTag"   draggable="true" ondragstart="drag(event)"  data-text="{{this.dt}}" id="{{this._id}}" src="{{getTagURL}}" title="{{getText}}">
 			</div>
 		
 		{{/each}}

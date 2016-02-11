@@ -238,6 +238,22 @@ this.saveScroll = function(_val) {
       return u;
   }
 
+  this.getContinentCodeForCountry = function (_code) {
+
+    var recCountry = this.getCountryRec(_code);
+
+    var recRegion = this.getRegionRec(recCountry.r);
+
+    return recRegion.z;
+  }
+
+  this.getContinentCodeForRegion = function( _code) {
+
+    var recRegion = this.getRegionRec(recCountry.r);    
+
+    return recRegion.z;
+  }
+
   this.getContinentRec = function(_code) {
 
     return ( this.ghZ.findOne( { c: _code } ) );
@@ -246,6 +262,11 @@ this.saveScroll = function(_val) {
   this.getContinentName = function( _code) {
 
     return ( this.getContinentRec( _code ).n );
+  }
+
+  this.getCountryID = function(_code) {
+
+       return this.getCountryRec( _code)._id;
   }
 
   this.getCountryRec = function(_code) {
@@ -278,53 +299,6 @@ this.saveScroll = function(_val) {
     return ( this.getCountryRecByID( id ).n );
   }
 
-  this.getMapRecIndex = function(_which) {
-
-      for (var i = 0; i < display.ctl["MAP"].items.length; i++) {
-
-        if (display.ctl["MAP"].items[i].f == _which) return i;
-      }
-  }
-
-  this.getRegionRec = function(_code) {
-
-    return ( this.ghR.findOne( { c: _code } ) );
-  }
-
-  this.getRegionName = function( _code) {
-
-    return ( this.getRegionRec( _code ).n );
-  }
-
-  this.getContinentCodeForCountry = function (_code) {
-
-    var recCountry = this.getCountryRec(_code);
-
-    var recRegion = this.getRegionRec(recCountry.r);
-
-    return recRegion.z;
-  }
-
-  this.getContinentCodeForRegion = function( _code) {
-
-    var recRegion = this.getRegionRec(recCountry.r);    
-
-    return recRegion.z;
-  }
-
-  this.getRegionCodeForCountry = function (_code) {
-
-    var recCountry = this.getCountryRec(_code);
-
-    return recCountry.r;
-  }
-
-  this.getCountryID = function(_code) {
-
-     return this.getCountryRec( _code)._id;
-
-  }
-
   this.getDataFlagForCountry = function(_code) {
 
      var rec = this.getCountryRec( _code);
@@ -345,7 +319,7 @@ this.saveScroll = function(_val) {
     }
     else {
 
-      showMessage("No flag pic found for " + getCountryName( _countryID ));
+      showMessage("No flag pic found for " + this.getCountryName( _codec ));
 
       return _code;
     }
@@ -359,10 +333,95 @@ this.saveScroll = function(_val) {
     }
     else {
 
-      showMessage("No flag pic found for " + getCountryName( _countryID ));
+      showMessage("No flag pic found for " + this.getCountryName( _code ));
 
       return _code;
     }
+  }
+
+  this.getLeaderName = function( _code ) {
+
+    if (typeof db.ghText.findOne( { cc: _code, dt: "ldr" } ) !== 'undefined') {
+
+      return db.ghText.findOne( { cc: _code, dt: "ldr" } ).f;
+    }
+    else {
+
+      showMessage("No leader name found for " + this.getCountryName( _code ));
+
+      return _code;
+    }
+  }
+
+  this.getMapRecIndex = function(_which) {
+
+      for (var i = 0; i < display.ctl["MAP"].items.length; i++) {
+
+        if (display.ctl["MAP"].items[i].f == _which) return i;
+      }
+  }
+
+  this.getRegionRec = function(_code) {
+
+    return ( this.ghR.findOne( { c: _code } ) );
+  }
+
+  this.getRegionName = function( _code) {
+
+    return ( this.getRegionRec( _code ).n );
+  }
+
+  this.getRegionCodeForCountry = function (_code) {
+
+    var recCountry = this.getCountryRec(_code);
+
+    return recCountry.r;
+  }
+
+  this.getTagText = function( _tag, _cc ) {
+
+    if (!_cc.length) return;
+
+    if (_tag.dt == "agt") {
+      showMessage("agt tag not yet supported by getTagText in database.js");
+      return;
+    }
+
+      if (_tag.dt == "ldr") return this.getLeaderName( _cc );
+
+      if (_tag.dt == "flg") return "Flag of " + this.getCountryName( _cc );
+
+      var _rec = db.ghText.findOne( { cc: _cc, dt: _tag.dt } );  
+      
+      if (typeof _rec !== 'undefined') {
+
+         return _rec.f;
+      }  
+
+      showMessage("Couldn't find tag text for " +  this.getCountryName( _cc ) + " with dt = " + _tag.dt);
+
+      return "";
+  }
+
+  this.getTagURL = function( _tag, _cc ) {
+    
+    if (!_cc.length) return;
+
+    if (_tag.dt == "agt") {
+      showMessage("agt tag not yet supported by getTagURL in database.js");
+      return;
+    }
+
+      var _rec = db.ghTag.findOne( { cc: _cc, dt: _tag.dt } );  
+      
+      if (typeof _rec !== 'undefined') {
+
+         return _rec.u;
+      }  
+
+      showMessage("Couldn't find a URL for " +  this.getCountryName( _cc ) + " with dt = " + _tag.dt);
+
+      return "";
   }
 
   //************************************************************

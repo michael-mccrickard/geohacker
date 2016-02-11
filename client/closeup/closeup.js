@@ -1,4 +1,4 @@
-
+var tagURL = "";
 
 Template.closeup.rendered = function() {
 
@@ -7,6 +7,22 @@ Template.closeup.rendered = function() {
 
 
 Template.closeup.events = {
+
+  'submit #tagData-form' : function(e, t){
+
+      e.preventDefault();
+      
+      // retrieve the input field values
+      
+      var _dt = t.find('#debriefType').value;
+
+      var _text = t.find('#customText').value;
+
+      insertNewTagRecord(_dt, _text);
+
+      $('#tagDataModal').modal('hide');
+   },
+
 
   'click #closeUpBox': function (e) { 
 
@@ -160,6 +176,21 @@ CloseUp = function() {
 
 }
 
+function insertNewTagRecord(_dt, _text) {
+
+  db.ghTag.insert( { cc: hack.countryCode, u: tagURL, dt: _dt, t: _text }, function(error, result) {
+
+    if (error) {
+
+      console.log(error);
+    }
+
+    gCropPictureMode.set( false ); 
+
+    Meteor.setTimeout( function() { $("#closeUpPic").cropper('destroy') }, 1000 );   
+
+  });  
+}
 
 
 
@@ -177,18 +208,9 @@ function finishCrop() {
         }
         else {
 
-            db.ghTag.insert( { cc: hack.countryCode, f: downloadUrl }, function(error, result) {
+            tagURL = downloadUrl;
 
-              if (error) {
-
-                console.log(error);
-              }
-              
-              gCropPictureMode.set( false ); 
-
-              Meteor.setTimeout( function() { $("#closeUpPic").cropper('destroy') }, 1000 );   
-            
-          });        
+            $('#tagDataModal').modal('show');
         
         }
 

@@ -183,6 +183,8 @@ ghMapCtl = function() {
 
         var _ticket = game.user.getTicket( _mapObjectID );
 
+        if (typeof _ticket === 'undefined') return;
+
         var _tag = _ticket.tag;
 
         for (var i = 0; i < _tag.length; i++) {
@@ -194,7 +196,9 @@ ghMapCtl = function() {
 
             image.width = _size;
             image.height = _size;
-            image.imageURL = _tag[i].u;
+            image.imageURL = db.getTagURL( _tag[i], _mapObjectID );;
+
+            image.balloonText = db.getTagText( _tag[i], _mapObjectID ); //_tag[i].t;
       
             _dp.images.push(image);           
         }

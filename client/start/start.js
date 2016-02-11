@@ -56,6 +56,8 @@ Session.set("isIOS", false);
   Session.set("sFReady", false);  //flags (for stats screen)
 
   Session.set("sTReady", false);  //tags
+
+   Session.set("sXReady", false);  //all texts (to identify tags)
  
   //display-related
 
@@ -127,6 +129,8 @@ Meteor.startup(function() {
 
   Meteor.subscribe("ghTag", function() { Session.set("sTReady", true ) });  
 
+  Meteor.subscribe("allTexts", function() { Session.set("sXReady", true ) });  
+
 //ps("AE")
 
   //start screen
@@ -148,7 +152,8 @@ Tracker.autorun( function(comp) {
       Session.get("sRReady") && 
       Session.get("sCReady") && 
       Session.get("sFReady") && 
-      Session.get("sTReady") 
+      Session.get("sTReady") && 
+      Session.get("sXReady") 
        
   ) {
 

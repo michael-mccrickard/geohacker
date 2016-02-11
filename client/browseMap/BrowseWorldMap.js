@@ -471,9 +471,7 @@ function handleZoomCompleted() {
 
         worldMap.zoomDone = true;
 
-c("in hZC, wm.mOC is " + worldMap.mapObjectClicked);
-
-        worldMap.mapCtl.addCountryTags( worldMap.mapObjectClicked, worldMap.map.dataProvider, 64);
+        worldMap.mapCtl.addCountryTags( worldMap.mapObjectClicked, worldMap.map.dataProvider, 96);
 
         worldMap.map.dataProvider.zoomLongitude = worldMap.map.zLongTemp;
 

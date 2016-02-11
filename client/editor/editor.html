@@ -73,13 +73,23 @@
 						{{#if isNewRecord}}
 
 							<td>
-								<input type="file" class="hiddenInput" id="newFileInput" />
-								<label class="fakeButton" id="newFileInput-label" for="newFileInput">FILE</label>
-							
-							{{#if isMedia}}
-								<input type="text"  class="hiddenInput" id="newTextInput" />
-								<label class="fakeButton" id="newTextInput-label" for="newTextInput">{{getURLButtonText}}</label>
-							{{/if}}
+
+								{{#if notText}}
+
+									<input type="file" class="hiddenInput" id="newFileInput" />
+									<label class="fakeButton" id="newFileInput-label" for="newFileInput">FILE</label>
+						    	
+						    	{{else}}
+
+									<td><input type="text" class="f" id="{{this._id}}" size="40" value="{{this.f}}"></td> 
+
+						    	{{/if}}
+
+								
+								{{#if isMedia}}
+									<input type="text"  class="hiddenInput" id="newTextInput" />
+									<label class="fakeButton" id="newTextInput-label" for="newTextInput">{{getURLButtonText}}</label>
+								{{/if}}
 
 							</td>
 								

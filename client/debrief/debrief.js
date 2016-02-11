@@ -19,6 +19,38 @@ Debrief = function() {
 
 	this.text = "";
 
+/*********************************************
+
+	DEBRIEF CODES  (dt field in database)
+
+common -- used by all countries
+
+	ldr = leader name / pic
+	cap = capital name / pic
+	cmp = country map (pic)
+
+optional -- used by some countries
+
+	rmp -- redacted map pic (name of country obscured)
+
+	cus, cus[X] -- text / pic pairs (could be anything)
+
+	hq, hq[X] -- text / pic pairs for businesses headquarted in the country
+
+text-only -- used by some countries as both text clues and tag text.
+When used as tag text, there will be a rec (with pic) in ghTag with this code
+
+	art -- artist (broadly speaking, could be writer, musician, actor, etc.)
+
+	bus, bus[X] -- business name
+
+	lan, lan[X] -- landmark
+
+special cases
+	agt -- agent (used in agent tags generated on the fly)
+
+**********************************************/
+
 	this.code = "";
 
 	this.arr = [];

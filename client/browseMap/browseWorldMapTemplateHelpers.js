@@ -11,6 +11,21 @@ Template.browseWorldMap.helpers({
      return db.ghTag.find( { cc: display.ctl["MAP"].browseWorldMap.selectedCountry.get() });
   },
 
+  getDebriefType: function() {
+
+      return ( db.getDebriefType( this, display.ctl["MAP"].browseWorldMap.selectedCountry.get() ) );
+  },
+
+  getText: function() {
+
+      return ( db.getTagText( this, display.ctl["MAP"].browseWorldMap.selectedCountry.get() ) );
+  },
+
+  getTagURL: function() {
+
+      return ( db.getTagURL( this, display.ctl["MAP"].browseWorldMap.selectedCountry.get() ) );
+  },
+
   continentName: function() { 
 
     var level = display.ctl["MAP"].level.get();

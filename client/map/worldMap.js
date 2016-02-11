@@ -214,6 +214,8 @@ c("doCurrentMap");
 
         this.map.dataProvider = this.dp;
 
+        this.dp.images = [];
+
         this.map.creditsPosition = "top-left";
 
         this.map.zoomControl.zoomControlEnabled = false;
@@ -232,6 +234,10 @@ c("doCurrentMap");
             selectedColor: "#BBBB00",
 
         };
+
+        if (_level == mlContinent) this.mapCtl.addContinentTags(this.map.dataProvider, 16);
+
+        if (_level == mlRegion) this.mapCtl.addRegionTags( this.selectedRegion, this.map.dataProvider, 48);
 
 
 
@@ -341,8 +347,6 @@ c("doCurrentMap");
         if (typeof _x !== 'undefined') x = _x;
 
         if (typeof _y !== 'undefined') y = _y;       
-
-c("LMO in WM is calling addLabel")
 
         Meteor.defer( function() { display.ctl["MAP"].worldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
     }
@@ -965,6 +969,8 @@ function handleZoomCompleted() {
 
         worldMap.doMap(_code, mlRegion);
 
+        
+
         worldMap.labelMapObject();
 
         refreshMap();
@@ -988,6 +994,16 @@ function handleZoomCompleted() {
         worldMap.mapCtl.setState( sTestCountry );
 
         worldMap.labelMapObject();
+
+        worldMap.mapCtl.addCountryTags( worldMap.mapObjectClicked, worldMap.map.dataProvider, 96);
+
+        worldMap.map.dataProvider.zoomLongitude = worldMap.map.zLongTemp;
+
+        worldMap.map.dataProvider.zoomLatitude =  worldMap.map.zLatTemp;
+
+        worldMap.map.dataProvider.zoomLevel =  worldMap.map.zLevelTemp;
+
+        worldMap.map.validateData();
 
         refreshMap();
 
