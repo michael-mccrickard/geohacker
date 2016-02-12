@@ -13,7 +13,7 @@
 
 					{{#each tag}}
 
-						<img class="imgMapTag" src="{{this.f}}" />
+						<img class="imgMapTag" src="{{this.u}}" />
 
 					{{/each}}
 
@@ -33,16 +33,18 @@
 	            <h4 class="modal-title modalText">Enter the tag data</h4>
 	          </div>
 	          <div class="modal-body">
+	          	<img src="{{getNewTagURL}}" width="128px" style="padding: 12px;">
 				<form id="tagData-form" action="action">
 		            <div class="form-group modalText">
 		                <label for="inputType">DEBRIEF TYPE</label>
 		                <input type="text" class="form-control" id="debriefType">
 		            </div>
 		            <div class="form-group modalText">
-		                <label for="inputText">CUSTOM TEXT</label>
+		                <label for="inputText">TEXT</label>
 		                <input type="text" class="form-control" id="customText">
 		            </div> 
-		            <button type="submit" class="btn btn-default" id="submitTagData">SAVE</button>          
+		            <div class="modalText" style="padding-bottom: 12px;">(Only enter the text if no text record exists for this country / type.)</div>
+		            <button type="submit" class="btn btn-primary btn-lg" id="submitTagData">SAVE</button>          
 		        </form>
 		            
 	          </div>

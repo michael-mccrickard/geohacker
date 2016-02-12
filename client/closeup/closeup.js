@@ -1,4 +1,4 @@
-var tagURL = "";
+Session.set("sTagURL", "");
 
 Template.closeup.rendered = function() {
 
@@ -74,6 +74,11 @@ Template.closeup.helpers({
     cropMode: function() {
 
       return gCropPictureMode.get();
+    },
+
+    getNewTagURL: function() {
+
+      return Session.get("sTagURL");
     }
   
 })
@@ -178,20 +183,39 @@ CloseUp = function() {
 
 function insertNewTagRecord(_dt, _text) {
 
-  db.ghTag.insert( { cc: hack.countryCode, u: tagURL, dt: _dt, t: _text }, function(error, result) {
+  db.ghTag.insert( { cc: hack.countryCode, u: Session.get("sTagURL"), dt: _dt, t: _text }, function(error, result) {
 
     if (error) {
+
+      showMessage(error.reason);
 
       console.log(error);
     }
 
-    gCropPictureMode.set( false ); 
+    Meteor.setTimeout( function() { $("#closeUpPic").cropper('destroy') }, 500 );  
 
-    Meteor.setTimeout( function() { $("#closeUpPic").cropper('destroy') }, 1000 );   
+    gCropPictureMode.set( true );
+ 
+    var rec = db.ghText.findOne({ cc: hack.countryCode, dt: _dt } );
 
-  });  
+    if (typeof rec === 'undefined') {
+
+        db.ghText.insert({ cc: hack.countryCode, dt: _dt, f: _text }, function(error, result) {
+
+        if (error) {
+
+          showMessage(error.reason);
+
+          console.log(error);
+        }
+
+      });
+    }  
+
+        Meteor.setTimeout( function() { display.loadMainForBrowsing(); }, 600 );  
+
+  });
 }
-
 
 
 function finishCrop() {
@@ -208,7 +232,9 @@ function finishCrop() {
         }
         else {
 
-            tagURL = downloadUrl;
+            Session.set("sTagURL", downloadUrl);
+
+            gCropPictureMode.set( false ); 
 
             $('#tagDataModal').modal('show');
         

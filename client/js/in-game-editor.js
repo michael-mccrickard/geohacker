@@ -16,6 +16,10 @@ $(document).keydown(function(e) {
 
     if (e.which == 116) toggleGameEditor();
 
+    if (e.which == 117) turnOffCropMode();
+
+    if (e.which == 32) startCrop();    
+
   }
 );
 
@@ -85,12 +89,6 @@ $(document).keydown(function(e) {
 	    	toggleUserCountriesOnlyMode(); 
 
 	    	break;
-
-        case 117: //F6 
-
-	        startCropMode();
-
-	        break;
 
         default: return; // exit this handler for other keys
     }
@@ -244,27 +242,43 @@ function toggleInstantMode() {
 	 if (!gInstantMode) showMessage( "Instant mode off");  	
 }
 
-function startCropMode() {
+function turnOffCropMode() {
 
-	//if (gCropPictureMode.get() == true ) {
+gCropPictureMode.set( false );	
 
-    	gCropPictureMode.set( true );	
+showMessage( "Crop mode off");
 
-		Meteor.defer( function() { $('#closeUpPic').cropper({
-		  aspectRatio: 1 / 1,
-		  viewMode: 0
+return;
 
-		  });
 
-		});	
+	if (gCropPictureMode.get() == true ) {
 
-//	}
-/*
+		gCropPictureMode.set( false );	
+
+		showMessage( "Crop mode off");
+	}
 	else {
 
-    	gCropPictureMode.set( false );				
+		gCropPictureMode.set( true );	
+
+		showMessage( "Crop mode on");			
 	}
-*/
+
+}
+
+function startCrop() {
+
+//if (gCropPictureMode.get() == false ) return;
+
+    gCropPictureMode.set( true );
+
+	Meteor.defer( function() { $('#closeUpPic').cropper({
+	  aspectRatio: 1 / 1,
+	  viewMode: 0
+
+	  });
+
+	});	
 }
 
 

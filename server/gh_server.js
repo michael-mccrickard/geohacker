@@ -189,6 +189,20 @@ Meteor.startup(
       return ghUserFeaturedPic.find();
     });
 */
+
+    ghText.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      }
+    });
+
     ghImage.allow({
 
       insert: function() {
