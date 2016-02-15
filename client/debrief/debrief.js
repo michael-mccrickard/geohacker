@@ -70,8 +70,6 @@ special cases
 
 	this.draw = function() {
 
-c("deb.draw()");
-
 		$("#debriefText").text( this.text );
 
 		 Meteor.defer( function() { hack.debrief.finishDraw(); } );
@@ -195,9 +193,7 @@ c("deb.draw()");
 
 		if (this.code == "cap")  this.image = hack.getCapitalPic();
 
-		if (this.code == "cus")  this.image = hack.getCustomPic( this.rec.dt );		
-
-		if (!this.image.length) this.image = this.rec.u;
+		if (!this.image.length) this.image = hack.getCustomPic( this.rec.dt );		
 
 	} 
 

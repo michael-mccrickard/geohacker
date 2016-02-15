@@ -131,11 +131,11 @@ Editor = function() {
 
       		var data = {};
 
-      		for (var i = 0; i < arrFieldDebrief.length; i++) {
+      		for (var i = 0; i < this.arrFieldDebrief.length; i++) {
 
-				var sel = "#" + _ID + "." + arrFieldDebrief[i];
+				var sel = "#" + _id + "." + this.arrFieldDebrief[i];
 
-      			data[ arrFieldDebrief[i] ] = $(sel).val();
+      			data[ this.arrFieldDebrief[i] ] = $(sel).val();
       		}
 
 			Meteor.call("updateRecordOnServerWithDataObject", _type, _id, data, function(err, result) {

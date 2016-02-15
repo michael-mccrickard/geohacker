@@ -356,9 +356,13 @@ Template.main.events({
 
           display.loader.go();
 
+          display.checkMainScreen();
+
           display.scanner.show();
 
           display.scanner.stopScan();
+
+
       }
       else {
 

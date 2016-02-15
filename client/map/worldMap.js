@@ -235,9 +235,9 @@ c("doCurrentMap");
 
         };
 
-        if (_level == mlContinent) this.mapCtl.addContinentTags(this.map.dataProvider, 16);
+        if (_level == mlContinent) this.mapCtl.addContinentTags(this.map.dataProvider, 16, rec.c);
 
-        if (_level == mlRegion) this.mapCtl.addRegionTags( this.selectedRegion, this.map.dataProvider, 48);
+        if (_level == mlRegion) this.mapCtl.addRegionTags( this.selectedRegion, this.map.dataProvider, 48, rec.c);
 
 
 
@@ -519,7 +519,7 @@ c("doCurrentMap");
 
                 //update the user's record in the database (country successfully hacked)
 
-                if (!hack.auto) game.user.countryHacked( theCountry );
+                game.user.countryHacked( theCountry );
 
                 //we load the country map using the preloader (so that we can read it's size)
                 //and the preloader callback will trigger the map zooming sequence
@@ -808,7 +808,11 @@ c("doMapSuccess")
 
 
 function handleClick(_event) {
-    
+c("click")
+c(_event.mapObject.groupId)
+c(_event.mapObject.id)
+c(_event.mapObject)
+
     Control.playEffect( worldMap.map_sound );
 
     worldMap.zoomDone = false;
@@ -824,7 +828,7 @@ function handleClick(_event) {
     var state = worldMap.mapCtl.getState();
 
     if (state == sContinentOK) {
-
+c("going from contOK to IDRegion")
         worldMap.mapCtl.setStateOnly( sIDRegion );
     }
 
@@ -852,7 +856,7 @@ function handleClick(_event) {
     //this will be the user's first click on the map, trying to pick the right continent ..
 
     if (state == sIDContinent) {
-
+c("id continent")
         var _code = db.getContinentCodeForCountry(worldMap.mapObjectClicked);  //in database.js
 
         worldMap.selectedContinent = _code;
@@ -868,7 +872,7 @@ function handleClick(_event) {
     //(we switched them from sContinentOK to sIDRegion above, so that the system knows to go into "ready-to test" mode)
 
     if (state == sIDRegion) {
-
+c("id region")
         var _code = db.getRegionCodeForCountry(worldMap.mapObjectClicked);   //in database.js
 
         worldMap.selectedRegion = _code;
@@ -886,6 +890,15 @@ function handleClick(_event) {
     //OR, this is just a replay of the successful hack or an auto-hack 
 
     if (state == sIDCountry || state == sMapDone) {
+
+        
+
+        if (_event.mapObject.objectType == "MapImage") {
+
+            c("manually zooming to selected")
+
+            worldMap.map.zoomToLongLat(11.8, 69.55, 30.55 );
+        }
 
         worldMap.selectedCountry.set( worldMap.mapObjectClicked );
 

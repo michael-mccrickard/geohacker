@@ -140,16 +140,16 @@ var getFileObject = function(filePathOrUrl, _name, cb) {
 
 
 
-  var arrImage = [];
+arrCountry = [];
 
-  var _index = -1;
+_index = -1;
 
 
-var uploader = new Slingshot.Upload("ghVideo");
+var uploader = new Slingshot.Upload("ghImage");
 
 uploadPublic = function() {
 
-   arrImage = db.ghVideo.find().fetch();
+   arrCountry = db.ghC.find().fetch();
 
    uploadPublic5();
 }
@@ -163,57 +163,75 @@ uploadPublic5 = function() {
 
   _index++;
 
-  if (_index == arrImage.length) {
+  if (_index == arrCountry.length) {
 
     return;
   }
 
-  var _file = arrImage[_index].f;
+  var _cc = arrCountry[_index].c;
 
+  var _name = arrCountry[_index].n;
 
-  if ( Control.isYouTubeURL( _file ) ) {
+  _name = _name.replaceAll(" ","_");
 
-     db.ghVideo.update( { _id: arrImage[_index]._id }, { $set: { u: arrImage[ _index ].f }});
+  _name = _name.toLowerCase();
 
-     uploadPublic5();
+  _name = "redacted_" + _name + "_map.jpg";
 
-     return;
+c(_cc + " -- " + _name)
+
+  var rec = db.ghImage.findOne( { cc: _cc, dt: "rmp"} );
+
+  if (!rec) {
+
+    uploadPublic5();
+
+    return;
   }
 
+    var id = rec._id
 
 
-  getFileObject( _file, arrImage[_index].f, function (fileObject) {
+c(_name);
 
-       console.log(fileObject);
-c(arrImage[ _index])
+      db.ghImage.update( { _id: id}, { $set: { f: _name }}, function (err) {
 
-if (fileObject.type == "text/html") {
+                if (err) {
+                  console.log(err);
+                  return;
+                }
 
-  console.log(arrImage[ _index ].f + " -- " + db.getCountryName( arrImage[ _index].cc ));
+                uploadPublic5();
+            
+            });
 
-  uploadPublic5()
+return;
 
-  return;
-}
+  getFileObject( _file, _name, function (fileObject) {
 
-        var ID = arrImage[ _index ]._id;
+        console.log(fileObject);
+
+        if (fileObject.type == "text/html") {
+
+          console.log(_file + " -- " + db.getCountryName( _cc ));
+
+          uploadPublic5()
+
+          return;
+        }
+
 
         uploader.send(fileObject, function (error, downloadUrl) {
 
             if (error) {
 
-
-
               console.log(error);             
-              // Log service detailed response.
-              //console.error('Error uploading', uploader.xhr.response);
-              //alert (error);
 
               uploadPublic5();
             }
             else {
 
-              db.ghVideo.update( { _id: ID }, { $set: { u: downloadUrl } }, function (err) {
+              db.ghImage.insert( { cc: _cc, dt: "rmp", u: downloadUrl  }, function (err) {
 
                 if (err) {
                   console.log(err);
@@ -227,9 +245,9 @@ if (fileObject.type == "text/html") {
           }
 
         });
-  });
-
+    });
 }
+
 
 uploadPublic4 = function() {
 
@@ -307,7 +325,7 @@ uploadPublic3 = function() {
 
   var name = rec.n.replaceAll(" ","_");
 
-  _file = getLocalPrefix() +  name.toLowerCase() + "_map.jpg";
+  _file = getLocalPrefix() +  "redacted_" + name.toLowerCase() + "_map.jpg";
 
 
   console.log("trying to insert " + _file )

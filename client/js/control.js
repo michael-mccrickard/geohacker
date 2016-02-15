@@ -312,15 +312,6 @@ Control.isYouTubeURL = function(_s) {
 
 Control.getNonYouTubeFile = function(_file) { 
 
-/*
-      if (!Control.isYouTubeURL(_file) ) {
-
-          var rec = db.ghVideo.findOne( { f: _file } );
-
-          return getS3URL( rec );
-      }
-*/
-
       return _file;
 }
 
@@ -356,7 +347,43 @@ ghImageCtl = function() {
     this.state = new Blaze.ReactiveVar(0);
   }
 
+  this.setItems = function() {
+
+      if (game.user.mode == uBrowse) {
+
+        this.items = this.collection.find( { cc: this.countryCode, dt: { $ne: "rmp"} } ).fetch();
+      }
+      else {
+
+        this.items = this.collection.find( { cc: this.countryCode, dt: { $ne: "cmp"} } ).fetch();        
+      }
+  }
+
+  this.setCountry = function(_countryCode, _collection) {
+
+      this.collection = _collection;
+
+      this.countryCode = _countryCode;
+
+      this.fullCount = this.collection.find ( { cc: this.countryCode, dt: {$ne: "rmp"} } ).count();
+
+      this.loadedCount = 0;
+
+      this.items = [];
+
+      //***************************************************
+      //      Set the items array (process and shuffle)
+      //***************************************************
+
+      this.setItems();
+      
+      //process items here
+
+      this.items = Database.shuffle(this.items); 
+    }
+
 }
+
 
 Web = function() {
 

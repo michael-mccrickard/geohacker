@@ -378,6 +378,13 @@ this.saveScroll = function(_val) {
     return recCountry.r;
   }
 
+  this.getRegionRecForCountry = function( _code ) {
+
+    var recCountry = this.getCountryRec(_code);
+
+    return this.getRegionRec( recCountry.r );
+  }
+
   this.getTagText = function( _tag, _cc ) {
 
     if (!_cc.length) return;
@@ -398,7 +405,7 @@ this.saveScroll = function(_val) {
          return _rec.f;
       }  
 
-      showMessage("Couldn't find tag text for " +  this.getCountryName( _cc ) + " with dt = " + _tag.dt);
+      console.log("Couldn't find tag text for " +  this.getCountryName( _cc ) + " with dt = " + _tag.dt);
 
       return "";
   }
@@ -419,7 +426,7 @@ this.saveScroll = function(_val) {
          return _rec.u;
       }  
 
-      showMessage("Couldn't find a URL for " +  this.getCountryName( _cc ) + " with dt = " + _tag.dt);
+      console.log("Couldn't find a URL for " +  this.getCountryName( _cc ) + " with dt = " + _tag.dt);
 
       return "";
   }

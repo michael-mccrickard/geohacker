@@ -89,7 +89,7 @@ MapMaker = function() {
 
     /*
 
-    The interesting properties here are areaID (called groupID by ammap.js), areaName, color and customData.
+    The interesting properties here are areaID (called groupId by ammap.js), areaName, color and customData.
 
     customData always holds the name that is displayed when you mouseOver the area.  
     This name depends on which map level we are displaying.

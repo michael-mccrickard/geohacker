@@ -154,7 +154,7 @@ ghMapCtl = function() {
         Meteor.setTimeout( function() { $("#mapButton").addClass("faded"), 250 });
     }
 
-    this.addContinentTags = function(_dp, _size) {
+    this.addContinentTags = function(_dp, _size, _groupId) {
 
         //get an array of the regions for each continent
 
@@ -162,11 +162,11 @@ ghMapCtl = function() {
 
         for (var i = 0; i < arrR.length; i++) {  
 
-            this.addRegionTags( arrR[i].c, _dp, _size);
+            this.addRegionTags( arrR[i].c, _dp, _size, _groupId);
       }
     }
 
-    this.addRegionTags = function(_regionID, _dp, _size) {
+    this.addRegionTags = function(_regionID, _dp, _size, _groupId) {
 
       var arr = db.ghC.find( {r: _regionID } ).fetch();
 
@@ -174,14 +174,16 @@ ghMapCtl = function() {
 
          if (game.user.isCountryInAtlas( arr[i].c ) != -1 ) {
 
-            this.addCountryTags( arr[i].c, _dp, _size)
+            this.addCountryTags( arr[i].c, _dp, _size, _groupId);
          }
       }
     }
 
-    this.addCountryTags = function(_mapObjectID, _dp, _size) {
+    this.addCountryTags = function(_mapObjectID, _dp, _size, _groupId) {
 
         var _ticket = game.user.getTicket( _mapObjectID );
+
+        var _level = this.level.get();
 
         if (typeof _ticket === 'undefined') return;
 
@@ -196,10 +198,29 @@ ghMapCtl = function() {
 
             image.width = _size;
             image.height = _size;
-            image.imageURL = db.getTagURL( _tag[i], _mapObjectID );;
+            image.imageURL = db.getTagURL( _tag[i], _mapObjectID );
 
             image.balloonText = db.getTagText( _tag[i], _mapObjectID ); //_tag[i].t;
-      
+
+            image.selectable = true;
+
+            if (_level == mlWorld) image.groupId = db.getContinentCodeForCountry( _mapObjectID );
+
+            if (_level == mlContinent) {
+
+              image.groupId = db.getRegionCodeForCountry( _mapObjectID );
+
+              var rec = db.getRegionRecForCountry( _mapObjectID );
+
+              image.zoomLevel = rec.z1;
+              image.zoomLatitude = rec.z2;
+              image.zoomLongitude = rec.z3;              
+            }
+
+            if (_level == mlRegion) image.autoZoom = true;
+
+            image.id = _mapObjectID;
+
             _dp.images.push(image);           
         }
     }
@@ -304,6 +325,12 @@ ghMapCtl = function() {
           this.fadeInIcons("continentOnly");
 
         }
+/*
+document.getElementById("myBtn").addEventListener("click", function(){
+    document.getElementById("demo").innerHTML = "Hello World";
+});
+    
+*/
     }
 
     this.fadeInIcons = function(_which) {

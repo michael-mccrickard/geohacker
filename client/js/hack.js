@@ -140,22 +140,20 @@ Hack = function() {
         //                  SUBSCRIBE TO HACK DATA
         //****************************************************************
 
+        Meteor.subscribe("ghImage", function() { Session.set("sImageReady", true ) });
 
-//4 new collections
-        this.hImage = Meteor.subscribe("ghImage", function() { Session.set("sImageReady", true ) });
+        Meteor.subscribe("ghSound", function() { Session.set("sSoundReady", true ) });
 
-        this.hSound = Meteor.subscribe("ghSound", function() { Session.set("sSoundReady", true ) });
+        Meteor.subscribe("ghVideo", function() { Session.set("sVideoReady", true ) });
 
-        this.hVideo = Meteor.subscribe("ghVideo", function() { Session.set("sVideoReady", true ) });
-
-        this.hWeb = Meteor.subscribe("ghWeb", function() { Session.set("sWebReady", true ) });
+        Meteor.subscribe("ghWeb", function() { Session.set("sWebReady", true ) });
 
 
-        this.hText = Meteor.subscribe("ghText", function() { Session.set("sTextReady", true ) });
+        Meteor.subscribe("ghText", function() { Session.set("sTextReady", true ) });
 
-        this.hMap = Meteor.subscribe("ghMap", function() { Session.set("sMapReady", true ) });
+        Meteor.subscribe("ghMap", function() { Session.set("sMapReady", true ) });
 
-        this.hDebrief = Meteor.subscribe("ghDebrief", function() { Session.set("sDebriefReady", true ) });     
+        Meteor.subscribe("ghDebrief", function() { Session.set("sDebriefReady", true ) });     
     }
 
     this.autoHack = function() {
@@ -276,7 +274,7 @@ Hack = function() {
     /**************************************************************/
     /*              GETTERS FOR PICTURES         
     /**************************************************************/
-//to do: fix these error traps -- test for returned rec for null instead of try/catch
+
 
     this.getCapitalPic = function() {
 
@@ -346,7 +344,16 @@ Hack = function() {
 
       var rec = db.ghImage.findOne( { cc: this.countryCode, dt: _code } );
 
-      if (rec) return rec.u;
+      if (typeof rec === "undefined") {
+
+        showMessage("No picture found for country " + this.countryCode + " and dt == " + this.code);
+
+        return "";
+      }
+      else {
+ 
+        return( rec.u );
+      }
     }
 
     this.getCountryMapURL = function() {

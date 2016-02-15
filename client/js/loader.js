@@ -39,7 +39,7 @@ NewLoader = function() {
 
 		this.newControl = this.loadRandomControl();
 
-		if (this.newControl === undefined) {
+		if (!this.newControl) {
 
 			console.log("No more controls to load in loader");
 
@@ -269,6 +269,10 @@ if (this.totalClueCount == 5) randomControl = display.ctl["VIDEO"];
 
 			return randomControl;
 
+		}
+		else {
+
+			return null;
 		}
 
 	}
