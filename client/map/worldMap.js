@@ -808,10 +808,6 @@ c("doMapSuccess")
 
 
 function handleClick(_event) {
-c("click")
-c(_event.mapObject.groupId)
-c(_event.mapObject.id)
-c(_event.mapObject)
 
     Control.playEffect( worldMap.map_sound );
 
@@ -828,7 +824,7 @@ c(_event.mapObject)
     var state = worldMap.mapCtl.getState();
 
     if (state == sContinentOK) {
-c("going from contOK to IDRegion")
+
         worldMap.mapCtl.setStateOnly( sIDRegion );
     }
 
@@ -856,7 +852,7 @@ c("going from contOK to IDRegion")
     //this will be the user's first click on the map, trying to pick the right continent ..
 
     if (state == sIDContinent) {
-c("id continent")
+
         var _code = db.getContinentCodeForCountry(worldMap.mapObjectClicked);  //in database.js
 
         worldMap.selectedContinent = _code;
@@ -872,7 +868,7 @@ c("id continent")
     //(we switched them from sContinentOK to sIDRegion above, so that the system knows to go into "ready-to test" mode)
 
     if (state == sIDRegion) {
-c("id region")
+
         var _code = db.getRegionCodeForCountry(worldMap.mapObjectClicked);   //in database.js
 
         worldMap.selectedRegion = _code;
@@ -891,13 +887,11 @@ c("id region")
 
     if (state == sIDCountry || state == sMapDone) {
 
-        
+        if (_event.mapObject.objectType == "MapImage") {  //simulate the click on the country
 
-        if (_event.mapObject.objectType == "MapImage") {
+            var _mapObj = worldMap.mapCtl.getCountryObject( worldMap.map.dataProvider, worldMap.mapObjectClicked );
 
-            c("manually zooming to selected")
-
-            worldMap.map.zoomToLongLat(11.8, 69.55, 30.55 );
+            worldMap.map.selectObject( _mapObj );
         }
 
         worldMap.selectedCountry.set( worldMap.mapObjectClicked );

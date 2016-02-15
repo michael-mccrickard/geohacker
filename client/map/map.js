@@ -425,6 +425,19 @@ document.getElementById("myBtn").addEventListener("click", function(){
       this.worldMap.selectedRegion = _code;
     }
 
+    this.getCountryObject = function( _dp, _code) {
+
+      var _arr = _dp.areas;
+
+      for (var i = 0; i < _arr.length; i++) {
+
+        if (_arr[i].id == _code) return _arr[i];
+      
+      }
+
+      return null;
+    }
+
 
 }//end Map constructor
 

@@ -193,9 +193,9 @@ BrowseWorldMap = function( _mapCtl ) {
         //set the ballon text (popup text) for each area (this will be continent, region or country)
         this.map.areasSettings.balloonText = "[[customData]]";
 
-        if (_level == mlContinent) this.mapCtl.addContinentTags(this.map.dataProvider, 16, _code);
+        if (_level == mlContinent) this.mapCtl.addContinentTags(this.map.dataProvider, 16, rec.c);
 
-        if (_level == mlRegion) this.mapCtl.addRegionTags( this.selectedRegion, this.map.dataProvider, 48, _code);
+        if (_level == mlRegion) this.mapCtl.addRegionTags( this.selectedRegion, this.map.dataProvider, 48, rec.c);
 
         // when the zoom is done (going to continent or region) then we need to adjust the zoom on the new map
         this.map.addListener("zoomCompleted", handleZoomCompleted);
@@ -374,16 +374,21 @@ function handleClick(_event) {
 
     if (level == mlRegion) {
 
-        c("level is region in handleClick")
-
         worldMap.selectedCountry.set( worldMap.mapObjectClicked );
 
         worldMap.customData = _event.mapObject.customData;
+
+        if (_event.mapObject.objectType == "MapImage") {  //simulate the click on the country
+
+            var _mapObj = worldMap.mapCtl.getCountryObject( worldMap.map.dataProvider, worldMap.mapObjectClicked );
+
+            worldMap.map.selectObject( _mapObj );
+
+            return;
+        }
     }
 
     if (level == mlCountry) { 
-
-        c("level is country in handleClick")
         
         //If a different country was previously selected and we're still at the country
         //level, then the user can click on a nearby country.  We want the map to re-center and re-label
