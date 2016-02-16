@@ -162,11 +162,20 @@ Control = {
 
       //if we're browsing, then we don't necessarily have this.src set yet
 
-      if (this.src == undefined) this.setControlPicSource();
+      if (!this.src) this.setControlPicSource();
 
-      _width = (fullHeight / this.src.height ) * this.src.width;
+      if (this.src) {
 
-      if (_width > maxWidth) _width = maxWidth;
+        _width = (fullHeight / this.src.height ) * this.src.width;
+
+        if (_width > maxWidth) _width = maxWidth;
+      }
+      else {
+
+        showMessage( "No image source for control pic (" + this.name + ")" );
+
+        return;
+      }
 
     }
     else {
@@ -224,7 +233,7 @@ Control = {
 
     if (!this.items[ this.getIndex() ]) {
 
-      showMessage("Invalid index or invalid items array in control.getFile(), name is " + this.name);
+      showMessage("Invalid index or invalid items array in control.getFile(), name is " + this.name + " and index is " + this.getIndex() );
 
       return;
     }

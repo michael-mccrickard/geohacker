@@ -29,7 +29,7 @@ videoControl = function() {
 
     if (display == null) return false;
 
-    if (typeof display.ctl["VIDEO"] == "undefined") return false;
+    if (!display.ctl["VIDEO"]) return false;
 
     return true;
 }
@@ -46,8 +46,6 @@ $(window).resize(function(){
 
 
 refreshWindow = function(_which) {
-
-    //c("refreshWindow -- " + _which);
 
     Session.set("gWindowHeight", $(window).height() );
 

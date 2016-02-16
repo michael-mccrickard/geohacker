@@ -152,8 +152,6 @@ Feature = function() {
 
 	this.getFile = function( _name ) {
 
-c("display.feature.getFile for " + _name)
-
 		var _file = null;
 
 		var _index = display.ctl[ _name ].getIndex();
@@ -173,10 +171,6 @@ c("display.feature.getFile for " + _name)
 		if ( _name == "SOUND") {
 
 			 _file = display.ctl[ _name ].getFeaturedPic();
-
-c("sound state in display.feature.getFile is " + display.ctl["SOUND"].getState() )
-
-c("file returned for display.feature.getFile is " + _file)
 		}
 		else {
 
@@ -353,7 +347,7 @@ if ( this.off() ) return;
 
 			console.log("feature.drawNow is calling dimension(video)")
             
-            this.dimension("video", null);
+            this.dimension("video", null, null);
         }
         else {
 

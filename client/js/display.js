@@ -450,12 +450,10 @@ if (this.feature.getName() == "AUDIO")  this.feature.ctl.playFeaturedContent();
 
             this.ctl[ _name ].play();
         }
-        else {
+        
+        this.feature.setImageSource( _name );
 
-            this.feature.setImageSource( _name );
-
-            this.feature.draw();
-        }
+        this.feature.draw();
 
     } 
 
