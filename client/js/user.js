@@ -1,6 +1,5 @@
 
 
-
 User = function( _name ) {  //name, scroll pos (for content editors)
 
 	this.name = _name;
@@ -169,7 +168,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 			display.pauseMedia();
 
-			if ( typeof display.ctl["VIDEO"] !== 'undefined' ) display.ctl["VIDEO"].hide();
+			if ( display.ctl["VIDEO"] ) display.ctl["VIDEO"].hide();
 
     	}
     		

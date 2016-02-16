@@ -215,21 +215,21 @@ Template.editor.events = {
 
   'click #editSound' : function(evt, template) {
 
-    stopVideo();
+    display.stopVideo();
 
   	editor.controlType = cSound;
   },
 
   'click #editText' : function(evt, template) {
 
-    stopVideo();
+    display.stopVideo();
 
   	editor.controlType = cText;
   },
 
   'click #editImage' : function(evt, template) {
 
-    stopVideo();
+    display.stopVideo();
 
   	editor.controlType = cImage;
   },
@@ -241,21 +241,21 @@ Template.editor.events = {
 
   'click #editWeb' : function(evt, template) {
 
-    stopVideo();
+    display.stopVideo();
 
   	editor.controlType = cWeb;
   },
 
   'click #editDebrief' : function(evt, template) {
 
-    stopVideo();
+    display.stopVideo();
 
 	   editor.controlType = cDebrief;
   },
 
   'click #closeEditor' : function(evt, template) {
 
-    stopVideo();
+    display.stopVideo();
 
     editor.hack.mode = mNone;
 
@@ -409,9 +409,4 @@ if (editor.recordID == editor.newRecordID.get() ) return;
 
 };
 
-function stopVideo() {
 
-      if (ytplayer) ytplayer.pauseVideo();
-
-    Session.set("sYouTubeOn", false);
-}

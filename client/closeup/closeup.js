@@ -28,7 +28,14 @@ Template.closeup.events = {
 
   		e.preventDefault();
 
-      if ( gCropPictureMode.get() ) return;
+      if ( gCropPictureMode.get() ) {
+
+        showMessage("Crop mode is on.  F6 to exit.");
+
+        Control.playEffect("locked.mp3");
+
+        return;
+      } 
 
       display.mainTemplateReady = false;
 

@@ -408,15 +408,35 @@ Display = function() {
     //      Control functions
     //*********************************************
 
+    //only for use by editor or this (when switching to editor)
+
+    this.stopVideo = function() {
+
+        if (ytplayer) {
+
+c("stopping and clearing video in display")
+
+            ytplayer.stopVideo();
+
+            ytplayer.clearVideo();
+        }
+        Session.set("sYouTubeOn", false);
+    }
+
     this.pauseMedia = function() {
 
         if (this.feature.on() ) {
 
             if (this.feature.getName() == "VIDEO" || this.feature.getName() == "SOUND" ) {
 
-                c("display is pausing media")
+                if (this.feature.ctl.getState() == sPlaying) {
 
-                this.feature.ctl.pauseFeaturedContent();
+                    c("display is pausing media")
+
+                    this.feature.ctl.pauseFeaturedContent();                   
+                }
+
+
             }
         }
     }
@@ -564,7 +584,7 @@ Display = function() {
 
       if (editor == null) editor = new Editor();
 
-editor.controlType = cSound;
+      editor.controlType = cSound;
 
       //bring over the countryCode from the global hack
 
@@ -582,6 +602,8 @@ editor.controlType = cSound;
       game.stopMusic();
 
       this.closeOutMain();
+
+      this.stopVideo();
 
     }
 

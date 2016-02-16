@@ -38,7 +38,7 @@ FlowRouter.route('/missionSelect', {
 
   action: function (params, queryParams) { 
 
-   if ( typeof display !== 'undefined') display.closeOutMain();
+   if (display) display.closeOutMain();
 
    BlazeLayout.render('layout', { content: "missionSelect" } ) 
 
@@ -138,7 +138,7 @@ FlowRouter.route('/worldMap', {
 
   action: function (params, queryParams) { 
 
-  if ( !noDisplay() ) display.closeOutMain();
+  if (display) display.closeOutMain();
 
    BlazeLayout.render('layout', { content: "worldMap" } ) 
 
@@ -219,8 +219,6 @@ FlowRouter.route('/editor', {
 
    pageRefreshed = false;
 
-   if ( typeof display !== 'undefined') display.closeOutMain();
-
    BlazeLayout.render('layout', { content: "editor" } ) 
 
  },
@@ -236,13 +234,6 @@ FlowRouter.route('/selectCountry', {
   },
 
   action: function (params, queryParams) { 
-    
-    if (display) {
-
-      if (display.ctl["SOUND"]) display.ctl["SOUND"].pauseFeaturedContent();
-
-      display.closeOutMain();
-    }
 
     BlazeLayout.render('layout', { content: "selectCountry" });
 
@@ -278,12 +269,7 @@ FlowRouter.route('/userDirectory',  {
 
     BlazeLayout.render('layout', { content: "userDirectory" } );
 
-    if ( Session.get("sYouTubeOn") == true ) {
-
-        if (ytplayer) ytplayer.pauseVideo();
-
-        Session.set("sYouTubeOn", false);
-    } 
+    display.stopVideo();
 
   }
 

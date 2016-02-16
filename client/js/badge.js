@@ -4,9 +4,9 @@ BadgeList = function() {
 
 	this.hackCompletePic = "hackComplete.png";
 
-	this.speedText = ["LESS THAN 10 SECS", "LESS THAN 20 SECS", "LESS THAN 30 SECS"];
+	this.speedText = ["UNDER 10 SECS", "UNDER 20 SECS", "UNDER 30 SECS"];
 
-	this.scholarText = ["ANALYZED 15 OR MORE MINS","ANALYZED 8 OR MORE MINS","ANALYZED 3 OR MORE MINS"];
+	this.scholarText = ["15 OR MORE MINS","8 OR MORE MINS","3 OR MORE MINS"];
 
 	this.investigatorText = ["9 OR MORE MESSAGES","6 OR MORE MESSAGES","3 OR MORE MESSAGES"];
 
