@@ -410,7 +410,7 @@ Display = function() {
 
     this.suspendMedia = function() {
 
-        if (this.feature.getName() == "VIDEO" || this.feature.getName() == "SOUND")  {
+        if (this.feature.on() ) {
 
             c("display.suspendMedia is suspending " + this.feature.getName() )
 
@@ -419,13 +419,18 @@ Display = function() {
 
     }
 
+    this.suspendBGSound = function() {
+
+        if (display.ctl["SOUND"].getState() == sPlaying) display.ctl["SOUND"].pause();
+    }
+
     this.resumeMedia = function() {
 
           if (this.feature.on() ) {
 
             if (this.feature.getName() == "VIDEO")  this.feature.ctl.play();
 
-if (this.feature.getName() == "AUDIO")  this.feature.ctl.playFeaturedContent();
+            if (this.feature.getName() == "AUDIO")  this.feature.ctl.play();
 
 
         }      

@@ -262,6 +262,10 @@ Template.main.events({
           return;
       }   
       
+      if (display.feature.name.get() == "VIDEO") display.suspendMedia();
+
+       if (display.feature.name.get() != "SOUND") game.playMusic();     
+
       display.feature.set("MAP");
   
     },
@@ -354,6 +358,8 @@ Template.main.events({
 
       if (gInstantMode) {
 
+          display.suspendMedia();
+
           display.loader.go();
 
           display.checkMainScreen();
@@ -369,6 +375,8 @@ Template.main.events({
 c("calling display.suspendMedia")
 
         display.suspendMedia();
+
+        display.suspendBGSound();
 
         game.playMusic();
 
@@ -403,6 +411,11 @@ c("calling display.suspendMedia")
       Control.playEffect( display.fb_sound_file );  
 
       var _name = display.feature.getName();
+
+      //attempting to leave sound playing while user is viewing
+      //silent (image only) types of clues
+
+      if (_name == "VIDEO") display.suspendMedia();
 
       //for the media controls, we are either clicking to toggle
       //the state (ctl is already active) 
@@ -502,8 +515,6 @@ Template.main.rendered = function () {
             display.scanner.hide();
 
             display.feature.set( display.feature.getName() );
-
-            //if (display.feature.getName() == "VIDEO")  display.ctl["VIDEO"].show();
 
           }       
       }

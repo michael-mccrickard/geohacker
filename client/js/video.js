@@ -113,7 +113,9 @@ Video = function() {
 			var _file = this.items[ this.getIndex() ].u;
 
 			ytplayer.pauseVideo();
-
+		}
+		else {
+			display.feature.setImage("VIDEO");
 		}
 	}
 
@@ -147,10 +149,12 @@ Video = function() {
 			return;
 		}	
 
-		//if it's not browse, then display.feature.draw() will load the GIF using display.feature.file
+		//Not browse mode, not youtube
+
+		//display.feature.setImageSource("VIDEO");
 
 
-	},// end playFeaturedContent
+	},// end play
 
 	this.pause = function() {
 

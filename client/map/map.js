@@ -132,11 +132,6 @@ ghMapCtl = function() {
 
     },   
 
-    this.clearFeature = function() {
-
-
-    },
-
     this.clearTimer = function() {
 
        if (this.timerID != 0) {

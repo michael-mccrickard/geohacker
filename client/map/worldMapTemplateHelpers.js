@@ -305,7 +305,6 @@ function closeOutMap() {
 
     display.feature.resetToPrevious();
 
-
     //if the user backed up after an identification or a map feature, then
     // we need to correct the map state
 

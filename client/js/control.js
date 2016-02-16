@@ -172,7 +172,7 @@ Control = {
       }
       else {
 
-        showMessage( "No image source for control pic (" + this.name + ")" );
+        console.log( "No image source for control pic (" + this.name + ")" );
 
         return;
       }
@@ -219,11 +219,6 @@ Control = {
     return this.items[ this.getIndex() ].f;
   },
 
-  clearFeature : function() {
-
-    c("clearFeature in control.js called");
-  },
-
   setFeaturedContent : function() {
 
     Session.set("gFeaturedPic", this.getContent());
@@ -266,7 +261,7 @@ Control = {
 
         this.play();
 
-        if (this.name == "SOUND") display.feature.setImage("SOUND");
+        if (this.name == "SOUND" || (this.name == "VIDEO" && !this.isYouTube) ) display.feature.setImage( this.name );
 
         return;
       }
@@ -277,13 +272,17 @@ Control = {
 
       this.pause();
       
-      if (this.name == "SOUND") display.feature.setImage("SOUND");
+      if (this.name == "SOUND" || (this.name == "VIDEO" && !this.isYouTube) ) display.feature.setImage( this.name );
 
       return;
     }
 
   },
 
+  suspend : function() {
+
+
+  }
 }  //end Control constructor
 
 

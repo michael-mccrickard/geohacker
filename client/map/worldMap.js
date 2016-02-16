@@ -503,7 +503,7 @@ c("doCurrentMap");
 
                 //A sound file (from the sound control) might be playing in the bg
 
-                if (display.ctl["SOUND"].getState() == sPlaying) display.ctl["SOUND"].pauseFeaturedContent();
+                if (display.ctl["SOUND"].getState() == sPlaying) display.ctl["SOUND"].pause();
 
                 display.disableHomeButton();
 

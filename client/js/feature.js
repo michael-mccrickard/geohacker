@@ -187,6 +187,10 @@ Feature = function() {
 
 	this.resetToPrevious = function() {
 
+		var _name = this.name.get();
+
+		if (_name != "SOUND" && _name != "VIDEO") game.playMusic();
+
 		if (game.user.mode == uBrowse) {
 
 			this.setName( "" );
@@ -252,10 +256,7 @@ if ( this.off() ) return;
 			display.scanner.centerState.set("off");
 		}
 
-		//this will suspend any sound file that is playing, which may not be what we want to do
-		//Better to only suspend for video?
-
-		display.suspendMedia();
+		this.clear();  //clear the current feature name, but stores it in case we return from the map
 
 		this.setName( _name );
 
@@ -283,13 +284,15 @@ if ( this.off() ) return;
 			console.log("feature.set is calling sound.play()")
 
 			this.ctl.play();
+
+			this.setImageSource("SOUND");
 		}
 
 		if (_name == "VIDEO") {
 
 			game.pauseMusic();
 	
-			this.setImageSource( _name );  //redundant except if we're returning here from another user mode
+			display.suspendBGSound();  //in case a sound file is playing in bg
 
 			console.log("feature.set is calling video.play()")
 				
@@ -312,8 +315,6 @@ if ( this.off() ) return;
 		if (this.getName().length) this.lastName = this.getName();
 
 		this.setName( "" );
-
-		if (this.lastName == "MAP") this.ctl.clearFeature( _newControlName );
 
 		this.ctl = null;
 
