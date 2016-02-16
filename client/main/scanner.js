@@ -1,3 +1,4 @@
+
 /*  scanner.js  */
 
 gDate = new Date();

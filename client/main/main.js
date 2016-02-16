@@ -366,6 +366,12 @@ Template.main.events({
       }
       else {
 
+c("calling display.suspendMedia")
+
+        display.suspendMedia();
+
+        game.playMusic();
+
         display.scanner.startScan( mode );
 
       }
@@ -405,6 +411,8 @@ Template.main.events({
       if ((id == "SOUND" && _name == "SOUND") || (id == "VIDEO" && _name == "VIDEO")) {
           
           display.feature.ctl.toggleMediaState(); 
+
+          return;
        }
        else {
 
@@ -420,7 +428,7 @@ Template.main.events({
 
       display.feature.set( id );
 
-      display.feature.loadAgain( id );  //this will set the imageSrc for the featured area
+      display.feature.setImageSource( id );  //this will set the imageSrc for the featured area
 
       if (id == "VIDEO") {
 
@@ -451,21 +459,15 @@ function updateFeaturedContent() {
 
     var _name = display.feature.getName();
  
-    if (_name == "VIDEO") {
+    if (game.user.mode == uBrowse) {
+    
+      display.feature.load( _name );  //the imagesLoaded callback will update the screen
 
-      display.ctl["VIDEO"].playNewVideo();
+      return;
     }
-    else {
 
-      if (game.user.mode == uBrowse) {
-      
-        display.feature.load( _name );  //the imagesLoaded callback will update the screen
+    display.showFeaturedContent( _name  );
 
-        return;
-      }
-
-      display.showFeaturedContent( _name  );
-    }
 }
 
 Template.main.rendered = function () {

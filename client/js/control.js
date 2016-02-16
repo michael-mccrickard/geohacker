@@ -220,6 +220,18 @@ Control = {
     Session.set("gFeaturedPic", this.getContent());
   },
 
+  getFile : function() {
+
+    if (!this.items[ this.getIndex() ]) {
+
+      showMessage("Invalid index or invalid items array in control.getFile(), name is " + this.name);
+
+      return;
+    }
+
+    return this.items[ this.getIndex() ].u;
+  },
+
   hasNextItem : function() {
 
     if (this.loadedCount  > this.getIndex() + 1) return true;
@@ -241,19 +253,23 @@ Control = {
 
       if (this.getState() == sPaused) {
 
-        this.setState( sPlaying );
+        c("control.toggleMediaState is playing the media from a paused state")
 
-        c("control.toggleMediaState changed the state to playing")
+        this.play();
+
+        if (this.name == "SOUND") display.feature.setImage("SOUND");
 
         return;
       }
 
     if (this.getState() == sPlaying) {
 
-      this.setState( sPaused );
+      c("control.toggleMediaState is pausing the media from a playing state")
 
-      c("control.toggleMediaState changed the state to paused")
+      this.pause();
       
+      if (this.name == "SOUND") display.feature.setImage("SOUND");
+
       return;
     }
 

@@ -100,7 +100,7 @@ Display = function() {
 
         this.feature.set("IMAGE");
 
-        this.feature.loadAgain("IMAGE");
+        this.feature.setImageSource("IMAGE");
 
         this.fullyLoadControls();
 
@@ -408,37 +408,27 @@ Display = function() {
     //      Control functions
     //*********************************************
 
-    //only for use by editor or this (when switching to editor)
+    this.suspendMedia = function() {
 
-    this.stopVideo = function() {
+        if (this.feature.getName() == "VIDEO" || this.feature.getName() == "SOUND")  {
 
-        if (ytplayer) {
+            c("display.suspendMedia is suspending " + this.feature.getName() )
 
-c("stopping and clearing video in display")
-
-            ytplayer.stopVideo();
-
-            ytplayer.clearVideo();
+            this.feature.ctl.suspend();
         }
-        Session.set("sYouTubeOn", false);
+
     }
 
-    this.pauseMedia = function() {
+    this.resumeMedia = function() {
 
-        if (this.feature.on() ) {
+          if (this.feature.on() ) {
 
-            if (this.feature.getName() == "VIDEO" || this.feature.getName() == "SOUND" ) {
+            if (this.feature.getName() == "VIDEO")  this.feature.ctl.play();
 
-                if (this.feature.ctl.getState() == sPlaying) {
-
-                    c("display is pausing media")
-
-                    this.feature.ctl.pauseFeaturedContent();                   
-                }
+if (this.feature.getName() == "AUDIO")  this.feature.ctl.playFeaturedContent();
 
 
-            }
-        }
+        }      
     }
 
 
@@ -458,11 +448,11 @@ c("stopping and clearing video in display")
 
         if ( _name == "SOUND" || _name == "VIDEO") {
 
-            this.ctl[ _name ].playFeaturedContent();
+            this.ctl[ _name ].play();
         }
         else {
 
-            this.feature.loadAgain( _name );
+            this.feature.setImageSource( _name );
 
             this.feature.draw();
         }
@@ -601,9 +591,11 @@ c("stopping and clearing video in display")
 
       game.stopMusic();
 
+      this.suspendMedia();
+
       this.closeOutMain();
 
-      this.stopVideo();
+
 
     }
 

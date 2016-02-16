@@ -117,18 +117,26 @@ Feature = function() {
         });
 	}
 
-	this.loadAgain = function( _name) {
+	this.setImage = function(_name) {
+
+		this.setImageSource( _name );
+
+		this.draw();
+
+	}
+
+	this.setImageSource = function( _name) {
 
 		if ( _name == "VIDEO") {
 
 			if ( this.ctl.isYouTube )  {
 
-				console.log("feature.loadAgain returning b/c file is YT")
+				console.log("feature.setImageSource returning b/c file is YT")
 
 				return;
 			}
 
-			console.log("feature.loadAgain setting file and imageSrc for animated gif")
+			console.log("feature.setImageSource setting file and imageSrc for animated gif")
 		}
 
 	
@@ -143,6 +151,8 @@ Feature = function() {
 	}
 
 	this.getFile = function( _name ) {
+
+c("display.feature.getFile for " + _name)
 
 		var _file = null;
 
@@ -160,13 +170,17 @@ Feature = function() {
 	
 		if (_name == "TEXT") return null;
 
-		if ( _name == "SOUND" || _name == "VIDEO") {
-			
-			_file = display.ctl[ _name ].getFeaturedPic();
+		if ( _name == "SOUND") {
+
+			 _file = display.ctl[ _name ].getFeaturedPic();
+
+c("sound state in display.feature.getFile is " + display.ctl["SOUND"].getState() )
+
+c("file returned for display.feature.getFile is " + _file)
 		}
 		else {
 
-			_file = display.ctl[ _name ].items[ _index ].u;
+			_file = display.ctl[ _name ].getFile();
 		}
 
 		return _file;
@@ -195,11 +209,8 @@ Feature = function() {
 			return;
 		}
 
-		//if (this.lastName == "VIDEO") display.ctl["VIDEO"].setState( sPlaying );
 
-		if (display.scanner.centerState.get() != "loaded") { // && this.lastName != "MAP") {
-
-			//this.set( this.lastName );	
+		if (display.scanner.centerState.get() != "loaded") { 
 		
 			this.setName( this.lastName );
 		}
@@ -238,7 +249,7 @@ if ( this.off() ) return;
 
 	this.set = function( _name ) {
 
-		c("feature.js: set()")
+		c("feature.js: set() with " + _name)
 
 		$(".featuredPic").css("opacity", "1.0");
 
@@ -247,13 +258,10 @@ if ( this.off() ) return;
 			display.scanner.centerState.set("off");
 		}
 
-		//if we're switching to a different control then clear the current one
+		//this will suspend any sound file that is playing, which may not be what we want to do
+		//Better to only suspend for video?
 
-		//we're clearing the current ctl, but we pass the name	
-
-		//of the new one, so that the media controls know what to do
-
-		if (this.getName() != _name) this.clear( _name );
+		display.suspendMedia();
 
 		this.setName( _name );
 
@@ -275,60 +283,24 @@ if ( this.off() ) return;
 		}
 
 		if (_name == "SOUND") {
-	
-			var _state = this.ctl.getState();
 
-			if (_state == sPaused) {
+			game.pauseMusic();
 
-				console.log("feature.set is pausing content b/c state is paused")	
+			console.log("feature.set is calling sound.play()")
 
-				this.ctl.pauseFeaturedContent();	
-
-				this.loadAgain( _name );  //redundant except if we're returning here from another user mode				
-			}
-			
-			if (_state == sPlaying || _state == sLoaded) {
-				
-				console.log("feature.set is calling playFeaturedContent for audio")
-				
-				this.ctl.playFeaturedContent();
-			}
+			this.ctl.play();
 		}
 
 		if (_name == "VIDEO") {
+
+			game.pauseMusic();
 	
-			var _state = this.ctl.getState();
+			this.setImageSource( _name );  //redundant except if we're returning here from another user mode
 
-			if (_state == sPaused) {
-
-				if (!this.ctl.isYouTube)  {
-
-					console.log("feature reports that video is gif")
-					
-					this.ctl.pauseFeaturedContent();
-
-					this.draw();
-				}
-				else {
-
-					this.ctl.show();
-
-					console.log("feature reports that video is YT")
-
-					console.log("feature.set is pausing video content b/c state is paused")	
-
-					this.ctl.pauseFeaturedContent();					
-				}
-
-				this.loadAgain( _name );  //redundant except if we're returning here from another user mode
-			}
-
-			if (_state == sPlaying || _state == sLoaded) {
+			console.log("feature.set is calling video.play()")
 				
-				console.log("feature.set is calling playFeaturedContent")
-				
-				this.ctl.playFeaturedContent();
-			}
+			this.ctl.play();
+
 
 		}
 
@@ -347,7 +319,7 @@ if ( this.off() ) return;
 
 		this.setName( "" );
 
-		if (this.ctl != null) this.ctl.clearFeature( _newControlName );
+		if (this.lastName == "MAP") this.ctl.clearFeature( _newControlName );
 
 		this.ctl = null;
 

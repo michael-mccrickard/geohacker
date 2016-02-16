@@ -166,9 +166,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     		if ( display.homeButtonDisabled() ) return;
 
-			display.pauseMedia();
-
-			if ( display.ctl["VIDEO"] ) display.ctl["VIDEO"].hide();
+			display.suspendMedia();
 
     	}
     		

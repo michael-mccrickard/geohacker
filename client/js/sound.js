@@ -41,9 +41,7 @@
   	},
 
 
-	this.playFeaturedContent = function() {
-
-		game.pauseMusic();
+	this.play = function() {
 
 		this.setState( sPlaying );
 
@@ -68,7 +66,7 @@
 		return pic;
 	}
 
-	this.pauseFeaturedContent = function() {
+	this.pause = function() {
 
 		c("SOUND pausing")
 
@@ -76,25 +74,22 @@
 
 	    document.getElementById("soundPlayer").pause();
 
-	    game.playMusic();
 	},
 
   	this.playMedia = function() {
-		
-		c("SOUND playing")
 
-		var _file = this.items[ this.getIndex() ].u;
+		var _file = this.getFile();
 
 		if (_file == $("#soundPlayer").attr("src")) {
 
-			c("resuming sound play")
+			c("sound.playMedia() is resuming sound play")
 		
 			document.getElementById("soundPlayer").play();
 
 		}
 		else {
 			
-			c("starting sound play of new file")
+			c("sound.playMedia() is playing new file")
 			
 			$("#soundPlayer").attr("src", _file);
 
@@ -105,23 +100,6 @@
 		}
 	},
 
-	this.clearFeature = function( _newControlName ) {
-
-		if ( _newControlName  ) {
-
-			if (_newControlName == "VIDEO") {
-
-				this.pauseFeaturedContent(); 
-			}
-			else {
-
-				return;
-			}
-		}
-		
-		this.pauseFeaturedContent(); 
-		
-	},
 
 	this.setItems = function() {
 
@@ -135,9 +113,7 @@
 
 		if (this.getState() == sPlaying) {
 
-			this.setState( sSuspend );
-
-	    	document.getElementById("soundPlayer").pause();
+			this.pause();
 		}
 	}
 }

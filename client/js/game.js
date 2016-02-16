@@ -110,7 +110,7 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","the_big_score.mp3", "crystal
 
 		if (display.feature.getName() == "SOUND") {
 
-			display.feature.loadAgain( "SOUND" );
+			display.feature.setImageSource( "SOUND" );
 
 			display.feature.set( "SOUND" );
 		}

@@ -23,16 +23,19 @@ Video = function() {
 		this.state = new Blaze.ReactiveVar(0);
 	}
 
+	this.suspend = function() {
 
-	this.clearFeature = function() {
-
-		console.log("video.clearFeature() is pausing the video")
+		console.log("video.suspend() is pausing the video")
 		
-		this.pauseVideo();
+		this.pause();
 
-		game.playMusic();
+		this.hide();
+		 
+	}
 
-		Session.set("sYouTubeOn", false);    
+	this.hide = function() {
+
+		Session.set("sYouTubeOn", false);   
 	}
 
 	//return the pic that should be displayed in the small control box
@@ -56,11 +59,11 @@ Video = function() {
 
 	}, //end getControlPic
 
-	//this is basically the getFile function for video;
-	//usually it returns the content, but if animated gif is paused
+	//Used to get the file to display in featured area.
+	//Usually this returns the content, but if animated gif is paused
 	//it returns the big play button
 
-	this.getFeaturedPic = function() {
+	this.getFile = function() {
 
 		var file = null;
 
@@ -92,19 +95,16 @@ Video = function() {
 	}
 
 
-    this.hide = function() {
-
-        Session.set("sYouTubeOn", false);
-    }
-
     this.show = function() {
+
+    	if (!this.isYouTube) return;
 
 		console.log("video.show() is turning on YT")
         
         Session.set("sYouTubeOn", true);
     }
 
-	this.pauseVideo = function(){
+	this.pause = function(){
 
 		this.setState( sPaused );
 
@@ -112,26 +112,13 @@ Video = function() {
 
 			var _file = this.items[ this.getIndex() ].u;
 
-			if (_file == ytplayer.getVideoData()['video_id']) {
-
-				ytplayer.pauseVideo();
-			}
-			else {
-
-			  //since the video will start playing automatically ...
-
-			  Control.stopSound("music");
-
-			  ytplayer.loadVideoById( _file );			
-			}
+			ytplayer.pauseVideo();
 
 		}
 	}
 
 
-	this.playFeaturedContent = function() {
-
-		Control.stopSound("music");
+	this.play = function() {
 
 		this.setState( sPlaying );
 
@@ -158,37 +145,26 @@ Video = function() {
 			display.feature.load( "VIDEO" );  //the imagesLoaded callback will update the screen
 
 			return;
-		}		
+		}	
 
-/*
+		//if it's not browse, then display.feature.draw() will load the GIF using display.feature.file
 
-		console.log("video.playFeaturedContent is playing animated gif")
-
-		//_file = Control.getNonYouTubeFile( _file );
-
-		display.feature.loadAgain( "VIDEO" );
-
-		//for newly-featured vids, this is redundant, but not for re-features
-
-		Meteor.defer( function() { display.feature.draw(); } );
-*/
 
 	},// end playFeaturedContent
 
-	this.pauseFeaturedContent = function() {
-
-		game.playMusic();
+	this.pause = function() {
 
 		//put control in pause mode 
 
 		this.setState( sPaused );
 
+		//how does display.feature get the big pause button displayed if file is GIF?
 
 		//We have to explicitly pause the YT file
 
 		if (this.isYouTube ) {
 
-		   	this.pauseVideo();
+		   	ytplayer.pauseVideo();
 		}
 
 	}, //end pauseMedia
@@ -202,13 +178,20 @@ Video = function() {
 	  //set the yt flag to false, so that playMedia
 	  //won't think we're resuming from a pause
 
-		Session.set("sYouTubeOn", false);    
+		//Session.set("sYouTubeOn", false);    
 
 	  }
 
-	  this.playFeaturedContent();
+	  this.play();
 
 	}, //end playNewVideo
+
+	this.playAnotherVideo = function(_val) {
+
+		this.index.set( this.index + _val);
+
+		this.play();
+	}
 
 	this.playYouTube = function( _file) {
 
@@ -241,8 +224,6 @@ Video = function() {
 		}
 
 
-		//if (_file == display.feature.video ) {
-
 		if (_file == ytplayer.getVideoData()['video_id']) {
 
 			console.log("ytplayer resuming from pause")
@@ -264,7 +245,8 @@ Video = function() {
 
 		}
 
-	}//end playMedia
+	}//end playYouTube
+
 
 }  //end Video constructor
 

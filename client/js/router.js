@@ -178,6 +178,8 @@ FlowRouter.route('/closeup', {
 
   action: function (params, queryParams) { 
 
+    //maybe better just to play lock sound and not do this?
+
     if (display.feature.getName() == "SOUND") {
 
        if (display.feature.ctl.getState() == sPaused) {
@@ -186,7 +188,7 @@ FlowRouter.route('/closeup', {
            
            display.feature.set( "SOUND" );
 
-           display.feature.loadAgain( "SOUND" );
+           display.feature.setImageSource( "SOUND" );
        }
 
        return;
