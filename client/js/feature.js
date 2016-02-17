@@ -38,7 +38,22 @@ Feature = function() {
 		return true;
 	},
 
+	this.browseMap = function() {
+
+		this.clear();
+
+		this.setName( "BROWSEMAP" );
+
+	    display.worldMapTemplateReady = false;
+
+	    if (hack.countryCode.length) display.ctl["MAP"].browseWorldMap.selectedCountry.set( hack.countryCode );
+
+	    FlowRouter.go("/browseWorldMap");
+	},
+
 	this.fileIsLoaded = function() {
+
+c("feature.fileIsLoaded()")
 
 		if (game.user.mode == uBrowse) {
 
@@ -55,29 +70,41 @@ Feature = function() {
 
 		if ( display.scanner.centerState == "scan" || display.scanner.centerState == "rescan") {
 
+			//this returns true if the scanner has finished running all the way through (100% progress)
+
 			if (display.scanner.checkScan("feature") == true) {display.scanner.stopScan();}
 		}
+
+		//if checkScan above returned false, then the scanner is still running, so we just
+		//set this session var, so that the scanner knows the image is ready when it finishes
 
 		Meteor.defer( function() { Session.set("sFeatureImageLoaded", true); } );
 		
 	}
 
-	this.browseMap = function() {
+	//Loads the image and draws it
 
-		this.clear();
+	this.loadAndDraw = function( _name ) {
 
-		this.setName( "BROWSEMAP" );
+		this.file = this.getFile( _name );
 
-	    display.worldMapTemplateReady = false;
+		$("#pFEATURE3").attr("src", this.file);
 
-	    if (hack.countryCode.length) display.ctl["MAP"].browseWorldMap.selectedCountry.set( hack.countryCode );
+        imagesLoaded( document.querySelector('#preloadFeature'), function( instance ) {
+    
+          //now that the image is loaded ...
 
-	    FlowRouter.go("/browseWorldMap");
+          display.feature.imageSrc = Control.getImageFromFile( display.feature.file );
+
+          Meteor.setTimeout( function() { display.feature.draw(); }, 100); 
+
+        });
+
 	}
 
-	//this one can fire before the _name control has been
+	//this one fires before the _name control has been
 	//set as the feature, so this.ctl will not refer
-	//to the _name control necessarily
+	//to the _name control
 
 	this.load = function( _name ) {
 
@@ -97,7 +124,7 @@ Feature = function() {
 
 		if (this.file == null) {
 
-			//a non-still-image type, so just set the session var
+			//either TEXT or MAP, so just call the function and return
 
           	this.fileIsLoaded(); 
 
@@ -112,6 +139,8 @@ Feature = function() {
 
           display.feature.imageSrc = Control.getImageFromFile( display.feature.file );
 
+		 console.log("in feature.load(), feature imageSrc created from " + display.feature.file);
+ 
           display.feature.fileIsLoaded();
 
         });
@@ -143,6 +172,8 @@ Feature = function() {
 		this.file = this.getFile( _name);
 
 		if (this.file) this.imageSrc = Control.getImageFromFile( this.file );
+
+		console.log("in feature.setImageSource(), feature imageSrc created from " + this.file);
 	}
 
 	this.dim = function( _time ) {
@@ -189,7 +220,12 @@ Feature = function() {
 
 		var _name = this.name.get();
 
-		if (_name != "SOUND" && _name != "VIDEO") game.playMusic();
+		if (_name != "SOUND" && _name != "VIDEO") {
+
+			("feature.resetToPrevious is starting the music")
+
+			game.playMusic();
+		}
 
 		if (game.user.mode == uBrowse) {
 
@@ -262,9 +298,16 @@ if ( this.off() ) return;
 
 		console.log("feature is now set to " + _name);
 
-		if (_name.length == 0) return;
+		
+		if (_name.length == 0) return;  //????
 
+		
 		this.ctl = display.ctl[ _name ];
+
+		c("'click control' is calling setImageSource")
+
+     	this.setImageSource( _name );  //this will set the imageSrc for the featured area
+
 
 		if (_name == "MAP") {
 
@@ -281,9 +324,11 @@ if ( this.off() ) return;
 
 			game.pauseMusic();
 
-			console.log("feature.set is calling sound.play()")
+			if (this.ctl.getState() == sLoaded) this.ctl.setState( sPlaying );
 
-			this.ctl.play();
+			console.log("feature.set is calling sound.activateState()")
+
+			this.ctl.activateState();
 
 			this.setImageSource("SOUND");
 		}
@@ -294,11 +339,11 @@ if ( this.off() ) return;
 	
 			display.suspendBGSound();  //in case a sound file is playing in bg
 
-			console.log("feature.set is calling video.play()")
+			if (this.ctl.getState() == sLoaded) this.ctl.setState( sPlaying );
+
+			console.log("feature.set is calling video.activateState()")
 				
-			this.ctl.play();
-
-
+			this.ctl.activateState();
 		}
 
 		this.draw();
@@ -355,6 +400,8 @@ if ( this.off() ) return;
             if (_name != "TEXT") {
 
                 var myFrame = { width: 0, height: 0, top: 0, left: 0 };
+
+console.log("feature.drawNow is calling dimension(image type)")
 
                 this.dimension("image", myFrame, _src);       
 

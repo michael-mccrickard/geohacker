@@ -226,11 +226,11 @@ Control = {
 
   getFile : function() {
 
-    if (!this.items[ this.getIndex() ]) {
+    if ( ! this.items.length ) {
 
-      showMessage("Invalid index or invalid items array in control.getFile(), name is " + this.name + " and index is " + this.getIndex() );
+      showMessage("Item collection for " + this.name + " is empty." );
 
-      return;
+      return null;
     }
 
     return this.items[ this.getIndex() ].u;
@@ -255,27 +255,49 @@ Control = {
 
   toggleMediaState: function() {
 
-      if (this.getState() == sPaused) {
+    if (this.getState() == sPaused) {
 
-        c("control.toggleMediaState is playing the media from a paused state")
+        c("control.toggleMediaState is changing the media state to sPlay")
 
-        this.play();
-
-        if (this.name == "SOUND" || (this.name == "VIDEO" && !this.isYouTube) ) display.feature.setImage( this.name );
+        this.setState( sPlaying );
 
         return;
-      }
+
+    }
 
     if (this.getState() == sPlaying) {
 
-      c("control.toggleMediaState is pausing the media from a playing state")
+          c("control.toggleMediaState is changing the media state to sPause")
 
-      this.pause();
-      
-      if (this.name == "SOUND" || (this.name == "VIDEO" && !this.isYouTube) ) display.feature.setImage( this.name );
+          this.setState( sPaused );
 
-      return;
+          return;
     }
+
+  },
+
+  activateState : function() {
+
+c("control activateState() called on " + this.name + " and state is " + this.getState());
+
+    if (this.getState() == sPlaying) {
+
+        c("control.activateState is playing the media")
+
+        this.play();
+
+        return;
+
+    }
+
+    if (this.getState() == sPaused) {
+
+          c("control.activateState is pausing the media")
+
+          this.pause();
+
+          return;
+    }    
 
   },
 
@@ -290,6 +312,81 @@ Control = {
 //************************************************************
 //            CONTROL  (static functions)
 //************************************************************
+
+Control.switchTo = function( _id ) {
+
+    if (display.scanner.mode == "scan" || display.scanner.mode == "rescan") {
+
+        Control.playEffect( display.locked_sound_file );
+
+        return;
+    }
+
+    display.cue.set();
+
+    var id = _id;
+
+    if ( display.ctl[ id ].getState() < sLoaded ) {
+
+        Control.playEffect( display.locked_sound_file );
+
+        return;
+    }
+
+    Control.playEffect( display.fb_sound_file );  
+
+    //for the media controls, we are either clicking to toggle
+    //the state (ctl is already active) 
+    //or we are clicking to make active and play
+
+    var _name = display.feature.getName();
+
+    if ((id == "SOUND" && _name == "SOUND") || (id == "VIDEO" && _name == "VIDEO")) {
+        
+        c("'click control' is calling toggleMediaState")
+
+        display.feature.ctl.toggleMediaState(); 
+
+     }
+     else {
+
+        if ((id == "SOUND") || (id == "VIDEO")) {
+
+          console.log("'click control' is setting media state to play")
+
+          display.suspendMedia();
+
+          display.ctl[ id ].setState( sPlaying ); 
+        }
+     }
+
+    //In the case of a video that is currently visible (_name == VIDEO),
+    //we have to suspend (hide and pause) it, but only if the incoming feature
+    //is not also video
+
+    if (_name == "VIDEO" && id != "VIDEO") {
+
+      c("'click control' is calling suspendMedia b/c current feature is video")
+     
+      display.suspendMedia();
+    }
+
+    display.scanner.fadeOut( 250 );
+
+c("'click control' is calling feature.set")
+
+    display.feature.set( id );
+
+    if (id == "VIDEO") {
+
+      display.cue.setAndShow();
+    }
+    else {
+
+      Meteor.setTimeout( function() { display.cue.type() }, 500);
+    }
+
+}
 
 Control.unfocusMe = function(which) {
 

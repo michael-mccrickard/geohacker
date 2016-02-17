@@ -421,12 +421,19 @@ Display = function() {
 
     this.suspendBGSound = function() {
 
-        if (display.ctl["SOUND"].getState() == sPlaying) display.ctl["SOUND"].pause();
+        if (display.ctl["SOUND"].getState() == sPlaying) {
+
+c("display is suspending the bg sound")
+
+            display.ctl["SOUND"].pause();
+        }
     }
 
     this.resumeMedia = function() {
 
           if (this.feature.on() ) {
+
+c("display is resuming the media, if necessary")
 
             if (this.feature.getName() == "VIDEO")  this.feature.ctl.play();
 
@@ -453,6 +460,8 @@ Display = function() {
 
         if ( _name == "SOUND" || _name == "VIDEO") {
 
+c("showFeaturedContent is playing the media file")
+            
             this.ctl[ _name ].play();
         }
         

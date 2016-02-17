@@ -51,9 +51,9 @@ NewLoader = function() {
 
 		display.setControls( sScanning );
 
-		Meteor.defer( function(){ display.dimensionControls(); });  //primarily for the TEXT control
-																	//which sometimes has an image file
-																	//sometimes not
+		Meteor.defer( function(){ display.dimensionControls(); });  //the aspect ratio is likely to be 
+																	//different (loaded control pic vs. scan pic)
+
 
 		display.cue.setAndShow();
 
@@ -87,7 +87,7 @@ NewLoader = function() {
 		display.dimensionControls();
 
 
-		//this.newControl was set by doScan before the loading sequence began
+		//this.newControl was set by this.go() before the loading sequence began
 
 		if (this.newControl.name == "MAP") {
 
@@ -102,8 +102,6 @@ NewLoader = function() {
 			this.newControl.setState ( sLoaded );
 
 			this.newControl.setPicDimensions();
-
-
 		}
 
 		//set the timer if we're on the first clue
@@ -242,13 +240,13 @@ NewLoader = function() {
 
 		var randomControl =  Database.getRandomElement(tmp);
 
-if (this.totalClueCount == 0) randomControl = display.ctl["SOUND"];
+if (this.totalClueCount == 0) randomControl = display.ctl["IMAGE"];
 
-if (this.totalClueCount == 1) randomControl = display.ctl["IMAGE"];
+if (this.totalClueCount == 1) randomControl = display.ctl["VIDEO"];
 
-if (this.totalClueCount == 2) randomControl = display.ctl["VIDEO"];
-
+if (this.totalClueCount == 2) randomControl = display.ctl["SOUND"];
 /*
+
 if (this.totalClueCount == 3) randomControl = display.ctl["SOUND"];
 
 if (this.totalClueCount == 4) randomControl = display.ctl["VIDEO"];

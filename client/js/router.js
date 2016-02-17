@@ -174,32 +174,14 @@ FlowRouter.route('/debrief', {
 
 FlowRouter.route('/closeup', {
 
-  name: "closeup",
+    action: function (params, queryParams) { 
 
-  action: function (params, queryParams) { 
+     pageRefreshed = false;
 
-    //maybe better just to play lock sound and not do this?
+     BlazeLayout.render('layout', { content: "closeup" } ) 
 
-    if (display.feature.getName() == "SOUND") {
-
-       if (display.feature.ctl.getState() == sPaused) {
-
-           display.feature.ctl.setState( sPlaying );
-           
-           display.feature.set( "SOUND" );
-
-           display.feature.setImageSource( "SOUND" );
-       }
-
-       return;
-    }
-
-    pageRefreshed = false; 
-
-    BlazeLayout.render('layout', { content: "closeup" } ); 
-  },
-
-});
+   },
+  });
 
 //*********************************************
 //      EDITOR

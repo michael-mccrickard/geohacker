@@ -372,11 +372,13 @@ Template.main.events({
       }
       else {
 
-c("calling display.suspendMedia")
+c("'click scan' is calling display.suspendMedia and suspendBGSound")
 
         display.suspendMedia();
 
         display.suspendBGSound();
+
+c("'click scan' is calling playMusic")
 
         game.playMusic();
 
@@ -386,71 +388,26 @@ c("calling display.suspendMedia")
 
     },
 
+    'click img.featuredPic': function(e) {
+
+      var _name = display.feature.getName();
+
+      if (_name == "SOUND" || _name == "VIDEO") {
+
+         Control.switchTo( _name );
+
+         return;
+      }
+
+      FlowRouter.go("/closeup");
+
+    },
+
     'click .control': function(e) {
       
       e.preventDefault();
 
-      if (display.scanner.mode == "scan" || display.scanner.mode == "rescan") {
-
-          Control.playEffect( display.locked_sound_file );
-
-          return;
-      }
-
-      display.cue.set();
-
-      var id = e.currentTarget.id;
-
-      if ( display.ctl[ id ].getState() < sLoaded ) {
-
-          Control.playEffect( display.locked_sound_file );
-
-          return;
-      }
-
-      Control.playEffect( display.fb_sound_file );  
-
-      var _name = display.feature.getName();
-
-      //attempting to leave sound playing while user is viewing
-      //silent (image only) types of clues
-
-      if (_name == "VIDEO") display.suspendMedia();
-
-      //for the media controls, we are either clicking to toggle
-      //the state (ctl is already active) 
-      //or we are clicking to make active and play
-
-      if ((id == "SOUND" && _name == "SOUND") || (id == "VIDEO" && _name == "VIDEO")) {
-          
-          display.feature.ctl.toggleMediaState(); 
-
-          return;
-       }
-       else {
-
-          if ((id == "SOUND") || (id == "VIDEO")) {
-
-          console.log("click control is setting media state to play")
-
-            display.ctl[ id ].setState( sPlaying ); 
-          }  
-       }
-
-      display.scanner.fadeOut( 250 );
-
-      display.feature.set( id );
-
-      display.feature.setImageSource( id );  //this will set the imageSrc for the featured area
-
-      if (id == "VIDEO") {
-
-        display.cue.setAndShow();
-      }
-      else {
-
-        Meteor.setTimeout( function() { display.cue.type() }, 500);
-      }
+      Control.switchTo( e.currentTarget.id );
     },
 
     'click #divMiniDebrief': function(e) {
@@ -459,8 +416,6 @@ c("calling display.suspendMedia")
 
         display.feature.clear();
 
-        //hack.debrief.set( hack.debrief.index );
-
         hack.debrief.goNext();
 
         FlowRouter.go("/debrief");
@@ -468,12 +423,15 @@ c("calling display.suspendMedia")
 
 });
 
+
 function updateFeaturedContent() {
 
     var _name = display.feature.getName();
  
     if (game.user.mode == uBrowse) {
     
+c("updateFeaturedContent in maing.js is calling feature.load")
+
       display.feature.load( _name );  //the imagesLoaded callback will update the screen
 
       return;
