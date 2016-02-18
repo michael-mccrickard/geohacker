@@ -243,7 +243,7 @@ Video = function() {
 
 		  display.feature.video = _file;  
 
-		  console.log("video.js: ytplayer playing video")        
+		  console.log("video.js: ytplayer playing new video")        
 
 		  ytplayer.loadVideoById( _file );
 

@@ -53,7 +53,7 @@ Feature = function() {
 
 	this.fileIsLoaded = function() {
 
-c("feature.fileIsLoaded()")
+		c("feature.fileIsLoaded()")
 
 		if (game.user.mode == uBrowse) {
 
@@ -80,26 +80,6 @@ c("feature.fileIsLoaded()")
 
 		Meteor.defer( function() { Session.set("sFeatureImageLoaded", true); } );
 		
-	}
-
-	//Loads the image and draws it
-
-	this.loadAndDraw = function( _name ) {
-
-		this.file = this.getFile( _name );
-
-		$("#pFEATURE3").attr("src", this.file);
-
-        imagesLoaded( document.querySelector('#preloadFeature'), function( instance ) {
-    
-          //now that the image is loaded ...
-
-          display.feature.imageSrc = Control.getImageFromFile( display.feature.file );
-
-          Meteor.setTimeout( function() { display.feature.draw(); }, 100); 
-
-        });
-
 	}
 
 	//this one fires before the _name control has been
@@ -139,7 +119,7 @@ c("feature.fileIsLoaded()")
 
           display.feature.imageSrc = Control.getImageFromFile( display.feature.file );
 
-		 console.log("in feature.load(), feature imageSrc created from " + display.feature.file);
+		  console.log("in feature.load(), feature imageSrc created from " + display.feature.file);
  
           display.feature.fileIsLoaded();
 
@@ -340,6 +320,12 @@ if ( this.off() ) return;
 			display.suspendBGSound();  //in case a sound file is playing in bg
 
 			if (this.ctl.getState() == sLoaded) this.ctl.setState( sPlaying );
+
+			//in case, we are returning from browse or the editor, etc.
+
+			c("feature.set() is setting sYouTubeOn to true");
+
+			Session.set("sYouTubeOn", true);
 
 			console.log("feature.set is calling video.activateState()")
 				

@@ -257,7 +257,7 @@ Template.main.events({
 
       if (game.user.mode == uBrowse) {
 
-          display.feature.browseMap();
+          game.user.goBrowseMap();
 
           return;
       }   

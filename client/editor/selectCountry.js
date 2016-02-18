@@ -213,11 +213,15 @@ Template.selectCountry.events = {
 
   	 if (mission != null) {
 
+        hack = game.user.missionHack;
+
         display.mainTemplateReady = false;
 
         FlowRouter.go("/main");
     }
     else {
+
+        hack = game.user.browseHack;
 
         game.user.goHome();
     }

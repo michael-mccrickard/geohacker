@@ -98,6 +98,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	if (!display.countryCode.length) display.init( this.profile.cc );
 
+    	display.suspendMedia();
+
     	display.feature.browseMap();
     }
 
@@ -163,6 +165,11 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     this.goHome = function() {
 
     	if (display) {
+
+    		//The avatar button in the upper-left corner 
+    		//is what calls this function.
+    		//It might be faded b/c we're in the middle of some
+    		//sequence like hackDone.
 
     		if ( display.homeButtonDisabled() ) return;
 

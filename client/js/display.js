@@ -575,6 +575,8 @@ c("showFeaturedContent is playing the media file")
 
     this.switchToEditor = function() {
 
+      Control.suspendAllMedia();
+
        if (db == null) {
 
           db = new Database();
@@ -601,14 +603,16 @@ c("showFeaturedContent is playing the media file")
 
       hack.mode = mEdit;
 
-      game.stopMusic();
-
-      this.suspendMedia();
-
       this.closeOutMain();
 
+    }
 
+    this.stopEditVideo = function() {
 
+        if (youTubeLoaded) {
+
+            ytplayer.stopVideo();
+        }
     }
 
 }

@@ -215,21 +215,21 @@ Template.editor.events = {
 
   'click #editSound' : function(evt, template) {
 
-    display.stopVideo();
+    display.stopEditVideo();
 
   	editor.controlType = cSound;
   },
 
   'click #editText' : function(evt, template) {
 
-    display.stopVideo();
+    display.stopEditVideo();
 
   	editor.controlType = cText;
   },
 
   'click #editImage' : function(evt, template) {
 
-    display.stopVideo();
+    display.stopEditVideo();
 
   	editor.controlType = cImage;
   },
@@ -241,21 +241,21 @@ Template.editor.events = {
 
   'click #editWeb' : function(evt, template) {
 
-    display.stopVideo();
+    display.stopEditVideo();
 
   	editor.controlType = cWeb;
   },
 
   'click #editDebrief' : function(evt, template) {
 
-    display.stopVideo();
+    display.stopEditVideo();
 
 	   editor.controlType = cDebrief;
   },
 
   'click #closeEditor' : function(evt, template) {
 
-    display.stopVideo();
+    display.stopEditVideo();
 
     editor.hack.mode = mNone;
 

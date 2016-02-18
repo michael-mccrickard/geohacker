@@ -415,6 +415,21 @@ Control.stopSound = function(_which) {
   document.getElementById( _which + "Player").pause();
 }
 
+Control.suspendAllMedia = function() {
+
+  game.pauseMusic();
+
+  if (display) {
+
+    if (display.ctl["SOUND"].getState() > sLoaded) display.ctl["SOUND"].pause();
+
+    if (display.ctl["VIDEO"].getState() > sLoaded) display.ctl["VIDEO"].pause();
+  }
+
+  Session.set("sYouTubeOn", false);
+
+}
+
 
 //************************************************************
 //            YOUTUBE PLAYER
