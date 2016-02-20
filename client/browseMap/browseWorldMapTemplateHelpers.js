@@ -123,6 +123,8 @@ Template.browseWorldMap.events = {
 
     Control.playEffect("mapBackup.mp3");
 
+    display.ctl["MAP"].browseWorldMap.doClearButton(0);
+
     display.ctl["MAP"].backupMapToRegion();
   },
 
@@ -130,12 +132,16 @@ Template.browseWorldMap.events = {
 
     Control.playEffect("mapBackup.mp3");
 
+    display.ctl["MAP"].browseWorldMap.doClearButton(0);
+
     display.ctl["MAP"].backupMapToContinent();
   },
 
   'click #browseWorldIcon': function (evt, template) {
 
     Control.playEffect("mapBackup.mp3");
+
+    display.ctl["MAP"].browseWorldMap.doClearButton(0);
 
     display.ctl["MAP"].backupMapToWorld();
   },
@@ -163,6 +169,17 @@ Template.browseWorldMap.events = {
       Control.playEffect("new_feedback.mp3");
 
       display.ctl["MAP"].browseWorldMap.mapTagImage = evt.target.src;
+  },
+
+  'click #tagClear': function (evt, template) {
+
+      var _ticket = game.user.getTicket( display.ctl["MAP"].browseWorldMap.selectedCountry.get() );
+
+      _ticket.tag.length = 0;
+
+      db.updateUserHacks();
+
+      display.ctl["MAP"].browseWorldMap.doCurrentMap();
   }
 }
 

@@ -70,6 +70,8 @@ BrowseWorldMap = function( _mapCtl ) {
 
     this.doCurrentMap = function() {
 
+        this.doClearButton(0);
+
         //reset this each time, b/c it disappears if we switch hack/display objects
 
         worldMap = this;
@@ -117,9 +119,6 @@ BrowseWorldMap = function( _mapCtl ) {
             if (mapObject) this.map.clickMapObject(mapObject);
         }    
     }
-
-
-
 
     this.doMap = function(_code, _level) {
 
@@ -204,6 +203,20 @@ BrowseWorldMap = function( _mapCtl ) {
         this.map.addListener("clickMapObject", handleClick);
 
         this.map.write("browseDivMap");
+
+    }
+
+
+    this.doClearButton = function(_val) {
+
+        if (_val) {
+
+            $("#tagClear").removeClass("disabled");
+        }
+        else {
+
+            $("#tagClear").addClass("disabled");        
+        }
 
     }
 
@@ -394,6 +407,8 @@ function handleClick(_event) {
         //level, then the user can click on a nearby country.  We want the map to re-center and re-label
         //in this case, but not jump to browsing
 
+
+
         if (worldMap.selectedCountry.get() != worldMap.mapObjectClicked) {
 
             worldMap.selectedCountry.set( worldMap.mapObjectClicked );
@@ -426,6 +441,8 @@ function handleClick(_event) {
     }
 
 }
+
+
 
 
 function handleZoomCompleted() { 
@@ -467,6 +484,8 @@ function handleZoomCompleted() {
 
     if (level == mlRegion) {
 
+        worldMap.doClearButton(1);
+
         //since the zoom in to the country happens with autoZoom and not
         //by our handling some event, we have to set the map level manually
 
@@ -494,6 +513,8 @@ function handleZoomCompleted() {
     //this is necessary for the initial zoom-in (when a country has already been selected)
 
     if (level == mlCountry) {
+
+
 
         worldMap.labelMapObject();
 
