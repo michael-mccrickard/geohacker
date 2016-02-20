@@ -414,7 +414,7 @@ Display = function() {
 
             c("display.suspendMedia is suspending " + this.feature.getName() )
 
-            this.feature.ctl.suspend();
+            if (this.feature.ctl) this.feature.ctl.suspend();
         }
 
     }

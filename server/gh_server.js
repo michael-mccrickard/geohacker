@@ -10,7 +10,7 @@ var countryCode;
 //*********************************************
 
 
-process.env.MAIL_URL = Meteor.settings.MAIL_URL;
+//process.env.MAIL_URL = Meteor.settings.MAIL_URL;
 
 Accounts.emailTemplates.siteName = "Geohacker";
 Accounts.emailTemplates.from = "Geohacker In Chief <mikemccrickard@gmail.com>";

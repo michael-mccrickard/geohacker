@@ -19,9 +19,23 @@
 
 	    var map = display.ctl["MAP"].browseWorldMap.map;
 
-	    var _long = map.stageXToLongitude( ev.offsetX );
+	    var x = 0;
+	    var y = 0;
 
-	    var _lat = map.stageYToLatitude( ev.offsetY );
+		if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+		     
+			x = ev.layerX;
+			y = ev.layerY;
+		}
+		else {
+
+			x = ev.offsetX;
+			y = ev.offsetY;
+		}
+
+	    var _long = map.stageXToLongitude( x );
+
+	    var _lat = map.stageYToLatitude( y );
 
 		var image = new AmCharts.MapImage();
 

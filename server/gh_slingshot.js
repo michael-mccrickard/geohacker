@@ -3,8 +3,8 @@ Slingshot.createDirective("ghSound", Slingshot.S3Storage, {
 
   acl: "public-read",
 
-  AWSAccessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
-  AWSSecretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
+  AWSAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  AWSSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 
   authorize: function () {
 
@@ -30,8 +30,8 @@ Slingshot.createDirective("ghVideo", Slingshot.S3Storage, {
 
   acl: "public-read",
 
-  AWSAccessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
-  AWSSecretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
+  AWSAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  AWSSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 
   authorize: function () {
 
@@ -57,8 +57,8 @@ Slingshot.createDirective("ghImage", Slingshot.S3Storage, {
 
   acl: "public-read",
 
-  AWSAccessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
-  AWSSecretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
+  AWSAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  AWSSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 
   authorize: function () {
 
@@ -85,8 +85,8 @@ Slingshot.createDirective("ghWeb", Slingshot.S3Storage, {
 
   acl: "public-read",
 
-  AWSAccessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
-  AWSSecretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
+  AWSAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  AWSSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 
   authorize: function () {
 
@@ -113,8 +113,8 @@ Slingshot.createDirective("ghAvatar", Slingshot.S3Storage, {
 
   acl: "public-read",
 
-  AWSAccessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
-  AWSSecretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
+  AWSAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  AWSSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 
   authorize: function () {
 
@@ -140,8 +140,8 @@ Slingshot.createDirective("ghTag", Slingshot.S3Storage, {
 
   acl: "public-read",
 
-  AWSAccessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
-  AWSSecretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
+  AWSAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  AWSSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 
   authorize: function () {
 
@@ -169,8 +169,8 @@ Slingshot.createDirective("ghUserFeaturedPic", Slingshot.S3Storage, {
 
   acl: "public-read",
 
-  AWSAccessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
-  AWSSecretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
+  AWSAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  AWSSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 
   authorize: function () {
 
