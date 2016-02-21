@@ -58,7 +58,6 @@ refreshWindow = function(_which) {
 
     var name = FlowRouter.getRouteName();
 
-
     if (name == "browseWorldMap") {
 
         display.ctl["MAP"].browseWorldMap.map.clearLabels();
@@ -82,12 +81,12 @@ refreshWindow = function(_which) {
         return;
     }
 
-    if (name == "worldMap") {
+    if (name == "home") {
 
-        display.ctl["MAP"].worldMap.map.clearLabels();
+        if (game.user.template.get() == "profile") game.user.profile.draw();
 
-        display.ctl["MAP"].finishDraw();
-
+        if (game.user.template.get() == "bio") game.user.bio.draw();
+    
         return;
     }
 
@@ -98,12 +97,17 @@ refreshWindow = function(_which) {
         return;
     }
 
-    if (name == "home") {
+    if (name == "worldMap") {
 
-        if (game.user.template.get() == "profile") game.user.profile.draw();
-    
+        display.ctl["MAP"].worldMap.map.clearLabels();
+
+        display.ctl["MAP"].finishDraw();
+
         return;
     }
+
+
+
 
 }
 
