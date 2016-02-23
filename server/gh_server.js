@@ -330,6 +330,74 @@ function getCollectionForType(_type) {
     return col;
   }
 
+var urlTryCount = 0;
+
+function testAvatarURL(_fileObj) {
+
+    if (!_fileObj.name().length ) {
+
+      urlTryCount++;
+
+      if (urlTryCount > 5) {
+
+          console.log("URL for avatar could not be reached.");
+
+          urlTryCount = 0;
+
+          return;
+      }
+
+      Meteor.setTimeout( function() { testAvatarURL(_fileObj); }, 2000 );
+
+    }
+
+var _id = _fileObj.name().substring(0, _fileObj.name().length - 4 );
+  
+console.log(_id);
+
+var avURL = avatarPrefix + _fileObj._id + "-" + _fileObj.name();
+
+//until I can get the HTTP test to work below, we'll just have to assume the 3 second delay was enough
+
+    console.log("trying to set AV URL: " + avURL + " for avatar ... " + urlTryCount + "x");
+
+Meteor.users.update( {_id: _id }, { $set: { 'profile.av': avURL }  });
+
+return;
+
+
+
+    console.log("trying URL: " + avURL + " for avatar ... " + urlTryCount + "x");
+
+    HTTP.call( 'GET', _fileObj.url(), {}, function( error, response ) {
+
+      if ( error ) {
+
+        console.log( error );
+
+        urlTryCount++;
+
+        if (urlTryCount > 5) {
+
+          console.log("URL for avatar could not be reached.");
+
+          urlTryCount = 0;
+
+          return;
+        }
+      
+        Meteor.setTimeout( function() { testAvatarURL(_fileObj); }, 2000 );
+
+      } else {
+      
+        console.log( response.statusCode );
+
+        Meteor.users.update( {_id: _userID }, { $set: { 'profile.av': avURL }  });
+      }
+    });
+
+
+}
 
 //*********************************************
 //      METHODS
@@ -364,7 +432,7 @@ Meteor.methods({
   },
 
   makeAvatar: function(_gender, userID) {  
-    
+
     var avatar = Meteor.npmRequire('avatar-generator')(),
           fs = Npm.require('fs');
 
@@ -378,7 +446,6 @@ Meteor.methods({
 
           //When get the callback we attach the picture data to the file
 
-
           newFile.attachData( buffer, {type: 'image/png'},  function(error){
 
               if(error) console.log(error.message);
@@ -386,13 +453,13 @@ Meteor.methods({
               newFile.name(userID + '.png');  
 
               //This callback from attachData inserts the file into the CFS collection
-              //and then that callback builds the URL and puts it in the user profile record
+              //and then that callback updates the user profile record
 
-              ghAvatar.insert(newFile, function (err, fileObj) {
+              ghAvatar.insert(newFile, function (err, _fileObj) {
 
                   if(err) console.log(err.message);
 
-                  Meteor.setTimeout( function() { Meteor.users.update( {_id: userID }, { $set: { 'profile.av': fileObj.url() }  }); }, 1000 );
+                  Meteor.setTimeout( function() { testAvatarURL( _fileObj ); }, 3000 );
                   
               });
 

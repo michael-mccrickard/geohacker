@@ -253,7 +253,7 @@ FlowRouter.route('/userDirectory',  {
 
     BlazeLayout.render('layout', { content: "userDirectory" } );
 
-    display.stopVideo();
+    Control.suspendAllMedia();
 
   }
 
