@@ -80,6 +80,8 @@ npm-container@1.2.0
 npm-mongo@1.4.39_1
 observe-sequence@1.0.7
 ordered-dict@1.0.4
+peerlibrary:aws-sdk@2.2.37_1
+peerlibrary:blocking@0.5.2
 praxie:canvas-to-blob@1.1.1
 promise@0.5.1
 raix:eventemitter@0.1.3

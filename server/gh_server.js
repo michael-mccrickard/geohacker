@@ -10,7 +10,7 @@ var countryCode;
 //*********************************************
 
 
-//process.env.MAIL_URL = Meteor.settings.MAIL_URL;
+process.env.MAIL_URL = Meteor.settings.MAIL_URL;
 
 Accounts.emailTemplates.siteName = "Geohacker";
 Accounts.emailTemplates.from = "Geohacker In Chief <mikemccrickard@gmail.com>";
@@ -430,6 +430,41 @@ Meteor.methods({
 
     ghTag.remove({});
   },
+
+  deleteS3File: function(_key) {
+
+    AWS.config.update({
+       accessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
+       secretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY
+    });
+
+    var s3 = new AWS.S3();
+       var params = {
+       Bucket: "gh-resource",
+       Key: _key
+    };
+
+    var deleteObject = Meteor.wrapAsync(
+
+       s3.deleteObject(params, function(error, data) {
+          
+          if(error) {
+
+             console.log(error);
+
+          } else {
+
+             console.log(data);
+
+             return data;
+          }
+
+       })
+    );    
+
+  },
+
+
 
   makeAvatar: function(_gender, userID) {  
 

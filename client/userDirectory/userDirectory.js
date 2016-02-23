@@ -13,7 +13,7 @@ Template.userDirectory.events = {
 
   	  e.preventDefault();
 
-      Meteor.call("deleteRecord", e.target.id, cUser);
+      game.deleteUser( e.target.id );
   },
 }
 

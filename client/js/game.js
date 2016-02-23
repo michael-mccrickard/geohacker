@@ -177,6 +177,37 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","the_big_score.mp3", "crystal
 		);
 	},
 
+	this.deleteUser = function(_ID) {
+
+ 		var prefixLen = prefix.length;
+
+ 		var rec = Meteor.users.findOne( { _id: _ID});
+
+ 		Meteor.call( "deleteS3File", rec.profile.av.substring( prefixLen ), function(error, res) {
+
+	 			if (error) {
+
+	 				console.log(error);
+
+	 				return;
+	 			}
+
+	 			 Meteor.call( "deleteS3File", rec.profile.p.substring( prefixLen ), function(error, res) {
+
+		  			if (error) {
+
+		 				console.log(error);			 	
+
+		 			 };
+
+
+	 				Meteor.call("deleteRecord", _ID, cUser);
+ 			});
+
+		});
+
+	},
+
 	this.doResetPassword = function() {
 
 	    if ( this.currentEmail.length ) {
