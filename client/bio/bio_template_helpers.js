@@ -47,6 +47,8 @@ Template.bio.events({
 
   'change #avatarFileInput': function(event, template) {
 
+    game.deleteUserS3File( game.user.profile.av );
+
     var uploader = game.user.bio.avatarUploader;
 
     var _file = event.target.files[0];
@@ -70,6 +72,8 @@ Template.bio.events({
   },
 
    'change #featuredPicFileInput': function(event, template) {
+
+      game.deleteUserS3File( game.user.profile.p );
     
       var uploader = game.user.bio.userFeaturedPicUploader;
 
