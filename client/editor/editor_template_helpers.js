@@ -259,7 +259,9 @@ Template.editor.events = {
 
     editor.hack.mode = mNone;
 
-	  FlowRouter.go("/selectCountry");
+    window.history.back();
+
+	  //FlowRouter.go("/selectCountry");
   },
 
   'click .dataRow' : function(evt, template) {

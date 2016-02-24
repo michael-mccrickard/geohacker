@@ -544,6 +544,13 @@ c("showFeaturedContent is playing the media file")
         }    
     }
 
+    this.switchToDataChecker = function() {
+
+        this.switchToEditor();
+
+        FlowRouter.go("/dataChecker");       
+    }
+
     this.switchToEditCountry = function() {
         
         if (!hack) {
@@ -577,14 +584,7 @@ c("showFeaturedContent is playing the media file")
 
       Control.suspendAllMedia();
 
-       if (db == null) {
-
-          db = new Database();
-
-          db.initCore();
-
-          db.initControls();
-      }
+      this.checkForDB();
 
       if (editor == null) editor = new Editor();
 
@@ -613,6 +613,18 @@ c("showFeaturedContent is playing the media file")
 
             ytplayer.stopVideo();
         }
+    }
+
+    this.checkForDB = function() {
+
+       if (db == null) {
+
+          db = new Database();
+
+          db.initCore();
+
+          db.initControls();
+      }
     }
 
 }

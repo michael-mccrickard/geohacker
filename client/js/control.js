@@ -419,7 +419,7 @@ Control.suspendAllMedia = function() {
 
   game.pauseMusic();
 
-  if (display && hack) {
+  if (display.ctl["SOUND"]) {
 
     if (display.ctl["SOUND"].getState() > sLoaded) display.ctl["SOUND"].pause();
 

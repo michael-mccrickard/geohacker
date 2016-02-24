@@ -52,10 +52,31 @@ FlowRouter.route('/help2', {
     name: "help2",
 
     action: function (params, queryParams) { BlazeLayout.render('layout', { content: "help2" } ) },
-
 });
 
+FlowRouter.route('/dataChecker', {
 
+    name: "dataChecker",
+
+    action: function (params, queryParams) { BlazeLayout.render('layout', { content: "dataChecker" } ) },
+
+    subscriptions: function(params, queryParams) {
+
+        this.register("images", Meteor.subscribe("allImages") );
+
+        this.register("debriefs", Meteor.subscribe("allDebriefs") );
+
+        this.register("texts", Meteor.subscribe("allTexts") );
+
+        this.register("webs", Meteor.subscribe("allWebs") );
+
+        this.register("videos", Meteor.subscribe("allVideos") );
+
+        this.register("sounds", Meteor.subscribe("allSounds") );
+    },
+
+
+});
 
 //*********************************************
 //      CONGRATS

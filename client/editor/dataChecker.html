@@ -1,0 +1,159 @@
+<template name="dataChecker">
+
+	{{#if dataReady}}
+
+		<div style="font-family: Arial">
+
+			  <button type="button" class="btn btn-primary menuBarBtn menuBarBtnContSel" style="left: 12%" id="basic">Types</button>
+			  <button type="button" class="btn btn-success menuBarBtn menuBarBtnCont"  style="left: 22%" id="other">Counts</button>
+			
+		</div>
+
+		<div>
+			<button class="btn btn-warning" style="position: fixed; left: 95%;" id="closeDataChecker"><strong>X</strong></button>
+		</div>
+
+		{{#if modeIsBasic}}
+
+			<div class="editor">
+				<table border="2">
+
+				<tr>
+					<th>Name</th>
+					<th>Code</th> 
+					
+					<th>Capital</th>
+					<th>Leader</th>
+					<th>Maps</th>
+					<th>Flag</th>
+
+					<th>Lang</th>
+					<th>Anthem</th>
+
+					<th>Edit</th>
+
+				</tr>
+
+					{{#each country}}
+
+						<tr class="dataRow">
+							<td><input type="text" class="n" id="{{this._id}}" value="{{this.n}}" size="30"></td>
+							<td><input type="text" class="c" id="{{this._id}}" value="{{this.c}}" size="10"></td> 
+
+							<td>
+								<label for="capImage">i</label>
+								<input type="checkbox" class="d" id="capImage" checked="{{getCheckedVal 'capImage'}}" size="10">
+								<label for="capText">&nbsp;&nbsp;&nbsp;t</label>
+								<input type="checkbox" class="d" id="capText" checked="{{getCheckedVal 'capText'}}" size="10">
+							</td>
+
+							<td>
+								<label for="ldrImage">i</label>
+								<input type="checkbox" class="d" id="ldrImage" checked="{{getCheckedVal 'ldrImage'}}" size="10">
+								<label for="ldrText">&nbsp;&nbsp;&nbsp;t</label>
+								<input type="checkbox" class="d" id="ldrText" checked="{{getCheckedVal 'ldrText'}}" size="10">
+							</td>
+
+							<td>
+								<label for="cmpImage">m</label>
+								<input type="checkbox" class="d" id="cmpImage" checked="{{getCheckedVal 'cmpImage'}}" size="10">
+								<label for="rmpImage">&nbsp;&nbsp;&nbsp;r</label>
+								<input type="checkbox" class="d" id="rmpImage" checked="{{getCheckedVal 'rmpImage'}}" size="10">
+							</td>
+
+							<td>
+								<label for="flgImage">i</label>
+								<input type="checkbox" class="d" id="flgImage" checked="{{getCheckedVal 'flgImage'}}" size="10">
+							</td>
+
+							<td>
+								<label for="lngSound">s</label>
+								<input type="checkbox" class="d" id="lngSound" checked="{{getCheckedVal 'lngSound'}}" size="10">
+								<label for="lngDebrief">&nbsp;&nbsp;&nbsp;d</label>
+								<input type="checkbox" class="d" id="lngDebrief" checked="{{getCheckedVal 'lngDebrief'}}" size="10">
+							</td>
+
+							<td>
+								<label for="antSound">s</label>
+								<input type="checkbox" class="d" id="antSound" checked="{{getCheckedVal 'antSound'}}" size="10">
+							</td>
+
+							<td><button class="btn editCountryButton" name="editCountry" size="5">EDIT</button></td>
+						</tr>
+
+					{{/each}}
+
+				</table>
+
+			</div>
+		{{/if}}
+
+		{{#if modeIsOther}}
+
+			<div class="editor">
+				<table border="2">
+
+				<tr>
+					<th>Name</th>
+					<th>Code</th> 
+					
+					<th>Debriefs</th>
+					<th>Images</th>
+					<th>Sounds</th>
+					<th>Text</th>
+					<th>Webs</th>
+					<th>Videos</th>
+
+					<th>Edit</th>
+
+				</tr>
+
+					{{#each country}}
+
+						<tr class="dataRow">
+							<td><input type="text" class="n" id="{{this._id}}" value="{{this.n}}" size="30"></td>
+							<td><input type="text" class="c" id="{{this._id}}" value="{{this.c}}" size="10"></td> 
+
+							<td>
+								{{getCount "debrief"}}
+							</td>
+
+							<td>
+								{{getCount "image"}}
+							</td>
+
+							<td>
+								{{getCount "sound"}}
+							</td>
+
+							<td>
+								{{getCount "text"}}
+							</td>
+
+							<td>
+								{{getCount "video"}}
+							</td>
+
+							<td>
+								{{getCount "web"}}
+							</td>
+
+							<td><button class="btn editCountryButton" name="editCountry" size="5">EDIT</button></td>
+						</tr>
+
+					{{/each}}
+
+				</table>
+
+			</div>
+
+		{{/if}}
+
+	{{else}}
+
+	    {{> waiting}}
+	
+	{{/if}}
+
+</template>
+
