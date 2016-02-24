@@ -332,7 +332,9 @@ function getCollectionForType(_type) {
 
 var urlTryCount = 0;
 
-function testAvatarURL(_fileObj) {
+function testAvatarURL(_fileObj, _userID) {
+
+    //initially the _fileObj won't even return a name ...
 
     if (!_fileObj.name().length ) {
 
@@ -347,61 +349,55 @@ function testAvatarURL(_fileObj) {
           return;
       }
 
+      //wait a couple seconds and try again
+
       Meteor.setTimeout( function() { testAvatarURL(_fileObj); }, 2000 );
 
     }
 
-var _id = _fileObj.name().substring(0, _fileObj.name().length - 4 );
-  
-console.log(_id);
+    //now we've got the name, so try the URL, b/c it won't work immediately
 
-var avURL = avatarPrefix + _fileObj._id + "-" + _fileObj.name();
+    //deduce the URL
 
-//until I can get the HTTP test to work below, we'll just have to assume the 3 second delay was enough
+    var _id = _fileObj.name().substring(0, _fileObj.name().length - 4 );
 
-    console.log("trying to set AV URL: " + avURL + " for avatar ... " + urlTryCount + "x");
+    var avURL = avatarPrefix + _fileObj._id + "-" + _fileObj.name();
 
-Meteor.users.update( {_id: _id }, { $set: { 'profile.av': avURL }  });
+    //doing a synchronous call, so unblock the server
 
-return;
-
-
+    self.unblock();
 
     console.log("trying URL: " + avURL + " for avatar ... " + urlTryCount + "x");
 
-    HTTP.call( 'GET', _fileObj.url(), {}, function( error, response ) {
+    //try the URL and timeout after 3 seconds
 
-      if ( error ) {
+    try {
 
-        console.log( error );
+      var result = HTTP.call("GET", avURL, { timeout: 3000});
 
-        urlTryCount++;
+      console.log("response received.");
 
-        if (urlTryCount > 5) {
-
-          console.log("URL for avatar could not be reached.");
-
-          urlTryCount = 0;
-
-          return;
-        }
+      Meteor.users.update( {_id: _userID }, { $set: { 'profile.av': avURL }  });
+    } 
+    catch (e) {
       
-        Meteor.setTimeout( function() { testAvatarURL(_fileObj); }, 2000 );
+      // Got a network error, time-out or HTTP error in the 400 or 500 range.
 
-      } else {
-      
-        console.log( response.statusCode );
+        var errorJson = JSON.parse(result.content);
+        
+        console.log(errJson);
 
-        Meteor.users.update( {_id: _userID }, { $set: { 'profile.av': avURL }  });
-      }
-    });
-
-
+        testAvatarURL(_fileObj);
+    }
 }
 
 //*********************************************
 //      METHODS
 //*********************************************
+
+//set self to this before doing a synchronous HTTP call
+
+var self = null;
 
 Meteor.methods({
 
@@ -464,8 +460,6 @@ Meteor.methods({
 
   },
 
-
-
   makeAvatar: function(_gender, userID) {  
 
     var avatar = Meteor.npmRequire('avatar-generator')(),
@@ -474,6 +468,8 @@ Meteor.methods({
       var newFile = new FS.File();
 
       //create the file with the supplied params
+
+      self = this;
 
       avatar(userID, _gender, 256).toBuffer( Meteor.bindEnvironment( function(error, buffer) { 
 
@@ -494,7 +490,7 @@ Meteor.methods({
 
                   if(err) console.log(err.message);
 
-                  Meteor.setTimeout( function() { testAvatarURL( _fileObj ); }, 3000 );
+                  Meteor.setTimeout( function() { testAvatarURL( _fileObj, userID ); }, 3000 );
                   
               });
 
