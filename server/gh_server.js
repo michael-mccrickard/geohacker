@@ -28,7 +28,7 @@ Accounts.emailTemplates.resetPassword.text = function (user, url) {
 //*********************************************
 //      AWS S3 / CFS OBJECTS
 //*********************************************
-
+/*
 var publicStore = new FS.Store.S3("ghPublic", {
   region: "us-east-1", //optional in most cases
   bucket: "gh-resource", //required
@@ -42,6 +42,12 @@ var publicStore = new FS.Store.S3("ghPublic", {
 
 var ghAvatar = new FS.Collection("ghAvatar", {
     stores: [ publicStore ]
+});
+*/
+
+AWS.config.update({
+       accessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
+       secretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY
 });
 
 //*********************************************
@@ -84,7 +90,7 @@ Meteor.startup(
 
     ghTag = new Meteor.Collection("ghTag");
 
-    ghUserFeaturedPic = new Meteor.Collection("ghUserFeaturedPic")
+    //ghUserFeaturedPic = new Meteor.Collection("ghUserFeaturedPic")
 
     //editing collections
 
@@ -184,12 +190,6 @@ Meteor.startup(
       return ghTag.find();
     });
 
-/*
-    Meteor.publish("ghUserFeaturedPic", function () {
-      return ghUserFeaturedPic.find();
-    });
-*/
-
     ghText.allow({
 
       insert: function() {
@@ -268,6 +268,7 @@ Meteor.startup(
       },
     });
 
+/*
 //CFS collections
 
     ghAvatar.allow({
@@ -286,7 +287,7 @@ Meteor.startup(
       }
     });
 
-
+*/
 
 });
 
@@ -294,6 +295,12 @@ Meteor.startup(
 //*********************************************
 //      FUNCTIONS
 //*********************************************
+
+function setAWSConfig() {
+    
+    
+
+}
 
 function getCollectionForType(_type) {
 
@@ -332,10 +339,10 @@ function getCollectionForType(_type) {
 
 var urlTryCount = 0;
 
-function testAvatarURL(_fileObj, _userID) {
+function testAvatarURL(_key) {
 
     //initially the _fileObj won't even return a name ...
-
+/*
     if (!_fileObj.name().length ) {
 
       urlTryCount++;
@@ -354,14 +361,18 @@ function testAvatarURL(_fileObj, _userID) {
       Meteor.setTimeout( function() { testAvatarURL(_fileObj); }, 2000 );
 
     }
-
+*/
     //now we've got the name, so try the URL, b/c it won't work immediately
 
     //deduce the URL
 
-    var _id = _fileObj.name().substring(0, _fileObj.name().length - 4 );
+    //var _id = _fileObj.name().substring(0, _fileObj.name().length - 4 );
 
-    var avURL = avatarPrefix + _fileObj._id + "-" + _fileObj.name();
+    //var avURL = avatarPrefix + _fileObj._id + "-" + _fileObj.name();
+
+    var avURL = prefix + _key + ".png";
+
+console.log( avURL);
 
     //doing a synchronous call, so unblock the server
 
@@ -383,11 +394,11 @@ function testAvatarURL(_fileObj, _userID) {
       
       // Got a network error, time-out or HTTP error in the 400 or 500 range.
 
-        var errorJson = JSON.parse(result.content);
+       // var errorJson = JSON.parse(result.content);
         
-        console.log(errJson);
+        console.log(e);
 
-        testAvatarURL(_fileObj);
+        testAvatarURL(_key);
     }
 }
 
@@ -429,10 +440,7 @@ Meteor.methods({
 
   deleteS3File: function(_key) {
 
-    AWS.config.update({
-       accessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
-       secretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY
-    });
+    setAWSConfig();
 
     var s3 = new AWS.S3();
        var params = {
@@ -462,10 +470,8 @@ Meteor.methods({
 
   makeAvatar: function(_gender, userID) {  
 
-    var avatar = Meteor.npmRequire('avatar-generator')(),
-          fs = Npm.require('fs');
 
-      var newFile = new FS.File();
+    var avatar = Meteor.npmRequire('avatar-generator')(), fs = Npm.require('fs');
 
       //create the file with the supplied params
 
@@ -473,35 +479,44 @@ Meteor.methods({
 
       avatar(userID, _gender, 256).toBuffer( Meteor.bindEnvironment( function(error, buffer) { 
 
-          if(error) console.log(error.message);
+          if (error) console.log(error.message);
 
           //When get the callback we attach the picture data to the file
 
-          newFile.attachData( buffer, {type: 'image/png'},  function(error){
+              var _key = "ghAvatar/" + userID + '.png';
 
-              if(error) console.log(error.message);
+              setAWSConfig();
 
-              newFile.name(userID + '.png');  
+              var s3 = new AWS.S3();
 
-              //This callback from attachData inserts the file into the CFS collection
-              //and then that callback updates the user profile record
+              var params = {
+                Bucket: 'gh-resource', /* required */
+                Key: _key, /* required */
+                ACL: 'public-read-write',
+                Body: buffer,
+                ContentType: "image/png"
+              };
 
-              ghAvatar.insert(newFile, function (err, _fileObj) {
+              s3.putObject(params, Meteor.bindEnvironment(function(err, data) {
 
-                  if(err) console.log(err.message);
-
-                  Meteor.setTimeout( function() { testAvatarURL( _fileObj, userID ); }, 3000 );
+                if (err) {
                   
-              });
+                  console.log(err, err.stack); // an error occurred
+                }
+                else {
 
-          });
+                  console.log(data);           // successful response
 
-        }
+                  Meteor.users.update( {_id: userID }, { $set: { 'profile.av': prefix + _key }  });
 
+                  //testAvatarURL( _key, userID );
+                }    
+              
+              }));
 
-      )); 
+        }));
 
-  },
+  },  
 
   addRecord: function(_ID, _type) {
 
@@ -611,6 +626,8 @@ Meteor.methods({
 
     }) //end col.remove
  
-  }
+  },  //end updateContentRecordOnServer
+
+
 
 });

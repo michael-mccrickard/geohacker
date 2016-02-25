@@ -3,13 +3,13 @@
 Database = function() {
 
   var res = null;
-
+/*
   this.publicStore = new FS.Store.S3("publicStore");
 
   this.ghAvatar = new FS.Collection("ghAvatar", {
       stores: [ this.publicStore ]
   });
-
+*/
   //************************************************************
   //          COLLECTIONS
   //************************************************************

@@ -17,9 +17,6 @@ accounts-password
 email
 meteorhacks:npm
 npm-container
-cfs:standard-packages
-cfs:filesystem
-cfs:s3
 ddh:svg-circle-progress
 standard-minifiers
 meteor-base

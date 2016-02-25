@@ -21,7 +21,7 @@ Accounts.onLogin( function() { game.user = game.createGeohackerUser(); });
 
 gHackPreselect = "";
 
-FS.debug = true;
+//FS.debug = true;
 
 
  //determines what is displayed on the start screen: login or register
