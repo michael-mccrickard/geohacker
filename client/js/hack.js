@@ -243,7 +243,7 @@ Hack = function() {
 
       var rec = db.ghSound.findOne( {'cc':  this.countryCode, 'dt': 'ant' } );
 
-      if (!rec) {
+      if (rec) {
 
         return rec.u;
       }
@@ -258,7 +258,7 @@ Hack = function() {
 
       var rec = db.ghSound.findOne( {'cc':  this.countryCode, 'dt': 'lng' } );
 
-      if (!rec) {
+      if (rec) {
 
           return rec.u;        
 
@@ -307,17 +307,27 @@ Hack = function() {
 
     }
 
-    this.getHeadquartersPic = function() {
+    this.getHeadquartersPic = function( _code ) {
 
       try {
 
-          var u = db.ghImage.findOne( { cc: this.countryCode, dt: "hq" } ).u;
+          var u = db.ghImage.findOne( { cc: this.countryCode, dt: _code } ).u;
       }
       catch(err) {
 
-          showMessage( "No hq file found in images for " + this.getCountryName() );
+          var rec = db.ghWeb.findOne( { cc: this.countryCode, dt: _code } );
 
-          return null;
+          if (!rec) {
+
+            showMessage( "No hqt file found in images or webs for " + this.getCountryName() );
+
+            return null;          
+          }
+          else {
+
+             u = rec.u;
+          }
+
       }
 
       return u;
@@ -342,18 +352,27 @@ Hack = function() {
 
     this.getCustomPic = function(_code) {
 
-      var rec = db.ghImage.findOne( { cc: this.countryCode, dt: _code } );
+      try {
 
-      if (typeof rec === "undefined") {
-
-        showMessage("No picture found for country " + this.countryCode + " and dt == " + this.code);
-
-        return "";
+          var u = db.ghImage.findOne( { cc: this.countryCode, dt: _code } ).u;
       }
-      else {
- 
-        return( rec.u );
+      catch(err) {
+
+          var rec = db.ghWeb.findOne( { cc: this.countryCode, dt: _code } );
+
+          if (!rec) {
+
+            showMessage( "No custom pic (code " + _code + ") file found in images or webs for " + this.getCountryName() );
+
+            return null;          
+          }
+          else {
+
+             u = rec.u;
+          }
       }
+
+      return u;
     }
 
     this.getCountryMapURL = function() {

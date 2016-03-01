@@ -25,26 +25,43 @@ Debrief = function() {
 
 common -- used by all countries
 
-	ldr = leader name / pic
-	cap = capital name / pic
-	cmp = country map (pic)
+	ldr = leader name & pic (image and text and debrief;  text = leader name, debrief = leader title)
+	
+	cap = capital name & pic (image and text and debrief)
+
+	cmp -- normal map pic with name of country visible (image)
+
+	rmp -- redacted map pic with name of country obscured (image)
+
+	map -- a map that naturally has no identifying country name on it, used as both cmp and rmp (image)
+
+
+	//By convention, there is only one language sound file per country
+	//and it matches whatever lng_ record is found in the debrief records
+
+	lng = language file (sound)
+	
+	//language name records (one per country)
+
+	lng_o = official language name (debrief)
+	lng_om =  official language name, one of multiple official languages (debrief)
+	lng_i = indigenous language name (debrief)
 
 optional -- used by some countries
 
-	rmp -- redacted map pic (name of country obscured)
+	cus, cus[X] -- debrief / image or web pairs (could be anything)
 
-	cus, cus[X] -- text / pic pairs (could be anything)
+	hq, hq[X] --  debrief / image or web pairs for businesses headquarted in the country
 
-	hq, hq[X] -- text / pic pairs for businesses headquarted in the country
+	text & image pairs -- used by some countries as debriefs / text clues and tag text.
+	When used as a debrief / text clue:  text = name of entity, debrief = explanatory text, image or web = relevant image
+	When used as tag text, there will be a rec (with pic) in ghTag with this code
 
-text-only -- used by some countries as both text clues and tag text.
-When used as tag text, there will be a rec (with pic) in ghTag with this code
+		art -- artist (broadly speaking, could be writer, musician, actor, etc.)
 
-	art -- artist (broadly speaking, could be writer, musician, actor, etc.)
+		bus, bus[X] -- business name
 
-	bus, bus[X] -- business name
-
-	lan, lan[X] -- landmark
+		lan, lan[X] -- landmark
 
 special cases
 	agt -- agent (used in agent tags generated on the fly)
@@ -187,8 +204,6 @@ special cases
 
 		if (this.code == "flg")  this.image = hack.getFlagPic();
 
-		if (this.code == "hq")  this.image = hack.getHeadquartersPic();
-
 		if (this.code == "ldr")  this.image = hack.getLeaderPic();
 
 		if (this.code == "cap")  this.image = hack.getCapitalPic();
@@ -249,9 +264,9 @@ special cases
 			this.text = leaderName + " is the " + leaderType + " of " + hack.getCountryName() + ".";
 		}
 
-		//the code is the first 3 letters in the field, but our headquarters code is just 2 letters
+		//the code is the first 3 letters of the field and dt is the full field
 
-		if (this.rec.dt  == "hq") {
+		if (this.code  == "hqt") {
 
 			this.text = this.rec.t + " is headquartered in " + hack.getCountryName() + ".";
 		}
@@ -332,7 +347,7 @@ Template.debrief.events = {
 
  		var debrief = hack.debrief;
 
-  		Control.playEffect("new_feedback.mp3");
+  		//Control.playEffect("new_feedback.mp3");
 
   		debrief.index--;
 
@@ -348,7 +363,7 @@ Template.debrief.events = {
 
     	var debrief = hack.debrief;
 
-  		Control.playEffect("new_feedback.mp3");
+  		//Control.playEffect("new_feedback.mp3");
 
   		debrief.index++;
 

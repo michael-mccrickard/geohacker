@@ -93,15 +93,13 @@ Template.registerHelper("getImage", function(_file) {
 
 		if (_code == "flg")  return hack.getFlagPic();
 
-		if (_code == "hq")  return hack.getHeadquartersPic();
-
 		if (_code == "ldr")  return hack.getLeaderPic();
 
 		if (_code == "cap")  return hack.getCapitalPic();
 
-		if (_code.substr(0,3) == "cus")  return hack.getCustomPic(this.dt);		
+		return hack.getCustomPic(this.dt);		
 
-		return this.f;
+		//return this.f;  //anymore f fields with pic sources left???
 
 	}
 )

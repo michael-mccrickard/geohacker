@@ -57,7 +57,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	if (_mode == uBio) {
 
-	  		Meteor.defer( function() { $(".imgHomeAvatar").css("border-color","red") } );
+	  		Meteor.defer( function() { $(".imgHomeAvatar").css("border-color","gray") } );
 
 	  		this.bio.load();
 
@@ -66,21 +66,21 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	if (_mode == uHack) {
 
-	  		Meteor.defer( function() { $("#divHomeHackPic").css("border-color","red") } );
+	  		Meteor.defer( function() { $("#divHomeHackPic").css("border-color","gray") } );
 
 	  		this.template.set("missionListing");
     	}
 
      	if (_mode == uStats) {
 
-	  		Meteor.defer( function() { $("#divHomeStatsPic").css("border-color","red") } );
+	  		Meteor.defer( function() { $("#divHomeStatsPic").css("border-color","gray") } );
 
      		this.template.set("stats");   	
      	}
 
      	if (_mode == uClockOut) {
 
-	  		Meteor.defer( function() { $("#divHomeClockOutPic").css("border-color","red") } );
+	  		Meteor.defer( function() { $("#divHomeClockOutPic").css("border-color","gray") } );
 
      		game.logout();
      	}
@@ -208,8 +208,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 			    console.log(error.reason);
 			    return;
 			  }
-
-console.log(result);
 
 			 Meteor.setTimeout( function(){ game.user.profile = Meteor.user().profile; }, 1500);
 		});
