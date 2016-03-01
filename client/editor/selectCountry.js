@@ -1,10 +1,10 @@
-dataMode = true; // new Blaze.ReactiveVar(false);
+var dataMode = true; // new Blaze.ReactiveVar(false);
 
 var editAllMode  =  new Blaze.ReactiveVar(true);
 
 var selRegions = new Blaze.ReactiveVar([]);
 
-contToEdit = "";
+var contToEdit = "";
 
 var contButtons = ["#editAsia", "#editAmerica", "#editAfrica", "#editEurope", "#editOceania"];
 

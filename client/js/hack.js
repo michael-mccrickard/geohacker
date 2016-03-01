@@ -243,7 +243,7 @@ Hack = function() {
 
       var rec = db.ghSound.findOne( {'cc':  this.countryCode, 'dt': 'ant' } );
 
-      if (typeof rec !== 'undefined') {
+      if (!rec) {
 
         return rec.u;
       }
@@ -258,14 +258,14 @@ Hack = function() {
 
       var rec = db.ghSound.findOne( {'cc':  this.countryCode, 'dt': 'lng' } );
 
-      if (typeof rec !== 'undefined') {
+      if (!rec) {
 
           return rec.u;        
 
       }
       else {
 
-          showMessage( "No anthem file found for " + this.getCountryName() );        
+          showMessage( "No language file found for " + this.getCountryName() );        
       }
 
     }
@@ -360,15 +360,16 @@ Hack = function() {
 
       var _cc = this.countryCode;
 
-      var rec = db.ghImage.findOne( { cc: _cc, dt: "cmp" } );
+      var rec = db.ghImage.findOne( { cc: _cc, dt: { $in: ["cmp","map"] } } );
 
-      if (typeof rec !== 'undefined') {
+      if (rec) {
 
-        return rec.u;
+         return rec.u;
       }
+
       else {
 
-        showMessage("No map image found for " + this.getCountryName() + " (where dt = cmp)");
+        showMessage("No map image found for " + this.getCountryName());
       }
     }
 

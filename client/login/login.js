@@ -194,6 +194,8 @@ Template.login.events({
 
       e.preventDefault();
 
+      waitOnDB();
+
       var name = t.find('#registration-name').value
       
       var email = t.find('#registration-email').value
@@ -287,7 +289,9 @@ Template.login.events({
 
         }
 
-      return false;
+       stopWaitOnDB();
+
+      return false;  //prevent reloading the page/app?  
     },
 
     'click #updatePassword': function (e, t) { 

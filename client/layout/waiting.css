@@ -1,3 +1,10 @@
+.divSpinner {
+
+  position: absolute;
+  top: 50%;
+  left: 50%; 
+}
+
 .waitContainer {
   position: fixed;
   width: 100%;

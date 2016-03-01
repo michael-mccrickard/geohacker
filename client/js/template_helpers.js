@@ -1,12 +1,11 @@
 
 
+Template.registerHelper("waitingOnDatabase", function() {
 
-Template.registerHelper("s3URL", function( _rec) {
-
-    return getS3URL( _rec );  
-	
+		return Session.get("sWaitingOnDatabase");
 	}
 )
+
 
 Template.registerHelper("agentName",  function() {
 

@@ -3,6 +3,13 @@ var basicMode  =  new Blaze.ReactiveVar(true);
 
 var otherMode = new Blaze.ReactiveVar(false);
 
+var editAllMode  =  new Blaze.ReactiveVar(true);
+
+selRegions = new Blaze.ReactiveVar([]);
+
+var contToEdit = "";
+
+var contButtons = ["#editAsia", "#editAmerica", "#editAfrica", "#editEurope", "#editOceania"];
 
 Session.set("sUpdateEditScreenFlag", true);
 
@@ -51,6 +58,14 @@ Template.dataChecker.helpers({
 
       var flag = Session.get("sUpdateEditScreenFlag");
 
+      if ( editAllMode.get() ) return  db.ghC.find( { d: 1 }, {sort: {n: 1} } );
+
+      var arr = [];
+
+      arr = selRegions.get();
+
+      if (selRegions.get().length > 0) return db.ghC.find( { d: 1, r: { $in: arr } }, {sort: {n: 1} } );
+
       return  db.ghC.find( { d: 1 }, {sort: {n: 1} } );
 
     },
@@ -67,9 +82,9 @@ Template.dataChecker.helpers({
 
       if (_which == "ldrText") res = db.ghText.find( { cc: this.c, dt: "ldr" } ).fetch().length;
 
-      if (_which == "cmpImage") res = db.ghImage.find( { cc: this.c, dt: "cmp" } ).fetch().length;
+      if (_which == "cmpImage") res = db.ghImage.find( { cc: this.c, dt: { $in: ["cmp","map"] } } ).fetch().length;
 
-      if (_which == "rmpImage") res = db.ghImage.find( { cc: this.c, dt: "rmp" } ).fetch().length;
+      if (_which == "rmpImage") res = db.ghImage.find( { cc: this.c, dt: { $in: ["rmp","map"] } } ).fetch().length;
 
       if (_which == "flgImage") res = db.ghImage.find( { cc: this.c, dt: "flg" } ).fetch().length;
 
@@ -155,7 +170,112 @@ Template.dataChecker.events = {
 
      setMode("other");
   },
+
+  'click #editAllMode' : function(evt, template) {
+
+        if (editAllMode.get() ) {
+
+          editAllMode.set(false);
+
+          setModeButton( "#editAllMode", false);
+        }
+        else {
+
+          selRegions.set( [] );
+
+          editAllMode.set(true);
+
+          resetContinentButtons();
+
+          setModeButton( "#editAllMode", true);
+        }
+   },
+
+  'click #editAmerica' : function(evt, template) {
+
+        selRegions.set( ["mam", "nam", "nwsa", "nesa", "ssa","cam"] );
+
+        updateQuery(evt.currentTarget.id);
+
+   },
+
+  'click #editAsia' : function(evt, template) {
+
+        selRegions.set( ["eas", "cas", "seas", "sas", "mea","swas"] );
+
+        updateQuery(evt.currentTarget.id);
+
+   },
+
+  'click #editEurope' : function(evt, template) {
+
+        selRegions.set( ["neu", "eeu", "weu", "bal"] );
+
+        updateQuery(evt.currentTarget.id);
+   },
+
+  'click #editAfrica' : function(evt, template) {
+
+        selRegions.set( ["caf", "neaf", "saf", "nwaf"] );
+
+        updateQuery(evt.currentTarget.id);
+   },
+
+  'click #editOceania' : function(evt, template) {
+
+        selRegions.set( ["aus", "oce"] );
+
+        updateQuery(evt.currentTarget.id);
+   },
 }
+
+function resetContinentButtons() {
+
+  for (var i = 0; i < contButtons.length; i++) {
+
+     $( contButtons[i] ).removeClass("menuBarBtnContSel")
+
+     $( contButtons[i] ).addClass("menuBarBtnCont");   
+  }
+}
+
+function setContinentButtons(_which) {
+
+  if ( contToEdit != "" )  $("#" + contToEdit ).removeClass("menuBarBtnContSel");
+  
+  contToEdit = _which;
+
+  $("#" + _which ).removeClass("menuBarBtnCont")
+
+  $("#" + _which ).addClass("menuBarBtnContSel");
+}
+
+
+function updateQuery(_id) {
+
+  editAllMode.set(false);
+
+  setModeButton( "#editAllMode", false);  
+
+  setContinentButtons( _id );
+}
+
+function setModeButton(_which, _val) {
+
+  if (_val) {
+
+    $( _which ).removeClass("menuBarBtnCont");
+
+    $( _which ).addClass("menuBarBtnContSel");
+  }
+  else {
+
+    $( _which ).removeClass("menuBarBtnContSel");
+
+    $( _which ).addClass("menuBarBtnCont");
+  }
+
+} 
 
 /*
 
@@ -176,52 +296,10 @@ function conformButtons() {
 
 }
 
-function setModeButton(_which, _val) {
 
-  if (_val) {
 
-    $( _which ).removeClass("menuBarBtnCont");
 
-    $( _which ).addClass("menuBarBtnContSel");
-  }
-  else {
 
-    $( _which ).removeClass("menuBarBtnContSel");
-
-    $( _which ).addClass("menuBarBtnCont");
-  }
-
-} 
-
-function setContinentButtons(_which) {
-
-  if ( contToEdit != "" )  $("#" + contToEdit ).removeClass("menuBarBtnContSel");
-  
-  contToEdit = _which;
-
-  $("#" + _which ).removeClass("menuBarBtnCont")
-
-  $("#" + _which ).addClass("menuBarBtnContSel");
-}
-
-function resetContinentButtons() {
-
-  for (var i = 0; i < contButtons.length; i++) {
-
-     $( contButtons[i] ).removeClass("menuBarBtnContSel")
-
-     $( contButtons[i] ).addClass("menuBarBtnCont");   
-  }
-}
-
-function updateQuery(_id) {
-
-  editAllMode.set(false);
-
-  setModeButton( "#editAllMode", false);  
-
-  setContinentButtons( _id );
-}
 
 Template.selectCountry.events = {
 

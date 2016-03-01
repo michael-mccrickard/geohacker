@@ -11,6 +11,8 @@ var countryCode;
 
 
 process.env.MAIL_URL = Meteor.settings.MAIL_URL;
+process.env.AWS_ACCESS_KEY_ID = Meteor.settings.AWS_ACCESS_KEY_ID;
+process.env.AWS_SECRET_ACCESS_KEY = Meteor.settings.AWS_SECRET_ACCESS_KEY;
 
 Accounts.emailTemplates.siteName = "Geohacker";
 Accounts.emailTemplates.from = "Geohacker In Chief <mikemccrickard@gmail.com>";
@@ -26,24 +28,8 @@ Accounts.emailTemplates.resetPassword.text = function (user, url) {
 };
 
 //*********************************************
-//      AWS S3 / CFS OBJECTS
+//      AWS S3 OBJECTS
 //*********************************************
-/*
-var publicStore = new FS.Store.S3("ghPublic", {
-  region: "us-east-1", //optional in most cases
-  bucket: "gh-resource", //required
-  accessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
-  secretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
-  ACL: "public-read-write", //optional, default is 'private', but you can allow public or secure access routed through your app URL
-});
-
-//we only need this to be able to upload the initial avatar file from the 
-//server, b/c those are created on the server (makeAvatar)
-
-var ghAvatar = new FS.Collection("ghAvatar", {
-    stores: [ publicStore ]
-});
-*/
 
 AWS.config.update({
        accessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
@@ -268,27 +254,6 @@ Meteor.startup(
       },
     });
 
-/*
-//CFS collections
-
-    ghAvatar.allow({
-
-      insert: function() {
-          return true;
-      },
-      update: function() {
-          return true;
-      },
-      remove: function() {
-          return true;
-      },
-      download: function() {
-          return true;
-      }
-    });
-
-*/
-
 });
 
 
@@ -340,35 +305,6 @@ function getCollectionForType(_type) {
 var urlTryCount = 0;
 
 function testAvatarURL(_key) {
-
-    //initially the _fileObj won't even return a name ...
-/*
-    if (!_fileObj.name().length ) {
-
-      urlTryCount++;
-
-      if (urlTryCount > 5) {
-
-          console.log("URL for avatar could not be reached.");
-
-          urlTryCount = 0;
-
-          return;
-      }
-
-      //wait a couple seconds and try again
-
-      Meteor.setTimeout( function() { testAvatarURL(_fileObj); }, 2000 );
-
-    }
-*/
-    //now we've got the name, so try the URL, b/c it won't work immediately
-
-    //deduce the URL
-
-    //var _id = _fileObj.name().substring(0, _fileObj.name().length - 4 );
-
-    //var avURL = avatarPrefix + _fileObj._id + "-" + _fileObj.name();
 
     var avURL = prefix + _key + ".png";
 
