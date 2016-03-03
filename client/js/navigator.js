@@ -50,18 +50,16 @@ Navigator = function() {
 
         Meteor.subscribe("registeredUsers", function() {
 
-             stopWait();
-
              editor.userDirectoryDataReady = true;
 
-             FlowRouter.go( _which );
+             Meteor.setTimeout( function() { FlowRouter.go( _which ); }, 100 );
 
              return;
           }); 
         }    
         else {
 
-          FlowRouter.go( _which );
+             Meteor.setTimeout( function() { FlowRouter.go( _which ); }, 100 );
         }
 
     }

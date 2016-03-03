@@ -96,6 +96,8 @@ Feature = function() {
 
 			if (display.ctl["VIDEO"].isYouTube ) {
 
+				display.ctl["VIDEO"].play();
+
           		this.fileIsLoaded();
 
 				return;
