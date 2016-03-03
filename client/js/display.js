@@ -86,7 +86,7 @@ Display = function() {
 
         //reset vars and re-do controls and map
 
-        this.mainTemplateReady = false;
+//        this.mainTemplateReady = false;
 
         this.loader.totalClueCount = 0;
 
@@ -330,7 +330,7 @@ Display = function() {
 
     this.loadMain = function() {
 
-        this.mainTemplateReady = false;
+//        this.mainTemplateReady = false;
 
         for (i=0; i < this.ctlName.length; i++) {
 
@@ -359,7 +359,7 @@ Display = function() {
 
     this.loadMainForBrowsing = function() {
 
-        this.mainTemplateReady = false;
+//        this.mainTemplateReady = false;
 
         for (i=0; i < this.ctlName.length; i++) {
 
@@ -542,89 +542,6 @@ c("showFeaturedContent is playing the media file")
               ctl.setState( sLoaded );           
             }
         }    
-    }
-
-    this.switchToDataChecker = function() {
-
-        this.switchToEditor();
-
-        FlowRouter.go("/dataChecker");       
-    }
-
-    this.switchToEditCountry = function() {
-        
-        if (!hack) {
-
-            showMessage("No country selected.");
-
-            return;
-        }
-
-        if (!hack.countryCode.length) {
-
-            showMessage("No country selected.");
-
-            return;            
-        }
-
-
-        this.switchToEditor();
-
-        FlowRouter.go("/editor");
-    }
-
-    this.switchToSelectCountry = function() {
-
-        this.switchToEditor();
-
-        FlowRouter.go("/selectCountry");       
-    }
-
-    this.switchToEditor = function() {
-
-      Control.suspendAllMedia();
-
-      this.checkForDB();
-
-      if (editor == null) editor = new Editor();
-
-      editor.controlType = cSound;
-
-      //bring over the countryCode from the global hack
-
-      if (hack) {
-
-        if (hack.countryCode.length)  editor.hack.countryCode = hack.countryCode;
-      }
-
-      //Switch the global to be the edit hack
-
-      hack = editor.hack;
-
-      hack.mode = mEdit;
-
-      this.closeOutMain();
-
-    }
-
-    this.stopEditVideo = function() {
-
-        if (youTubeLoaded) {
-
-            ytplayer.stopVideo();
-        }
-    }
-
-    this.checkForDB = function() {
-
-       if (db == null) {
-
-          db = new Database();
-
-          db.initCore();
-
-          db.initControls();
-      }
     }
 
 }

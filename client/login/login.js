@@ -202,6 +202,12 @@ Template.login.events({
 
       var password = t.find('#registration-password').value
 
+      var _date = new Date().toLocaleString();
+
+      var _index = _date.indexOf(",");
+
+      _date = _date.substring(0, _index);
+
       if ( isValidPassword( password ) ) {
 
             game.user = new User( name, "0", 0); //name, id, scroll pos (for content editors)
@@ -228,6 +234,9 @@ Template.login.events({
                 //(without rules or server methods)
 
                 profile: {
+
+                    createdAt: _date,
+
                     a: [],
                     h: [],
                     c: "",

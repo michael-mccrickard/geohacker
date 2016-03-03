@@ -199,40 +199,22 @@ Template.selectCountry.events = {
 
   	editor.hack.countryCode = this.c;  
 
-  	FlowRouter.go("/editor");
+  	nav.goAdmin("/editor");
   },
 
   'click #closeSelectCountry': function (evt, template) {
 
      editor.saveScroll();
 
-     editor.hack.mode = mNone;
-
-     //we really need to know where the user was before this screen,
-     //but for now ...
-
-  	 if (mission != null) {
-
-        hack = game.user.missionHack;
-
-        display.mainTemplateReady = false;
-
-        FlowRouter.go("/main");
-    }
-    else {
-
-        hack = game.user.browseHack;
-
-        game.user.goHome();
-    }
+     nav.closeEditor();
      
   },
 
   'click .updateCountryButton': function (evt, template) {
 
-      editor.recordID = evt.target.id;
+      editor.recordID.set( evt.target.id );
 
-      doUpdateRecord( editor.recordID );
+      doUpdateRecord( editor.recordID.get() );
 
   },
 
@@ -240,7 +222,7 @@ Template.selectCountry.events = {
 
 function doUpdateRecord() {
 
-      editor.controlType = cCountry;
+    editor.controlType.set( cCountry );
 
-    editor.doUpdateRecord(editor.recordID);
+    editor.doUpdateRecord( editor.recordID.get() );
 }

@@ -388,6 +388,10 @@ c("'click control' is calling feature.set")
 
 }
 
+//***********************************************************************
+//        UTILITIES
+//***********************************************************************
+
 Control.unfocusMe = function(which) {
 
   document.getElementById( which ).blur();
@@ -396,6 +400,17 @@ Control.unfocusMe = function(which) {
 Control.unfocusMyClass = function(which) {
 
   document.getElementsByClassName( which ).blur();
+}
+
+Control.getImageFromFile = function(_file) {
+
+  // Create new offscreen image to test
+
+  var theImage = new Image();
+
+  theImage.src = _file;
+
+  return theImage;
 }
 
 //***********************************************************************
@@ -430,6 +445,14 @@ Control.suspendAllMedia = function() {
 
 }
 
+Control.stopEditVideo = function() {
+
+  if (youTubeLoaded) {
+
+      ytplayer.stopVideo();
+  }
+}
+
 
 //************************************************************
 //            YOUTUBE PLAYER
@@ -452,17 +475,6 @@ Control.getNonYouTubeFile = function(_file) {
 }
 
 
-Control.getImageFromFile = function(_file) {
-
-  // Create new offscreen image to test
-
-  var theImage = new Image();
-
-  theImage.src = _file;
-
-  return theImage;
-
-}
 
 //*****************************************************************
 // CONTROL CHILD OBJECTS  (SOUND, VIDEO AND MAP IN SEPARATE FILES)

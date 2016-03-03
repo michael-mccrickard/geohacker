@@ -37,7 +37,7 @@ Template.closeup.events = {
         return;
       } 
 
-      display.mainTemplateReady = false;
+//      display.mainTemplateReady = false;
 
       if (display.feature.getName() == "MAP") {
 

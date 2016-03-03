@@ -1,9 +1,4 @@
-/*
-Template.editor.rendered = function() {
 
-  display.switchToEditor();
-}
-*/
 
 Template.editor.helpers({
 
@@ -11,7 +6,7 @@ Template.editor.helpers({
 
     	var ID = editor.hack.countryCode;
 
-    	var control = editor.controlType;
+    	var control = editor.controlType.get();
 
     	if (control == cNone) return null;
 
@@ -99,7 +94,7 @@ Template.editor.helpers({
 
     getURLButtonText: function() {
 
-      var _type = editor.controlType;
+      var _type = editor.controlType.get();
 
       if (_type == cSound) return "URL";
 
@@ -109,7 +104,7 @@ Template.editor.helpers({
 
     isMedia: function() {
 
-      var _type = editor.controlType;
+      var _type = editor.controlType.get();
 
       if (_type == cSound || _type == cVideo) return true;
 
@@ -125,16 +120,16 @@ Template.editor.helpers({
 
     notText: function() {
 
-      if (editor.controlType != cText) return true;
+      if (editor.controlType.get() != cText) return true;
 
       return false;
     },
 
     selectedDataRecord: function() {
 
-  		var type = editor.controlType;
+  		var type = editor.controlType.get();
 
-  		var ID = editor.recordID;
+  		var ID = editor.recordID.get();
 
   		if (!ID) return null;
 
@@ -145,28 +140,28 @@ Template.editor.helpers({
 
     soundIsSelected: function() {
 
-    	if ( editor.controlType == cSound ) return true;
+    	if ( editor.controlType.get() == cSound ) return true;
 
     	return false;
     },
 
     textIsSelected: function() {
 
-      if ( editor.controlType == cText ) return true;
+      if ( editor.controlType.get() == cText ) return true;
     
     	return false;
     }, 
 
     debriefIsSelected: function() {
 
-      if ( editor.controlType == cDebrief) return true;
+      if ( editor.controlType.get() == cDebrief) return true;
 
     	return false;
     },
 
     otherIsSelected: function() {
 
-    	var _type = editor.controlType;
+    	var _type = editor.controlType.get();
 
       if ( _type == cVideo && Control.isYouTubeURL(this.f)) return false;     
 
@@ -188,16 +183,16 @@ Template.editor.events = {
 
 	'click #addRecord': function() {
 
-      if (editor.controlType == 0) {
+      if (editor.controlType.get() == 0) {
 
         alert("No control type selected.");
 
         return;
       }
 
-    	editor.addThisRecord( editor.hack.countryCode, editor.controlType, function(err, result) {
+    	editor.addThisRecord( editor.hack.countryCode, editor.controlType.get(), function(err, result) {
 
-        editor.recordID = result;
+        editor.recordID.set( result );
 
         editor.newRecordID.set( result );
 
@@ -215,51 +210,51 @@ Template.editor.events = {
 
   'click #editSound' : function(evt, template) {
 
-    display.stopEditVideo();
+    Control.stopEditVideo();
 
-  	editor.controlType = cSound;
+  	editor.controlType.set( cSound );
   },
 
   'click #editText' : function(evt, template) {
 
-    display.stopEditVideo();
+    Control.stopEditVideo();
 
-  	editor.controlType = cText;
+    editor.controlType.set( cText );
   },
 
   'click #editImage' : function(evt, template) {
 
-    display.stopEditVideo();
+    Control.stopEditVideo();
 
-  	editor.controlType = cImage;
+    editor.controlType.set( cImage );
   },
 
   'click #editVideo' : function(evt, template) {
 
-  	editor.controlType = cVideo;
+    Control.stopEditVideo();
+
+    editor.controlType.set( cVideo );
   },
 
   'click #editWeb' : function(evt, template) {
 
-    display.stopEditVideo();
+    Control.stopEditVideo();
 
-  	editor.controlType = cWeb;
+    editor.controlType.set( cWeb );
   },
 
   'click #editDebrief' : function(evt, template) {
 
-    display.stopEditVideo();
+    Control.stopEditVideo();
 
-	   editor.controlType = cDebrief;
+    editor.controlType.set( cDebrief );
   },
 
   'click #closeEditor' : function(evt, template) {
 
-    display.stopEditVideo();
+    nav.closeEditor();
 
-    editor.hack.mode = mNone;
-
-    window.history.back();
+    //window.history.back();
 
 	  //FlowRouter.go("/selectCountry");
   },
@@ -267,13 +262,13 @@ Template.editor.events = {
   'click .dataRow' : function(evt, template) {
   
 
-     editor.recordID = evt.target.id;
+     editor.recordID.set( evt.target.id );
 
-if (editor.recordID == editor.newRecordID.get() ) return;
+if (editor.recordID.get() == editor.newRecordID.get() ) return;
 
-     if (editor.controlType == cVideo) {
+      if (editor.controlType.get() == cVideo) {
 
-        var rec = db.ghVideo.findOne( { _id: editor.recordID } );
+        var rec = db.ghVideo.findOne( { _id: editor.recordID.get() } );
 
         if(!rec) return;
         
@@ -304,13 +299,11 @@ if (editor.recordID == editor.newRecordID.get() ) return;
 
      }
 
-     if (editor.controlType == cSound) {
-
-       if (document.getElementById("editorSoundPlayer") == null) return;
+     if (editor.controlType.get() == cSound) {
  
        try {
 
-          var u = db.ghSound.findOne( { _id: editor.recordID } ).u;
+          var u = db.ghSound.findOne( { _id: editor.recordID.get() } ).u;
        }
        catch(err) {
 
@@ -319,7 +312,7 @@ if (editor.recordID == editor.newRecordID.get() ) return;
 
         $("#editorSoundPlayer").attr("src", u ) ;
 
-        document.getElementById("editorSoundPlayer").play();
+        Meteor.setTimeout( function() { document.getElementById("editorSoundPlayer").play(); }, 250 );
      }
 
      
@@ -327,13 +320,13 @@ if (editor.recordID == editor.newRecordID.get() ) return;
 
   'click .deleteRecord' : function(evt, template) {
 
-	   editor.deleteCurrentRecord(evt.target.id, editor.controlType);
+	   editor.deleteCurrentRecord(evt.target.id, editor.controlType.get());
 
   },
 
   'click .updateRecord' : function(evt, template) {
 
-      if (editor.controlType == cVideo) {
+      if (editor.controlType.get() == cVideo) {
       
           var sel = "#" + evt.target.id + ".f";
 
@@ -394,7 +387,7 @@ if (editor.recordID == editor.newRecordID.get() ) return;
 
           data["u"] = _val;
 
-          Meteor.call("updateRecordOnServerWithDataObject", editor.controlType, editor.newRecordID.get(), data, function(err, result) {
+          Meteor.call("updateRecordOnServerWithDataObject", editor.controlType.get(), editor.newRecordID.get(), data, function(err, result) {
 
               if (err) {
                 showMessage(err.reason);

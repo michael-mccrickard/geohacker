@@ -51,7 +51,7 @@ optional -- used by some countries
 
 	cus, cus[X] -- debrief / image or web pairs (could be anything)
 
-	hq, hq[X] --  debrief / image or web pairs for businesses headquarted in the country
+	hqt, hqt[X] --  debrief / image or web pairs for businesses headquarted in the country
 
 	text & image pairs -- used by some countries as debriefs / text clues and tag text.
 	When used as a debrief / text clue:  text = name of entity, debrief = explanatory text, image or web = relevant image
@@ -329,7 +329,7 @@ Template.debrief.events = {
 
   		if (game.user.mode == uBrowse) {
 
-  			display.mainTemplateReady = false;
+//  			display.mainTemplateReady = false;
 
   			display.feature.resetToPrevious();
 

@@ -14,35 +14,25 @@ Template.main.helpers({
 
     controlPic: function() {
 
-        if ( noDisplay() ) return;
-
         return display.ctl[ this ].getControlPic();
     },
 
     controlPicLeft: function() {
-
-        if ( noDisplay() ) return;
 
       return display.ctl[ this ].picFrame.left;
     },
 
     controlPicTop: function() {
 
-        if ( noDisplay() ) return;
-
       return display.ctl[ this ].picFrame.top;
     },
 
     controlPicWidth: function() {
 
-        if ( noDisplay() ) return;
-
       return display.ctl[ this ].picFrame.width;
     },
 
     controlPicHeight: function() {
-
-        if ( noDisplay() ) return;
 
       return display.ctl[ this ].picFrame.height;
     },
@@ -50,8 +40,6 @@ Template.main.helpers({
     //when a control is clicked, the background is hilited
 
     controlBackdrop: function(_name) {
-
-        if ( noDisplay() ) return;
 
       if (_name == display.feature.getName() ) return "hilitedBackdrop.jpg"
 
@@ -70,8 +58,6 @@ Template.main.helpers({
 
     opacityClass: function() {
 
-        if ( noDisplay() ) return;
-
       if (display.ctl[ this ].getState() <= sIcon) return "faded";
 
       return "";
@@ -79,8 +65,6 @@ Template.main.helpers({
     },
 
     opacityClassMap: function() {
-
-        if ( noDisplay() ) return;
 
       var _s = display.ctl[ this ].getState();  //any state change to a control will trigger this?
 
@@ -92,8 +76,6 @@ Template.main.helpers({
 
     navButtonPrevVisible: function() { 
 
-        if ( noDisplay() ) return;
-
       if (display.feature.off() ) return "invisible"; 
 
       if (!display.feature.ctl) return;
@@ -104,8 +86,6 @@ Template.main.helpers({
     },
 
     navButtonNextVisible: function() { 
-
-        if ( noDisplay() ) return;
 
       if (display.feature.off() ) return "invisible"; 
 
@@ -125,8 +105,6 @@ Template.main.helpers({
 
     TextIsDisplayed: function() {
 
-        if ( noDisplay() ) return;
-
         if (display.feature.getName() == "TEXT") return true;
 
         //if (display.feature.getName() == "MAP") return true;
@@ -138,8 +116,6 @@ Template.main.helpers({
 
     featuredAreaFont: function() {
 
-        if ( noDisplay() ) return;
-
         if (display.feature.displayMessage.get() ) return "featuredMessageFont";
 
         return "featuredTextFont";
@@ -147,22 +123,16 @@ Template.main.helpers({
 
 
     displayTextContent: function() {
-      
-        if ( noDisplay() ) return;
 
         if (display.feature.getName() == "TEXT") return display.ctl["TEXT"].getTextContent();       
     },
 
     textControlContent: function() { 
 
-        if ( noDisplay() ) return;
-
         return display.ctl["TEXT"].getTextContent();   
     },
 
     displayTextControlText: function() {
-
-        if ( noDisplay() ) return;
 
         if (this == "TEXT" && display.ctl["TEXT"].getState() >= sLoaded) return true;
 
@@ -171,15 +141,11 @@ Template.main.helpers({
 
     youTubeWaiting: function() {
 
-        if ( noDisplay() ) return;
-
       return display.ctl["VIDEO"].youTubeWaiting.get();
     },
 
 
     scannerNotVisible: function() {
-
-        if ( noDisplay() ) return;
 
       if ( display.scanner.visible.get() ) return false;
 
@@ -187,8 +153,6 @@ Template.main.helpers({
     },
 
     scannerNotLoaded: function() {
-
-        if ( noDisplay() ) return;
 
       if ( display.scanner.centerState.get() != "loaded" ) return true;
 
@@ -445,9 +409,13 @@ Template.main.rendered = function () {
 
     if (!display) return;
 
-    if (display.mainTemplateReady == false) {
+c("main rendered")
 
-      display.mainTemplateReady = true;
+//    if (display.mainTemplateReady == false) {
+
+c("calling main redraw")
+
+      //display.mainTemplateReady = true;
 
       display.redraw();
 
@@ -488,6 +456,6 @@ Template.main.rendered = function () {
 
       }
 
-    }
+  //  }
 }
 

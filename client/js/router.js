@@ -1,14 +1,15 @@
 var debrief_sound = "debrief.mp3";
 
-pageRefreshed = false;
-
 
 //*********************************************
 //      START
 //*********************************************
 FlowRouter.route('/', {
 
-    action: function (params, queryParams) { BlazeLayout.render('layout', { content: "start" } ) },
+    action: function (params, queryParams) { 
+
+      BlazeLayout.render('layout', { content: "start" } ) 
+    },
 
 });
 
@@ -18,15 +19,9 @@ FlowRouter.route('/start', {
 
   name: "start",
 
-  action: function (params, queryParams) { BlazeLayout.render('layout', { content: "start" } ) },
+  action: function (params, queryParams) { 
 
-  subscriptions: function(params, queryParams) {
-
-      this.register("images", Meteor.subscribe("allImages") );
-
-      this.register("debriefs", Meteor.subscribe("allDebriefs") );
-
-      this.register("texts", Meteor.subscribe("allTexts") );
+    BlazeLayout.render('layout', { content: "start" } ) 
   },
 
 });
@@ -51,28 +46,20 @@ FlowRouter.route('/help2', {
 
     name: "help2",
 
-    action: function (params, queryParams) { BlazeLayout.render('layout', { content: "help2" } ) },
+    action: function (params, queryParams) { 
+
+      BlazeLayout.render('layout', { content: "help2" } )
+
+    }
 });
 
 FlowRouter.route('/dataChecker', {
 
     name: "dataChecker",
 
-    action: function (params, queryParams) { BlazeLayout.render('layout', { content: "dataChecker" } ) },
+    action: function (params, queryParams) { 
 
-    subscriptions: function(params, queryParams) {
-
-        this.register("images", Meteor.subscribe("allImages") );
-
-        this.register("debriefs", Meteor.subscribe("allDebriefs") );
-
-        this.register("texts", Meteor.subscribe("allTexts") );
-
-        this.register("webs", Meteor.subscribe("allWebs") );
-
-        this.register("videos", Meteor.subscribe("allVideos") );
-
-        this.register("sounds", Meteor.subscribe("allSounds") );
+      BlazeLayout.render('layout', { content: "dataChecker" } ) 
     },
 
 
@@ -85,8 +72,6 @@ FlowRouter.route('/dataChecker', {
 FlowRouter.route('/congrats', {
 
   action: function() {
-
-    pageRefreshed = false;
 
     $('body').removeClass('noscroll');
 
@@ -104,18 +89,9 @@ FlowRouter.route('/congrats', {
 //      HOME
 //*********************************************
 
-noDisplay = function() {
-
-  if (typeof display === "undefined") return true;
-
-  return false;
-}
-
 FlowRouter.route('/home', {
 
   action: function (params, queryParams) { 
-
-    if ( noDisplay() ) return
 
     display.closeOutMain();
 
@@ -123,14 +99,9 @@ FlowRouter.route('/home', {
 
   },
 
-    name:  "home",
+  name:  "home",
 
-    subscriptions: function(params, queryParams) {
 
-      this.register("images", Meteor.subscribe("allImages") );
-
-      this.register("users", Meteor.subscribe("registeredUsers") );
-    },
 });
 
 //*********************************************
@@ -175,7 +146,9 @@ FlowRouter.route('/browseWorldMap', {
 
   name: "browseWorldMap",
 
-  action: function (params, queryParams) { pageRefreshed = false; BlazeLayout.render('layout', { content: "browseWorldMap" } ); },
+  action: function (params, queryParams) { 
+
+    BlazeLayout.render('layout', { content: "browseWorldMap" } ); },
 });
 
 //*********************************************
@@ -186,7 +159,9 @@ FlowRouter.route('/debrief', {
 
   name: "debrief",
 
-  action: function (params, queryParams) { pageRefreshed = false; BlazeLayout.render('layout', { content: "debrief" } ); },
+  action: function (params, queryParams) { 
+
+    BlazeLayout.render('layout', { content: "debrief" } ); },
 });
 
 //*********************************************
@@ -197,9 +172,7 @@ FlowRouter.route('/closeup', {
 
     action: function (params, queryParams) { 
 
-     pageRefreshed = false;
-
-     BlazeLayout.render('layout', { content: "closeup" } ) 
+    BlazeLayout.render('layout', { content: "closeup" } ) 
 
    },
   });
@@ -210,19 +183,7 @@ FlowRouter.route('/closeup', {
 
 FlowRouter.route('/editor', {
 
-  subscriptions: function(params, queryParams) {
-
-    this.register("editImages", Meteor.subscribe("allImages") );
-    this.register("editTexts", Meteor.subscribe("allTexts") );
-    this.register("editSounds", Meteor.subscribe("allSounds") );
-    this.register("editVideos", Meteor.subscribe("allVideos") );
-    this.register("editWebs", Meteor.subscribe("allWebs") );
-    this.register("editDebriefs", Meteor.subscribe("allDebriefs") );
-  },
-
   action: function (params, queryParams) { 
-
-   pageRefreshed = false;
 
    BlazeLayout.render('layout', { content: "editor" } ) 
 
@@ -230,13 +191,6 @@ FlowRouter.route('/editor', {
 });
 
 FlowRouter.route('/selectCountry', {
-
-  subscriptions: function(params, queryParams) {
-
-    this.register("editContinent", Meteor.subscribe("continent") );
-    this.register("editRegion", Meteor.subscribe("region") );
-    this.register("editCountry", Meteor.subscribe("country") );
-  },
 
   action: function (params, queryParams) { 
 
@@ -262,19 +216,12 @@ FlowRouter.route('/waiting', {
 
 FlowRouter.route('/userDirectory',  {
 
-  subscriptions: function(params, queryParams) {
-
-    this.register("allUsers", Meteor.subscribe("registeredUsers") );
-  },
-
 
   action: function (params, queryParams) { 
 
     $('body').removeClass('noscroll'); 
 
     BlazeLayout.render('layout', { content: "userDirectory" } );
-
-    Control.suspendAllMedia();
 
   }
 

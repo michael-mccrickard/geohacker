@@ -6,7 +6,7 @@ Template.userDirectory.events = {
 
   	  e.preventDefault();
 
-      FlowRouter.go("/start");
+      nav.closeEditor();
   	},
 
   'click .deleteRecord': function(e) {

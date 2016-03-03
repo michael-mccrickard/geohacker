@@ -159,7 +159,7 @@ Template.browseWorldMap.events = {
 
       display.feature.resetToPrevious();
 
-      display.mainTemplateReady = false;
+//      display.mainTemplateReady = false;
 
       FlowRouter.go("/main");
   },

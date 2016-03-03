@@ -267,7 +267,7 @@ function closeOutMap() {
 
     //make sure the main template is flagged to redraw ...
 
-    display.mainTemplateReady = false;
+//    display.mainTemplateReady = false;
 
     var state = display.ctl["MAP"].getState();
 

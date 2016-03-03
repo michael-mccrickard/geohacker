@@ -40,6 +40,11 @@ waitOnDB = function() {
     Session.set("sWaitingOnDatabase", true);
 }
 
+stopWait = function() {
+
+    Session.set("sWaitingOnDatabase", false);
+}
+
 stopWaitOnDB = function() {
 
     Session.set("sWaitingOnDatabase", false);
@@ -238,7 +243,7 @@ Meteor.Spinner.options = {
     corners: 0.7, // Corner roundness (0..1)
     rotate: 0, // The rotation offset
     direction: 1, // 1: clockwise, -1: counterclockwise
-    color: '#FFFFFF', // #rgb or #rrggbb
+    color: '#FFFF00', // #rgb or #rrggbb
     speed: 1, // Rounds per second
     trail: 60, // Afterglow percentage
     shadow: true, // Whether to render a shadow

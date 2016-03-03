@@ -57,8 +57,24 @@ Session.set("isIOS", false);
 
   Session.set("sTReady", false);  //tags
 
-   Session.set("sXReady", false);  //all texts (to identify tags)
- 
+  Session.set("sXReady", false);  //all texts (to identify tags, also for capital name for new user wall)
+
+  Session.set("sCapitalsReady", false);  //all capital images (in case the user is new; one will go on their wall) 
+
+  //editor
+
+  Session.set("sEditImageReady", false );
+
+  Session.set("sEditSoundReady", false );
+
+  Session.set("sEditTextReady", false );
+
+  Session.set("sEditVideoReady", false );
+
+  Session.set("sEditWebReady", false );
+
+  Session.set("sEditDebriefReady", false ); 
+
   //display-related
 
   Session.set("sImagesReady", false); 
@@ -93,6 +109,8 @@ Meteor.startup(function() {
   game = new Game();
 
   db = new Database();
+
+  nav = new Navigator();
 
   db.initCore();
 
@@ -131,6 +149,8 @@ Meteor.startup(function() {
 
   Meteor.subscribe("allTexts", function() { Session.set("sXReady", true ) });  
 
+  Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
+
 //ps("AE")
 
   //start screen
@@ -153,7 +173,8 @@ Tracker.autorun( function(comp) {
       Session.get("sCReady") && 
       Session.get("sFReady") && 
       Session.get("sTReady") && 
-      Session.get("sXReady") 
+      Session.get("sXReady") && 
+      Session.get("sCapitalsReady") 
        
   ) {
 

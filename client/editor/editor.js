@@ -5,6 +5,19 @@ Editor = function() {
 
 	this.hack = new Hack();
 
+	this.dataReady = false;
+
+	this.userDirectoryDataReady = false;
+
+	this.controlType = new Blaze.ReactiveVar( 0 );
+
+	this.controlName = ""; //new Blaze.ReactiveVar( "" );
+
+	this.recordID = new Blaze.ReactiveVar( "0" );
+  	
+  	this.newRecordID = new Blaze.ReactiveVar("0");
+
+
 	this.arrField = ["dt","s"];
 
 	this.arrFieldText = ["f","dt","s"];	
@@ -15,13 +28,6 @@ Editor = function() {
 
 	this.scroll = 0;
 
-  	Object.defineReactiveProperty(this, "controlType", cNone);
-
-  	Object.defineReactiveProperty(this, "controlName", "");
-
-  	Object.defineReactiveProperty(this, "recordID", "");
-
-  	this.newRecordID = new Blaze.ReactiveVar("0");
 
   	this.videoFile = null;
 
@@ -34,6 +40,39 @@ Editor = function() {
   	this.videoUploader = new Slingshot.Upload("ghVideo");
 
   	Session.set("sYouTubeOn", false);
+
+  	this.resetDataFlags = function() {
+
+      Session.set("sEditImageReady", false );
+
+      Session.set("sEditSoundReady", false );
+
+      Session.set("sEditTextReady", false );
+
+      Session.set("sEditVideoReady", false );
+
+      Session.set("sEditWebReady", false );
+
+      Session.set("sEditDebriefReady", false );
+
+  	}
+
+	this.subscribeToData = function() {
+
+		this.resetDataFlags();
+
+		Meteor.subscribe("allImages", function() { Session.set("sEditImageReady", true ) });
+
+		Meteor.subscribe("allSounds", function() { Session.set("sEditSoundReady", true ) });
+
+		Meteor.subscribe("allVideos", function() { Session.set("sEditVideoReady", true ) });
+
+		Meteor.subscribe("allWebs", function() { Session.set("sEditWebReady", true ) });
+
+		Meteor.subscribe("allTexts", function() { Session.set("sEditTextReady", true ) });
+
+		Meteor.subscribe("allDebriefs", function() { Session.set("sEditDebriefReady", true ) });     
+	}
 
 
   	this.saveScroll = function() {
@@ -72,13 +111,13 @@ Editor = function() {
 
 	this.getUploader = function() {
 
-		if (this.controlType == cSound) return this.soundUploader;
+		if (this.controlType.get() == cSound) return this.soundUploader;
 
-		if (this.controlType == cImage) return this.imageUploader;
+		if (this.controlType.get() == cImage) return this.imageUploader;
 
-		if (this.controlType == cWeb) return this.webUploader;
+		if (this.controlType.get() == cWeb) return this.webUploader;
 
-		if (this.controlType == cVideo) return this.videoUploader;
+		if (this.controlType.get() == cVideo) return this.videoUploader;
 
 
 	}
@@ -97,7 +136,7 @@ Editor = function() {
 
 		data["s"] = _source;
 
-		Meteor.call("updateRecordOnServerWithDataObject", this.controlType, ID, data, function(err, result) {
+		Meteor.call("updateRecordOnServerWithDataObject", this.controlType.get(), ID, data, function(err, result) {
 
 			if (err) {
 
@@ -117,7 +156,7 @@ Editor = function() {
 
 	this.doUpdateRecord = function(_id, _countryCode) {
 
-		var _type = this.controlType;
+		var _type = this.controlType.get();
 
 		if (_type == cCountry) {
 
@@ -161,3 +200,29 @@ Editor = function() {
 	}
 
 }
+
+Tracker.autorun( function(comp) {
+
+  if (Session.get("sEditImageReady") && 
+      Session.get("sEditTextReady") && 
+      Session.get("sEditVideoReady") && 
+      Session.get("sEditWebReady") && 
+      Session.get("sEditSoundReady") && 
+      Session.get("sEditDebriefReady")
+
+      ) {
+
+  		  if (typeof editor === "undefined") return;
+
+          console.log("editor data ready")
+
+      	  editor.dataReady = true;
+
+      	  nav.goEditRoute();
+
+          return; 
+  } 
+
+  console.log("editor data not ready")
+
+});  

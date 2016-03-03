@@ -307,33 +307,6 @@ Hack = function() {
 
     }
 
-    this.getHeadquartersPic = function( _code ) {
-
-      try {
-
-          var u = db.ghImage.findOne( { cc: this.countryCode, dt: _code } ).u;
-      }
-      catch(err) {
-
-          var rec = db.ghWeb.findOne( { cc: this.countryCode, dt: _code } );
-
-          if (!rec) {
-
-            showMessage( "No hqt file found in images or webs for " + this.getCountryName() );
-
-            return null;          
-          }
-          else {
-
-             u = rec.u;
-          }
-
-      }
-
-      return u;
-
-    }
-
     this.getLeaderPic = function() {
 
       try {

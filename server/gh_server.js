@@ -134,6 +134,12 @@ Meteor.startup(
       return ghImage.find( { dt: "flg" } );
     });  
 
+    //capitals (images)
+    Meteor.publish("allCapitals", function () {
+      return ghImage.find( { dt: "cap" } );
+    });  
+
+
     //map control -- generic clues, not specific to countries
 
     Meteor.publish("ghMap", function () {
@@ -307,8 +313,6 @@ var urlTryCount = 0;
 function testAvatarURL(_key) {
 
     var avURL = prefix + _key + ".png";
-
-console.log( avURL);
 
     //doing a synchronous call, so unblock the server
 
