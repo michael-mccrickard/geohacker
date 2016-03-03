@@ -2,6 +2,8 @@ Session.set("sBadgeCount", 0);
 
 Template.congrats.rendered = function () {
 
+  stopWait();
+
   display.enableHomeButton();
 
   var ratio = game.user.assign.hacked.length / (game.user.assign.hacked.length + game.user.assign.pool.length) * 100.0;

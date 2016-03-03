@@ -1,4 +1,7 @@
+Template.userDirectory.rendered = function(){
 
+  stopWait();
+}
 
 Template.userDirectory.events = {
 

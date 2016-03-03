@@ -37,6 +37,11 @@ function setMode( _which ) {
     if (_which == "other") otherMode.set(true);   
 }
 
+Template.dataChecker.rendered = function() {
+
+  stopWait();
+}
+
 Template.dataChecker.helpers({
 
     modeIsBasic: function() {

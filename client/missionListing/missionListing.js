@@ -1,3 +1,9 @@
+Template.missionListing.rendered = function(){
+
+  stopWait();
+}
+
+
 Template.missionListing.events = {
 
   'click .missionButton': function (e) { 
@@ -23,7 +29,6 @@ Template.missionListing.events = {
       	game.user.assignAndStartMission( id );
   	}
 }
-
 
 Template.missionListing.helpers({
 

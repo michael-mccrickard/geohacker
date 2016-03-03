@@ -10,6 +10,10 @@ var contButtons = ["#editAsia", "#editAmerica", "#editAfrica", "#editEurope", "#
 
 Session.set("sUpdateEditScreenFlag", true);
 
+Template.selectCountry.rendered = function() {
+
+  stopWait();
+}
 
 
 Template.selectCountry.helpers({

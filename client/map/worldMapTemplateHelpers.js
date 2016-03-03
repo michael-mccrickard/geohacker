@@ -20,7 +20,9 @@ var bottomStripFactor = 49 / 670;
 
 
 Template.worldMap.rendered = function () {
-  
+    
+    stopWait();
+
     if (display.worldMapTemplateReady == false) {
 
       display.worldMapTemplateReady = true;

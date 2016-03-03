@@ -19,13 +19,16 @@ Navigator = function() {
 
 			if (!editor.dataReady) {
 
-				editor.subscribeToData();
-c("editor is subscribing")
-				FlowRouter.go("/waiting");
+        FlowRouter.go("/waiting");
+
+				Meteor.setTimeout( function() { editor.subscribeToData(); }, 100 );
+
 			}
 			else {
-c("editor data is subscribed")
-				this.goEditRoute();
+
+				waitOnDB();
+
+        Meteor.setTimeout( function() { nav.goEditRoute(); }, 100 );
 			}
 
       return;
@@ -110,9 +113,18 @@ c("editor data is subscribed")
     //if there's only one route left, it will be the non-admin screen we started from,
     //so clear it off the list, so we start fresh next time
 
-    if (this.adminHistory.length == 1) this.adminHistory.pop();
+    if (this.adminHistory.length == 1) {
 
-    FlowRouter.go( _last );
+        this.adminHistory.pop();
+
+        //returning to game, so switch the global objects
+
+        this.switchToGame();
+    }
+
+    waitOnDB();
+
+    Meteor.setTimeout( function() { FlowRouter.go( _last ); }, 100 );
   }
 
 
@@ -126,23 +138,14 @@ c("editor data is subscribed")
 
     Control.stopEditVideo();
 
-    editor.hack.mode = mNone;
-
-    if (game.user.mode == uHack) {
-
-      game.user.setGlobals("mission");
-    }
-    else {
-
-      game.user.setGlobals("browse");
-    }
-
-
     this.goBackAdmin();
   }
 
+
+
+
 	this.goEditRoute = function() {
-c("go edit route")
+
     //in this case, we have to check and see if a country is actually selected,
     //so we handle it separately
 
@@ -200,4 +203,18 @@ c("go edit route")
 
     }
 
+
+    this.switchToGame = function() {
+
+      editor.hack.mode = mNone;
+
+      if (game.user.mode == uHack) {
+
+        game.user.setGlobals("mission");
+      }
+      else {
+
+        game.user.setGlobals("browse");
+      }
+    }
 }

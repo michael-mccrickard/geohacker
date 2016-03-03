@@ -140,8 +140,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 	  		return;
     	}
 
-//  		display.mainTemplateReady = false;
-
   		FlowRouter.go("/main");
     }
 

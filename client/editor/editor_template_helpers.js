@@ -1,4 +1,7 @@
+Template.editor.rendered = function() {
 
+  stopWait();
+}
 
 Template.editor.helpers({
 

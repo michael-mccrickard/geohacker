@@ -1,5 +1,10 @@
 //home.js
 
+Template.home.rendered = function () {
+
+  stopWait();
+}
+
 Template.home.helpers({
 
     homeContent: function() {

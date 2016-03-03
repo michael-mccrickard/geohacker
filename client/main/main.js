@@ -394,7 +394,7 @@ function updateFeaturedContent() {
  
     if (game.user.mode == uBrowse) {
     
-c("updateFeaturedContent in maing.js is calling feature.load")
+c("updateFeaturedContent in main.js is calling feature.load")
 
       display.feature.load( _name );  //the imagesLoaded callback will update the screen
 
@@ -407,55 +407,48 @@ c("updateFeaturedContent in maing.js is calling feature.load")
 
 Template.main.rendered = function () {
 
+    stopWait();
+
     if (!display) return;
 
-c("main rendered")
+    display.redraw();
 
-//    if (display.mainTemplateReady == false) {
+    display.doHeadlines();
 
-c("calling main redraw")
-
-      //display.mainTemplateReady = true;
-
-      display.redraw();
-
-      display.doHeadlines();
-
-      display.checkMainScreen();
+    display.checkMainScreen();
 
 
-      if (game.user.mode == uBrowse) {
+    if (game.user.mode == uBrowse) {
+
+        display.scanner.hide();
+
+        return;
+    }
+
+
+    if ( game.user.mode == uHack ) {
+
+      //MAP is the only control that has the scanner visible when it's featured
+
+       if (display.feature.on() && display.feature.getName() != "MAP") {
 
           display.scanner.hide();
 
-          return;
+          display.feature.set( display.feature.getName() );
+
+        }       
+    }
+
+    if (hack.mode == mReady)  {
+
+      if ( display.feature.off() ||  display.feature.getName() == "MAP") {
+
+        display.scanner.show();
+
+        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 );              
       }
 
+    }
 
-      if ( game.user.mode == uHack ) {
-
-        //MAP is the only control that has the scanner visible when it's featured
-
-         if (display.feature.on() && display.feature.getName() != "MAP") {
-
-            display.scanner.hide();
-
-            display.feature.set( display.feature.getName() );
-
-          }       
-      }
-
-      if (hack.mode == mReady)  {
-
-        if ( display.feature.off() ||  display.feature.getName() == "MAP") {
-
-          display.scanner.show();
-
-          Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 );              
-        }
-
-      }
-
-  //  }
 }
 

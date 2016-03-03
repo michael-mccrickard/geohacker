@@ -2,6 +2,8 @@ Session.set("sTagURL", "");
 
 Template.closeup.rendered = function() {
 
+  stopWait();
+
   display.closeUp.draw();
 }
 

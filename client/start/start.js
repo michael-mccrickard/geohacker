@@ -238,6 +238,8 @@ Template.start.helpers({
 
 Template.start.rendered = function () {
 
+  stopWait();
+
   Meteor.setTimeout(function () { game.startMusic(); 2000 } );  
 
   game.setMusicPlayerListener();

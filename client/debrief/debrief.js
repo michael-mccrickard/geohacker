@@ -1,3 +1,15 @@
+Template.debrief.rendered = function () {
+
+	stopWait();
+
+	if (hack.debrief.waitingNow) return;  //in this case, imagesLoaded will call draw()
+
+	hack.debrief.draw();
+
+  	hack.debrief.checkAudio();
+
+}
+
 
 var topMargin = 115;
 
@@ -309,15 +321,7 @@ special cases
 
 }
 
-Template.debrief.rendered = function () {
 
-	if (hack.debrief.waitingNow) return;  //in this case, imagesLoaded will call draw()
-
-	hack.debrief.draw();
-
-  	hack.debrief.checkAudio();
-
-}
 
 Template.debrief.events = {
 

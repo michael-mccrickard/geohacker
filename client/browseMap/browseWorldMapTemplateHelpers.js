@@ -190,6 +190,8 @@ Template.browseWorldMap.events = {
 
 Template.browseWorldMap.rendered = function () {
   
+    stopWait();
+
     if (!display) return;
 
     if (display.worldMapTemplateReady == false) {
