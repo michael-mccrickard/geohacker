@@ -71,6 +71,13 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 	  		this.template.set("missionListing");
     	}
 
+     	if (_mode == uAgents) {
+
+	  		Meteor.defer( function() { $("#divHomeAgentsPic").css("border-color","gray") } );
+
+     		this.template.set("agents");   	
+     	}
+
      	if (_mode == uStats) {
 
 	  		Meteor.defer( function() { $("#divHomeStatsPic").css("border-color","gray") } );

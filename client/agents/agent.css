@@ -1,0 +1,73 @@
+//agent.css
+
+.divAgentAvatar {
+
+
+}
+
+.divAgent {
+    display: -webkit-flex;
+    display: flex;
+    width: 45%;
+    background-color: #2B3856;
+}
+
+.agentItem {
+
+	margin: 4px;
+}
+
+.imgAgentAvatar {
+
+    width: 96px;
+    height: 96px;
+    background-color: #303030;
+}
+
+.agentLabel {
+
+	font-family: Arial;
+	color: yellow;
+	font-size: 12px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.agentFlagLabel {
+
+	margin-top: -2px;
+}
+
+.divAgentStats {
+
+	margin-top: 10px;
+}
+
+.agentStatusText {
+
+	color: #4CC417;
+}
+
+.rounded {
+
+   border-radius: 6px;    
+}
+
+.divAgentFlag {
+
+	width: 128px;
+}
+
+.agentFlag {
+
+	height: 64px;
+
+}
+
+
+
+.agentText {
+
+	font-family: Arial;
+	color: lightgrey;
+}

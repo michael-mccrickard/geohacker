@@ -96,7 +96,10 @@ Feature = function() {
 
 			if (display.ctl["VIDEO"].isYouTube ) {
 
-				display.ctl["VIDEO"].play();
+				//if we're in hack mode, user will have to start the video themselves
+				//but in browse mode, we want it to go ahead and start playing
+
+				if (game.user.mode == uBrowse) display.ctl["VIDEO"].play();
 
           		this.fileIsLoaded();
 

@@ -1,0 +1,43 @@
+<template name="agents">
+
+	{{#each agent}}
+
+	<div class="divAgent rounded">
+
+		<div class="divAgentAvatar rounded">
+
+			<div class="rounded">
+				<img class= "imgAgentAvatar agentItem rounded" src="{{av}}" />
+				<div class="agentLabel agentItem rounded">{{name}}</div>
+			</div>		
+
+		</div>
+
+		<div class="divAgentFlag">
+
+				<div class="centered">
+					<img class= "agentFlag agentItem rounded" src="{{f}}" />
+					<div class="agentLabel agentFlagLabel agentItem rounded">{{agentCountry}}</div>
+				</div>
+
+				<div class='divAgentStats agentLabel'>
+					<span class="agentStatusText"> STATUS: ACTIVE</span>
+					<span class="agentStatusText"> HACKS: {{hackCount}}</span>
+				</div>
+
+		</div>
+
+
+		  <div class="divAgentText rounded">
+
+			  	<div class="agentText agentItem">
+			  		{{t}}
+				</div>
+
+		  </div>
+
+	</div>
+
+	{{/each}}
+
+</template>

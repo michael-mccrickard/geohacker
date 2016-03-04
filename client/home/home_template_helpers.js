@@ -32,6 +32,14 @@ Template.home.events({
 
   },
 
+  'click #divHomeAgentsPic': function(e) {
+
+      e.preventDefault();  
+
+      game.user.setMode( uAgents );
+
+  },
+
   'click #divHomeStatsPic': function(e) {
 
       e.preventDefault();  
