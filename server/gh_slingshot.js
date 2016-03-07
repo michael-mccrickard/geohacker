@@ -75,7 +75,7 @@ Slingshot.createDirective("ghImage", Slingshot.S3Storage, {
 
     //Store file into a directory by the user's ID.
 
-    return "gImage/" + this.userId + "-" + file.name;
+    return "ghImage/" + this.userId + "-" + file.name;
   }
 });
 

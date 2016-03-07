@@ -12,9 +12,7 @@ Template.stats.helpers({
 
     userCreatedAt: function() {
 
-       if (!Meteor.user().createdAt) return "UNKNOWN";
-
-        return Meteor.user().createdAt;
+        return Meteor.user().profile.createdAt;
     },
 
     userHackCount: function() {

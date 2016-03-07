@@ -1,5 +1,6 @@
 <template name="agents">
 
+
 	{{#each agent}}
 
 	<div class="divAgent rounded">
@@ -8,7 +9,7 @@
 
 			<div class="rounded">
 				<img class= "imgAgentAvatar agentItem rounded" src="{{av}}" />
-				<div class="agentLabel agentItem rounded">{{name}}</div>
+				<div class="agentLabel agentNameLabel agentItem">{{name}}</div>
 			</div>		
 
 		</div>
@@ -17,11 +18,11 @@
 
 				<div class="centered">
 					<img class= "agentFlag agentItem rounded" src="{{f}}" />
-					<div class="agentLabel agentFlagLabel agentItem rounded">{{agentCountry}}</div>
+					<div class="agentLabel agentFlagLabel agentItem">{{agentCountry}}</div>
 				</div>
 
 				<div class='divAgentStats agentLabel'>
-					<span class="agentStatusText"> STATUS: ACTIVE</span>
+					<span class="agentStatusText"> STATUS: {{agentStatus}}</span>
 					<span class="agentStatusText"> HACKS: {{hackCount}}</span>
 				</div>
 
@@ -30,10 +31,21 @@
 
 		  <div class="divAgentText rounded">
 
-			  	<div class="agentText agentItem">
+			  	<div class="divAgentFeaturedPic">
+			  		<img class="imgAgentFeaturedPic agentItem" src="{{pic}}" />
+				</div> 
+
+			  	<div class="agentText">
 			  		{{t}}
 				</div>
 
+		  </div>
+
+		  <div class="divAgentButton agentItem rounded">
+
+		  	<img class="imgAgentContactButton rounded" src="scan_for_more2.png" id="{{this._id}}" />
+
+            <img class="imgAgentDeleteButton" src="close_red.png" id="{{this._id}}" />
 		  </div>
 
 	</div>
@@ -41,3 +53,42 @@
 	{{/each}}
 
 </template>
+
+
+<template name="miniAgent">
+
+
+	{{#with agent}}
+
+	<div class="divAgentMini rounded">
+
+		<div class="divAgentAvatarMini rounded">
+
+			<div class="rounded">
+				<img class= "imgAgentAvatarMini agentItem rounded" src="{{av}}" />
+				<div class="agentLabelMini agentNameLabelMini agentItem">{{name}}</div>
+			</div>		
+
+		</div>
+
+		<div class="divAgentFlagMini">
+
+				<div class="centered">
+					<img class= "agentFlagMini agentItem rounded" src="{{f}}" />
+					<div class="agentLabelMini agentFlagLabelMini agentItemMini">{{agentCountry}}</div>
+				</div>
+
+				<!--div class='divAgentStatsMini agentLabelMini'>
+					<span class="agentStatusTextMini"> STATUS: {{agentStatus}}</span>
+					<span class="agentStatusTextMini"> HACKS: {{hackCount}}</span>
+				</div-->
+				
+
+		</div>
+
+	</div>
+
+	{{/with}}
+
+</template>
+

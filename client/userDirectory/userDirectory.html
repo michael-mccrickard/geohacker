@@ -2,8 +2,6 @@
 
 	<div class="container">
 
-
-
 		<div class="editor">
 
 			<div>
@@ -13,16 +11,21 @@
 			<table border="2">
 
 			<tr>
+				<th>Save</th>
 				<th>Name</th>
 				<th>Email</th> 
 				<th>Countries</th>
 				<th>Avatar</th>
+				<th>Status</th>
 				<th>Delete</th>
+				<th>Login</th>
 			</tr>
 
 				{{#each ghUser}}
 
 					<tr class="dataRow">
+
+						<td><button class="btn btn-success saveRecord" id="{{_id}}" size="2">SAVE</button></td>
 
 						<td size="30">{{username}}</td>
 						
@@ -32,7 +35,26 @@
 
 						<td size="30"> <img style="width: 64px; margin: 4px;" src="{{profile.av}}" /> </td>
 
+						<td size="30"> 
+
+							<select class="form-control" id="{{_id}}">
+
+						  		<option disabled>Please select</option>
+
+							  	<option {{selectedValue 1}}>None</option>
+							  	<option {{selectedValue 2}}>Active</option>
+							  	<option {{selectedValue 3}}>Virtual</option>
+							  	<option {{selectedValue 4}}>Honorary</option>							
+							  	<option {{selectedValue 5}}>Retired</option>
+							  	<option {{selectedValue 6}}>Deleted</option>
+							
+							</select>
+
+						</td>
+
 						<td><button class="btn btn-danger deleteRecord" id="{{_id}}" size="2">DEL</button></td>
+
+						<td><button class="btn btn-primary loginAs" id="{{emails.[0].address}}" size="2">LOGIN</button></td>
 					</tr>
 
 				{{/each}}

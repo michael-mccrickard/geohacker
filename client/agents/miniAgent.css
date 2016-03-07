@@ -1,0 +1,98 @@
+//agent.css
+
+
+.divAgentAvatar {
+
+
+}
+
+.divAgentMini {
+    display: -webkit-flex;
+    display: flex;
+    width: 196px;
+    background-color: #2B3856;
+    margin-top: 4px;
+margin-left: auto;
+margin-right: auto;
+}
+
+.agentItemMini {
+
+	margin: 4px;
+}
+
+.imgAgentAvatarMini {
+
+    width: 64px;
+    height: 64px;
+    background-color: #303030;
+}
+
+.agentLabelMini {
+
+	font-family: Arial;
+	color: yellow;
+	font-size: 10px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.agentNameLabelMini {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.agentFlagLabelMini {
+
+	margin-top: -2px;
+}
+
+.divAgentStatsMini{
+
+	margin-top: 10px;
+}
+
+.divAgentFlagMini {
+
+	width: 96px;
+
+}
+
+.agentFlagMini {
+	height: 48px;
+
+}
+
+.divAgentTextMini {
+
+	width: 128px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 16px;
+	overflow: hidden;
+	opacity: 1.0;
+	float: right;
+	
+}
+
+.agentStatusTextMini {
+
+	color: #4CC417;
+}
+
+
+.agentTextMini {
+
+	font-family: Arial;
+	font-size: 10px;
+	color: lightgrey;
+	margin-left: 8px;
+	margin-top: -132px;
+	color: yellow;
+	width: 80%;
+	opacity: 1.0;
+	height: 96px;
+	overflow: hidden;
+
+}
+

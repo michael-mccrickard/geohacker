@@ -1,5 +1,6 @@
 //agent.css
 
+
 .divAgentAvatar {
 
 
@@ -8,8 +9,11 @@
 .divAgent {
     display: -webkit-flex;
     display: flex;
-    width: 45%;
+    width: 480px;
     background-color: #2B3856;
+    margin-bottom: 16px;
+margin-left: 16px;
+    float: left;
 }
 
 .agentItem {
@@ -31,6 +35,11 @@
 	font-size: 12px;
 	text-align: center;
 	text-transform: uppercase;
+}
+
+.agentNameLabel {
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .agentFlagLabel {
@@ -56,18 +65,74 @@
 .divAgentFlag {
 
 	width: 128px;
+
 }
 
 .agentFlag {
-
 	height: 64px;
 
 }
 
+.divAgentText {
 
+	width: 192px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 16px;
+	overflow: hidden;
+	opacity: 1.0;
+	float: right;
+	
+}
 
 .agentText {
 
 	font-family: Arial;
+	font-size: 12px;
 	color: lightgrey;
+	margin-left: 8px;
+	margin-top: -132px;
+	color: yellow;
+	width: 80%;
+	opacity: 1.0;
+	height: 118px;
+	overflow: hidden;
+
 }
+
+.divAgentButton {
+	width: 36px;
+}
+
+
+.imgAgentFeaturedPic {
+text-align: center;
+	height: 128px;
+
+	opacity: 0.35;
+	padding-bottom: 8px;
+
+}
+
+.imgAgentContactButton {
+
+	background-color: black;
+	height: 40px;
+	padding: 4px;
+
+	width: 32px;
+	opacity: 0.66;
+}
+
+.imgAgentDeleteButton {
+
+
+	margin-top: 48px;
+
+	height: 32px;
+
+	width: 32px;
+	opacity: 0.66;
+}
+
+

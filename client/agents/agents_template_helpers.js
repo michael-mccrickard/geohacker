@@ -32,10 +32,76 @@ Template.agents.helpers({
     	return db.getCountryName( this.profile.cc )
     },
 
+    agentStatus: function() {
+
+      return arrUserStatus[ this.profile.st - 1 ];
+    },
+
     hackCount: function() {
 
     	return this.profile.h.length;
     },
 
+    pic: function() {
+
+    	return this.profile.p;
+    }
+
 
 }); 
+
+
+Template.miniAgent.helpers({
+
+  agent: function() {
+
+    return Meteor.users.findOne( {} );
+  },
+  
+  name: function() {
+
+    return this.username;
+  },
+
+  f: function() {
+
+    return this.profile.f;
+  },
+
+    av: function() {
+
+      return this.profile.av;
+    },
+
+    agentCountry: function() {
+
+      return db.getCountryName( this.profile.cc )
+    },
+
+    agentStatus: function() {
+
+      return arrUserStatus[ this.profile.st - 1 ];
+    },
+
+    hackCount: function() {
+
+      return this.profile.h.length;
+    },
+
+
+}); 
+
+Template.agents.events({
+
+  'click .imgButtonAgentDelete': function(e) { 
+
+      e.preventDefault();  
+
+      var _userID = e.currentTarget.id;
+
+c("delete not implemented yet")
+
+
+    },
+
+}) 

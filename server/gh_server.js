@@ -346,6 +346,10 @@ function testAvatarURL(_key) {
 //      METHODS
 //*********************************************
 
+
+
+var _index = -1;
+
 //set self to this before doing a synchronous HTTP call
 
 var self = null;
@@ -568,6 +572,47 @@ Meteor.methods({
  
   },  //end updateContentRecordOnServer
 
+testImages: function() {
 
+arrImages = ghImage.find({}).fetch();
+
+  testImages2();
+},
 
 });
+
+testImages2 = function() {
+
+  _index++;
+
+  if (_index == arrImages.length) return;
+
+    var URL = arrImages[ _index ].u;
+
+    //doing a synchronous call, so unblock the server
+
+    //self.unblock();
+
+    //console.log("trying URL: " + URL);
+
+    //try the URL and timeout after 5 seconds
+
+    try {
+
+      var result = HTTP.call("GET", URL, { timeout: 5000});
+
+      //console.log(URL + " -- OK");
+
+    } 
+    catch (e) {
+      
+      // Got a network error, time-out or HTTP error in the 400 or 500 range.
+
+       // var errorJson = JSON.parse(result.content);
+        
+        console.log(URL + " -- BAD");
+
+    }
+
+    testImages2();
+}

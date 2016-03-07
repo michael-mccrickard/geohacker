@@ -116,12 +116,23 @@ Database = function() {
 
        'profile.f': $(".imgBioFlag").attr("src"),
 
-       'profile.pt': $("#editBioFeaturedPicText").val(),
+       'profile.pt': $("#editBioFeaturedPicText").val()
 
      }
 
    }); 
+}
 
+  this.updateUserStatus = function(_userID, _status) {
+
+   var res =  Meteor.users.update( {_id: _userID }, { $set: 
+
+     {
+       'profile.st': _status,
+
+     }
+
+   }); 
 }
 
 this.updateUserBadgeCount = function() {
