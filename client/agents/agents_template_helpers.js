@@ -55,7 +55,7 @@ Template.miniAgent.helpers({
 
   agent: function() {
 
-    return Meteor.users.findOne( {} );
+    return Database.getRandomElement( Meteor.users.find( {} ).fetch() );
   },
   
   name: function() {
