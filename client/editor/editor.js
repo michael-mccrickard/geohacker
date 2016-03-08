@@ -151,12 +151,23 @@ Editor = function() {
 
 	this.deleteCurrentRecord = function(_ID, _type)  { 
 
-		Meteor.call("deleteRecord", _ID, _type);
+		Meteor.call("deleteRecord", _ID, _type, function(err, result) {
+
+			stopWait();
+
+			if (err) console.log(err);
+
+
+		});
 	}
 
 	this.doUpdateRecord = function(_id, _countryCode) {
 
 		var _type = this.controlType.get();
+
+		if (!_type) return;
+
+		waitOnDB();
 
 		if (_type == cCountry) {
 
@@ -178,6 +189,8 @@ Editor = function() {
       		}
 
 			Meteor.call("updateRecordOnServerWithDataObject", _type, _id, data, function(err, result) {
+
+				stopWait();
 
 				if (err) {
 

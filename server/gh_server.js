@@ -76,6 +76,8 @@ Meteor.startup(
 
     ghTag = new Meteor.Collection("ghTag");
 
+    ghUser = new Meteor.Collection("ghUser")
+
     //ghUserFeaturedPic = new Meteor.Collection("ghUserFeaturedPic")
 
     //editing collections
@@ -112,7 +114,12 @@ Meteor.startup(
 
       return Meteor.users.find( {} );
     });
+/*
+    Meteor.publish("networkAgents", function () {
 
+      return Meteor.users.find( { _id: { $ne: this.userId  } } );
+    });
+*/
   //area collections
 
     Meteor.publish("continent", function () {
@@ -574,7 +581,9 @@ Meteor.methods({
 
 testImages: function() {
 
-arrImages = ghImage.find({}).fetch();
+arrImages = ghSound.find({}).fetch();
+
+//c(arrImages.length = " files in db")
 
   testImages2();
 },
@@ -593,7 +602,7 @@ testImages2 = function() {
 
     //self.unblock();
 
-    //console.log("trying URL: " + URL);
+    console.log("trying URL: " + URL);
 
     //try the URL and timeout after 5 seconds
 
@@ -601,7 +610,7 @@ testImages2 = function() {
 
       var result = HTTP.call("GET", URL, { timeout: 5000});
 
-      //console.log(URL + " -- OK");
+      console.log(URL + " -- OK");
 
     } 
     catch (e) {

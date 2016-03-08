@@ -44,7 +44,7 @@
 
 .divHomeButtonPic {
   height: 100%;
-  border: 2px solid;
+  border: 6px solid;
   border-color: black;
   border-radius: 6px;
 }
@@ -60,9 +60,9 @@
 .divAgentsButtonText {
 
   font-family: geoFont;
-  font-size: 36px;
+  font-size: 24px;
   color: white;
-  margin-top: -0.5%;
+  margin-top: 2%;
 }
 
 

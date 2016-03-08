@@ -9,10 +9,8 @@ Template.bio.helpers({
 
     profile: function() {
 
-      return Meteor.user().profile;
+      return Meteor.users.findOne( { _id: Session.get("sProfiledUserID") } ).profile;
     }
-
-
 }); 
 
 Template.bio.events({

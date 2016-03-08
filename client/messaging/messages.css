@@ -1,0 +1,60 @@
+.divMessageEntry {
+
+    display: -webkit-flex;
+    display: flex;
+    background-color: #2B3856;
+    float: left;
+}
+
+.divMessageTarget {
+
+
+}
+
+.messageTargetLabel {
+
+    width: 1284px;
+	font-family: Arial;
+	color: yellow;
+	font-size: 9px;
+	text-transform: uppercase;
+margin-top: -0.25%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.imgAvatarMessageTargetMini {
+
+    width: 64px;
+    height: 64px;
+
+    background-color: #303030;
+}
+
+.divMessageEntry {
+
+    display: -webkit-flex;
+    display: flex;
+    background-color: #2B3856;
+    float: left;
+    margin-top: 1%;
+}
+
+.agentNameMessaging {
+
+	width: 100%;
+	text-align: center;
+	white-space: nowrap;
+  	overflow: normal;
+
+}
+
+.textUserEditMessage {
+
+
+    font-family: Arial;
+    font-size: 18px;
+    color: black;
+    margin: 8px;
+
+}

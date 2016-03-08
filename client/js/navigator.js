@@ -41,35 +41,35 @@ Navigator = function() {
 
       this.addToAdminHistory( _which );
 
+      waitOnDB();
+
       //this pub will have to be modified to show only the appropriate users
       //once we have roles in place
 
       if ( !editor.userDirectoryDataReady ) {
 
-        waitOnDB();
+        Meteor.setTimeout(function(_which) { 
 
-        Meteor.subscribe("registeredUsers", function() {
+            Meteor.subscribe("registeredUsers", function() {
 
-             editor.userDirectoryDataReady = true;
+                 editor.userDirectoryDataReady = true;
 
-             Meteor.setTimeout( function() { FlowRouter.go( _which ); }, 100 );
+                 Meteor.setTimeout( function() { FlowRouter.go( _which ); }, 100 );
 
-             return;
-          }); 
+                 return;
+              });
+
+            }, 100);
         }    
         else {
 
-             Meteor.setTimeout( function() { FlowRouter.go( _which ); }, 100 );
+            Meteor.setTimeout( function() { FlowRouter.go( _which ); }, 100 );
         }
 
+      //all other routes (or any we didn't need to wait on)\
+
+      FlowRouter.go( _which );
     }
-
-
-    //all other routes (or any we didn't need to wait on)\
-
-    FlowRouter.go( _which );
-
-
 	}
 
   this.addToAdminHistory = function( _which ) {
@@ -138,9 +138,6 @@ Navigator = function() {
 
     this.goBackAdmin();
   }
-
-
-
 
 	this.goEditRoute = function() {
 

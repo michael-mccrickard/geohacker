@@ -1,0 +1,27 @@
+<template name="messaging">
+
+	{{#with messageTarget}}
+
+		<div class="divMessageTarget centered">
+			<img class= "imgAvatarMessageTargetMini agentItem rounded" id="{{this._id}}" src="{{this.profile.av}}" />
+			<div class="messageTargetLabel agentItem">{{this.username}}</div>
+		</div>
+	
+	{{/with}}
+
+	<div class="divMessageEntry rounded">
+
+		{{#with currentUser}}
+
+			<div class="rounded">
+				<img class= "imgAgentAvatarMini agentItem rounded" id="{{this._id}}" src="{{this.profile.av}}" />
+				<div class="agentLabelMini agentNameMessaging agentItem">{{this.username}}</div>
+			</div>
+
+			<textarea id="editMessage" class="textUserEditMessage rounded" rows="4" cols="60" placeholder="Enter message here ..."></textarea>
+
+		{{/with}}		
+
+	</div>
+
+</template>

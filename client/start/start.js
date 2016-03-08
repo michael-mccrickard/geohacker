@@ -93,6 +93,10 @@ Session.set("isIOS", false);
 
   Session.set("sHomeContent", "");
 
+  Session.set("sProfiledUserID","");
+
+  Session.set("sUserMessageTargetID","");
+
 //****************************************************************
 //                  STARTUP
 //****************************************************************

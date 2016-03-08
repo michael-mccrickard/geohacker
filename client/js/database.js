@@ -42,6 +42,8 @@ Database = function() {
 
     this.ghTag = new Meteor.Collection("ghTag");
 
+    this.ghUser = new Meteor.Collection("ghUser");
+
   }
 
   //************************************************************
@@ -518,69 +520,22 @@ this.addRecord = function( _countryCode, _type, cb) {
 
   Meteor.call("addRecord", _countryCode, _type, function(error, result){
 
-    if (error) {
+    if (error) showMessage(error.reason);
 
-      showMessage(error.reason);
-    }
-    else  {
-
-      cb(error, result);
-    }
-  });
-}
-
-this.addContentRecord = function( _countryCode, _type) {
-
-  var _file = '';
-
-  if (_type == cImage || _type == cWeb) {
-
-    _file = getLocalPrefix() + "dummy.png";
-  }
-
-  if (_type == cSound || _type == cVideo) {
-
-    _file = getLocalPrefix() + "dummy.mp3";
-  }
-
-  var col = this.getCollectionForType( _type );
-
-  var _fileObj = new FS.File();
-
-  _fileObj.cc = _countryCode;
-
-  _fileObj.attachData( _file,  function(error){
-
-    if (error) {
-      console.log(error);
-      return;
-    }
-
-    col.insert(_fileObj, function (err, fileObj) {
-
-      if (err) {
-        console.log(err);
-        return;
-      }
-
-   });   
+    cb(error, result);
 
   });
-
 }
 
 this.updateRecord2 = function (_type, field, ID, value, cb) {
 
     Meteor.call("updateRecordOnServer", field, _type, ID, value, function(error, result){
 
-      if (error) {
+      stopWait();
 
-        showMessage(error.reason);
-      }
-      else  {
+      if (error) showMessage(error.reason);
 
-        cb(error, result);
-      }
+      cb(error, result);
   });
 }
 
@@ -623,7 +578,12 @@ this.updateRecord2 = function (_type, field, ID, value, cb) {
 
         if (value != undefined) {
 
-          Meteor.call("updateRecordOnServer", arrField[i], _type, ID, value)
+          Meteor.call("updateRecordOnServer", arrField[i], _type, ID, value, function( err, res) {
+
+              stopWait();
+
+              if (err) console.log(err);
+          });
 
         }
 
@@ -659,7 +619,12 @@ this.updateRecord2 = function (_type, field, ID, value, cb) {
 
       data["cc"] = _countryCode;
 
-      Meteor.call("updateRecordOnServerWithDataObject", _type, _id, data);
+      Meteor.call("updateRecordOnServerWithDataObject", _type, _id, data, function( err, res) {
+
+              stopWait();
+
+              if (err) console.log(err);
+      });
 
     }  //end if _type and ID
 

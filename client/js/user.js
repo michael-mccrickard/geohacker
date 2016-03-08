@@ -34,6 +34,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.badgeLimit = 0;
 
+    this.networkAgentsDataReady = false;
+
     this.browseCountry = function( _code ) {
 
       if ( db.getDataFlagForCountry( _code) == false) {
@@ -71,11 +73,33 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 	  		this.template.set("missionListing");
     	}
 
+      	if (_mode == uMessage) {
+
+	  		Meteor.defer( function() { $("#divHomeAgentsPic").css("border-color","gray") } );
+
+			this.template.set("messaging");
+     		
+     	}
+
      	if (_mode == uAgents) {
 
 	  		Meteor.defer( function() { $("#divHomeAgentsPic").css("border-color","gray") } );
 
-     		this.template.set("agents");   	
+	  		if (!this.networkAgentsDataReady) {
+
+	  			waitOnDB();
+
+	  			Meteor.subscribe("registeredUsers", function() {
+
+	  				stopWait();
+
+	  				game.user.template.set("agents");
+	  			});
+	  		}
+	  		else {
+
+	  			this.template.set("agents");
+	  		}
      	}
 
      	if (_mode == uStats) {

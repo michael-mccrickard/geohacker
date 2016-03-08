@@ -193,11 +193,15 @@ Template.editor.events = {
         return;
       }
 
+      waitOnDB();
+
     	editor.addThisRecord( editor.hack.countryCode, editor.controlType.get(), function(err, result) {
 
         editor.recordID.set( result );
 
         editor.newRecordID.set( result );
+
+        stopWait();
 
       });
 

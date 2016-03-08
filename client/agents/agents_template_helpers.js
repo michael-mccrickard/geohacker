@@ -4,7 +4,7 @@ Template.agents.helpers({
 
 	agent: function() {
 
-		return Meteor.users.find( {} );
+		return Meteor.users.find( { _id: { $ne: Meteor.user()._id  } } );
 	},
 	
 	name: function() {
@@ -99,7 +99,18 @@ Template.agents.events({
 
       var _userID = e.currentTarget.id;
 
-c("delete not implemented yet")
+showMessage("delete not implemented yet")
+
+
+    },
+
+  'click .imgAgentContactButton': function(e) { 
+
+      e.preventDefault();  
+
+        Session.set("sUserMessageTargetID", e.currentTarget.id);
+
+      game.user.setMode( uMessage );
 
 
     },
