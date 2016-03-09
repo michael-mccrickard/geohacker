@@ -1,7 +1,9 @@
 
 .divHomeTop {
 
-  margin-top: 60px;
+  position: fixed;
+
+  top: 55px;
 
   border-radius: 6px;
 
@@ -12,7 +14,7 @@
   background: #383838;
 
   overflow: hidden;
-
+  z-index: 1000;
 } 
 
 .divHomeAvatar {
@@ -104,10 +106,11 @@
 
 .divHomeContent {
 
+  margin-top: 250px;
+
 	margin-left: 2%;
   margin-right: 2%;
-  
-	margin-top: 1%
+
 }
 
 .compositeStatsBadge {

@@ -1,24 +1,47 @@
-.divMessageEntry {
+.divMessageContainer {
 
+
+	margin-right: auto;
+	margin-left: auto;
+	width: 35%;
+
+}
+
+
+.divMessage {
     display: -webkit-flex;
     display: flex;
+	font-family: Arial;
+	color: white;
     background-color: #2B3856;
-    float: left;
+    margin-bottom: 8px;
+    max-width: 75%;
+}
+
+.divMessageBody {
+
+	margin: 8px;
+}
+
+.agentMessageItem  {
+
+	margin: 8px;
 }
 
 .divMessageTarget {
-
+	margin-right: auto;
+	margin-left: auto;
 
 }
 
 .messageTargetLabel {
 
-    width: 1284px;
+    width: 100%;
 	font-family: Arial;
 	color: yellow;
 	font-size: 9px;
 	text-transform: uppercase;
-margin-top: -0.25%;
+	margin-top: -0.05%;
     margin-right: auto;
     margin-left: auto;
 }
@@ -28,7 +51,8 @@ margin-top: -0.25%;
     width: 64px;
     height: 64px;
 
-    background-color: #303030;
+	border: 2px solid;
+	border-color: #4AA02C;
 }
 
 .divMessageEntry {
@@ -38,6 +62,15 @@ margin-top: -0.25%;
     background-color: #2B3856;
     float: left;
     margin-top: 1%;
+        clear: both;
+}
+
+.imgAgentAvatarMessageMini {
+
+    width: 32px;
+    height: 32px;
+	border: 1px solid;
+	border-color: black;
 }
 
 .agentNameMessaging {
@@ -47,6 +80,16 @@ margin-top: -0.25%;
 	white-space: nowrap;
   	overflow: normal;
 
+}
+
+.frmMessageEntry {
+
+	width: 98%;
+}
+
+.inputMessageEntry {
+font-family: Arial;
+	width: 94%;
 }
 
 .textUserEditMessage {

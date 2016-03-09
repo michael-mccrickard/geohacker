@@ -108,9 +108,11 @@ showMessage("delete not implemented yet")
 
       e.preventDefault();  
 
-        Session.set("sUserMessageTargetID", e.currentTarget.id);
+//Session.set("sUserMessageTargetID", e.currentTarget.id);
 
-      game.user.setMode( uMessage );
+      game.user.msg.targetID.set( e.currentTarget.id );
+
+      game.user.msg.startThread();
 
 
     },

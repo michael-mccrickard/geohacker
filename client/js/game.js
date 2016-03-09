@@ -160,6 +160,9 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","the_big_score.mp3", "crystal
 			db.updateUserHacks();
 		}
 
+
+		Meteor.subscribe('messagesFor', Meteor.user()._id);
+
 		return _user;
 
 	}

@@ -12,6 +12,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	this.browseDisplay = new Display();
 
+	this.msg = new Messaging();
+
 	this.scroll = 0;
 
 	this.assignCode = "0";  //last-started mission; game object sets this from db
@@ -85,8 +87,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	  		Meteor.defer( function() { $("#divHomeAgentsPic").css("border-color","gray") } );
 
-	  		if (!this.networkAgentsDataReady) {
-
 	  			waitOnDB();
 
 	  			Meteor.subscribe("registeredUsers", function() {
@@ -95,11 +95,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	  				game.user.template.set("agents");
 	  			});
-	  		}
-	  		else {
 
-	  			this.template.set("agents");
-	  		}
      	}
 
      	if (_mode == uStats) {

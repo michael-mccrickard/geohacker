@@ -1,26 +1,74 @@
 <template name="messaging">
 
-	{{#with messageTarget}}
+	<div class="divMessageContainer">
 
-		<div class="divMessageTarget centered">
-			<img class= "imgAvatarMessageTargetMini agentItem rounded" id="{{this._id}}" src="{{this.profile.av}}" />
-			<div class="messageTargetLabel agentItem">{{this.username}}</div>
-		</div>
-	
-	{{/with}}
+		{{#with messageTarget}}
 
-	<div class="divMessageEntry rounded">
-
-		{{#with currentUser}}
-
-			<div class="rounded">
-				<img class= "imgAgentAvatarMini agentItem rounded" id="{{this._id}}" src="{{this.profile.av}}" />
-				<div class="agentLabelMini agentNameMessaging agentItem">{{this.username}}</div>
+			<div class="divMessageTarget centered">
+				<img class= "imgAvatarMessageTargetMini agentItem rounded" id="{{this._id}}" src="{{this.profile.av}}" />
+				<div class="messageTargetLabel agentItem">{{this.username}}</div>
 			</div>
+		
+		{{/with}}
 
-			<textarea id="editMessage" class="textUserEditMessage rounded" rows="4" cols="60" placeholder="Enter message here ..."></textarea>
+		{{#each message}}
 
-		{{/with}}		
+			{{#if isLoggedInUser}}
+
+				<div class="divMessage rounded" style="float:left; clear: both;">
+				
+					<div>
+						<img class= "imgAgentAvatarMessageMini agentMessageItem rounded"  style="float:left;"  src="{{av}}" />
+						<!--div class="agentLabelMini agentNameMessaging agentItem">{{username}}</div-->
+
+					</div>
+
+					<div class="divMessageBody">
+						{{this.text}}
+					</div>
+					
+				</div>	
+
+			{{else}}
+
+				<div class="divMessage rounded" style="float:right; clear: both;">
+				
+					<div class="divMessageBody">
+						{{this.text}}
+					</div>
+
+					<div>
+						<img class= "imgAgentAvatarMessageMini agentMessageItem rounded" style="float:right;" src="{{av}}" />
+						<!--div class="agentLabelMini agentNameMessaging agentItem">{{username}}</div-->
+
+					</div>
+					
+				</div>	
+
+			{{/if}}	
+
+		{{/each}}
+
+		<div class="divMessageEntry frmMessageEntry rounded">
+
+			{{#with currentUser}}
+
+				<div class="rounded">
+					<img class= "imgAgentAvatarMessageMini agentItem rounded" id="{{this._id}}" src="{{this.profile.av}}" />
+					<div class="agentLabelMini agentNameMessaging agentItem">{{this.username}}</div>
+				</div>
+
+				<form id="message-form" action="action">
+
+					<input type="text" class="form-control inputMessageEntry agentItem" id="editMessage" size="50" placeholder="Enter message ..." />
+
+					<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" tabindex="-1" />
+				</form>
+
+
+			{{/with}}		
+
+		</div>
 
 	</div>
 

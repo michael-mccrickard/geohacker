@@ -155,12 +155,16 @@ Meteor.startup(function() {
 
   Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
 
+
+  Tracker.autorun(function(){
+      Meteor.subscribe("conversation");
+  });
+
 //ps("AE")
 
   //start screen
 
   FlowRouter.go("/start"); 
-
 
 }); 
 

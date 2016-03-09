@@ -114,12 +114,7 @@ Meteor.startup(
 
       return Meteor.users.find( {} );
     });
-/*
-    Meteor.publish("networkAgents", function () {
 
-      return Meteor.users.find( { _id: { $ne: this.userId  } } );
-    });
-*/
   //area collections
 
     Meteor.publish("continent", function () {
@@ -187,6 +182,12 @@ Meteor.startup(
 
     Meteor.publish("ghTag", function () {
       return ghTag.find();
+    });
+
+    //user messaging
+
+    Meteor.publish("conversation",function(){
+      return Conversation.find({});
     });
 
     ghText.allow({
@@ -266,6 +267,21 @@ Meteor.startup(
           return true;
       },
     });
+
+    Conversation.allow({
+
+        'insert':function(userId, doc){
+            return true;
+        },
+
+        'update':function(userId, doc, fieldNames, modifier){
+            return true;
+        },
+
+        'remove':function(userId, doc){
+            return false;
+        }
+    }); 
 
 });
 
