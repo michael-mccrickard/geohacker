@@ -1,9 +1,10 @@
 .divMessageContainer {
 
-
+	width: 35%;
 	margin-right: auto;
 	margin-left: auto;
-	width: 35%;
+	position: relative;
+	top: 78px;
 
 }
 
@@ -16,6 +17,7 @@
     background-color: #2B3856;
     margin-bottom: 8px;
     max-width: 75%;
+    position: static;
 }
 
 .divMessageBody {
@@ -29,8 +31,15 @@
 }
 
 .divMessageTarget {
+	position: fixed;
+	width: 100%;
 	margin-right: auto;
 	margin-left: auto;
+	margin-top: -10px;
+	z-index: 1000;
+	background-color: black;
+	height: 106px;
+	top: 239px;
 
 }
 
@@ -47,12 +56,13 @@
 }
 
 .imgAvatarMessageTargetMini {
-
+position: static;
+margin-top: 10px;
     width: 64px;
     height: 64px;
-
 	border: 2px solid;
 	border-color: #4AA02C;
+
 }
 
 .divMessageEntry {
@@ -71,6 +81,7 @@
     height: 32px;
 	border: 1px solid;
 	border-color: black;
+	margin-top: 10px;
 }
 
 .agentNameMessaging {
