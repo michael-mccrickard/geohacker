@@ -303,6 +303,11 @@ Display = function() {
         }
     }
 
+    this.scrollToBottom = function() {
+
+        document.documentElement.scrollTop = document.body.scrollTop = $(document).height();
+    }
+
     this.enableHomeButton = function() {
 
         $("#navHomeButton").removeClass("disabled");

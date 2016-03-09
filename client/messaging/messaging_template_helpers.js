@@ -1,7 +1,7 @@
 //messaging.js
 Template.messaging.rendered = function() {
 
-	c("rendered")
+	display.scrollToBottom();
 }
 
 Template.messaging.helpers({
@@ -56,7 +56,7 @@ Template.messaging.events({
 			     
 			     createdAt: Date.now()
 
-				} } }, function() { document.documentElement.scrollTop = document.body.scrollTop = $(document).height() }
+				} } }, function() { display.scrollToBottom(); }
 			);
 		}
 

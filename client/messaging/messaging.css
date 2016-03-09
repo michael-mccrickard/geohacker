@@ -71,8 +71,10 @@ margin-top: 10px;
     display: flex;
     background-color: #2B3856;
     float: left;
-    margin-top: 1%;
+    margin-top: 8px;
+    margin-bottom: 8px;
         clear: both;
+
 }
 
 .imgAgentAvatarMessageMini {
