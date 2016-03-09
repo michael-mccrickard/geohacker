@@ -1,19 +1,10 @@
 
-
-.divOuterHomeTop {
+.divHomeTop {
 
   position: fixed;
 
   top: 55px;
 
-  height: 265px;
-
-  background-color: black;
-} 
-
-
-.divHomeTop {
-position: static;
   border-radius: 6px;
 
   width: 96%;
@@ -115,7 +106,7 @@ position: static;
 
 .divHomeContent {
 
-  margin-top: 8px;
+  margin-top: 250px;
 
 	margin-left: 2%;
   margin-right: 2%;
