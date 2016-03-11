@@ -65,7 +65,7 @@ ghMapCtl = function() {
       if (_state == sCountryOK) s= "Country correctly identified!";
 
 
-      if (_state == sMapDone) s= "Stream traced to " + hack.getCountryName() + ".";
+//      if (_state == sMapDone) s= "Stream traced to " + hack.getCountryName() + ".";
 
       Session.set("gMapStatus", s);
       
@@ -320,12 +320,6 @@ ghMapCtl = function() {
           this.fadeInIcons("continentOnly");
 
         }
-/*
-document.getElementById("myBtn").addEventListener("click", function(){
-    document.getElementById("demo").innerHTML = "Hello World";
-});
-    
-*/
     }
 
     this.fadeInIcons = function(_which) {
@@ -381,9 +375,9 @@ document.getElementById("myBtn").addEventListener("click", function(){
 
         imagesLoaded( document.querySelector('#preloadCountryMap'), function( instance ) {
 
-          Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone() }, 2500 );
+          Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone() }, 4500 );  //increased both by 2000
 
-           Meteor.setTimeout( function() { Control.playEffect( "new_debrief.mp3" ) }, 3750 );          
+           Meteor.setTimeout( function() { Control.playEffect( "new_debrief.mp3" ) }, 5750 );          
 
         });
     }

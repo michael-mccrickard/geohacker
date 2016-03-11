@@ -26,6 +26,17 @@ FlowRouter.route('/start', {
 
 });
 
+FlowRouter.route('/start2', {
+
+  name: "start2",
+
+  action: function (params, queryParams) { 
+
+    BlazeLayout.render('layout', { content: "start2" } ) 
+  },
+
+});
+
 
 FlowRouter.route('/missionSelect', {
 

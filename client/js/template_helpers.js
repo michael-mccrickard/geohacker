@@ -14,6 +14,13 @@ Template.registerHelper("agentName",  function() {
 
 )
 
+Template.registerHelper("countryName",  function() {
+
+		 return hack.getCountryName();
+	}
+
+)
+
 Template.registerHelper("badge", function() {
 
     var _obj = new BadgeList();

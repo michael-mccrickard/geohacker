@@ -424,6 +424,12 @@ Control.playEffect = function(_file) {
   document.getElementById("effectsPlayer").play();
 }
 
+Control.playEffect2 = function(_file) {
+
+  $("#effectsPlayer2").attr("src", _file);
+
+  document.getElementById("effectsPlayer2").play();
+}
 
 Control.stopSound = function(_which) {
 

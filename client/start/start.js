@@ -156,9 +156,9 @@ Meteor.startup(function() {
   Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
 
 
-  Tracker.autorun(function(){
+  //Tracker.autorun(function(){
       Meteor.subscribe("conversation");
-  });
+  //});
 
 //ps("AE")
 
@@ -264,10 +264,12 @@ Template.start.rendered = function () {
     console.log(game.user);
   }
 }
+
+
 //****************************************************************
 //          TESTING / DEBUGGING
 //****************************************************************
-
+//Template.start2.rendered = function () { hacked(); }
 
 dofix = function() {
 

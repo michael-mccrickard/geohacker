@@ -520,11 +520,11 @@ c("doCurrentMap");
                 //update the user's record in the database (country successfully hacked)
 
                 game.user.countryHacked( theCountry );
+                
+                hackedZoom();
+                
 
-                //we load the country map using the preloader (so that we can read it's size)
-                //and the preloader callback will trigger the map zooming sequence
-
-                if (!gEditLabels) this.mapCtl.preloadCountryMap( hack.getCountryFilename().toLowerCase() )
+           if (!gEditLabels) this.mapCtl.preloadCountryMap( hack.getCountryFilename().toLowerCase() )
 
                 
             }
@@ -562,6 +562,8 @@ c("doMapSuccess")
         }
        
         if (_which == mlCountry) {
+
+             $( ".droppingText" ).letterDrop();
 
             //pulse the country's opacity to draw attention to it
 
@@ -976,8 +978,6 @@ function handleZoomCompleted() {
 
         worldMap.doMap(_code, mlRegion);
 
-        
-
         worldMap.labelMapObject();
 
         refreshMap();
@@ -1019,10 +1019,103 @@ function handleZoomCompleted() {
         return;
     }
 
-
-
 }
 
 function refreshMap() {
     Meteor.setTimeout( function() { display.ctl["MAP"].finishDraw(); }, 250);
+}
+
+
+hackedZoom = function() {
+
+    Meteor.setTimeout( function() { Control.playEffect2("trans3.mp3"); }, 1500 );
+  
+
+
+    var container = $("#demo");
+
+    container.css("display","block");
+
+    var word="HACKED";
+
+    var tl = new TimelineMax({delay:2.0});
+
+    var time = 0;
+
+    var element = $("<h3>" + word + "</h3>").appendTo(container);
+    var duration = 2.0;
+
+
+    //set opacity and scale to 0 initially. We set z to 0.01 just to kick in 3D rendering in the browser which makes things render a bit more smoothly.
+    TweenLite.set(element, {autoAlpha:0, scale:0, z:0.01});
+
+
+    //the SlowMo ease is like an easeOutIn but it's configurable in terms of strength and how long the slope is linear. See http://www.greensock.com/v12/#slowmo and http://api.greensock.com/js/com/greensock/easing/SlowMo.html
+    tl.to(element, duration, {scale:1.2,  ease:SlowMo.ease.config(0.25, 0.9)}, time)
+      //notice the 3rd parameter of the SlowMo config is true in the following tween - that causes it to yoyo, meaning opacity (autoAlpha) will go up to 1 during the tween, and then back down to 0 at the end. 
+      .to(element, duration, {autoAlpha:1, ease:SlowMo.ease.config(0.25, 0.9, true)}, time);
+
+    display.mapStatus.setAndShow(' ');
+
+   
+}
+
+
+
+$.fn.letterDrop = function() {
+  // Chainability
+  return this.each( function() { 
+  
+  var obj = $( this );
+  
+  var drop = {
+    arr : obj.text().split( '' ),
+    
+    range : {
+      min : 1,
+      max : 9
+    },
+    
+    styles : function() {
+      var dropDelays = '\n', addCSS;
+      
+       for ( i = this.range.min; i <= this.range.max; i++ ) {
+         dropDelays += '.ld' + i + ' { animation-delay: 0.' + i*2 + 's; }\n';  
+       }
+      
+        addCSS = $( '<style>' + dropDelays + '</style>' );
+        $( 'head' ).append( addCSS );
+    },
+    
+    main : function() {
+      var dp = 0;
+      obj.text( '' );
+      
+      $.each( this.arr, function( index, value ) {
+
+        dp = dp.randomInt( drop.range.min, drop.range.max );
+        
+        if ( value === ' ' )
+          value = '&nbsp';
+        
+          obj.append( '<span class="letterDrop ld' + dp + '">' + value + '</span>' );
+        
+      });
+          
+    }
+  };
+   
+  Number.prototype.randomInt = function ( min, max ) {
+    return Math.floor( Math.random() * ( max - min + 1 ) + min );
+  };
+  
+  
+  // Create styles
+  drop.styles();
+
+
+    // Initialise
+    drop.main();
+  });
+
 }
