@@ -37,6 +37,8 @@ Template.bio.events({
 
       e.preventDefault();  
 
+      waitOnDB();
+
       db.updateUserBio();
 
       endEditMode();
@@ -51,8 +53,11 @@ Template.bio.events({
 
     var _file = event.target.files[0];
 
+    waitOnDB();
 
     uploader.send(_file, function (error, downloadUrl) {
+
+      stopWait();
 
       if (error) {
        
@@ -77,7 +82,11 @@ Template.bio.events({
 
       var _file = event.target.files[0];
 
+      waitOnDB();
+
       uploader.send(_file, function (error, downloadUrl) {
+
+        stopWait();
 
         if (error) {
          
@@ -95,15 +104,6 @@ Template.bio.events({
 
 });
 
-/* Now imagesRendered is calling draw()
-Template.bio.rendered = function() {
-
-  //Better to wait on a callback from imagesRendered, but for now ...
-
-  game.user.bio.redraw();
-
-}
-*/
 
 function endEditMode() {
 

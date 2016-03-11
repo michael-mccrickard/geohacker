@@ -1,6 +1,8 @@
 //messaging.js
 Template.messaging.rendered = function() {
 
+	stopWait();
+
 	display.scrollToBottom();
 }
 

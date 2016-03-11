@@ -1,5 +1,7 @@
 Template.missionListing.rendered = function(){
 
+  display.scrollToTop();
+
   stopWait();
 }
 

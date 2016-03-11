@@ -38,6 +38,8 @@ Template.userDirectory.events = {
 
       var email = e.target.id;
 
+      waitOnDB();
+
       Meteor.loginWithPassword(email, Meteor.settings.public.GENERAL_PASSWORD, function(err){
 
         if (err) {
@@ -56,6 +58,8 @@ Template.userDirectory.events = {
         else {
 
           // The user has been logged in.
+
+          stopWait();
 
           console.log("user logged in: " + email )
         }

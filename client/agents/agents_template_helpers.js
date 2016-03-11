@@ -55,7 +55,7 @@ Template.miniAgent.helpers({
 
   agent: function() {
 
-    return Database.getRandomElement( Meteor.users.find( {} ).fetch() );
+    return Database.getRandomElement( Meteor.users.find( { _id: { $ne: Meteor.user()._id  } } ).fetch() );
   },
   
   name: function() {
@@ -93,6 +93,25 @@ Template.miniAgent.helpers({
 
 Template.agents.events({
 
+  'click .divAgentAvatar': function(e) { 
+
+      e.preventDefault();  
+
+      Session.set("sProfiledUserID", e.currentTarget.id);
+
+      game.user.setMode( uBio );   
+
+    },
+
+  'click .divAgentFlag': function(e) { 
+
+      e.preventDefault();  
+
+      game.user.browseCountry( e.target.id );
+
+    },
+
+
   'click .imgButtonAgentDelete': function(e) { 
 
       e.preventDefault();  
@@ -108,7 +127,7 @@ showMessage("delete not implemented yet")
 
       e.preventDefault();  
 
-//Session.set("sUserMessageTargetID", e.currentTarget.id);
+      waitOnDB();
 
       game.user.msg.targetID.set( e.currentTarget.id );
 

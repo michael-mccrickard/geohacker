@@ -2,7 +2,7 @@
 
 Messaging = function() {
 
-	this.userID = Meteor.user()._id;
+	if ( Meteor.user() ) this.userID = Meteor.user()._id;
 
 	this.targetID = new Blaze.ReactiveVar( 0 );
 

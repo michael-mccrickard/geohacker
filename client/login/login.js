@@ -248,6 +248,7 @@ Template.login.events({
                     t: _text,
                     p: _pic, 
                     pt: _pt,
+                    st: 1,
                     ge: 0,
                     ex: 0,
                     sp: [0,0,0],
@@ -284,6 +285,8 @@ Template.login.events({
                 if ( $("#chkFemale").prop("checked") ) _gender = "female";               
 
                 game.user.makeAvatar( _gender );
+
+                game.user.msg.userID = Meteor.user()._id;
 
                 mission = null;
 

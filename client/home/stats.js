@@ -1,3 +1,10 @@
+Template.stats.rendered = function() {
+
+    display.scrollToTop();
+
+    stopWait();
+}
+
 
 Template.stats.helpers({
 

@@ -61,12 +61,12 @@ white-space: nowrap;
 
 .divAgentFlagMini {
 
-	width: 100%;
+	max-width: 95px;
 
 }
 
 .agentFlagMini {
-	height: 56px;
+	width: 95%;
 }
 
 .divAgentTextMini {
@@ -84,6 +84,11 @@ white-space: nowrap;
 .agentStatusTextMini {
 
 	color: #4CC417;
+}
+
+.agentFlagMini {
+
+
 }
 
 
@@ -116,7 +121,7 @@ white-space: nowrap;
 
 .divAgentButtonMini {
 	margin-top: -1%;
-	width: 28px;
+	width: 12px;
 	float: right;
 }
 

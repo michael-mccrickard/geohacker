@@ -3,13 +3,7 @@
 Database = function() {
 
   var res = null;
-/*
-  this.publicStore = new FS.Store.S3("publicStore");
 
-  this.ghAvatar = new FS.Collection("ghAvatar", {
-      stores: [ this.publicStore ]
-  });
-*/
   //************************************************************
   //          COLLECTIONS
   //************************************************************
@@ -79,6 +73,7 @@ Database = function() {
 
   //bio stuff
   //see bio.html and bio.js for details
+  st = user status  (active, virtual, etc.)
   t = text
   p = picture
   pt = picture text
@@ -88,6 +83,7 @@ Database = function() {
   cc = country code  //essentially read-only, created when user is first created
                      //but reader has no way to edit this value (or cn's value, either)
                      //so these two not included in updates currently
+  ag = agents in network (array of user ids)
   */
 
 
@@ -122,7 +118,7 @@ Database = function() {
 
      }
 
-   }); 
+   }, function() { stopWait(); } ); 
 }
 
   this.updateUserStatus = function(_userID, _status) {

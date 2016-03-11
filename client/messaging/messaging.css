@@ -17,7 +17,8 @@
     background-color: #2B3856;
     margin-bottom: 8px;
     max-width: 75%;
-    position: static;
+    position: relative;
+    top: 280px;
 }
 
 .divMessageBody {
@@ -70,10 +71,12 @@ margin-top: 10px;
     display: -webkit-flex;
     display: flex;
     background-color: #2B3856;
+    position: relative;
     float: left;
-    margin-top: 8px;
+    top: 280px;
     margin-bottom: 8px;
         clear: both;
+
 
 }
 

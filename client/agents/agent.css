@@ -26,6 +26,7 @@ margin-left: 16px;
     width: 96px;
     height: 96px;
     background-color: #303030;
+      cursor: pointer;
 }
 
 .agentLabel {
@@ -41,6 +42,7 @@ margin-left: 16px;
   white-space: nowrap;
   overflow: hidden;
 }
+
 
 .agentFlagLabel {
 
@@ -65,6 +67,7 @@ margin-left: 16px;
 .divAgentFlag {
 
 	width: 128px;
+	  cursor: pointer;
 
 }
 

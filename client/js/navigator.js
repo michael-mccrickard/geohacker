@@ -203,6 +203,8 @@ Navigator = function() {
 
       editor.hack.mode = mNone;
 
+      if (!game.user) return;
+
       if (game.user.mode == uHack) {
 
         game.user.setGlobals("mission");

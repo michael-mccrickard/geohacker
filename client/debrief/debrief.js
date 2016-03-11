@@ -104,7 +104,7 @@ special cases
 		 Meteor.defer( function() { hack.debrief.finishDraw(); } );
 	}
 
-	this.finishDraw = function() {
+	this.finishDraw = function( ) {
 
 	    var fullScreenWidth = $(window).width();
 

@@ -5,7 +5,7 @@
 
 	<div class="divAgent rounded">
 
-		<div class="divAgentAvatar rounded">
+		<div class="divAgentAvatar rounded" id="{{this._id}}">
 
 			<div class="rounded">
 				<img class= "imgAgentAvatar agentItem rounded" src="{{av}}" />
@@ -17,7 +17,7 @@
 		<div class="divAgentFlag">
 
 				<div class="centered">
-					<img class= "agentFlag agentItem rounded" src="{{f}}" />
+					<img class= "agentFlag agentItem rounded" src="{{f}}" id="{{this.profile.cc}}"/>
 					<div class="agentLabel agentFlagLabel agentItem">{{agentCountry}}</div>
 				</div>
 

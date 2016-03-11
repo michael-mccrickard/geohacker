@@ -308,6 +308,11 @@ Display = function() {
         document.documentElement.scrollTop = document.body.scrollTop = $(document).height();
     }
 
+    this.scrollToTop = function() {
+
+        document.documentElement.scrollTop = document.body.scrollTop = 0;
+    }
+
     this.enableHomeButton = function() {
 
         $("#navHomeButton").removeClass("disabled");
