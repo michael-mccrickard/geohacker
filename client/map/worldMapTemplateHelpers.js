@@ -32,6 +32,12 @@ Template.worldMap.rendered = function () {
       Meteor.setTimeout( function() { display.ctl["MAP"].finishDraw() }, 251 );
 
     }
+
+    //fix the position of the dropping letter effect for Chrome's quirky self
+
+    if ( whichBrowser().substr(0,6) == "Chrome" ||  whichBrowser().substr(0,6) == "Safari" ) $(".letterDropH1").css("margin-top", "-158px");
+
+    if ( whichBrowser().substr(0,6) == "Safari" ) $(".letterDropH1").css("margin-top", "-98px");
 }
 
 
