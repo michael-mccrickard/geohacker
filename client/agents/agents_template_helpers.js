@@ -127,7 +127,7 @@ showMessage("delete not implemented yet")
 
       e.preventDefault();  
 
-      waitOnDB();
+      doSpinner();
 
       game.user.msg.targetID.set( e.currentTarget.id );
 

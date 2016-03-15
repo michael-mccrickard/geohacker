@@ -150,16 +150,24 @@ Template.browseWorldMap.events = {
 
       Control.playEffect("new_feedback.mp3");
 
-      if (game.user.browseHack.countryCode.length == 0) {
+      //we are returning from a trip to the map (off the home screen)
+
+      if (game.user.mode == uBrowseMap) {
+
+          //countryCode wasn't set, so we must have been browsing
+
+          FlowRouter.go("/home")
 
           game.user.goHome();
 
           return;
       }
 
-      display.feature.resetToPrevious();
+      //assuming we are in browseCountryMode
 
-//      display.mainTemplateReady = false;
+c("going to main  from browseMapClose")
+      
+      display.feature.resetToPrevious();
 
       FlowRouter.go("/main");
   },
@@ -190,7 +198,7 @@ Template.browseWorldMap.events = {
 
 Template.browseWorldMap.rendered = function () {
   
-    stopWait();
+    stopSpinner();
 
     if (!display) return;
 

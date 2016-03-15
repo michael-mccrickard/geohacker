@@ -186,7 +186,7 @@ Display = function() {
 
         }
 
-        if (game.user.mode == uBrowse) {
+        if (game.user.mode == uBrowseCountry || game.user.mode == uBrowseMap ) {
             
             this.ctl["MAP"].enableButton();    
 
@@ -396,7 +396,9 @@ Display = function() {
 
     this.closeOutMain = function() {
 
-         Control.stopSound("effects");  //an anthem may be playing
+c("Normally stopSound() here")
+
+//         Control.stopSound("effects");  //an anthem may be playing
 
          this.stopBlinking();  
 

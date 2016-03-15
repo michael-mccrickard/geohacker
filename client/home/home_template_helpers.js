@@ -2,7 +2,18 @@
 
 Template.home.rendered = function () {
 
-  stopWait();
+  stopSpinner();
+
+  //in the browse cases, we are returning from some other template,
+  //so we need to call the user function that sets the content for this screen
+
+  if (game.user.mode == uBrowseMap || game.user.mode == uBrowseCountry)  {
+
+    game.user.returnFromBrowse();
+
+    return;
+  }
+
 }
 
 Template.home.helpers({

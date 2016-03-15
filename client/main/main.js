@@ -50,7 +50,7 @@ Template.main.helpers({
 
       if (!game.user) return;
 
-      if (game.user.mode == uBrowse) return true;
+      if (game.user.mode == uBrowseCountry) return true;
 
       return false;
 
@@ -219,7 +219,7 @@ Template.main.events({
           return; 
       }  
 
-      if (game.user.mode == uBrowse) {
+      if (game.user.mode == uBrowseCountry) {
 
           game.user.goBrowseMap();
 
@@ -284,7 +284,7 @@ Template.main.events({
           return; 
       }
 
-      if (game.user.mode == uBrowse) {
+      if (game.user.mode == uBrowseCountry) {
 
         var s = "";
 
@@ -392,7 +392,7 @@ function updateFeaturedContent() {
 
     var _name = display.feature.getName();
  
-    if (game.user.mode == uBrowse) {
+    if (game.user.mode == uBrowseCountry) {
     
 c("updateFeaturedContent in main.js is calling feature.load")
 
@@ -407,7 +407,7 @@ c("updateFeaturedContent in main.js is calling feature.load")
 
 Template.main.rendered = function () {
 
-    stopWait();
+    stopSpinner();
 
     if (!display) return;
 
@@ -418,7 +418,7 @@ Template.main.rendered = function () {
     display.checkMainScreen();
 
 
-    if (game.user.mode == uBrowse) {
+    if (game.user.mode == uBrowseCountry) {
 
         display.scanner.hide();
 

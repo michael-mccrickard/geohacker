@@ -26,6 +26,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.mode = uNone;  //determines the content on the user's home screen
 
+    this.prevMode = uNone;  //remember what the last-used mode was before going to uBrowse (Map or Country)
+
     this.bio = new Bio();
 
     this.template = new Blaze.ReactiveVar( "" );  //template for the above content
@@ -47,7 +49,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
       	return;
       }
 
-      this.setMode( uBrowse );
+      this.setMode( uBrowseCountry );
 
       hack.initForBrowse( _code );
       
@@ -56,6 +58,14 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     this.setMode = function(_mode) {
 
     	deselectAllModes();
+
+    	//store the current mode if we're going to browse something
+
+    	if (_mode == uBrowseMap || _mode == uBrowseCountry) {
+
+    		if (this.mode != uBrowseMap && this.mode != uBrowseCountry ) this.prevMode = this.mode;
+    	}
+    	
 
     	this.mode = _mode;
 
@@ -87,11 +97,11 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	  		Meteor.defer( function() { $("#divHomeAgentsPic").css("border-color","gray") } );
 
-	  			waitOnDB();
+	  			doSpinner();
 
 	  			Meteor.subscribe("registeredUsers", function() {
 
-	  				stopWait();
+	  				stopSpinner();
 
 	  				game.user.template.set("agents");
 	  			});
@@ -99,7 +109,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
      	}
 
      	if (_mode == uStats) {
-
+c("about to set the border gray for stats")
 	  		Meteor.defer( function() { $("#divHomeStatsPic").css("border-color","gray") } );
 
      		this.template.set("stats");   	
@@ -112,16 +122,22 @@ User = function( _name ) {  //name, scroll pos (for content editors)
      		game.logout();
      	}
 
-     	if (_mode == uBrowse) {
+     	if (_mode == uBrowseMap) {
 
      		this.setGlobals("browse");
-     		
+
+     		Control.playEffect( "mapButton.mp3" );
      	}
+     	else {
+
+			Control.playEffect( "blink.mp3" );
+     	}
+
     }
 
     this.goBrowseMap = function() {
 
-    	this.setMode( uBrowse );
+    	this.setMode( uBrowseMap );
 
     	if (!display.countryCode.length) display.init( this.profile.cc );
 
@@ -201,6 +217,13 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 			display.suspendMedia();
 
     	}
+
+    	if (this.mode == uBrowseMap || this.mode == uBrowseCountry)  {
+c("changing route to home in goHome b/c browse mode")
+    		FlowRouter.go("/home")
+
+    		return;
+    	}
     		
     	if (this.mode == uNone) {
 
@@ -212,6 +235,16 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     	}
 
     	FlowRouter.go("/home");
+    }
+
+    this.returnFromBrowse = function() {
+
+    	if (this.prevMode == uNone) {
+
+    		this.prevMode = uHack;
+    	}
+
+    	this.setMode( this.prevMode ); 
     }
 
     this.selectNewMission = function() {

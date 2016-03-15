@@ -134,8 +134,29 @@ img.featuredBackdrop {
     top: 38%;
 }
 
+.clsScanButtonContent {
+
+
+    position: absolute;
+    left: 86.75%; 
+    width: 10%;
+    height: 13%;
+    cursor: pointer;
+    top: 77%;
+}
+
+.scanContentA {
+
+    z-index: 9;
+}
+
+.scanContentB {
+    z-index: 8;
+
+}
+
 .clsScanButton {
-    top: 71%;
+        top: 71%;
 }
 
 .arrow {

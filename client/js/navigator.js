@@ -26,7 +26,7 @@ Navigator = function() {
 			}
 			else {
 
-				waitOnDB();
+				doSpinner();
 
         Meteor.setTimeout( function() { nav.goEditRoute(); }, 100 );
 			}
@@ -41,7 +41,7 @@ Navigator = function() {
 
       this.addToAdminHistory( _which );
 
-      waitOnDB();
+      doSpinner();
 
       //this pub will have to be modified to show only the appropriate users
       //once we have roles in place
@@ -120,7 +120,7 @@ Navigator = function() {
         this.switchToGame();
     }
 
-    waitOnDB();
+    doSpinner();
 
     Meteor.setTimeout( function() { FlowRouter.go( _last ); }, 100 );
   }

@@ -2,7 +2,7 @@ Session.set("sTagURL", "");
 
 Template.closeup.rendered = function() {
 
-  stopWait();
+  stopSpinner();
 
   display.closeUp.draw();
 }

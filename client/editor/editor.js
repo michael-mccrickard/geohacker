@@ -153,7 +153,7 @@ Editor = function() {
 
 		Meteor.call("deleteRecord", _ID, _type, function(err, result) {
 
-			stopWait();
+			stopSpinner();
 
 			if (err) console.log(err);
 
@@ -167,7 +167,7 @@ Editor = function() {
 
 		if (!_type) return;
 
-		waitOnDB();
+		doSpinner();
 
 		if (_type == cCountry) {
 
@@ -190,7 +190,7 @@ Editor = function() {
 
 			Meteor.call("updateRecordOnServerWithDataObject", _type, _id, data, function(err, result) {
 
-				stopWait();
+				stopSpinner();
 
 				if (err) {
 

@@ -142,7 +142,7 @@ Video = function() {
 
 		this.isYouTube = false; 
 
-		if (game.user.mode == uBrowse) {
+		if (game.user.mode == uBrowseCountry) {
 
 			display.feature.load( "VIDEO" );  //the imagesLoaded callback will update the screen
 

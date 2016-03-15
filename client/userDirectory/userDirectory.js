@@ -1,6 +1,6 @@
 Template.userDirectory.rendered = function(){
 
-  stopWait();
+  stopSpinner();
 }
 
 Template.userDirectory.events = {
@@ -38,7 +38,7 @@ Template.userDirectory.events = {
 
       var email = e.target.id;
 
-      waitOnDB();
+      doSpinner();
 
       Meteor.loginWithPassword(email, Meteor.settings.public.GENERAL_PASSWORD, function(err){
 
@@ -59,7 +59,7 @@ Template.userDirectory.events = {
 
           // The user has been logged in.
 
-          stopWait();
+          stopSpinner();
 
           console.log("user logged in: " + email )
         }

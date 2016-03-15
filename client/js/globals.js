@@ -1,3 +1,35 @@
+ta = function() {
+
+    var img = $("#scanButtonContentB"); 
+
+    img.attr("src", "don_pedro.jpg");
+
+    img = $("#scanButtonContentA");
+
+    TweenLite.to(img, 1.5, { opacity: 0.0 });
+}
+
+tb = function() {
+
+
+    var imgB = $(".tvContentB"); 
+
+    imgB.attr("src", "GIC.jpg");
+
+    var imgAll = $(".divTV");
+
+var tl = new TimelineLite();
+
+    tl.to(imgAll, 1.5, { css:{ scaleX: 1, scaleY: 1 } } );
+
+    var imgA = $(".tvContentA")  
+
+    tl.to(imgA, 1.5, { opacity: 0.0 });
+
+    Meteor.setTimeout( function() { $(".divTVTextUpper").css("visibility", "visible"); }, 3700)
+
+    Meteor.setTimeout( function() { $(".divTVTextLower").css("visibility", "visible"); }, 4700)
+}
 
 //************************************************************
 //     filename utilities
@@ -35,17 +67,12 @@ videoControl = function() {
     return true;
 }
 
-waitOnDB = function() {
+doSpinner = function() {
 
     Session.set("sWaitingOnDatabase", true);
 }
 
-stopWait = function() {
-
-    Session.set("sWaitingOnDatabase", false);
-}
-
-stopWaitOnDB = function() {
+stopSpinner = function() {
 
     Session.set("sWaitingOnDatabase", false);
 }

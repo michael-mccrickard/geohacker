@@ -67,7 +67,7 @@ Headline = function( _type ) {
             this.text = "STREAM FROM " + hack.getCountryName() + " WAS HACKED."
         }
 
-        if (game.user.mode == uBrowse) this.text = "Agent " + game.user.name + " is browsing " + hack.getCountryName();
+        if (game.user.mode == uBrowseCountry) this.text = "Agent " + game.user.name + " is browsing " + hack.getCountryName();
 
     }
 
@@ -109,7 +109,7 @@ Headline = function( _type ) {
             this.text  = "Geo-locate the stream using the map ...";
         }
 
-        if (game.user.mode == uBrowse) this.text = "All data linked to " + hack.getCountryName() + " is loaded. ";
+        if (game.user.mode == uBrowseCountry) this.text = "All data linked to " + hack.getCountryName() + " is loaded. ";
 
         if (this.text  == "") this.text  = "Scan for more data or use the map to geo-locate the stream ..."
 

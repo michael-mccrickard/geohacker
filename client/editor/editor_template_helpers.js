@@ -1,6 +1,6 @@
 Template.editor.rendered = function() {
 
-  stopWait();
+  stopSpinner();
 }
 
 Template.editor.helpers({
@@ -193,7 +193,7 @@ Template.editor.events = {
         return;
       }
 
-      waitOnDB();
+      doSpinner();
 
     	editor.addThisRecord( editor.hack.countryCode, editor.controlType.get(), function(err, result) {
 
@@ -201,7 +201,7 @@ Template.editor.events = {
 
         editor.newRecordID.set( result );
 
-        stopWait();
+        stopSpinner();
 
       });
 

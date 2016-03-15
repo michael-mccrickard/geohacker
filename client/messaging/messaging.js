@@ -12,7 +12,7 @@ Messaging = function() {
 
 	this.startThread = function() {
 
-		waitOnDB();
+		doSpinner();
 
 		//this was set in the template helper?
 
@@ -42,7 +42,7 @@ Messaging = function() {
 
         game.user.setMode( uMessage);
 
-        stopWait();
+        stopSpinner();
 
 /*
 
@@ -71,7 +71,7 @@ console.log("id in messaging is " + result);
 
 	        game.user.setMode( uMessage);
 
-	        stopWait();
+	        stopSpinner();
 	    });
 */
 

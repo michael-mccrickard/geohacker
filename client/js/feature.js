@@ -55,7 +55,7 @@ Feature = function() {
 
 		c("feature.fileIsLoaded()")
 
-		if (game.user.mode == uBrowse) {
+		if (game.user.mode == uBrowseCountry) {
 
 			display.redraw();
 
@@ -99,7 +99,7 @@ Feature = function() {
 				//if we're in hack mode, user will have to start the video themselves
 				//but in browse mode, we want it to go ahead and start playing
 
-				if (game.user.mode == uBrowse) display.ctl["VIDEO"].play();
+				if (game.user.mode == uBrowseCountry) display.ctl["VIDEO"].play();
 
           		this.fileIsLoaded();
 
@@ -212,7 +212,7 @@ Feature = function() {
 			game.playMusic();
 		}
 
-		if (game.user.mode == uBrowse) {
+		if (game.user.mode == uBrowseMap || uBrowseCountry) {
 
 			this.setName( "" );
 

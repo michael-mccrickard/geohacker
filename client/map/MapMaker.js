@@ -211,7 +211,7 @@ MapMaker = function() {
 
             //normally we only show the user the countries they have hacked (when browsing)
 
-            if (game.user.mode == uBrowse) {
+            if (game.user.mode == uBrowseMap || game.user.mode == uBrowseCountry) {
 
               if (gUserCountriesOnlyMode) {
 

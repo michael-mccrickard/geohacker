@@ -246,7 +246,7 @@ Template.start.helpers({
 
 Template.start.rendered = function () {
 
-  stopWait();
+  stopSpinner();
 
   Meteor.setTimeout(function () { game.startMusic(); 2000 } );  
 

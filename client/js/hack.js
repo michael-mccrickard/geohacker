@@ -482,7 +482,7 @@ Tracker.autorun( function(comp) {
 
           Hack.resetDataFlags();
 
-          if (game.user.mode == uBrowse) {
+          if (game.user.mode == uBrowseCountry) {
 
               hack.startBrowsing();
 

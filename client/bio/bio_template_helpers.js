@@ -37,7 +37,7 @@ Template.bio.events({
 
       e.preventDefault();  
 
-      waitOnDB();
+      doSpinner();
 
       db.updateUserBio();
 
@@ -53,11 +53,11 @@ Template.bio.events({
 
     var _file = event.target.files[0];
 
-    waitOnDB();
+    doSpinner();
 
     uploader.send(_file, function (error, downloadUrl) {
 
-      stopWait();
+      stopSpinner();
 
       if (error) {
        
@@ -82,11 +82,11 @@ Template.bio.events({
 
       var _file = event.target.files[0];
 
-      waitOnDB();
+      doSpinner();
 
       uploader.send(_file, function (error, downloadUrl) {
 
-        stopWait();
+        stopSpinner();
 
         if (error) {
          

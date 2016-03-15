@@ -2,7 +2,7 @@ Template.stats.rendered = function() {
 
     display.scrollToTop();
 
-    stopWait();
+    stopSpinner();
 }
 
 

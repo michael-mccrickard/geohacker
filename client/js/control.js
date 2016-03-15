@@ -418,21 +418,21 @@ Control.getImageFromFile = function(_file) {
 //***********************************************************************
 
 Control.playEffect = function(_file) {
-
+c("playEffect " + _file)
   $("#effectsPlayer").attr("src", _file);
 
   document.getElementById("effectsPlayer").play();
 }
 
 Control.playEffect2 = function(_file) {
-
+c("playEffect2 " + _file)
   $("#effectsPlayer2").attr("src", _file);
 
   document.getElementById("effectsPlayer2").play();
 }
 
 Control.stopSound = function(_which) {
-
+c("stopSound")
   document.getElementById( _which + "Player").pause();
 }
 
@@ -503,7 +503,7 @@ ghImageCtl = function() {
 
   this.setItems = function() {
 
-      if (game.user.mode == uBrowse) {
+      if (game.user.mode == uBrowseCountry || game.user.mode == uBrowseMap) {
 
         this.items = this.collection.find( { cc: this.countryCode, dt: { $ne: "rmp"} } ).fetch();
       }

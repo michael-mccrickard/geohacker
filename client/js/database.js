@@ -118,7 +118,7 @@ Database = function() {
 
      }
 
-   }, function() { stopWait(); } ); 
+   }, function() { stopSpinner(); } ); 
 }
 
   this.updateUserStatus = function(_userID, _status) {
@@ -527,7 +527,7 @@ this.updateRecord2 = function (_type, field, ID, value, cb) {
 
     Meteor.call("updateRecordOnServer", field, _type, ID, value, function(error, result){
 
-      stopWait();
+      stopSpinner();
 
       if (error) showMessage(error.reason);
 
@@ -576,7 +576,7 @@ this.updateRecord2 = function (_type, field, ID, value, cb) {
 
           Meteor.call("updateRecordOnServer", arrField[i], _type, ID, value, function( err, res) {
 
-              stopWait();
+              stopSpinner();
 
               if (err) console.log(err);
           });
@@ -617,7 +617,7 @@ this.updateRecord2 = function (_type, field, ID, value, cb) {
 
       Meteor.call("updateRecordOnServerWithDataObject", _type, _id, data, function( err, res) {
 
-              stopWait();
+              stopSpinner();
 
               if (err) console.log(err);
       });

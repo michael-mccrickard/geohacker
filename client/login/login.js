@@ -119,6 +119,8 @@ Template.login.events({
     'submit #login-form' : function(e, t){
 
       e.preventDefault();
+
+      doSpinner();
       
       // retrieve the input field values
       
@@ -159,6 +161,8 @@ Template.login.events({
           resetPrompts();
         }
 
+        stopSpinner();
+
       });
 
         return false; 
@@ -176,7 +180,7 @@ Template.login.events({
 
       //go to Continue / Select Mission screen
 
-      Control.playEffect("startButton.mp3");
+      Control.playEffect2("startButton.mp3");
 
       game.user.goHome();
 
@@ -194,7 +198,7 @@ Template.login.events({
 
       e.preventDefault();
 
-      waitOnDB();
+      doSpinner();
 
       var name = t.find('#registration-name').value
       
@@ -301,7 +305,7 @@ Template.login.events({
 
         }
 
-       stopWaitOnDB();
+       stopdoSpinner();
 
       return false;  //prevent reloading the page/app?  
     },

@@ -12,7 +12,7 @@ Session.set("sUpdateEditScreenFlag", true);
 
 Template.selectCountry.rendered = function() {
 
-  stopWait();
+  stopSpinner();
 }
 
 

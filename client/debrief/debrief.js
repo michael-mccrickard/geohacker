@@ -1,6 +1,6 @@
 Template.debrief.rendered = function () {
 
-	stopWait();
+	stopSpinner();
 
 	if (hack.debrief.waitingNow) return;  //in this case, imagesLoaded will call draw()
 
@@ -331,9 +331,7 @@ Template.debrief.events = {
 
   		Control.playEffect("new_feedback.mp3");
 
-  		if (game.user.mode == uBrowse) {
-
-//  			display.mainTemplateReady = false;
+  		if (game.user.mode == uBrowseCountry) {
 
   			display.feature.resetToPrevious();
 
@@ -383,7 +381,7 @@ Template.debrief.helpers({
 
     headline: function() {
 
-    	if (game.user.mode == uBrowse) {
+    	if (game.user.mode == uBrowseCountry) {
 
     		return "DEBRIEFING FOR " + hack.getCountryName();
   		}

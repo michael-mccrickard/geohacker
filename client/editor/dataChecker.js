@@ -39,7 +39,7 @@ function setMode( _which ) {
 
 Template.dataChecker.rendered = function() {
 
-  stopWait();
+  stopSpinner();
 }
 
 Template.dataChecker.helpers({

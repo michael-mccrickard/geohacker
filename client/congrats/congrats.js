@@ -2,7 +2,7 @@ Session.set("sBadgeCount", 0);
 
 Template.congrats.rendered = function () {
 
-  stopWait();
+  stopSpinner();
 
   display.enableHomeButton();
 
