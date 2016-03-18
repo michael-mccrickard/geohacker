@@ -97,6 +97,11 @@ Session.set("isIOS", false);
 
   Session.set("sUserMessageTargetID","");
 
+  //agents
+  Session.set("sChiefUserReady", false);
+
+  Session.set("sAgentsInNetworkReady", false);
+
 //****************************************************************
 //                  STARTUP
 //****************************************************************
@@ -155,6 +160,11 @@ Meteor.startup(function() {
 
   Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
 
+  Meteor.subscribe("chiefUser", function() { Session.set("sChiefUserReady", true ) });  
+
+  Meteor.subscribe("agentsInNetwork", function() { Session.set("sAgentsInNetwordReady", true ) });  
+
+
 
   //Tracker.autorun(function(){
       Meteor.subscribe("conversation");
@@ -182,7 +192,8 @@ Tracker.autorun( function(comp) {
       Session.get("sFReady") && 
       Session.get("sTReady") && 
       Session.get("sXReady") && 
-      Session.get("sCapitalsReady") 
+      Session.get("sCapitalsReady") &&
+      Session.get("sChiefUserReady")
        
   ) {
 

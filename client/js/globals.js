@@ -11,24 +11,47 @@ ta = function() {
 
 tb = function() {
 
+//set the B roll to the avatar we want
 
-    var imgB = $(".tvContentB"); 
+    var tvB = $(".tvContentB"); 
 
-    imgB.attr("src", "GIC.jpg");
+    tvB.attr("src", "GIC.jpg");
+
+    //get a reference to the whole div and zoom it in by scaling
 
     var imgAll = $(".divTV");
 
-var tl = new TimelineLite();
+    var tl = new TimelineLite();
 
     tl.to(imgAll, 1.5, { css:{ scaleX: 1, scaleY: 1 } } );
 
+    //fade out the A roll (static)
+
     var imgA = $(".tvContentA")  
 
-    tl.to(imgA, 1.5, { opacity: 0.0 });
+    tl.to(imgA, 1.5, { opacity: 0.0, ease:"Rough.easeOut" });
 
-    Meteor.setTimeout( function() { $(".divTVTextUpper").css("visibility", "visible"); }, 3700)
+    //reveal the text, upper, then lower
 
-    Meteor.setTimeout( function() { $(".divTVTextLower").css("visibility", "visible"); }, 4700)
+    var txtUpper = $(".divTVTextUpper");
+
+    var txtLower = $(".divTVTextLower");
+
+    tl.to(txtUpper, 0.5, { opacity: 1.0, delay: 0.5 });  
+
+    tl.to(txtLower, 0.5, { opacity: 1.0, delay: 1 }); 
+
+    //wait briefly, then fade out all
+
+    tl.to([txtUpper, txtLower, imgAll], 0.5, { opacity: 0.0, delay: 1.5 });  
+
+    //fade in the agent's snapshot
+
+    var div = $(".divWelcomeAgent")  
+
+    tl.to(div, 0.5, { opacity: 1.0 } );   
+
+    //
 }
 
 //************************************************************

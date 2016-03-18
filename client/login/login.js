@@ -252,6 +252,7 @@ Template.login.events({
                     t: _text,
                     p: _pic, 
                     pt: _pt,
+                    ag: Database.getChiefID(),
                     st: 1,
                     ge: 0,
                     ex: 0,

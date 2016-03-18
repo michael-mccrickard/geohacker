@@ -4,11 +4,13 @@
 
 fix1 = function() {
 
-  var arr = db.ghSound.find({}).fetch();
+  var ID =  Database.getChiefID();
+
+  var arr = Meteor.users().find({}).fetch();
 
       for (var i = 0; i < arr.length; i++) {
 
-        if ( isURL(arr[i].f) ) db.ghSound.update( {_id: arr[i]._id}, { $set: {u: arr[i].f } } ) ;
+       Meteor.users().update( {_id: arr[i]._id}, { $set: { ag: ID } } ) ;
 
     }
 }

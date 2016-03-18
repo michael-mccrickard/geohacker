@@ -1,5 +1,14 @@
 @import url(http://fonts.googleapis.com/css?family=Raleway:400,500,300,600,700,800);
 
+.divWelcomeAgent {
+
+  position: absolute;
+  left: 29%;
+  top: 39%;
+  opacity: 0;
+  z-index: 1003;  
+}
+
 .divTV {
 
   position: absolute;
@@ -50,7 +59,7 @@ position: absolute;
 
   left: 18%;
   top: 29%;
-  visibility: hidden;
+  opacity: 0;
 
 }
 
@@ -58,7 +67,7 @@ position: absolute;
 
   left: 17%;
   top: 55%;
-  visibility: hidden;
+  opacity: 0;
 
 }
 

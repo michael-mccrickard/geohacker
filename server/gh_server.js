@@ -5,6 +5,7 @@
 var countryCode;
 
 
+
 //*********************************************
 //      EMAIL SETTINGS
 //*********************************************
@@ -106,8 +107,17 @@ Meteor.startup(
       return ghDebrief.find( {} );
       });
 
-  //user collection
+  //users collections
 
+    Meteor.publish("chiefUser", function () {
+
+      return Meteor.users.find( { _id: getChiefID2() } );
+    });
+
+     Meteor.publish("agentsInNetwork", function () {
+
+      return Meteor.users.find( { _id: { $in: this.user.profile.ag } } );
+    });   
 
 //only for super-admin?
     Meteor.publish("registeredUsers", function () {
@@ -290,10 +300,11 @@ Meteor.startup(
 //      FUNCTIONS
 //*********************************************
 
-function setAWSConfig() {
-    
-    
+function getChiefID2() {
 
+  var res = Meteor.users.findOne( { username: "Mac Sea" } );
+
+  return res._id;
 }
 
 function getCollectionForType(_type) {
@@ -393,6 +404,11 @@ Meteor.methods({
     __ROOT_APP_PATH__ = fs.realpathSync('.'); 
 
     console.log(__ROOT_APP_PATH__);
+  },
+
+  getChiefID: function() {
+    
+    return getChiefID2();
   },
 
   clearAvatars:  function() {

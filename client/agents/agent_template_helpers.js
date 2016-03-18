@@ -1,8 +1,10 @@
 //agents_template_helpers.js
 
-Template.agents.helpers({
+Template.agent.helpers({
 
-	agent: function() {
+	agentInNetwork: function() {
+
+    if (FlowRouter.current().path == "/worldMap") return Meteor.users.find({ username: "Mac Sea" });
 
 		return Meteor.users.find( { _id: { $ne: Meteor.user()._id  } } );
 	},
@@ -91,7 +93,7 @@ Template.miniAgent.helpers({
 
 }); 
 
-Template.agents.events({
+Template.agent.events({
 
   'click .divAgentAvatar': function(e) { 
 

@@ -632,6 +632,25 @@ this.updateRecord2 = function (_type, field, ID, value, cb) {
 //  Static functions
 //****************************************
 
+Database.getChiefID = function() {
+
+  Meteor.call("getChiefID", function(err, res){
+
+      if (err) c(err.reason);
+
+      if (res) {
+
+        var ID = [];
+
+        ID.push( res );
+
+        return ID;
+
+      }
+  });
+}
+
+
 Database.getIndexWithNValue = function(_val, _arr) {
 
       for (var i = 0; i < _arr.length; i++) {

@@ -97,19 +97,22 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	  		Meteor.defer( function() { $("#divHomeAgentsPic").css("border-color","gray") } );
 
+	  		game.user.template.set("agent");
+
+/*
 	  			doSpinner();
 
 	  			Meteor.subscribe("registeredUsers", function() {
 
 	  				stopSpinner();
 
-	  				game.user.template.set("agents");
+	  				game.user.template.set("agent");
 	  			});
-
+*/
      	}
 
      	if (_mode == uStats) {
-c("about to set the border gray for stats")
+
 	  		Meteor.defer( function() { $("#divHomeStatsPic").css("border-color","gray") } );
 
      		this.template.set("stats");   	
