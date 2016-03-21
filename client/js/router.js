@@ -1,4 +1,4 @@
-var debrief_sound = "debrief.mp3";
+
 
 
 //*********************************************
@@ -106,7 +106,7 @@ FlowRouter.route('/home', {
 
     display.closeOutMain();
 
-    BlazeLayout.render('layout', { content: "home" } ) 
+    BlazeLayout.render('layout', { content: "home" } );
 
   },
 
@@ -257,10 +257,7 @@ function checkForFeature() {
 
 }
 
-function playDebriefSound() {
 
-  Control.playEffect( debrief_sound );
-}
 
 
 function doSelectCountryWindow() {

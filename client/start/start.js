@@ -41,7 +41,7 @@ Session.set("sBadPasswordEntered", false);
 Session.set("isIOS", false);
 
 
-//these are the "gatekeepers" to our subscribed data;
+//these are the "gatekeepers" to our subscribed core data;
 //they ensure that we don't try to access any collection before 
 //they are ready
 
@@ -102,6 +102,8 @@ Session.set("isIOS", false);
 
   Session.set("sAgentsInNetworkReady", false);
 
+  Session.set("sAgentsInCountryReady", false);
+
 //****************************************************************
 //                  STARTUP
 //****************************************************************
@@ -161,10 +163,6 @@ Meteor.startup(function() {
   Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
 
   Meteor.subscribe("chiefUser", function() { Session.set("sChiefUserReady", true ) });  
-
-  Meteor.subscribe("agentsInNetwork", function() { Session.set("sAgentsInNetwordReady", true ) });  
-
-
 
   //Tracker.autorun(function(){
       Meteor.subscribe("conversation");

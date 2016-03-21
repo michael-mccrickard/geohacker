@@ -60,9 +60,9 @@ ghMapCtl = function() {
 
       //if (_state == sTestCountry) s= "Testing map coordinates ...";
       
-      if (_state == sCountryBad) s= "Geo-location of country failed.";
+      if (_state == sCountryBad) s = "Geo-location of country failed.";
 
-      if (_state == sCountryOK) s= "Country correctly identified!";
+      if (_state == sCountryOK) s = "Country correctly identified!";
 
 
 //      if (_state == sMapDone) s= "Stream traced to " + hack.getCountryName() + ".";

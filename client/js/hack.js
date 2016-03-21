@@ -26,6 +26,10 @@ Hack = function() {
 
   this.debrief = null;
 
+  this.welcomeAgent = null;
+
+  this.welcomeAgentIsChief = false;
+
 
 //to do: change this to streamID throughout
   this.messageID = "(not set)";
@@ -154,6 +158,8 @@ Hack = function() {
         Meteor.subscribe("ghMap", function() { Session.set("sMapReady", true ) });
 
         Meteor.subscribe("ghDebrief", function() { Session.set("sDebriefReady", true ) });     
+
+        Meteor.subscribe("agentsInCountry", function() { Session.set( "sAgentsInCountryReady", true ) } );
     }
 
     this.autoHack = function() {
@@ -445,6 +451,28 @@ Hack = function() {
         this.messageID = id;
     }
 
+   this.getWelcomeAgent = function() {
+
+      //when we have the title field implemented on the user records,
+      //we'll return the GIC for the country
+
+      this.welcomeAgent = null;
+
+      this.welcomeAgentIsChief = false;
+
+      this.welcomeAgent = Meteor.users.findOne( { 'profile.cc': this.countryCode, '_id': { $ne: Database.getChiefID()[0]  } } );
+
+      if (this.welcomeAgent) {
+        
+        return this.welcomeAgent;
+      }
+
+      this.welcomeAgentIsChief = true;
+
+      return Meteor.users.findOne( { _id: Database.getChiefID()[0] } );
+
+    }
+
 
 }
 
@@ -474,7 +502,8 @@ Tracker.autorun( function(comp) {
       Session.get("sWebReady") && 
       Session.get("sSoundReady") && 
       Session.get("sDebriefReady") && 
-      Session.get("sMapReady")
+      Session.get("sMapReady") &&
+      Session.get("sAgentsInCountryReady") 
 
       ) {
 

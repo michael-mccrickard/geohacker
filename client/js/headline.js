@@ -148,6 +148,13 @@ Headline = function( _type ) {
         this.type();
     },
 
+    this.setThisAndType = function( _str ) {
+        
+        this.setStatus( _str );
+
+        this.type();
+    },
+
     this.setAndShow = function( _text ) {
 
         this.set( _text );
@@ -177,13 +184,13 @@ Headline = function( _type ) {
             //for the map, only play the typing sound, if we're in ID status,
             //otherwise we are cutting off a cool sound effect
 
-            if (this.hType == "map" && display.ctl["MAP"].isIDStatus() ) {
+            //if (this.hType == "map" && display.ctl["MAP"].isIDStatus() ) {
 
-               Control.playEffect( this.typing_sound_file );
-            }
+               Control.playEffect2( this.typing_sound_file );
+            //}
 
 
-            if (this.hType != "map")  Control.playEffect( this.typing_sound_file );
+            //if (this.hType != "map")  Control.playEffect2( this.typing_sound_file );
         }
 
         $( _ele ).text("");       

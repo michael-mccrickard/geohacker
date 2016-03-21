@@ -787,18 +787,90 @@ c("doMapSuccess")
 
 
         $("#mapImage").velocity({
-            left: deltaLeft,
-            top: deltaTop,
-            height: deltaHeight,
-            width: deltaWidth,
-        },{
-            duration: 1000,
-        }
+
+                left: deltaLeft,
+                top: deltaTop,
+                height: deltaHeight,
+                width: deltaWidth,
+            },{
+                duration: 1000,
+            }
             
         );
 
-        display.ctl["MAP"].setState( sMapDone );  
+        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone5(); }, 1000);     
 
+    },
+
+    this.hackDone5 = function() {
+
+        //if this is the first time the user has hacked this one, we have a welcome party
+
+        var _ticket = game.user.getTicket( hack.countryCode );
+
+        if  (_ticket.count == 1) {
+
+            //Hide the letters that dropped down to spell the country name
+
+            $(".letterDropH1").css("opacity", 0);
+
+            display.mapStatus.setThisAndType("INCOMING TRANSMISSION DETECTED");
+
+        //set the B roll to the avatar we want
+
+            var tvB = $(".tvContentB"); 
+
+            var _pic = hack.getWelcomeAgent().profile.av;
+
+            tvB.attr("src", _pic);
+
+            //get a reference to the whole div and zoom it in by scaling
+
+            var imgAll = $(".divTV");
+
+            var tl = new TimelineLite();
+
+            tl.to(imgAll, 1.5, { css:{ scaleX: 1, scaleY: 1 }, delay: 1 } );
+
+            //fade out the A roll (static)
+
+            var imgA = $(".tvContentA")  
+
+            tl.to(imgA, 1.5, { opacity: 0.0, ease:"Rough.easeOut" });
+
+            //reveal the text, upper, then lower
+
+            var txtUpper = $(".divTVTextUpper");
+
+            var txtLower = $(".divTVTextLower");
+
+            tl.to(txtUpper, 0.5, { opacity: 1.0, delay: 0.5 });  
+
+            tl.to(txtLower, 0.5, { opacity: 1.0, delay: 1 }); 
+
+            //wait briefly, then fade out all
+
+            tl.to([txtUpper, txtLower, imgAll], 0.5, { opacity: 0.0, delay: 1.5 });  
+
+            //fade in the agent's snapshot
+
+            var div = $(".divWelcomeAgent")  
+
+            tl.to(div, 0.5, { opacity: 1.0 } );   
+
+//don't fade it out
+
+            //tl.to(div, 1, { opacity: 0, delay: 1.5 } );
+
+            Meteor.setTimeout( function() { display.mapStatus.setThisAndType("NEW AGENT ADDED TO YOUR NETWORK"); }, 8500 );
+
+            Meteor.setTimeout( function() { display.ctl["MAP"].setStateOnly( sMapDone ) }, 8501 ); 
+        }
+        else {
+
+            display.ctl["MAP"].setState( sMapDone );
+        }
+                
     }
 
 }  //end WorldMap Object

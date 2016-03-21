@@ -47,6 +47,25 @@ Template.worldMap.rendered = function () {
 
 Template.worldMap.helpers({
 
+  countryIsHacked: function() {
+
+    if (display.ctl["MAP"].getState() >= sCountryOK ) return true;
+
+    return false;
+  },
+
+  welcomeTextUpper: function() {
+
+    if (hack.welcomeAgentIsChief) return "ME AGAIN.  GOOD JOB!";
+
+    return "you hacked my country!"
+  },
+
+  welcomeTextLower: function() {
+
+    return "WELCOME TO GEOHACKER " + hack.getCountryName();
+  },
+
   continentName: function() { 
 
     var level = display.ctl["MAP"].level.get();

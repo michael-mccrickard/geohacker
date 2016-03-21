@@ -9,7 +9,28 @@ Template.userDirectory.events = {
 
   	  e.preventDefault();
 
-      nav.closeEditor();
+      doSpinner();
+
+      if (!Meteor.user() ) {
+
+        nav.closeEditor();
+
+        stopSpinner();
+
+        return;
+      }
+
+      Meteor.subscribe("agentsInNetwork", function(err) {
+
+        if (err) console.log(err.reason);
+
+        stopSpinner();
+
+        nav.closeEditor();
+
+      });
+
+      
   	},
 
   'click .deleteRecord': function(e) {

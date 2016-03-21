@@ -32,7 +32,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.template = new Blaze.ReactiveVar( "" );  //template for the above content
 
-    this.profile = null;
+    this.profile = {};
 
     this.editMode = new Blaze.ReactiveVar( false );  //is the user editing the profile content?
 
@@ -99,16 +99,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	  		game.user.template.set("agent");
 
-/*
-	  			doSpinner();
-
-	  			Meteor.subscribe("registeredUsers", function() {
-
-	  				stopSpinner();
-
-	  				game.user.template.set("agent");
-	  			});
-*/
      	}
 
      	if (_mode == uStats) {
@@ -222,7 +212,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     	}
 
     	if (this.mode == uBrowseMap || this.mode == uBrowseCountry)  {
-c("changing route to home in goHome b/c browse mode")
+
     		FlowRouter.go("/home")
 
     		return;
@@ -270,7 +260,9 @@ c("changing route to home in goHome b/c browse mode")
 			    return;
 			  }
 
-			 Meteor.setTimeout( function(){ game.user.profile = Meteor.user().profile; }, 1500);
+//console.log(result);
+
+//			 Meteor.setTimeout( function(){ game.user.profile = Meteor.user().profile; }, 1500);
 		});
 	} 
 
@@ -620,14 +612,24 @@ c("changing route to home in goHome b/c browse mode")
 			this.atlas.splice(_index, 1);
 		}
 
-		//... bump it to the front
+		//... bump the ticket to the front
 	
 		this.atlas.unshift( _ticket );
 
+		//remove the country from the pool array
 
 		var _poolIndex = this.assign.findPoolIndex( _code);
 
 		if (_poolIndex != -1) this.assign.pool.splice(_poolIndex, 1);
+
+
+		//add the welcome agent to the user's network (if this is the first time)
+
+		if (_ticket.count == 1) {
+
+			game.user.profile.ag.push( hack.getWelcomeAgent()._id );
+		}
+
 
 		//are we done?
 

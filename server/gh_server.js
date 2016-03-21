@@ -4,8 +4,6 @@
 
 var countryCode;
 
-
-
 //*********************************************
 //      EMAIL SETTINGS
 //*********************************************
@@ -107,7 +105,7 @@ Meteor.startup(
       return ghDebrief.find( {} );
       });
 
-  //users collections
+  //Meteor.users collection
 
     Meteor.publish("chiefUser", function () {
 
@@ -116,10 +114,21 @@ Meteor.startup(
 
      Meteor.publish("agentsInNetwork", function () {
 
-      return Meteor.users.find( { _id: { $in: this.user.profile.ag } } );
+        if (!this.userId) return null;
+
+        var _user = Meteor.users.findOne( { _id: this.userId } );
+
+        return Meteor.users.find( { _id: { $in: _user.profile.ag } } );
+    
     });   
 
-//only for super-admin?
+     Meteor.publish("agentsInCountry", function () {
+
+      return Meteor.users.find( { 'profile.cc': countryCode } );
+    });   
+
+
+    //only for super-admin?
     Meteor.publish("registeredUsers", function () {
 
       return Meteor.users.find( {} );
@@ -188,7 +197,7 @@ Meteor.startup(
       return ghDebrief.find( { cc: countryCode });
     });
 
-    //user collections
+    //map tags
 
     Meteor.publish("ghTag", function () {
       return ghTag.find();
@@ -423,8 +432,6 @@ Meteor.methods({
 
   deleteS3File: function(_key) {
 
-    setAWSConfig();
-
     var s3 = new AWS.S3();
        var params = {
        Bucket: "gh-resource",
@@ -468,8 +475,6 @@ Meteor.methods({
 
               var _key = "ghAvatar/" + userID + '.png';
 
-              setAWSConfig();
-
               var s3 = new AWS.S3();
 
               var params = {
@@ -492,7 +497,7 @@ Meteor.methods({
 
                   Meteor.users.update( {_id: userID }, { $set: { 'profile.av': prefix + _key }  });
 
-                  //testAvatarURL( _key, userID );
+                  return data;
                 }    
               
               }));

@@ -95,7 +95,9 @@ Database = function() {
 
         'profile.c': game.user.assignCode, 
         
-        'profile.h': game.user.getAtlasDataObject() 
+        'profile.h': game.user.getAtlasDataObject(),
+
+        'profile.ag': game.user.profile.ag 
 
         } } 
       );
@@ -634,20 +636,14 @@ this.updateRecord2 = function (_type, field, ID, value, cb) {
 
 Database.getChiefID = function() {
 
-  Meteor.call("getChiefID", function(err, res){
+  var _id = Meteor.users.findOne( { username: "Mac Sea" } )._id;
 
-      if (err) c(err.reason);
+  var ID = [];
 
-      if (res) {
+  ID.push( _id );
 
-        var ID = [];
+  return ID;
 
-        ID.push( res );
-
-        return ID;
-
-      }
-  });
 }
 
 

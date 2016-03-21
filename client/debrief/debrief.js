@@ -31,6 +31,8 @@ Debrief = function() {
 
 	this.text = "";
 
+	this.sound = "debrief.mp3";
+
 /*********************************************
 
 	DEBRIEF CODES  (dt field in database)
@@ -308,6 +310,10 @@ special cases
 
 			hack.playLanguageFile();	
 		} 
+		else {
+
+			Control.playEffect( this.sound );
+		}
 	}
 
 	this.goNext = function() {

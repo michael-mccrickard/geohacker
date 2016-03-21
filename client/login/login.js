@@ -287,7 +287,9 @@ Template.login.events({
 
                 if ( $("#chkMale").prop("checked") ) _gender = "male";
 
-                if ( $("#chkFemale").prop("checked") ) _gender = "female";               
+                if ( $("#chkFemale").prop("checked") ) _gender = "female";  
+
+                game.user.profile = Meteor.user().profile;
 
                 game.user.makeAvatar( _gender );
 
@@ -306,7 +308,7 @@ Template.login.events({
 
         }
 
-       stopdoSpinner();
+       stopSpinner();
 
       return false;  //prevent reloading the page/app?  
     },

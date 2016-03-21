@@ -1,12 +1,31 @@
 //agents_template_helpers.js
 
+Template.agent.onCreated(function () {
+
+  var self = this;
+
+  self.subscribe("agentsInNetwork", function() { stopSpinner(); });
+
+});
+
+
+
 Template.agent.helpers({
 
 	agentInNetwork: function() {
 
-    if (FlowRouter.current().path == "/worldMap") return Meteor.users.find({ username: "Mac Sea" });
+    if (FlowRouter.current().path == "/worldMap") {
 
-		return Meteor.users.find( { _id: { $ne: Meteor.user()._id  } } );
+      var _arr = [];
+
+      _arr.push( hack.getWelcomeAgent() );
+
+      return _arr; 
+    }
+
+    if (!Meteor.user() ) return Meteor.users.findOne( { _id: Database.getChiefID()[0] } ).fetch();
+
+		return Meteor.users.find( { _id: { $in: Meteor.user().profile.ag  } } );  //
 	},
 	
 	name: function() {
@@ -56,6 +75,8 @@ Template.agent.helpers({
 Template.miniAgent.helpers({
 
   agent: function() {
+
+    if (!Meteor.user()) return Meteor.users.findOne( { _id: Database.getChiefID()[0] } ); 
 
     return Database.getRandomElement( Meteor.users.find( { _id: { $ne: Meteor.user()._id  } } ).fetch() );
   },
@@ -138,4 +159,5 @@ showMessage("delete not implemented yet")
 
     },
 
-}) 
+});
+

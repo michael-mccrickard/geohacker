@@ -1,56 +1,55 @@
 <template name="agent">
 
+		{{#each agentInNetwork}}
 
-	{{#each agentInNetwork}}
+			<div class="divAgent rounded">
 
-	<div class="divAgent rounded">
+				<div class="divAgentAvatar rounded" id="{{this._id}}">
 
-		<div class="divAgentAvatar rounded" id="{{this._id}}">
+					<div class="rounded">
+						<img class= "imgAgentAvatar agentItem rounded" src="{{av}}" />
+						<div class="agentLabel agentNameLabel agentItem">{{name}}</div>
+					</div>		
 
-			<div class="rounded">
-				<img class= "imgAgentAvatar agentItem rounded" src="{{av}}" />
-				<div class="agentLabel agentNameLabel agentItem">{{name}}</div>
-			</div>		
-
-		</div>
-
-		<div class="divAgentFlag">
-
-				<div class="centered">
-					<img class= "agentFlag agentItem rounded" src="{{f}}" id="{{this.profile.cc}}"/>
-					<div class="agentLabel agentFlagLabel agentItem">{{agentCountry}}</div>
 				</div>
 
-				<div class='divAgentStats agentLabel'>
-					<span class="agentStatusText"> STATUS: {{agentStatus}}</span>
-					<span class="agentStatusText"> HACKS: {{hackCount}}</span>
+				<div class="divAgentFlag">
+
+						<div class="centered">
+							<img class= "agentFlag agentItem rounded" src="{{f}}" id="{{this.profile.cc}}"/>
+							<div class="agentLabel agentFlagLabel agentItem">{{agentCountry}}</div>
+						</div>
+
+						<div class='divAgentStats agentLabel'>
+							<span class="agentStatusText"> STATUS: {{agentStatus}}</span>
+							<span class="agentStatusText"> HACKS: {{hackCount}}</span>
+						</div>
+
 				</div>
 
-		</div>
 
+				  <div class="divAgentText rounded">
 
-		  <div class="divAgentText rounded">
+					  	<div class="divAgentFeaturedPic">
+					  		<img class="imgAgentFeaturedPic agentItem" src="{{pic}}" />
+						</div> 
 
-			  	<div class="divAgentFeaturedPic">
-			  		<img class="imgAgentFeaturedPic agentItem" src="{{pic}}" />
-				</div> 
+					  	<div class="agentText">
+					  		{{t}}
+						</div>
 
-			  	<div class="agentText">
-			  		{{t}}
-				</div>
+				  </div>
 
-		  </div>
+				  <div class="divAgentButton agentItem rounded">
 
-		  <div class="divAgentButton agentItem rounded">
+				  	<img class="imgAgentContactButton rounded" src="scan_for_more2.png" id="{{this._id}}" />
 
-		  	<img class="imgAgentContactButton rounded" src="scan_for_more2.png" id="{{this._id}}" />
+		            <img class="imgAgentDeleteButton" src="close_red.png" id="{{this._id}}" />
+				  </div>
 
-            <img class="imgAgentDeleteButton" src="close_red.png" id="{{this._id}}" />
-		  </div>
+			</div>
 
-	</div>
-
-	{{/each}}
+		{{/each}}
 
 </template>
 

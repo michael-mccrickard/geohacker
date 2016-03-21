@@ -5,12 +5,12 @@
 fix1 = function() {
 
   var ID =  Database.getChiefID();
-
-  var arr = Meteor.users().find({}).fetch();
-
+c(ID)
+  var arr = Meteor.users.find({}).fetch();
+c(arr.length)
       for (var i = 0; i < arr.length; i++) {
 
-       Meteor.users().update( {_id: arr[i]._id}, { $set: { ag: ID } } ) ;
+       Meteor.users.update( {_id: arr[i]._id}, { $set: { 'profile.ag': ID } } ) ;
 
     }
 }

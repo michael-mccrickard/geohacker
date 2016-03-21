@@ -49,6 +49,8 @@ Template.home.events({
 
       e.preventDefault();  
 
+      doSpinner();
+
       game.user.setMode( uAgents );
 
   },

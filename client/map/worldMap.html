@@ -40,27 +40,28 @@
 
 	<a href="/closeup"> <img id="mapImage" src="" style="position: absolute; border-radius: 7px; border: 4px solid; border-color: gray;"></a>
 
+	{{#if countryIsHacked}}
 
-<div class="divTVText divTVTextUpper">YOU HACKED MY COUNTRY!</div>
+		<div class="divTVText divTVTextUpper">{{welcomeTextUpper}}</div>
 
-<div class="divTV">
-	<img class="tv tvScreen" src="tvScannerGreen.png" />
+		<div class="divTV">
+			<img class="tv tvScreen" src="tvScannerGreen.png" />
 
-	<img class="tv tvContent tvContentA" src="static_man.gif" />
+			<img class="tv tvContent tvContentA" src="static.gif" />
 
-	<img class="tv tvContent tvContentB" src="static_man.gif" />
+			<img class="tv tvContent tvContentB" src="static.gif" />
 
-</div>
-	
-<div class="divTVText divTVTextLower">WELCOME TO GEOHACKER USA.</div>
+		</div>
+			
+		<div class="divTVText divTVTextLower">{{welcomeTextLower}}</div>
 
-<div class="divWelcomeAgent">
+		<div class="divWelcomeAgent">
 
+			{{> agent}}
 
-	{{> agent}}
+		</div>
 
-
-</div>
+	{{/if}}
 
 </template>
 
