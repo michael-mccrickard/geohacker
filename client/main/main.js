@@ -192,7 +192,7 @@ Template.main.events({
 
       e.preventDefault();  
 
-      if ( $("img#scanButton").hasClass('faded') ) return;  //let-down sound here?
+      if ( $("img#scanButton").hasClass('faded') ) return; 
 
       $("#scanButton").attr("src", "./tvScannerGreen.png");
 
@@ -202,7 +202,7 @@ Template.main.events({
 
       e.preventDefault();  
 
-      if ( $("img#scanButton").hasClass('faded') ) return;  //let-down sound here?
+      if ( $("img#scanButton").hasClass('faded') ) return; 
 
       $("img#scanButton").attr("src", "./tvScannerYellow.png");
 
@@ -315,6 +315,8 @@ Template.main.events({
       }
 
       display.feature.dim();
+
+      Control.unhiliteAll();
 
       var mode = "rescan";
 
@@ -445,7 +447,13 @@ Template.main.rendered = function () {
 
         display.scanner.show();
 
-        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 );              
+        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 );     
+
+//Need to show and play the GIC movie here: Let's hack
+
+//Meteor.setTimeout( function() { $("#scanButtonContentA").attr("src","purpleScan.gif");, 1000 } );    
+
+Meteor.setTimeout( function() { $("#scanButtonContentA").attr("src","static.gif");, 4001 } );         
       }
 
     }

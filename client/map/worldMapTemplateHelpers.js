@@ -54,17 +54,19 @@ Template.worldMap.helpers({
     return false;
   },
 
-  welcomeTextUpper: function() {
+  welcomeText: function() {
 
     if (hack.welcomeAgentIsChief) return "ME AGAIN.  GOOD JOB!";
 
-    return "you hacked my country!"
+    return "YOU HACKED MY COUNTRY!"
   },
 
+/*
   welcomeTextLower: function() {
 
     return "WELCOME TO GEOHACKER " + hack.getCountryName();
   },
+*/
 
   continentName: function() { 
 

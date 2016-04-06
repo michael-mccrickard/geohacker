@@ -40,6 +40,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.networkAgentsDataReady = false;
 
+    this.headline = new Headline( "welcomeAgent" );
+
     this.browseCountry = function( _code ) {
 
       if ( db.getDataFlagForCountry( _code) == false) {

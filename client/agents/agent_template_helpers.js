@@ -4,7 +4,7 @@ Template.agent.onCreated(function () {
 
   var self = this;
 
-  self.subscribe("agentsInNetwork", function() { stopSpinner(); });
+  //self.subscribe("agentsInNetwork", function() { stopSpinner(); });
 
 });
 
@@ -25,7 +25,7 @@ Template.agent.helpers({
 
     if (!Meteor.user() ) return Meteor.users.findOne( { _id: Database.getChiefID()[0] } ).fetch();
 
-		return Meteor.users.find( { _id: { $in: Meteor.user().profile.ag  } } );  //
+		return Meteor.users.find( {  } );  ////Meteor.users.find( { _id: { $in: Meteor.user().profile.ag  } } );  //
 	},
 	
 	name: function() {
@@ -78,7 +78,9 @@ Template.miniAgent.helpers({
 
     if (!Meteor.user()) return Meteor.users.findOne( { _id: Database.getChiefID()[0] } ); 
 
-    return Database.getRandomElement( Meteor.users.find( { _id: { $ne: Meteor.user()._id  } } ).fetch() );
+    //change this to be the most recent agent added or interacted with
+
+    return Meteor.users.findOne( { _id: { $in: Meteor.user().profile.ag  } } );
   },
   
   name: function() {

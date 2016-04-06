@@ -122,52 +122,57 @@ Template.login.events({
 
       doSpinner();
       
-      // retrieve the input field values
-      
-      var email = t.find('#login-email').value;
+      Meteor.setTimeout( function() {
 
-      //store the email, in case they need a password reset
+        // retrieve the input field values
+        
+        var email = t.find('#login-email').value;
 
-      game.currentEmail = email;
+        //store the email, in case they need a password reset
+
+        game.currentEmail = email;
 
 
-      var password = t.find('#login-password').value;
+        var password = t.find('#login-password').value;
 
-      // Trim and validate your fields here.... 
+        // Trim and validate your fields here.... 
 
-      email = trimInput( email );
+        email = trimInput( email );
 
-      Meteor.loginWithPassword(email, password, function(err){
+        Meteor.loginWithPassword(email, password, function(err){
 
-        if (err) {
+          if (err) {
 
-          // The user might not have been found, or their passwword
-          // could be incorrect. Inform the user that their
-          // login attempt has failed. 
+            // The user might not have been found, or their passwword
+            // could be incorrect. Inform the user that their
+            // login attempt has failed. 
 
-          console.log("user not logged in: " + email + ".  " + err.reason );
+            console.log("user not logged in: " + email + ".  " + err.reason );
 
-          if ( err.reason.indexOf("Incorrect password") != -1) Session.set("sBadPasswordEntered", true);
+            if ( err.reason.indexOf("Incorrect password") != -1) Session.set("sBadPasswordEntered", true);
 
-          customError( "Login", err.reason );
+            customError( "Login", err.reason );
 
-        }
-        else {
+          }
+          else {
 
-          // The user has been logged in.
+            // The user has been logged in.
 
-          console.log("user logged in: " + email )
+            console.log("user logged in: " + email )
 
-          resetPrompts();
-        }
+            resetPrompts();
+          }
 
-        stopSpinner();
+          stopSpinner();
+
+        }, 200);
 
       });
 
-        return false; 
-      },
 
+      return false; 
+
+    },
 
     'click #goHack': function (e) { 
 
@@ -200,117 +205,125 @@ Template.login.events({
 
       doSpinner();
 
-      var name = t.find('#registration-name').value
-      
-      var email = t.find('#registration-email').value
+      Meteor.setTimeout( function() {
 
-      var password = t.find('#registration-password').value
+        var name = t.find('#registration-name').value
+        
+        var email = t.find('#registration-email').value
 
-      var _date = new Date().toLocaleString();
+        var password = t.find('#registration-password').value
 
-      var _index = _date.indexOf(",");
+        var _date = new Date().toLocaleString();
 
-      _date = _date.substring(0, _index);
+        var _index = _date.indexOf(",");
 
-      if ( isValidPassword( password ) ) {
+        _date = _date.substring(0, _index);
 
-            game.user = new User( name, "0", 0); //name, id, scroll pos (for content editors)
+        if ( isValidPassword( password ) ) {
 
-            game.user.createAssigns();
+              game.user = new User( name, "0", 0); //name, id, scroll pos (for content editors)
 
-            var _text = "Hello, I'm " + name + ".  I live in " + db.getCountryName( $( "#selectCountry option:selected" ).attr("id") ) + ".";
+              game.user.createAssigns();
 
-            var _rec = db.getRandomCountryRec (db.ghC );
+              var _text = "Hello, I'm " + name + ".  I live in " + db.getCountryName( $( "#selectCountry option:selected" ).attr("id") ) + ".";
 
-            var _pic = db.getCapitalPic( _rec.c );
+              var _rec = db.getRandomCountryRec (db.ghC );
 
-            var _pt = db.getCapitalName( _rec.c ) + " is the capital of " + _rec.n + ".";
+              var _pic = db.getCapitalPic( _rec.c );
 
-            var options = {
+              var _pt = db.getCapitalName( _rec.c ) + " is the capital of " + _rec.n + ".";
 
-                username: name,
-                
-                email: email,
-                
-                password: password,
+              var options = {
 
-                //profile is the portion that we can update for the logged-in user
-                //(without rules or server methods)
+                  username: name,
+                  
+                  email: email,
+                  
+                  password: password,
 
-                profile: {
+                  //profile is the portion that we can update for the logged-in user
+                  //(without rules or server methods)
 
-                    createdAt: _date,
+                  profile: {
 
-                    a: [],
-                    h: [],
-                    c: "",
-                    s: 0,
-                    av: "",
-                    cc: $( "#selectCountry option:selected" ).attr("id"),
-                    cn: db.getCountryName( $( "#selectCountry option:selected" ).attr("id") ),
-                    f: db.getFlagPicByCode( $( "#selectCountry option:selected" ).attr("id") ),
-                    t: _text,
-                    p: _pic, 
-                    pt: _pt,
-                    ag: Database.getChiefID(),
-                    st: 1,
-                    ge: 0,
-                    ex: 0,
-                    sp: [0,0,0],
-                    sc: [0,0,0],
-                    in: [0,0,0],
-                    ft: [0,0,0,0,0],
+                      createdAt: _date,
 
-                },
-            
-            };
+                      a: [],
+                      h: [],
+                      c: "",
+                      s: 0,
+                      av: "",
+                      cc: $( "#selectCountry option:selected" ).attr("id"),
+                      cn: db.getCountryName( $( "#selectCountry option:selected" ).attr("id") ),
+                      f: db.getFlagPicByCode( $( "#selectCountry option:selected" ).attr("id") ),
+                      t: _text,
+                      p: _pic, 
+                      pt: _pt,
+                      ag: Database.getChiefID(),
+                      st: 1,
+                      ge: 0,
+                      ex: 0,
+                      sp: [0,0,0],
+                      sc: [0,0,0],
+                      in: [0,0,0],
+                      ft: [0,0,0,0,0],
 
-
-            Accounts.createUser( options, function(err){
-
-              if (err) {
-                
-                // log the error
-
-                console.log("account was not created: " + email + ".  " + err );
-
-                customError(err.reason);
-
-              } else {
-                
-                // Success. Account has been created and the user
-                // has logged in successfully. 
-
-                console.log("account successfully created: " + email);
-
-                var _gender = "female";
-
-                if ( $("#chkMale").prop("checked") ) _gender = "male";
-
-                if ( $("#chkFemale").prop("checked") ) _gender = "female";  
-
-                game.user.profile = Meteor.user().profile;
-
-                game.user.makeAvatar( _gender );
-
-                game.user.msg.userID = Meteor.user()._id;
-
-                mission = null;
-
-              }
+                  },
               
-            });
-        }
+              };  //end options
 
-        else {
 
-          passwordTooShortError();
+              Accounts.createUser( options, function(err){
 
-        }
+                if (err) {
+                  
+                  // log the error
 
-       stopSpinner();
+                  console.log("account was not created: " + email + ".  " + err );
 
-      return false;  //prevent reloading the page/app?  
+                  customError("Registration", err.reason);
+
+                  stopSpinner();
+
+                } else {
+                  
+                  // Success. Account has been created and the user
+                  // has logged in successfully. 
+
+                  console.log("account successfully created: " + email);
+
+                  var _gender = "female";
+
+                  if ( $("#chkMale").prop("checked") ) _gender = "male";
+
+                  if ( $("#chkFemale").prop("checked") ) _gender = "female";  
+
+                  game.user.profile = Meteor.user().profile;
+
+                  game.user.makeAvatar( _gender );
+
+                  game.user.msg.userID = Meteor.user()._id;
+
+                  mission = null;
+
+                  stopSpinner();
+
+                }
+                
+              });  //end createUser
+          
+          }  //end if password OK  
+
+          else {
+
+            stopSpinner();
+
+            passwordTooShortError();
+
+          } //end if passwordOK else
+
+        }, 100); //end setTimeout
+
     },
 
     'click #updatePassword': function (e, t) { 

@@ -4,13 +4,13 @@
 
 NewLoader = function() {
 
-	this.scanning_sound_file= "scanner3.mp3";
+	//this.scanning_sound_file= "scanner3.mp3";
 
-	this.intercept_sound_file = "new_intercept.mp3";
+	//this.intercept_sound_file = "new_intercept.mp3";
 
-	this.data_found_file = "new_feedback2.mp3";
+	//this.data_found_file = "new_feedback2.mp3";
 
-	this.feedback_sound = "new_feedback.mp3";
+	//this.feedback_sound = "new_feedback.mp3";
 
 	this.newControl = null;
 
@@ -102,6 +102,8 @@ NewLoader = function() {
 			this.newControl.setState ( sLoaded );
 
 			this.newControl.setPicDimensions();
+
+			this.newControl.hilite();
 		}
 
 		//set the timer if we're on the first clue
@@ -240,19 +242,16 @@ NewLoader = function() {
 
 		var randomControl =  Database.getRandomElement(tmp);
 
-if (this.totalClueCount == 0) randomControl = display.ctl["IMAGE"];
+if (this.totalClueCount == 0) randomControl = display.ctl["IMAGE"]; 
 
-if (this.totalClueCount == 1) randomControl = display.ctl["VIDEO"];
+if (this.totalClueCount == 1) randomControl = display.ctl["TEXT"];
 
-if (this.totalClueCount == 2) randomControl = display.ctl["SOUND"];
-/*
+if (this.totalClueCount == 2) randomControl = display.ctl["WEB"];
 
 if (this.totalClueCount == 3) randomControl = display.ctl["SOUND"];
 
 if (this.totalClueCount == 4) randomControl = display.ctl["VIDEO"];
 
-if (this.totalClueCount == 5) randomControl = display.ctl["VIDEO"];
-*/ 
 		//Bump up the loadedCount on this control and return the name
 
 		if (randomControl) {
@@ -261,7 +260,11 @@ if (this.totalClueCount == 5) randomControl = display.ctl["VIDEO"];
 			
 			randomControl.loadedCount = newCount;
 
-			randomControl.setIndex( newCount - 1 );
+if (this.totalClueCount == 0) randomControl.setIndex( 1 );
+
+if (this.totalClueCount == 1) randomControl.setIndex( 0 );			
+
+	if (this.totalClueCount > 1) randomControl.setIndex( newCount - 1 );
 
 			this.totalClueCount++;
 

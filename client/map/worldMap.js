@@ -808,7 +808,10 @@ c("doMapSuccess")
 
         var _ticket = game.user.getTicket( hack.countryCode );
 
-        if  (_ticket.count == 1) {
+        //if  (_ticket.count == 1) {
+
+
+            centerDivOnDiv2(".divTV", $(".tvScreen").innerWidth(), ".divTVAndText" )
 
             //Hide the letters that dropped down to spell the country name
 
@@ -824,6 +827,8 @@ c("doMapSuccess")
 
             tvB.attr("src", _pic);
 
+            centerDivOnDiv(".divTVTextLower", ".divTVAndText" )
+
             //get a reference to the whole div and zoom it in by scaling
 
             var imgAll = $(".divTV");
@@ -838,19 +843,25 @@ c("doMapSuccess")
 
             tl.to(imgA, 1.5, { opacity: 0.0, ease:"Rough.easeOut" });
 
-            //reveal the text, upper, then lower
-
-            var txtUpper = $(".divTVTextUpper");
+            //reveal the text:  "YOU HACKED MY COUNTRY", then "WELCOME ..."
 
             var txtLower = $(".divTVTextLower");
 
-            tl.to(txtUpper, 0.5, { opacity: 1.0, delay: 0.5 });  
+            Meteor.setTimeout( function() { game.user.headline.setThisAndType("YOU HACKED MY COUNTRY!"); }, 3200 );
 
-            tl.to(txtLower, 0.5, { opacity: 1.0, delay: 1 }); 
+            Meteor.setTimeout( function() { 
 
-            //wait briefly, then fade out all
+                txtLower.addClass("invisible");
 
-            tl.to([txtUpper, txtLower, imgAll], 0.5, { opacity: 0.0, delay: 1.5 });  
+                txtLower.text( "WELCOME TO GEOHACKER " + hack.getCountryName() + "." );
+
+                centerDivOnDiv(".divTVTextLower", ".divTVAndText" );
+
+            }, 5200 );           
+
+            Meteor.setTimeout( function() { game.user.headline.setThisAndType( "WELCOME TO GEOHACKER " + hack.getCountryName() + ".") }, 5300 );
+
+            tl.to([txtLower, imgAll], 0.5, { opacity: 0.0, delay: 7.8 });  
 
             //fade in the agent's snapshot
 
@@ -865,12 +876,13 @@ c("doMapSuccess")
             Meteor.setTimeout( function() { display.mapStatus.setThisAndType("NEW AGENT ADDED TO YOUR NETWORK"); }, 8500 );
 
             Meteor.setTimeout( function() { display.ctl["MAP"].setStateOnly( sMapDone ) }, 8501 ); 
+/*
         }
         else {
 
             display.ctl["MAP"].setState( sMapDone );
         }
-                
+*/              
     }
 
 }  //end WorldMap Object

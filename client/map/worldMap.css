@@ -12,11 +12,16 @@
   z-index: 1003;  
 }
 
-.divTV {
-
+.divTVAndText {
   position: absolute;
-  left: 30%;
-  top: 35%;
+  left: 10.5%;
+  width: 43%;
+  top: 43%;
+}
+
+.divTV {
+position: absolute;
+  top: 35%; 
   transform: scale(0,0);
 }
 
@@ -68,11 +73,8 @@ position: absolute;
 }
 
 .divTVTextLower {
-
-  left: 17%;
-  top: 55%;
-  opacity: 0;
-
+padding: 8px;
+  top: 135px;
 }
 
 /* ANIMATED TEXT EFFECTS */

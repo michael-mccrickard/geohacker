@@ -82,7 +82,7 @@ Control = {
       
       //process items here
 
-      this.items = Database.shuffle(this.items);   
+//this.items = Database.shuffle(this.items);   
     
   }, //end setCountry
 
@@ -304,7 +304,14 @@ c("control activateState() called on " + this.name + " and state is " + this.get
   suspend : function() {
 
 
+  },
+
+  hilite: function() {
+
+    $("#ctlBG_" + this.name ).attr("src", "hilitedBackdrop.jpg");
   }
+
+
 }  //end Control constructor
 
 
@@ -312,6 +319,15 @@ c("control activateState() called on " + this.name + " and state is " + this.get
 //************************************************************
 //            CONTROL  (static functions)
 //************************************************************
+Control.unhiliteAll = function() {
+
+      $("#ctlBG_SOUND" ).attr("src", "featuredBackdrop.jpg");
+      $("#ctlBG_VIDEO" ).attr("src", "featuredBackdrop.jpg");
+      $("#ctlBG_TEXT" ).attr("src", "featuredBackdrop.jpg");
+      $("#ctlBG_WEB" ).attr("src", "featuredBackdrop.jpg");
+      $("#ctlBG_IMAGE" ).attr("src", "featuredBackdrop.jpg");
+}
+
 
 Control.switchTo = function( _id ) {
 
@@ -321,6 +337,8 @@ Control.switchTo = function( _id ) {
 
         return;
     }
+
+    Control.unhiliteAll();
 
     display.cue.set();
 
@@ -418,14 +436,14 @@ Control.getImageFromFile = function(_file) {
 //***********************************************************************
 
 Control.playEffect = function(_file) {
-c("playEffect " + _file)
+
   $("#effectsPlayer").attr("src", _file);
 
   document.getElementById("effectsPlayer").play();
 }
 
 Control.playEffect2 = function(_file) {
-c("playEffect2 " + _file)
+
   $("#effectsPlayer2").attr("src", _file);
 
   document.getElementById("effectsPlayer2").play();
@@ -533,7 +551,7 @@ ghImageCtl = function() {
       
       //process items here
 
-      this.items = Database.shuffle(this.items); 
+//      this.items = Database.shuffle(this.items); 
     }
 
 }

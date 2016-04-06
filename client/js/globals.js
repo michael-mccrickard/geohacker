@@ -61,6 +61,32 @@ whichBrowser = function(){
     if((tem= ua.match(/version\/(\d+)/i))!= null) M.splice(1, 1, tem[1]);
     return M.join(' ');
 }
+
+//************************************************************
+//     Formatting functions
+//************************************************************
+
+centerDivOnDiv = function( _eleNarrow, _eleWide ) {
+
+    var fullWidth = $(_eleWide).innerWidth();
+
+    var narrowWidth = $(_eleNarrow).innerWidth();
+
+    $(_eleNarrow).css("left", fullWidth/2 - narrowWidth/2 + "px"); 
+
+}
+
+centerDivOnDiv2 = function( _eleToCenter, _eleToCenterWidth, _eleWide ) {
+
+    var fullWidth = $(_eleWide).innerWidth();
+
+    var narrowWidth = _eleToCenterWidth;
+
+    $(_eleToCenter).css("left", fullWidth/2 - narrowWidth/2 + "px"); 
+
+}
+
+
 //************************************************************
 //     Update the screen element proportions
 //************************************************************

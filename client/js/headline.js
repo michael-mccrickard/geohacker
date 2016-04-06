@@ -19,6 +19,8 @@ Headline = function( _type ) {
 
     if ( _type == "map" ) this.ele = "div.mapMessages";
 
+    if ( _type == "welcomeAgent" ) this.ele = "div.divTVText.divTVTextLower";
+
 
 	this.set = function( _text ) {
 
@@ -27,6 +29,8 @@ Headline = function( _type ) {
 		if (this.hType == 'cue') this.setCue(_text);
 
         if (this.hType == 'map') this.setMap(_text);
+
+        if (this.hType == 'welcomeAgent') this.text = _text;      
 	}
 
     this.setMap = function( _text ) {
@@ -150,7 +154,7 @@ Headline = function( _type ) {
 
     this.setThisAndType = function( _str ) {
         
-        this.setStatus( _str );
+        this.set( _str );
 
         this.type();
     },
@@ -173,24 +177,17 @@ Headline = function( _type ) {
         if (this.hType == "map") Meteor.setTimeout(function () { display.mapStatus.typeMessage( ele ); }, 500 );
 
         if (this.hType == "status") Meteor.setTimeout(function () { display.status.typeMessage( ele ); }, 500 );
+
+        if (this.hType == "welcomeAgent") Meteor.setTimeout(function () { game.user.headline.typeMessage( ele ); }, 500 );
     },
 
     this.typeMessage = function( _ele ) {
 
-        this.center();
+        if (this.type != "welcomeAgent") this.center();
 
         if (hack.mode != mScanning) {
 
-            //for the map, only play the typing sound, if we're in ID status,
-            //otherwise we are cutting off a cool sound effect
-
-            //if (this.hType == "map" && display.ctl["MAP"].isIDStatus() ) {
-
-               Control.playEffect2( this.typing_sound_file );
-            //}
-
-
-            //if (this.hType != "map")  Control.playEffect2( this.typing_sound_file );
+            Control.playEffect2( this.typing_sound_file );
         }
 
         $( _ele ).text("");       
@@ -224,7 +221,9 @@ Headline = function( _type ) {
 
         if (this.hType == "map") Meteor.setTimeout( function() { display.mapStatus.setChar( _ele ); }, 10);           
 
-        if (this.hType == "status") Meteor.setTimeout( function() { display.status.setChar( _ele ); }, 10);       
+        if (this.hType == "status") Meteor.setTimeout( function() { display.status.setChar( _ele ); }, 10);  
+
+        if (this.hType == "welcomeAgent") Meteor.setTimeout(function () { game.user.headline.setChar( _ele ); }, 10 );     
 
     },
 
