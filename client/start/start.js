@@ -162,6 +162,8 @@ Meteor.startup(function() {
 
   Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
 
+Meteor.subscribe("allImages", function() { Session.set("sEditImageReady", true ) });  
+
   Meteor.subscribe("chiefUser", function() { Session.set("sChiefUserReady", true ) });  
 
   //Tracker.autorun(function(){
@@ -191,7 +193,8 @@ Tracker.autorun( function(comp) {
       Session.get("sTReady") && 
       Session.get("sXReady") && 
       Session.get("sCapitalsReady") &&
-      Session.get("sChiefUserReady")
+      Session.get("sChiefUserReady") 
+&& Session.get("sEditImageReady")
        
   ) {
 

@@ -408,7 +408,7 @@ c("updateFeaturedContent in main.js is calling feature.load")
 }
 
 Template.main.rendered = function () {
-
+c("template rendered in main");
     stopSpinner();
 
     if (!display) return;
@@ -453,7 +453,7 @@ Template.main.rendered = function () {
 
 //Meteor.setTimeout( function() { $("#scanButtonContentA").attr("src","purpleScan.gif");, 1000 } );    
 
-Meteor.setTimeout( function() { $("#scanButtonContentA").attr("src","static.gif");, 4001 } );         
+Meteor.setTimeout( function() { $("#scanButtonContentA").attr("src","static.gif") }, 4001 );         
       }
 
     }

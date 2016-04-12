@@ -80,12 +80,19 @@ Bio = function() {
 
 		var top = $("div.flex-container-right").position().top + $("div.flex-container-right").innerHeight();
 
-		top = top - 40;
-
 		$("div.divBioEditIcon").css("top", top + "px");
 
-		if ( $("#startBioEdit").css("opacity") == "0" ) fadeIn( "startBioEdit" ); 
+		//stretch the height of the div to accomodate the edit button, if appropriate
 
+		if ( Session.get("sProfiledUserID") == Meteor.userId() ) {
+
+			var _height = $("#divBio").innerHeight();
+
+			$("#divBio").css("height", _height + 40);  //height of the edit button
+
+			if ( $("#startBioEdit").css("opacity") == "0" ) fadeIn( "startBioEdit" ); 
+
+		}
 
 		if (game.user.editMode.get() ) {	
 

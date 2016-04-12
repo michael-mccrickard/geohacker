@@ -9,7 +9,7 @@ Template.registerHelper("waitingOnDatabase", function() {
 
 Template.registerHelper("agentName",  function() {
 
-		 return game.user.name.toUpperCase();
+		return game.user.name.toUpperCase();
 	}
 
 )

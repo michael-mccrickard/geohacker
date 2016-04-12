@@ -1,4 +1,7 @@
+Template.bio.rendered = function() {
 
+  display.scrollToTop();
+}
 
 Template.bio.helpers({
 
@@ -10,6 +13,18 @@ Template.bio.helpers({
     profile: function() {
 
       return Meteor.users.findOne( { _id: Session.get("sProfiledUserID") } ).profile;
+    },
+
+    featuredUserName: function() {
+
+      return Meteor.users.findOne( { _id: Session.get("sProfiledUserID") } ).username;
+    },
+
+    isLoggedInUser: function() {
+
+        if ( Session.get("sProfiledUserID") == Meteor.userId() ) return true;
+    
+        return false;
     }
 }); 
 

@@ -2,9 +2,7 @@
 
 Template.agent.onCreated(function () {
 
-  var self = this;
-
-  //self.subscribe("agentsInNetwork", function() { stopSpinner(); });
+  Meteor.subscribe("agentsInNetwork", function() { stopSpinner(); });
 
 });
 
@@ -25,7 +23,7 @@ Template.agent.helpers({
 
     if (!Meteor.user() ) return Meteor.users.findOne( { _id: Database.getChiefID()[0] } ).fetch();
 
-		return Meteor.users.find( {  } );  ////Meteor.users.find( { _id: { $in: Meteor.user().profile.ag  } } );  //
+		return Meteor.users.find( { _id: { $in: Meteor.user().profile.ag  } } );  //
 	},
 	
 	name: function() {

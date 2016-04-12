@@ -24,7 +24,7 @@
 				{{/if}}
 				
 				<div class="flex-label  flex-rounded">
-					<div class="flexCenter" id="agentNameText">{{agentName}}</div>
+					<div class="flexCenter" id="agentNameText">{{featuredUserName}}</div>
 				</div>
 
 
@@ -113,9 +113,13 @@
 
 				{{else}}
 
-					<div class="divBioEditIcon" id="editBio">
-						<img class= "imgBioEditIcon" id="startBioEdit" src="edit_icon.png" />
-					</div>
+					{{#if isLoggedInUser}}
+
+						<div class="divBioEditIcon" id="editBio">
+							<img class= "imgBioEditIcon" id="startBioEdit" src="edit_icon.png" />
+						</div>
+
+					{{/if}}
 
 				{{/if}}
 

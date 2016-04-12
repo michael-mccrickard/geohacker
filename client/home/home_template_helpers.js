@@ -67,7 +67,9 @@ Template.home.events({
 
       e.preventDefault();  
 
-      game.user.setMode( uClockOut );
+      startSpinner();
+
+      Meteor.setTimeout( function() { game.user.setMode( uClockOut ); }, 100 );
 
   },
 

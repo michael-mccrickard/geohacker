@@ -1,3 +1,34 @@
+doH = function() {
+
+      Meteor.setTimeout( function() { $("#ctlBG_SOUND" ).attr("src", "hilitedBackdrop.jpg"); }, 1 );
+
+      Meteor.setTimeout( function() { $("#ctlBG_SOUND" ).attr("src", "featuredBackdrop.jpg"); }, 1001 );
+
+
+      Meteor.setTimeout( function() { $("#ctlBG_TEXT" ).attr("src", "hilitedBackdrop.jpg"); }, 1001 );
+
+      Meteor.setTimeout( function() { $("#ctlBG_TEXT" ).attr("src", "featuredBackdrop.jpg"); }, 2001 );
+
+
+      
+      Meteor.setTimeout( function() { $("#ctlBG_IMAGE" ).attr("src", "hilitedBackdrop.jpg"); }, 2001 );
+
+       Meteor.setTimeout( function() { $("#ctlBG_IMAGE" ).attr("src", "featuredBackdrop.jpg"); }, 3001 );
+
+
+      Meteor.setTimeout( function() { $("#ctlBG_VIDEO" ).attr("src", "hilitedBackdrop.jpg"); }, 3001 );
+
+       Meteor.setTimeout( function() { $("#ctlBG_VIDEO" ).attr("src", "featuredBackdrop.jpg"); }, 4001 );
+
+      
+      Meteor.setTimeout( function() { $("#ctlBG_WEB" ).attr("src", "hilitedBackdrop.jpg"); }, 4001 );
+
+      Meteor.setTimeout( function() { $("#ctlBG_WEB" ).attr("src", "featuredBackdrop.jpg"); }, 5001 );
+      
+
+}
+
+
 //in-game-editor.js
 
 gEditLabels = false;
@@ -18,7 +49,9 @@ $(document).keydown(function(e) {
 
     if (e.which == 117) turnOffCropMode();
 
-    if (e.which == 32) startCrop();    
+    //if (e.which == 32) startCrop();   
+
+    if (e.which == 32) doH();     
 
   }
 );

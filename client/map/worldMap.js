@@ -189,6 +189,8 @@ c("doCurrentMap");
 
         this.map.pathToImages = "packages/mikemccrickard_ammap/lib/images/";
 
+        this.map.balloon.fontSize = 16;
+
         this.dp = {
 
             mapVar: AmCharts.maps.worldLow, 

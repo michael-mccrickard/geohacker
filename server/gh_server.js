@@ -618,7 +618,7 @@ Meteor.methods({
 
 testImages: function() {
 
-arrImages = ghSound.find({}).fetch();
+arrImages = ghImage.find({}).fetch();
 
 //c(arrImages.length = " files in db")
 
@@ -627,11 +627,23 @@ arrImages = ghSound.find({}).fetch();
 
 });
 
+  var good = 0;
+
+  var bad = 0;
+
 testImages2 = function() {
 
   _index++;
 
-  if (_index == arrImages.length) return;
+
+
+  if (_index == arrImages.length) {
+
+console.log( good + " good image links found")
+console.log( bad + " bad image links found")
+    return;
+
+  }
 
     var URL = arrImages[ _index ].u;
 
@@ -639,7 +651,7 @@ testImages2 = function() {
 
     //self.unblock();
 
-    console.log("trying URL: " + URL);
+    //console.log("trying URL: " + URL);
 
     //try the URL and timeout after 5 seconds
 
@@ -647,7 +659,9 @@ testImages2 = function() {
 
       var result = HTTP.call("GET", URL, { timeout: 5000});
 
-      console.log(URL + " -- OK");
+      //console.log(URL + " -- OK");
+
+      good++;
 
     } 
     catch (e) {
@@ -656,7 +670,11 @@ testImages2 = function() {
 
        // var errorJson = JSON.parse(result.content);
         
-        console.log(URL + " -- BAD");
+var ind = URL.lastIndexOf("-");
+
+        console.log(URL.substring( ind + 1) + " -- BAD");
+
+        bad++;
 
     }
 

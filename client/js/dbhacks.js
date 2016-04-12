@@ -45,18 +45,35 @@ updateRecords = function() {
 
 findImages = function() {
 
-  var arr = db.ghDebrief.find( {}).fetch();
+  var count = 0;
 
-      for (var i = 0; i < arr.length; i++) {
+  var arr = db.ghImage.find( {} ).fetch();
 
-        if ( typeof arr[i].f === 'undefined') continue;
+  for (var i = 0; i < arr.length; i++) {
 
-        if (arr[i].f.length) {
+    if ( typeof arr[i].u === 'undefined') continue;
 
-          c( db.getCountryName( arr[i].cc) + " -- " + arr[i].f + " -- " + arr[i].dt );
-        }
 
+    if (arr[i].u.length) {
+
+      var ID = arr[i]._id;
+
+      var _str = arr[i].u;
+
+       if ( _str.indexOf("/gImage/") != -1 ) {
+
+          var res = _str.replace("/gImage/", "/ghImage/");
+
+         db.ghImage.update( {_id: ID }, { $set: { u: res }  } );          
+
+        count++;
       }
+    }
+
+  }
+
+c(count + " images updated.")
+
 }
 
 fixlc = function(_code, _val) {

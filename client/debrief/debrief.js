@@ -93,10 +93,12 @@ special cases
 		this.waitingNow = false;
 
 		this.countryCode = _code;
+		
+		//this.arr = db.ghDebrief.find( { cc: this.countryCode, dt:"cap" } ).fetch();
 
-		this.arr = db.ghDebrief.find( { cc: this.countryCode } ).fetch();
-
-		this.index = Database.getRandomValue(this.arr.length);
+this.arr = db.ghDebrief.find( { cc: this.countryCode, dt:"cap" } ).fetch();
+this.index = 0;
+		//this.index = Database.getRandomValue(this.arr.length);
 	}
 
 	this.draw = function() {
