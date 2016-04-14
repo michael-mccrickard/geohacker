@@ -99,7 +99,11 @@ Database = function() {
 
         'profile.ag': game.user.profile.ag 
 
-        } } 
+        } 
+      
+      }, function() { game.user.profile = Meteor.user().profile; }
+
+      
       );
   }
 
@@ -120,7 +124,9 @@ Database = function() {
 
      }
 
-   }, function() { stopSpinner(); } ); 
+   }, function() { stopSpinner(); } 
+
+   ); 
 }
 
   this.updateUserStatus = function(_userID, _status) {

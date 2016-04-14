@@ -28,8 +28,7 @@ Template.agent.helpers({
     if (!Meteor.user() ) return Meteor.users.findOne( { _id: Database.getChiefID()[0] } ).fetch();
 
 		return Meteor.users.find( { _id: { $in: Meteor.user().profile.ag  } } );  //
-
-    //return Meteor.users.find();  
+ 
 	},
 	
 	name: function() {

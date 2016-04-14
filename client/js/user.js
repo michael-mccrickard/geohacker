@@ -262,15 +262,12 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 			    return;
 			  }
 
-//console.log(result);
-
-//			 Meteor.setTimeout( function(){ game.user.profile = Meteor.user().profile; }, 1500);
 		});
 	} 
 
 	this.avatar = function() {
 
-		return this.profile.av;
+		return Meteor.user().profile.av;
 	}
 
 	this.updateAvatar = function( url ) {
@@ -290,6 +287,13 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 		Meteor.users.update( {_id: Meteor.userId() }, { $set: { 'profile.p': url}  })
 
 		this.profile.p = url;
+	}
+
+	this.hasChiefInNetwork = function() {
+
+		if ( indexOf.this.profile.ag( Database.getChiefID()[0] ) == -1 ) return false;
+
+		return true;
 	}
 
 

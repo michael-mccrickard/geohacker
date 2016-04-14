@@ -871,11 +871,19 @@ c("doMapSuccess")
         tl.to([txtLower, imgAll], 0.5, { opacity: 0.0, delay: 7.8 });    
 
 
-        //Need to determine if GIC is already in the user's network;
-
-        //If so, we don't do this if (hack.welcomeAgentIsChief)
+        //If this is the first time they've hacked this country (ticket.count == 1) then
+        //we add the welcoming agent to the user's network, BUT ...
+        //if the country has no dedicated welcome agent; we default to the GIC, BUT ...
+        //if the agent already has the GIC in their network, then we don't add the GIC again
 
         if (_ticket.count == 1) {
+
+            if (game.user.hasChiefInNetwork && hack.welcomeAgentIsChief) {
+
+                display.ctl["MAP"].setStateOnly( sMapDone );
+
+                return;
+            }
 
             //fade in the agent's snapshot
 

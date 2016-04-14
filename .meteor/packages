@@ -18,7 +18,6 @@ email
 meteorhacks:npm
 npm-container
 ddh:svg-circle-progress
-standard-minifiers
 meteor-base
 mobile-experience
 mongo
@@ -40,3 +39,5 @@ http
 peerlibrary:aws-sdk
 infinitedg:gsap
 limemakers:three
+standard-minifier-css
+standard-minifier-js
