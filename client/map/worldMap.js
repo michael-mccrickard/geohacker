@@ -672,14 +672,7 @@ c("doMapSuccess")
         areaLeft = $("#divMap").position().left;
         areaWidth = $("#divMap").width();
         areaHeight = $("#divMap").height();
-/*
-        $("#divMap").velocity({
-            opacity: 0
 
-        },{
-            duration: 750,
-        });
-*/
         Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone2()}, 751);
     }
 
@@ -714,28 +707,23 @@ c("doMapSuccess")
 
     }
 
-    //Fade in the half-size map and label the country
+    //Record the zoom levels; label the country
 
     this.hackDone3 = function() {
-/*
-        $("#divMap").velocity({
-            opacity: 1
 
-        },{
-            duration: 500,
-        });
-*/
         this.mapCtl.level.set( mlCountry );
 
         this.zoomDone = true;
 
-    this.map.dataProvider.zoomLongitude = this.map.zLongTemp;
+        //this will preserve the zoom level when validateData() is called
 
-    this.map.dataProvider.zoomLatitude =  this.map.zLatTemp;
+        this.map.dataProvider.zoomLongitude = this.map.zLongTemp;
 
-    this.map.dataProvider.zoomLevel =  this.map.zLevelTemp;
+        this.map.dataProvider.zoomLatitude =  this.map.zLatTemp;
 
-    this.map.validateData();
+        this.map.dataProvider.zoomLevel =  this.map.zLevelTemp;
+
+        this.map.validateData();
 
         this.labelMapObject(14, "white");
 
@@ -806,86 +794,111 @@ c("doMapSuccess")
 
     this.hackDone5 = function() {
 
-        //if this is the first time the user has hacked this one, we have a welcome party
+        //Welcome agent sequence
 
         var _ticket = game.user.getTicket( hack.countryCode );
 
-        //if  (_ticket.count == 1) {
+        centerDivOnDiv2(".divTV", $(".tvScreen").innerWidth(), ".divTVAndText" )
+
+        //Hide the letters that dropped down to spell the country name
+
+        $(".letterDropH1").css("opacity", 0);
+
+        display.mapStatus.setThisAndType("INCOMING TRANSMISSION DETECTED");
+
+    //set the B roll to the avatar we want
+
+        var tvB = $(".tvContentB"); 
+
+        var _pic = hack.getWelcomeAgent().profile.av;
+
+        tvB.attr("src", _pic);
+
+        centerDivOnDiv(".divTVTextLower", ".divTVAndText" )
+
+        //get a reference to the whole div and zoom it in by scaling
+
+        var imgAll = $(".divTV");
+
+        var tl = new TimelineLite();
+
+        tl.to(imgAll, 1.5, { css:{ scaleX: 1, scaleY: 1 }, delay: 1 } );
+
+        //fade out the A roll (static)
+
+        var imgA = $(".tvContentA")  
+
+        tl.to(imgA, 1.5, { opacity: 0.0, ease:"Rough.easeOut" });
+
+        //reveal the text ...
+
+        var txtLower = $(".divTVTextLower");
+
+        var strWelcome = "YOU HACKED MY COUNTRY!";
+
+        var strWelcome2 = "WELCOME TO GEOHACKER " + hack.getCountryName() + "."
+
+        if (_ticket.count > 1) {
+
+            strWelcome = "YOU HACKED MY COUNTRY AGAIN!";
+
+            strWelcome2 = "KEEP UP THE GOOD WORK.";           
+        }
+
+        if (hack.welcomeAgentIsChief) {
+
+            strWelcome = "YOU HACKED " + hack.getCountryName() + "!";
+
+            if (_ticket.count > 1) strWelcome = "YOU HACKED " + hack.getCountryName() + " AGAIN!";
+        }
+
+        Meteor.setTimeout( function() { game.user.headline.setThisAndType( strWelcome ); }, 3200 );
+
+        Meteor.setTimeout( function() { 
+
+            txtLower.addClass("invisible");
+
+            txtLower.text( strWelcome2 );
+
+            centerDivOnDiv(".divTVTextLower", ".divTVAndText" );
+
+        }, 5200 );           
+
+        Meteor.setTimeout( function() { game.user.headline.setThisAndType( strWelcome2 ) }, 5300 );
+
+        //fade out the text and the TV
+
+        tl.to([txtLower, imgAll], 0.5, { opacity: 0.0, delay: 7.8 });    
 
 
-            centerDivOnDiv2(".divTV", $(".tvScreen").innerWidth(), ".divTVAndText" )
+        //Need to determine if GIC is already in the user's network;
 
-            //Hide the letters that dropped down to spell the country name
+        //If so, we don't do this if (hack.welcomeAgentIsChief)
 
-            $(".letterDropH1").css("opacity", 0);
-
-            display.mapStatus.setThisAndType("INCOMING TRANSMISSION DETECTED");
-
-        //set the B roll to the avatar we want
-
-            var tvB = $(".tvContentB"); 
-
-            var _pic = hack.getWelcomeAgent().profile.av;
-
-            tvB.attr("src", _pic);
-
-            centerDivOnDiv(".divTVTextLower", ".divTVAndText" )
-
-            //get a reference to the whole div and zoom it in by scaling
-
-            var imgAll = $(".divTV");
-
-            var tl = new TimelineLite();
-
-            tl.to(imgAll, 1.5, { css:{ scaleX: 1, scaleY: 1 }, delay: 1 } );
-
-            //fade out the A roll (static)
-
-            var imgA = $(".tvContentA")  
-
-            tl.to(imgA, 1.5, { opacity: 0.0, ease:"Rough.easeOut" });
-
-            //reveal the text:  "YOU HACKED MY COUNTRY", then "WELCOME ..."
-
-            var txtLower = $(".divTVTextLower");
-
-            Meteor.setTimeout( function() { game.user.headline.setThisAndType("YOU HACKED MY COUNTRY!"); }, 3200 );
-
-            Meteor.setTimeout( function() { 
-
-                txtLower.addClass("invisible");
-
-                txtLower.text( "WELCOME TO GEOHACKER " + hack.getCountryName() + "." );
-
-                centerDivOnDiv(".divTVTextLower", ".divTVAndText" );
-
-            }, 5200 );           
-
-            Meteor.setTimeout( function() { game.user.headline.setThisAndType( "WELCOME TO GEOHACKER " + hack.getCountryName() + ".") }, 5300 );
-
-            tl.to([txtLower, imgAll], 0.5, { opacity: 0.0, delay: 7.8 });  
+        if (_ticket.count == 1) {
 
             //fade in the agent's snapshot
 
             var div = $(".divWelcomeAgent")  
 
-            tl.to(div, 0.5, { opacity: 1.0 } );   
-
-//don't fade it out
-
-            //tl.to(div, 1, { opacity: 0, delay: 1.5 } );
+            tl.to(div, 0.5, { opacity: 1.0 } ); 
 
             Meteor.setTimeout( function() { display.mapStatus.setThisAndType("NEW AGENT ADDED TO YOUR NETWORK"); }, 8500 );
 
-            Meteor.setTimeout( function() { display.ctl["MAP"].setStateOnly( sMapDone ) }, 8501 ); 
-/*
+            //delay this some more so that OK button does not appear before fade-in of agent profile?
+
+            Meteor.setTimeout( function() { display.ctl["MAP"].setStateOnly( sMapDone ) }, 8501 );                
         }
         else {
 
-            display.ctl["MAP"].setState( sMapDone );
+            //we should type a different messsage up top here:
+            // "CLICK OK FOR MISSION DEBRIEFING"
+
+            display.ctl["MAP"].setStateOnly( sMapDone );
         }
-*/              
-    }
+
+     } //END HACKDONE5
+            
 
 }  //end WorldMap Object
 

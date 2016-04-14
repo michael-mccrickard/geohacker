@@ -82,7 +82,7 @@ Control = {
       
       //process items here
 
-//this.items = Database.shuffle(this.items);   
+      this.items = Database.shuffle(this.items);   
     
   }, //end setCountry
 
@@ -551,7 +551,7 @@ ghImageCtl = function() {
       
       //process items here
 
-//      this.items = Database.shuffle(this.items); 
+      this.items = Database.shuffle(this.items); 
     }
 
 }

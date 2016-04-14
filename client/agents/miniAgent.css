@@ -59,15 +59,23 @@ white-space: nowrap;
 	margin-top: 10px;
 }
 
+.divAgentMini {
+
+	width: 98%;
+	height: 80%;
+	
+}
+
+
 .divAgentFlagMini {
 
-	max-width: 95px;
+
 
 }
 
 .agentFlagMini {
-	width: 95%;
-
+	width: 85%;
+	max-height: 60px;
 }
 
 .divAgentTextMini {
@@ -124,6 +132,7 @@ white-space: nowrap;
 	margin-top: -1%;
 	width: 12px;
 	float: right;
+		margin-right: 16px;
 }
 
 .imgAgentContactButtonMini {
@@ -132,6 +141,7 @@ white-space: nowrap;
 	height: 24px;
 
 	width: 24px;
+
 	opacity: 0.66;
 }
 

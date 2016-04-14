@@ -241,7 +241,7 @@ NewLoader = function() {
 		}
 
 		var randomControl =  Database.getRandomElement(tmp);
-
+/*
 if (this.totalClueCount == 0) randomControl = display.ctl["IMAGE"]; 
 
 if (this.totalClueCount == 1) randomControl = display.ctl["TEXT"];
@@ -251,7 +251,7 @@ if (this.totalClueCount == 2) randomControl = display.ctl["WEB"];
 if (this.totalClueCount == 3) randomControl = display.ctl["SOUND"];
 
 if (this.totalClueCount == 4) randomControl = display.ctl["VIDEO"];
-
+*/
 		//Bump up the loadedCount on this control and return the name
 
 		if (randomControl) {
@@ -259,12 +259,14 @@ if (this.totalClueCount == 4) randomControl = display.ctl["VIDEO"];
 			newCount = randomControl.loadedCount + 1;
 			
 			randomControl.loadedCount = newCount;
-
+/*
 if (this.totalClueCount == 0) randomControl.setIndex( 1 );
 
-if (this.totalClueCount == 1) randomControl.setIndex( 0 );			
+if (this.totalClueCount == 1) randomControl.setIndex( 0 );	
 
-	if (this.totalClueCount > 1) randomControl.setIndex( newCount - 1 );
+if (this.totalClueCount == 4) randomControl.setIndex( 2 );				
+
+*/
 
 			this.totalClueCount++;
 
