@@ -260,7 +260,7 @@ Template.login.events({
                       p: _pic, 
                       pt: _pt,
                       ag: Database.getChiefID(),
-                      st: 1,
+                      st: 2,
                       ge: 0,
                       ex: 0,
                       sp: [0,0,0],

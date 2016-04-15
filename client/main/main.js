@@ -2,6 +2,13 @@ Session.set("sDateTime", false);
 
 Template.main.helpers({
 
+    TVisVideo: function() {
+
+        return display.TV.videoOn.get();
+        
+    },
+
+
     getDateTime: function() {
 
       return (Session.get("sDateTime"));

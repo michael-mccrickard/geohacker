@@ -18,6 +18,8 @@ Display = function() {
 
     this.scanner = new Scanner();
 
+    this.TV = new TV();
+
     //media files
 
     this.fb_sound_file = "msg.mp3";
