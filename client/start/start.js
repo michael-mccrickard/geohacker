@@ -38,6 +38,8 @@ Session.set("sRegistrationPromptTextColor", "yellowText");
 
 Session.set("sBadPasswordEntered", false);
 
+Session.set("sProcessingApplication", false);
+
 Session.set("isIOS", false);
 
 
@@ -162,7 +164,7 @@ Meteor.startup(function() {
 
   Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
 
-Meteor.subscribe("allImages", function() { Session.set("sEditImageReady", true ) });  
+  Meteor.subscribe("allImages", function() { Session.set("sEditImageReady", true ) });  
 
   Meteor.subscribe("chiefUser", function() { Session.set("sChiefUserReady", true ) });  
 

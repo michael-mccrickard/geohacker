@@ -28,6 +28,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.prevMode = uNone;  //remember what the last-used mode was before going to uBrowse (Map or Country)
 
+    this.photoReady = new Blaze.ReactiveVar( false );  //are we ready to display user's photo in nav bar?
+
     this.bio = new Bio();
 
     this.template = new Blaze.ReactiveVar( "" );  //template for the above content
@@ -58,6 +60,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     };
 
     this.setMode = function(_mode) {
+
+    	if (_mode == uIntro) return;
 
     	deselectAllModes();
 

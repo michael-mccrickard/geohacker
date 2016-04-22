@@ -415,7 +415,7 @@ c("updateFeaturedContent in main.js is calling feature.load")
 }
 
 Template.main.rendered = function () {
-c("template rendered in main");
+
     stopSpinner();
 
     if (!display) return;
@@ -445,6 +445,10 @@ c("template rendered in main");
 
           display.feature.set( display.feature.getName() );
 
+//this only works b/c the first 2 vids are both "let's start" videos -- TEMPORARY
+
+display.TV.playVideo( Database.getRandomFromRange(1,2) );             
+
         }       
     }
 
@@ -454,13 +458,15 @@ c("template rendered in main");
 
         display.scanner.show();
 
-        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 );     
+        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 );  
+
+        display.TV.playVideo( TV.letsHack );   
 
 //Need to show and play the GIC movie here: Let's hack
 
 //Meteor.setTimeout( function() { $("#scanButtonContentA").attr("src","purpleScan.gif");, 1000 } );    
 
-Meteor.setTimeout( function() { $("#scanButtonContentA").attr("src","static.gif") }, 4001 );         
+//Meteor.setTimeout( function() { $("#scanButtonContentA").attr("src","static.gif") }, 4001 );         
       }
 
     }

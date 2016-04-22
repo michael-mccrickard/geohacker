@@ -148,6 +148,8 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","the_big_score.mp3", "crystal
 
 			_user.setAtlas( Meteor.user().profile.h );
 
+			_user.photoReady.set( true );
+
 		}
 		else {
 

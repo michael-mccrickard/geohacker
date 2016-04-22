@@ -8,11 +8,7 @@ TV = function() {
 
 	this.idleClips = ["static.gif", "static_warning.gif", "static2.gif",  "static3.gif",  "static4.gif",  "static5.gif",  "static6.gif",  "static7.gif", "static8.gif", "static9.gif"];
 
-	this.letsHackClip = "letsHack.mp4";
-
-	this.partyStartedClip = "partyStarted.mp4";
-
-	this.whosThatClip = "whosThat.mp4";	
+	this.videoClips = ["dummy.m4v","letsHack.m4v", "partyStarted.m4v","whosThat.m4v"]
 
 	this.idleMinTime = 2000;
 
@@ -50,25 +46,25 @@ TV = function() {
 		$( this.elementID ).attr("src", _file);		
 	}
 
-	this.playVideo = function() {
+	this.playVideo = function( _which ) {
 
 		this.stopIdle();
 
 		this.videoOn.set ( true );
 
-		Meteor.setTimeout( function() { display.TV.playVideo2(); }, 200 );
+		Meteor.setTimeout( function() { display.TV.playVideo2( _which ); }, 200 );
 
 	}
 
-	this.playVideo2 = function() {
+	this.playVideo2 = function( _which ) {
 
-		var vid = document.getElementById("scannerVideo");
+		$("#scannerVideo").attr("src", display.TV.videoClips[ _which ] );
 
-		 document.getElementById('scannerVideo').addEventListener('ended', display.TV.videoDone, false);
-
-		vid.autoplay = true;
+		$("#scannerVideo").on('ended', function() { display.TV.videoDone(); } );
 		
-		vid.load();
+		$("#scannerVideo").get(0).autoplay = true;
+
+		$("#scannerVideo").get(0).load();
 	}
 
 	this.videoDone = function() {	
@@ -93,5 +89,5 @@ TV = function() {
 TV.letsHack = 1;
 TV.partyStarted = 2;
 TV.whosThat = 3;
-TV.scan = 4;
-TV.idle = 5;
+TV.scan = 100;
+TV.idle = 101;

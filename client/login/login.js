@@ -25,6 +25,13 @@ var passwordTooShortError = function() {
    Session.set("sRegistrationPromptTextColor", "redText");
 }
 
+var emailExistsError = function( _email ) {
+
+    Session.set("sRegistrationPrompt", "ERROR: EMAIL ALREADY EXISTS: " + _email );
+
+    Session.set("sRegistrationPromptTextColor", "redText"); 
+}
+
 var customError = function(_which, _err) {
 
    if (_err) Session.set("s" + _which + "Prompt", _err.toUpperCase() );
@@ -90,6 +97,11 @@ Template.login.helpers({
   resetPassword : function(t) {
   
     return Session.get('sResetPassword');
+  },
+
+  processingNow: function() {
+
+    return Session.get('sProcessingApplication');    
   }
 
 })
@@ -203,126 +215,156 @@ Template.login.events({
 
       e.preventDefault();
 
-      doSpinner();
+      Session.set("sProcessingApplication", true);
 
-      Meteor.setTimeout( function() {
+      var email = t.find('#registration-email').value
 
-        var name = t.find('#registration-name').value
-        
-        var email = t.find('#registration-email').value
+      if ( !validateEmail( email ) ) {
 
-        var password = t.find('#registration-password').value
+          customError("Registration", "YOU MUST ENTER AN EMAIL ADDRESS.")
 
-        var _date = new Date().toLocaleString();
+          return; 
+      }
 
-        var _index = _date.indexOf(",");
+      var name = t.find('#registration-name').value
+      
+      var password = t.find('#registration-password').value
 
-        _date = _date.substring(0, _index);
+      var _date = new Date().toLocaleString();
 
-        if ( isValidPassword( password ) ) {
+      var _index = _date.indexOf(",");
 
-              game.user = new User( name, "0", 0); //name, id, scroll pos (for content editors)
+      _date = _date.substring(0, _index);
 
-              game.user.createAssigns();
+      var _gender = "female";
 
-              var _text = "Hello, I'm " + name + ".  I live in " + db.getCountryName( $( "#selectCountry option:selected" ).attr("id") ) + ".";
+      if ( $("#chkMale").prop("checked") ) _gender = "male";
 
-              var _rec = db.getRandomCountryRec (db.ghC );
+      if ( $("#chkFemale").prop("checked") ) _gender = "female";  
 
-              var _pic = db.getCapitalPic( _rec.c );
+      var _countryID = $( "#selectCountry option:selected" ).attr("id");
 
-              var _pt = db.getCapitalName( _rec.c ) + " is the capital of " + _rec.n + ".";
+    //switch to the processing / intro template
 
-              var options = {
+      FlowRouter.go("/intro");
 
-                  username: name,
-                  
-                  email: email,
-                  
-                  password: password,
+      if ( isValidPassword( password ) ) {
 
-                  //profile is the portion that we can update for the logged-in user
-                  //(without rules or server methods)
+            
+            game.user = new User( name, "0", 0); //name, id, scroll pos (for content editors)
 
-                  profile: {
+            game.user.createAssigns();
 
-                      createdAt: _date,
+            var _text = "Hello, I'm " + name + ".  I live in " + db.getCountryName( _countryID ) + ".";
 
-                      a: [],
-                      h: [],
-                      c: "",
-                      s: 0,
-                      av: "",
-                      cc: $( "#selectCountry option:selected" ).attr("id"),
-                      cn: db.getCountryName( $( "#selectCountry option:selected" ).attr("id") ),
-                      f: db.getFlagPicByCode( $( "#selectCountry option:selected" ).attr("id") ),
-                      t: _text,
-                      p: _pic, 
-                      pt: _pt,
-                      ag: Database.getChiefID(),
-                      st: 2,
-                      ge: 0,
-                      ex: 0,
-                      sp: [0,0,0],
-                      sc: [0,0,0],
-                      in: [0,0,0],
-                      ft: [0,0,0,0,0],
+            var _rec = db.getRandomCountryRec (db.ghC );
 
-                  },
-              
-              };  //end options
+            var _pic = db.getCapitalPic( _rec.c );
+
+            var _pt = db.getCapitalName( _rec.c ) + " is the capital of " + _rec.n + ".";
 
 
-              Accounts.createUser( options, function(err){
+            var options = {
 
-                if (err) {
-                  
-                  // log the error
+                username: name,
+                
+                email: email,
+                
+                password: password,
 
-                  console.log("account was not created: " + email + ".  " + err );
+                //profile is the portion that we can update for the logged-in user
+                //(without rules or server methods)
 
-                  customError("Registration", err.reason);
+                profile: {
 
-                  stopSpinner();
+                    createdAt: _date,
 
-                } else {
-                  
-                  // Success. Account has been created and the user
-                  // has logged in successfully. 
+                    a: [],
+                    h: [],
+                    c: "",
+                    s: 0,
+                    av: "",
+                    cc: _countryID,
+                    cn: db.getCountryName( _countryID ),
+                    f: db.getFlagPicByCode( _countryID ),
+                    t: _text,
+                    p: _pic, 
+                    pt: _pt,
+                    ag: Database.getChiefID(),
+                    st: 2,
+                    ge: 0,
+                    ex: 0,
+                    sp: [0,0,0],
+                    sc: [0,0,0],
+                    in: [0,0,0],
+                    ft: [0,0,0,0,0],
 
-                  console.log("account successfully created: " + email);
+                },
+            
+            };  //end options
 
-                  var _gender = "female";
 
-                  if ( $("#chkMale").prop("checked") ) _gender = "male";
+            Accounts.createUser( options, function(err){
 
-                  if ( $("#chkFemale").prop("checked") ) _gender = "female";  
+              if (err) {
 
-                  game.user.profile = Meteor.user().profile;
+                //switch back to the login / application template
 
-                  game.user.makeAvatar( _gender );
+                Session.set("sApplicationAccepted", false);
 
-                  game.user.msg.userID = Meteor.user()._id;
+                FlowRouter.go('/start');
 
-                  mission = null;
+                Control.stopEffects();
 
-                  stopSpinner();
+                Control.playEffect2("fail.mp3");
+                
+                // log the error
+
+                console.log("account was not created: " + email + ".  " + err );
+
+                if ( err.reason.indexOf("Email already exists") != -1) {
+
+                  emailExistsError( email );
 
                 }
+                else {
+
+                  customError("Registration", err.reason);                  
+                }
+
+
+                stopSpinner();
+
+              } else {
                 
-              });  //end createUser
-          
-          }  //end if password OK  
+                // Success. Account has been created and the user
+                // has logged in successfully. 
 
-          else {
+                startIntro();
 
-            stopSpinner();
+                console.log("account successfully created: " + email);
 
-            passwordTooShortError();
+                game.user.profile = Meteor.user().profile;
 
-          } //end if passwordOK else
+                game.user.makeAvatar( _gender );
 
-        }, 100); //end setTimeout
+                game.user.msg.userID = Meteor.user()._id;
+
+                mission = null;
+
+              }
+              
+            });  //end createUser
+        
+        }  //end if password OK  
+
+        else {
+
+          stopSpinner();
+
+          passwordTooShortError();
+
+        } //end if passwordOK else
 
     },
 
@@ -363,4 +405,11 @@ var trimInput = function(val) {
 isValidPassword = function(val) {
 
   return val.length >= 6 ? true : false; 
+}
+
+function validateEmail(email) {
+
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  
+    return re.test(email);
 }

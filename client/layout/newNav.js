@@ -4,7 +4,12 @@ Template.newNav.helpers({
 
     if (Meteor.user() == null) return false;
 
-    if (Meteor.user().profile.av == null) return;
+    if (Meteor.user().profile.av == null) return false;
+
+    if (game.user) {
+
+      if ( !game.user.photoReady.get() ) return false;    
+    }
 
     if (Meteor.user().profile.av.length) return true;
 

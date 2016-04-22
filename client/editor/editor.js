@@ -225,8 +225,6 @@ Tracker.autorun( function(comp) {
 
       ) {
 
-  		  if (typeof editor === "undefined") return;
-
           console.log("editor data ready")
 
       	  editor.dataReady = true;

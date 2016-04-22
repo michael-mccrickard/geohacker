@@ -1,9 +1,9 @@
    
 <template name="login">
 
-	<div class="mediumBGText uppercase loginStatus">{{loginStatus}}</div>
-
 	{{#if currentUser}}
+		
+		<div class="mediumBGText uppercase loginStatus">{{loginStatus}}</div>
 
 		<p><button type="button" class="btn bigButton" id="goHack">START</button></p>
 
@@ -11,6 +11,7 @@
 
 
 			{{#if resetPassword}}
+
 				    <form id="resetPassword-form" action="action">
 
 				    	<p class="greenText">ENTER YOUR NEW PASSWORD AND CLICK UPDATE.</p>
@@ -23,6 +24,7 @@
 						<button type="submit" id="updatePassword" class="btn btn-default">UPDATE</button>
 
 				   </form>
+			
 			{{else}}
 
 
@@ -60,6 +62,7 @@
 					</div>
 
 				{{else}}
+
 
 					<p class={{registrationPromptTextColor}}>{{registrationPrompt}}</p>
 
@@ -159,11 +162,9 @@
 
 				{{/if}}
 
-			{{/if}}
+	 	{{/if}}
 
 	 {{/if}}
-
-
 
 
 </template>

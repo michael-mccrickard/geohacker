@@ -1,6 +1,5 @@
-var _a;
 
-//ttt = () => { _a = 99; return _a;}
+introVideoID = "QMropuR-cHw"
 
 //************************************************************
 //     filename utilities
@@ -177,40 +176,62 @@ onYouTubeIframeAPIReady = function () {
 
     youTubeLoaded = true;
 
-    if (display != null) {
+    if (game.user.mode == uIntro) {
 
-      if (display.ctl["VIDEO"]) {
-
-        _file = display.feature.video;
-
-      }
-
-      if (editor && hack.mode == mEdit) {
-
-        if (editor.videoFile) {
-
-          _file = editor.videoFile;
-        }
-      }
-    }
-
-    //We are either sizing this to fit the featured area or just doing
-    //a preset size for the editor
-
-    var myVideo = { width: 0, height: 0, top: 0, left: 0 };
-
-    if (hack.mode == mEdit) {
-
-        myVideo = { width: 720, height: 480, top: 0, left: 0 };
+        _file = introVideoID;
     }
     else {
 
-        display.feature.dimension( "video", myVideo, null );
-        
+        if (display != null) {
+
+          if (display.ctl["VIDEO"]) {
+
+            _file = display.feature.video;
+
+          }
+        }
+
+        if (editor && hack.mode == mEdit) {
+
+            if (editor.videoFile) {
+
+              _file = editor.videoFile;
+            }
+        }
+
+    }
+
+    
+
+    //We are either sizing this to fit the featured area or just doing
+    //a preset size for the editor or relative one for the intro
+
+    var myVideo = { width: 0, height: 0, top: 0, left: 0 };
+
+    if (game.user.mode == uIntro) {
+
+        myVideo = { width: $(window).width(), height: $(window).height() * 9/16, left: 0, top: 70 };
+
         $(".featuredYouTubeVideo").css("left",  myVideo.left);  
 
         $(".featuredYouTubeVideo").css("top", myVideo.top);
     }
+    else {
+
+        if (hack.mode == mEdit) {
+
+            myVideo = { width: 720, height: 480, top: 0, left: 0 };
+        }
+        else {
+
+            display.feature.dimension( "video", myVideo, null );
+            
+            $(".featuredYouTubeVideo").css("left",  myVideo.left);  
+
+            $(".featuredYouTubeVideo").css("top", myVideo.top);
+        }        
+    }
+
 
     ytplayer = new YT.Player("ytplayer", {
 
