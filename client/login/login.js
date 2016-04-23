@@ -340,7 +340,7 @@ Template.login.events({
                 // Success. Account has been created and the user
                 // has logged in successfully. 
 
-                startIntro();
+                game.intro.startIntro();
 
                 console.log("account successfully created: " + email);
 

@@ -1,26 +1,13 @@
 //intro.js
 
-var tl = new TimelineLite();
-
-var _pic = null;
-
-var _text = null;
-
-var introIsWaiting = false;
-
-var photoReady = false;
-
-
-
-
 Template.intro.rendered = function() {
 
 
 c("template intro rendered ")
 
-	introIsWaiting = false;
+	game.intro.introIsWaiting = false;
 
-	photoReady = false;
+	game.intro.photoReady = false;
 
 
 	_pic = $("#cameraCH");  
@@ -32,164 +19,170 @@ c("template intro rendered ")
 
 	Control.playEffect("processing.mp3");
 
-	tl.to( _text, 0.5, { opacity: 1.0, ease:"Sine.easeOut", delay: 0.25} );
+	game.intro.tl.to( _text, 0.5, { opacity: 1.0, ease:"Sine.easeOut", delay: 0.25} );
 
 }
 
 
+Template.introVideo.rendered = function() {
 
-startIntro = function() {
+	$("#introVideo").get(0).autoplay = true;
 
-c("start intro");
-
-	tl.add(stopSpinner, 1.8);
-
-	var _height = $(window).height() - 55 - ($(window).height() * 0.01);
-
-	tl.add( () => { $(".divIntro").css("height", _height + "px") } );
-
-
-	tl.add( () => { Control.playEffect("approved.mp3"); } );
-
-	tl.add( () => { $(".introText").text("*** approved ***") } );
-
-
-	tl.add( () => { $(".introText").addClass("greenText") } );
-
-    tl.to( _text, 0.5, { opacity: 0.0, ease:"Sine.easeOut", delay: 0.0 } );
-
-
-	tl.add( () => { $("#cameraCH").attr("src", "camera_crosshairs.jpg") }  );
-
-    tl.to( _pic, 0.5, { opacity: 1.0, ease:"Sine.easeOut", delay: 0.0 } );
-
-	tl.add( () => { Control.playEffect( "holdStill.mp3") }  );
-
-
-	tl.add( () => {  Control.playEffect( "flash.mp3") }  );
-
-	tl.add( () => {  $("#cameraCH").attr("src", "camera_crosshairs_invert.jpg") }  );	
-
-	tl.add( () => { $("#cameraCH").attr("src", "camera_crosshairs.jpg") }, 1.0  );
-
-	
-	tl.to( _pic, 0.25, { opacity: 0.0, ease:"Sine.easeOut", delay: 0.1} );
-
-
-	tl.add( () => {  $(".introText").removeClass("greenText")  } );
-
-
-	tl.add( () => { Control.playEffect2("map_pulse.mp3"); } );
-
-
-	tl.add( () => {  $(".introText").text("Processing your photo...") } );
-
-
-    tl.to( _text, 0.5, { opacity: 1.0, ease:"Sine.easeOut", delay: 0.0, onComplete: checkPhotoStatus } );
-
-
-	tl.add( () => {  doSpinner(); } );
+	$("#introVideo").get(0).load();
 
 }
 
-function checkPhotoStatus()  {
-	if (photoReady) {
+Intro = function() {
 
-c("calling finishIntro from checkPhotoStatus")
+	this.tl = new TimelineLite();
 
-		finishIntro();
+	this.pic = null;
 
-		return;
+	this.text = null;
+
+	this.introIsWaiting = false;
+
+	this.photoReady = false;
+
+	this.headline = new Headline("intro");
+
+
+	this.startIntro = function() {
+
+c("startIntro")
+		var tl = this.tl;
+
+
+		this.pic = $("#cameraCH");  
+
+		this.text = $(".introText");
+
+
+		tl.add(stopSpinner, 1.8);
+
+		var _height = $(window).height() - 55 - ($(window).height() * 0.01);
+
+		tl.add( () => { $(".divIntro").css("height", _height + "px") } );
+
+
+		tl.add( () => { Control.playEffect("approved.mp3"); } );
+
+		tl.add( () => { $(".introText").text("*** approved ***") } );
+
+
+		tl.add( () => { game.intro.headline.setThisAndType("CREATING IDENTIFICATION BADGE") } );
+
+
+		tl.add( () => { $(".introText").addClass("greenText") } );
+
+	    tl.to( this.text, 0.5, { opacity: 0.0, ease:"Sine.easeOut", delay: 1.0 } );
+
+
+		tl.add( () => { $("#cameraCH").attr("src", "camera_crosshairs.jpg") }  );
+
+	    tl.to( this.pic, 0.5, { opacity: 1.0, ease:"Sine.easeOut", delay: 0.0 } );
+
+
+		tl.add( () => {  Control.playEffect( "flash.mp3") }  );
+
+		tl.add( () => {  $("#cameraCH").attr("src", "camera_crosshairs_invert.jpg") }  );	
+
+		tl.add( () => { $("#cameraCH").attr("src", "camera_crosshairs.jpg") }, 1.0  );
+
+		
+		tl.to( this.pic, 0.25, { opacity: 0.0, ease:"Sine.easeOut", delay: 0.1} );
+
+
+		tl.add( () => {  $(".introText").removeClass("greenText")  } );
+
+
+		tl.add( () => { Control.playEffect2("map_pulse.mp3"); } );
+
+
+		tl.add( () => {  $(".introText").text("Processing your photo...") } );
+
+
+	    tl.to( this.text, 0.5, { opacity: 1.0, ease:"Sine.easeOut", delay: 0.0, onComplete: checkPhotoStatus } );
+
+
+		tl.add( () => {  doSpinner(); } );
+
 	}
 
-	introIsWaiting = true;
-}
+	this.checkPhotoStatus = function()  {
 
-function finishIntro() {
+		if (this.photoReady) {
 
-c("finishIntro")
+			c("calling finishIntro from checkPhotoStatus")
 
-	tl = new TimelineLite();
+			this.finishIntro();
 
-	Session.set("sProcessingApplication", false);
+			return;
+		}
 
-	tl.to(_text, 0.5, { opacity: 0.0, ease:"Sine.easeOut" } );	
+		this.introIsWaiting = true;
+	}
 
-	stopSpinner();
+	this.finishIntro =function() {
 
+	c("finishIntro")
 
-	var _av = Meteor.user().profile.av;
+		this.tl = new TimelineLite();
 
-	tl.add( () => { $("#cameraCH").attr("src", _av) } );
+		var tl = this.tl;
 
-	//var _top = ( $(window).height() / 2 ) - (256 / 2);
+		Session.set("sProcessingApplication", false);
 
-	var _top = 55 + 0.05 * $(window).height();
+		tl.to( this.text, 0.5, { opacity: 0.0, ease:"Sine.easeOut" } );	
 
-	tl.add( () => { $(".divIntro").css("top", _top + "px") } );
-
-
-
-	tl.to(_pic, 0.0, { opacity: 1.0, delay: 0.5 } );
+		stopSpinner();
 
 
-tl.add( () => { $("#cameraCH").css("width", "256px") } );
+		var _av = Meteor.user().profile.av;
 
-tl.add( () => { $("#cameraCH").css("height", "256px") } );
+		tl.add( () => { $("#cameraCH").attr("src", _av) } );
 
+		var _top = 55 + 0.05 * $(window).height();
 
-	tl.add( () => { stopSpinner(); }  );
-
-
-	tl.add( () => { Control.playEffect("photoDone.mp3"); } );
+		tl.add( () => { $(".divIntro").css("top", _top + "px") } );
 
 
-	tl.add( () => {  game.user.photoReady.set( true ); } );
+
+		tl.to( this.pic, 0.0, { opacity: 1.0, delay: 0.5 } );
 
 
-	tl.add( () => {  Control.playEffect("NotTheBestLikeness.mp3"); } );
+		tl.add( () => { $("#cameraCH").css("width", "256px") } );
+
+		tl.add( () => { $("#cameraCH").css("height", "256px") } );
 
 
-	tl.add( () => {  $(".introText").text("Agent: " + game.user.name) } );
+		tl.add( () => { stopSpinner(); }  );
 
 
-	tl.add( () => {  $(".introText").css("top", _top + 128 + 0.03 * $(window).height() )  } );
+		tl.add( () => { Control.playEffect("photoDone.mp3"); } );
 
-	tl.to(_text, 0.25, { opacity: 1.0, delay: 0.0 } );	
 
-return;
-	tl.to(_pic, 1.0, { opacity: 0.0, delay: 5.0 } );	
+		tl.add( () => {  game.user.photoReady.set( true ); } );
 
-	tl.to(_text, 1.0, { opacity: 1.0 }, "-=5" );	
+		tl.add( () => {  game.intro.headline.setThisAndType("INITIALIZING TRAINING MODULE") } );		
 
-	tl.add( () => {  playIntroVideo(); } );
+	 
+		tl.add( () => {  $(".introText").text("Agent: " + game.user.name) } );
 
-}
 
-playIntroVideo = function() {
+		tl.add( () => {  $(".introText").css("top", _top + 128 + 0.03 * $(window).height() )  } );
 
-	stopSpinner();
 
-	game.stopMusic();
+		tl.to( this.text, 0.25, { opacity: 1.0, delay: 0.0 } );	
 
-	game.user.mode = uIntro;
+		tl.to( this.pic, 1.0, { opacity: 0.0, delay: 2.0 } );	
 
-	Session.set("sYouTubeOn", false);
+		tl.to( this.text, 1.0, { opacity: 0.0 }, "-=2" );	
 
-      if (youTubeLoaded == false) {
-        
-        c("calling YT.load() in intro")
-        
-        YT.load();
-      }
-      else {
+		tl.add( () => {  FlowRouter.go("/introVideo"); game.stopMusic(); } );
 
-      c("loading YT vid by ID in intro")
-        
-        ytplayer.loadVideoById( introVideoID );            
-      }
+	}
 
-      Session.set("sYouTubeOn", true);
 }
 
 Tracker.autorun( function(comp) {
@@ -200,19 +193,25 @@ Tracker.autorun( function(comp) {
 
 		    if (Meteor.user().profile.av.length) {
 
-				if (introIsWaiting) {
+				if (game.intro.introIsWaiting) {
 
 c("calling finish intro from autorun")
 
-					finishIntro();
+					game.intro.finishIntro();
 
 					return;
 				}
 
-				photoReady = true;
+				game.intro.photoReady = true;
 
 		    }
 		}
 	}
 
 );
+
+checkPhotoStatus = function() {
+
+c("global checkPhotoStatus called")
+	game.intro.checkPhotoStatus();
+}

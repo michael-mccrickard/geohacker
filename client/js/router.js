@@ -35,6 +35,16 @@ FlowRouter.route('/intro', {
 
 });
 
+FlowRouter.route('/introVideo', {
+
+    action: function (params, queryParams) { 
+
+      $('body').addClass('noscroll'); 
+
+      BlazeLayout.render('layout', { content: "introVideo" } ) 
+    },
+
+});
 
 FlowRouter.route('/start2', {
 
