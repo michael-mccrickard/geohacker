@@ -501,6 +501,20 @@ Control.stopEditVideo = function() {
 
       ytplayer.stopVideo();
   }
+
+  Control.stopEffects();
+
+  try {
+
+c("attempting to stop sound player in control.js")
+
+    document.getElementById("editorSoundPlayer").pause();
+
+  }
+  catch(err) {
+
+
+  }
 }
 
 

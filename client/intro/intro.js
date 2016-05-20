@@ -2,9 +2,6 @@
 
 Template.intro.rendered = function() {
 
-
-c("template intro rendered ")
-
 	game.intro.introIsWaiting = false;
 
 	game.intro.photoReady = false;
@@ -30,6 +27,15 @@ Template.introVideo.rendered = function() {
 
 	$("#introVideo").get(0).load();
 
+    document.getElementById('introVideo').addEventListener('ended',videoEnded,false);
+
+}
+
+function videoEnded(e) {
+
+	game.user.setMode( uHack );
+    
+    FlowRouter.go("/home");
 }
 
 Intro = function() {
@@ -113,8 +119,6 @@ c("startIntro")
 
 		if (this.photoReady) {
 
-			c("calling finishIntro from checkPhotoStatus")
-
 			this.finishIntro();
 
 			return;
@@ -124,8 +128,6 @@ c("startIntro")
 	}
 
 	this.finishIntro =function() {
-
-	c("finishIntro")
 
 		this.tl = new TimelineLite();
 
@@ -195,8 +197,6 @@ Tracker.autorun( function(comp) {
 
 				if (game.intro.introIsWaiting) {
 
-c("calling finish intro from autorun")
-
 					game.intro.finishIntro();
 
 					return;
@@ -212,6 +212,5 @@ c("calling finish intro from autorun")
 
 checkPhotoStatus = function() {
 
-c("global checkPhotoStatus called")
 	game.intro.checkPhotoStatus();
 }

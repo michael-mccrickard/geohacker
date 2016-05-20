@@ -1,9 +1,20 @@
 Template.editor.rendered = function() {
 
   stopSpinner();
+
+setCodeExplainText();
+
+}
+
+function setCodeExplainText() {
+
+  var _index = editor.arrCodeText.indexOf( $("#selectCodeExplain").prop('value') );
+  
+        editor.codeExplainText.set( editor.arrCodeExplain[ _index ] );
 }
 
 Template.editor.helpers({
+
 
     dataRecord: function() {
 
@@ -15,42 +26,42 @@ Template.editor.helpers({
 
   		if (control == cSound) {
 
-  			editor.controlName = "SOUND"; 
+  			editor.controlName.set("SOUND"); 
 
   			return db.ghSound.find( { cc: ID });
   		}
 
   		if (control == cText) {
 
-        editor.controlName = "TEXT"; 
+        editor.controlName.set("TEXT"); 
 
   			return db.ghText.find( { cc: ID });
   		}
 
   		if (control == cImage) {
 
-        editor.controlName = "IMAGE"; 
+        editor.controlName.set("IMAGE"); 
 
   			return db.ghImage.find( { cc: ID });
   		}
 
   		if (control == cVideo) {
 
-        editor.controlName = "VIDEO"; 
+        editor.controlName.set("VIDEO"); 
 
   			return db.ghVideo.find( { cc: ID });
   		}
 
   		if (control == cWeb) {
 
-        editor.controlName = "WEB"; 
+        editor.controlName.set("WEB"); 
 
   			return db.ghWeb.find( { cc: ID });
   		}
 
   		if (control == cDebrief) {
 
-        editor.controlName = "DEBRIEF"; 
+        editor.controlName.set("DEBRIEF"); 
 
   			return db.ghDebrief.find( { cc: ID });
   		}
@@ -70,7 +81,7 @@ Template.editor.helpers({
 
     getEditControlName: function() {
 
-    	var s = editor.controlName;
+    	var s = editor.controlName.get();
     
     	if (s) return s;
 
@@ -143,7 +154,7 @@ Template.editor.helpers({
 
     soundIsSelected: function() {
 
-    	if ( editor.controlType.get() == cSound ) return true;
+    	if ( editor.controlType.get() == cSound) return true;
 
     	return false;
     },
@@ -180,9 +191,62 @@ Template.editor.helpers({
       return "invisible";
     },
 
+    code: function() {
+
+      return editor.getCodes( editor.controlType.get() );
+    },
+
+    codeExplainHeader:  function() {
+
+      var s = "Choose a code from the drop-down list to see the explanation.";
+
+      var _type = editor.controlType.get();
+
+      if (_type == cWeb || _type == cVideo) s = "Codes are not currently used for " + editor.controlName.get() + " records.";
+
+      return s;
+    },
+
+    codeTextFor: function( _key) {
+
+      return editor.arrCodeText[ _key ];
+    },
+
+    codeExplain: function() {
+
+      var _type = editor.controlType.get();
+
+      if (_type == cWeb || _type == cVideo) {
+
+        s = "";
+      }
+      else {
+
+        s = editor.codeExplainText.get()
+      }
+
+      return s;
+
+    },
+
+    selectedValue: function(key, value) {
+
+c("key=" + key + "  value =" + value)
+
+c("key2=" + editor.arrCode[key] + "  value2 =" + value)
+
+      return editor.arrCode[key] ==  value ? 'selected' : '';
+
+    }
+
 })
 
 Template.editor.events = {
+
+  'change #selectCodeExplain' : function(event){
+
+    setCodeExplainText();
+  },
 
 	'click #addRecord': function() {
 
@@ -271,7 +335,16 @@ Template.editor.events = {
 
      editor.recordID.set( evt.target.id );
 
-if (editor.recordID.get() == editor.newRecordID.get() ) return;
+      if (editor.recordID.get() == editor.newRecordID.get() ) return;
+
+       if (editor.controlType.get() == cDebrief) {
+
+          editor.dt.set( $("input#" + evt.target.id + ".dt").val() );
+       }
+       else {
+
+         editor.dt.set( "" );
+       }
 
       if (editor.controlType.get() == cVideo) {
 

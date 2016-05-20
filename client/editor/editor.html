@@ -3,11 +3,11 @@
 <h3 class="centered editor"  style="margin-top: 52px;">Editing {{getThisCountryName}} ({{getThisCountryCode}}) -- {{getEditControlName}}</h3> 
 
 <span>
-	<button class="btn btn-success" id="addRecord" style="margin-left: 70px; margin-top: 10px;"><strong>+</strong></button> 
+	<button class="btn btn-success" id="addRecord" style="margin-left: 70px; margin-top: -10px;"><strong>+</strong></button> 
 
-	<button class="btn btn-danger" id="testCountry" style="position: relative; left: 39%; margin-top: 10px;"><strong>TEST</strong></button> 
+	<button class="btn btn-danger" id="testCountry" style="position: relative; left: 39%; margin-top: -10px;"><strong>TEST</strong></button> 
 
-	<button class="btn btn-default pull-right" style="margin-right: 70px; margin-top: 10px;" id="closeEditor"><strong>X</strong></button>    
+	<button class="btn btn-default pull-right" style="margin-right: 70px; margin-top: -10px;" id="closeEditor"><strong>X</strong></button>    
 </span>
 
 
@@ -26,6 +26,29 @@
 			
 		</div>
 
+		<div class="divCodeExplain">
+
+			<p>Codes: {{codeExplainHeader}}
+
+				<div class="divCodeExplainSelect">
+
+					<select class="form-control" id="selectCodeExplain">
+
+						{{#each code}}
+
+							 <option>{{codeTextFor this}}</option>
+							  	
+						{{/each}}
+			
+					</select>
+				</div>
+
+
+					 <span class="divCodeExplanation">{{codeExplain}}</span>
+			</p>
+
+		</div>
+
 		<div class="centered"> 
 
 			<table class="dataTable" border="2">
@@ -35,7 +58,7 @@
 				  <tr>
 				    <th>Update</th>
 				    <th>Text</th> 
-				    <th>Debrief type</th> 
+				    <th>Code</th> 
 				    <th>Delete</th> 
 				  </tr>
 
@@ -43,25 +66,41 @@
 
 					  <tr class="dataRow">
 					    <td><button class="btn btn-success updateRecord" id="{{this._id}}" size="2">SAV</button></td>
-					    <td><input type="text" class="t" id="{{this._id}}" size="40" value="{{this.t}}"></td> 
-					    <td><input type="text" class="dt" id="{{this._id}}" size="5" value="{{this.dt}}"></td>
+					    <td><input type="text" class="t" id="{{this._id}}" size="50" value="{{this.t}}"></td> 
+					    <!--td><input type="text" class="dt" id="{{this._id}}" size="5" value="{{this.dt}}"></td-->
+
+					    <td size="30">
+						
+							<select class="form-control" id="{{this._id}}">
+
+						  		<option selected disabled>Please select</option>
+
+						  		{{#each code}}
+
+							  		<option {{selectedValue this ../dt}}>{{codeTextFor this}}</option>
+							  	
+							  	{{/each}}
+							
+							</select>
+						</td>
+
 						<td><button class="btn btn-danger deleteRecord" id="{{this._id}}" size="2">DEL</button></td>
 					  </tr>
 
 				  {{/each}}
 
 				{{else}}
-
+<!--
 					<col width="13%">
 					<col width="34%">
 					<col width="33%">
 					<col width="13%"> 
-
+-->
 					<tr>
 					<th>Update</th> 
 					<th>File or Text</th> 
 					<th>Source</th> 
-					<th>Debrief type</th> 
+					<th>Code</th> 
 					<th>Delete</th> 
 					</tr>
 
@@ -81,7 +120,7 @@
 						    	
 						    	{{else}}
 
-									<td><input type="text" class="f" id="{{this._id}}" size="40" value="{{this.f}}"></td> 
+									<td><input type="text" class="f" id="{{this._id}}" size="30" value="{{this.f}}"></td> 
 
 						    	{{/if}}
 
@@ -97,7 +136,7 @@
 
 							{{#if notText}}
 
-					    		<td><label class="f" id="{{this._id}}" size="40">{{this.f}}</label></td> 
+					    		<td><label class="f" id="{{this._id}}" size="30">{{this.f}}</label></td> 
 					    	
 					    	{{else}}
 
@@ -107,8 +146,23 @@
 					    
 					    {{/if}}
 
-					    <td><input type="text" class="s" id="{{this._id}}" size="40" value="{{this.s}}"></td> 
-					    <td><input type="text" class="dt" id="{{this._id}}" value="{{this.dt}}"></td>
+					    <td><input type="text" class="s" id="{{this._id}}" size="20" value="{{this.s}}"></td> 
+
+					    <td size="40">
+						
+							<select class="form-control" id="{{this._id}}">
+
+						  		<option selected disabled>Please select</option>
+
+						  		{{#each code}}
+
+							  		<option {{selectedValue this ../dt}}>{{codeTextFor this}}</option>
+							  	
+							  	{{/each}}
+							
+							</select>
+						</td>
+
 						<td><button class="btn btn-danger deleteRecord" id="{{this._id}}">DEL</button></td>
 					  </tr>
 
@@ -121,16 +175,16 @@
 
 		<div class="centered dataTable">
 
-		  {{#with selectedDataRecord}}
+		  {{#if soundIsSelected}}
 
-			  	{{#if soundIsSelected}}
-		  	    
-		  	      <audio controls id="editorSoundPlayer">
-			        <source src="" type="audio/mpeg">  
-			        Your browser does not support the audio element.
-			      </audio>
-			    
-			    {{/if}}
+			  <audio controls id="editorSoundPlayer">
+				<source src="" type="audio/mpeg">  
+				Your browser does not support the audio element.
+			  </audio>
+
+		  {{/if}}
+
+		  {{#with selectedDataRecord}}
 
 			    {{#if textIsSelected}}
             
@@ -169,5 +223,8 @@
 	    </div>  <!-- data display area -->
 
 	</div>	<!-- container div -->
+
+
+
 
 </template>

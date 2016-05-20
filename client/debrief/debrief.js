@@ -35,45 +35,45 @@ Debrief = function() {
 
 /*********************************************
 
-	DEBRIEF CODES  (dt field in database)
+	DEBRIEF CODES  -- dt field in database  (which table in db uses this code; plus info about the data in the record)
 
 common -- used by all countries
 
-	ldr = leader name & pic (image and text and debrief;  text = leader name, debrief = leader title)
+	ant = anthem, nation anthem sound file (sound: file = sound file)
+
+	ldr = leader name & pic (image and text and debrief;  text = leader name, debrief text = leader title)
 	
-	cap = capital name & pic (image and text and debrief)
+	cap = capital name & pic (image and text and debrief; text = capital name, image = capital pic, debrief = code only)
 
-	cmp -- normal map pic with name of country visible (image)
+	cmp -- normal map pic with name of country visible (image = pic file)
 
-	rmp -- redacted map pic with name of country obscured (image)
+	rmp -- redacted map pic with name of country obscured (image = pic file)
 
-	map -- a map that naturally has no identifying country name on it, used as both cmp and rmp (image)
+	map -- a map that naturally has no identifying country name on it, used as both cmp and rmp (image = pic file)
 
 
 	//By convention, there is only one language sound file per country
 	//and it matches whatever lng_ record is found in the debrief records
 
-	lng = language file (sound)
+	lng = language (sound = sound file)
 	
 	//language name records (one per country)
 
-	lng_o = official language name (debrief)
-	lng_om =  official language name, one of multiple official languages (debrief)
-	lng_i = indigenous language name (debrief)
+	lng_o = official language name (debrief text = name)
+	lng_om =  official language name, one of multiple official languages (debrief text = name)
+	lng_i = indigenous language name (debrief text = name)
 
 optional -- used by some countries
 
-	cus, cus[X] -- debrief / image or web pairs (could be anything)
+	cus, cus[X] -- "custom" debrief (could be anything)/ (image or web) + debrief (image or web = pic file, debrief text = caption text)
 
-	hqt, hqt[X] --  debrief / image or web pairs for businesses headquarted in the country
+	hqt, hqt[X] --  "headquarters" debrief / businesses headquartered in the country / (image or web) + debrief (image or web = pic file, debrief text = caption text)
 
 	text & image pairs -- used by some countries as debriefs / text clues and tag text.
 	When used as a debrief / text clue:  text = name of entity, debrief = explanatory text, image or web = relevant image
 	When used as tag text, there will be a rec (with pic) in ghTag with this code
 
 		art -- artist (broadly speaking, could be writer, musician, actor, etc.)
-
-		bus, bus[X] -- business name
 
 		lan, lan[X] -- landmark
 

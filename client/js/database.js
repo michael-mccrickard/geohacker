@@ -614,6 +614,10 @@ this.updateRecord2 = function (_type, field, ID, value, cb) {
 
           value = $(selField).val();
 
+          //for the dt field, we have to translate from the text version of the code to the short (typically 3-letter) code
+
+          if (arrField[i] == "dt")  value = editor.arrCode[ editor.arrCodeText.indexOf( value ) ];
+
           data[ arrField[i] ] = value;
         
       } //end looping thru fields

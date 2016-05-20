@@ -230,7 +230,10 @@ Hack = function() {
 
        if (!_file) return;
 
-       if (display.ctl["SOUND"].getState() == sPlaying ) display.ctl["SOUND"].pauseFeaturedContent();
+       if (hack.mode != mEdit) {
+          
+          if (display.ctl["SOUND"].getState() == sPlaying ) display.ctl["SOUND"].pauseFeaturedContent();
+       }
 
        Control.playEffect( _file );
     },

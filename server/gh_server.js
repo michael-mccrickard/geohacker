@@ -510,7 +510,9 @@ Meteor.methods({
 
     var col = getCollectionForType(_type);
 
-    var rec = col.insert( { cc: _ID } );
+    var rec = null;
+
+    rec = col.insert( { cc: _ID } );
 
     return rec;
 
@@ -618,9 +620,11 @@ Meteor.methods({
 
 testImages: function() {
 
-arrImages = ghImage.find({}).fetch();
+arrImages = ghWeb.find({}).fetch();
 
 //c(arrImages.length = " files in db")
+
+_index = 0;
 
   testImages2();
 },
