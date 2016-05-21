@@ -337,6 +337,7 @@ Template.editor.events = {
 
       if (editor.recordID.get() == editor.newRecordID.get() ) return;
 
+/*
        if (editor.controlType.get() == cDebrief) {
 
           editor.dt.set( $("input#" + evt.target.id + ".dt").val() );
@@ -345,7 +346,7 @@ Template.editor.events = {
 
          editor.dt.set( "" );
        }
-
+*/
       if (editor.controlType.get() == cVideo) {
 
         var rec = db.ghVideo.findOne( { _id: editor.recordID.get() } );
@@ -413,6 +414,8 @@ Template.editor.events = {
           editor.videoFile = $(sel).val();
       
       }
+
+c(evt.target.id);
 
       editor.doUpdateRecord(evt.target.id, editor.hack.countryCode);
 

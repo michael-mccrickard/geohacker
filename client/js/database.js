@@ -580,6 +580,8 @@ this.updateRecord2 = function (_type, field, ID, value, cb) {
           value = $(selField).val();
         }
 
+        if ( arrField[i] == "dt" ) value = editor.getDTValue( ID );
+
         if (value != undefined) {
 
           Meteor.call("updateRecordOnServer", arrField[i], _type, ID, value, function( err, res) {
@@ -600,7 +602,7 @@ this.updateRecord2 = function (_type, field, ID, value, cb) {
 
   // "#a.b"   a=rec id, b = fieldname (stored as class)
 
-  this.updateContentRecord = function( arrField, _type, _id, _countryCode ) {
+  this.updateContentRecord = function( arrField, _dt, _type, _id, _countryCode ) {
 
     if (_type && _id) {
 
@@ -621,6 +623,10 @@ this.updateRecord2 = function (_type, field, ID, value, cb) {
           data[ arrField[i] ] = value;
         
       } //end looping thru fields
+
+      //add the debrief type
+
+      data[ "dt"] = _dt;
 
       //we have to replace all the fields, b/c a content update
       //creates a whole new file

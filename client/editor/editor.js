@@ -20,11 +20,11 @@ Editor = function() {
   	this.dt = new Blaze.ReactiveVar("");
 
 
-	this.arrField = ["dt","s"];
+	this.arrField = ["s"];
 
-	this.arrFieldText = ["f","dt","s"];	
+	this.arrFieldText = ["f", "s", "dt"];	//this is the only one that still has the dt field, but this would be better if it used the data object update method
 
-	this.arrFieldDebrief = ["t", "dt"];
+	this.arrFieldDebrief = ["t"];
 
 	this.arrFieldCountry = ["n","c","r","co","d"];  //name, code, region, color, dataFlag
 
@@ -127,7 +127,7 @@ Editor = function() {
 
 		if (_coll == cVideo) res = [];
 
-		if (_coll == cDebrief) res = [ 0, 1, 2, 6, 7, 8, 9, 10, 11, 12];
+		if (_coll == cDebrief) res = [ 1, 2, 6, 7, 8, 9, 10, 11, 12];
 
 		return res;
 	}
@@ -253,6 +253,17 @@ Editor = function() {
 		});
 	}
 
+	this.getDTValue = function( _id ) {
+
+		var sel = "select#" + _id + ".form-control.dt";
+
+		var val = $(sel).prop("selectedIndex");
+
+		var arr = editor.getCodes( editor.controlType.get() );
+
+		return this.arrCode[ arr[  val - 1 ]  ];
+	}
+
 	this.doUpdateRecord = function(_id, _countryCode) {
 
 		var _type = this.controlType.get();
@@ -275,10 +286,20 @@ Editor = function() {
 
       		for (var i = 0; i < this.arrFieldDebrief.length; i++) {
 
-				var sel = "#" + _id + "." + this.arrFieldDebrief[i];
+  				var sel = "";
 
-      			data[ this.arrFieldDebrief[i] ] = $(sel).val();
+				sel = "#" + _id + "." + this.arrFieldDebrief[i];
+
+  				data[ this.arrFieldDebrief[i] ] = $(sel).val();
+
       		}
+
+c( _id );
+
+c( this.getDTValue( _id ) );
+
+      		data[ "dt" ] = this.getDTValue( _id );
+
 
 			Meteor.call("updateRecordOnServerWithDataObject", _type, _id, data, function(err, result) {
 
@@ -294,7 +315,11 @@ Editor = function() {
 
 		if (_type == cImage || _type == cSound || _type == cWeb || _type == cVideo) {
 
-			db.updateContentRecord(this.arrField, _type, _id, _countryCode);
+			var _dt = "";
+
+			_dt = this.getDTValue( _id );
+
+			db.updateContentRecord(this.arrField, _dt, _type, _id, _countryCode);
 		}
 		
 		if (_type == cText) {
@@ -308,6 +333,8 @@ Editor = function() {
 
 Tracker.autorun( function(comp) {
 
+
+
   if (Session.get("sEditImageReady") && 
       Session.get("sEditTextReady") && 
       Session.get("sEditVideoReady") && 
@@ -318,6 +345,8 @@ Tracker.autorun( function(comp) {
       ) {
 
           console.log("editor data ready")
+
+			if (typeof editor  === 'undefined') return;
 
       	  editor.dataReady = true;
 
