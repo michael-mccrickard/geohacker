@@ -56,61 +56,59 @@ Editor = function() {
 
 	this.arrCodeText[1] = "leader";
 	this.arrCode[1] = "ldr";
-	this.arrCodeExplain[1] = "Text = Name of the country's leader; Image = photo of the country's leader";
+	this.arrCodeExplain[1] = "Text = Name of the country's leader; Image = photo of the country's leader; Debrief.text = title of country's leader (President, e.g.);"
 
 	this.arrCodeText[2] = "capital";
 	this.arrCode[2] = "cap";
-	this.arrCodeExplain[2] = "Text = Name of the country's capital city; Image = photo of the country's capital city";
+	this.arrCodeExplain[2] = "Text = Name of the country's capital city; Image = photo of the country's capital city; Debrief record needs code only.";
 
 	this.arrCodeText[3] = "country map";
 		this.arrCode[3] = "cmp";
-	this.arrCodeExplain[3] = "Normal country map with the name of the country visible";
+	this.arrCodeExplain[3] = "Normal country map with the name of the country visible; Image.file = map";
 
 	this.arrCodeText[4] = "country map -- name marked out";
 		this.arrCode[4] = "rmp";
-	this.arrCodeExplain[4] = "Country map with the name of the country marked out";
+	this.arrCodeExplain[4] = "Country map with the name of the country marked out; Image.file = map";
 
 	this.arrCodeText[5] = "country map -- no name";
 		this.arrCode[5] = "map";
-	this.arrCodeExplain[5] = "Country map without the name of the country at all";
+	this.arrCodeExplain[5] = "Country map without the name of the country at all; Image.file = map";
 
 	this.arrCodeText[6] = "official language (only one)";
 		this.arrCode[6] = "lng_o";
-	this.arrCodeExplain[6] = "Debrief.Text = name of this language";
+	this.arrCodeExplain[6] = "Debrief.text = name of this language";
 
 	this.arrCodeText[7] = "official language (1 of multiple languages)";
 		this.arrCode[7] = "lng_om";
-	this.arrCodeExplain[7] = "Debrief.Text = name of this language";
+	this.arrCodeExplain[7] = "Debrief.text = name of this language";
 
 	this.arrCodeText[8] = "indigenous language";
 		this.arrCode[8] = "lng_i";
-	this.arrCodeExplain[8] = "Debrief.Text = name of this language";
+	this.arrCodeExplain[8] = "Debrief.text = name of this language";
 
 	this.arrCodeText[9] = "language";
 		this.arrCode[9] = "lng";
-	this.arrCodeExplain[9] = "File = sound file of this language (.mp3);";
-
-//10 and above can all have multiple records, so we have to increment (cus, cus1, cus2, etc)
+	this.arrCodeExplain[9] = "Sound.file = sound file of this language (.mp3);";
 
 	this.arrCodeText[10] = "custom";
 		this.arrCode[10] = "cus";
-	this.arrCodeExplain[10] = "Custom message -- could be anything (fun fact, interesting photo, historical info, etc.).  Image = photo or other graphic;  Debrief.Text = text to accompany graphic";
+	this.arrCodeExplain[10] = "Custom message -- could be anything (fun fact, interesting photo, historical info, etc.).  Image.file = photo or other graphic;  Debrief.text = text to accompany graphic";
 
 	this.arrCodeText[11] = "headquarters";
 		this.arrCode[11] = "hqt";
-	this.arrCodeExplain[11] = "Any well-known business headquartered in this country. Image = photo or graphic; Debrief.Text = name of the business";
+	this.arrCodeExplain[11] = "Any well-known business headquartered in this country. Image.file = photo or graphic; Debrief.text = name of the business";
 
 	this.arrCodeText[12] = "landmark";
 		this.arrCode[12] = "lan";
-	this.arrCodeExplain[12] = "Any well-known natural or man-made landmark in this country. Image = photo or graphic; Debrief.Text = name of the landmark";
+	this.arrCodeExplain[12] = "Any well-known natural or man-made landmark in this country. Image.file = photo or graphic; Debrief.text = name of the landmark";
 
 	this.arrCodeText[13] = "artist";
 		this.arrCode[13] = "art";
-	this.arrCodeExplain[13] = "Any well-known artist based or born in this country (visual artist, writer, musician, etc). Image = photo or graphic; Debrief.Text = name of the artist";
+	this.arrCodeExplain[13] = "Any well-known artist based or born in this country (visual artist, writer, musician, etc). Image.file = photo or graphic; Debrief.text = name of the artist";
 
 	this.arrCodeText[14] = "flag";
 		this.arrCode[14] = "flg";
-	this.arrCodeExplain[14] = "File = image of the country's flag"; 
+	this.arrCodeExplain[14] = "Image.file = flag"; 
 
 
 	this.getCodes = function( _coll ) {

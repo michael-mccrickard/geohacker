@@ -8,9 +8,16 @@ setCodeExplainText();
 
 function setCodeExplainText() {
 
+  Meteor.setTimeout( function(){ _setCodeExplainText() }, 500);
+}
+
+_setCodeExplainText = function() {
+
   var _index = editor.arrCodeText.indexOf( $("#selectCodeExplain").prop('value') );
-  
-        editor.codeExplainText.set( editor.arrCodeExplain[ _index ] );
+
+  c(_index)
+
+  editor.codeExplainText.set( editor.arrCodeExplain[ _index ] );
 }
 
 Template.editor.helpers({
@@ -231,9 +238,9 @@ Template.editor.helpers({
 
     selectedValue: function(key, value) {
 
-c("key=" + key + "  value =" + value)
+//c("key=" + key + "  value =" + value)
 
-c("key2=" + editor.arrCode[key] + "  value2 =" + value)
+//c("key2=" + editor.arrCode[key] + "  value2 =" + value)
 
       return editor.arrCode[key] ==  value ? 'selected' : '';
 
@@ -284,6 +291,8 @@ Template.editor.events = {
     Control.stopEditVideo();
 
   	editor.controlType.set( cSound );
+
+    setCodeExplainText();
   },
 
   'click #editText' : function(evt, template) {
@@ -291,6 +300,8 @@ Template.editor.events = {
     Control.stopEditVideo();
 
     editor.controlType.set( cText );
+
+    setCodeExplainText();
   },
 
   'click #editImage' : function(evt, template) {
@@ -298,6 +309,8 @@ Template.editor.events = {
     Control.stopEditVideo();
 
     editor.controlType.set( cImage );
+
+    setCodeExplainText();
   },
 
   'click #editVideo' : function(evt, template) {
@@ -337,16 +350,6 @@ Template.editor.events = {
 
       if (editor.recordID.get() == editor.newRecordID.get() ) return;
 
-/*
-       if (editor.controlType.get() == cDebrief) {
-
-          editor.dt.set( $("input#" + evt.target.id + ".dt").val() );
-       }
-       else {
-
-         editor.dt.set( "" );
-       }
-*/
       if (editor.controlType.get() == cVideo) {
 
         var rec = db.ghVideo.findOne( { _id: editor.recordID.get() } );

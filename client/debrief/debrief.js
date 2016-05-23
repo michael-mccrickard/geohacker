@@ -94,11 +94,9 @@ special cases
 
 		this.countryCode = _code;
 		
-		//this.arr = db.ghDebrief.find( { cc: this.countryCode, dt:"cap" } ).fetch();
+		this.arr = db.ghDebrief.find( { cc: this.countryCode } ).fetch();
 
-this.arr = db.ghDebrief.find( { cc: this.countryCode, dt:"cap" } ).fetch();
-this.index = 0;
-		//this.index = Database.getRandomValue(this.arr.length);
+		this.index = Database.getRandomValue(this.arr.length);
 	}
 
 	this.draw = function() {
@@ -318,7 +316,7 @@ this.index = 0;
 		}
 	}
 
-	this.goNext = function() {
+	this.go = function() {
 
   		this.waitingNow = true;
 
@@ -363,7 +361,7 @@ Template.debrief.events = {
 
   		if (debrief.index == -1) debrief.index = debrief.arr.length - 1;
 
-  		hack.debrief.goNext();
+  		hack.debrief.go();
 
   	},
 
@@ -379,7 +377,7 @@ Template.debrief.events = {
 
   		if (debrief.index == debrief.arr.length) debrief.index =  0;
 
-  		hack.debrief.goNext();
+  		hack.debrief.go();
 
   	},
 

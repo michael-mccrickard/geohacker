@@ -33,7 +33,7 @@ Bio = function() {
 
         	game.user.bio.imageSrc = Control.getImageFromFile(game.user.bio.image );  
 
-        	this.redraw();
+        	game.user.bio.redraw();
 
         });
 	}

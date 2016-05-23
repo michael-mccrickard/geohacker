@@ -389,7 +389,7 @@ c("'click scan' is calling playMusic")
 
         display.feature.clear();
 
-        hack.debrief.goNext();
+        hack.debrief.go();
 
         FlowRouter.go("/debrief");
     }

@@ -55,6 +55,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
       this.setMode( uBrowseCountry );
 
+      this.setGlobals( "browse" );
+
       hack.initForBrowse( _code );
       
     };
@@ -152,6 +154,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     	this.setGlobals("mission");
 
     	this.mode = uHack;
+
+    	this.setGlobals( "misson" );
 
 		//they might have just clocked in ...
 
