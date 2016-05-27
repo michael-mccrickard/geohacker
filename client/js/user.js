@@ -105,7 +105,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	  		Meteor.defer( function() { $("#divHomeAgentsPic").css("border-color","gray") } );
 
-	  		game.user.template.set("agent");
+			game.user.template.set("agent");
 
      	}
 

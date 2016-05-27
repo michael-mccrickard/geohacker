@@ -468,6 +468,13 @@ Control.playEffect2 = function(_file) {
   document.getElementById("effectsPlayer2").play();
 }
 
+Control.playEffect3 = function(_file) {
+
+  $("#effectsPlayer3").attr("src", _file);
+
+  document.getElementById("effectsPlayer3").play();
+}
+
 Control.stopSound = function(_which) {
 
   document.getElementById( _which + "Player").pause();
@@ -478,6 +485,8 @@ Control.stopEffects = function() {
   document.getElementById("effectsPlayer").pause();
 
   document.getElementById("effectsPlayer2").pause();
+
+  document.getElementById("effectsPlayer3").pause();
 }
 
 Control.suspendAllMedia = function() {

@@ -401,9 +401,14 @@ Meteor.methods({
 
   test1: function() {
 
-    var data = Assets.getText("top50.txt");
+    //to add another editor or admin, replace this.userId below with
+    //their userId and call this method
 
-    return (data);
+//Roles.addUsersToRoles( this.userId, [ 'admin', 'editor' ] );
+
+    //var data = Assets.getText("top50.txt");
+
+    //return (data);
   },
 
   test2:  function() {

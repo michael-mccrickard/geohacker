@@ -21,7 +21,10 @@ Headline = function( _type ) {
 
     if ( _type == "welcomeAgent" ) this.ele = "div.divTVText.divTVTextLower";
 
+    if (_type == "welcomeAgent")  this.typing_sound_file = "agentMessage2.mp3";
+
     if (_type == "intro")  this.ele = ".divIntroHeadline";
+
 
 
 	this.set = function( _text ) {

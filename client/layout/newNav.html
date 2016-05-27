@@ -17,15 +17,23 @@
               <li class="divider"></li>
 
               <!--this is a admin only function-->
+             <!-- {{#if isInRole 'admin'}} -->
 
-              <li><a href="javascript:void(0);" onclick="nav.goAdmin('/userDirectory')">List all users</a></li>  
+                  <li><a href="javascript:void(0);" onclick="nav.goAdmin('/userDirectory')">List all users</a></li>  
+             
+             <!-- {{/if}}  -->
 
               {{#if displayIsReady}}
 
-                <li class="divider"></li>
-                <li><a href="javascript:void(0);" onclick="nav.goAdmin('/selectCountry')">Edit database</a></li> 
-                <li><a href="javascript:void(0);" onclick="nav.goAdmin('/editor')">Edit this country</a></li>  
-                 <li><a href="javascript:void(0);" onclick="nav.goAdmin('/dataChecker')">Check country data</a></li> 
+               <!--  {{#if isInRole 'editor'}} -->
+
+                  <li class="divider"></li>
+
+                  <li><a href="javascript:void(0);" onclick="nav.goAdmin('/selectCountry')">Edit database</a></li> 
+                  <li><a href="javascript:void(0);" onclick="nav.goAdmin('/editor')">Edit this country</a></li>  
+                  <li><a href="javascript:void(0);" onclick="nav.goAdmin('/dataChecker')">Check country data</a></li> 
+               
+               <!--  {{/if}} -->
 
               {{/if}}
 

@@ -3,9 +3,9 @@
 
     <div class="congratsContainer">
 
-            <div  class="{{headlineColorClass}} missionEnd" id="congrats">
+            <!--div  class="{{headlineColorClass}} missionEnd" id="congrats">
                 <h1 class="congratsHeadline">{{congratsBanner}}</h1> 
-            </div>
+            </div-->
 
             <div class="hackReport missionEnd" id="hackReportTop">  
 
@@ -15,7 +15,13 @@
                   </div>
 
                   <div class="congratsAgentReport">
-                    <p class="hackReportHeadline greenText">{{hackReport2}}</p>
+
+                    <p class="hackReportHeadline greenText">{{congratsBanner}}</p>
+
+                    <!--div  class="{{headlineColorClass}} missionEnd" id="congrats">
+                        <h1 class="congratsHeadline">{{congratsBanner}}</h1> 
+                    </div-->
+
                     <p class="hackReportText whiteText"><span class="yellowText">AGENT: </span>{{agentName}}</p>
 
                     {{#if wasHacked}}
@@ -52,7 +58,7 @@
 
               </div>
 
-              <div class="hackReport missionEnd" id="hackReportBottom">   
+              <div class="hackReport2 missionEnd" id="hackReportBottom">   
 
                   <div class="congratsPortrait">
 

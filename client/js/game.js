@@ -23,7 +23,7 @@ Game = function() {
 
 	//this.music = ["amber.mp3","yellow.mp3","agent_d_cooper.mp3", "geohackerAmbientSofter.mp3", "geohackerThemeSoftest.mp3"];
 
-this.music = ["spy_story.mp3","an_agent_alone.mp3","the_big_score.mp3", "crystal_waters.mp3", "deep_serenity.mp3","zen.mp3","amber.mp3","yellow.mp3","agent_d_cooper.mp3", "geohackerAmbientSofter.mp3", "geohackerThemeSoftest.mp3"];
+this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_serenity.mp3","zen.mp3","amber.mp3","yellow.mp3","agent_d_cooper.mp3", "geohackerAmbientSofter.mp3", "geohackerThemeSoftest.mp3"];
 
 	this.showHelp = function() {
 
