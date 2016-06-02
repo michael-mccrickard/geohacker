@@ -99,6 +99,7 @@ Template.dataChecker.helpers({
 
       if (_which == "antSound") res = db.ghSound.find( { cc: this.c, dt: "ant" } ).fetch().length;
 
+      if (_which == "agent") res = Meteor.users.find( { 'profile.cc': this.c } ).fetch().length;
 
       if (res) return true;
 

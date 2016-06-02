@@ -8,6 +8,8 @@ Template.debrief.rendered = function () {
 
   	hack.debrief.checkAudio();
 
+  	if (hack.mode == mHackDone) Meteor.setTimeout( function() { hack.debrief.changeHeadline("CLICK ANYWHERE TO CONTINUE") }, 2000 );
+
 }
 
 
@@ -99,6 +101,17 @@ special cases
 		this.index = Database.getRandomValue(this.arr.length);
 	}
 
+	this.changeHeadline = function( _text) {
+		
+		$("#headlineText").text( "" );
+
+		$("#headlineText").text( _text );
+
+		this.centerHeadline();
+
+		Control.playEffect3("agentMessage2.mp3");
+	}
+
 	this.draw = function() {
 
 		$("#debriefText").text( this.text );
@@ -169,6 +182,8 @@ special cases
 		$( container ).css("top",  (fullScreenHeight - display.menuHeight) * 0.095 );  	
 
 	}
+
+
 
 	this.set = function( _index ) {
 
@@ -361,7 +376,7 @@ Template.debrief.events = {
 
   		if (debrief.index == -1) debrief.index = debrief.arr.length - 1;
 
-  		hack.debrief.go();
+  		debrief.go();
 
   	},
 
@@ -377,7 +392,7 @@ Template.debrief.events = {
 
   		if (debrief.index == debrief.arr.length) debrief.index =  0;
 
-  		hack.debrief.go();
+  		debrief.go();
 
   	},
 
@@ -396,6 +411,13 @@ Template.debrief.helpers({
     		return "MISSION DEBRIEFING FOR STREAM " + hack.messageID;  			
   		}
     },
+
+    navButtonsVisible: function() {
+
+    	if (hack.mode == mHackDone) return "hidden";
+
+    	return "";
+    }
 })
 
 Template.miniDebrief.helpers({

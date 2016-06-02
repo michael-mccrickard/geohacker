@@ -8,7 +8,7 @@ TV = function() {
 
 	this.idleClips = ["static.gif", "static_warning.gif", "static2.gif",  "static3.gif",  "static4.gif",  "static5.gif",  "static6.gif",  "static7.gif", "static8.gif", "static9.gif"];
 
-	this.videoClips = ["dummy.m4v","letsHack.m4v", "partyStarted.m4v","whosThat.m4v"]
+	this.videoClips = [];
 
 	this.idleMinTime = 2000;
 

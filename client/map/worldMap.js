@@ -11,7 +11,7 @@ var areaLeft = 0;
 var areaWidth = 0;
 var areaHeight = 0;
 
-var tl = new TimelineLite();
+var tl = null;
 
 WorldMap = function( _mapCtl ) {
 
@@ -670,6 +670,8 @@ c("doMapSuccess")
 
         this.animationDone = false;  
 
+        tl = new TimelineLite();
+
         display.mapStatus.setAndShow(' ');
 
         //Falling letter effect (country's name at top of screen)
@@ -694,6 +696,7 @@ c("doMapSuccess")
 
     this.hackDone2 = function() {
 
+c("hackDone2")
         //zoom the word HACKED in, pause, then continue zooming larger with a fade-out
 
         var container = $("#demo");
@@ -710,8 +713,8 @@ c("doMapSuccess")
 
         var duration = 1.5;
 
-        Meteor.setTimeout( function() { Control.playEffect2("trans3.mp3"); }, 1750 );
-
+        Meteor.setTimeout( function() { Control.playEffect2("trans3.mp3"); }, 1000 );
+c("hackDone2 -- just played sound")
         //set opacity and scale to 0 initially. We set z to 0.01 just to kick in 3D rendering in the browser which makes things render a bit more smoothly.
         tl.set(element, {autoAlpha: 0, scale: 0, z: 0.01});
 
@@ -720,7 +723,7 @@ c("doMapSuccess")
         tl.to(element, duration, {scale:1.2,  ease:SlowMo.ease.config(0.25, 0.9) }, delay1)
           //notice the 3rd parameter of the SlowMo config is true in the following tween - that causes it to yoyo, meaning opacity (autoAlpha) will go up to 1 during the tween, and then back down to 0 at the end. 
           .to(element, duration, {autoAlpha:1, ease:SlowMo.ease.config(0.25, 0.9, true),  }, delay2);
-
+c("hackDone2 -- just before calling tl.add(hackDone3)")
 
         tl.add( function() { display.ctl["MAP"].worldMap.hackDone3() }, 3.0 );
 
@@ -729,7 +732,7 @@ c("doMapSuccess")
     }
 
     this.hackDone3 = function() {
-
+c("hackDone3")
     
         this.mapFilename = hack.getCountryMapURL( hack.getCountryName() );
 
@@ -762,11 +765,11 @@ c("doMapSuccess")
 
 
     this.hackDone4 = function() {
-
+c("hackDone4")
         this.animationDone = true;
 
         if (!this.mapLoaded) {
-
+c("hackDone4 returning b/c map not loaded")
             return;
         }
 

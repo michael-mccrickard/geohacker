@@ -15,17 +15,19 @@
               <li><a href="javascript:void(0);" onclick="game.startMusic()">Music on</a></li>    
               
               <li class="divider"></li>
+              <li><a href="http://geohackergame.com">Visit our website</a></li>   
+
 
               <!--this is a admin only function-->
-             <!-- {{#if isInRole 'admin'}} -->
+              {{#if isInRole 'admin'}}
 
                   <li><a href="javascript:void(0);" onclick="nav.goAdmin('/userDirectory')">List all users</a></li>  
              
-             <!-- {{/if}}  -->
+             {{/if}}
 
               {{#if displayIsReady}}
 
-               <!--  {{#if isInRole 'editor'}} -->
+                {{#if isInRole 'editor'}} 
 
                   <li class="divider"></li>
 
@@ -33,7 +35,7 @@
                   <li><a href="javascript:void(0);" onclick="nav.goAdmin('/editor')">Edit this country</a></li>  
                   <li><a href="javascript:void(0);" onclick="nav.goAdmin('/dataChecker')">Check country data</a></li> 
                
-               <!--  {{/if}} -->
+                 {{/if}} 
 
               {{/if}}
 

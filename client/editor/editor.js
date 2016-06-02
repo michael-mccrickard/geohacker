@@ -117,15 +117,15 @@ Editor = function() {
 
 		if (_coll == cSound) res = [ 0, 9];
 
-		if (_coll == cText) res = [ 1, 2, 10, 11, 12 ];
+		if (_coll == cText) res = [ 1, 2 ];
 
 		if (_coll == cImage) res = [ 1, 2, 3, 4, 5, 10, 11, 12, 14 ];
 
-		if (_coll == cWeb) res = [];
+		if (_coll == cWeb) res = [10, 11, 12, 13];
 
 		if (_coll == cVideo) res = [];
 
-		if (_coll == cDebrief) res = [ 1, 2, 6, 7, 8, 9, 10, 11, 12];
+		if (_coll == cDebrief) res = [ 1, 2, 6, 7, 8, 9, 10, 11, 12, 13, 14 ];
 
 		return res;
 	}

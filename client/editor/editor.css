@@ -21,6 +21,19 @@
     font-size: 20px;
 }
 
+.divDataChecker {
+position: relative;
+  top: 55px;
+}
+
+.dataCheckerClose {
+
+  z-index: 5000;
+  position: relative;
+  margin-top: -15px;
+  margin-left: -35px;
+}
+
 
 .editor {
 

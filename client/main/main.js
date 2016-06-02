@@ -445,9 +445,9 @@ Template.main.rendered = function () {
 
           display.feature.set( display.feature.getName() );
 
-//this only works b/c the first 2 vids are both "let's start" videos -- TEMPORARY
+          //opportunity to play a specific video / gif in the little scanner TV here
 
-display.TV.playVideo( Database.getRandomFromRange(1,2) );             
+          //display.TV.playVideo( Database.getRandomFromRange(1,2) );             
 
         }       
     }
@@ -458,9 +458,11 @@ display.TV.playVideo( Database.getRandomFromRange(1,2) );
 
         display.scanner.show();
 
-        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 );  
+        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 ); 
 
-        display.TV.playVideo( TV.letsHack );   
+          //opportunity to play a specific video / gif in the little scanner TV here 
+
+        //display.TV.playVideo();   
 
 //Need to show and play the GIC movie here: Let's hack
 

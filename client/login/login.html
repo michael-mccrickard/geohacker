@@ -30,6 +30,15 @@
 
 			 	{{#if loginNow}}
 					
+
+				    
+				    <form id="login-form" action="action">
+
+					<div class="applyForJob">
+					  <p class="help-block redText" style="font-size:48px">BECOME A GEOHACKER AGENT!</p>
+					  <button type="button" class="btn btn-primary btn-lg applyForJobButton" id="goRegistration">APPLY FOR A JOB</button>
+					</div>
+
 					<div class="loginPrompt {{loginPromptTextColor}}">
 
 						{{loginPrompt}}
@@ -40,10 +49,8 @@
 
 						{{/if}}
 					</div>
-				    
-				    <form id="login-form" action="action">
 
-						<div class="form-group">
+						<div class="form-group loginRegistered">
 							<label for="inputEmailLogin">EMAIL ADDRESS</label>
 							<input type="email" class="form-control" id="login-email" placeholder="Enter email">
 						</div>
@@ -56,10 +63,7 @@
 
 				   </form>
 
-					<div class="applyForJob">
-					  <p class="help-block redText">NOT WORKING AS A GEOHACKER AGENT YET?</p>
-					  <button type="button" class="btn btn-primary applyForJobButton" id="goRegistration">APPLY FOR A JOB</button>
-					</div>
+
 
 				{{else}}
 

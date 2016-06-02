@@ -5,7 +5,7 @@
 
 var resetPrompts = function() {
 
-   Session.set("sLoginPrompt", "CLOCK IN TO BEGIN YOUR SHIFT...");
+   Session.set("sLoginPrompt", "IF YOU ARE ALREADY AN AGENT, CLOCK IN ...");
 
    Session.set("sLoginPromptTextColor", "yellowText");
 
@@ -171,6 +171,11 @@ Template.login.events({
             // The user has been logged in.
 
             console.log("user logged in: " + email )
+
+            analytics.identify( Meteor.userId(), {
+              email: Meteor.user().emails[0].address,
+              name: Meteor.user().profile.name
+            });
 
             resetPrompts();
           }

@@ -209,7 +209,9 @@ Template.editor.helpers({
 
       var _type = editor.controlType.get();
 
-      if (_type == cWeb || _type == cVideo) s = "Codes are not currently used for " + editor.controlName.get() + " records.";
+      if (_type == cVideo) s = "Codes are not currently used for " + editor.controlName.get() + " records.";
+
+      if (_type == cWeb) s = "Codes are optional for " + editor.controlName.get() + " records.";
 
       return s;
     },
@@ -223,7 +225,7 @@ Template.editor.helpers({
 
       var _type = editor.controlType.get();
 
-      if (_type == cWeb || _type == cVideo) {
+      if (_type == cVideo) {
 
         s = "";
       }

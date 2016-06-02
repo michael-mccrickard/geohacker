@@ -28,7 +28,7 @@ gHackPreselect = "";
 
 Session.set("sLoginNow", true);
 
-Session.set("sLoginPrompt", "CLOCK IN TO BEGIN YOUR SHIFT...");
+Session.set("sLoginPrompt", "IF YOU ARE ALREADY AN AGENT, CLOCK IN ...");
 
 Session.set("sLoginPromptTextColor", "yellowText");
 
