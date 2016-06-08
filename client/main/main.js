@@ -426,6 +426,8 @@ Template.main.rendered = function () {
 
     display.checkMainScreen();
 
+    display.weather.start();
+
 
     if (game.user.mode == uBrowseCountry) {
 
@@ -460,15 +462,8 @@ Template.main.rendered = function () {
 
         Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 ); 
 
-          //opportunity to play a specific video / gif in the little scanner TV here 
-
-        //display.TV.playVideo();   
-
-//Need to show and play the GIC movie here: Let's hack
-
-//Meteor.setTimeout( function() { $("#scanButtonContentA").attr("src","purpleScan.gif");, 1000 } );    
-
-//Meteor.setTimeout( function() { $("#scanButtonContentA").attr("src","static.gif") }, 4001 );         
+        display.TV.set( TV.scanPrompt );  
+   
       }
 
     }

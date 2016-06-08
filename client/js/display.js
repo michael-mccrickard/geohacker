@@ -20,6 +20,8 @@ Display = function() {
 
     this.TV = new TV();
 
+    this.weather = new Weather();
+
     //media files
 
     this.fb_sound_file = "msg.mp3";
@@ -398,15 +400,13 @@ Display = function() {
 
     this.closeOutMain = function() {
 
-c("Normally stopSound() here")
-
-//         Control.stopSound("effects");  //an anthem may be playing
-
          this.stopBlinking();  
 
          $('body').removeClass('noscroll');
 
          this.scanner.hide();
+
+         this.weather.stop();
 
     }
 

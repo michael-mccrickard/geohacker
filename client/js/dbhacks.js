@@ -15,6 +15,17 @@ c(arr.length)
     }
 }
 
+tw = function(_city) {
+
+  Meteor.call("getWeatherStringFor", _city , function(err, res) {
+
+      if (err) console.log(err);
+
+      console.log(res);
+
+  })
+
+}
 
 insertCountry = function() {
 

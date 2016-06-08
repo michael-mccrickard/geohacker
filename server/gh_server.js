@@ -158,8 +158,12 @@ Meteor.startup(
     //capitals (images)
     Meteor.publish("allCapitals", function () {
       return ghImage.find( { dt: "cap" } );
-    });  
+    }); 
 
+    //capitals (text) 
+    Meteor.publish("allCapitalsText", function () {
+      return ghText.find( { dt: "cap" } );
+    }); 
 
     //map control -- generic clues, not specific to countries
 
@@ -399,6 +403,19 @@ var self = null;
 
 Meteor.methods({
 
+  getWeatherStringFor: function (_city) {
+
+    // avoid blocking other method calls from the same client
+    this.unblock();
+
+    var apiUrl = 'http://api.openweathermap.org/data/2.5/weather?q=' + _city + '&units=imperial' + '&appid=' + process.env.OPENWEATHERMAP_KEY;
+
+    // asynchronous call to the dedicated API calling function
+    var response = Meteor.wrapAsync(apiCall)(apiUrl);
+    
+    return response;
+  },
+
   test1: function() {
 
     //to add another editor or admin, replace this.userId below with
@@ -406,9 +423,6 @@ Meteor.methods({
 
 //Roles.addUsersToRoles( this.userId, [ 'admin', 'editor' ] );
 
-    //var data = Assets.getText("top50.txt");
-
-    //return (data);
   },
 
   test2:  function() {
@@ -581,6 +595,34 @@ _index = 0;
 },
 
 });
+
+var apiCall = function (apiUrl, callback) {
+  // try…catch allows you to handle errors 
+  try {
+    var response = HTTP.get(apiUrl).data;
+    // A successful API call returns no error 
+    // but the contents from the JSON response
+    callback(null, response);
+  } catch (error) {
+    // If the API responded with an error message and a payload 
+    if (error.response) {
+      var errorCode = error.response.data.code;
+      var errorMessage = error.response.data.message;
+    // Otherwise use a generic error message
+    } else {
+      var errorCode = 500;
+      var errorMessage = 'Cannot access the API';
+    }
+    // Create an Error object and return it via callback
+    var myError = new Meteor.Error(errorCode, errorMessage);
+    callback(myError, null);
+  }
+}
+
+
+//********************************************************************
+//      TEST CODE
+//********************************************************************
 
   var good = 0;
 

@@ -63,6 +63,7 @@ Session.set("isIOS", false);
 
   Session.set("sCapitalsReady", false);  //all capital images (in case the user is new; one will go on their wall) 
 
+
   //editor
 
   Session.set("sEditImageReady", false );

@@ -8,6 +8,8 @@ TV = function() {
 
 	this.idleClips = ["static.gif", "static_warning.gif", "static2.gif",  "static3.gif",  "static4.gif",  "static5.gif",  "static6.gif",  "static7.gif", "static8.gif", "static9.gif"];
 
+	this.scanPromptClip = "scan_click_here.gif";
+
 	this.videoClips = [];
 
 	this.idleMinTime = 2000;
@@ -17,6 +19,8 @@ TV = function() {
 	this.videoOn = new Blaze.ReactiveVar( false );
 
 	this.idleState = 0;
+
+	this.timerID = null;
 
 	this.set = function( _type ) {
 
@@ -30,6 +34,15 @@ TV = function() {
 	
 		}
 
+		if (_type == TV.scanPrompt) {
+
+			 if (this.timerID) Meteor.clearTimeout( this.timerID );
+
+			 this.idleState = 0;
+
+			_file = this.scanPromptClip;
+		}
+
 		if (_type == TV.idle) {
 
 			if (this.idleState == 0) return;
@@ -40,7 +53,7 @@ TV = function() {
 
 			var _time = Database.getRandomFromRange( this.idleMinTime, this.idleMaxTime);
 
-			Meteor.setTimeout( function() { display.TV.set( TV.idle ); }, _time );		
+			this.timerID = Meteor.setTimeout( function() { display.TV.set( TV.idle ); }, _time );		
 		}	
 
 		$( this.elementID ).attr("src", _file);		
@@ -52,7 +65,7 @@ TV = function() {
 
 		this.videoOn.set ( true );
 
-		Meteor.setTimeout( function() { display.TV.playVideo2( _which ); }, 200 );
+		this.timerID = Meteor.setTimeout( function() { display.TV.playVideo2( _which ); }, 200 );
 
 	}
 
@@ -91,3 +104,4 @@ TV.partyStarted = 2;
 TV.whosThat = 3;
 TV.scan = 100;
 TV.idle = 101;
+TV.scanPrompt = 103;
