@@ -15,6 +15,17 @@ c(arr.length)
     }
 }
 
+tw = function(_city) {
+
+  Meteor.call("getWeatherStringFor", _city , function(err, res) {
+
+      if (err) console.log(err);
+
+      console.log(res);
+
+  })
+
+}
 
 insertCountry = function() {
 
@@ -47,30 +58,26 @@ findImages = function() {
 
   var count = 0;
 
-  var arr = db.ghImage.find( {} ).fetch();
+  var arr = Meteor.users.find( {} ).fetch();
 
   for (var i = 0; i < arr.length; i++) {
 
-    if ( typeof arr[i].u === 'undefined') continue;
 
-
-    if (arr[i].u.length) {
 
       var ID = arr[i]._id;
 
-      var _str = arr[i].u;
+      var _str = arr[i].profile.f;
 
-       if ( _str.indexOf("/gImage/") != -1 ) {
 
-          var res = _str.replace("/gImage/", "/ghImage/");
 
-         db.ghImage.update( {_id: ID }, { $set: { u: res }  } );          
+      var filename =  db.getFlagPicByCode( arr[i].profile.cc )
+
+console.log("updating flag for: " + arr[i].username + " with " + filename);
+
+         Meteor.users.update( {_id: ID }, { $set: { 'profile.f': filename }  } );          
 
         count++;
       }
-    }
-
-  }
 
 c(count + " images updated.")
 

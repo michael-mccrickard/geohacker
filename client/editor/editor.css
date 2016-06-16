@@ -21,16 +21,72 @@
     font-size: 20px;
 }
 
+.divDataChecker {
+position: relative;
+  top: 55px;
+}
+
+.dataCheckerClose {
+
+  z-index: 5000;
+  position: relative;
+  margin-top: -15px;
+  margin-left: -35px;
+}
+
 
 .editor {
 
     font-family: Arial;
     background-color: white;
     color: black;
-    width: 100%;
-    margin-top: 55px;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin: 25px;  
 }
 
+.countrySelector {
+    font-family: Arial;
+    background-color: white;
+    color: black;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin: 55px;  
+}
+
+.divCodeExplain {
+
+    font-family: Arial;
+    border: 1px solid #cccccc;
+    background-color: black;
+    color: white;
+  width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    padding: 1%;
+}
+
+.divCodeExplainSelect {
+ 
+  margin-top: 12px;
+  width: 50%;
+}
+
+.divCodeExplanation {
+
+  color: white;
+
+float: right;
+
+  position: relative;
+
+  width: 49%;
+
+  top: -40px;
+}
 
 .hiddenInput{
   height: 0;
@@ -59,7 +115,7 @@ th,td {
 .dataTable {
   
   margin-top: 20px;
-  width: 95%;
+  width: 90%;
     margin-left: auto;
     margin-right: auto;
 }

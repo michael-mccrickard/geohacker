@@ -4,6 +4,13 @@
 
 /******************************/
 
+.divClickToContinue {
+
+    color: gray;
+
+
+}
+
 .debriefHeadline {
   position: absolute;
   font-size: 4.0vh;

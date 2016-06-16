@@ -6,13 +6,49 @@ Template.agent.rendered = function() {
 
 }
 
+Template.bigAgent.rendered = function() {
+
+  stopSpinner();
+
+}
+
 Template.miniAgent.rendered = function() {
 
   Meteor.subscribe("agentsInNetwork");
 
 }
 
+Template.bigAgent.helpers({
+
+  welcomeAgent: function() {
+
+    return hack.getWelcomeAgent();
+  },
+
+  agentCountry: function() {
+
+    return db.getCountryName( this.profile.cc )
+  },
+
+  agentStatus: function() {
+
+    return arrUserStatus[ this.profile.st - 1 ];
+  },
+
+    hackCount: function() {
+
+      return this.profile.h.length;
+    },
+
+});
+
+
 Template.agent.helpers({
+
+  welcomeAgent: function() {
+
+    return Meteor.user();
+  },
 
 	agentInNetwork: function() {
 
@@ -28,8 +64,7 @@ Template.agent.helpers({
     if (!Meteor.user() ) return Meteor.users.findOne( { _id: Database.getChiefID()[0] } ).fetch();
 
 		return Meteor.users.find( { _id: { $in: Meteor.user().profile.ag  } } );  //
-
-    //return Meteor.users.find();  
+ 
 	},
 	
 	name: function() {

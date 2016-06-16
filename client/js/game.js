@@ -19,9 +19,11 @@ Game = function() {
 
 	this.musicCount = 0;
 
+	this.intro = new Intro();
+
 	//this.music = ["amber.mp3","yellow.mp3","agent_d_cooper.mp3", "geohackerAmbientSofter.mp3", "geohackerThemeSoftest.mp3"];
 
-this.music = ["spy_story.mp3","an_agent_alone.mp3","the_big_score.mp3", "crystal_waters.mp3", "deep_serenity.mp3","zen.mp3","amber.mp3","yellow.mp3","agent_d_cooper.mp3", "geohackerAmbientSofter.mp3", "geohackerThemeSoftest.mp3"];
+this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_serenity.mp3","zen.mp3","amber.mp3","yellow.mp3","agent_d_cooper.mp3", "geohackerAmbientSofter.mp3", "geohackerThemeSoftest.mp3"];
 
 	this.showHelp = function() {
 
@@ -147,6 +149,8 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","the_big_score.mp3", "crystal
 			_user.assignCode = Meteor.user().profile.c;
 
 			_user.setAtlas( Meteor.user().profile.h );
+
+			_user.photoReady.set( true );
 
 		}
 		else {

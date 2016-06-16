@@ -1,0 +1,27 @@
+
+.divLogin {
+
+	position: relative;
+
+	top: -40px;
+}
+
+.loginPrompt {
+
+	position: relative;
+
+	top: 20px;
+}
+
+.loginRegistered {
+
+	margin-top: 30px;
+}
+
+
+#login-form {
+
+	position: relative;
+
+	top: -40px;
+}

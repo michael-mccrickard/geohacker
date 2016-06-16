@@ -13,8 +13,6 @@ FlowRouter.route('/', {
 
 });
 
-
-
 FlowRouter.route('/start', {
 
   name: "start",
@@ -23,6 +21,28 @@ FlowRouter.route('/start', {
 
     BlazeLayout.render('layout', { content: "start" } ) 
   },
+
+});
+
+FlowRouter.route('/intro', {
+
+    action: function (params, queryParams) { 
+
+      $('body').addClass('noscroll'); 
+
+      BlazeLayout.render('layout', { content: "intro" } ) 
+    },
+
+});
+
+FlowRouter.route('/introVideo', {
+
+    action: function (params, queryParams) { 
+
+      $('body').addClass('noscroll'); 
+
+      BlazeLayout.render('layout', { content: "introVideo" } ) 
+    },
 
 });
 

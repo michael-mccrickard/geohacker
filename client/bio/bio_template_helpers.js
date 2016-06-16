@@ -62,7 +62,7 @@ Template.bio.events({
 
   'change #avatarFileInput': function(event, template) {
 
-    game.deleteUserS3File( game.user.profile.av );
+    game.deleteUserS3File( Meteor.user().profile.av );
 
     var uploader = game.user.bio.avatarUploader;
 

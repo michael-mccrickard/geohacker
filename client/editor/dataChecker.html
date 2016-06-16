@@ -20,12 +20,12 @@
 		</div>
 
 		<div>
-			<button class="btn btn-warning" style="position: fixed; left: 95%;" id="closeDataChecker"><strong>X</strong></button>
+			<button class="btn btn-warning dataCheckerClose" style="position: fixed; left: 95%;" id="closeDataChecker"><strong>X</strong></button>
 		</div>
 
 		{{#if modeIsBasic}}
 
-			<div class="editor">
+			<div class="editor divDataChecker">
 				<table border="2">
 
 				<tr>
@@ -39,7 +39,7 @@
 
 					<th>Lang</th>
 					<th>Anthem</th>
-
+					<th>Agent</th>
 					<th>Edit</th>
 
 				</tr>
@@ -88,6 +88,11 @@
 								<input type="checkbox" class="d" id="antSound" checked="{{getCheckedVal 'antSound'}}" size="10">
 							</td>
 
+							<td>
+								<label for="agent">s</label>
+								<input type="checkbox" class="d" id="agent" checked="{{getCheckedVal 'agent'}}" size="10">
+							</td>
+
 							<td><button class="btn editCountryButton" name="editCountry" size="5">EDIT</button></td>
 						</tr>
 
@@ -100,7 +105,7 @@
 
 		{{#if modeIsOther}}
 
-			<div class="editor">
+			<div class="editor divDataChecker">
 				<table border="2">
 
 				<tr>

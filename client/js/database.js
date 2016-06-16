@@ -99,7 +99,11 @@ Database = function() {
 
         'profile.ag': game.user.profile.ag 
 
-        } } 
+        } 
+      
+      }, function() { game.user.profile = Meteor.user().profile; }
+
+      
       );
   }
 
@@ -120,7 +124,9 @@ Database = function() {
 
      }
 
-   }, function() { stopSpinner(); } ); 
+   }, function() { stopSpinner(); } 
+
+   ); 
 }
 
   this.updateUserStatus = function(_userID, _status) {
@@ -574,6 +580,8 @@ this.updateRecord2 = function (_type, field, ID, value, cb) {
           value = $(selField).val();
         }
 
+        if ( arrField[i] == "dt" ) value = editor.getDTValue( ID );
+
         if (value != undefined) {
 
           Meteor.call("updateRecordOnServer", arrField[i], _type, ID, value, function( err, res) {
@@ -594,7 +602,7 @@ this.updateRecord2 = function (_type, field, ID, value, cb) {
 
   // "#a.b"   a=rec id, b = fieldname (stored as class)
 
-  this.updateContentRecord = function( arrField, _type, _id, _countryCode ) {
+  this.updateContentRecord = function( arrField, _dt, _type, _id, _countryCode ) {
 
     if (_type && _id) {
 
@@ -608,9 +616,17 @@ this.updateRecord2 = function (_type, field, ID, value, cb) {
 
           value = $(selField).val();
 
+          //for the dt field, we have to translate from the text version of the code to the short (typically 3-letter) code
+
+          if (arrField[i] == "dt")  value = editor.arrCode[ editor.arrCodeText.indexOf( value ) ];
+
           data[ arrField[i] ] = value;
         
       } //end looping thru fields
+
+      //add the debrief type
+
+      data[ "dt"] = _dt;
 
       //we have to replace all the fields, b/c a content update
       //creates a whole new file

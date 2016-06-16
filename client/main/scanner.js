@@ -175,7 +175,7 @@ Scanner = function() {
 
 		this.startProgressMeter();
 
-		this.setTVImage();
+		display.TV.set( TV.scan );
 
 		var soundTime = 4;
 
@@ -213,20 +213,7 @@ Scanner = function() {
 		$("div.scanScreen").css("visibility", "visible");
 	}
 
-	this.setTVImage = function() {
 
-		var _which = Database.getRandomFromRange(1, 4);
-
-		if (_which == 1) $("#scanButtonContentA").attr("src","purpleScan.gif");
-		if (_which == 2) $("#scanButtonContentA").attr("src","multiColorScan.gif");		
-		if (_which == 3) $("#scanButtonContentA").attr("src","colorStatic.gif");
-		if (_which == 4) $("#scanButtonContentA").attr("src","colorStatic2.gif");		
-	}
-
-	this.resetTVImage = function() {
-
-		$("#scanButtonContentA").attr("src","static.gif");		
-	}
 
 	this.fadeIn = function( _time ) {
 
@@ -323,7 +310,7 @@ Scanner = function() {
 
 		this.showBG();
 
-		this.resetTVImage();
+		display.TV.startIdle();
 
 		Control.playEffect( this.intercept_sound_file );
 

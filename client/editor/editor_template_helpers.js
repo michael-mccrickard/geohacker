@@ -1,9 +1,27 @@
 Template.editor.rendered = function() {
 
   stopSpinner();
+
+setCodeExplainText();
+
+}
+
+function setCodeExplainText() {
+
+  Meteor.setTimeout( function(){ _setCodeExplainText() }, 500);
+}
+
+_setCodeExplainText = function() {
+
+  var _index = editor.arrCodeText.indexOf( $("#selectCodeExplain").prop('value') );
+
+  c(_index)
+
+  editor.codeExplainText.set( editor.arrCodeExplain[ _index ] );
 }
 
 Template.editor.helpers({
+
 
     dataRecord: function() {
 
@@ -15,42 +33,42 @@ Template.editor.helpers({
 
   		if (control == cSound) {
 
-  			editor.controlName = "SOUND"; 
+  			editor.controlName.set("SOUND"); 
 
   			return db.ghSound.find( { cc: ID });
   		}
 
   		if (control == cText) {
 
-        editor.controlName = "TEXT"; 
+        editor.controlName.set("TEXT"); 
 
   			return db.ghText.find( { cc: ID });
   		}
 
   		if (control == cImage) {
 
-        editor.controlName = "IMAGE"; 
+        editor.controlName.set("IMAGE"); 
 
   			return db.ghImage.find( { cc: ID });
   		}
 
   		if (control == cVideo) {
 
-        editor.controlName = "VIDEO"; 
+        editor.controlName.set("VIDEO"); 
 
   			return db.ghVideo.find( { cc: ID });
   		}
 
   		if (control == cWeb) {
 
-        editor.controlName = "WEB"; 
+        editor.controlName.set("WEB"); 
 
   			return db.ghWeb.find( { cc: ID });
   		}
 
   		if (control == cDebrief) {
 
-        editor.controlName = "DEBRIEF"; 
+        editor.controlName.set("DEBRIEF"); 
 
   			return db.ghDebrief.find( { cc: ID });
   		}
@@ -70,7 +88,7 @@ Template.editor.helpers({
 
     getEditControlName: function() {
 
-    	var s = editor.controlName;
+    	var s = editor.controlName.get();
     
     	if (s) return s;
 
@@ -143,7 +161,7 @@ Template.editor.helpers({
 
     soundIsSelected: function() {
 
-    	if ( editor.controlType.get() == cSound ) return true;
+    	if ( editor.controlType.get() == cSound) return true;
 
     	return false;
     },
@@ -180,9 +198,64 @@ Template.editor.helpers({
       return "invisible";
     },
 
+    code: function() {
+
+      return editor.getCodes( editor.controlType.get() );
+    },
+
+    codeExplainHeader:  function() {
+
+      var s = "Choose a code from the drop-down list to see the explanation.";
+
+      var _type = editor.controlType.get();
+
+      if (_type == cVideo) s = "Codes are not currently used for " + editor.controlName.get() + " records.";
+
+      if (_type == cWeb) s = "Codes are optional for " + editor.controlName.get() + " records.";
+
+      return s;
+    },
+
+    codeTextFor: function( _key) {
+
+      return editor.arrCodeText[ _key ];
+    },
+
+    codeExplain: function() {
+
+      var _type = editor.controlType.get();
+
+      if (_type == cVideo) {
+
+        s = "";
+      }
+      else {
+
+        s = editor.codeExplainText.get()
+      }
+
+      return s;
+
+    },
+
+    selectedValue: function(key, value) {
+
+//c("key=" + key + "  value =" + value)
+
+//c("key2=" + editor.arrCode[key] + "  value2 =" + value)
+
+      return editor.arrCode[key] ==  value ? 'selected' : '';
+
+    }
+
 })
 
 Template.editor.events = {
+
+  'change #selectCodeExplain' : function(event){
+
+    setCodeExplainText();
+  },
 
 	'click #addRecord': function() {
 
@@ -220,6 +293,8 @@ Template.editor.events = {
     Control.stopEditVideo();
 
   	editor.controlType.set( cSound );
+
+    setCodeExplainText();
   },
 
   'click #editText' : function(evt, template) {
@@ -227,6 +302,8 @@ Template.editor.events = {
     Control.stopEditVideo();
 
     editor.controlType.set( cText );
+
+    setCodeExplainText();
   },
 
   'click #editImage' : function(evt, template) {
@@ -234,6 +311,8 @@ Template.editor.events = {
     Control.stopEditVideo();
 
     editor.controlType.set( cImage );
+
+    setCodeExplainText();
   },
 
   'click #editVideo' : function(evt, template) {
@@ -271,7 +350,7 @@ Template.editor.events = {
 
      editor.recordID.set( evt.target.id );
 
-if (editor.recordID.get() == editor.newRecordID.get() ) return;
+      if (editor.recordID.get() == editor.newRecordID.get() ) return;
 
       if (editor.controlType.get() == cVideo) {
 
@@ -340,6 +419,8 @@ if (editor.recordID.get() == editor.newRecordID.get() ) return;
           editor.videoFile = $(sel).val();
       
       }
+
+c(evt.target.id);
 
       editor.doUpdateRecord(evt.target.id, editor.hack.countryCode);
 

@@ -2,6 +2,13 @@ Session.set("sDateTime", false);
 
 Template.main.helpers({
 
+    TVisVideo: function() {
+
+        return display.TV.videoOn.get();
+        
+    },
+
+
     getDateTime: function() {
 
       return (Session.get("sDateTime"));
@@ -382,7 +389,7 @@ c("'click scan' is calling playMusic")
 
         display.feature.clear();
 
-        hack.debrief.goNext();
+        hack.debrief.go();
 
         FlowRouter.go("/debrief");
     }
@@ -408,7 +415,7 @@ c("updateFeaturedContent in main.js is calling feature.load")
 }
 
 Template.main.rendered = function () {
-c("template rendered in main");
+
     stopSpinner();
 
     if (!display) return;
@@ -418,6 +425,8 @@ c("template rendered in main");
     display.doHeadlines();
 
     display.checkMainScreen();
+
+    display.weather.start();
 
 
     if (game.user.mode == uBrowseCountry) {
@@ -438,6 +447,10 @@ c("template rendered in main");
 
           display.feature.set( display.feature.getName() );
 
+          //opportunity to play a specific video / gif in the little scanner TV here
+
+          //display.TV.playVideo( Database.getRandomFromRange(1,2) );             
+
         }       
     }
 
@@ -447,13 +460,10 @@ c("template rendered in main");
 
         display.scanner.show();
 
-        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 );     
+        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 ); 
 
-//Need to show and play the GIC movie here: Let's hack
-
-//Meteor.setTimeout( function() { $("#scanButtonContentA").attr("src","purpleScan.gif");, 1000 } );    
-
-Meteor.setTimeout( function() { $("#scanButtonContentA").attr("src","static.gif") }, 4001 );         
+        display.TV.set( TV.scanPrompt );  
+   
       }
 
     }

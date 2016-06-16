@@ -21,6 +21,19 @@
 }
 
 .hackReport {
+  margin-top: 55px;
+
+  border: 2px solid;
+  border-color: yellow;
+  border-radius: 5px;
+
+  width: 90%;
+  overflow: hidden;
+  background: #383838;
+
+} 
+
+.hackReport2 {
   margin-top: 8px;
 
   border: 2px solid;

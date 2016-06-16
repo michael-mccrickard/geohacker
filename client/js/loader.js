@@ -4,14 +4,6 @@
 
 NewLoader = function() {
 
-	//this.scanning_sound_file= "scanner3.mp3";
-
-	//this.intercept_sound_file = "new_intercept.mp3";
-
-	//this.data_found_file = "new_feedback2.mp3";
-
-	//this.feedback_sound = "new_feedback.mp3";
-
 	this.newControl = null;
 
 	this.totalClueCount = 0;
@@ -70,7 +62,9 @@ NewLoader = function() {
 	this.showLoadedControl = function() {
 
 		 //Have the control object dimension the small version of the picture
-		 
+
+c("newControl name is " + this.newControl.name)
+
 	    display.ctl[ this.newControl.name ].setControlPicSource();
 
 		hack.mode = mDataFound;
@@ -114,6 +108,11 @@ NewLoader = function() {
 			
 		}
 
+		if (this.newControl.name == "IMAGE") {
+
+			//if (this.newControl.items[ this.newControl.getIndex() ].dt == "ldr" ) display.TV.playVideo( TV.whosThat );
+		}
+
 		//see if any buttons need enabling / disabling
 
 		display.checkMainScreen();
@@ -138,9 +137,7 @@ NewLoader = function() {
 
 	this.loadRandomControl = function() {
 
-		var high = 0;
-
-		var low = 1;
+		var low = -1;
 
 		var i = 0;
 
@@ -190,7 +187,6 @@ NewLoader = function() {
 
 		//if so, remove them.  Also, set the low var
 
-		var tempCount = 0;
 
 		while (i < display.ctlName.length) {
 
@@ -200,47 +196,78 @@ NewLoader = function() {
 
 			var loadedCount = display.ctl[_name].loadedCount;
 
-			if ( fullCount == loadedCount) {
+			//skip the map and any control that is fully loaded
+
+			if ( _name == "MAP" || fullCount == loadedCount) {
 
 				i++;
 
 				continue;
 			}
 
-			if ( loadedCount  < low )  low = loadedCount;
+			//set the low if we haven't already
 
+			if ( low == -1) low = loadedCount;
+
+			//test and see if the current control is lower than low
+
+			if ( loadedCount  < low )  {
+
+				low = loadedCount;
+			}
+
+			//add control to the array
+	
 			tmp.push( display.ctl[ _name ] );
 
 			i++;
 
 		}
 
-		//we only need to run this check if we have more than one control left
 
-		if (tmp.length > 1) {
+		//if all the control are equally loaded, no need to do anything more except pick one at random
+
+		if ( Control.allLoadsAreEqual() == false ) {
 
 			//if any of the control data counts are higher than the low, remove them
 
-			i = 0;
+			//we only need to run this check if we have more than one control left
 
-			while (tmp[i]) {
+			if (tmp.length > 1) {
 
-				//we have to check the length again, b/c it may have changed
-				//(we can't delete the last member of the array or we'll have nothing to return)
+				i = 0;
 
-				if ( tmp[i].loadedCount > low && tmp.length > 1)  {
+				while (tmp[i]) {
 
-					tmp.splice(i, 1);
-				}		
-				else {
+					//any control that is at the low threshold, we keep
 
-					i++;
+					if ( tmp[i].loadedCount == low)  {
+
+						i++;   
+
+						continue;
+
+					}		
+					else {
+
+						//the only remaining possibility is that the control is higher than the low threshold
+						//so remove it
+
+						tmp.splice(i, 1);						
+					}
+
+					//if we're down to a single control, then we have to use it, so break
+
+					if (tmp.length == 1)  {break;}
 				}
-			}
 
+			}
 		}
 
 		var randomControl =  Database.getRandomElement(tmp);
+
+//if we need to force a certain control for any reason, this is the place to do it
+
 /*
 if (this.totalClueCount == 0) randomControl = display.ctl["IMAGE"]; 
 
@@ -259,14 +286,15 @@ if (this.totalClueCount == 4) randomControl = display.ctl["VIDEO"];
 			newCount = randomControl.loadedCount + 1;
 			
 			randomControl.loadedCount = newCount;
+
+			randomControl.setIndex( randomControl.loadedCount - 1);
+
+//if we need to force a certain clue on a control, this is the place to do it
+
 /*
 if (this.totalClueCount == 0) randomControl.setIndex( 1 );
-
-if (this.totalClueCount == 1) randomControl.setIndex( 0 );	
-
-if (this.totalClueCount == 4) randomControl.setIndex( 2 );				
-
 */
+
 
 			this.totalClueCount++;
 

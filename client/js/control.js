@@ -431,6 +431,25 @@ Control.getImageFromFile = function(_file) {
   return theImage;
 }
 
+Control.allLoadsAreEqual = function() {
+
+  var _loadCount = 0;
+
+  var _arr = Session.get("sCtlName");
+
+    for (i = 0; i < _arr.length; i++) {
+
+      var _ctl  = display.ctl[ _arr[i] ];
+
+      if (i == 0) _loadCount = _ctl.loadedCount;
+
+      if (_loadCount != _ctl.loadedCount) { c("Control is returning b/c a ctl loadCount is unequal to " + _loadCount); return false; }
+
+    }
+c("Control reports that all loads were equal")
+    return true;
+}
+
 //***********************************************************************
 //        MEDIA
 //***********************************************************************
@@ -449,9 +468,25 @@ Control.playEffect2 = function(_file) {
   document.getElementById("effectsPlayer2").play();
 }
 
+Control.playEffect3 = function(_file) {
+
+  $("#effectsPlayer3").attr("src", _file);
+
+  document.getElementById("effectsPlayer3").play();
+}
+
 Control.stopSound = function(_which) {
-c("stopSound")
+
   document.getElementById( _which + "Player").pause();
+}
+
+Control.stopEffects = function() {
+
+  document.getElementById("effectsPlayer").pause();
+
+  document.getElementById("effectsPlayer2").pause();
+
+  document.getElementById("effectsPlayer3").pause();
 }
 
 Control.suspendAllMedia = function() {
@@ -474,6 +509,20 @@ Control.stopEditVideo = function() {
   if (youTubeLoaded) {
 
       ytplayer.stopVideo();
+  }
+
+  Control.stopEffects();
+
+  try {
+
+c("attempting to stop sound player in control.js")
+
+    document.getElementById("editorSoundPlayer").pause();
+
+  }
+  catch(err) {
+
+
   }
 }
 

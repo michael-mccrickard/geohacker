@@ -11,6 +11,8 @@ var areaLeft = 0;
 var areaWidth = 0;
 var areaHeight = 0;
 
+var tl = null;
+
 WorldMap = function( _mapCtl ) {
 
     //media files
@@ -63,6 +65,12 @@ WorldMap = function( _mapCtl ) {
     this.mapFilename = '';
 
     this.imgSrc = null;
+
+    this.mapLoaded = false;
+
+    this.animation1Done = false;
+
+    this.animation2Started = false;
 
     //set the module var for the event handlers
 
@@ -509,8 +517,6 @@ c("doCurrentMap");
 
                 display.disableHomeButton();
 
-                this.doMapSuccess(mlCountry);
-
                 this.mapCtl.setState( sCountryOK );
 
                 hack.mode = mHackDone;
@@ -523,10 +529,21 @@ c("doCurrentMap");
 
                 game.user.countryHacked( theCountry );
                 
-                hackedZoom();
-                
+                //start the success sequence with all the animations and sound effects.
 
-           if (!gEditLabels) this.mapCtl.preloadCountryMap( hack.getCountryFilename().toLowerCase() )
+                //we start two "processes" going here simultaneously, one to pre-load the detailed country map,
+                //so that we can zoom it out from our regular map, and one to start the sequence.  In almost every case,
+                //the map will load before we need it, but we can't just assume that.  
+
+                //So two vars, this.mapLoaded and this.animationDone are used to coordinate.  (animationDone refers to the animations
+                //that occur before we zoom out the country map).  Once the animations are done, this.hackDone() checks to see if 
+                //if the map has been loaded. If so, it proceeeds with the second half: this.hackDone2().  
+                //If not, it returns and lets the imagesLoaded callback in preloadCountryMap() (map.js)
+                //start hackDone2().  preloadCountryMap uses a similar but reversed logic.
+
+                if (!gEditLabels) this.mapCtl.preloadCountryMap( hack.getCountryFilename().toLowerCase() );
+
+                this.doMapSuccess( mlCountry );
 
                 
             }
@@ -565,21 +582,6 @@ c("doMapSuccess")
        
         if (_which == mlCountry) {
 
-             $( ".droppingText" ).letterDrop();
-
-            //pulse the country's opacity to draw attention to it
-
-            var s = ".amcharts-map-area-" + hack.countryCode;
-
-            $(s).velocity({
-
-                opacity: 0
-
-            },{
-                duration: 500,
-                loop: 2
-            });
-
             //save the total time for the hack report
 
             var hackEndTime = new Date().getTime();
@@ -587,6 +589,8 @@ c("doMapSuccess")
             game.hackTotalTime = (hackEndTime - game.hackStartTime) / 1000.0;
 
             Control.playEffect(this.map_country_success_sound);
+
+            this.hackDone();
 
         }
     }
@@ -658,81 +662,120 @@ c("doMapSuccess")
         FlowRouter.go("/main");
     }
 
-    //Store the map coordinates and then fade it out
+    //Store the map coordinates
 
-    this.hackDone = function() {
+    this.hackDone = function() {   
 
+        this.mapLoaded = false;
+
+        this.animationDone = false;  
+
+        tl = new TimelineLite();
+
+        display.mapStatus.setAndShow(' ');
+
+        //Falling letter effect (country's name at top of screen)
+
+         $( ".droppingText" ).letterDrop();
+
+        //pulse the country's opacity to draw attention to it
+
+        var s = ".amcharts-map-area-" + hack.countryCode;
+
+        $(s).velocity({
+
+            opacity: 0
+
+        },{
+            duration: 500,
+            loop: 2,
+        });
+
+        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone2(); }, 750 );
+    }
+
+    this.hackDone2 = function() {
+
+c("hackDone2")
+        //zoom the word HACKED in, pause, then continue zooming larger with a fade-out
+
+        var container = $("#demo");
+
+        container.css("display","block");
+
+        var word="HACKED";
+
+        var delay1 = 2.0;
+
+        var delay2 = 2.0;
+
+        var element = $("<h3>" + word + "</h3>").appendTo(container);
+
+        var duration = 1.5;
+
+        Meteor.setTimeout( function() { Control.playEffect2("trans3.mp3"); }, 1000 );
+c("hackDone2 -- just played sound")
+        //set opacity and scale to 0 initially. We set z to 0.01 just to kick in 3D rendering in the browser which makes things render a bit more smoothly.
+        tl.set(element, {autoAlpha: 0, scale: 0, z: 0.01});
+
+
+        //the SlowMo ease is like an easeOutIn but it's configurable in terms of strength and how long the slope is linear. See http://www.greensock.com/v12/#slowmo and http://api.greensock.com/js/com/greensock/easing/SlowMo.html
+        tl.to(element, duration, {scale:1.2,  ease:SlowMo.ease.config(0.25, 0.9) }, delay1)
+          //notice the 3rd parameter of the SlowMo config is true in the following tween - that causes it to yoyo, meaning opacity (autoAlpha) will go up to 1 during the tween, and then back down to 0 at the end. 
+          .to(element, duration, {autoAlpha:1, ease:SlowMo.ease.config(0.25, 0.9, true),  }, delay2);
+c("hackDone2 -- just before calling tl.add(hackDone3)")
+
+        tl.add( function() { display.ctl["MAP"].worldMap.hackDone3() }, 3.0 );
+
+       //Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone3(), 12000});
+
+    }
+
+    this.hackDone3 = function() {
+c("hackDone3")
+    
         this.mapFilename = hack.getCountryMapURL( hack.getCountryName() );
 
         this.imgSrc = Control.getImageFromFile( this.mapFilename );
 
-        //change the color of the country here back to it's normal color?
+        //these values get used below when we size the detailed map
 
         areaTop = $("#divMap").position().top;
         areaLeft = $("#divMap").position().left;
         areaWidth = $("#divMap").width();
         areaHeight = $("#divMap").height();
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone2()}, 751);
-    }
-
     //Redraw the map at half size over on the left
 
+        display.ctl["MAP"].worldMap.map.clearLabels();
 
-
-    this.hackDone2 = function() {
-
-        this.map.clearLabels();
-
-        //$("#divMap").css("width", "43%");
-        //$("#divMap").css("left", "10.5%");
+        //tl.to( $("#divMap"), 1.0, { width: "43%", left: "10.5%", } );
 
         $("#divMap").velocity({
-            width: "43%",
-            left: "10.5%",
-        }),{
+
+             width: "43%", left: "10.5%"
+
+        },{
             duration: 1000,
-        };
 
-//These two commands should center us on the selected country, with the map properly
-//proportioned for the new size, but this method is unreliable.
-//But by not calling either of these, we reliably have the selected country
-//in the center of the map, even if the map is a little squashed.
-
-        //this.map.invalidateSize();
-
-        //this.map.zoomToGroup([this.map.getObjectById( hack.countryCode )]);
-
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone3()}, 600);
-
+            complete: function(elements) { display.ctl["MAP"].worldMap.hackDone4(); }
+        });
     }
 
-    //Record the zoom levels; label the country
 
-    this.hackDone3 = function() {
-
-        this.mapCtl.level.set( mlCountry );
-
-        this.zoomDone = true;
-
-        //this will preserve the zoom level when validateData() is called
-
-        this.map.dataProvider.zoomLongitude = this.map.zLongTemp;
-
-        this.map.dataProvider.zoomLatitude =  this.map.zLatTemp;
-
-        this.map.dataProvider.zoomLevel =  this.map.zLevelTemp;
-
-        this.map.validateData();
-
-        this.labelMapObject(14, "white");
-
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone4()}, 504);       
-    }
-
-    //Zoom the country map out from the center of the world map 
 
     this.hackDone4 = function() {
+c("hackDone4")
+        this.animationDone = true;
+
+        if (!this.mapLoaded) {
+c("hackDone4 returning b/c map not loaded")
+            return;
+        }
+
+        display.ctl["MAP"].worldMap.doMapStuff();      
+
+        Control.playEffect( "new_debrief.mp3");   
 
         var imageWidth = 4;
         var imageHeight = 4;
@@ -775,22 +818,19 @@ c("doMapSuccess")
 
         $("#mapImage").attr("src", this.mapFilename);     
 
-
-        $("#mapImage").velocity({
+        tl.to( $("#mapImage"), 1.0, {
 
                 left: deltaLeft,
                 top: deltaTop,
                 height: deltaHeight,
                 width: deltaWidth,
-            },{
-                duration: 1000,
-            }
-            
-        );
+        });
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone5(); }, 1000);     
+        //tl.add( () => { display.ctl["MAP"].worldMap.hackDone5(); }, 3.0);   
 
-    },
+        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone5(); }, 2000 ); 
+    }
+
 
     this.hackDone5 = function() {
 
@@ -821,6 +861,8 @@ c("doMapSuccess")
         var imgAll = $(".divTV");
 
         var tl = new TimelineLite();
+
+        tl.add( () => { Control.playEffect3("incoming.mp3"); } );
 
         tl.to(imgAll, 1.5, { css:{ scaleX: 1, scaleY: 1 }, delay: 1 } );
 
@@ -868,37 +910,61 @@ c("doMapSuccess")
 
         //fade out the text and the TV
 
-        tl.to([txtLower, imgAll], 0.5, { opacity: 0.0, delay: 7.8 });    
+        tl.to([txtLower, imgAll], 0.5, { opacity: 0.0, delay: 4.3 });    
 
 
-        //Need to determine if GIC is already in the user's network;
+        //If this is the first time they've hacked this country (ticket.count == 1) then
+        //we add the welcoming agent to the user's network, BUT ...
+        //if the country has no dedicated welcome agent; we default to the GIC
 
-        //If so, we don't do this if (hack.welcomeAgentIsChief)
+        if ( (_ticket.count == 1 && game.user.hasChiefInNetwork && hack.welcomeAgentIsChief) || _ticket.count > 1) {
 
-        if (_ticket.count == 1) {
 
-            //fade in the agent's snapshot
-
-            var div = $(".divWelcomeAgent")  
-
-            tl.to(div, 0.5, { opacity: 1.0 } ); 
-
-            Meteor.setTimeout( function() { display.mapStatus.setThisAndType("NEW AGENT ADDED TO YOUR NETWORK"); }, 8500 );
-
-            //delay this some more so that OK button does not appear before fade-in of agent profile?
-
-            Meteor.setTimeout( function() { display.ctl["MAP"].setStateOnly( sMapDone ) }, 8501 );                
-        }
-        else {
-
-            //we should type a different messsage up top here:
-            // "CLICK OK FOR MISSION DEBRIEFING"
+            Meteor.setTimeout( function() { display.mapStatus.setThisAndType("AGENT " + hack.getWelcomeAgent().username.toUpperCase() + " IS ALREADY IN YOUR NETWORK"); }, 6500 );
 
             display.ctl["MAP"].setStateOnly( sMapDone );
+
+        }
+        else {
+            
+            Meteor.setTimeout( function() { display.mapStatus.setThisAndType("NEW AGENT ADDED TO YOUR NETWORK"); }, 6500 );
+
         }
 
+        //fade in the agent's snapshot
+
+        var div = $(".divWelcomeAgent")  
+
+        Meteor.setTimeout( function() { Control.playEffect("agentAdded.mp3") }, 8100); 
+
+        tl.to(div, 0.1, { opacity: 1.0, delay: 0.1 } ); 
+
+
+        //delay this some more so that OK button does not appear before fade-in of agent profile?
+
+        Meteor.setTimeout( function() { display.ctl["MAP"].setStateOnly( sMapDone ) }, 6501 );                
+
+
      } //END HACKDONE5
-            
+   
+    this.doMapStuff = function() {
+
+        this.mapCtl.level.set( mlCountry );
+
+        this.zoomDone = true;
+
+        //this will preserve the zoom level when validateData() is called
+
+        this.map.dataProvider.zoomLongitude = this.map.zLongTemp;
+
+        this.map.dataProvider.zoomLatitude =  this.map.zLatTemp;
+
+        this.map.dataProvider.zoomLevel =  this.map.zLevelTemp;
+
+        this.map.validateData();
+
+        this.labelMapObject(14, "white");
+    }         
 
 }  //end WorldMap Object
 
@@ -1125,11 +1191,9 @@ function refreshMap() {
 }
 
 
+//zoom out the giant HACKED text with a sound effect
+/*
 hackedZoom = function() {
-
-    Meteor.setTimeout( function() { Control.playEffect2("trans3.mp3"); }, 1500 );
-  
-
 
     var container = $("#demo");
 
@@ -1137,28 +1201,31 @@ hackedZoom = function() {
 
     var word="HACKED";
 
-    var tl = new TimelineMax({delay:2.0});
+    //var tl = new TimelineMax(); //({delay:2.0});
 
-    var time = 0;
+    var delay = 2.0;
 
     var element = $("<h3>" + word + "</h3>").appendTo(container);
+
     var duration = 2.0;
 
 
+    tl.add( () => { Control.playEffect2("trans3.mp3"); }, 1.5 )
+
     //set opacity and scale to 0 initially. We set z to 0.01 just to kick in 3D rendering in the browser which makes things render a bit more smoothly.
-    TweenLite.set(element, {autoAlpha:0, scale:0, z:0.01});
+    tl.set(element, {autoAlpha: 0, scale: 0, z: 0.01});
 
 
     //the SlowMo ease is like an easeOutIn but it's configurable in terms of strength and how long the slope is linear. See http://www.greensock.com/v12/#slowmo and http://api.greensock.com/js/com/greensock/easing/SlowMo.html
-    tl.to(element, duration, {scale:1.2,  ease:SlowMo.ease.config(0.25, 0.9)}, time)
+    tl.to(element, duration, {scale:1.2,  ease:SlowMo.ease.config(0.25, 0.9)}, delay)
       //notice the 3rd parameter of the SlowMo config is true in the following tween - that causes it to yoyo, meaning opacity (autoAlpha) will go up to 1 during the tween, and then back down to 0 at the end. 
-      .to(element, duration, {autoAlpha:1, ease:SlowMo.ease.config(0.25, 0.9, true)}, time);
+      .to(element, duration, {autoAlpha:1, ease:SlowMo.ease.config(0.25, 0.9, true)}, delay);
 
     display.mapStatus.setAndShow(' ');
 
-   
+     tl.add( () => { display.ctl["MAP"].worldMap.hackDone(); } );  
 }
-
+*/
 
 
 $.fn.letterDrop = function() {

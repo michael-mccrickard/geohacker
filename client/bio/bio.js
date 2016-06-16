@@ -33,7 +33,7 @@ Bio = function() {
 
         	game.user.bio.imageSrc = Control.getImageFromFile(game.user.bio.image );  
 
-        	Meteor.setTimeout( function() { game.user.bio.draw(); }, 100 );
+        	game.user.bio.redraw();
 
         });
 	}

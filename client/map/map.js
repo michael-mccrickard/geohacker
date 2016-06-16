@@ -371,15 +371,19 @@ ghMapCtl = function() {
 
     this.preloadCountryMap = function(_name) {
 
-        $("#imgCountryMap").attr("src", _name + "_map.jpg");           
+        $("#imgCountryMap").attr("src", _name + "_map.jpg");   
+
 
         imagesLoaded( document.querySelector('#preloadCountryMap'), function( instance ) {
 
-          Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone() }, 4500 );  //increased both by 2000
+          display.ctl["MAP"].worldMap.imageSrc = Control.getImageFromFile( _name + "_map.jpg" );
 
-           Meteor.setTimeout( function() { Control.playEffect( "new_debrief.mp3" ) }, 5750 );          
+          display.ctl["MAP"].worldMap.mapLoaded = true;
+
+          if (display.ctl["MAP"].worldMap.animatonDone) display.ctl["MAP"].worldMap.hackDone4(); 
 
         });
+
     }
 
     this.reset = function() {

@@ -28,6 +28,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.prevMode = uNone;  //remember what the last-used mode was before going to uBrowse (Map or Country)
 
+    this.photoReady = new Blaze.ReactiveVar( false );  //are we ready to display user's photo in nav bar?
+
     this.bio = new Bio();
 
     this.template = new Blaze.ReactiveVar( "" );  //template for the above content
@@ -53,11 +55,15 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
       this.setMode( uBrowseCountry );
 
+      this.setGlobals( "browse" );
+
       hack.initForBrowse( _code );
       
     };
 
     this.setMode = function(_mode) {
+
+    	if (_mode == uIntro) return;
 
     	deselectAllModes();
 
@@ -99,7 +105,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	  		Meteor.defer( function() { $("#divHomeAgentsPic").css("border-color","gray") } );
 
-	  		game.user.template.set("agent");
+			game.user.template.set("agent");
 
      	}
 
@@ -148,6 +154,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     	this.setGlobals("mission");
 
     	this.mode = uHack;
+
+    	this.setGlobals( "misson" );
 
 		//they might have just clocked in ...
 
@@ -262,15 +270,12 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 			    return;
 			  }
 
-//console.log(result);
-
-//			 Meteor.setTimeout( function(){ game.user.profile = Meteor.user().profile; }, 1500);
 		});
 	} 
 
 	this.avatar = function() {
 
-		return this.profile.av;
+		return Meteor.user().profile.av;
 	}
 
 	this.updateAvatar = function( url ) {
@@ -290,6 +295,13 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 		Meteor.users.update( {_id: Meteor.userId() }, { $set: { 'profile.p': url}  })
 
 		this.profile.p = url;
+	}
+
+	this.hasChiefInNetwork = function() {
+
+		if ( indexOf.this.profile.ag( Database.getChiefID()[0] ) == -1 ) return false;
+
+		return true;
 	}
 
 

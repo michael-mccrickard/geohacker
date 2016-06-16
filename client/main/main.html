@@ -81,9 +81,20 @@
 
 		<div><img class="mainButton clsScanButton" id="scanButton" src="./tvScannerYellow.png" /></div>
 
-		<div><img class="clsScanButtonContent scanContentA" id="scanButtonContentA" src="static.gif" /></div>
+		{{#if TVisVideo}}
 
-		<div><img class="clsScanButtonContent scanContentB" id="scanButtonContentB" src="static.gif" /></div>
+			<video class="clsScanButtonVideoContent" width="400" height="300" id="scannerVideo">
+			  <source src="" type="video/mp4" autoplay>
+			Your browser does not support the video tag.
+			</video>
+
+		{{else}}
+
+			<div><img class="clsScanButtonContent scanContentA" id="scanButtonContentA" src="" /></div>
+
+			<div><img class="clsScanButtonContent scanContentB" id="scanButtonContentB" src="static.gif" /></div>
+
+		{{/if}}
 
 		<div class="divCue invisible"></div>
 

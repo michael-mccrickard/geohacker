@@ -140,7 +140,18 @@ img.featuredBackdrop {
     position: absolute;
     left: 86.75%; 
     width: 10%;
-    height: 13%;
+    height: 12%;
+    cursor: pointer;
+    top: 77%;
+}
+
+.clsScanButtonVideoContent {
+
+
+    position: absolute;
+    left: 81.75%; 
+    width: 20%;
+    height: 12%;
     cursor: pointer;
     top: 77%;
 }
@@ -183,7 +194,9 @@ img.featuredBackdrop {
     z-index: 1050;
     text-transform: uppercase;
     pointer-events: none;
-    font-size: 2.5vh;
+    font-size: 2.0vh;
+    font-family: Arial;
+    color: silver;
 }
 
 .divCue {

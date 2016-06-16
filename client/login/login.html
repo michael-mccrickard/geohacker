@@ -1,9 +1,9 @@
    
 <template name="login">
 
-	<div class="mediumBGText uppercase loginStatus">{{loginStatus}}</div>
-
 	{{#if currentUser}}
+		
+		<div class="mediumBGText uppercase loginStatus">{{loginStatus}}</div>
 
 		<p><button type="button" class="btn bigButton" id="goHack">START</button></p>
 
@@ -11,6 +11,7 @@
 
 
 			{{#if resetPassword}}
+
 				    <form id="resetPassword-form" action="action">
 
 				    	<p class="greenText">ENTER YOUR NEW PASSWORD AND CLICK UPDATE.</p>
@@ -23,11 +24,21 @@
 						<button type="submit" id="updatePassword" class="btn btn-default">UPDATE</button>
 
 				   </form>
+			
 			{{else}}
 
 
 			 	{{#if loginNow}}
 					
+
+				    
+				    <form id="login-form" action="action">
+
+					<div class="applyForJob">
+					  <p class="help-block redText" style="font-size:48px">BECOME A GEOHACKER AGENT!</p>
+					  <button type="button" class="btn btn-primary btn-lg applyForJobButton" id="goRegistration">APPLY FOR A JOB</button>
+					</div>
+
 					<div class="loginPrompt {{loginPromptTextColor}}">
 
 						{{loginPrompt}}
@@ -38,10 +49,8 @@
 
 						{{/if}}
 					</div>
-				    
-				    <form id="login-form" action="action">
 
-						<div class="form-group">
+						<div class="form-group loginRegistered">
 							<label for="inputEmailLogin">EMAIL ADDRESS</label>
 							<input type="email" class="form-control" id="login-email" placeholder="Enter email">
 						</div>
@@ -54,116 +63,115 @@
 
 				   </form>
 
-					<div class="applyForJob">
-					  <p class="help-block redText">NOT WORKING AS A GEOHACKER AGENT YET?</p>
-					  <button type="button" class="btn btn-primary applyForJobButton" id="goRegistration">APPLY FOR A JOB</button>
-					</div>
+
 
 				{{else}}
 
-					<p class={{registrationPromptTextColor}}>{{registrationPrompt}}</p>
+					<div class="divLogin">
 
-				    <form id="registration-form" action="action">
-				      
-						<form>
-						  <div class="form-group">
-						    <label for="inputNameRegistration">AGENT NAME</label>
-						    <input type="text" class="form-control" id="registration-name" placeholder="Enter name">
-						  </div>
+						<p class={{registrationPromptTextColor}}>{{registrationPrompt}}</p>
 
-						<div class="form-group">
-							<div class="checkbox">
-							  <label>
-							    <input type="checkbox" value="" id="chkMale">
-							    MALE
-							  </label>
+					    <form id="registration-form" action="action">
+					      
+							<form>
+							  <div class="form-group">
+							    <label for="inputNameRegistration">AGENT NAME</label>
+							    <input type="text" class="form-control" id="registration-name" placeholder="Enter name">
+							  </div>
+
+							<div class="form-group">
+								<div class="checkbox">
+								  <label>
+								    <input type="checkbox" value="" id="chkMale">
+								    MALE
+								  </label>
+								</div>
+								<div class="checkbox">
+								  <label>
+								    <input type="checkbox" value="" id="chkFemale">
+								    FEMALE
+								  </label>
+								</div>
 							</div>
-							<div class="checkbox">
-							  <label>
-							    <input type="checkbox" value="" id="chkFemale">
-							    FEMALE
-							  </label>
-							</div>
-						</div>
 
-						<div class="form-group">
+							<div class="form-group">
 
-							<label class="whiteText">CONTINENT</label>
+								<label class="whiteText">CONTINENT</label>
 
-							<select class="form-control" id="selectContinent">
+								<select class="form-control" id="selectContinent">
 
-						  		<option value="" selected disabled>Please select</option>
+							  		<option value="" selected disabled>Please select</option>
 
-						  		{{#each continent}}
+							  		{{#each continent}}
 
-							  		<option id="{{c}}">{{n}}</option>
+								  		<option id="{{c}}">{{n}}</option>
 
-							  	{{/each}}
-							
-							</select>
-						
-						</div>
-
-						<div class="form-group">
-
-							<label class="whiteText">REGION</label>
-
-							<select class="form-control" id="selectRegion">
-						  		
-						  		<option value="" selected disabled>Please select</option>
-						  								  		 
-						  		{{#each region}}
-
-							  		<option id="{{c}}">{{n}}</option>
-
-							  	{{/each}}
-							
-							</select>
-						
-						</div>
-
-						<div class="form-group">
-
-							<label class="whiteText">COUNTRY</label>
-
-							<select class="form-control" id="selectCountry">
+								  	{{/each}}
 								
-						  		<option value="" selected disabled>Please select</option>
-						  		 
-						  		{{#each country}}
-
-							  		<option id="{{c}}">{{n}}</option>
-
-							  	{{/each}}
+								</select>
 							
-							</select>
+							</div>
+
+							<div class="form-group">
+
+								<label class="whiteText">REGION</label>
+
+								<select class="form-control" id="selectRegion">
+							  		
+							  		<option value="" selected disabled>Please select</option>
+							  								  		 
+							  		{{#each region}}
+
+								  		<option id="{{c}}">{{n}}</option>
+
+								  	{{/each}}
+								
+								</select>
+							
+							</div>
+
+							<div class="form-group">
+
+								<label class="whiteText">COUNTRY</label>
+
+								<select class="form-control" id="selectCountry">
+									
+							  		<option value="" selected disabled>Please select</option>
+							  		 
+							  		{{#each country}}
+
+								  		<option id="{{c}}">{{n}}</option>
+
+								  	{{/each}}
+								
+								</select>
+							
+							</div>
+
+							  <div class="form-group">
+							    <label for="inputEmailRegistration">EMAIL ADDRESS</label>
+							    <input type="email" class="form-control" id="registration-email" placeholder="Enter email">
+							  </div>
+							  <div class="form-group">
+							    <label for="inputPasswordRegistration">PASSWORD</label>
+							    <input type="password" class="form-control" id="registration-password" placeholder="Password">
+							  </div>
+
+							  <button type="submit" class="btn btn-default" id="submitApplication">SUBMIT APPLICATION</button>
+
+							</form>
+					   
+					   	</form> 	
 						
-						</div>
+						<button class="btn btn-warning pull-right" id="countryNotListed">MY COUNTRY IS NOT LISTED</button>
 
-						  <div class="form-group">
-						    <label for="inputEmailRegistration">EMAIL ADDRESS</label>
-						    <input type="email" class="form-control" id="registration-email" placeholder="Enter email">
-						  </div>
-						  <div class="form-group">
-						    <label for="inputPasswordRegistration">PASSWORD</label>
-						    <input type="password" class="form-control" id="registration-password" placeholder="Password">
-						  </div>
-
-						  <button type="submit" class="btn btn-default" id="submitApplication">SUBMIT APPLICATION</button>
-
-						</form>
-				   
-				   	</form> 	
-					
-					<button class="btn btn-warning pull-right" id="countryNotListed">MY COUNTRY IS NOT LISTED</button>
+					</div>
 
 				{{/if}}
 
-			{{/if}}
+	 	{{/if}}
 
 	 {{/if}}
-
-
 
 
 </template>

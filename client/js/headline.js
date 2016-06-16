@@ -21,6 +21,11 @@ Headline = function( _type ) {
 
     if ( _type == "welcomeAgent" ) this.ele = "div.divTVText.divTVTextLower";
 
+    if (_type == "welcomeAgent")  this.typing_sound_file = "agentMessage2.mp3";
+
+    if (_type == "intro")  this.ele = ".divIntroHeadline";
+
+
 
 	this.set = function( _text ) {
 
@@ -31,6 +36,8 @@ Headline = function( _type ) {
         if (this.hType == 'map') this.setMap(_text);
 
         if (this.hType == 'welcomeAgent') this.text = _text;      
+
+        if (this.hType == 'intro') this.text = _text;     
 	}
 
     this.setMap = function( _text ) {
@@ -136,9 +143,8 @@ Headline = function( _type ) {
 	        Meteor.setTimeout(function () { $( ele ).removeClass("invisible"); }, 100 );
 
     	}
-
-    	if (this.hType == "status" || this.hType == "map") {
-
+        else {
+    	
       		$( this.ele ).text( this.text );  		
     		
     		$( this.ele ).removeClass("invisible");
@@ -179,6 +185,8 @@ Headline = function( _type ) {
         if (this.hType == "status") Meteor.setTimeout(function () { display.status.typeMessage( ele ); }, 500 );
 
         if (this.hType == "welcomeAgent") Meteor.setTimeout(function () { game.user.headline.typeMessage( ele ); }, 500 );
+
+        if (this.hType == "intro") Meteor.setTimeout(function () { game.intro.headline.typeMessage( ele ); }, 500 );
     },
 
     this.typeMessage = function( _ele ) {
@@ -224,6 +232,8 @@ Headline = function( _type ) {
         if (this.hType == "status") Meteor.setTimeout( function() { display.status.setChar( _ele ); }, 10);  
 
         if (this.hType == "welcomeAgent") Meteor.setTimeout(function () { game.user.headline.setChar( _ele ); }, 10 );     
+
+        if (this.hType == "intro") Meteor.setTimeout(function () { game.intro.headline.setChar( _ele ); }, 10 );   
 
     },
 

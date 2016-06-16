@@ -1,0 +1,146 @@
+//agent.css
+
+
+.divAgentAvatar {
+
+
+}
+
+.divBigAgent {
+    display: -webkit-flex;
+    display: flex;
+    width: 830px;
+    background-color: #2B3856;
+    margin-bottom: 16px;
+margin-left: 16px;
+    float: left;
+}
+
+.bigAgentItem {
+
+	margin: 8px;
+}
+
+.imgBigAgentAvatar {
+
+    width: 172px;
+    height: 172px;
+    background-color: #303030;
+      cursor: pointer;
+}
+
+.bigAgentLabel {
+
+	font-family: Arial;
+	color: yellow;
+	font-size: 20px;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.agentNameLabel {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+
+.agentFlagLabel {
+
+	margin-top: -2px;
+}
+
+.divAgentStats {
+
+	margin-top: 10px;
+}
+
+.agentStatusText {
+
+	color: #4CC417;
+}
+
+.rounded {
+
+   border-radius: 6px;    
+}
+
+.divAgentFlag {
+
+	width: 212px;
+	  cursor: pointer;
+
+}
+
+.bigAgentFlag {
+	height: 108px;
+	width: 200px;
+
+}
+
+.divAgentText {
+
+	width: 350px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-bottom: 16px;
+	overflow: hidden;
+	opacity: 1.0;
+	float: right;
+	
+}
+
+.bigAgentText {
+
+	font-family: Arial;
+	font-size: 20px;
+	color: lightgrey;
+	margin-left: 8px;
+	margin-top: -192px;
+	color: yellow;
+	width: 80%;
+	opacity: 1.0;
+/*	height: 200px;  */
+	overflow: hidden;
+
+}
+
+.divBigAgentButton {
+	width: 36px;
+}
+
+
+.imgBigAgentFeaturedPic {
+
+	height: 188px;
+	position: relative;
+	left: -18px;
+	opacity: 0.35;
+	padding-bottom: 8px;
+
+}
+
+.imgBigAgentContactButton {
+
+	background-color: black;
+	height: 72px;
+	padding: 4px;
+
+	width: 54px;
+	position: relative;
+	left: -18px;
+
+	opacity: 0.66;
+}
+
+.imgBigAgentDeleteButton {
+
+
+	margin-top: 48px;
+
+	height: 58px;
+
+	width: 60px;
+	opacity: 0.66;
+}
+
+

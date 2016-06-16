@@ -28,7 +28,7 @@ gHackPreselect = "";
 
 Session.set("sLoginNow", true);
 
-Session.set("sLoginPrompt", "CLOCK IN TO BEGIN YOUR SHIFT...");
+Session.set("sLoginPrompt", "IF YOU ARE ALREADY AN AGENT, CLOCK IN ...");
 
 Session.set("sLoginPromptTextColor", "yellowText");
 
@@ -37,6 +37,8 @@ Session.set("sRegistrationPrompt", "APPLY TO BECOME A GEOHACKER AGENT...");
 Session.set("sRegistrationPromptTextColor", "yellowText");
 
 Session.set("sBadPasswordEntered", false);
+
+Session.set("sProcessingApplication", false);
 
 Session.set("isIOS", false);
 
@@ -60,6 +62,7 @@ Session.set("isIOS", false);
   Session.set("sXReady", false);  //all texts (to identify tags, also for capital name for new user wall)
 
   Session.set("sCapitalsReady", false);  //all capital images (in case the user is new; one will go on their wall) 
+
 
   //editor
 
@@ -162,9 +165,13 @@ Meteor.startup(function() {
 
   Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
 
-Meteor.subscribe("allImages", function() { Session.set("sEditImageReady", true ) });  
+  Meteor.subscribe("allImages", function() { Session.set("sEditImageReady", true ) });  
+
+Meteor.subscribe("allWebs", function() { Session.set("sEditWebReady", true ) });  
 
   Meteor.subscribe("chiefUser", function() { Session.set("sChiefUserReady", true ) });  
+
+  Meteor.subscribe("registeredUsers");  
 
   //Tracker.autorun(function(){
       Meteor.subscribe("conversation");

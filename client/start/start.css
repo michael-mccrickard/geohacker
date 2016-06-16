@@ -19,7 +19,7 @@
     border-style: solid;
     border-width: 4px;
     border-radius: 7px;
-    border-color: yellow;
+    border-color: red;
 
     text-align: center;
 }
@@ -32,6 +32,7 @@
 .loginPrompt {
 
     font-size: 18px;
+    margin-top: 2.0vh;
     margin-bottom: 2.0vh;
 }
 
