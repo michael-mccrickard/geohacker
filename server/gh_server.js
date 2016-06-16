@@ -585,7 +585,7 @@ Meteor.methods({
 
 testImages: function() {
 
-arrImages = ghImage.find({}).fetch();
+arrImages = ghWeb.find({}).fetch();
 
 //c(arrImages.length = " files in db")
 
@@ -669,7 +669,7 @@ console.log( bad + " bad image links found")
         
 var ind = URL.lastIndexOf("-");
 
-        console.log(URL.substring( ind + 1) + " -- " + arrImages[ _index ].cc + "  -- BAD");
+        console.log(URL.substring( ind + 1) + " -- BAD");
 
         bad++;
 
