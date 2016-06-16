@@ -11,7 +11,6 @@ Template.main.events({
 
       var _state = display.scanner.centerState.get();
 
-      //if ( (_mode != "scan" && _mode != "rescan") || display.scanner.centerState != "idle") {
 
     if (_state == "loaded") {
 

@@ -294,10 +294,6 @@ Template.worldMap.events = {
 
 function closeOutMap() {
 
-    //make sure the main template is flagged to redraw ...
-
-//    display.mainTemplateReady = false;
-
     var state = display.ctl["MAP"].getState();
 
     //user guessed the country correctly, we're done ...

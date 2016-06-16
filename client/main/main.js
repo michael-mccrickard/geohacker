@@ -387,6 +387,8 @@ c("'click scan' is calling playMusic")
 
       e.preventDefault;
 
+      if (display.feature.name.get() == "VIDEO") display.suspendMedia();
+
         display.feature.clear();
 
         hack.debrief.go();
@@ -439,12 +441,24 @@ Template.main.rendered = function () {
 
     if ( game.user.mode == uHack ) {
 
+/*
+      if (display.scanner.centerState.get() == "loaded") {
+
+            display.scanner.show();
+            
+            Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 ); 
+
+            display.loader.showLoadedControl();     
+
+            return;
+      }
+*/
       //MAP is the only control that has the scanner visible when it's featured
 
        if (display.feature.on() && display.feature.getName() != "MAP") {
 
           display.scanner.hide();
-
+c("in main.rendered, abt to call feature.set")
           display.feature.set( display.feature.getName() );
 
           //opportunity to play a specific video / gif in the little scanner TV here

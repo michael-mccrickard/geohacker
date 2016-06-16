@@ -57,6 +57,8 @@ NewLoader = function() {
 
 		Session.set("sFeatureImageLoaded", false);  
 
+
+
 	}
 
 	this.showLoadedControl = function() {
@@ -108,10 +110,6 @@ c("newControl name is " + this.newControl.name)
 			
 		}
 
-		if (this.newControl.name == "IMAGE") {
-
-			//if (this.newControl.items[ this.newControl.getIndex() ].dt == "ldr" ) display.TV.playVideo( TV.whosThat );
-		}
 
 		//see if any buttons need enabling / disabling
 

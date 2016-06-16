@@ -219,7 +219,7 @@ Hack = function() {
 
        var _file = this.getAnthemFile();
 
-       if (display.ctl["SOUND"].getState() == sPlaying ) display.ctl["SOUND"].pauseFeaturedContent();
+       if (display.ctl["SOUND"].getState() == sPlaying ) display.ctl["SOUND"].pause();
 
        Control.playEffect( _file );
     },
@@ -232,7 +232,7 @@ Hack = function() {
 
        if (hack.mode != mEdit) {
           
-          if (display.ctl["SOUND"].getState() == sPlaying ) display.ctl["SOUND"].pauseFeaturedContent();
+          if (display.ctl["SOUND"].getState() == sPlaying ) display.ctl["SOUND"].pause();
        }
 
        Control.playEffect( _file );

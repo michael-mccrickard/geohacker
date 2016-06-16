@@ -212,7 +212,7 @@ Feature = function() {
 			game.playMusic();
 		}
 
-		if (game.user.mode == uBrowseMap || uBrowseCountry) {
+		if (game.user.mode == uBrowseMap || game.user.mode == uBrowseCountry) {
 
 			this.setName( "" );
 
@@ -284,14 +284,16 @@ if ( this.off() ) return;
 		console.log("feature is now set to " + _name);
 
 		
-		if (_name.length == 0) return;  //????
-
+		//if (_name.length == 0) return;  //????
 		
 		this.ctl = display.ctl[ _name ];
 
-		c("'click control' is calling setImageSource")
+		if (_name == "IMAGE" || _name == "WEB") {		
 
-     	this.setImageSource( _name );  //this will set the imageSrc for the featured area
+			c("'click control' is calling setImageSource")
+
+     		this.setImageSource( _name );  //this will set the imageSrc for the featured area
+     	}
 
 
 		if (_name == "MAP") {
@@ -349,6 +351,8 @@ if ( this.off() ) return;
 	this.clear = function( _newControlName ) {
 
 		if (this.getName().length) this.lastName = this.getName();
+
+c("feature.lastName is " + this.getName() );
 
 		this.setName( "" );
 
