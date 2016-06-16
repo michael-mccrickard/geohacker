@@ -16,6 +16,8 @@ Weather = function() {
 
 	this.start = function() {
 
+		this.stop();
+
 		if (this.capitals.length == 0) this.capitals = db.ghText.find( { dt: "cap"} ).fetch();
 
 		var _rec = Database.getRandomElement( this.capitals );
@@ -30,7 +32,7 @@ Weather = function() {
 
 	this.stop = function() {
 
-		Meteor.clearTimeout( this.timerID );
+		if (this.timerID) Meteor.clearTimeout( this.timerID );
 	}
 
 	this.get = function( _country, _city) {
