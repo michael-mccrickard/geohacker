@@ -288,6 +288,8 @@ Template.main.events({
 
           Control.playEffect( display.locked_sound_file );
 
+          display.TV.stopIdle();
+
           return; 
       }
 
@@ -312,8 +314,6 @@ Template.main.events({
 
               hack.mode = mNone;
 
-              //game.user.assignAndStartMission( game.user.assignCode );
-
               game.user.resumeMission();
           }
 
@@ -335,23 +335,16 @@ Template.main.events({
 
           display.loader.go();
 
-          display.checkMainScreen();
-
           display.scanner.show();
 
           display.scanner.stopScan();
 
-
       }
       else {
-
-c("'click scan' is calling display.suspendMedia and suspendBGSound")
 
         display.suspendMedia();
 
         display.suspendBGSound();
-
-c("'click scan' is calling playMusic")
 
         game.playMusic();
 
@@ -458,7 +451,7 @@ Template.main.rendered = function () {
        if (display.feature.on() && display.feature.getName() != "MAP") {
 
           display.scanner.hide();
-c("in main.rendered, abt to call feature.set")
+
           display.feature.set( display.feature.getName() );
 
           //opportunity to play a specific video / gif in the little scanner TV here

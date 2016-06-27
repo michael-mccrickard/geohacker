@@ -58,28 +58,32 @@ findImages = function() {
 
   var count = 0;
 
-  var arr = Meteor.users.find( {} ).fetch();
+  var _s = "";
+
+  var arr = db.ghWeb.find( {} ).fetch();
 
   for (var i = 0; i < arr.length; i++) {
 
-
-
       var ID = arr[i]._id;
 
-      var _str = arr[i].profile.f;
+      var _u = arr[i].f.substring(0);
 
+      if ( _u.substring(arr[i].f.length - 4) == "jjpg" ) {
 
+          _u = _u.substring(0, arr[i].f.length - 4);
 
-      var filename =  db.getFlagPicByCode( arr[i].profile.cc )
+          _u = _u + "jpg";
 
-console.log("updating flag for: " + arr[i].username + " with " + filename);
+          console.log( arr[i].cc + " -- " + _u );
 
-         Meteor.users.update( {_id: ID }, { $set: { 'profile.f': filename }  } );          
+        db.ghImage.update( {_id: ID }, { $set: { u: _u }  } );          
 
         count++;
       }
 
-c(count + " images updated.")
+//c(count + " images updated.")
+
+  }
 
 }
 

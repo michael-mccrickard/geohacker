@@ -169,7 +169,7 @@ BadgeList = function() {
 
 		if (pro.in[ vBronze ] > 0) this.arr.push( this.generateBadge( bInvestigator, vBronze, false) ); 	
 
-		//investigator
+		//first times
 
 		if (pro.ft[ ftCountry ] > 0) this.arr.push( this.generateBadge( bFirstTime, ftCountry, false) ); 			
 
@@ -223,7 +223,7 @@ BadgeList = function() {
 
     	//investigator
 
-    	if (display.loader.totalClueCount >= 9) this.arr.push( this.generateBadge( bInvestigator, vGold) );
+    	if (display.loader.totalClueCount >= 9) this.arr.push( this.generateBadge( bInvestigator, vGold, true) );
 
     	if (display.loader.totalClueCount >= 6 && display.loader.totalClueCount < 9) this.arr.push( this.generateBadge( bInvestigator, vSilver, true ) );
 

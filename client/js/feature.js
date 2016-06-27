@@ -75,6 +75,8 @@ Feature = function() {
 			if (display.scanner.checkScan("feature") == true) {display.scanner.stopScan();}
 		}
 
+
+
 		//if checkScan above returned false, then the scanner is still running, so we just
 		//set this session var, so that the scanner knows the image is ready when it finishes
 

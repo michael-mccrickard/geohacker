@@ -539,7 +539,7 @@ this.updateRecord2 = function (_type, field, ID, value, cb) {
 
       if (error) showMessage(error.reason);
 
-      cb(error, result);
+      if (cb) cb(error, result);
   });
 }
 

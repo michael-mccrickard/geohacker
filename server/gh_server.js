@@ -421,6 +421,8 @@ Meteor.methods({
     //to add another editor or admin, replace this.userId below with
     //their userId and call this method
 
+console.log(this.userId);
+
 //Roles.addUsersToRoles( this.userId, [ 'admin', 'editor' ] );
 
   },
@@ -585,7 +587,7 @@ Meteor.methods({
 
 testImages: function() {
 
-arrImages = ghWeb.find({}).fetch();
+arrImages = ghImage.find({}).fetch();
 
 //c(arrImages.length = " files in db")
 
@@ -667,9 +669,9 @@ console.log( bad + " bad image links found")
 
        // var errorJson = JSON.parse(result.content);
         
-var ind = URL.lastIndexOf("-");
+//var ind = URL.lastIndexOf("-");
 
-        console.log(URL.substring( ind + 1) + " -- BAD");
+        console.log(URL + " -- BAD");
 
         bad++;
 

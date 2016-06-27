@@ -101,7 +101,16 @@ $(document).keydown(function(e) {
 
 	    case 71:  //g
 
-	    	if (gEditLabels) go();	//tells the worldMap to continue the hackDone sequence when we are in editLabels mode
+	    	if (gEditLabels) {
+
+	    		var _state = display.ctl["MAP"].getState();
+
+	    		if (_state == sTestCountry) display.ctl["MAP"].worldMap.doCorrectSequence();  //resume part 1 of the end-of-hack sequence
+
+	    		if (_state == sCountryOK) display.ctl["MAP"].worldMap.hackDone4a();  //resume the part 2 of end-of-hack sequence
+
+	    		 showMessage("resuming sequence");
+	    	}
 
 	    	break;
 
@@ -215,13 +224,13 @@ function moveLabel() {
 
     display.ctl["MAP"].worldMap.map.clearLabels();
 
-    if ( display.ctl["MAP"].getState() == sMapDone) {
+    if ( display.ctl["MAP"].getState() == sCountryOK) {
 
-        Meteor.defer( function() { display.ctl["MAP"].worldMap.labelMapObject( 14, "yellow", _x, _y ); } );
+        Meteor.defer( function() { display.ctl["MAP"].worldMap.labelMapObject( 14, "black", _x, _y ); } );
     }
     else {
 
-        Meteor.defer( function() { display.ctl["MAP"].worldMap.labelMapObject( 24, "yellow", _x, _y ); } );      
+        Meteor.defer( function() { display.ctl["MAP"].worldMap.labelMapObject( 24, "black", _x, _y ); } );      
     } 
 }
 
@@ -229,11 +238,14 @@ function updateLabelRecord() {
 
 	showMessage("updating label pos in db");
 
-    if ( display.ctl["MAP"].getState() == sMapDone) {
+	//if the state is sCountryOK, then we are on the second labeling of the correct country
+	//(with the half-width map displayed to the left)
+
+    if ( display.ctl["MAP"].getState() == sCountryOK) {
 
         Meteor.defer( function() { updateLabelPosition( 2 ); } );
     }
-    else {
+    else {   //otherwise we are updating the first labeling of the country (full-screen map)
 
         Meteor.defer( function() { updateLabelPosition( 1 ); } );     
     }	
@@ -277,13 +289,13 @@ function toggleInstantMode() {
 
 function turnOffCropMode() {
 
-gCropPictureMode.set( false );	
+	gCropPictureMode.set( false );	
 
-showMessage( "Crop mode off");
+	showMessage( "Crop mode off");
 
-return;
+	return;
 
-
+/*
 	if (gCropPictureMode.get() == true ) {
 
 		gCropPictureMode.set( false );	
@@ -296,6 +308,7 @@ return;
 
 		showMessage( "Crop mode on");			
 	}
+*/
 
 }
 
@@ -338,4 +351,94 @@ goImage = function ( _val ) {
 	hack.debrief.text = iIndex + " of " + arrI.length + " -- " + arrI[ iIndex ].u + " -- " + arrI[ iIndex ].cc;
 
 	hack.debrief.draw();
+}
+
+
+//database updates
+
+updateLabelPosition = function(_which) {
+
+    //var totalWidth = deriveInt( $("#divMap").css("width") ) ;
+
+    //var totalHeight = deriveInt( $("#divMap").css("height") ) ;
+
+    var totalWidth = display.ctl["MAP"].worldMap.map.divRealWidth;
+
+    var totalHeight =  display.ctl["MAP"].worldMap.map.divRealHeight;
+
+    var x = display.ctl["MAP"].worldMap.map.allLabels[0].x;
+
+c("x in updateLabelPosition is " + x)
+
+    var y = display.ctl["MAP"].worldMap.map.allLabels[0].y;
+
+    x =  x  / totalWidth;
+
+c("x normalized in updateLabelPosition is " + x)
+
+    y =  y  / totalHeight;
+
+    var _level = display.ctl["MAP"].level.get();
+
+    var selectedContinent = display.ctl["MAP"].worldMap.selectedContinent;
+
+    var selectedRegion = display.ctl["MAP"].worldMap.selectedRegion;
+
+    var selectedCountry = display.ctl["MAP"].worldMap.selectedCountry.get();
+
+    var xName = "xl";
+
+    var yName = "yl";
+
+    if ( _which == 2 ) {
+
+      xName = "xl2";
+      yName = "yl2";
+    }
+
+//db.updateRecord2 = function (_type, field, ID, value) 
+
+    if (_level == mlContinent) {
+
+        var rec = db.getContinentRec(selectedContinent);
+
+        db.updateRecord2( cContinent, "xl", rec._id, x);
+
+        db.updateRecord2( cContinent, "yl", rec._id, y);
+
+        console.log("continent " + selectedContinent + " label updated to " + x + ", " + y);
+    }
+
+    if (_level == mlRegion) {
+
+        var rec = db.getRegionRec(selectedRegion);
+
+        db.updateRecord2( cRegion, "xl", rec._id, x);
+
+        db.updateRecord2( cRegion, "yl", rec._id, y);
+
+        console.log("region " + selectedRegion + " label updated to " + x + ", " + y);
+    }
+
+    if (_level == mlCountry) {
+
+        var rec = db.getCountryRec(selectedCountry);
+
+        db.updateRecord2( cCountry, xName, rec._id, x);
+
+        db.updateRecord2( cCountry, yName, rec._id, y);
+
+        console.log("country " + "(" + _which + ") " + selectedCountry + " label updated to " + x + ", " + y);
+    }
+    
+
+}
+
+//used by updateLabelPos above
+
+function deriveInt(_s) {
+
+  _s = _s.substr(0, _s.length-2);
+
+  return parseInt(_s);
 }

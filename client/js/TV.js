@@ -95,6 +95,8 @@ TV = function() {
 	this.stopIdle = function() {
 
 		this.idleState = 0;
+
+		$( this.elementID ).attr("src", "");			
 	}
 
 }

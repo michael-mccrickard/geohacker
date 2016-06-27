@@ -586,7 +586,7 @@ ghImageCtl = function() {
 
       this.countryCode = _countryCode;
 
-      this.fullCount = this.collection.find ( { cc: this.countryCode, dt: {$ne: "rmp"} } ).count();
+      this.fullCount = this.collection.find ( { cc: this.countryCode, dt: {$ne: "cmp"} } ).count();
 
       this.loadedCount = 0;
 

@@ -188,6 +188,8 @@ Display = function() {
 
             $("img#scanButton").attr("src", "./tvScanner.png");
 
+            this.TV.stopIdle();
+
         }
 
         if (game.user.mode == uBrowseCountry || game.user.mode == uBrowseMap ) {

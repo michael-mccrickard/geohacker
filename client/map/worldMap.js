@@ -118,7 +118,7 @@ c("doCurrentMap");
             this.mapCtl.setState( sRegionFeatured);
 
             this.doMapSuccess( mlRegion );
-        
+
             return;
         }       
 
@@ -185,7 +185,9 @@ c("doCurrentMap");
         //For the case of an area being featured (from "intercepted" map data) they can only click OK or X to close.  We also lock down
         //the map in this instance.
 
-        if (state == sContinentFeatured || state == sRegionFeatured) lockMap = true;
+       
+//Attempting to auto-advance the state to sTestCountry after featuring and enable map clicking without exiting and coming back
+// if (state == sContinentFeatured || state == sRegionFeatured) lockMap = true;
 
         //initialize the map object and basic map variables
 
@@ -352,7 +354,7 @@ c("doCurrentMap");
         
         if (typeof _fontSize == 'undefined') _fontSize = 24;
 
-        if (typeof _col == 'undefined') _col = "white";
+        if (typeof _col == 'undefined') _col = "black";
 
         if (typeof _x !== 'undefined') x = _x;
 
@@ -511,41 +513,16 @@ c("doCurrentMap");
 
             if (this.selectedCountry.get() == theCountry) {
 
-                //A sound file (from the sound control) might be playing in the bg
+                if (gEditLabels) {
+                    
+                    showMessage("sequence paused for label editing");
 
-                if (display.ctl["SOUND"].getState() == sPlaying) display.ctl["SOUND"].pause();
+                    return;
+                }    
+                else {
 
-                display.disableHomeButton();
-
-                this.mapCtl.setState( sCountryOK );
-
-                hack.mode = mHackDone;
-
-                //lock out the map so the user doesn't mess up our ending sequence
-
-                if (!gEditLabels) $("#divMap").css("pointer-events","none");
-
-                //update the user's record in the database (country successfully hacked)
-
-                game.user.countryHacked( theCountry );
-                
-                //start the success sequence with all the animations and sound effects.
-
-                //we start two "processes" going here simultaneously, one to pre-load the detailed country map,
-                //so that we can zoom it out from our regular map, and one to start the sequence.  In almost every case,
-                //the map will load before we need it, but we can't just assume that.  
-
-                //So two vars, this.mapLoaded and this.animationDone are used to coordinate.  (animationDone refers to the animations
-                //that occur before we zoom out the country map).  Once the animations are done, this.hackDone() checks to see if 
-                //if the map has been loaded. If so, it proceeeds with the second half: this.hackDone2().  
-                //If not, it returns and lets the imagesLoaded callback in preloadCountryMap() (map.js)
-                //start hackDone2().  preloadCountryMap uses a similar but reversed logic.
-
-                if (!gEditLabels) this.mapCtl.preloadCountryMap( hack.getCountryFilename().toLowerCase() );
-
-                this.doMapSuccess( mlCountry );
-
-                
+                    this.doCorrectSequence();
+                }
             }
             else {
 
@@ -554,6 +531,46 @@ c("doCurrentMap");
                 this.mapCtl.setState( sCountryBad );         
             }
         }
+
+        refreshMap();
+    }
+
+
+    this.doCorrectSequence = function() {
+
+        //A sound file (from the sound control) might be playing in the bg
+
+        if (display.ctl["SOUND"].getState() == sPlaying) display.ctl["SOUND"].pause();
+
+        display.disableHomeButton();
+
+        this.mapCtl.setState( sCountryOK );
+
+        hack.mode = mHackDone;
+
+        //lock out the map so the user doesn't mess up our ending sequence
+
+        if (!gEditLabels) $("#divMap").css("pointer-events","none");
+
+        //update the user's record in the database (country successfully hacked)
+
+        game.user.countryHacked( hack.countryCode );
+        
+        //start the success sequence with all the animations and sound effects.
+
+        //we start two "processes" going here simultaneously, one to pre-load the detailed country map,
+        //so that we can zoom it out from our regular map, and one to start the sequence.  In almost every case,
+        //the map will load before we need it, but we can't just assume that.  
+
+        //So two vars, this.mapLoaded and this.animationDone are used to coordinate.  (animationDone refers to the animations
+        //that occur before we zoom out the country map).  Once the animations are done, this.hackDone() checks to see if 
+        //if the map has been loaded. If so, it proceeeds with the second half: this.hackDone2().  
+        //If not, it returns and lets the imagesLoaded callback in preloadCountryMap() (map.js)
+        //start hackDone2().  preloadCountryMap uses a similar but reversed logic.
+
+        this.mapCtl.preloadCountryMap( hack.getCountryFilename().toLowerCase() );
+
+        this.doMapSuccess( mlCountry );
 
         refreshMap();
 
@@ -578,6 +595,9 @@ c("doMapSuccess")
        if (_which == mlRegion) {
 
             Control.playEffect(this.map_region_success_sound);
+
+            if ( this.mapCtl.getState() == sRegionFeatured ) this.mapCtl.setStateOnly( sIDCountry );
+
         }
        
         if (_which == mlCountry) {
@@ -714,7 +734,7 @@ c("hackDone2")
         var duration = 1.5;
 
         Meteor.setTimeout( function() { Control.playEffect2("trans3.mp3"); }, 1000 );
-c("hackDone2 -- just played sound")
+
         //set opacity and scale to 0 initially. We set z to 0.01 just to kick in 3D rendering in the browser which makes things render a bit more smoothly.
         tl.set(element, {autoAlpha: 0, scale: 0, z: 0.01});
 
@@ -723,16 +743,13 @@ c("hackDone2 -- just played sound")
         tl.to(element, duration, {scale:1.2,  ease:SlowMo.ease.config(0.25, 0.9) }, delay1)
           //notice the 3rd parameter of the SlowMo config is true in the following tween - that causes it to yoyo, meaning opacity (autoAlpha) will go up to 1 during the tween, and then back down to 0 at the end. 
           .to(element, duration, {autoAlpha:1, ease:SlowMo.ease.config(0.25, 0.9, true),  }, delay2);
-c("hackDone2 -- just before calling tl.add(hackDone3)")
+
 
         tl.add( function() { display.ctl["MAP"].worldMap.hackDone3() }, 3.0 );
-
-       //Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone3(), 12000});
 
     }
 
     this.hackDone3 = function() {
-c("hackDone3")
     
         this.mapFilename = hack.getCountryMapURL( hack.getCountryName() );
 
@@ -769,11 +786,24 @@ c("hackDone4")
         this.animationDone = true;
 
         if (!this.mapLoaded) {
-c("hackDone4 returning b/c map not loaded")
+
+            //we will have to wait for the map to finish loading, so set the
+            //flag that indicates that we are ready and then return
+
+            display.ctl["MAP"].worldMap.animatonDone = true;
+
             return;
         }
 
         display.ctl["MAP"].worldMap.doMapStuff();      
+
+        //if we're editing the label position, then we pause here, otherwise just continue
+
+        if (!gEditLabels) this.hackDone4a();
+
+    }
+
+    this.hackDone4a = function() {
 
         Control.playEffect( "new_debrief.mp3");   
 
@@ -826,7 +856,6 @@ c("hackDone4 returning b/c map not loaded")
                 width: deltaWidth,
         });
 
-        //tl.add( () => { display.ctl["MAP"].worldMap.hackDone5(); }, 3.0);   
 
         Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone5(); }, 2000 ); 
     }
@@ -935,7 +964,7 @@ c("hackDone4 returning b/c map not loaded")
 
         var div = $(".divWelcomeAgent")  
 
-        Meteor.setTimeout( function() { Control.playEffect("agentAdded.mp3") }, 8100); 
+        Meteor.setTimeout( function() { Control.playEffect3("agentAdded.mp3") }, 8100); 
 
         tl.to(div, 0.1, { opacity: 1.0, delay: 0.1 } ); 
 
@@ -963,7 +992,7 @@ c("hackDone4 returning b/c map not loaded")
 
         this.map.validateData();
 
-        this.labelMapObject(14, "white");
+        this.labelMapObject(14, "black");
     }         
 
 }  //end WorldMap Object
@@ -1189,43 +1218,6 @@ function handleZoomCompleted() {
 function refreshMap() {
     Meteor.setTimeout( function() { display.ctl["MAP"].finishDraw(); }, 250);
 }
-
-
-//zoom out the giant HACKED text with a sound effect
-/*
-hackedZoom = function() {
-
-    var container = $("#demo");
-
-    container.css("display","block");
-
-    var word="HACKED";
-
-    //var tl = new TimelineMax(); //({delay:2.0});
-
-    var delay = 2.0;
-
-    var element = $("<h3>" + word + "</h3>").appendTo(container);
-
-    var duration = 2.0;
-
-
-    tl.add( () => { Control.playEffect2("trans3.mp3"); }, 1.5 )
-
-    //set opacity and scale to 0 initially. We set z to 0.01 just to kick in 3D rendering in the browser which makes things render a bit more smoothly.
-    tl.set(element, {autoAlpha: 0, scale: 0, z: 0.01});
-
-
-    //the SlowMo ease is like an easeOutIn but it's configurable in terms of strength and how long the slope is linear. See http://www.greensock.com/v12/#slowmo and http://api.greensock.com/js/com/greensock/easing/SlowMo.html
-    tl.to(element, duration, {scale:1.2,  ease:SlowMo.ease.config(0.25, 0.9)}, delay)
-      //notice the 3rd parameter of the SlowMo config is true in the following tween - that causes it to yoyo, meaning opacity (autoAlpha) will go up to 1 during the tween, and then back down to 0 at the end. 
-      .to(element, duration, {autoAlpha:1, ease:SlowMo.ease.config(0.25, 0.9, true)}, delay);
-
-    display.mapStatus.setAndShow(' ');
-
-     tl.add( () => { display.ctl["MAP"].worldMap.hackDone(); } );  
-}
-*/
 
 
 $.fn.letterDrop = function() {
