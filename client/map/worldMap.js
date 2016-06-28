@@ -291,6 +291,7 @@ c("doCurrentMap");
 
         var x, y;
 
+
         //Look up in the db where to place the label 
         //(this is what all this code does except for the last line)
 
@@ -311,6 +312,11 @@ c("doCurrentMap");
         if (level == mlCountry) {
 
             rec = db.getCountryRec( this.mapObjectClicked ); 
+
+            if (typeof rec.wl !== undefined) {
+
+                if (rec.wl == 1) _col = "white";
+            }
         }
 
         if (rec) {
@@ -766,7 +772,6 @@ c("hackDone2")
 
         display.ctl["MAP"].worldMap.map.clearLabels();
 
-        //tl.to( $("#divMap"), 1.0, { width: "43%", left: "10.5%", } );
 
         $("#divMap").velocity({
 
@@ -872,6 +877,11 @@ c("hackDone4")
         //Hide the letters that dropped down to spell the country name
 
         $(".letterDropH1").css("opacity", 0);
+
+
+        //remove the HACKED zooom-out element
+
+        $("div#demo").css("display","none");
 
         display.mapStatus.setThisAndType("INCOMING TRANSMISSION DETECTED");
 

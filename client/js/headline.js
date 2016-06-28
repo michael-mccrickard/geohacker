@@ -13,8 +13,13 @@ Headline = function( _type ) {
     this.typing_sound_file = "textReveal.mp3";
 
 
-	if ( _type == "status") this.ele = "div.divStatus";
+	if ( _type == "status") {
+
+        this.ele = "div.divStatus";
 	
+         this.typing_sound_file = "agentMessage2.mp3";
+    }
+    
 	if ( _type == "cue" ) this.ele = "div.divCue";
 
     if ( _type == "map" ) this.ele = "div.mapMessages";

@@ -96,12 +96,15 @@ special cases
 
 		this.countryCode = _code;
 		
-this.arr = db.ghDebrief.find( { cc: this.countryCode, dt: "lng_o" } ).fetch();  //normally with no dt specified
+		this.arr = db.ghDebrief.find( { cc: this.countryCode } ).fetch();  
+
+/*
 
 if (this.arr.length == 0 ) this.arr = db.ghDebrief.find( { cc: this.countryCode, dt: "lng_om" } ).fetch();
 
 if (this.arr.length == 0 ) this.arr = db.ghDebrief.find( { cc: this.countryCode, dt: "lng_i" } ).fetch();
 
+*/
 		this.index = Database.getRandomValue(this.arr.length);
 	}
 

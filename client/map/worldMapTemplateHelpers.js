@@ -18,7 +18,7 @@ var bottomStripFactor = 49 / 670;
 //              RENDERED CALLBACK
 //*************************************************************************
 
-
+ 
 Template.worldMap.rendered = function () {
     
     stopSpinner();

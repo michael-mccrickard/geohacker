@@ -6,6 +6,12 @@
 
 }
 
+
+.divWelcomeAgent {
+
+}
+
+
 .divBigAgent {
     display: -webkit-flex;
     display: flex;
@@ -14,6 +20,8 @@
     margin-bottom: 16px;
 margin-left: 16px;
     float: left;
+
+    z-index: 5000;
 }
 
 .bigAgentItem {
@@ -121,26 +129,29 @@ margin-left: 16px;
 
 .imgBigAgentContactButton {
 
-	background-color: black;
-	height: 72px;
-	padding: 4px;
+	margin-top: 88px;
+
+	height: 58px;
 
 	width: 54px;
-	position: relative;
-	left: -18px;
+	margin-left: -16px;
 
 	opacity: 0.66;
 }
 
 .imgBigAgentDeleteButton {
 
+	height: 72px;
+	padding: 4px;
 
-	margin-top: 48px;
+	width: 54px;
+	position: relative;
+	left: -12px;
+	top: -4px;
 
-	height: 58px;
-
-	width: 60px;
 	opacity: 0.66;
+
+	cursor: pointer;
 }
 
 

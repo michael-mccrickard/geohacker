@@ -41,7 +41,7 @@ gCropPictureMode = new Blaze.ReactiveVar(false);
 
 gGameEditor = false;
 
-//turn in-game editor off / on  (only on for now, need named functions for $(window).on() calls to unbind them)
+//turn in-game editor off / on  
 
 $(document).keydown(function(e) {
 
