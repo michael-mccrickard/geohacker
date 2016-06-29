@@ -112,7 +112,7 @@ c("newControl name is " + this.newControl.name)
 
 
 		//see if any buttons need enabling / disabling
-
+c("calling checkMain")
 		display.checkMainScreen();
 
 	},

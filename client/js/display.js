@@ -184,9 +184,9 @@ Display = function() {
 
         if (this.moreDataAvailable() == false) {
 
-            $("img#scanButton").addClass('faded');
+            //$("img#scanButton").addClass('faded');
 
-            $("img#scanButton").attr("src", "./tvScanner.png");
+            $("img#scanButton").attr("src", "./tvScannerGray.png");
 
             this.TV.stopIdle();
 

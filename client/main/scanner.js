@@ -310,7 +310,7 @@ Scanner = function() {
 
 		this.showBG();
 
-		display.TV.startIdle();
+		if ( display.moreDataAvailable() ) display.TV.startIdle();
 
 		Control.playEffect( this.intercept_sound_file );
 

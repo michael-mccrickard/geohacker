@@ -192,7 +192,7 @@ Template.worldMap.helpers({
 
       //for all of these states, show the OK button
 
-      if (state == sContinentFeatured || state == sRegionFeatured) {
+      if (state == sContinentFeatured || state == sRegionFeatured || state == sIDContinent || state == sIDRegion || state == sIDCountry) {   
 
           return "";
       }

@@ -199,7 +199,7 @@ Template.main.events({
 
       e.preventDefault();  
 
-      if ( $("img#scanButton").hasClass('faded') ) return; 
+      if ( display.moreDataAvailable() == false ) return; 
 
       $("#scanButton").attr("src", "./tvScannerGreen.png");
 
@@ -209,7 +209,7 @@ Template.main.events({
 
       e.preventDefault();  
 
-      if ( $("img#scanButton").hasClass('faded') ) return; 
+      if ( display.moreDataAvailable() == false ) return; 
 
       $("img#scanButton").attr("src", "./tvScannerYellow.png");
 
@@ -284,11 +284,11 @@ Template.main.events({
           return;
       }
 
-      if ( $("img#scanButton").hasClass('faded') ) {
+      if ( display.moreDataAvailable() == false ) {
 
           Control.playEffect( display.locked_sound_file );
 
-          display.TV.stopIdle();
+          //display.TV.stopIdle();
 
           return; 
       }
@@ -434,18 +434,7 @@ Template.main.rendered = function () {
 
     if ( game.user.mode == uHack ) {
 
-/*
-      if (display.scanner.centerState.get() == "loaded") {
 
-            display.scanner.show();
-            
-            Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 ); 
-
-            display.loader.showLoadedControl();     
-
-            return;
-      }
-*/
       //MAP is the only control that has the scanner visible when it's featured
 
        if (display.feature.on() && display.feature.getName() != "MAP") {

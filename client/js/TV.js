@@ -94,9 +94,12 @@ TV = function() {
 
 	this.stopIdle = function() {
 
+c("setting idleState to zero, clearing timer and setting backdrop")
 		this.idleState = 0;
 
-		$( this.elementID ).attr("src", "");			
+		if (this.timerID) Meteor.clearTimeout( this.timerID );
+
+		$( this.elementID ).attr("src", "featuredBackdrop.jpg");			
 	}
 
 }

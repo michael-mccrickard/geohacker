@@ -596,11 +596,17 @@ c("doMapSuccess")
 
             Control.playEffect(this.map_continent_success_sound);
 
+            //sContinentFeatured indicates a map clue; go ahead and bump up the state to sIDRegion
+
+            if ( this.mapCtl.getState() == sContinentFeatured ) this.mapCtl.setStateOnly( sIDRegion );
+
         }
 
        if (_which == mlRegion) {
 
             Control.playEffect(this.map_region_success_sound);
+
+            //sRegionFeatured indicates a map clue; go ahead and bump up the state to sIDCountry
 
             if ( this.mapCtl.getState() == sRegionFeatured ) this.mapCtl.setStateOnly( sIDCountry );
 
