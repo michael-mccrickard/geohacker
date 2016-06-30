@@ -437,6 +437,8 @@ Display = function() {
 
     this.suspendBGSound = function() {
 
+        if (!display.ctl["SOUND"]) return;
+
         if (display.ctl["SOUND"].getState() == sPlaying) {
 
 c("display is suspending the bg sound")

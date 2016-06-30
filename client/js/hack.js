@@ -67,6 +67,10 @@ Hack = function() {
 
         this.mode = mNone;
 
+        display.suspendMedia();
+
+        display.suspendBGSound();
+
         display.feature.clear();    
         
         display.reset();

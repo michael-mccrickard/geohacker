@@ -373,6 +373,8 @@ Template.main.events({
       
       e.preventDefault();
 
+      display.stopBlinking();
+
       Control.switchTo( e.currentTarget.id );
     },
 
