@@ -167,17 +167,17 @@ Meteor.startup(function() {
 
   Meteor.subscribe("allImages", function() { Session.set("sEditImageReady", true ) });  
 
-Meteor.subscribe("allWebs", function() { Session.set("sEditWebReady", true ) });  
+  Meteor.subscribe("allWebs", function() { Session.set("sEditWebReady", true ) });  
 
   Meteor.subscribe("chiefUser", function() { Session.set("sChiefUserReady", true ) });  
 
   Meteor.subscribe("registeredUsers");  
 
-  //Tracker.autorun(function(){
+  Tracker.autorun(function(){
       Meteor.subscribe("conversation");
-  //});
+  });
 
-//ps("AE")
+  Meteor.subscribe('userPresence');
 
   //start screen
 

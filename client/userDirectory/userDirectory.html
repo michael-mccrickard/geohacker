@@ -1,8 +1,32 @@
 <template name="userDirectory">
 
-	<div class="container">
+	<div>
 
-		<div class="countrySelector">
+		<div class="userSelector">
+
+			<!--
+				//user status
+			usNone =      0;
+			usActive =    1;
+			usVirtual =   2;
+			usHonorary =  3;
+			usRetired =   4;
+			usDeleted =   5;
+			usAdmin =     6;
+			usTest =      7;
+			-->
+
+			<div class="centered userDirectoryFilter">
+
+				  <button type="button" class="btn btn-primary menuBarBtnContSel userFilterButton" id="1">Active</button>
+				  <button type="button" class="btn btn-warning menuBarBtnContSel userFilterButton" id="2">Virtual</button>
+				  <button type="button" class="btn btn-info menuBarBtnContSel userFilterButton" id="7">Test</button>
+				  <button type="button" class="btn btn-danger menuBarBtnContSel userFilterButton" id="3">Honorary</button>
+				  <button type="button" class="btn btn-default menuBarBtnContSel userFilterButton" id="6">Admin</button>
+				  <span style="font-size: 28px; margin: 5px;"> | </span>
+				  <button type="button" class="btn btn-success menuBarBtnCont userFilterButton" id="-1">Online</button>
+
+			</div>
 
 			<div>
 				<button class="btn btn-warning" style="float: right; margin: 8px;" id="closeUserDirectory"><strong>X</strong></button>
@@ -12,10 +36,10 @@
 
 			<tr>
 				<th>Save</th>
+				<th>Avatar</th>
 				<th>Name</th>
 				<th>Email</th> 
 				<th>Countries</th>
-				<th>Avatar</th>
 				<th>Status</th>
 				<th>Delete</th>
 				<th>Login</th>
@@ -27,13 +51,28 @@
 
 						<td><button class="btn btn-success saveRecord" id="{{_id}}" size="2">SAVE</button></td>
 
-						<td size="30">{{username}}</td>
+						<td size="30"> 
+
+							{{#if presence}}
+
+								<span class="label label-success">ONLINE</span>
+
+							{{else}}
+
+								<span class="label label-danger">OFFLINE</span>								
 						
+							{{/if}}
+
+							<img style="width: 64px; margin: 4px;" src="{{profile.av}}" /> 
+
+						</td>
+
+						<td size="30">{{username}}</td>
+
 						<td size="30">{{emails.[0].address}}</td>
 						
 						<td size="30">{{profile.h.length}}</td>
 
-						<td size="30"> <img style="width: 64px; margin: 4px;" src="{{profile.av}}" /> </td>
 
 						<td size="30"> 
 
@@ -47,7 +86,8 @@
 							  	<option {{selectedValue 4}}>Honorary</option>							
 							  	<option {{selectedValue 5}}>Retired</option>
 							  	<option {{selectedValue 6}}>Deleted</option>
-							
+							  	<option {{selectedValue 7}}>Admin</option>
+							  	<option {{selectedValue 8}}>Test</option>							
 							</select>
 
 						</td>
