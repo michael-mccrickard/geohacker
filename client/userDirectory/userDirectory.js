@@ -2,6 +2,9 @@ var allUsersFilter = [1,2,3,4,5,6,7,8];
 
 var userTypeLimit = allUsersFilter.length - 1;
 
+
+onlineOnly = false;
+
 Session.set("sArrUserFilter", allUsersFilter );
 
 
@@ -21,9 +24,9 @@ Template.userDirectory.helpers({
 
     var _out = [];
 
-    if ( _arr[0] == -1) {  //online users only; check all types
+    var _users = Meteor.users.find( { 'profile.st': { $in: Session.get("sArrUserFilter") } } ).fetch();
 
-        var _users = Meteor.users.find().fetch();
+    if ( onlineOnly ) {  //online users only
 
         for (var i = 0; i < _users.length; i++) {
 
@@ -32,8 +35,12 @@ Template.userDirectory.helpers({
 
         return _out;
     }
+    else {
 
-    return Meteor.users.find( { 'profile.st': { $in: Session.get("sArrUserFilter") } } );
+      return _users;
+    }
+
+    //return Meteor.users.find( { 'profile.st': { $in: Session.get("sArrUserFilter") } } );
   },
 
   userStatus: function() {
@@ -58,51 +65,63 @@ Template.userDirectory.events = {
 
   'click .userFilterButton': function(e) {
 
+    onlineOnly = false;
+
+    var selected = false;
+
     var ID = e.target.id;
 
     if ( $("button#" + ID).hasClass("menuBarBtnCont") ) {
 
       setModeButton( ID, 1);
+
+      selected = true;
     }
     else {
 
       setModeButton( ID, 0);      
     }
 
-    var _arr = Session.get("sArrUserFilter");
+
+    if ( ID == "0" ) {  //a zero ID (not yet incrmemented) means "none" (no records, reset essentially)
+
+        var btnNone = "button#0";
+
+        if ( $(btnNone).hasClass("menuBarBtnContSel") ) {
+
+          setAllModeButtons( 0 );   
+
+          setModeButton(ID, 1);            
+
+          Session.set("sArrUserFilter", [] );          
+        }
+        else {
+
+          setAllModeButtons( 1 );   
+
+          setModeButton(ID, 0);            
+
+          Session.set("sArrUserFilter", allUsersFilter );  
+
+        }
+
+        return;
+
+    }
+
 
     var intID = parseInt( ID );
 
-    if ( intID == -1 ) {
+    if (intID > 0 && selected) setModeButton(0, 0);  //i.e., if a specific type was selected, deselect the NONE button
 
-       var btnOnline = "button#-1";
 
-       if ( $( btnOnline ).hasClass("menuBarBtnContSel") ) {
+    intID++;  //the ID has to be incremented to work correctly (???)
 
-c("online button not selected")
-
-          setAllModeButtons( 1 );
-
-          Session.set("sArrUserFilter", [-1] );
-
-       }
-       else {
-c("online button is selected")
-
-setAllModeButtons( 1 );               
-
-Session.set("sArrUserFilter", allUsersFilter);
-       
-       }
-
-       return;
-    }
-
-    intID++;
+    var _arr = Session.get("sArrUserFilter"); 
 
     var _index = _arr.indexOf( intID )
 
-    if ( _index  == -1 ) {
+    if ( _index  == -1 ) {  //i.e., not there
 
       _arr.push( intID )
     } 
@@ -111,6 +130,12 @@ Session.set("sArrUserFilter", allUsersFilter);
       _arr.splice( _index, 1 );
     }
 
+
+
+    if ( _arr.indexOf( 0 ) != -1 ) {  //the zero in the array means onlineOnly mode
+
+        onlineOnly = true;
+    }
 
     Session.set("sArrUserFilter", _arr)
   },
