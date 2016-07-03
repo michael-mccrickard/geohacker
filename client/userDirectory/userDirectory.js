@@ -65,8 +65,6 @@ Template.userDirectory.events = {
 
   'click .userFilterButton': function(e) {
 
-    onlineOnly = false;
-
     var selected = false;
 
     var ID = e.target.id;
@@ -83,9 +81,11 @@ Template.userDirectory.events = {
     }
 
 
-    if ( ID == "0" ) {  //a zero ID (not yet incrmemented) means "none" (no records, reset essentially)
+    if ( ID == "0" ) {  //a zero ID (not yet incrmemented) means "NONE" was selected (no records, reset essentially)
 
         var btnNone = "button#0";
+
+        var _tmpArr = allUsersFilter;
 
         if ( $(btnNone).hasClass("menuBarBtnContSel") ) {
 
@@ -93,17 +93,19 @@ Template.userDirectory.events = {
 
           setModeButton(ID, 1);            
 
-          Session.set("sArrUserFilter", [] );          
+          _tmpArr = [];          
         }
         else {
 
           setAllModeButtons( 1 );   
 
-          setModeButton(ID, 0);            
-
-          Session.set("sArrUserFilter", allUsersFilter );  
+          setModeButton(ID, 0);   
 
         }
+
+        if (onlineOnly) _tmpArr.push(0);  //add the onlineOnly flag back to the array
+
+        Session.set("sArrUserFilter",  _tmpArr);  
 
         return;
 
@@ -132,9 +134,13 @@ Template.userDirectory.events = {
 
 
 
-    if ( _arr.indexOf( 0 ) != -1 ) {  //the zero in the array means onlineOnly mode
+    if ( _arr.indexOf( 0 ) != -1 && selected) {  //the zero in the array means onlineOnly mode
 
         onlineOnly = true;
+    }
+    else {
+
+      onlineOnly = false;
     }
 
     Session.set("sArrUserFilter", _arr)
