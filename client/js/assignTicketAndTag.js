@@ -20,7 +20,18 @@ Assign = function( _code, _hacked, _level, _name, _pool, _completions) {
 	this.selectedRegion = "";
 
 
-	if (this.level == mlContinent) this.selectedContinent = this.code;
+	if (this.level == mlContinent) {
+
+		if (this.mapCode) {  //we set a mapCode for some custom missions, like Top Ten [Continent];
+
+			this.selectedContinent = this.mapCode;
+		}
+		else {
+
+			this.selectedContinent = this.code;			
+		}
+
+	}
 
 	if (this.level == mlRegion) {
 

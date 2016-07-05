@@ -323,13 +323,14 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
  		var _mission = null;
 
-		//the Top Ten list is first
+ 		//Any custom missions, like top ten lists and any other arbitrary (non-continental, non-region) missions
+ 		//have to be listed in the Mission.customList property  (in mission.js)
 
-		_mission = new Mission( "ttp" );
+		//the Top Ten lists are first
 
-		_assign =  new Assign(_mission.code, [], _mission.level, _mission.name, _mission.items, 0)
+		this.addNewAssign( "ttp" );
 
-		this.assigns.push( this.createAssignDataObject( _assign ) );
+		this.addNewAssign( "ttp_africa" );
 
 
 		//now the continents
@@ -338,30 +339,27 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		for (i = 0; i < _arr.length; i++) {
 
-			_mission = new Mission( _arr[i].c );
-
-			_assign =  new Assign(_mission.code, [], _mission.level, _mission.name, _mission.items, 0)
-
-			this.assigns.push( this.createAssignDataObject( _assign ) );			
-
+			this.addNewAssign( _arr[i].c );			
 		}
 
 		//now the last arbitrary ones
 
-		_mission = new Mission( "pg" );
+		this.addNewAssign( "pg" );
 
-		_assign =  new Assign(_mission.code, [], _mission.level, _mission.name, _mission.items, 0)
-
-		this.assigns.push( this.createAssignDataObject( _assign ) );
-
-		_mission = new Mission( "all" );
-
-		_assign =  new Assign(_mission.code, [], _mission.level, _mission.name, _mission.items, 0)
-
-		this.assigns.push( this.createAssignDataObject( _assign ) );
+		this.addNewAssign( "all" );
 
 	}
 
+	this.addNewAssign = function(_code, _completions) {
+
+		if (_completions === undefined) _completions = 0; 
+
+		var _mission = new Mission( _code );
+
+		_assign =  new Assign(_mission.code, [], _mission.level, _mission.name, _mission.items, _completions)
+
+		this.assigns.push( this.createAssignDataObject( _assign ) );		
+	}
 
 	this.assignMission = function( _code) {
 
