@@ -41,6 +41,8 @@ Template.missionListing.helpers({
 
 	missionCode: function() {
 
+		//if (this.mapCode) return this.mapCode;
+
 		return this.code;
 	},
 

@@ -332,6 +332,12 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		this.addNewAssign( "ttp_africa" );
 
+		this.addNewAssign( "ttp_asia" );
+
+		this.addNewAssign( "ttp_europe" );
+
+		this.addNewAssign( "ttp_americas" );
+
 
 		//now the continents
 
@@ -356,7 +362,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		var _mission = new Mission( _code );
 
-		_assign =  new Assign(_mission.code, [], _mission.level, _mission.name, _mission.items, _completions)
+		_assign =  new Assign(_mission.code, _mission.mapCode, [], _mission.level, _mission.name, _mission.items, _completions)
 
 		this.assigns.push( this.createAssignDataObject( _assign ) );		
 	}
@@ -388,7 +394,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 				//if we find it, we create the assign using our stored data
 
-				this.assign = new Assign(_assignData.code, _assignData.hacked, _assignData.level, _assignData.name, _assignData.pool, _assignData.completions);
+				this.assign = new Assign(_assignData.code, _assignData.mapCode, _assignData.hacked, _assignData.level, _assignData.name, _assignData.pool, _assignData.completions);
 
 				return;
 			}
@@ -403,7 +409,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		//We re-create the assign object from scratch, except we carry over the current completions value
 
-		var _assign = new Assign( _mission.code, [], _mission.level, _mission.name, _mission.items, this.assigns[ _index ].completions );
+		var _assign = new Assign( _mission.code, _mission.mapCode, [], _mission.level, _mission.name, _mission.items, this.assigns[ _index ].completions );
 	
 		this.assigns[ _index ] = this.createAssignDataObject( _assign );
 	}
@@ -441,7 +447,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	this.createAssignDataObject = function( _assign ) {
 
-		var _a = { code: _assign.code, hacked: _assign.hacked, level: _assign.level, name: _assign.name, pool: _assign.pool, completions: _assign.completions };
+		var _a = { code: _assign.code, mapCode: _assign.mapCode, hacked: _assign.hacked, level: _assign.level, name: _assign.name, pool: _assign.pool, completions: _assign.completions };
 
 		return _a;
 

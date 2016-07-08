@@ -1,9 +1,11 @@
 //assignAndTicket.js
 
 
-Assign = function( _code, _hacked, _level, _name, _pool, _completions) {
+Assign = function( _code, _mapCode, _hacked, _level, _name, _pool, _completions) {
 
 	this.code = _code;  //string code for the mission
+
+	this.mapCode = _mapCode;
  
 	this.hacked = _hacked;   //array of countries already hacked (codes)
 
@@ -76,7 +78,7 @@ Assign = function( _code, _hacked, _level, _name, _pool, _completions) {
 
 		if (this.level == mlContinent) {
 
-			display.ctl["MAP"].setContinent( this.code );
+			display.ctl["MAP"].setContinent( this.mapCode );
 
 			display.ctl["MAP"].setState( sIDRegion );
 		}

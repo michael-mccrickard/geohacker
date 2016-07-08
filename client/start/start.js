@@ -15,7 +15,11 @@ Accounts.onResetPasswordLink( function(token) {
 
 //Callback for user login
 
-Accounts.onLogin( function() { game.user = game.createGeohackerUser(); });
+Accounts.onLogin( function() { 
+
+  game.user = game.createGeohackerUser(); 
+
+});
 
 //Debugging hacks
 

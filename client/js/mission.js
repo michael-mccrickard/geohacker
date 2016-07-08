@@ -14,7 +14,7 @@ Mission = function(_code) {
 
   this.name = "0";
 
-  this.customList = ["ttp", "ttp_africa", "pg", "all"];
+  this.customList = ["ttp", "ttp_africa","ttp_asia","ttp_europe","ttp_americas","pg", "all"];
 
   this.items = [];
 
@@ -52,6 +52,49 @@ Mission = function(_code) {
     return;
   }
 
+  //ten largest population (Asia)
+
+  if (this.code == "ttp_asia") {
+
+    this.name = "Top Ten Asia";
+
+    this.mapCode = "asia";
+
+    this.level = mlContinent;
+
+    this.items = ["CN","IN","ID","PK","BD","RU","JP","PH","VN","IR"]; 
+
+    return;
+  }
+
+  //ten largest population (Europe)
+
+  if (this.code == "ttp_europe") {
+
+    this.name = "Top Ten Europe";
+
+    this.mapCode = "europe";
+
+    this.level = mlContinent;
+
+    this.items = ["DE","FR","GB","IT","ES","UA","PL","RO","NL","BE"]; 
+
+    return;
+  }
+
+  //ten largest population (AMERICAS)
+
+  if (this.code == "ttp_americas") {
+
+    this.name = "Top Ten America";
+
+    this.level = mlWorld;
+
+    this.items = ["US","BR","MX","CO","AR","CA","PE","VE","CL","EC"]; 
+
+    return;
+  }
+
   //persian gulf
 
   if (this.code == "pg") {
@@ -85,6 +128,8 @@ Mission = function(_code) {
 
   	this.level = mlContinent;
 
+    this.mapCode = _code;
+
     //make an array of all the regions for this continent  (continent code is the z field)
 
   	_arr = db.ghR.find( { z: _code }).fetch();
@@ -116,9 +161,9 @@ Mission = function(_code) {
 
 }
 
-Mission.updateAll = function( _userID ) {
+Mission.updateAll = function( _user ) {
 
-    var _arrAssign = Meteor.users.findOne( { _id: _userID } ).profile.a;
+    var _arrAssign = _user.profile.a;
 
     var _mission = new Mission();
 
@@ -144,45 +189,45 @@ Mission.updateAll = function( _userID ) {
 
        var _code = _list[i];
 
-        var _index = game.user.findAssignIndex( _code );
+        var _index = _user.findAssignIndex( _code );
 
         //brand-new mission, does not exist in user's assigns array
 
         if ( _index == -1 ) {
 
-            game.user.addNewAssign( _code );
+            _user.addNewAssign( _code );
 
             //brand new, so bump it to the front
 
-            game.user.bumpAssign( _code )
+            _user.bumpAssign( _code )
 
             continue;
         }
         else {  //an existing mission
 
-           _assign = game.user.assigns[ _index ];
+           _assign = _user.assigns[ _index ];
 
-           if ( _assign.hacked.length == 0 || _assign.pool.length == 0 )  {  //i.e., if the mission hasn't been started or is completely done
+           if ( _assign.hacked.length == 0 )  {  //i.e., if the mission hasn't been started
 
               var _completions = _assign.completions;
-
+ 
               //remove it, then re-create it
 
-              game.user.assigns.splice( _index, 1);
+              _user.assigns.splice( _index, 1);
 
-              game.user.addNewAssign( _code, _completions );
+              _user.addNewAssign( _code, _completions );
 
               //delete it and then splice it in at correct index
 
-              _assign = game.user.assigns.pop();
+              _assign = _user.assigns.pop();
 
-               game.user.assigns.splice( _index, 0, _assign);             
+               _user.assigns.splice( _index, 0, _assign);             
 
               continue;              
            }
            else {  //an existing mission that is in progress
 
-               _assign = game.user.assigns[ _index ];
+               _assign = _user.assigns[ _index ];
 
                //compare the countries in the mission with what is already in the assign
 
@@ -197,6 +242,8 @@ Mission.updateAll = function( _userID ) {
 
 
                }
+
+               _assign.name = _mission.name;
 
            }  //end else if pool or hacked is zero
 

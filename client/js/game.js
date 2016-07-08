@@ -144,8 +144,6 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_s
 
 			_user.scroll =  Meteor.user().profile.s; //scroll pos (for content editors)
 
-			//eventually we may want to update the assigns with any newly-added or revised missions here
-
 			_user.assignCode = Meteor.user().profile.c;
 
 			_user.setAtlas( Meteor.user().profile.h );
@@ -163,6 +161,10 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_s
 
 			db.updateUserHacks();
 		}
+
+		var _date = new Date();
+
+		db.updateUserLastSeen( Meteor.userId(), _date);
 
 		return _user;
 

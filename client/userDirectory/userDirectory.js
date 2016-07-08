@@ -1,6 +1,6 @@
 var allUsersFilter = [1,2,3,4,5,6,7,8];
 
-var userTypeLimit = allUsersFilter.length - 1;
+var userTypeLimit = allUsersFilter.length;
 
 
 onlineOnly = false;
@@ -43,6 +43,13 @@ Template.userDirectory.helpers({
     //return Meteor.users.find( { 'profile.st': { $in: Session.get("sArrUserFilter") } } );
   },
 
+  isActive: function() {
+
+     if (this.profile.st == usActive) return true;
+
+     return false;
+  },
+
   userStatus: function() {
 
     return arrUserStatus;
@@ -56,6 +63,23 @@ Template.userDirectory.helpers({
   presence: function() { 
 
     return Meteor.presences.findOne({userId: this._id});
+  },
+
+  lastSeen: function() {
+
+      var _date = null;
+/*
+      if (typeof this.profile.sn === "undefined") {
+
+         _date = this.profile.createdAt;
+
+      }
+      else {
+*/
+        _date = this.profile.sn;
+ //     }
+
+      return _date;
   }
 
 })
@@ -117,7 +141,7 @@ Template.userDirectory.events = {
     if (intID > 0 && selected) setModeButton(0, 0);  //i.e., if a specific type was selected, deselect the NONE button
 
 
-    intID++;  //the ID has to be incremented to work correctly (???)
+//intID++;  //the ID has to be incremented to work correctly (???)
 
     var _arr = Session.get("sArrUserFilter"); 
 
@@ -187,7 +211,9 @@ Template.userDirectory.events = {
 
       var _status = $("select#" + e.target.id + " option:selected" ).index();
 
-      db.updateUserStatus( e.target.id, _status );
+      var _lastSeen = $("td#" + e.target.id + ".lastSeen" ).html();
+
+      db.updateUserStatus( e.target.id, _status, _lastSeen);
   },
 
   'click .loginAs': function(e) {
@@ -233,7 +259,7 @@ Template.userDirectory.events = {
 
 function setAllModeButtons( _val ) {
 
-  for (var i = 0; i <= userTypeLimit; i++) {
+  for (var i = 1; i <= userTypeLimit; i++) {
 
      setModeButton( i, _val);
   }

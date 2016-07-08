@@ -129,12 +129,32 @@ Database = function() {
    ); 
 }
 
-  this.updateUserStatus = function(_userID, _status) {
+this.updateUserStatus = function(_userID, _status, _lastSeen) {
+
+  var _date = new Date( _lastSeen );
 
    var res =  Meteor.users.update( {_id: _userID }, { $set: 
 
      {
+
+       'profile.sn': _date,
+
        'profile.st': _status,
+
+     }
+
+   }); 
+}
+
+this.updateUserLastSeen = function(_userID, _lastSeen) {
+
+  var _date = new Date( _lastSeen );
+
+   var res =  Meteor.users.update( {_id: _userID }, { $set: 
+
+     {
+
+       'profile.sn': _date
 
      }
 
