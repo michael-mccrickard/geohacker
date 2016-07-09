@@ -5,8 +5,21 @@ var userTypeLimit = allUsersFilter.length;
 
 onlineOnly = false;
 
-Session.set("sArrUserFilter", allUsersFilter );
+//Session.set("sArrUserFilter", allUsersFilter );
 
+arrUserFilter = allUsersFilter;
+
+//Session.set("sUserSortBy", "" );
+
+var userSortBy = "profile.sn";
+
+//Session.set("sUserSortDir", 1);
+
+var userSortDir = -1;
+
+userSort = { "profile.sn": -1 };
+
+sortNow = new Blaze.ReactiveVar(1);
 
 Template.userDirectory.rendered = function(){
 
@@ -20,11 +33,15 @@ Template.userDirectory.helpers({
 
   ghUser: function() {
 
-    var _arr = Session.get("sArrUserFilter");
+    var _sortNow = sortNow.get();
 
     var _out = [];
+    
+    var _users = null;
 
-    var _users = Meteor.users.find( { 'profile.st': { $in: Session.get("sArrUserFilter") } } ).fetch();
+    if (userSortBy == "username") _users = Meteor.users.find( { 'profile.st': { $in: arrUserFilter } }, { sort:  userSort } ).fetch();
+
+     if (userSortBy == "profile.sn") _users = Meteor.users.find( { 'profile.st': { $in: arrUserFilter } }, { sort:  { "profile.sn": userSortDir } } ).fetch();   
 
     if ( onlineOnly ) {  //online users only
 
@@ -67,25 +84,65 @@ Template.userDirectory.helpers({
 
   lastSeen: function() {
 
-      var _date = null;
-/*
-      if (typeof this.profile.sn === "undefined") {
-
-         _date = this.profile.createdAt;
-
-      }
-      else {
-*/
-        _date = this.profile.sn;
- //     }
-
-      return _date;
+    return this.profile.sn;
   }
 
 })
 
+function updateSort()  {
+
+      var _sortNow = sortNow.get();
+
+    sortNow.set( _sortNow * -1 );
+}
+
+
 Template.userDirectory.events = {
 
+  'click .sortByDate': function(e) {
+
+    //var _dir = Session.get("sUserSortDir");
+
+ var _dir = userSortDir;
+
+    if ( userSortBy == "profile.sn" ) userSortDir = _dir * -1;
+
+    //Session.set("sUserSortBy", '"profile.sn"')
+
+    userSortBy = "profile.sn";
+
+    userSort = {};
+
+    userSort[ userSortBy ] = userSortDir;
+
+    updateSort();
+  },
+
+  'click .sortByName': function(e) {
+/*
+    var _dir = Session.get("sUserSortDir");
+
+    if ( Session.get("sUserSortBy") == "username" ) Session.set("sUserSortDir", _dir * -1)
+
+    Session.set("sUserSortBy", "username")
+
+    userSort[ Session.get("sUserSortBy") ] = _dir;
+*/
+
+ var _dir = userSortDir;
+
+    if ( userSortBy == "username" ) userSortDir = _dir * -1;
+
+    //Session.set("sUserSortBy", '"profile.sn"')
+
+    userSortBy = "username";
+
+    userSort = {};
+
+    userSort[ userSortBy ] = userSortDir;
+
+    updateSort();
+  },
 
   'click .userFilterButton': function(e) {
 
@@ -129,7 +186,11 @@ Template.userDirectory.events = {
 
         if (onlineOnly) _tmpArr.push(0);  //add the onlineOnly flag back to the array
 
-        Session.set("sArrUserFilter",  _tmpArr);  
+        arrUserFilter = _tmpArr;
+
+        updateSort();
+
+        //Session.set("sArrUserFilter",  _tmpArr);  
 
         return;
 
@@ -143,7 +204,7 @@ Template.userDirectory.events = {
 
 //intID++;  //the ID has to be incremented to work correctly (???)
 
-    var _arr = Session.get("sArrUserFilter"); 
+    var _arr = arrUserFilter; //Session.get("sArrUserFilter"); 
 
     var _index = _arr.indexOf( intID )
 
@@ -158,7 +219,7 @@ Template.userDirectory.events = {
 
 
 
-    if ( _arr.indexOf( 0 ) != -1 && selected) {  //the zero in the array means onlineOnly mode
+    if ( _arr.indexOf( -1 ) != -1 && selected) {  // -1 in the array means onlineOnly mode
 
         onlineOnly = true;
     }
@@ -167,7 +228,11 @@ Template.userDirectory.events = {
       onlineOnly = false;
     }
 
-    Session.set("sArrUserFilter", _arr)
+    //Session.set("sArrUserFilter", _arr)
+
+    arrUserFilter = _arr;
+
+    updateSort();
   },
 
   'click #closeUserDirectory': function (e) { 
