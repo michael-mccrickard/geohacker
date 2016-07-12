@@ -1,0 +1,27 @@
+.divLearnCountry {
+	position: relative;
+	top: 60px;
+	left: 60px;
+}
+
+.learnItem {
+
+
+}
+
+.learnImage {
+
+	width: 50%;
+
+}
+
+.homelandText {
+
+	font-family: Arial;
+}
+
+.products{
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+}

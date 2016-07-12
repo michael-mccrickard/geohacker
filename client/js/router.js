@@ -46,6 +46,15 @@ FlowRouter.route('/introVideo', {
 
 });
 
+FlowRouter.route('/learnCountry', {
+
+    action: function (params, queryParams) { 
+
+      BlazeLayout.render('layout', { content: "learnCountry" } ) 
+    },
+
+});
+
 FlowRouter.route('/start2', {
 
   name: "start2",

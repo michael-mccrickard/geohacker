@@ -520,7 +520,8 @@ Tracker.autorun( function(comp) {
 
           if (game.user.mode == uBrowseCountry) {
 
-              hack.startBrowsing();
+            hack.startBrowsing();
+
 
           }
           else {

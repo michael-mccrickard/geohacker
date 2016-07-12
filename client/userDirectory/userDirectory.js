@@ -5,15 +5,9 @@ var userTypeLimit = allUsersFilter.length;
 
 onlineOnly = false;
 
-//Session.set("sArrUserFilter", allUsersFilter );
-
 arrUserFilter = allUsersFilter;
 
-//Session.set("sUserSortBy", "" );
-
 var userSortBy = "profile.sn";
-
-//Session.set("sUserSortDir", 1);
 
 var userSortDir = -1;
 
@@ -57,7 +51,6 @@ Template.userDirectory.helpers({
       return _users;
     }
 
-    //return Meteor.users.find( { 'profile.st': { $in: Session.get("sArrUserFilter") } } );
   },
 
   isActive: function() {
