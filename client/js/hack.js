@@ -390,6 +390,10 @@ Hack = function() {
     /*              GETTERS FOR TEXT         
     /**************************************************************/
 
+    this.getHomelandText = function() {
+
+      return db.ghC.findOne( { c: this.countryCode } ).ht;
+    }
 
     this.getCapitalName = function() {
 
@@ -522,14 +526,12 @@ Tracker.autorun( function(comp) {
 
             hack.startBrowsing();
 
-
+            return;
           }
-          else {
 
-            if (hack === undefined) return;
+          if (!hack) return;
 
-            hack.startNew();           
-          }
+          hack.startNew();  
 
           return; 
   } 

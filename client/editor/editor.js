@@ -26,7 +26,7 @@ Editor = function() {
 
 	this.arrFieldDebrief = ["t"];
 
-	this.arrFieldCountry = ["n","c","r","co","d"];  //name, code, region, color, dataFlag
+	this.arrFieldCountry = ["n","c","r","co","d","ht"];  //name, code, region, color, dataFlag, homelandText
 
 	this.scroll = 0;
 
@@ -291,10 +291,6 @@ Editor = function() {
   				data[ this.arrFieldDebrief[i] ] = $(sel).val();
 
       		}
-
-c( _id );
-
-c( this.getDTValue( _id ) );
 
       		data[ "dt" ] = this.getDTValue( _id );
 

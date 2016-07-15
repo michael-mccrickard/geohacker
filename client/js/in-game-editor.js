@@ -1,32 +1,4 @@
-doH = function() {
 
-      Meteor.setTimeout( function() { $("#ctlBG_SOUND" ).attr("src", "hilitedBackdrop.jpg"); }, 1 );
-
-      Meteor.setTimeout( function() { $("#ctlBG_SOUND" ).attr("src", "featuredBackdrop.jpg"); }, 1001 );
-
-
-      Meteor.setTimeout( function() { $("#ctlBG_TEXT" ).attr("src", "hilitedBackdrop.jpg"); }, 1001 );
-
-      Meteor.setTimeout( function() { $("#ctlBG_TEXT" ).attr("src", "featuredBackdrop.jpg"); }, 2001 );
-
-
-      
-      Meteor.setTimeout( function() { $("#ctlBG_IMAGE" ).attr("src", "hilitedBackdrop.jpg"); }, 2001 );
-
-       Meteor.setTimeout( function() { $("#ctlBG_IMAGE" ).attr("src", "featuredBackdrop.jpg"); }, 3001 );
-
-
-      Meteor.setTimeout( function() { $("#ctlBG_VIDEO" ).attr("src", "hilitedBackdrop.jpg"); }, 3001 );
-
-       Meteor.setTimeout( function() { $("#ctlBG_VIDEO" ).attr("src", "featuredBackdrop.jpg"); }, 4001 );
-
-      
-      Meteor.setTimeout( function() { $("#ctlBG_WEB" ).attr("src", "hilitedBackdrop.jpg"); }, 4001 );
-
-      Meteor.setTimeout( function() { $("#ctlBG_WEB" ).attr("src", "featuredBackdrop.jpg"); }, 5001 );
-      
-
-}
 
 
 //in-game-editor.js
@@ -40,6 +12,16 @@ gUserCountriesOnlyMode = true;
 gCropPictureMode = new Blaze.ReactiveVar(false);
 
 gGameEditor = false;
+
+gEditLearnCountry = false;
+
+gEditElement = "div.transHomelandText";
+
+gArrCountry = [];
+
+gCountryIndex = 0;
+
+gColorIndex = 0;
 
 //turn in-game editor off / on  
 
@@ -56,6 +38,10 @@ $(document).keydown(function(e) {
   }
 );
 
+//***************************************************************
+//            EDITOR MODE EVENTS
+//***************************************************************
+
 
 $(document).keydown(function(e) {
 
@@ -63,29 +49,69 @@ $(document).keydown(function(e) {
 
     switch(e.which) {
 
-    	case 37: //arrow key 
+      case 32: //space
+
+        if (gEditLearnCountry) switchEditText();
+
+        break;
+
+      case 33: //pageup
+
+        if (gEditLearnCountry) editCountry(-1);
+
+        break;
+
+      case 34: //pagedown
+
+        if (gEditLearnCountry) editCountry(1);
+
+        break;
+
+    	case 35: //end
 
     		if (gEditLabels) nudgeLabel( e.which );
 
-    		break;
-
-    	case 38: //arrow key 
-
-    		if (gEditLabels) nudgeLabel( e.which );
+        if (gEditLearnCountry) editTextColor(-1);
 
     		break;
 
-    	case 39: //arrow key 
+      case 36: //home
 
-    		if (gEditLabels) nudgeLabel( e.which );
+        if (gEditLabels) nudgeLabel( e.which );
 
-    		break;
+        if (gEditLearnCountry) editTextColor(1);
 
-    	case 40: //arrow key 
+        break;
 
-    		if (gEditLabels) nudgeLabel( e.which );
+      case 37:  //left arrow
 
-    		break;
+        if (gEditLearnCountry) posElementLeft(1); 
+
+        break;
+
+      case 38: //arrow key up
+
+        if (gEditLabels) nudgeLabel( e.which );
+
+        if (gEditLearnCountry) editTextSize(1);
+
+        break;
+
+      case 39:  //right arrow
+
+        if (gEditLearnCountry) posElementLeft(-1); 
+
+        break;
+
+
+      case 40: //arrow key down
+
+        if (gEditLabels) nudgeLabel( e.which );
+
+        if (gEditLearnCountry) editTextSize(-1);
+
+        break;
+
 
   	    case 65: //a
 
@@ -120,9 +146,17 @@ $(document).keydown(function(e) {
 
 	    	break;
 
+      case 76: //i
+
+        toggleEditLearnCountryMode();
+
+        break;
+
 	    case 83: //s
 
 	    	if (gEditLabels) updateLabelRecord();
+
+        if (gEditLearnCountry) updateLCValues();
 
 	    	break;
 
@@ -132,12 +166,29 @@ $(document).keydown(function(e) {
 
 	    	break;
 
+      case 219:  //open bracket
+
+        adjustCapitalOpacity(-1); 
+
+        break;
+
+      case 221:  //close bracket
+
+        adjustCapitalOpacity(1); 
+
+        break;
+
         default: return; // exit this handler for other keys
     }
     
     e.preventDefault(); // prevent the default action (scroll / move caret)
 });
 
+
+
+//***************************************************************
+//            TOGGLE EDITOR MODES
+//***************************************************************
 
 toggleGameEditor = function() {
 
@@ -175,6 +226,45 @@ stopGameEditor = function() {
 
 	gUserCountriesOnlyMode = true;
 }
+
+
+function toggleEditLabels() {
+
+   if (gEditLabels) {
+
+      gEditLabels = false;
+
+      showMessage("Edit labels is off")
+
+   }
+   else {
+
+      gEditLabels = true;
+
+      showMessage("Edit labels is on")        
+   }
+}
+
+function toggleUserCountriesOnlyMode() {
+
+   gUserCountriesOnlyMode = !gUserCountriesOnlyMode;
+
+   if (gUserCountriesOnlyMode) showMessage("MAP SHOWS USER COUNTRIES ONLY");
+
+   if (!gUserCountriesOnlyMode) showMessage( "MAP SHOWS ALL COUNTRIES");  
+}
+
+function toggleInstantMode() {
+
+   gInstantMode = !gInstantMode;
+
+   if (gInstantMode) showMessage( "Instant mode on");
+
+   if (!gInstantMode) showMessage( "Instant mode off");   
+}
+//***************************************************************
+//            EDIT LABELS MODE
+//***************************************************************
 
 function nudgeLabel(_code) {
 
@@ -252,40 +342,117 @@ function updateLabelRecord() {
 }
 
 
-function toggleEditLabels() {
 
-   if (gEditLabels) {
+//***************************************************************
+//            EDIT LEARN COUNTRY CAPSULES
+//***************************************************************
 
-      gEditLabels = false;
+var arrColor = ["white","black","red","orange","limegreen","mediumpurple","yellow","turquoise","teal","gold","green","slategray","brown"]
 
-      showMessage("Edit labels is off")
+function toggleEditLearnCountryMode() {
 
+   gEditLearnCountry = !gEditLearnCountry;
+
+   if (gEditLearnCountry) {
+
+     showMessage( "Edit Learn Country mode on");
+
+     db.ghC.find( { d: 1 }, {sort: {n: 1} } );
+
+     if (gArrCountry.length == 0) gArrCountry =  db.ghC.find( { d: 1 }, {sort: {n: 1} } ).fetch();
+
+     game.user.mode = uBrowseCountry;
+
+     game.user.setGlobals( "browse" );
+
+     hack.initForBrowse( gArrCountry[ gCountryIndex ].c );
+   }
+
+   if (!gEditLearnCountry) {
+
+      showMessage( "Edit Learn Country mode off");   
+
+      game.user.goHome();
+   }
+}
+
+
+function switchEditText() {
+
+   if (gEditElement == "div.transHomelandText" ) {
+
+      gEditElement = "div.nativeHomelandText";
    }
    else {
 
-      gEditLabels = true;
-
-      showMessage("Edit labels is on")        
+     gEditElement = "div.transHomelandText"
    }
 }
 
-function toggleUserCountriesOnlyMode() {
+function editCountry( _val ) {
 
-	 gUserCountriesOnlyMode = !gUserCountriesOnlyMode;
+  gCountryIndex += _val;
 
-	 if (gUserCountriesOnlyMode) showMessage("MAP SHOWS USER COUNTRIES ONLY");
+  if (gCountryIndex == -1) gCountryIndex = gArrCountry.length - 1;
 
-	 if (!gUserCountriesOnlyMode) showMessage( "MAP SHOWS ALL COUNTRIES");  
+  if (gCountryIndex == gArrCountry.length) gCountryIndex = 0;
+
+  hack.initForBrowse( gArrCountry[ gCountryIndex ].c );
 }
 
-function toggleInstantMode() {
+function editTextColor( _val ) {
 
-	 gInstantMode = !gInstantMode;
+   gColorIndex += _val;
 
-	 if (gInstantMode) showMessage( "Instant mode on");
+  if (gColorIndex == -1) gColorIndex = arrColor.length - 1;
 
-	 if (!gInstantMode) showMessage( "Instant mode off");  	
+  if (gColorIndex == arrColor.length) gColorIndex = 0;
+
+  $( gEditElement ).css("color", arrColor[ gColorIndex ] );
+} 
+
+function editTextSize( _val ) {
+
+   var _size = $(gEditElement).css("font-size");
+
+   _size = deriveInt(_size);
+
+   _size += _val;
+
+  if (_size == 0) _size = 1;
+
+  $( gEditElement ).css("font-size", _size + "px" );
+} 
+
+function posElementLeft( _val ) {
+
+   var _left = $("div.homelandText").css("margin-left");
+
+   _left = deriveInt(_left);
+
+   _left += _val * -1;
+
+  $( "div.homelandText" ).css("margin-left", _left + "px" );
 }
+
+function adjustCapitalOpacity( _val ) {
+
+   var _o = parseFloat( $("img.learnCapitalImage").css("opacity") );
+
+   _o += _val * 0.1;
+
+   if (_o > 1.0) _o = 1.0;
+
+   if (_o < 0.0) _o = 0.0;
+
+  $( "img.learnCapitalImage" ).css("opacity", _o );
+}
+
+
+
+//***************************************************************
+//            CROP MODE
+//***************************************************************
 
 function turnOffCropMode() {
 
@@ -327,34 +494,29 @@ function startCrop() {
 	});	
 }
 
+//***************************************************************
+//            DATABASE UPDATES
+//***************************************************************
 
-//temporary hacks
+function updateLCValues()  {
 
+  var rec = db.getCountryRec( hack.countryCode );
 
-arrI = [];
+  //color and size for the homeland text and the translated homeland text
 
-ti = function() {
+  db.updateRecord2( cCountry, "hts", rec._id, deriveInt( $("div.nativeHomelandText").css("font-size") ) );
 
-	Meteor.subscribe("allImages", function() { arrI = db.ghImage.find().fetch(); c("images ready") });
+  db.updateRecord2( cCountry, "htc", rec._id, $("div.nativeHomelandText").css("color") );
+
+  db.updateRecord2( cCountry, "tts", rec._id, deriveInt( $("div.transHomelandText").css("font-size") ) );
+
+  db.updateRecord2( cCountry, "ttc", rec._id, $("div.transHomelandText").css("color") );
+
+  //the margin-left value for the parent div
+
+  db.updateRecord2( cCountry, "htl", rec._id, deriveInt( $("div.homelandText").css("margin-left") ) ); 
 }
 
-iIndex = -1;
-
-goImage = function ( _val ) {
-
-	iIndex += _val;
-
-	if (iIndex < 0 || iIndex >= arrI.length) { c("val out of range"); return;}
-
-	hack.debrief.image = arrI[ iIndex ].u;
-
-	hack.debrief.text = iIndex + " of " + arrI.length + " -- " + arrI[ iIndex ].u + " -- " + arrI[ iIndex ].cc;
-
-	hack.debrief.draw();
-}
-
-
-//database updates
 
 updateLabelPosition = function(_which) {
 
@@ -434,11 +596,73 @@ c("x normalized in updateLabelPosition is " + x)
 
 }
 
-//used by updateLabelPos above
+
+//***************************************************************
+//            UTILITIES
+//***************************************************************
 
 function deriveInt(_s) {
 
   _s = _s.substr(0, _s.length-2);
 
   return parseInt(_s);
+}
+
+//***************************************************************
+//            TEMPORARY HACKS
+//***************************************************************
+
+
+arrI = [];
+
+ti = function() {
+
+  Meteor.subscribe("allImages", function() { arrI = db.ghImage.find().fetch(); c("images ready") });
+}
+
+iIndex = -1;
+
+goImage = function ( _val ) {
+
+  iIndex += _val;
+
+  if (iIndex < 0 || iIndex >= arrI.length) { c("val out of range"); return;}
+
+  hack.debrief.image = arrI[ iIndex ].u;
+
+  hack.debrief.text = iIndex + " of " + arrI.length + " -- " + arrI[ iIndex ].u + " -- " + arrI[ iIndex ].cc;
+
+  hack.debrief.draw();
+}
+
+
+//hilites the controls in turn (for the movie)
+doH = function() {
+
+      Meteor.setTimeout( function() { $("#ctlBG_SOUND" ).attr("src", "hilitedBackdrop.jpg"); }, 1 );
+
+      Meteor.setTimeout( function() { $("#ctlBG_SOUND" ).attr("src", "featuredBackdrop.jpg"); }, 1001 );
+
+
+      Meteor.setTimeout( function() { $("#ctlBG_TEXT" ).attr("src", "hilitedBackdrop.jpg"); }, 1001 );
+
+      Meteor.setTimeout( function() { $("#ctlBG_TEXT" ).attr("src", "featuredBackdrop.jpg"); }, 2001 );
+
+
+      
+      Meteor.setTimeout( function() { $("#ctlBG_IMAGE" ).attr("src", "hilitedBackdrop.jpg"); }, 2001 );
+
+       Meteor.setTimeout( function() { $("#ctlBG_IMAGE" ).attr("src", "featuredBackdrop.jpg"); }, 3001 );
+
+
+      Meteor.setTimeout( function() { $("#ctlBG_VIDEO" ).attr("src", "hilitedBackdrop.jpg"); }, 3001 );
+
+       Meteor.setTimeout( function() { $("#ctlBG_VIDEO" ).attr("src", "featuredBackdrop.jpg"); }, 4001 );
+
+      
+      Meteor.setTimeout( function() { $("#ctlBG_WEB" ).attr("src", "hilitedBackdrop.jpg"); }, 4001 );
+
+      Meteor.setTimeout( function() { $("#ctlBG_WEB" ).attr("src", "featuredBackdrop.jpg"); }, 5001 );
+      
+
 }

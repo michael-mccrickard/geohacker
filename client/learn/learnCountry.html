@@ -1,28 +1,36 @@
 <template name="learnCountry">
 
-	<div class="divLearnCountry">
-	
-      <div class="products">
+  {{#with country}}
+
+  	<div class="divLearnCountry">
+
+
+    <div class="homelandText"  style="margin-left: {{HTMarginLeft}};">
+
+      <div class="transHomelandText" style="color: {{TTColor}}; font-size: {{TTSize}};">{{countryName}}</div>
+
+      <div  class="nativeHomelandText" style="color: {{HTColor}}; font-size: {{HTSize}};">{{homelandText}}</div>
+    
+    </div>
 
       	<div class="learnLeft">
 
-      	<h1 class="homelandText">Türkiye</h1>
+      	   <img class="learnCapitalImage" src="{{capitalImage}}" />
 
-      	   <img class="learnImage" src="{{capitalImage}}" />
+           <h3 class="learnCapitalText">Capital: {{capitalName}}</h3>
 
-          <h3>Capital: {{capitalName}}</h3>
+        </div>
 
-       </div>
+        <div class="learnRight">
 
-        <!--div class="learnRight">
-      		<img class="learnImage" src="scholar_gold.png" />
-          <h2><a href="">Highrise</a></h2>
-          <h3><a href="">Manage Contacts</a></h3>
-          <p>Know the people you do business with.</p>
-        </div-->
+      		<img class="learnFlagImage" src="{{flagImage}}" />
+          <img class="learnLeaderImage" src="{{leaderImage}}" />
+        
+        </div>
 
-      </div> 
 
-    </div>
+      </div>
+
+    {{/with}}
 
 </template>

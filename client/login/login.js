@@ -195,6 +195,8 @@ Template.login.events({
 
       e.preventDefault();
 
+/*
+
 game.user.mode = uBrowseCountry;
 
 game.user.setGlobals( "browse" );
@@ -202,6 +204,7 @@ game.user.setGlobals( "browse" );
 hack.initForBrowse( "TR" );
 
 return;
+*/
 
       //This is here b/c we were having instances where the onLogin event
       //was apparently not firing ...

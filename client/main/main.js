@@ -415,6 +415,13 @@ Template.main.rendered = function () {
 
     stopSpinner();
 
+    if (gEditLearnCountry) {
+
+       FlowRouter.go("/learnCountry");
+
+       return;
+    }
+
     if (!display) return;
 
     display.redraw();

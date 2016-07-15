@@ -1,27 +1,81 @@
+
+.divLCWrapper {
+
+
+}
+
+.transHomelandText {
+	
+	font-size: 18px;
+}
+
+.homelandText {
+	position: absolute;
+	margin-top: 12px;
+	margin-left: -134px;
+	font-family: Arial;
+	text-align: left;
+	   width: 384px;
+	z-index: 100;
+	font-size: 28px;
+
+}
+
 .divLearnCountry {
 	position: relative;
 	top: 60px;
 	left: 60px;
-}
 
-.learnItem {
-
-
-}
-
-.learnImage {
-
-	width: 50%;
-
-}
-
-.homelandText {
-
-	font-family: Arial;
-}
-
-.products{
   display: flex;
   flex-flow: row;
   justify-content: center;
+
+  -webkit-display: flex;
+  -webkit-flex-flow: row;
+  -webkit-justify-content: center;
+
+   border: 2px solid;
+   border-color: #383838;
+   border-radius: 4px;
+
+   width: 384px;
+}
+
+.divLearnCountry > div{
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+
+	-webkit-flex-flow: column;
+	-webkit-align-items: center;
+}
+
+.learnCapitalImage {
+
+	margin-top: 8px;
+	width: 256px;
+
+}
+
+.learnLeaderImage {
+
+	width: 96px;
+	    -webkit-align-self: flex-end;
+	align-self: flex-end;
+
+}
+
+.learnFlagImage {
+	margin-top: 8px;
+	width: 96px;
+	    -webkit-align-self: flex-end;
+	align-self: flex-end;
+}
+
+
+.learnCapitalText {
+	font-size: 18px;
+	margin-top: 8px;
+	margin-left: 12px;
+	text-transform: uppercase;
 }
