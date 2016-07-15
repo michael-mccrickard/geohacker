@@ -81,7 +81,7 @@ return db.getCountryRec( hack.countryCode );
 
 		if (this.hto) return this.hto;
 
-		return "0";
+		return "1.0";
   	},
 
 

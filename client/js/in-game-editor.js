@@ -74,6 +74,18 @@ $(document).keydown(function(e) {
 
         break;
 
+      case 190: //period 
+
+        if (gEditLearnCountry) editCountry(-1);
+
+        break;
+
+      case 191: //forward slash
+
+        if (gEditLearnCountry) editCountry(1);
+
+        break;
+
       case 34: //pagedown
 
         if (gEditLearnCountry) editCountry(1);
@@ -88,11 +100,27 @@ $(document).keydown(function(e) {
 
     		break;
 
+      case 222: //single quote 
+
+        if (gEditLabels) nudgeLabel( e.which );
+
+        if (gEditLearnCountry) editTextColor(-1);
+
+        break;
+
       case 36: //home
 
         if (gEditLabels) nudgeLabel( e.which );
 
         if (gEditLearnCountry) editTextColor(1);
+
+        break;
+
+      case 186: //semi colon
+
+        if (gEditLabels) nudgeLabel( e.which );
+
+        if (gEditLearnCountry) editTextColor(-1);
 
         break;
 
