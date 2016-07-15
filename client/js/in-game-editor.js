@@ -27,13 +27,26 @@ gColorIndex = 0;
 
 $(document).keydown(function(e) {
 
-    if (e.which == 116) toggleGameEditor();
+//fix these so they only work for admins
 
-    if (e.which == 117) turnOffCropMode();
+    if (e.which == 116) toggleGameEditor();  //F5
+
+//on a macbook you can't trap any of the function keys easily, so ...
+
+ 
+    if (e.which == 187) toggleGameEditor();  //equals sign
+
+//Cropping, if needed should be moved under the regular in-game editor setup
 
     //if (e.which == 32) startCrop();   
 
-    if (e.which == 32) doH();     
+
+    //if (e.which == 117) turnOffCropMode();
+
+
+//only for the movie
+
+    //if (e.which == 32) doH();     
 
   }
 );
@@ -515,6 +528,10 @@ function updateLCValues()  {
   //the margin-left value for the parent div
 
   db.updateRecord2( cCountry, "htl", rec._id, deriveInt( $("div.homelandText").css("margin-left") ) ); 
+
+  //the opacity value for the capital image
+
+  db.updateRecord2( cCountry, "hto", rec._id, $("img.learnCapitalImage").css("opacity") ); 
 }
 
 
