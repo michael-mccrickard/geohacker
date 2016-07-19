@@ -1,0 +1,6 @@
+
+#lessonMapClose {
+    position: absolute;
+    top: 60px;
+    z-index: 1050;   
+}

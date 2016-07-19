@@ -14,6 +14,8 @@ ghMapCtl = function() {
 
     this.browseWorldMap = new BrowseWorldMap( this );
 
+    this.lessonMap = new LessonMap( this );
+
     this.timerID = 0;
 
     this.autoFeatured = false;
@@ -320,6 +322,15 @@ ghMapCtl = function() {
           this.fadeInIcons("continentOnly");
 
         }
+    }
+
+    this.lessonFinishDraw = function() {
+
+      c( "map.lessonFinishDraw");
+
+      //position any additional elements here
+
+game.lesson.zoomToContinent( this.lessonMap.selectedContinent );
     }
 
     this.fadeInIcons = function(_which) {

@@ -94,15 +94,11 @@ $(document).keydown(function(e) {
 
     	case 35: //end
 
-    		if (gEditLabels) nudgeLabel( e.which );
-
         if (gEditLearnCountry) editTextColor(-1);
 
     		break;
 
       case 222: //single quote 
-
-        if (gEditLabels) nudgeLabel( e.which );
 
         if (gEditLearnCountry) editTextColor(-1);
 
@@ -110,21 +106,19 @@ $(document).keydown(function(e) {
 
       case 36: //home
 
-        if (gEditLabels) nudgeLabel( e.which );
-
         if (gEditLearnCountry) editTextColor(1);
 
         break;
 
       case 186: //semi colon
 
-        if (gEditLabels) nudgeLabel( e.which );
-
         if (gEditLearnCountry) editTextColor(-1);
 
         break;
 
       case 37:  //left arrow
+
+        if (gEditLabels) nudgeLabel( e.which );
 
         if (gEditLearnCountry) posElementLeft(1); 
 
@@ -139,6 +133,8 @@ $(document).keydown(function(e) {
         break;
 
       case 39:  //right arrow
+
+        if (gEditLabels) nudgeLabel( e.which );
 
         if (gEditLearnCountry) posElementLeft(-1); 
 

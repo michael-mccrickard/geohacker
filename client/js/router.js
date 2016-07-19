@@ -192,6 +192,19 @@ FlowRouter.route('/browseWorldMap', {
 });
 
 //*********************************************
+//      LESSON MAP
+//*********************************************
+
+FlowRouter.route('/lessonMap', {
+
+  name: "lessonMap",
+
+  action: function (params, queryParams) { 
+
+    BlazeLayout.render('layout', { content: "lessonMap" } ); },
+});
+
+//*********************************************
 //      DEBRIEF
 //*********************************************
 
