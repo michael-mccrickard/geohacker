@@ -24,6 +24,12 @@ Template.lessonMap.rendered = function () {
 
 Template.lessonMap.helpers({
 
+  countryListItem: function() {
+
+      return game.lesson.mission.items;
+    
+  },
+
   continentName: function() { 
 
     var level = display.ctl["MAP"].level.get();
@@ -55,7 +61,11 @@ Template.lessonMap.helpers({
 
     return h * 0.98;
 
-  }
+  },
+
+  divWidth: function() { return Session.get("gWindowWidth") * 0.45}
+
+
 });
 
 

@@ -33,6 +33,8 @@ LessonFactory = function() {
 
 	this.code = "";
 
+	this.mission = null;
+
 	this.clearLabels = function() {
 
 		this.lessonMap.map.clearLabels();
@@ -47,6 +49,8 @@ LessonFactory = function() {
 
 		this.lessonMap.selectedContinent = _continent;
 		
+this.mission = new Mission("ttp_africa");
+
 		display.worldMapTemplateReady = false;
 
 		FlowRouter.go("/lessonMap");
@@ -63,31 +67,54 @@ this.lessonMap.map.clearLabels();
 		this.lessonMap.labelMapObject( _level, _code);
 	}
 
-	this.pulseCountry = function(_code) {
+	this.addPulseCountry = function(_code, _region) {
 
 		//pulse the country's opacity to draw attention to it
 
         var s = ".amcharts-map-area-" + _code;
 
-		this.tl.add( TweenLite.to(s, 0.5, { opacity: 0 } ), "start1" );
-		this.tl.add( TweenLite.to(s, 0.5, { opacity: 1 } ), "start2" );
-		this.tl.add( TweenLite.to(s, 0.5, { opacity: 0 } ), "start3" );
-		this.tl.add( TweenLite.to(s, 0.5, { opacity: 1 } ), "start4" );
+		this.tl.add( TweenLite.to(s, 0.5, { opacity: 0 } ), "start1-" + _region );
+		this.tl.add( TweenLite.to(s, 0.5, { opacity: 1 } ), "start2-" + _region );
+		this.tl.add( TweenLite.to(s, 0.5, { opacity: 0 } ), "start3-" + _region );
+		this.tl.add( TweenLite.to(s, 0.5, { opacity: 1 } ), "start4-" + _region );
 	}
 
 	
 
-	this.pulseRegion = function(_regionID) {
+	this.addPulseRegion = function(_regionID) {
 
 		//look up all the countries for the region
-
-		this.tl.clear();
 
 		var arr = db.ghC.find( {r: _regionID } ).fetch();
 
 		for (var i = 0; i < arr.length; i++) { 		
 
-			this.pulseCountry( arr[i].c );
+
+
+			this.addPulseCountry( arr[i].c, _regionID );
+		}
+	}
+
+	this.doIDRegion = function( _regionID )  {
+
+		this.lessonMap.labelMapObject( mlRegion, _regionID );
+	}
+
+	this.pulseRegionsInSequence	= function(_continentID) {
+
+		//look up all the regions for the continent
+
+		this.tl.clear();
+
+		//var arr = db.ghR.find( {z: _continentID } ).fetch();
+
+		var arr = ["nwaf", "neaf", "caf", "saf"];
+
+		for (var i = 0; i < arr.length; i++) { 		
+
+			this.tl.call( this.doIDRegion, [ arr[i] ], this, arr[i] );
+
+			this.addPulseRegion( arr[i] );
 		}
 
 		this.tl.play();
