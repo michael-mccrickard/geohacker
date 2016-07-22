@@ -30,6 +30,17 @@ Template.lessonMap.helpers({
     
   },
 
+  countryListItemID: function() {
+
+      return this + "-ListItem";
+    
+  },
+
+  countryName: function( _code) {
+
+    return db.getCountryName( _code );
+  },
+
   continentName: function() { 
 
     var level = display.ctl["MAP"].level.get();
@@ -63,7 +74,9 @@ Template.lessonMap.helpers({
 
   },
 
-  divWidth: function() { return Session.get("gWindowWidth") * 0.45}
+  divWidth: function() { return Session.get("gWindowWidth") * 0.45},
+
+  missionName:  function() { return game.lesson.mission.name; }
 
 
 });

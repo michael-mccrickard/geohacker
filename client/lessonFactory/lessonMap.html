@@ -8,20 +8,19 @@
 
 	<!--button class="btn btn-default mapCloseButton" id="browseMapClose">X</button-->
 
-	<!--div id="divTeach"  style="float: right; position: relative; top: 55px; width: {{divWidth}}px; height: {{mapHeight}}px; border-radius: 7px; border: 4px solid; border-color: gray;">
+	<div class="divTeach"  style="width: {{divWidth}}px; height: {{mapHeight}}px;">
 
-
-		<h2>{{missionName}}</h2>
+		<div class="divMissionName">{{missionName}}</div>
 
 
 		{{#each countryListItem}}
 
-			<div class="divCountryListItem">{{this}}</div>
+			<div class="divCountryListItem" id="{{countryListItemID}}">{{countryName this}}</div>
 
 		{{/each}}
 
 
-	</div-->
+	</div>
 
 </template>
 

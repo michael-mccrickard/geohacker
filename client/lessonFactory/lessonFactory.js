@@ -120,9 +120,32 @@ this.lessonMap.map.clearLabels();
 		this.tl.play();
 	}
 
+	this.doList = function() {
+
+//this.tm = new TweenMax();
+
+		this.tl.clear();
+
+		var s = ".divCountryListItem";
+
+		var arr = game.lesson.mission.items;
+
+			for (var i = 0; i < arr.length; i++) { 	
+
+				s = "#" + arr[i] + "-ListItem";
+
+				this.tl.add( TweenLite.to(s, 0.5, { x: -800 } ) );	
+			}	
+
+		//this.tl.add( TweenLite.to(s, 1.0, { x: -800 } ) );	
+
+this.tl.play();
+
+	},
+
 	this.zoomToContinent = function( _continent ) {
 
-		if ( _continent == "africa")  this.lessonMap.map.zoomTo(3.9);
+		//if ( _continent == "africa")  this.lessonMap.map.zoomTo(3.9);
 	}
 
 }
