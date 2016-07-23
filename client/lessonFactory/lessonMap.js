@@ -26,7 +26,7 @@ LessonMap = function( _mapCtl ) {
 
     this.dp = null;
 
-    this.mm = this.mm || new MapMaker();
+    this.mm = this.mm || new LessonMapMaker();
 
     this.mapCtl = _mapCtl;
 
@@ -175,6 +175,7 @@ LessonMap = function( _mapCtl ) {
             rollOverOutlineColor: "#000000",
             color: "#BBBB00",
             selectedColor: "#BBBB00",
+            selectedOutlineColor: "#FFFFFF"
 
         };
 

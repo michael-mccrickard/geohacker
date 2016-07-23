@@ -11,6 +11,10 @@ doLesson = function() {
 
 gEditLesson = true;
 
+	game.lesson.mission = new Mission("ttp_africa");
+
+	game.lesson.level = mlContinent;
+	
 	game.lesson.doContinent( "africa" );
 }
 
@@ -25,7 +29,7 @@ LessonFactory = function() {
 
 	this.mapCtl.init();
 
-	this.tl = new TimelineLite();
+	this.tl = new TimelineMax();
 
 	//the temporary lesson level and code
 
@@ -43,13 +47,12 @@ LessonFactory = function() {
 	
 	this.doContinent = function( _continent ) {
 
-		//the overall level as used by all the lessonMap.js / mapMaker.js code
+		//the overall level as used by all the lessonMap.js / lessonMapMaker.js code
 
 		this.mapCtl.level.set( mlContinent );
 
 		this.lessonMap.selectedContinent = _continent;
 		
-this.mission = new Mission("ttp_africa");
 
 		display.worldMapTemplateReady = false;
 
@@ -89,8 +92,6 @@ this.lessonMap.map.clearLabels();
 
 		for (var i = 0; i < arr.length; i++) { 		
 
-
-
 			this.addPulseCountry( arr[i].c, _regionID );
 		}
 	}
@@ -106,6 +107,8 @@ this.lessonMap.map.clearLabels();
 
 		this.tl.clear();
 
+		this.tl.pause(0);
+
 		//var arr = db.ghR.find( {z: _continentID } ).fetch();
 
 		var arr = ["nwaf", "neaf", "caf", "saf"];
@@ -116,30 +119,22 @@ this.lessonMap.map.clearLabels();
 
 			this.addPulseRegion( arr[i] );
 		}
-
-		this.tl.play();
 	}
 
-	this.doList = function() {
+	this.showRegionCountries = function( _regionID ) {
 
-//this.tm = new TweenMax();
+		this.level = mlCountry;
 
-		this.tl.clear();
+		this.lessonMap.selectedRegion = _regionID;
+
+		this.lessonMap.doCurrentMap();
+	},
+
+	this.addListReveal = function() {
 
 		var s = ".divCountryListItem";
 
-		var arr = game.lesson.mission.items;
-
-			for (var i = 0; i < arr.length; i++) { 	
-
-				s = "#" + arr[i] + "-ListItem";
-
-				this.tl.add( TweenLite.to(s, 0.5, { x: -800 } ) );	
-			}	
-
-		//this.tl.add( TweenLite.to(s, 1.0, { x: -800 } ) );	
-
-this.tl.play();
+		this.tl.add( TweenMax.staggerTo(s, 1.0, {x: -800, ease:Back.easeIn}, 0.1) );
 
 	},
 

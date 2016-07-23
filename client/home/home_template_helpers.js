@@ -2,6 +2,8 @@
 
 Template.home.rendered = function () {
 
+c("home rendered")
+
   stopSpinner();
 
   //in the browse cases, we are returning from some other template,

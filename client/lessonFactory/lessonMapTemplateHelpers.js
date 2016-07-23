@@ -14,7 +14,7 @@ Template.lessonMap.rendered = function () {
 
       display.worldMapTemplateReady = true;
 
-      Meteor.setTimeout( function() { display.ctl["MAP"].lessonMap.doCurrentMap() }, 250 );
+      Meteor.setTimeout( function() { display.ctl["MAP"].lessonMap.doCurrentMap( ) }, 250 );
 
       Meteor.setTimeout( function() { display.ctl["MAP"].finishLessonDraw() }, 251 );
 
