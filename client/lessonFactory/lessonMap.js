@@ -66,57 +66,50 @@ LessonMap = function( _mapCtl ) {
 
         worldMap = this;
 
-        var level = this.mapCtl.level.get();
+        var _drawLevel = game.lesson.drawLevel;
 
-        if (level == mlNone || level == mlWorld) {
+        var _detailLevel = game.lesson.detailLevel;
+ 
+        this.doMap(_drawLevel, _detailLevel);
 
-            this.doMap( "world", mlWorld);
-        }
-
-        if (level == mlContinent) {
-
-            this.doMap( this.selectedContinent, level);
-        }
-
-
-        if (level == mlRegion) {
-
-            this.doMap( this.selectedRegion, level );        
-        }
-
-        if (level == mlCountry) {  //this is just a replay of the map zooming in on the correct country (browse mode)
-
-           this.doMap( this.selectedRegion, mlRegion);
-
-           //reset level back to country, so that the label uses the correct coords
-
-           this.mapCtl.level.set( mlCountry );
-
-            var mapObject = null;
-
-            if (this.selectedCountry.get().length) mapObject = this.map.getObjectById( this.selectedCountry.get() );
-
-            //prevent zoomCompleted from jumping us to the browse data screen
-
-            this.zoomOnlyOnClick = true;
-
-            //prevent the zoomDone test from kicking us out of zoomComplete prematurely
-
-            this.zoomDone = false;
-
-            c("calling clickMapObject")
-
-            if (mapObject) this.map.clickMapObject(mapObject);
-        }    
     }
 
-    this.doMap = function(_code, _level) {
+    this.doThisMap = function(_drawLevel, _detailLevel, _continentID, _regionID) {
+
+        //reset this each time, b/c it disappears if we switch hack/display objects
+
+        worldMap = this;
+
+        this.selectedContinent = _continentID;
+
+        this.selectedRegion = _regionID;
+
+        this.doMap(_drawLevel, _detailLevel);
+
+    }
+
+    this.doMap = function(_drawLevel, _detailLevel) {
+
+
+        if (this.selectedContinent.length == 0 && this.selectedRegion.length == 0) {
+
+            showMessage("No continent or region selected.  Cannot draw map in lessonMap.js");
+            
+            return;     
+        }
+
+        if (this.selectedContinent.length == 0 && this.selectedRegion.length > 0) {
+
+            var tempRec = db.getRegionRec( this.selectedRegion );
+            
+            this.selectedContinent = tempRec.z;
+        }      
 
         //initialize variables related to the map
 
         var rec = null;
 
-        this.mapCtl.level.set( _level );
+
 
         this.zoomDone = true;  //this is used to keep the zoomCompleted event from redrawing / validating map 
                                 //before we're ready
@@ -137,15 +130,16 @@ LessonMap = function( _mapCtl ) {
 
         //Set the map areas based on map level
 
-        this.dp.areas = this.mm.getJSONForMap(_code, _level, false);
 
-        this.mm.getJSONForMap(_code, _level, false);
 
-        if (_level == mlContinent) rec = db.getContinentRec(_code);
+        this.dp.areas = this.mm.getJSONForMap(this.selectedContinent, this.selectedRegion, _drawLevel, _detailLevel);
 
-        if (_level == mlRegion) rec = db.getRegionRec(_code);
 
-        if (_level == mlContinent || _level == mlRegion) {
+        if (_drawLevel == mlContinent) rec = db.getContinentRec( this.selectedContinent );
+
+        if (_drawLevel == mlRegion) rec = db.getRegionRec( this.selectedRegion );
+
+        if (_drawLevel == mlContinent || _drawLevel == mlRegion) {
 
             this.dp.zoomLevel = rec.z1,
             this.dp.zoomLatitude = rec.z2,

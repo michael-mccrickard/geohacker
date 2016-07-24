@@ -13,7 +13,9 @@ gEditLesson = true;
 
 	game.lesson.mission = new Mission("ttp_africa");
 
-	game.lesson.level = mlContinent;
+	game.lesson.drawLevel = mlContinent;
+
+	game.lesson.detailLevel = mlCountry;
 	
 	game.lesson.doContinent( "africa" );
 }
@@ -31,9 +33,11 @@ LessonFactory = function() {
 
 	this.tl = new TimelineMax();
 
-	//the temporary lesson level and code
+	//the temporary lesson levels and code
 
-	this.level = "";
+	this.drawLevel = "";
+
+	this.detailLevel = "";
 
 	this.code = "";
 
@@ -47,12 +51,7 @@ LessonFactory = function() {
 	
 	this.doContinent = function( _continent ) {
 
-		//the overall level as used by all the lessonMap.js / lessonMapMaker.js code
-
-		this.mapCtl.level.set( mlContinent );
-
 		this.lessonMap.selectedContinent = _continent;
-		
 
 		display.worldMapTemplateReady = false;
 
@@ -140,7 +139,7 @@ this.lessonMap.map.clearLabels();
 
 	this.zoomToContinent = function( _continent ) {
 
-		//if ( _continent == "africa")  this.lessonMap.map.zoomTo(3.9);
+		if ( _continent == "africa")  this.lessonMap.map.zoomTo(3.9);
 	}
 
 }

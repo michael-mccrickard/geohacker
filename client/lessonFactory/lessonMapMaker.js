@@ -37,53 +37,47 @@ LessonMapMaker = function() {
     */
 
 
-    this.getJSONForMap = function(_code, _drawLevel, lockMap) {
+    this.getJSONForMap = function(_continentID, _regionID, _drawLevel, _detailLevel) {
 
-      var _rec = null;
+        var _rec = null;
 
-      var s = '[';
+        var s = '[';
 
-      if (_drawLevel == mlWorld) {
 
-        //get an array of the continents
+        if (_drawLevel == mlWorld) {
 
-        var arr = db.ghZ.find( {} ).fetch();
+          //get an array of the continents
 
-        for (var i = 0; i < arr.length; i++) {  
+          var arr = db.ghZ.find( {} ).fetch();
 
-            _rec = arr[i];
+          for (var i = 0; i < arr.length; i++) {  
 
-            s = s + this.getJSONForContinent(_rec.c, mlWorld, lockMap);
+              _rec = arr[i];
 
+              s = s + this.getJSONForContinent(_rec.c, null, _drawLevel, _detailLevel);
+
+          }
+
+        } 
+        else {  //then we're only drawing part of the map; continent or region
+
+            s = s + this.getJSONForContinent(_continentID, _regionID, _drawLevel, _detailLevel);
         }
 
-      } 
+        s = s.substr(0, s.length - 1);
 
-      if (_drawLevel == mlContinent) {
+        if (s.length) {
 
-s = s + this.getJSONForContinent(_code, mlContinent, lockMap);
-      }
+          s = s + "]";
+        }
+        else {
 
-      if (_drawLevel == mlRegion) {
-
-        s = s + this.getJSONForContinent(_code, mlRegion, lockMap);
-      }
-
-
-      s = s.substr(0, s.length - 1);
-
-      if (s.length) {
-
-        s = s + "]";
-      }
-      else {
-
-        s = '[]';
-      }
-      
+          s = '[]';
+        }
+        
   //console.log(s);
 
-      return JSON.parse(s);
+        return JSON.parse(s);
 
     }
 
@@ -121,7 +115,7 @@ s = s + this.getJSONForContinent(_code, mlContinent, lockMap);
     */
 
 
-    this.getJSONForContinent = function(_code, _drawLevel, lockMap) {
+    this.getJSONForContinent = function(_code, _regionID, _drawLevel, _detailLevel) {
 
       var arrR = [];
 
@@ -143,32 +137,31 @@ s = s + this.getJSONForContinent(_code, mlContinent, lockMap);
 
       var s = '';
 
+      //set the continent-level properties from the continent record
 
-      if (_drawLevel == mlWorld || _drawLevel == mlContinent) {
+       rec = db.getContinentRec(_code);
 
-          //set the continent-level properties from the continent record
+      _areaID = _code;
 
-           rec = db.getContinentRec(_code);
+      _areaName = rec.n;
 
-          _areaID = _code;
+      _customData = rec.n;
 
-          _areaName = rec.n;
-
-          _customData = rec.n;
-
-          _color = rec.co;
+      _color = rec.co;
 
 
-          _zoomLevel = rec.z1;
+      _zoomLevel = rec.z1;
 
-          _zoomLatitude = rec.z2;
+      _zoomLatitude = rec.z2;
 
-          _zoomLongitude = rec.z3;
+      _zoomLongitude = rec.z3;
 
 
-        //get an array of the regions for this continent
+    //get an array of the regions for this continent
 
-          arrR = db.ghR.find( {z: _areaID } ).fetch();
+      if (_drawLevel == mlWorld || _drawLevel == mlContinent) arrR = db.ghR.find( {z: _areaID } ).fetch();
+
+      if (_drawLevel == mlRegion) arrR = db.ghR.find( {r: _regionID } ).fetch();          
 
           for (var i = 0; i < arrR.length; i++) {  
 
@@ -178,34 +171,24 @@ s = s + this.getJSONForContinent(_code, mlContinent, lockMap);
 
               var _regionID = _rec.c;
 
-              if (_drawLevel == mlWorld) s = s + this.getJSONForRegion(_drawLevel, _regionName, _regionID, _areaID, _areaName, _zoomLevel, _zoomLatitude, _zoomLongitude, _color, lockMap);
+              var _color = _rec.co;
 
-//this one modified to use the continent-level zoom values, to PREVENT zooming but still allow clickability
+              s = s + this.getJSONForRegion(_detailLevel, _regionName, _regionID, _areaID, _areaName, _zoomLevel, _zoomLatitude, _zoomLongitude, _color);
 
-if (_drawLevel == mlContinent) s = s + this.getJSONForRegion(_drawLevel, _regionName, _regionID, _areaID, _areaName, _zoomLevel, _zoomLatitude, _zoomLongitude, _rec.co, lockMap);
+          }
 
-          }  
+          return s;
 
-       }
-
-       if (_drawLevel == mlRegion) {
-
-          arrR[0] = db.getRegionRec( _code );
-
-//this one modified to use the continent-level zoom values, to PREVENT zooming but still allow clickability
-
-s = s + this.getJSONForRegion(_drawLevel, arrR[0].n, arrR[0].c, '0', '0',  _zoomLevel, _zoomLatitude, _zoomLongitude, arrR[0].co, lockMap);
-       }
-
-      return s;
     }
 
 
-    this.getJSONForRegion = function(_level, _regionName, _regionID, _areaID, _areaName, _zoomLevel, _zoomLatitude, _zoomLongitude, _color, lockMap) {
+    this.getJSONForRegion = function(_detailLevel, _regionName, _regionID, _areaID, _areaName, _zoomLevel, _zoomLatitude, _zoomLongitude, _color) {
 
           var newline = "\n\r";
 
           var s = '';
+
+          var _groupID = "";
 
           //look up all the countries for the region
 
@@ -213,64 +196,41 @@ s = s + this.getJSONForRegion(_drawLevel, arrR[0].n, arrR[0].c, '0', '0',  _zoom
 
           for (var i = 0; i < arr.length; i++) { 
 
-            //normally we only show the user the countries they have hacked (when browsing)
 
-            if (game.user.mode == uBrowseMap || game.user.mode == uBrowseCountry) {
+              s = s + '{' + newline;
 
-              if (gUserCountriesOnlyMode) {
+              s = s + '"title"' + ': "' + arr[i].n + '", ' + newline; 
 
-                if ( game.user.isCountryInAtlas( arr[i].c ) == -1) continue;
-              }              
-            }
+              s = s + '"id"' + ': "' + arr[i].c + '", ' + newline; 
 
-            s = s + '{' + newline;
+              if (_detailLevel == mlCountry) {
 
-            s = s + '"title"' + ': "' + arr[i].n + '", ' + newline; 
+                _groupID = arr[i].c;  
+              } 
+              else {
 
-            s = s + '"id"' + ': "' + arr[i].c + '", ' + newline; 
+                 _groupID = _areaID;
+              }
 
-
-            if (_level == mlWorld) {
-              
+                
               s = s + '"customData"' +  ': "' + _areaName + '", ' + newline; 
 
               s = s + '"groupId"' +  ': "' + _areaID + '", ' + newline; 
 
-            }
 
-            if (_level == mlContinent) {
-              
-              s = s + '"customData"' +  ': "' + _regionName + '", ' + newline; 
+              s = s + '"zoomLevel"' + ': "' + _zoomLevel + '", ' + newline;  
 
-              s = s + '"groupId"' +  ': "' + _regionID + '", ' + newline; 
+              s = s + '"zoomLatitude"' + ': "' + _zoomLatitude + '", ' + newline;  
 
-            }
+              s = s + '"zoomLongitude"' + ': "' + _zoomLongitude + '", ' + newline; 
 
-            if (_level == mlWorld || _level == mlContinent) {
-
-              if (!lockMap) {
-
-                s = s + '"zoomLevel"' + ': "' + _zoomLevel + '", ' + newline;  
-
-                s = s + '"zoomLatitude"' + ': "' + _zoomLatitude + '", ' + newline;  
-
-                s = s + '"zoomLongitude"' + ': "' + _zoomLongitude + '", ' + newline; 
-
-              }
-
-            }
-
-
-            //the region level is the only one where the countries use their specified color,
-            //and not the color of their larger group
             
-            if (_level == mlRegion) {
-              
-              s = s + '"customData"' +  ': "' + arr[i].n + '", ' + newline; 
 
-              s = s + '"color"' +  ': "' +  arr[i].co + '"' + newline;            
-            }
-            else {
+              if (_detailLevel == mlCountry) {
+                
+                s = s + '"color"' +  ': "' +  arr[i].co + '"' + newline;            
+              }
+              else {
 
               s = s + '"color"' +  ': "' +  _color + '"' + newline;  
             }
