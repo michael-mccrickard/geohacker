@@ -8,16 +8,25 @@ doLesson = function() {
 	}
 
 //need a definite way to turn on editing mode, but for now ...
-
 gEditLesson = true;
 
 	game.lesson.mission = new Mission("ttp_africa");
 
-	game.lesson.drawLevel = mlContinent;
 
-	game.lesson.detailLevel = mlCountry;
+
+	game.lesson.mapLevel = mlWorld;
+
+	game.lesson.drawLevel = mlWorld;
+
+	game.lesson.detailLevel = mlRegion;
 	
-	game.lesson.doContinent( "africa" );
+
+		display.worldMapTemplateReady = false;
+
+		FlowRouter.go("/lessonMap");
+
+
+	//game.lesson.doContinent( "africa" );
 }
 
 LessonFactory = function() {
@@ -33,7 +42,9 @@ LessonFactory = function() {
 
 	this.tl = new TimelineMax();
 
-	//the temporary lesson levels and code
+	//the temporary lesson/map levels and code
+
+	this.mapLevel = "";
 
 	this.drawLevel = "";
 
@@ -139,7 +150,21 @@ this.lessonMap.map.clearLabels();
 
 	this.zoomToContinent = function( _continent ) {
 
-		if ( _continent == "africa")  this.lessonMap.map.zoomTo(3.9);
+
+       var rec = db.getContinentRec( _continent );
+
+
+
+var zoomLevel = rec.z1;
+var zoomLatitude = rec.z2;
+var zoomLongitude = rec.z3;
+
+if (rec.lz1) zoomLevel = rec.lz1;
+if (rec.lz2) zoomLatitude = rec.lz2;
+if (rec.lz3) zoomLongitude = rec.lz3;
+
+
+		this.lessonMap.map.zoomToLongLat( zoomLevel, zoomLongitude, zoomLatitude);
 	}
 
 }

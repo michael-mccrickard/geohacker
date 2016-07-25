@@ -66,34 +66,67 @@ LessonMap = function( _mapCtl ) {
 
         worldMap = this;
 
+        var _mapLevel = game.lesson.mapLevel;
+
         var _drawLevel = game.lesson.drawLevel;
 
         var _detailLevel = game.lesson.detailLevel;
  
-        this.doMap(_drawLevel, _detailLevel);
+        this.doMap(_mapLevel, _drawLevel, _detailLevel);
 
     }
 
-    this.doThisMap = function(_drawLevel, _detailLevel, _continentID, _regionID) {
+    this.doThisMap = function(_mapLevel, _drawLevel, _detailLevel, _continentID, _regionID) {
 
         //reset this each time, b/c it disappears if we switch hack/display objects
 
         worldMap = this;
 
-        this.selectedContinent = _continentID;
+        this.selectedContinent = "";
 
-        this.selectedRegion = _regionID;
+        this.selectedRegion = "";
 
-        this.doMap(_drawLevel, _detailLevel);
+        game.lesson.mapLevel = _mapLevel;
+
+        game.lesson.drawLevel = _drawLevel;
+        
+        game.lesson.detailLevel = _detailLevel;
+
+
+        if (_continentID) this.selectedContinent = _continentID;
+
+        if (_regionID) this.selectedRegion = _regionID;
+
+
+        this.doMap(_mapLevel, _drawLevel, _detailLevel);
 
     }
 
-    this.doMap = function(_drawLevel, _detailLevel) {
+    this.doMap = function(_mapLevel, _drawLevel, _detailLevel) {
 
+        var z1 = 0;
 
-        if (this.selectedContinent.length == 0 && this.selectedRegion.length == 0) {
+        var z2 = 0;
 
-            showMessage("No continent or region selected.  Cannot draw map in lessonMap.js");
+        var z3 = 0;
+
+        if (_mapLevel == undefined) {
+
+            showMessage("No map level in lessonMap.doMap().")
+
+            return;
+        }
+
+        if (_mapLevel == mlContinent && this.selectedContinent.length == 0 ) {
+
+            showMessage("No continent selected for map level continent.  Cannot draw map in lessonMap.js");
+            
+            return;     
+        }
+
+        if (_mapLevel == mlRegion && this.selectedRegion.length == 0 ) {
+
+            showMessage("No region selected for map level region.  Cannot draw map in lessonMap.js");
             
             return;     
         }
@@ -108,7 +141,6 @@ LessonMap = function( _mapCtl ) {
         //initialize variables related to the map
 
         var rec = null;
-
 
 
         this.zoomDone = true;  //this is used to keep the zoomCompleted event from redrawing / validating map 
@@ -131,21 +163,23 @@ LessonMap = function( _mapCtl ) {
         //Set the map areas based on map level
 
 
+        if (_mapLevel == mlContinent) rec = db.getContinentRec( this.selectedContinent );
 
-        this.dp.areas = this.mm.getJSONForMap(this.selectedContinent, this.selectedRegion, _drawLevel, _detailLevel);
+        if (_mapLevel == mlRegion) rec = db.getRegionRec( this.selectedRegion );
 
+        if (_mapLevel == mlContinent || _mapLevel == mlRegion) {
 
-        if (_drawLevel == mlContinent) rec = db.getContinentRec( this.selectedContinent );
+            this.dp.zoomLevel = z1 = rec.z1,
+            this.dp.zoomLatitude = z2 = rec.z2,
+            this.dp.zoomLongitude = z3 = rec.z3
 
-        if (_drawLevel == mlRegion) rec = db.getRegionRec( this.selectedRegion );
-
-        if (_drawLevel == mlContinent || _drawLevel == mlRegion) {
-
-            this.dp.zoomLevel = rec.z1,
-            this.dp.zoomLatitude = rec.z2,
-            this.dp.zoomLongitude =  rec.z3
-
+if (rec.lz1) this.dp.zoomLevel = z1 = rec.lz1;
+if (rec.lz2) this.dp.zoomLatitude = z2 = rec.lz2;
+if (rec.lz3) this.dp.zoomLongitude = z3 = rec.lz3;
         }
+
+
+        this.dp.areas = this.mm.getJSONForMap(this.selectedContinent, this.selectedRegion, _mapLevel, _drawLevel, _detailLevel, z1, z2, z3);
 
         this.dp.images = [];
 
@@ -245,7 +279,6 @@ LessonMap = function( _mapCtl ) {
 
         if (_col == undefined) _col = "white";
 
-c("new label coords = " + _x + " " + _y)
 
         Meteor.defer( function() {display.ctl["MAP"].lessonMap.map.addLabel(_x, _y, _name.toUpperCase(), "", _fontSize, _col); } );
     }

@@ -330,7 +330,7 @@ ghMapCtl = function() {
 
       //position any additional elements here
 
-game.lesson.zoomToContinent( this.lessonMap.selectedContinent );
+//game.lesson.zoomToContinent( this.lessonMap.selectedContinent );
     }
 
     this.fadeInIcons = function(_which) {

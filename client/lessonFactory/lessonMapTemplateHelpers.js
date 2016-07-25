@@ -74,7 +74,7 @@ Template.lessonMap.helpers({
 
   },
 
-  divWidth: function() { return Session.get("gWindowWidth") * 0.45},
+  divTeachWidth: function() { return Session.get("gWindowWidth") * 0.49},
 
   missionName:  function() { return game.lesson.mission.name; }
 

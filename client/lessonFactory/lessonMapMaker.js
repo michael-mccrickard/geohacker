@@ -26,18 +26,27 @@ LessonMapMaker = function() {
 
     /*
 
-    This is the top-level function, called by doMap() in worldMap.js and browseMap.js
+    _mapLevel = world, continent or region (used by the calling function in lessonMap.js: doMap() )
 
-    _code = the area code (either a continent or a region)
+                This is the zoom extents for the map, how much of the world map is shown.
 
-    _level = world, continent or region
+    _drawLevel = world, continent or region (the area that will be drawn on the map; the remainder will be greyed out)
 
-    lockMap = false, write zoom data to the areas
-    lockMap = true, don't write zoom data (locks the map down)
+    _detailLevel = world, continent, region or country (within the drawn area, how is the map further sub-divided, if at all.
+
+                  Subdivisions are colored the same; highlighted together and share the same identifying popup text.)
+
+    _continentID = if drawLevel is continent, the continent to draw
+
+    _regionID = if drawLevel is region, the region to draw
+
+    _zoom params = the zoom extents to apply to each country, based on the _mapLevel (allows the countries to be clickable, but prevents zooming in)
+
+
     */
 
 
-    this.getJSONForMap = function(_continentID, _regionID, _drawLevel, _detailLevel) {
+    this.getJSONForMap = function(_continentID, _regionID, _mapLevel, _drawLevel, _detailLevel, _zoomLevel, _zoomLatitude, _zoomLongitude) {
 
         var _rec = null;
 
@@ -54,14 +63,14 @@ LessonMapMaker = function() {
 
               _rec = arr[i];
 
-              s = s + this.getJSONForContinent(_rec.c, null, _drawLevel, _detailLevel);
+              s = s + this.getJSONForContinent(_rec.c, null, _mapLevel, _drawLevel, _detailLevel, _zoomLevel, _zoomLatitude, _zoomLongitude);
 
           }
 
         } 
-        else {  //then we're only drawing part of the map; continent or region
+        else {  //then we're only showing part of the map; continent or region
 
-            s = s + this.getJSONForContinent(_continentID, _regionID, _drawLevel, _detailLevel);
+            s = s + this.getJSONForContinent(_continentID, _regionID, _mapLevel, _drawLevel, _detailLevel, _zoomLevel, _zoomLatitude, _zoomLongitude);
         }
 
         s = s.substr(0, s.length - 1);
@@ -115,134 +124,130 @@ LessonMapMaker = function() {
     */
 
 
-    this.getJSONForContinent = function(_code, _regionID, _drawLevel, _detailLevel) {
+    this.getJSONForContinent = function(_continentID, _regionID, _mapLevel, _drawLevel, _detailLevel, _zoomLevel, _zoomLatitude, _zoomLongitude) {
 
       var arrR = [];
 
       var rec;
 
-      var _areaID;
+      var _continentName;
 
-      var _areaName;
+      var _continentColor;
 
-      var _customData;
-
-      var _color;
-
-      var _zoomLevel;
-
-      var _zoomLatitude;
-
-      var _zoomLongitude;
 
       var s = '';
 
       //set the continent-level properties from the continent record
 
-       rec = db.getContinentRec(_code);
+       rec = db.getContinentRec(_continentID);
 
-      _areaID = _code;
+      _continentName = rec.n;
 
-      _areaName = rec.n;
-
-      _customData = rec.n;
-
-      _color = rec.co;
-
-
-      _zoomLevel = rec.z1;
-
-      _zoomLatitude = rec.z2;
-
-      _zoomLongitude = rec.z3;
+      _continentColor = rec.co;
 
 
     //get an array of the regions for this continent
 
-      if (_drawLevel == mlWorld || _drawLevel == mlContinent) arrR = db.ghR.find( {z: _areaID } ).fetch();
+      if (_drawLevel == mlWorld || _drawLevel == mlContinent) arrR = db.ghR.find( {z: _continentID } ).fetch();
 
-      if (_drawLevel == mlRegion) arrR = db.ghR.find( {r: _regionID } ).fetch();          
+      if (_drawLevel == mlRegion ) arrR = db.ghR.find( {c: _regionID } ).fetch();          
 
-          for (var i = 0; i < arrR.length; i++) {  
+      for (var i = 0; i < arrR.length; i++) {  
 
-              var _rec = arrR[i];
+          var _rec = arrR[i];
 
-              var _regionName = _rec.n;
+          var _regionName = _rec.n;
 
-              var _regionID = _rec.c;
+          var _regionID = _rec.c;
 
-              var _color = _rec.co;
+          var _regionColor = _rec.co;
 
-              s = s + this.getJSONForRegion(_detailLevel, _regionName, _regionID, _areaID, _areaName, _zoomLevel, _zoomLatitude, _zoomLongitude, _color);
+          s = s + this.getJSONForRegion(_detailLevel, _regionID, _regionName, _regionColor, _continentID, _continentName, _continentColor, _zoomLevel, _zoomLatitude, _zoomLongitude);
 
-          }
+      }
 
-          return s;
+      return s;
 
     }
 
 
-    this.getJSONForRegion = function(_detailLevel, _regionName, _regionID, _areaID, _areaName, _zoomLevel, _zoomLatitude, _zoomLongitude, _color) {
+    this.getJSONForRegion = function(_detailLevel, _regionID, _regionName, _regionColor, _continentID, _continentName, _continentColor, _zoomLevel, _zoomLatitude, _zoomLongitude) {
 
-          var newline = "\n\r";
+        var newline = "\n\r";
 
-          var s = '';
+        var s = '';
 
-          var _groupID = "";
+        var _groupID = "";
 
-          //look up all the countries for the region
+        var _groupName = "";
 
-          var arr = db.ghC.find( {r: _regionID } ).fetch();
-
-          for (var i = 0; i < arr.length; i++) { 
+        var _groupColor = null;
 
 
-              s = s + '{' + newline;
+        //look up all the countries for the region
 
-              s = s + '"title"' + ': "' + arr[i].n + '", ' + newline; 
+        var arr = db.ghC.find( {r: _regionID } ).fetch();
 
-              s = s + '"id"' + ': "' + arr[i].c + '", ' + newline; 
-
-              if (_detailLevel == mlCountry) {
-
-                _groupID = arr[i].c;  
-              } 
-              else {
-
-                 _groupID = _areaID;
-              }
-
-                
-              s = s + '"customData"' +  ': "' + _areaName + '", ' + newline; 
-
-              s = s + '"groupId"' +  ': "' + _areaID + '", ' + newline; 
+        for (var i = 0; i < arr.length; i++) { 
 
 
-              s = s + '"zoomLevel"' + ': "' + _zoomLevel + '", ' + newline;  
+            if (_detailLevel == mlWorld || _detailLevel == mlContinent) {
 
-              s = s + '"zoomLatitude"' + ': "' + _zoomLatitude + '", ' + newline;  
+               _groupID = _continentID;
 
-              s = s + '"zoomLongitude"' + ': "' + _zoomLongitude + '", ' + newline; 
+               _name = _continentName;
 
-            
-
-              if (_detailLevel == mlCountry) {
-                
-                s = s + '"color"' +  ': "' +  arr[i].co + '"' + newline;            
-              }
-              else {
-
-              s = s + '"color"' +  ': "' +  _color + '"' + newline;  
+               _groupColor = _continentColor;
             }
-            
 
-            s = s + "},"
+            if (_detailLevel == mlRegion) {
 
-          }
+              _groupID = _regionID;
+
+              _name = _regionName;
+
+              _groupColor = _regionColor;
+            } 
+
+            if (_detailLevel == mlCountry) {
+
+              _groupID = arr[i].c;  
+
+              _groupColor = arr[i].co;
+
+              _name = arr[i].n;
+            } 
+
+            s = s + '{' + newline;
+
+            s = s + '"title"' + ': "' + arr[i].n + '", ' + newline; 
+
+            s = s + '"id"' + ': "' + arr[i].c + '", ' + newline; 
+              
+            s = s + '"customData"' +  ': "' + _name + '", ' + newline; 
+
+            s = s + '"groupId"' +  ': "' + _groupID + '", ' + newline; 
+
+
+            s = s + '"zoomLevel"' + ': "' + _zoomLevel + '", ' + newline;  
+
+            s = s + '"zoomLatitude"' + ': "' + _zoomLatitude + '", ' + newline;  
+
+            s = s + '"zoomLongitude"' + ': "' + _zoomLongitude + '", ' + newline; 
+
+            s = s + '"color"' +  ': "' +  _groupColor + '"' + newline; 
+
+            s = s + "}," 
+        }
+          
 
         return s;
+
     }
-}
+
+}  //end LessonMapMaker()  
+
+
 
 
 //temporary
