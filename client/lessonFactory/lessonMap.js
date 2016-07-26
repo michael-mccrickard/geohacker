@@ -104,11 +104,11 @@ LessonMap = function( _mapCtl ) {
 
     this.doMap = function(_mapLevel, _drawLevel, _detailLevel) {
 
-        var z1 = 0;
+        var z1 = 1.0;
 
-        var z2 = 0;
+        var z2 = 44.241616;
 
-        var z3 = 0;
+        var z3 = 10.325;
 
         if (_mapLevel == undefined) {
 
@@ -208,7 +208,7 @@ c("map level in doMap is " + _mapLevel)
 
         this.map.areasSettings = {
 
-            autoZoom: true,
+            autoZoom: false,
             rollOverOutlineColor: "#000000",
             color: "#BBBB00",
             selectedColor: "#BBBB00",
@@ -353,6 +353,8 @@ c("map level in doMap is " + _mapLevel)
 //**********************************************************************************
 
 function handleClick(_event) {
+
+return;
 
     Control.playEffect( worldMap.map_sound );
 

@@ -193,7 +193,7 @@ img.featuredBackdrop {
     top: 2%;
     z-index: 1050;
     text-transform: uppercase;
-    pointer-events: none;
+
     font-size: 2.0vh;
     font-family: Arial;
     color: silver;

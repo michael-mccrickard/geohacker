@@ -76,8 +76,21 @@ Template.lessonMap.helpers({
 
   divTeachWidth: function() { return Session.get("gWindowWidth") * 0.49},
 
-  missionName:  function() { return game.lesson.mission.name; }
+  showBody: function() { 
 
+    if (game.lesson.content.get() == "body") return true;
+
+    return false;
+
+  },
+
+  showList: function() { 
+
+    if (game.lesson.content.get() == "list") return true;
+
+    return false;
+
+  },
 
 });
 

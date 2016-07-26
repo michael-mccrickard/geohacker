@@ -12,21 +12,14 @@ gEditLesson = true;
 
 	game.lesson.mission = new Mission("ttp_africa");
 
-
-
 	game.lesson.mapLevel = mlWorld;
 
 	game.lesson.drawLevel = mlWorld;
 
-	game.lesson.detailLevel = mlRegion;
-	
+	game.lesson.detailLevel = mlContinent;
 
-		display.worldMapTemplateReady = false;
+	game.lesson.showMap();
 
-		FlowRouter.go("/lessonMap");
-
-
-	//game.lesson.doContinent( "africa" );
 }
 
 LessonFactory = function() {
@@ -54,20 +47,58 @@ LessonFactory = function() {
 
 	this.mission = null;
 
+	this.content = new Blaze.ReactiveVar("");
+
+	//***************************************************************
+	//					MAPPING FUNCTIONS
+	//***************************************************************
+
+	this.showMap = function() {
+
+		display.worldMapTemplateReady = false;
+
+		FlowRouter.go("/lessonMap");		
+	}
+
+	//***************************************************************
+	//					TEXT FUNCTIONS
+	//***************************************************************
+
+	this.showMessage = function( _text ) {
+
+		$("#lessonMapMessageBox").text( _text );
+	}
+
+	this.showHeader = function( _text ) {
+
+		$(".divTeachHeader").text( _text );
+	}
+
+	this.showBody = function( _text ) {
+
+		this.content.set("body");
+
+		Meteor.setTimeout( function() { $(".divTeachBody").text( _text ); }, 100);
+	}
+
+	this.showList = function( ) {
+
+		this.content.set("list");
+
+		var s = ".divCountryListItem";
+
+		Meteor.setTimeout( function() { TweenMax.staggerTo(s, 1.0, {x: -800, ease:Back.easeIn}, 0.1) } );
+	}
+
+	//***************************************************************
+	//					LABELING FUNCTIONS
+	//***************************************************************
+
 	this.clearLabels = function() {
 
 		this.lessonMap.map.clearLabels();
 	}
 
-	
-	this.doContinent = function( _continent ) {
-
-		this.lessonMap.selectedContinent = _continent;
-
-		display.worldMapTemplateReady = false;
-
-		FlowRouter.go("/lessonMap");
-	}
 
 	this.labelArea = function(_level, _code) {
 
@@ -79,6 +110,15 @@ this.lessonMap.map.clearLabels();
 
 		this.lessonMap.labelMapObject( _level, _code);
 	}
+
+	this.doLabelRegion = function( _regionID )  {
+
+		this.lessonMap.labelMapObject( mlRegion, _regionID );
+	}
+
+	//***************************************************************
+	//					ANIMATION BUILDING FUNCTIONS
+	//***************************************************************
 
 	this.addPulseCountry = function(_code, _region) {
 
@@ -92,8 +132,6 @@ this.lessonMap.map.clearLabels();
 		this.tl.add( TweenLite.to(s, 0.5, { opacity: 1 } ), "start4-" + _region );
 	}
 
-	
-
 	this.addPulseRegion = function(_regionID) {
 
 		//look up all the countries for the region
@@ -106,40 +144,6 @@ this.lessonMap.map.clearLabels();
 		}
 	}
 
-	this.doIDRegion = function( _regionID )  {
-
-		this.lessonMap.labelMapObject( mlRegion, _regionID );
-	}
-
-	this.pulseRegionsInSequence	= function(_continentID) {
-
-		//look up all the regions for the continent
-
-		this.tl.clear();
-
-		this.tl.pause(0);
-
-		//var arr = db.ghR.find( {z: _continentID } ).fetch();
-
-		var arr = ["nwaf", "neaf", "caf", "saf"];
-
-		for (var i = 0; i < arr.length; i++) { 		
-
-			this.tl.call( this.doIDRegion, [ arr[i] ], this, arr[i] );
-
-			this.addPulseRegion( arr[i] );
-		}
-	}
-
-	this.showRegionCountries = function( _regionID ) {
-
-		this.level = mlCountry;
-
-		this.lessonMap.selectedRegion = _regionID;
-
-		this.lessonMap.doCurrentMap();
-	},
-
 	this.addListReveal = function() {
 
 		var s = ".divCountryListItem";
@@ -148,12 +152,47 @@ this.lessonMap.map.clearLabels();
 
 	},
 
+	this.addPulseRegionsInSequence	= function(_continentID) {
+
+		//look up all the regions for the continent
+
+		var arr = [];
+
+		//the regions are in the db, of course, but not in the order that we want them
+
+		if (_continentID == "africa") arr = ["nwaf", "neaf", "caf", "saf"];
+
+		for (var i = 0; i < arr.length; i++) { 		
+
+			this.tl.call( this.doLabelRegion, [ arr[i] ], this, arr[i] );
+
+			this.addPulseRegion( arr[i] );
+		}
+	}
+
+	//***************************************************************
+	//				IMMEDIATE ACTION FUNCTIONS
+	//***************************************************************
+
+	this.showRegionCountriesOnContinent = function( _regionID ) {
+
+		this.mapLevel = mlContinent;
+
+		this.drawLevel = mlRegion;
+
+		this.detailLevel = mlCountry;
+
+		this.lessonMap.selectedRegion = _regionID;
+
+		this.lessonMap.doCurrentMap();
+	},
+
+
+
 	this.zoomToContinent = function( _continent ) {
 
 
        var rec = db.getContinentRec( _continent );
-
-
 
 var zoomLevel = rec.z1;
 var zoomLatitude = rec.z2;
@@ -167,7 +206,14 @@ if (rec.lz3) zoomLongitude = rec.lz3;
 		this.lessonMap.map.zoomToLongLat( zoomLevel, zoomLongitude, zoomLatitude);
 	}
 
-}
+}  //END LESSONFACTORY()
+
+
+
+	//***************************************************************
+	//				EVENTS
+	//***************************************************************
+
 
 $(document).keydown(function(e) {
 

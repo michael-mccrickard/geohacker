@@ -10,14 +10,23 @@
 
 	<div class="divTeach"  style="width: {{divTeachWidth}}px; height: {{mapHeight}}px;">
 
-		<div class="divMissionName">{{missionName}}</div>
+		<div class="divTeachHeader"></div>
 
+		{{#if showBody}}
 
-		{{#each countryListItem}}
+			<div class="divTeachBody"></div>
 
-			<div class="divCountryListItem" id="{{countryListItemID}}">{{countryName this}}</div>
+		{{/if}}
 
-		{{/each}}
+		{{#if showList}}
+
+			{{#each countryListItem}}
+
+				<div class="divCountryListItem" id="{{countryListItemID}}">{{countryName this}}</div>
+
+			{{/each}}
+
+		{{/if}}
 
 
 	</div>
