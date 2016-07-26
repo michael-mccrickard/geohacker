@@ -53,7 +53,7 @@ LessonMapMaker = function() {
         var s = '[';
 
 
-        if (_drawLevel == mlWorld) {
+        if (_mapLevel == mlWorld || _drawLevel == mlWorld) {
 
           //get an array of the continents
 

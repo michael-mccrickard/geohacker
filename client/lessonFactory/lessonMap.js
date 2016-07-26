@@ -171,12 +171,21 @@ LessonMap = function( _mapCtl ) {
 
             this.dp.zoomLevel = z1 = rec.z1,
             this.dp.zoomLatitude = z2 = rec.z2,
-            this.dp.zoomLongitude = z3 = rec.z3
+            this.dp.zoomLongitude = z3 = rec.z3            
 
-if (rec.lz1) this.dp.zoomLevel = z1 = rec.lz1;
-if (rec.lz2) this.dp.zoomLatitude = z2 = rec.lz2;
-if (rec.lz3) this.dp.zoomLongitude = z3 = rec.lz3;
         }
+
+//need a new user mode:  uLearn
+
+if (_mapLevel == mlContinent && gEditLesson) {
+
+    if (rec.lz1) this.dp.zoomLevel = z1 = rec.lz1;
+    if (rec.lz2) this.dp.zoomLatitude = z2 = rec.lz2;
+    if (rec.lz3) this.dp.zoomLongitude = z3 = rec.lz3;
+
+}
+
+c("map level in doMap is " + _mapLevel)
 
 
         this.dp.areas = this.mm.getJSONForMap(this.selectedContinent, this.selectedRegion, _mapLevel, _drawLevel, _detailLevel, z1, z2, z3);
