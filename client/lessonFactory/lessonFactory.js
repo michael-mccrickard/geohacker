@@ -1,5 +1,23 @@
 gEditLesson = false;
 
+doAlert = function() {
+
+	alert("complete");
+}
+
+doNextLesson = function( _val) {
+
+	if (_val == 1) doLesson2();
+
+	if (_val == 3) doLesson4();
+
+	if (_val == 4) doLesson4a();
+
+	if (_val == 5) doLesson6();
+
+	if (_val == 6) doLesson6a();
+}
+
 doLesson = function() {
 
 	if (!game.lesson) {
@@ -10,17 +28,134 @@ doLesson = function() {
 //need a definite way to turn on editing mode, but for now ...
 gEditLesson = true;
 
-	game.lesson.mission = new Mission("ttp_africa");
+	var g = game.lesson;
 
-	game.lesson.mapLevel = mlWorld;
+	g.mission = new Mission("ttp_africa");
 
-	game.lesson.drawLevel = mlWorld;
+	g.mapLevel = mlWorld;
 
-	game.lesson.detailLevel = mlContinent;
+	g.drawLevel = mlWorld;
 
-	game.lesson.showMap();
+	g.detailLevel = mlContinent;
+
+	g.showMap();
+
+	//opening sequence
+
+	g.setMessage("africa", "intro1");
+
+	g.setHeader("africa", "intro1");
+
+	g.showBody("africa is home to 1.2 billion people.", 0.5, 1);
 
 }
+
+doLesson2 = function() {
+
+	game.lesson.zoomToContinent("africa");
+
+	Meteor.setTimeout( function() { doLesson3(); }, 3200);
+
+}
+
+doLesson3 = function() {
+
+	var g = game.lesson;
+
+	g.resetBody(0, 3);
+}
+
+doLesson4 = function() {
+
+	var g = game.lesson;
+
+	g.showBody("Africa is composed of 50 countries.", 0, 4);
+
+}
+
+doLesson4a = function() {
+
+	Meteor.setTimeout( function() { game.lesson.lessonMap.doThisMap( mlContinent, mlContinent, mlCountry, "africa") }, 500 );
+
+	Meteor.setTimeout( function() { doLesson5(); }, 501);	
+}
+
+doLesson5 = function() {
+
+	var g = game.lesson;
+
+	g.resetBody(2.5, 5);
+
+}
+
+doLesson6 = function() {
+
+	var g = game.lesson;
+
+	g.showBody("The 50 countries are divided into 4 regions.", 0, 6);
+
+}
+
+doLesson6a = function() {
+
+	var g = game.lesson;
+
+	g.lessonMap.doThisMap( mlContinent, mlContinent, mlRegion, "africa");
+
+	Meteor.setTimeout( function() { doLesson7(); }, 501);	
+}
+
+doLesson7 = function() {
+
+	var g = game.lesson;
+
+	g.tl = new TimelineMax();
+
+	g.tl.pause();	
+
+	g.tl.delay(0.5);
+
+	g.addPulseRegionsInSequence( "africa" );
+
+	g.tl.add( doLesson8, 4.5 );
+
+	g.tl.play();
+}
+
+doLesson8 = function() {
+
+	var g = game.lesson;
+
+	g.tl = new TimelineMax();
+
+	g.tl.pause();	
+
+	g.tl.delay(0.5);	
+
+	g.addFadeHeader("out");
+
+	g.addResetBody();
+
+	g.addSetHeader("The Ten Largest Countries in Africa");
+
+	g.addFadeHeader("in");
+
+	g.addSwitchTo( ".divTeachList" );
+
+	g.tl.add( doLesson9, 2.2 );
+
+	g.tl.play();
+
+}
+
+doLesson9 = function() {
+
+	var g = game.lesson;
+
+	g.showList();
+
+}
+
 
 LessonFactory = function() {
 
@@ -60,34 +195,138 @@ LessonFactory = function() {
 		FlowRouter.go("/lessonMap");		
 	}
 
-	//***************************************************************
-	//					TEXT FUNCTIONS
-	//***************************************************************
+	//************************************************************************************************
+	//					TEXT FUNCTIONS  (old add[Animation] functions are at bottom of file)
+	//************************************************************************************************
 
-	this.showMessage = function( _text ) {
+
+
+	this.setMessage = function( _text ) {
 
 		$("#lessonMapMessageBox").text( _text );
 	}
 
-	this.showHeader = function( _text ) {
+	this.setHeader = function( _text ) {
 
 		$(".divTeachHeader").text( _text );
 	}
 
-	this.showBody = function( _text ) {
+	this.addSetHeader = function( _text) {
 
-		this.content.set("body");
-
-		Meteor.setTimeout( function() { $(".divTeachBody").text( _text ); }, 100);
+		this.tl.call( this.setHeader, [ _text ], this );
 	}
 
-	this.showList = function( ) {
 
-		this.content.set("list");
+	this.addSwitchTo = function( _which ) {
+
+		this.tl.call( this.switchTo, [ _which ], this );
+	}
+
+	this.addFadeHeader = function( _which, _delay) {
+
+		var s = ".divTeachHeader";
+
+		//this.tl = new TimelineMax();
+
+		//this.tl.pause();
+
+		//this.tl.delay( _delay );
+
+		if (_which == "in") this.tl.add( TweenMax.to(s, 0.5, {opacity: 1, ease:Power1.easeIn } ) );
+
+		if (_which == "out") this.tl.add( TweenMax.to(s, 0.5, {opacity: 0, ease:Power1.easeIn } ) );
+
+		//this.tl.play();
+
+	}
+
+	this.addResetBody = function(_lessonID)  {
+
+		var s = ".divTeachBody";
+
+		if (_lessonID) {
+
+			this.tl.add( TweenMax.to(s, 1.0, {x: 800, ease:Power1.easeIn, onComplete: doNextLesson, onCompleteParams:[ _lessonID ]} ) );
+		}
+		else {
+
+			this.tl.add( TweenMax.to(s, 1.0, {x: 800, ease:Power1.easeIn} ) );
+		}	
+	}
+
+	this.resetBody = function( _delay, _lessonID  ) {
+
+		var s = ".divTeachBody";
+
+		this.tl = new TimelineMax();
+
+		this.tl.pause();
+
+		this.tl.delay( _delay );
+
+		if (_lessonID) {
+
+			this.tl.add( TweenMax.to(s, 1.0, {x: 800, ease:Power1.easeIn, onComplete: doNextLesson, onCompleteParams:[ _lessonID ]} ) );
+		}
+		else {
+
+			this.tl.add( TweenMax.to(s, 1.0, {x: 800, ease:Power1.easeIn} ) );
+		}
+
+		this.tl.play();
+	}
+
+	this.showBody = function( _text, _delay, _lessonID ) {
+
+		var s = ".divTeachBody";
+
+		this.switchTo(s);
+
+		$(s).text( _text ); 
+
+		this.tl = new TimelineMax();
+
+		this.tl.pause();
+
+		this.tl.delay( _delay );
+
+		if (_lessonID) {
+
+			this.tl.add( TweenMax.to(s, 1.0, {x: -800, ease:Power1.easeOut, onComplete: doNextLesson, onCompleteParams:[ _lessonID ] } ) );
+		}
+		else {
+
+			this.tl.add( TweenMax.to(s, 1.0, {x: -800, ease:Power1.easeOut} ) );			
+		}
+
+		this.tl.play();
+
+	}
+
+	this.addRevealList = function( _which ) {
+
+		var s = ".divTeachBody";
+
+		this.tl.add( TweenMax.staggerTo(s, 1.0, {x: -800, ease:Power1.easeOut}, 0.1 ) );
+
+	}
+
+	this.showList = function( _pos) {
 
 		var s = ".divCountryListItem";
 
-		Meteor.setTimeout( function() { TweenMax.staggerTo(s, 1.0, {x: -800, ease:Back.easeIn}, 0.1) } );
+		this.switchTo(s);
+
+		TweenMax.staggerTo(s, 1.0, {x: -800, ease:Power1.easeOut}, 0.1);
+	}
+
+	this.switchTo = function( _which ) {
+
+		$(".divTeachBody").css("visibility", "hidden");
+
+		$(".divTeachList").css("visibility", "hidden");
+
+		$( _which ).css("visibility", "visible");	
 	}
 
 	//***************************************************************
@@ -102,7 +341,7 @@ LessonFactory = function() {
 
 	this.labelArea = function(_level, _code) {
 
-this.lessonMap.map.clearLabels();
+		this.lessonMap.map.clearLabels();
 
 		this.level = _level;
 
@@ -113,7 +352,7 @@ this.lessonMap.map.clearLabels();
 
 	this.doLabelRegion = function( _regionID )  {
 
-		this.lessonMap.labelMapObject( mlRegion, _regionID );
+		this.lessonMap.labelMapObject( mlRegion, _regionID, 0, 0, 16, "white" );
 	}
 
 	//***************************************************************
@@ -126,10 +365,8 @@ this.lessonMap.map.clearLabels();
 
         var s = ".amcharts-map-area-" + _code;
 
-		this.tl.add( TweenLite.to(s, 0.5, { opacity: 0 } ), "start1-" + _region );
-		this.tl.add( TweenLite.to(s, 0.5, { opacity: 1 } ), "start2-" + _region );
-		this.tl.add( TweenLite.to(s, 0.5, { opacity: 0 } ), "start3-" + _region );
-		this.tl.add( TweenLite.to(s, 0.5, { opacity: 1 } ), "start4-" + _region );
+		this.tl.add( TweenMax.to(s, 0.5, { opacity: 0 } ), "start1-" + _region );
+		this.tl.add( TweenMax.to(s, 0.5, { opacity: 1 } ), "start2-" + _region );
 	}
 
 	this.addPulseRegion = function(_regionID) {
@@ -202,6 +439,7 @@ if (rec.lz1) zoomLevel = rec.lz1;
 if (rec.lz2) zoomLatitude = rec.lz2;
 if (rec.lz3) zoomLongitude = rec.lz3;
 
+this.lessonMap.map.zoomDuration = 2;
 
 		this.lessonMap.map.zoomToLongLat( zoomLevel, zoomLongitude, zoomLatitude);
 	}
@@ -372,3 +610,33 @@ updateLabelPosition2 = function(_which) {
     
 
 }
+
+	//this.tl.call( this.doLabelRegion, [ arr[i] ], this, arr[i] );
+
+/*
+	this.addShowMessage = function( _text, _pos ) {
+
+		this.tl.call( this.showMessage, [ _text ], this, _pos );
+	}
+
+	this.addShowHeader = function( _text, _pos ) {
+
+		this.tl.call( this.showHeader, [ _text ], this, _pos );
+	}
+
+	this.addShowBody = function( _text, _pos, _lessonID ) {
+
+		this.tl.call( this.showBody, [ _text, _lessonID ], this, _pos );
+	}
+
+	this.addShowList = function( _pos ) {
+
+		this.tl.call( this.showList,[], this, _pos );
+
+	}
+
+	this.addResetBody = function(_pos, _lessonID)  {
+
+		this.tl.call( this.resetBody,[_lessonID], this, _pos );		
+	}
+*/

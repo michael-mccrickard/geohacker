@@ -102,6 +102,24 @@ LessonMap = function( _mapCtl ) {
 
     }
 
+    this.doThisMapFromTL = function( _arr ) {
+
+c(_arr[0]);
+
+        if (_arr[0]) game.lesson.mapLevel = _arr[0];
+
+        if (_arr[1]) game.lesson.drawLevel = _arr[1];
+    
+        if (_arr[2]) game.lesson.detailLevel = _arr[2];
+
+        if (_arr[3]) this.selectedContinent = _arr[3];
+
+        if (_arr[4]) this.selectedRegion = _arr[4];
+
+        game.lesson.lessonMap.doMap(game.lesson.mapLevel, game.lesson.drawLevel, game.lesson.detailLevel);
+
+    }
+
     this.doMap = function(_mapLevel, _drawLevel, _detailLevel) {
 
         var z1 = 1.0;
@@ -270,7 +288,7 @@ c("map level in doMap is " + _mapLevel)
             
             _name = rec.n;
 
-            if ( _x == undefined) {
+            if ( !_x ) {
 
                       //the area may or may not have label pos data
 
