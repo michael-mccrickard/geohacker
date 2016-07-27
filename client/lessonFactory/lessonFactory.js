@@ -30,7 +30,7 @@ gEditLesson = true;
 
 	var g = game.lesson;
 
-	g.mission = new Mission("ttp_africa");
+	g.setMission("ttp_africa");
 
 	g.mapLevel = mlWorld;
 
@@ -142,7 +142,7 @@ doLesson8 = function() {
 
 	g.addSwitchTo( ".divTeachList" );
 
-	g.tl.add( doLesson9, 2.2 );
+	g.tl.add( doLesson9, 2.0 );
 
 	g.tl.play();
 
@@ -153,6 +153,15 @@ doLesson9 = function() {
 	var g = game.lesson;
 
 	g.showList();
+
+	Meteor.setTimeout( function() { doLesson10(); }, 2000);		
+
+}
+
+doLesson10 = function() {
+
+	game.lesson.selectListItem("NG");
+
 
 }
 
@@ -182,7 +191,43 @@ LessonFactory = function() {
 
 	this.mission = null;
 
+	this.tempItems = [];
+
 	this.content = new Blaze.ReactiveVar("");
+
+	this.updateFlag = new Blaze.ReactiveVar( false );
+
+	this.updateContent = function() {
+
+		var _val = this.updateFlag.get();
+
+		this.updateFlag.set( !_val );
+	}
+
+	this.redrawList = function() {
+
+		this.tempItems = this.mission.items;
+
+		this.items = [];
+
+		this.updateContent();
+
+		Meteor.setTimeout( function() { game.lesson.redrawList2(); }, 100 );
+	}
+
+	this.redrawList2 = function() {
+
+		this.items = this.tempItems;
+
+		this.updateContent();
+	}
+
+	this.setMission = function( _code) {
+
+		this.mission = new Mission( _code );
+
+		this.items = this.mission.items;
+	}
 
 	//***************************************************************
 	//					MAPPING FUNCTIONS
@@ -198,8 +243,6 @@ LessonFactory = function() {
 	//************************************************************************************************
 	//					TEXT FUNCTIONS  (old add[Animation] functions are at bottom of file)
 	//************************************************************************************************
-
-
 
 	this.setMessage = function( _text ) {
 
@@ -226,17 +269,9 @@ LessonFactory = function() {
 
 		var s = ".divTeachHeader";
 
-		//this.tl = new TimelineMax();
-
-		//this.tl.pause();
-
-		//this.tl.delay( _delay );
-
 		if (_which == "in") this.tl.add( TweenMax.to(s, 0.5, {opacity: 1, ease:Power1.easeIn } ) );
 
 		if (_which == "out") this.tl.add( TweenMax.to(s, 0.5, {opacity: 0, ease:Power1.easeIn } ) );
-
-		//this.tl.play();
 
 	}
 
@@ -305,7 +340,7 @@ LessonFactory = function() {
 
 	this.addRevealList = function( _which ) {
 
-		var s = ".divTeachBody";
+		var s = ".divCountryListItem";
 
 		this.tl.add( TweenMax.staggerTo(s, 1.0, {x: -800, ease:Power1.easeOut}, 0.1 ) );
 
@@ -318,6 +353,48 @@ LessonFactory = function() {
 		this.switchTo(s);
 
 		TweenMax.staggerTo(s, 1.0, {x: -800, ease:Power1.easeOut}, 0.1);
+	}
+
+	this.flyListItemTo = function( _ID, _x, _y) {
+
+		var s = "#" + _ID + "-ListItem";
+
+		var itemX = $(s).offset().left;
+
+		var itemY = $(s).offset().top;
+
+		var itemWidth = $(s).width();
+
+		_x = _x - (itemX + itemWidth/2) - 800;
+
+		_y = _y - itemY - $(s).height()/2;
+
+
+		TweenMax.to(s, 1.0, {x: _x, y: _y, scale: 0.5, ease:Power1.easeIn} );		
+	}
+
+	this.selectListItem = function( _which ) {
+
+		var s = ".divCountryListItem";
+
+		//remove the selected class and re-color all
+
+		$(s).removeClass("listItemSelected");
+
+		$(s).addClass("listItem");		
+
+		$(s).css("color", "white");
+
+		//now select the which item
+
+		s = "#" + _which + "-ListItem";
+
+		$(s).addClass("listItemSelected");
+
+		$(s).removeClass("listItem");		
+
+		$(s).css("color", "yellow");
+
 	}
 
 	this.switchTo = function( _which ) {

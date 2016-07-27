@@ -26,7 +26,9 @@ Template.lessonMap.helpers({
 
   countryListItem: function() {
 
-      return game.lesson.mission.items;
+      var _val = game.lesson.updateFlag.get();
+
+      return game.lesson.items;
     
   },
 

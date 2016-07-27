@@ -104,8 +104,6 @@ LessonMap = function( _mapCtl ) {
 
     this.doThisMapFromTL = function( _arr ) {
 
-c(_arr[0]);
-
         if (_arr[0]) game.lesson.mapLevel = _arr[0];
 
         if (_arr[1]) game.lesson.drawLevel = _arr[1];
@@ -202,8 +200,6 @@ if (_mapLevel == mlContinent && gEditLesson) {
     if (rec.lz3) this.dp.zoomLongitude = z3 = rec.lz3;
 
 }
-
-c("map level in doMap is " + _mapLevel)
 
 
         this.dp.areas = this.mm.getJSONForMap(this.selectedContinent, this.selectedRegion, _mapLevel, _drawLevel, _detailLevel, z1, z2, z3);
@@ -372,7 +368,7 @@ c("map level in doMap is " + _mapLevel)
 
 function handleClick(_event) {
 
-return;
+c(_event.event)
 
     Control.playEffect( worldMap.map_sound );
 
