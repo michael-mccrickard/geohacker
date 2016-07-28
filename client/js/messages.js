@@ -35,6 +35,13 @@ showMessage = function( _text ) {
     	return;
     }
 
+    if (url == "/lessonMap") {
+
+        $("#lessonMapMessageBox").text( _text );
+
+        return;
+    }
+
     alert( _text);
 
 }

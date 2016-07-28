@@ -25,8 +25,7 @@ doLesson = function() {
 		game.lesson = new LessonFactory();
 	}
 
-//need a definite way to turn on editing mode, but for now ...
-gEditLesson = true;
+	game.user.mode = uLearn;
 
 	var g = game.lesson;
 
@@ -220,6 +219,8 @@ LessonFactory = function() {
 		this.items = this.tempItems;
 
 		this.updateContent();
+
+		Meteor.setTimeout( function() { game.lesson.showList(); }, 100 );
 	}
 
 	this.setMission = function( _code) {

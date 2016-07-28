@@ -38,6 +38,12 @@ LessonMap = function( _mapCtl ) {
 
     this.mapObjectClicked = null;
 
+    //for use with recording the center points of the countries
+
+    this.centerLong = 0;
+
+    this.centerLat = 0;
+
     //the handleZoomComplete function (called by the zoomCompleted event)
     //needs regulation b/c we re-draw the map at the end of the zoom, which causes
     //the event to fire again. We only want to execute our code in handleZoomComplete 
@@ -191,15 +197,16 @@ LessonMap = function( _mapCtl ) {
 
         }
 
-//need a new user mode:  uLearn
+        
+        //we zoom in a little tighter for the learning mode
 
-if (_mapLevel == mlContinent && gEditLesson) {
+        if (_mapLevel == mlContinent && game.user.mode == uLearn) {
 
-    if (rec.lz1) this.dp.zoomLevel = z1 = rec.lz1;
-    if (rec.lz2) this.dp.zoomLatitude = z2 = rec.lz2;
-    if (rec.lz3) this.dp.zoomLongitude = z3 = rec.lz3;
+            if (rec.lz1) this.dp.zoomLevel = z1 = rec.lz1;
+            if (rec.lz2) this.dp.zoomLatitude = z2 = rec.lz2;
+            if (rec.lz3) this.dp.zoomLongitude = z3 = rec.lz3;
 
-}
+        }
 
 
         this.dp.areas = this.mm.getJSONForMap(this.selectedContinent, this.selectedRegion, _mapLevel, _drawLevel, _detailLevel, z1, z2, z3);
@@ -368,7 +375,34 @@ if (_mapLevel == mlContinent && gEditLesson) {
 
 function handleClick(_event) {
 
-c(_event.event)
+    var ev = _event.event;
+
+
+    if (gEditLesson) {
+
+        var x = 0;
+        var y = 0;
+
+        if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+             
+            x = ev.layerX;
+            y = ev.layerY;
+        }
+        else {
+
+            x = ev.offsetX;
+            y = ev.offsetY;
+        }
+
+        game.lesson.lessonMap.centerLong = game.lesson.lessonMap.map.stageXToLongitude( x );
+
+        game.lesson.lessonMap.centerLat = game.lesson.lessonMap.map.stageYToLatitude( y );
+
+        game.lesson.lessonMap.selectedCountry = _event.mapObject.id;
+
+    }
+
+
 
     Control.playEffect( worldMap.map_sound );
 

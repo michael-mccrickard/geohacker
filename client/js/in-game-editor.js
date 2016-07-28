@@ -183,7 +183,13 @@ $(document).keydown(function(e) {
 
 	    	break;
 
-      case 76: //i
+      case 75: //k
+
+        toggleEditLessonMode();
+
+        break;
+
+      case 76: //l
 
         toggleEditLearnCountryMode();
 
@@ -194,6 +200,8 @@ $(document).keydown(function(e) {
 	    	if (gEditLabels) updateLabelRecord();
 
         if (gEditLearnCountry) updateLCValues();
+
+        if (gEditLesson) updateCenterValues(game.lesson.lessonMap.selectedCountry, game.lesson.lessonMap.centerLat, game.lesson.lessonMap.centerLong)();
 
 	    	break;
 
@@ -299,6 +307,16 @@ function toggleInstantMode() {
 
    if (!gInstantMode) showMessage( "Instant mode off");   
 }
+
+function toggleEditLessonMode() {
+
+   gEditLesson = !gEditLesson;
+
+   if (gEditLesson) showMessage( "Edit lesson mode on");
+
+   if (!gEditLesson) showMessage( "Edit lesson mode off");   
+}
+
 //***************************************************************
 //            EDIT LABELS MODE
 //***************************************************************
@@ -558,6 +576,17 @@ function updateLCValues()  {
   db.updateRecord2( cCountry, "hto", rec._id, $("img.learnCapitalImage").css("opacity") ); 
 }
 
+
+function updateCenterValues(_which, _lat, _lon) {
+
+    var rec = db.getCountryRec( _which );
+
+    db.updateRecord2( cCountry, "lat", rec._id, _lat);
+
+    db.updateRecord2( cCountry, "lon", rec._id, _lon);
+
+    showMessage( rec.n + "'s center values updated." )
+}
 
 updateLabelPosition = function(_which) {
 
