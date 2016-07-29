@@ -120,7 +120,7 @@ LessonMap = function( _mapCtl ) {
 
         if (_arr[4]) this.selectedRegion = _arr[4];
 
-        game.lesson.lessonMap.doMap(game.lesson.mapLevel, game.lesson.drawLevel, game.lesson.detailLevel);
+        game.lesson.lessonMap.doMap(game.lesson.mapLevel, game.lesson.drawLevel, game.lesson.detailLevel, game.lesson.lessonMap.selectedContinent);
 
     }
 
@@ -291,24 +291,32 @@ LessonMap = function( _mapCtl ) {
             
             _name = rec.n;
 
-            if ( !_x ) {
+            var _nameLen = _name.length;
 
-                      //the area may or may not have label pos data
+            if ( _level == mlCountry & !_x ) {
 
-                    if (rec.xl != undefined) {
+                var obj = this.map.getObjectById( _code );
 
-                        _x = rec.xl * this.map.divRealWidth;
+                _lat = this.map.getAreaCenterLatitude( obj );
 
-                        _y = rec.yl * this.map.divRealHeight;
-                    }          
+                _lon = this.map.getAreaCenterLongitude( obj );
 
+                _x = this.map.longitudeToX(_lon) - _nameLen * (_fontSize / 2);
+
+                _y = this.map.latitudeToY(_lat);
             }
+            else {
+
+                _x = _x * this.map.divRealWidth;
+
+                _y = _y * this.map.divRealHeight;
+            }
+
         }
 
         if (_fontSize == undefined) _fontSize = 24;
 
         if (_col == undefined) _col = "white";
-
 
         Meteor.defer( function() {display.ctl["MAP"].lessonMap.map.addLabel(_x, _y, _name.toUpperCase(), "", _fontSize, _col); } );
     }
@@ -376,33 +384,6 @@ LessonMap = function( _mapCtl ) {
 function handleClick(_event) {
 
     var ev = _event.event;
-
-
-    if (gEditLesson) {
-
-        var x = 0;
-        var y = 0;
-
-        if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-             
-            x = ev.layerX;
-            y = ev.layerY;
-        }
-        else {
-
-            x = ev.offsetX;
-            y = ev.offsetY;
-        }
-
-        game.lesson.lessonMap.centerLong = game.lesson.lessonMap.map.stageXToLongitude( x );
-
-        game.lesson.lessonMap.centerLat = game.lesson.lessonMap.map.stageYToLatitude( y );
-
-        game.lesson.lessonMap.selectedCountry = _event.mapObject.id;
-
-    }
-
-
 
     Control.playEffect( worldMap.map_sound );
 

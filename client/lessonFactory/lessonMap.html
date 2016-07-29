@@ -16,11 +16,21 @@
 			<div class="divTeachBody"></div>
 
 
-			{{#each countryListItem}}
+			<div class="divTeachList">
 
-				<div class="divCountryListItem listItem" id="{{countryListItemID}}">{{countryName this}}</div>
+				{{#each countryListItem}}
 
-			{{/each}}
+					<a href="javascript:void(0);" onclick="game.lesson.showCapsule('{{this}}')"><div class="divCountryListItem listItem" id="{{countryListItemID}}">{{countryName this}}</div></a>
+
+				{{/each}}
+
+			</div>
+
+			<div class="divTeachCapsule">
+
+				{{> learnCountry}}
+
+			</div>
 
 
 	</div>

@@ -1,23 +1,5 @@
 gEditLesson = false;
 
-doAlert = function() {
-
-	alert("complete");
-}
-
-doNextLesson = function( _val) {
-
-	if (_val == 1) doLesson2();
-
-	if (_val == 3) doLesson4();
-
-	if (_val == 4) doLesson4a();
-
-	if (_val == 5) doLesson6();
-
-	if (_val == 6) doLesson6a();
-}
-
 doLesson = function() {
 
 	if (!game.lesson) {
@@ -27,7 +9,13 @@ doLesson = function() {
 
 	game.user.mode = uLearn;
 
+	hack = game.lesson.hack;
+
 	var g = game.lesson;
+
+	g.index = -1;
+
+g.lessonMap.selectedContinent = "africa";
 
 	g.setMission("ttp_africa");
 
@@ -38,7 +26,10 @@ doLesson = function() {
 	g.detailLevel = mlContinent;
 
 	g.showMap();
+ 
+doLessonPrep();
 
+return;
 	//opening sequence
 
 	g.setMessage("africa", "intro1");
@@ -49,120 +40,35 @@ doLesson = function() {
 
 }
 
-doLesson2 = function() {
+doLessonPrep = function() {
 
-	game.lesson.zoomToContinent("africa");
+game.lesson.setHeader("TOP TEN AFRICA");
 
-	Meteor.setTimeout( function() { doLesson3(); }, 3200);
+game.lesson.switchTo(".divTeachList");
 
+	Meteor.setTimeout( function() { game.lesson.lessonMap.doMap(mlContinent, mlContinent, mlCountry);}, 500);
+
+Meteor.setTimeout( function() { doLesson10(); }, 500);
 }
 
-doLesson3 = function() {
-
-	var g = game.lesson;
-
-	g.resetBody(0, 3);
-}
-
-doLesson4 = function() {
-
-	var g = game.lesson;
-
-	g.showBody("Africa is composed of 50 countries.", 0, 4);
-
-}
-
-doLesson4a = function() {
-
-	Meteor.setTimeout( function() { game.lesson.lessonMap.doThisMap( mlContinent, mlContinent, mlCountry, "africa") }, 500 );
-
-	Meteor.setTimeout( function() { doLesson5(); }, 501);	
-}
-
-doLesson5 = function() {
-
-	var g = game.lesson;
-
-	g.resetBody(2.5, 5);
-
-}
-
-doLesson6 = function() {
-
-	var g = game.lesson;
-
-	g.showBody("The 50 countries are divided into 4 regions.", 0, 6);
-
-}
-
-doLesson6a = function() {
-
-	var g = game.lesson;
-
-	g.lessonMap.doThisMap( mlContinent, mlContinent, mlRegion, "africa");
-
-	Meteor.setTimeout( function() { doLesson7(); }, 501);	
-}
-
-doLesson7 = function() {
-
-	var g = game.lesson;
-
-	g.tl = new TimelineMax();
-
-	g.tl.pause();	
-
-	g.tl.delay(0.5);
-
-	g.addPulseRegionsInSequence( "africa" );
-
-	g.tl.add( doLesson8, 4.5 );
-
-	g.tl.play();
-}
-
-doLesson8 = function() {
-
-	var g = game.lesson;
-
-	g.tl = new TimelineMax();
-
-	g.tl.pause();	
-
-	g.tl.delay(0.5);	
-
-	g.addFadeHeader("out");
-
-	g.addResetBody();
-
-	g.addSetHeader("The Ten Largest Countries in Africa");
-
-	g.addFadeHeader("in");
-
-	g.addSwitchTo( ".divTeachList" );
-
-	g.tl.add( doLesson9, 2.0 );
-
-	g.tl.play();
-
-}
-
-doLesson9 = function() {
-
-	var g = game.lesson;
-
-	g.showList();
-
-	Meteor.setTimeout( function() { doLesson10(); }, 2000);		
-
-}
 
 doLesson10 = function() {
 
-	game.lesson.selectListItem("NG");
+	var g = game.lesson;
 
+	g.tl = new TimelineMax();
 
+	g.tl.pause();
+
+	g.addRevealList();
+
+	g.addSetHeader( "click the name of each country", "+=1.5" );
+
+	//g.tl.add( doLesson11, "+=0.1" );
+
+	g.tl.play();
 }
+
 
 
 LessonFactory = function() {
@@ -186,15 +92,24 @@ LessonFactory = function() {
 
 	this.detailLevel = "";
 
+	this.hack = new Hack();
+
 	this.code = "";
 
 	this.mission = null;
 
 	this.tempItems = [];
 
+	this.items = [];
+
+	this.index = 0;  //index into the list of countries (items)
+
 	this.content = new Blaze.ReactiveVar("");
 
 	this.updateFlag = new Blaze.ReactiveVar( false );
+
+	this.selectedCountry = "";
+
 
 	this.updateContent = function() {
 
@@ -220,7 +135,7 @@ LessonFactory = function() {
 
 		this.updateContent();
 
-		Meteor.setTimeout( function() { game.lesson.showList(); }, 100 );
+		Meteor.setTimeout( function() { game.lesson.fadeList("in"); }, 100 );
 	}
 
 	this.setMission = function( _code) {
@@ -228,6 +143,47 @@ LessonFactory = function() {
 		this.mission = new Mission( _code );
 
 		this.items = this.mission.items;
+	}
+
+	this.showCapsule = function( _ID ) {
+
+		this.selectedCountry = _ID;
+
+		hack.initForLearn( _ID );
+
+		this.selectListItem( _ID );
+
+		var rec = db.getCountryRec( _ID );
+
+		this.lessonMap.doThisMap( mlContinent, mlRegion, mlCountry, this.lessonMap.selectedContinent, rec.r);	
+
+		var x = 0;
+
+		var y = 0;
+
+		if (rec.xl3 !== undefined) {
+
+			x = rec.xl3;
+
+			y = rec.yl3;
+		}
+
+		this.lessonMap.labelMapObject(mlCountry, _ID, x, y, 12, "black");
+return;
+		if (rec.xc !== undefined) {
+
+			var s = ".divLearnCountry";
+
+			var map = this.lessonMap.map;
+
+			var _top = map.divRealWidth * rec.yc;
+
+			var _left = map.divRealWidth * rec.xc;
+
+			Meteor.setTimeout( function() { $(".divLearnCountry").offset( { top: _top , left: _left } ); }, 100 );			
+		}
+
+		Meteor.setTimeout( function() { game.lesson.fadeCapsule("in"); }, 101 );
 	}
 
 	//***************************************************************
@@ -260,19 +216,64 @@ LessonFactory = function() {
 		this.tl.call( this.setHeader, [ _text ], this );
 	}
 
+/*
+	this.addMakeUnselectedListInvisible = function( _text) {
+
+		this.tl.call( this.makeUnselectedListInvisible, [ _text ], this );
+	}
+*/
+
+	this.fadeCapsule = function( _which ) {
+
+		var s = ".divLearnCountry";
+
+		if (_which == "in") TweenMax.to(s, 0.5, {opacity: 1, ease:Power1.easeIn } );
+
+		if (_which == "out") TweenMax.to(s, 0.5, {opacity: 0, ease:Power1.easeIn } );
+	}
+
+	this.addFadeCapsule = function( _which, _pos ) {
+
+		var s = ".divLearnCountry";
+
+		if (_which == "in") this.tl.add( TweenMax.to(s, 0.5, {opacity: 1, ease:Power1.easeIn } ), _pos );
+
+		if (_which == "out") this.tl.add( TweenMax.to(s, 0.5, {opacity: 0, ease:Power1.easeIn } ), _pos );
+	}
+
 
 	this.addSwitchTo = function( _which ) {
 
 		this.tl.call( this.switchTo, [ _which ], this );
 	}
 
-	this.addFadeHeader = function( _which, _delay) {
+	this.addFadeHeader = function( _which, _pos) {
 
 		var s = ".divTeachHeader";
 
-		if (_which == "in") this.tl.add( TweenMax.to(s, 0.5, {opacity: 1, ease:Power1.easeIn } ) );
+		if (_which == "in") this.tl.add( TweenMax.to(s, 0.5, {opacity: 1, ease:Power1.easeIn } ), _pos );
 
-		if (_which == "out") this.tl.add( TweenMax.to(s, 0.5, {opacity: 0, ease:Power1.easeIn } ) );
+		if (_which == "out") this.tl.add( TweenMax.to(s, 0.5, {opacity: 0, ease:Power1.easeIn } ), _pos );
+
+	}
+
+	this.addFadeList = function( _which, _pos) {
+
+		var s = ".divTeachList";
+
+		if (_which == "in") this.tl.add( TweenMax.to(s, 0.5, {opacity: 1, ease:Power1.easeIn } ), _pos );
+
+		if (_which == "out") this.tl.add( TweenMax.to(s, 0.5, {opacity: 0, ease:Power1.easeIn } ), _pos );
+
+	}
+
+	this.addFadeUnselectedList = function( _which, _pos) {
+
+		var s = ".listItem";
+
+		if (_which == "in") this.tl.add( TweenMax.to(s, 0.5, {opacity: 1, ease:Power1.easeIn } ), _pos );
+
+		if (_which == "out") this.tl.add( TweenMax.to(s, 0.5, {opacity: 0, ease:Power1.easeIn } ), _pos );
 
 	}
 
@@ -289,6 +290,15 @@ LessonFactory = function() {
 			this.tl.add( TweenMax.to(s, 1.0, {x: 800, ease:Power1.easeIn} ) );
 		}	
 	}
+
+/*
+	this.makeUnselectedListInvisible = function() {
+
+		var s = ".listItem";
+
+		$(s).css("display","none");
+	}
+*/
 
 	this.resetBody = function( _delay, _lessonID  ) {
 
@@ -339,7 +349,7 @@ LessonFactory = function() {
 
 	}
 
-	this.addRevealList = function( _which ) {
+	this.addRevealList = function( ) {
 
 		var s = ".divCountryListItem";
 
@@ -347,16 +357,39 @@ LessonFactory = function() {
 
 	}
 
-	this.showList = function( _pos) {
+	this.revealList = function( ) {
+
+		var s = ".divCountryListItem";
+
+		TweenMax.staggerTo(s, 1.0, {x: -800, ease:Power1.easeOut}, 0.1 );
+
+	}
+
+	this.repositionList = function() {
 
 		var s = ".divCountryListItem";
 
 		this.switchTo(s);
 
-		TweenMax.staggerTo(s, 1.0, {x: -800, ease:Power1.easeOut}, 0.1);
+		$(s).css("position","relative");	
+
+		$(s).css("left","-800px");	
 	}
 
-	this.flyListItemTo = function( _ID, _x, _y) {
+	this.fadeList = function( _which) {
+
+		var s = ".divCountryListItem";
+
+		this.repositionList();
+
+		var _opacity = "1";
+
+		if (_which == "out") _opacity = "0";
+
+		TweenMax.staggerTo(s, 1.0, {opacity: _opacity, ease:Power1.easeOut}, 0.1 );
+	}
+
+	this.addFlyListItemToMap = function( _ID ) {
 
 		var s = "#" + _ID + "-ListItem";
 
@@ -366,12 +399,27 @@ LessonFactory = function() {
 
 		var itemWidth = $(s).width();
 
-		_x = _x - (itemX + itemWidth/2) - 800;
+		var _lon, _lat, _x, _y;
 
-		_y = _y - itemY - $(s).height()/2;
+		var m = game.lesson.lessonMap.map;
 
+		var obj = m.getObjectById( _ID );
 
-		TweenMax.to(s, 1.0, {x: _x, y: _y, scale: 0.5, ease:Power1.easeIn} );		
+		_lat = m.getAreaCenterLatitude( obj );
+
+		_lon = m.getAreaCenterLongitude( obj );
+
+		//the first time thru, the CSS is different on the list items
+
+		var _offset = 800;
+
+		if (this.index != 0) _offset = 0;
+
+		_x = m.longitudeToX(_lon) - (itemX + itemWidth/2) - _offset;   //800 = amt this div is shifted over;
+
+		_y = m.latitudeToY(_lat) - itemY - $(s).height()/2  + 55;  //55 = height of menubar
+
+		this.tl.add( TweenMax.to(s, 1.0, {x: _x, y: _y, scale: 0.45, ease:Power1.easeIn} ) );		
 	}
 
 	this.selectListItem = function( _which ) {
@@ -459,13 +507,6 @@ LessonFactory = function() {
 		}
 	}
 
-	this.addListReveal = function() {
-
-		var s = ".divCountryListItem";
-
-		this.tl.add( TweenMax.staggerTo(s, 1.0, {x: -800, ease:Back.easeIn}, 0.1) );
-
-	},
 
 	this.addPulseRegionsInSequence	= function(_continentID) {
 
@@ -533,7 +574,7 @@ this.lessonMap.map.zoomDuration = 2;
 
 $(document).keydown(function(e) {
 
-	if (!gEditLesson) return;
+	if (!gEditLesson && !gEditCapsulePos) return;
 
     switch(e.which) {
 
@@ -576,13 +617,36 @@ $(document).keydown(function(e) {
 
 function nudgeLabel(_code) {
 
-	var map = display.ctl["MAP"].lessonMap.map;
+	var map = game.lesson.lessonMap.map;
 
-	var _x = map.allLabels[0].x;
+	var _x = 0;
 
-	var _y = map.allLabels[0].y;
+	var _y = 0;
+
+	if (gEditCapsulePos) {
+
+		_x = $(".divTeachCapsule").offset().left;
+
+		_y = $(".divTeachCapsule").offset().top;
+	}
+	else {
+
+		_x = map.allLabels[0].x;
+
+		_y = map.allLabels[0].y;	
+	}
+
 
 	if (_code == 37) {  //left
+
+	   if (gEditCapsulePos) {
+
+	   		_x = _x * 0.9;
+	   		
+	   		moveCapsule( { top: _y, left: _x });
+
+	   		return;
+	   }
 
 	   map.allLabels[0].x = _x * 0.98;
 
@@ -591,6 +655,15 @@ function nudgeLabel(_code) {
 
 	if (_code == 38) {  //down
 
+	   if (gEditCapsulePos) {
+
+	   		_y = _y * 0.9;
+
+	   		moveCapsule( { top: _y, left: _x });
+
+	   		return;
+	   }
+
 	   map.allLabels[0].y = _y * 0.98;
 
 	   moveLabel();
@@ -598,12 +671,30 @@ function nudgeLabel(_code) {
 
 	if (_code == 39) {  //right
 
+	   if (gEditCapsulePos) {
+
+	   		_x = _x * 1.1;
+	   		
+	   		moveCapsule( { top: _y, left: _x });
+
+	   		return;
+	   }
+
 	   map.allLabels[0].x = _x * 1.02;
 
 	   moveLabel();
 	}
 
 	if (_code == 40) {  //up
+
+	   if (gEditCapsulePos) {
+
+	   		_y = _y * 1.1;
+
+	   		moveCapsule( { top: _y, left: _x });
+
+	   		return;
+	   }
 
 	   map.allLabels[0].y = _y * 1.02;
 
@@ -614,7 +705,7 @@ function nudgeLabel(_code) {
 
 function moveLabel() {
 
-	var map = display.ctl["MAP"].lessonMap.map;
+	var map = game.lesson.lessonMap.map;
 
 	var _x = map.allLabels[0].x;
 
@@ -624,6 +715,11 @@ function moveLabel() {
 
     Meteor.defer( function() { display.ctl["MAP"].lessonMap.labelMapObject( game.lesson.level, game.lesson.code, _x, _y ); } );      
 
+}
+
+function moveCapsule( _obj) {
+
+	$(".divTeachCapsule").offset( _obj );
 }
 
 function updateLabelRecord() {
@@ -636,7 +732,7 @@ function updateLabelRecord() {
 
 updateLabelPosition2 = function(_which) {
 
-	var _map = display.ctl["MAP"].lessonMap.map
+	var _map = game.lesson.lessonMap.map
 
     var totalWidth = _map.divRealWidth;
 

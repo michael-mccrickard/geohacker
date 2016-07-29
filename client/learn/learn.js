@@ -11,9 +11,15 @@ Template.learnCountry.helpers({
 
 	country: function() {
 
-//temporarily using the hack to hold the country value
+		var _val = game.lesson.updateFlag.get();
 
-return db.getCountryRec( hack.countryCode );
+		return db.getCountryRec( hack.countryCode );
+
+	},
+
+	countryColor: function() {
+
+		return this.co;
 
 	},
 

@@ -15,6 +15,8 @@ gGameEditor = false;
 
 gEditLearnCountry = false;
 
+gEditCapsulePos = false;
+
 gEditElement = "div.transHomelandText";
 
 gArrCountry = [];
@@ -156,6 +158,12 @@ $(document).keydown(function(e) {
 
 	    	break;
 
+        case 67: //c
+
+        toggleEditCapsulePos();
+
+        break;
+
 	    case 69: //e
 
 	    	toggleEditLabels();
@@ -197,11 +205,11 @@ $(document).keydown(function(e) {
 
 	    case 83: //s
 
+        if (gEditCapsulePos) updateCapsulePos();
+
 	    	if (gEditLabels) updateLabelRecord();
 
         if (gEditLearnCountry) updateLCValues();
-
-        if (gEditLesson) updateCenterValues(game.lesson.lessonMap.selectedCountry, game.lesson.lessonMap.centerLat, game.lesson.lessonMap.centerLong)();
 
 	    	break;
 
@@ -290,6 +298,23 @@ function toggleEditLabels() {
    }
 }
 
+function toggleEditCapsulePos() {
+
+   if (gEditCapsulePos) {
+
+      gEditCapsulePos = false;
+
+      showMessage("Edit capsule position is off")
+
+   }
+   else {
+
+      gEditCapsulePos = true;
+
+      showMessage("Edit capsule position is on")        
+   }
+}
+
 function toggleUserCountriesOnlyMode() {
 
    gUserCountriesOnlyMode = !gUserCountriesOnlyMode;
@@ -312,7 +337,10 @@ function toggleEditLessonMode() {
 
    gEditLesson = !gEditLesson;
 
-   if (gEditLesson) showMessage( "Edit lesson mode on");
+   if (gEditLesson) {
+
+    showMessage( "Edit lesson mode on");
+  }
 
    if (!gEditLesson) showMessage( "Edit lesson mode off");   
 }
@@ -324,6 +352,8 @@ function toggleEditLessonMode() {
 function nudgeLabel(_code) {
 
 	var map = display.ctl["MAP"].worldMap.map;
+
+  if (game.user.mode == uLearn) map = game.lesson.lessonMap.map;
 
 	var _x = map.allLabels[0].x;
 
@@ -363,11 +393,24 @@ function moveLabel() {
 
 	var map = display.ctl["MAP"].worldMap.map;
 
+  if (game.user.mode == uLearn) map = game.lesson.lessonMap.map;
+
 	var _x = map.allLabels[0].x;
 
 	var _y = map.allLabels[0].y;
 
-    display.ctl["MAP"].worldMap.map.clearLabels();
+    map.clearLabels();
+
+    if (game.user.mode == uLearn) {
+
+        _x = _x / map.divRealWidth;
+
+        _y = _y / map.divRealHeight;
+
+        Meteor.defer( function() { game.lesson.lessonMap.labelMapObject(mlCountry, game.lesson.selectedCountry, _x, _y, 12, "black"); } );
+
+        return;
+    }
 
     if ( display.ctl["MAP"].getState() == sCountryOK) {
 
@@ -382,6 +425,13 @@ function moveLabel() {
 function updateLabelRecord() {
 
 	showMessage("updating label pos in db");
+
+  if (game.user.mode == uLearn) {
+
+        Meteor.defer( function() { updateLabelPosition( 3 ); } );    
+
+        return;  
+  }
 
 	//if the state is sCountryOK, then we are on the second labeling of the correct country
 	//(with the half-width map displayed to the left)
@@ -553,6 +603,32 @@ function startCrop() {
 //            DATABASE UPDATES
 //***************************************************************
 
+function updateCapsulePos() {
+
+    var map = game.lesson.lessonMap.map
+
+    var s = ".divLearnCountry";
+
+    var x = $(s).offset().left;
+
+    var y = $(s).offset().top;
+
+    x =  x  / map.divRealWidth;
+
+    y =  y  / map.divRealHeight;
+
+    var rec = db.getCountryRec(game.lesson.selectedCountry);
+
+    db.updateRecord2( cCountry, "xc", rec._id, x);
+
+    db.updateRecord2( cCountry, "yc", rec._id, y);
+
+    console.log(db.getCountryName( game.lesson.selectedCountry ) + " capsule pos updated to " + x + ", " + y);
+
+    return;
+
+}
+
 function updateLCValues()  {
 
   var rec = db.getCountryRec( hack.countryCode );
@@ -577,46 +653,37 @@ function updateLCValues()  {
 }
 
 
-function updateCenterValues(_which, _lat, _lon) {
-
-    var rec = db.getCountryRec( _which );
-
-    db.updateRecord2( cCountry, "lat", rec._id, _lat);
-
-    db.updateRecord2( cCountry, "lon", rec._id, _lon);
-
-    showMessage( rec.n + "'s center values updated." )
-}
-
 updateLabelPosition = function(_which) {
 
-    //var totalWidth = deriveInt( $("#divMap").css("width") ) ;
+    var map = display.ctl["MAP"].worldMap.map
 
-    //var totalHeight = deriveInt( $("#divMap").css("height") ) ;
+    if (game.user.mode == uLearn) map = game.lesson.lessonMap.map;
 
-    var totalWidth = display.ctl["MAP"].worldMap.map.divRealWidth;
+    var totalWidth = map.divRealWidth;
 
-    var totalHeight =  display.ctl["MAP"].worldMap.map.divRealHeight;
+    var totalHeight =  map.divRealHeight;
 
-    var x = display.ctl["MAP"].worldMap.map.allLabels[0].x;
+    var x = map.allLabels[0].x;
 
-c("x in updateLabelPosition is " + x)
-
-    var y = display.ctl["MAP"].worldMap.map.allLabels[0].y;
+    var y = map.allLabels[0].y;
 
     x =  x  / totalWidth;
 
-c("x normalized in updateLabelPosition is " + x)
-
     y =  y  / totalHeight;
 
-    var _level = display.ctl["MAP"].level.get();
+    if (game.user.mode == uLearn) {
 
-    var selectedContinent = display.ctl["MAP"].worldMap.selectedContinent;
+        var rec = db.getCountryRec(game.lesson.selectedCountry);
 
-    var selectedRegion = display.ctl["MAP"].worldMap.selectedRegion;
+        db.updateRecord2( cCountry, "xl3", rec._id, x);
 
-    var selectedCountry = display.ctl["MAP"].worldMap.selectedCountry.get();
+        db.updateRecord2( cCountry, "yl3", rec._id, y);
+
+        console.log("country " + "(" + _which + ") " + db.getCountryName( game.lesson.selectedCountry ) + " label updated to " + x + ", " + y);
+
+        return;
+
+    }
 
     var xName = "xl";
 
@@ -627,6 +694,14 @@ c("x normalized in updateLabelPosition is " + x)
       xName = "xl2";
       yName = "yl2";
     }
+
+    var selectedContinent = map.selectedContinent;
+
+    var selectedRegion = map.selectedRegion;
+
+    var selectedCountry = map.selectedCountry.get();
+
+    var _level = display.ctl["MAP"].level.get();
 
 //db.updateRecord2 = function (_type, field, ID, value) 
 

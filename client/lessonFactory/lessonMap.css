@@ -5,7 +5,7 @@
     z-index: 1050;   
 }
 
-.divCountryListItem {
+.divTeachList {
 
 	text-align: center;
 
@@ -16,7 +16,7 @@
 position: relative;
 left: 800px;
 
-	visibility: hidden;
+	visibility: hidden;  
 }
 
 .divTeach {

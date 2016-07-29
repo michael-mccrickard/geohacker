@@ -1,8 +1,5 @@
 
-.divLCWrapper {
 
-
-}
 
 .transHomelandText {
 	
@@ -22,9 +19,12 @@
 }
 
 .divLearnCountry {
+
+	/*
 	position: relative;
-	top: 60px;
+	top: -300px;
 	left: 60px;
+*/
 
   display: flex;
   flex-flow: row;
@@ -39,6 +39,8 @@
    border-radius: 4px;
 
    width: 384px;
+
+   opacity: 0;
 }
 
 .divLearnCountry > div{

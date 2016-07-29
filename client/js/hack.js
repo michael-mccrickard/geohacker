@@ -100,6 +100,19 @@ Hack = function() {
         FlowRouter.go("/waiting");
     };
 
+    this.initForLearn = function( _code) {
+
+        //this.mode = mBrowse;
+
+        this.countryCode = _code;
+
+        this.continentCode = db.getContinentCodeForCountry( _code );
+
+        this.regionCode = db.getRegionCodeForCountry( _code );
+
+        this.subscribeToData( _code );
+    };
+
     this.init = function() {
 
         this.auto = false;
@@ -521,6 +534,13 @@ Tracker.autorun( function(comp) {
           console.log("hack data ready")
 
           Hack.resetDataFlags();
+
+if (game.user.mode == uLearn) {
+
+   game.lesson.updateContent();
+
+  return;
+}
 
           if (game.user.mode == uBrowseCountry) {
 
