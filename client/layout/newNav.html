@@ -20,7 +20,7 @@
 
               <!--this is a admin only function-->
               {{#if isInRole 'admin'}}
-
+                  <li><a href="javascript:void(0);" onclick="doLesson()">Lesson</a></li>  
                   <li><a href="javascript:void(0);" onclick="nav.goAdmin('/userDirectory')">List all users</a></li>  
              
              {{/if}}

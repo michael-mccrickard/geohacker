@@ -27,9 +27,9 @@ g.lessonMap.selectedContinent = "africa";
 
 	g.showMap();
  
-doLessonPrep();
+//doLessonPrep();
 
-return;
+//return;
 	//opening sequence
 
 	g.setMessage("africa", "intro1");
@@ -52,22 +52,6 @@ Meteor.setTimeout( function() { doLesson10(); }, 500);
 }
 
 
-doLesson10 = function() {
-
-	var g = game.lesson;
-
-	g.tl = new TimelineMax();
-
-	g.tl.pause();
-
-	g.addRevealList();
-
-	g.addSetHeader( "click the name of each country", "+=1.5" );
-
-	//g.tl.add( doLesson11, "+=0.1" );
-
-	g.tl.play();
-}
 
 
 
@@ -161,27 +145,48 @@ LessonFactory = function() {
 
 		var y = 0;
 
-		if (rec.xl3 !== undefined) {
+		if (rec.llon !== undefined) {
 
-			x = rec.xl3;
+			x = this.lessonMap.map.longitudeToX( rec.llon );
 
-			y = rec.yl3;
+			y = this.lessonMap.map.latitudeToY( rec.llat );
 		}
+		else {
+
+			if (rec.xl3 !== undefined) {
+
+				x = rec.xl3;
+
+				y = rec.yl3;
+			}			
+		}
+
 
 		this.lessonMap.labelMapObject(mlCountry, _ID, x, y, 12, "black");
-return;
-		if (rec.xc !== undefined) {
 
-			var s = ".divLearnCountry";
+		var s = ".divLearnCountry";
 
-			var map = this.lessonMap.map;
+		var map = this.lessonMap.map;
 
-			var _top = map.divRealWidth * rec.yc;
+		if (rec.cpLon !== undefined) {
 
-			var _left = map.divRealWidth * rec.xc;
+			x = this.lessonMap.map.longitudeToStageX( rec.cpLon );
 
-			Meteor.setTimeout( function() { $(".divLearnCountry").offset( { top: _top , left: _left } ); }, 100 );			
+			y = this.lessonMap.map.latitudeToStageY( rec.cpLat );
 		}
+		else {
+
+			if (rec.xc !== undefined) {
+
+				x = map.divRealWidth * rec.xc;
+
+				y = map.divRealWidth * rec.yc;
+			}			
+		}
+
+
+		Meteor.setTimeout( function() { $(".divLearnCountry").offset( { top: y , left: x } ); }, 100 );			
+
 
 		Meteor.setTimeout( function() { game.lesson.fadeCapsule("in"); }, 101 );
 	}
@@ -215,13 +220,6 @@ return;
 
 		this.tl.call( this.setHeader, [ _text ], this );
 	}
-
-/*
-	this.addMakeUnselectedListInvisible = function( _text) {
-
-		this.tl.call( this.makeUnselectedListInvisible, [ _text ], this );
-	}
-*/
 
 	this.fadeCapsule = function( _which ) {
 
@@ -291,14 +289,6 @@ return;
 		}	
 	}
 
-/*
-	this.makeUnselectedListInvisible = function() {
-
-		var s = ".listItem";
-
-		$(s).css("display","none");
-	}
-*/
 
 	this.resetBody = function( _delay, _lessonID  ) {
 
@@ -641,7 +631,7 @@ function nudgeLabel(_code) {
 
 	   if (gEditCapsulePos) {
 
-	   		_x = _x * 0.9;
+	   		_x = _x * 0.98;
 	   		
 	   		moveCapsule( { top: _y, left: _x });
 
@@ -657,7 +647,7 @@ function nudgeLabel(_code) {
 
 	   if (gEditCapsulePos) {
 
-	   		_y = _y * 0.9;
+	   		_y = _y * 0.98;
 
 	   		moveCapsule( { top: _y, left: _x });
 
@@ -673,7 +663,7 @@ function nudgeLabel(_code) {
 
 	   if (gEditCapsulePos) {
 
-	   		_x = _x * 1.1;
+	   		_x = _x * 1.02;
 	   		
 	   		moveCapsule( { top: _y, left: _x });
 
@@ -689,7 +679,7 @@ function nudgeLabel(_code) {
 
 	   if (gEditCapsulePos) {
 
-	   		_y = _y * 1.1;
+	   		_y = _y * 1.02;
 
 	   		moveCapsule( { top: _y, left: _x });
 

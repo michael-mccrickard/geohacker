@@ -64,6 +64,12 @@ $(document).keydown(function(e) {
 
     switch(e.which) {
 
+case 190: //space
+
+fixRegionLabels();
+
+  break;
+
       case 32: //space
 
         if (gEditLearnCountry) switchEditText();
@@ -403,9 +409,6 @@ function moveLabel() {
 
     if (game.user.mode == uLearn) {
 
-        _x = _x / map.divRealWidth;
-
-        _y = _y / map.divRealHeight;
 
         Meteor.defer( function() { game.lesson.lessonMap.labelMapObject(mlCountry, game.lesson.selectedCountry, _x, _y, 12, "black"); } );
 
@@ -613,17 +616,18 @@ function updateCapsulePos() {
 
     var y = $(s).offset().top;
 
-    x =  x  / map.divRealWidth;
 
-    y =  y  / map.divRealHeight;
+      var _long = map.stageXToLongitude( x );
+
+      var _lat = map.stageYToLatitude( y );
 
     var rec = db.getCountryRec(game.lesson.selectedCountry);
 
-    db.updateRecord2( cCountry, "xc", rec._id, x);
+    db.updateRecord2( cCountry, "cpLon", rec._id, _long);
 
-    db.updateRecord2( cCountry, "yc", rec._id, y);
+    db.updateRecord2( cCountry, "cpLat", rec._id, _lat);
 
-    console.log(db.getCountryName( game.lesson.selectedCountry ) + " capsule pos updated to " + x + ", " + y);
+    showMessage(db.getCountryName( game.lesson.selectedCountry ) + " capsule pos updated to " + _lat + ", " + _long);
 
     return;
 
@@ -659,31 +663,56 @@ updateLabelPosition = function(_which) {
 
     if (game.user.mode == uLearn) map = game.lesson.lessonMap.map;
 
-    var totalWidth = map.divRealWidth;
-
-    var totalHeight =  map.divRealHeight;
-
     var x = map.allLabels[0].x;
 
     var y = map.allLabels[0].y;
 
-    x =  x  / totalWidth;
 
-    y =  y  / totalHeight;
+      var _long = map.stageXToLongitude( x );
+
+      var _lat = map.stageYToLatitude( y );
 
     if (game.user.mode == uLearn) {
 
-        var rec = db.getCountryRec(game.lesson.selectedCountry);
+        var _level = game.lesson.detailLevel;
 
-        db.updateRecord2( cCountry, "xl3", rec._id, x);
+        if (_level == mlCountry) {
 
-        db.updateRecord2( cCountry, "yl3", rec._id, y);
+          //for now, learn mode stores the selectedCountry with the lesson object (cont and region with the lessonMap object)
 
-        console.log("country " + "(" + _which + ") " + db.getCountryName( game.lesson.selectedCountry ) + " label updated to " + x + ", " + y);
+           var rec = db.getCountryRec(game.lesson.selectedCountry);
 
-        return;
+          db.updateRecord2( cCountry, "llon", rec._id, _long);
+
+          db.updateRecord2( cCountry, "llat", rec._id, _lat);
+
+          console.log("country " + "(" + _which + ") " + db.getCountryName( game.lesson.selectedCountry ) + " label updated to " + _long + ", " + _lat);
+
+          return;         
+        }
+
+        //for now learn mode stores the region and continent with the lessonMap object (country with the lesson object)
+
+        if (_level == mlRegion) {
+
+           var rec = db.getRegionRec(game.lesson.lessonMap.selectedRegion);
+
+          db.updateRecord2( cRegion, "llon", rec._id, _long);
+
+          db.updateRecord2( cRegion, "llat", rec._id, _lat);
+
+          showMessage("region " + "(" + game.lesson.lessonMap.selectedRegion + ") " + db.getRegionName( game.lesson.lessonMap.selectedRegion ) + " label updated to " + _long + ", " + _lat);
+
+          return;         
+        }
+
 
     }
+
+    x =  x  / map.divRealWidth;
+
+    y =  y  / map.divRealHeight;
+
 
     var xName = "xl";
 

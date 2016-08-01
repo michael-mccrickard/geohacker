@@ -293,6 +293,26 @@ LessonMap = function( _mapCtl ) {
 
             var _nameLen = _name.length;
 
+            if ( _level == mlRegion) {
+
+                if (rec.llon !== undefined) {
+
+                    _x = this.map.longitudeToStageX( rec.llon);
+
+                    _y = this.map.latitudeToStageY( rec.llat);
+
+                }
+                else {
+
+                    _x = rec.xl * this.map.divRealWidth;
+
+                    _y = rec.yl * this.map.divRealHeight;
+
+                }
+
+            }
+
+
             if ( _level == mlCountry & !_x ) {
 
                 var obj = this.map.getObjectById( _code );
@@ -304,12 +324,6 @@ LessonMap = function( _mapCtl ) {
                 _x = this.map.longitudeToX(_lon) - _nameLen * (_fontSize / 2);
 
                 _y = this.map.latitudeToY(_lat);
-            }
-            else {
-
-                _x = _x * this.map.divRealWidth;
-
-                _y = _y * this.map.divRealHeight;
             }
 
         }

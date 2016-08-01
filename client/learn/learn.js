@@ -90,6 +90,13 @@ Template.learnCountry.helpers({
 		return "1.0";
   	},
 
+    capitalTextColor: function() {
+
+		if (this.co == "#FFD700") return "black"
+
+		return "white";
+  	},
+
 
      flagImage: function() {
 

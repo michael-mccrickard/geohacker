@@ -113,11 +113,17 @@ doLesson9 = function() {
 
 	var g = game.lesson;
 
-	g.revealList();
+	g.tl = new TimelineMax();
 
-	//Meteor.setTimeout( function() { doLesson11(); }, 2000);		
+	g.tl.pause();
 
+	g.addRevealList();
+
+	g.addSetHeader( "click the name of each country", "+=1.5" );
+
+	g.tl.play();
 }
+
 
 //*****************************************************************************
 //			AUTOMATED TOP TEN REVIEW
