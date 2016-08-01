@@ -20,12 +20,6 @@
 
 .divLearnCountry {
 
-	/*
-	position: relative;
-	top: -300px;
-	left: 60px;
-*/
-
   display: flex;
   flex-flow: row;
   justify-content: center;

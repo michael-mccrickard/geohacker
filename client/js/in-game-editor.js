@@ -64,12 +64,6 @@ $(document).keydown(function(e) {
 
     switch(e.which) {
 
-case 190: //space
-
-fixRegionLabels();
-
-  break;
-
       case 32: //space
 
         if (gEditLearnCountry) switchEditText();
@@ -126,7 +120,7 @@ fixRegionLabels();
 
       case 37:  //left arrow
 
-        if (gEditLabels) nudgeLabel( e.which );
+        if (gEditLabels || gEditCapsulePos) nudgeLabel( e.which );
 
         if (gEditLearnCountry) posElementLeft(1); 
 
@@ -134,7 +128,7 @@ fixRegionLabels();
 
       case 38: //arrow key up
 
-        if (gEditLabels) nudgeLabel( e.which );
+        if (gEditLabels || gEditCapsulePos) nudgeLabel( e.which );
 
         if (gEditLearnCountry) editTextSize(1);
 
@@ -142,7 +136,7 @@ fixRegionLabels();
 
       case 39:  //right arrow
 
-        if (gEditLabels) nudgeLabel( e.which );
+        if (gEditLabels || gEditCapsulePos) nudgeLabel( e.which );
 
         if (gEditLearnCountry) posElementLeft(-1); 
 
@@ -151,7 +145,7 @@ fixRegionLabels();
 
       case 40: //arrow key down
 
-        if (gEditLabels) nudgeLabel( e.which );
+        if (gEditLabels || gEditCapsulePos) nudgeLabel( e.which );
 
         if (gEditLearnCountry) editTextSize(-1);
 
@@ -365,35 +359,85 @@ function nudgeLabel(_code) {
 
 	var _y = map.allLabels[0].y;
 
-	if (_code == 37) {  //left
+  if (gEditCapsulePos) {
 
-	   map.allLabels[0].x = _x * 0.98;
+    _x = $(".divLearnCountry").offset().left;
 
-	   moveLabel();
-	}
+    _y = $(".divLearnCountry").offset().top;
+  }
 
-	if (_code == 38) {  //down
+  if (_code == 37) {  //left
 
-	   map.allLabels[0].y = _y * 0.98;
+     if (gEditCapsulePos) {
 
-	   moveLabel();
-	} 
+        _x = _x * 0.98;
+        
+        moveCapsule( { top: _y, left: _x });
 
-	if (_code == 39) {  //right
+        return;
+     }
 
-	   map.allLabels[0].x = _x * 1.02;
+     map.allLabels[0].x = _x * 0.98;
 
-	   moveLabel();
-	}
+     moveLabel();
+  }
 
-	if (_code == 40) {  //up
+  if (_code == 38) {  //down
 
-	   map.allLabels[0].y = _y * 1.02;
+     if (gEditCapsulePos) {
 
-	   moveLabel();
-	}
+        _y = _y * 0.98;
+
+        moveCapsule( { top: _y, left: _x });
+
+        return;
+     }
+
+     map.allLabels[0].y = _y * 0.98;
+
+     moveLabel();
+  } 
+
+  if (_code == 39) {  //right
+
+     if (gEditCapsulePos) {
+
+        _x = _x * 1.02;
+        
+        moveCapsule( { top: _y, left: _x });
+
+        return;
+     }
+
+     map.allLabels[0].x = _x * 1.02;
+
+     moveLabel();
+  }
+
+  if (_code == 40) {  //up
+
+     if (gEditCapsulePos) {
+
+        _y = _y * 1.02;
+
+        moveCapsule( { top: _y, left: _x });
+
+        return;
+     }
+
+     map.allLabels[0].y = _y * 1.02;
+
+     moveLabel();
+  }
 
 }
+
+
+function moveCapsule( _obj) {
+
+  $(".divLearnCountry").offset( _obj );
+}
+
 
 function moveLabel() {
 
@@ -410,7 +454,23 @@ function moveLabel() {
     if (game.user.mode == uLearn) {
 
 
-        Meteor.defer( function() { game.lesson.lessonMap.labelMapObject(mlCountry, game.lesson.selectedCountry, _x, _y, 12, "black"); } );
+        var _area = "";
+
+        if (game.lesson.detailLevel == mlCountry) {
+
+          _area = game.lesson.country;
+
+           Meteor.defer( function() { game.lesson.lessonMap.labelMapObject(game.lesson.detailLevel, _area, _x, _y, 12, "black"); } );
+        }
+
+        if (game.lesson.detailLevel == mlRegion){
+
+          _area = game.lesson.region;
+
+          Meteor.defer( function() { game.lesson.lessonMap.labelMapObject(game.lesson.detailLevel, _area, _x, _y, 16, "white"); } );         
+        }
+
+
 
         return;
     }
@@ -425,7 +485,7 @@ function moveLabel() {
     } 
 }
 
-function updateLabelRecord() {
+updateLabelRecord = function() {
 
 	showMessage("updating label pos in db");
 
@@ -621,13 +681,13 @@ function updateCapsulePos() {
 
       var _lat = map.stageYToLatitude( y );
 
-    var rec = db.getCountryRec(game.lesson.selectedCountry);
+    var rec = db.getCountryRec(game.lesson.country);
 
     db.updateRecord2( cCountry, "cpLon", rec._id, _long);
 
     db.updateRecord2( cCountry, "cpLat", rec._id, _lat);
 
-    showMessage(db.getCountryName( game.lesson.selectedCountry ) + " capsule pos updated to " + _lat + ", " + _long);
+    showMessage(db.getCountryName( game.lesson.country ) + " capsule pos updated to " + _lat + ", " + _long);
 
     return;
 
@@ -678,15 +738,13 @@ updateLabelPosition = function(_which) {
 
         if (_level == mlCountry) {
 
-          //for now, learn mode stores the selectedCountry with the lesson object (cont and region with the lessonMap object)
-
-           var rec = db.getCountryRec(game.lesson.selectedCountry);
+           var rec = db.getCountryRec(game.lesson.country);
 
           db.updateRecord2( cCountry, "llon", rec._id, _long);
 
           db.updateRecord2( cCountry, "llat", rec._id, _lat);
 
-          console.log("country " + "(" + _which + ") " + db.getCountryName( game.lesson.selectedCountry ) + " label updated to " + _long + ", " + _lat);
+          console.log("country " + "(" + _which + ") " + db.getCountryName( game.lesson.country ) + " label updated to " + _long + ", " + _lat);
 
           return;         
         }
@@ -695,13 +753,13 @@ updateLabelPosition = function(_which) {
 
         if (_level == mlRegion) {
 
-           var rec = db.getRegionRec(game.lesson.lessonMap.selectedRegion);
+           var rec = db.getRegionRec(game.lesson.region);
 
           db.updateRecord2( cRegion, "llon", rec._id, _long);
 
           db.updateRecord2( cRegion, "llat", rec._id, _lat);
 
-          showMessage("region " + "(" + game.lesson.lessonMap.selectedRegion + ") " + db.getRegionName( game.lesson.lessonMap.selectedRegion ) + " label updated to " + _long + ", " + _lat);
+          showMessage("region " + "(" + game.lesson.lessonMap.region + ") " + db.getRegionName( game.lesson.lessonMap.region ) + " label updated to " + _long + ", " + _lat);
 
           return;         
         }

@@ -13,7 +13,7 @@ doNextLesson = function( _val) {
 
 doLesson2 = function() {
 
-	game.lesson.zoomToContinent("africa");
+	game.lesson.zoomToContinent( game.lesson.continent );
 
 	Meteor.setTimeout( function() { doLesson3(); }, 3200);
 
@@ -30,13 +30,13 @@ doLesson4 = function() {
 
 	var g = game.lesson;
 
-	g.showBody("Africa is composed of 50 countries.", 0, 4);
+	g.showBody( g.continent + " is composed of " + g.count + " major countries.", 0, 4 );
 
 }
 
 doLesson4a = function() {
 
-	Meteor.setTimeout( function() { game.lesson.lessonMap.doThisMap( mlContinent, mlContinent, mlCountry, "africa") }, 500 );
+	Meteor.setTimeout( function() { game.lesson.lessonMap.doThisMap( mlContinent, mlContinent, mlCountry, game.lesson.continent) }, 500 );
 
 	Meteor.setTimeout( function() { doLesson5(); }, 501);	
 }
@@ -53,7 +53,7 @@ doLesson6 = function() {
 
 	var g = game.lesson;
 
-	g.showBody("The 50 countries are divided into 4 regions.", 0, 6);
+	g.showBody("The " + g.count + " countries are divided into " + g.rcount + " regions.", 0, 6);
 
 }
 
@@ -61,7 +61,7 @@ doLesson6a = function() {
 
 	var g = game.lesson;
 
-	g.lessonMap.doThisMap( mlContinent, mlContinent, mlRegion, "africa");
+	g.lessonMap.doThisMap( mlContinent, mlContinent, mlRegion, g.continent);
 
 	Meteor.setTimeout( function() { doLesson7(); }, 501);	
 }
@@ -76,7 +76,7 @@ doLesson7 = function() {
 
 	g.tl.delay(0.5);
 
-	g.addPulseRegionsInSequence( "africa" );
+	g.addPulseRegionsInSequence( g.continent );
 
 	g.tl.add( doLesson8, 4.5 );
 
@@ -97,7 +97,7 @@ doLesson8 = function() {
 
 	g.addResetBody();
 
-	g.addSetHeader("The Ten Largest Countries in Africa");
+	g.addSetHeader("The Ten Largest Countries in " + g.continent);
 
 	g.addFadeHeader("in");
 

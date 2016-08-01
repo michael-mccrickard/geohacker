@@ -295,20 +295,24 @@ LessonMap = function( _mapCtl ) {
 
             if ( _level == mlRegion) {
 
-                if (rec.llon !== undefined) {
+                if (_x == 0) {  //passing in zeros for the coordinates means "get them from the db"
 
-                    _x = this.map.longitudeToStageX( rec.llon);
+                    if (rec.llon !== undefined) {
 
-                    _y = this.map.latitudeToStageY( rec.llat);
+                        _x = this.map.longitudeToStageX( rec.llon);
 
+                        _y = this.map.latitudeToStageY( rec.llat);
+
+                    }
+                    else {
+
+                        _x = rec.xl * this.map.divRealWidth;
+
+                        _y = rec.yl * this.map.divRealHeight;
+
+                    }
                 }
-                else {
 
-                    _x = rec.xl * this.map.divRealWidth;
-
-                    _y = rec.yl * this.map.divRealHeight;
-
-                }
 
             }
 
