@@ -121,6 +121,19 @@ Mission = function(_code) {
     return;
   }
 
+  //Top 7 largest population (OCEANIA)
+
+  if (this.code == "ttp_oceania") {
+
+    this.name = "Top Seven Oceania";
+
+    this.level = mlWorld;
+
+    this.items = ["AU","PG","NZ","FJ","SB","VU","NC"]; 
+
+    return;
+  }
+
   //persian gulf
 
   if (this.code == "pg") {

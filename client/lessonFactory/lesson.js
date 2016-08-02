@@ -97,6 +97,10 @@ doLesson8 = function() {
 
 	g.addResetBody();
 
+	var s = "The Ten Largest Countries in";
+
+	if (g.continent == "oceania") s = "The Seven Largest Countries in";
+
 	g.addSetHeader("The Ten Largest Countries in " + g.name);
 
 	g.addFadeHeader("in");

@@ -191,12 +191,6 @@ $(document).keydown(function(e) {
 
 	    	break;
 
-      case 75: //k
-
-        toggleEditLessonMode();
-
-        break;
-
       case 76: //l
 
         toggleEditLearnCountryMode();
@@ -333,16 +327,16 @@ function toggleInstantMode() {
    if (!gInstantMode) showMessage( "Instant mode off");   
 }
 
-function toggleEditLessonMode() {
+function toggleEditLearnCountryMode() {
 
-   gEditLesson = !gEditLesson;
+   gEditLearnCountry = !gEditLearnCountry;
 
-   if (gEditLesson) {
+   if (gEditLearnCountry) {
 
-    showMessage( "Edit lesson mode on");
+    showMessage( "Edit learn country mode on");
   }
 
-   if (!gEditLesson) showMessage( "Edit lesson mode off");   
+   if (!gEditLearnCountry) showMessage( "Edit learn country mode off");   
 }
 
 //***************************************************************
@@ -515,6 +509,7 @@ updateLabelRecord = function() {
 
 var arrColor = ["white","black","red","orange","limegreen","mediumpurple","yellow","turquoise","teal","gold","green","slategray","brown"]
 
+/*
 function toggleEditLearnCountryMode() {
 
    gEditLearnCountry = !gEditLearnCountry;
@@ -541,7 +536,7 @@ function toggleEditLearnCountryMode() {
       game.user.goHome();
    }
 }
-
+*/
 
 function switchEditText() {
 
@@ -712,6 +707,8 @@ function updateLCValues()  {
   //the opacity value for the capital image
 
   db.updateRecord2( cCountry, "hto", rec._id, $("img.learnCapitalImage").css("opacity") ); 
+
+  showMessage( "learning capsule values updated for " + rec.n);
 }
 
 

@@ -210,9 +210,6 @@ LessonFactory = function() {
 			x = this.lessonMap.map.longitudeToStageX( rec.cpLon );
 
 			y = this.lessonMap.map.latitudeToStageY( rec.cpLat );
-
-c( x + ", " + y);
-
 		}
 		else {
 
@@ -229,6 +226,16 @@ c( x + ", " + y);
 
 
 		Meteor.setTimeout( function() { game.lesson.fadeCapsule("in"); }, 201 );
+
+		var regionName = db.getRegionRec( this.region ).n;
+
+		this.setMessage( rec.n + " is in " + regionName);
+
+		this.tl = new TimelineMax()
+
+		this.addPulseCountry( _ID );
+
+		this.play();
 	}
 
 	//***************************************************************
@@ -437,7 +444,13 @@ c( x + ", " + y);
 
 		 this.region = _regionID;
 
-		this.lessonMap.labelMapObject( mlRegion, _regionID, 0, 0, 16, "white" );
+		 var _color = "white";
+
+		 var rec = db.getRegionRec( _regionID);
+
+		 if (rec.rll_co !== undefined) _color = rec.rll_co;
+
+		this.lessonMap.labelMapObject( mlRegion, _regionID, 0, 0, 16, _color );
 	}
 
 	//***************************************************************
@@ -480,6 +493,12 @@ c( x + ", " + y);
 		if (_continentID == "europe") arr = ["neu", "weu", "eeu", "bal"];
 
 		if (_continentID == "north_america") arr = ["nam", "mam", "cam"];
+
+		if (_continentID == "south_america") arr = ["nwsa", "nesa", "ssa"];
+
+		if (_continentID == "oceania") arr = ["aus", "oce"];
+
+		if (_continentID == "asia") arr = ["cas", "mea","swas","sas","eas","seas"];
 
 		for (var i = 0; i < arr.length; i++) { 		
 
