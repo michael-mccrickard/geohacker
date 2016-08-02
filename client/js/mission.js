@@ -95,6 +95,32 @@ Mission = function(_code) {
     return;
   }
 
+  //ten largest population (NORTH AMERICA)
+
+  if (this.code == "ttp_north_america") {
+
+    this.name = "Top Ten North America";
+
+    this.level = mlWorld;
+
+    this.items = ["US","MX","CA","GT","CU","DO","HT","HN","SV","NI"]; 
+
+    return;
+  }
+
+  //ten largest population (SOUTH AMERICA)
+
+  if (this.code == "ttp_south_america") {
+
+    this.name = "Top Ten South America";
+
+    this.level = mlWorld;
+
+    this.items = ["BR","CO","AR","VE","PE","CL","EC","BO","PY","UY"]; 
+
+    return;
+  }
+
   //persian gulf
 
   if (this.code == "pg") {

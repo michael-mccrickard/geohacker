@@ -17,6 +17,8 @@ doLesson = function(_continentID, _missionCode) {
 
 	g.continent = _continentID;
 
+	g.name = db.getContinentRec( _continentID).n;
+
 	g.lessonMap.selectedContinent = _continentID;
 
 	g.setMission( _missionCode );
@@ -48,14 +50,14 @@ return;
 
 	//need a better way to determine what to set the initial text to ...
 
-	g.setMessage(_continentID, "intro1");
+	g.setMessage(g.name, "intro1");
 
-	g.setHeader(_continentID, "intro1");
+	g.setHeader(g.name, "intro1");
 
 	//the last param is lessonID, which showBody will use to 
 	//call doNextLesson in its callback
 
-	g.showBody( g.continent + " is home to " + g.pop + " people.", 0.5, 1);
+	g.showBody( g.name + " is home to " + g.pop + " people.", 0.5, 1);
 
 }
 
@@ -104,6 +106,8 @@ LessonFactory = function() {
 	this.tempItems = [];
 
 	this.items = [];
+
+	this.name = "";
 
 	this.index = 0;  //index into the list of countries (items)
 
@@ -206,6 +210,9 @@ LessonFactory = function() {
 			x = this.lessonMap.map.longitudeToStageX( rec.cpLon );
 
 			y = this.lessonMap.map.latitudeToStageY( rec.cpLat );
+
+c( x + ", " + y);
+
 		}
 		else {
 
@@ -218,10 +225,10 @@ LessonFactory = function() {
 		}
 
 
-		Meteor.setTimeout( function() { $(".divLearnCountry").offset( { top: y , left: x } ); }, 100 );			
+		Meteor.setTimeout( function() { $(".divLearnCountry").offset( { top: y , left: x } ); }, 200 );			
 
 
-		Meteor.setTimeout( function() { game.lesson.fadeCapsule("in"); }, 101 );
+		Meteor.setTimeout( function() { game.lesson.fadeCapsule("in"); }, 201 );
 	}
 
 	//***************************************************************
@@ -258,9 +265,9 @@ LessonFactory = function() {
 
 		var s = ".divLearnCountry";
 
-		if (_which == "in") TweenMax.to(s, 0.5, {opacity: 1, ease:Power1.easeIn } );
+		if (_which == "in") { TweenMax.to(s, 0.5, {opacity: 1, ease:Power1.easeIn } ); }
 
-		if (_which == "out") TweenMax.to(s, 0.5, {opacity: 0, ease:Power1.easeIn } );
+		if (_which == "out") { TweenMax.to(s, 0.5, {opacity: 0, ease:Power1.easeIn } ); }
 	}
 
 	this.addFadeCapsule = function( _which, _pos ) {
@@ -411,7 +418,7 @@ LessonFactory = function() {
 	}
 
 
-	this.labelArea = function(_level, _code) {
+	this.labelArea = function(_level, _code, _x, _y) {
 
 		this.lessonMap.map.clearLabels();
 
@@ -419,10 +426,16 @@ LessonFactory = function() {
 
 		this.code = _code;
 
-		this.lessonMap.labelMapObject( _level, _code);
+		if (_level == mlRegion) this.region = _code;
+
+		if (_level == mlCountry) this.country = _code;
+
+		this.lessonMap.labelMapObject( _level, _code, _x, _y);
 	}
 
 	this.doLabelRegion = function( _regionID )  {
+
+		 this.region = _regionID;
 
 		this.lessonMap.labelMapObject( mlRegion, _regionID, 0, 0, 16, "white" );
 	}
@@ -460,11 +473,13 @@ LessonFactory = function() {
 
 		var arr = [];
 
-		//the regions are in the db, of course, but not in the order that we want them
+		//the regions are in the db, of course, but not necessarily in the order that we want them
 
 		if (_continentID == "africa") arr = ["nwaf", "neaf", "caf", "saf"];
 
 		if (_continentID == "europe") arr = ["neu", "weu", "eeu", "bal"];
+
+		if (_continentID == "north_america") arr = ["nam", "mam", "cam"];
 
 		for (var i = 0; i < arr.length; i++) { 		
 

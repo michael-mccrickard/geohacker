@@ -30,7 +30,7 @@ doLesson4 = function() {
 
 	var g = game.lesson;
 
-	g.showBody( g.continent + " is composed of " + g.count + " major countries.", 0, 4 );
+	g.showBody( g.name + " is composed of " + g.count + " major countries.", 0, 4 );
 
 }
 
@@ -97,7 +97,7 @@ doLesson8 = function() {
 
 	g.addResetBody();
 
-	g.addSetHeader("The Ten Largest Countries in " + g.continent);
+	g.addSetHeader("The Ten Largest Countries in " + g.name);
 
 	g.addFadeHeader("in");
 
@@ -128,7 +128,7 @@ doLesson9 = function() {
 //*****************************************************************************
 //			AUTOMATED TOP TEN REVIEW
 //*****************************************************************************
-
+/*
 doLesson11 = function() {
 
 	var g = game.lesson;
@@ -197,7 +197,7 @@ g.addFadeCapsule("out", "+=0.5" );
 
 	g.addFadeHeader("out");
 
-	g.addSetHeader("The Ten Largest Countries in Africa");
+	g.addSetHeader("The Ten Largest Countries in ");
 
 	g.addFadeHeader("in");
 
@@ -214,5 +214,5 @@ doLesson14 = function() {
 
 Meteor.setTimeout( function() { doLesson11(); }, 1500);
 }
-
+*/
 

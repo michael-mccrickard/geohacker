@@ -266,6 +266,12 @@ LessonMap = function( _mapCtl ) {
 
         var _name = "";
 
+        var _rot = 0;
+
+        var _alpha = 1.0;
+
+        var _bold = true;
+
         var rec;
 
 
@@ -330,13 +336,27 @@ LessonMap = function( _mapCtl ) {
                 _y = this.map.latitudeToY(_lat);
             }
 
+            if (rec.ll_co !== undefined) _col = rec.ll_co;
+
+            if (rec.ll_r !== undefined) _rot = rec.ll_r;
+
         }
 
-        if (_fontSize == undefined) _fontSize = 24;
+        if (_fontSize == undefined) {
 
-        if (_col == undefined) _col = "white";
+            if (_level <= mlRegion) _fontSize = 24;
 
-        Meteor.defer( function() {display.ctl["MAP"].lessonMap.map.addLabel(_x, _y, _name.toUpperCase(), "", _fontSize, _col); } );
+            if (_level == mlCountry) _fontSize = 12;           
+        }
+
+        if (_col == undefined) {
+
+            if (_level <= mlRegion) _col = "white";
+
+            if (_level == mlCountry) _col = "black";       
+        }
+
+        Meteor.defer( function() {display.ctl["MAP"].lessonMap.map.addLabel(_x, _y, _name.toUpperCase(), "", _fontSize, _col, _rot, _alpha, _bold); } );
     }
 
 

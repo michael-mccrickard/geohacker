@@ -5,6 +5,14 @@ Template.learnCountry.rendered = function() {
 
 }
 
+Template.learnCountry.onCreated(function () {
+
+  // Use this.subscribe inside onCreated callback
+  this.subscribe("allLeaders");
+  this.subscribe("allCapitals");
+  this.subscribe("allFlags");  
+
+});
 
 
 Template.learnCountry.helpers({

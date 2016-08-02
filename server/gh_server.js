@@ -160,6 +160,11 @@ Meteor.startup(
       return ghImage.find( { dt: "cap" } );
     }); 
 
+    //leaders (images)
+    Meteor.publish("allLeaders", function () {
+      return ghImage.find( { dt: "ldr" } );
+    }); 
+
     //capitals (text) 
     Meteor.publish("allCapitalsText", function () {
       return ghText.find( { dt: "cap" } );

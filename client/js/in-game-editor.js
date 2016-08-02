@@ -424,7 +424,7 @@ function nudgeLabel(_code) {
 
         return;
      }
-
+     
      map.allLabels[0].y = _y * 1.02;
 
      moveLabel();
@@ -469,8 +469,6 @@ function moveLabel() {
 
           Meteor.defer( function() { game.lesson.lessonMap.labelMapObject(game.lesson.detailLevel, _area, _x, _y, 16, "white"); } );         
         }
-
-
 
         return;
     }
@@ -759,7 +757,7 @@ updateLabelPosition = function(_which) {
 
           db.updateRecord2( cRegion, "llat", rec._id, _lat);
 
-          showMessage("region " + "(" + game.lesson.lessonMap.region + ") " + db.getRegionName( game.lesson.lessonMap.region ) + " label updated to " + _long + ", " + _lat);
+          showMessage("region " + "(" + rec.c + ") " + db.getRegionName( game.lesson.region ) + " label updated to " + _long + ", " + _lat);
 
           return;         
         }

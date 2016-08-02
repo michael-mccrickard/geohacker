@@ -1,36 +1,44 @@
 <template name="learnCountry">
 
-  {{#with country}}
+  {{#if Template.subscriptionsReady}}
 
-  	<div class="divLearnCountry" style="background-color: {{countryColor}}">
+    {{#with country}}
 
-
-    <div class="homelandText"  style="margin-left: {{HTMarginLeft}};">
-
-      <div class="transHomelandText" style="color: {{TTColor}}; font-size: {{TTSize}};">{{countryName}}</div>
-
-      <div  class="nativeHomelandText" style="color: {{HTColor}}; font-size: {{HTSize}};">{{homelandText}}</div>
-    
-    </div>
-
-      	<div class="learnLeft">
-
-      	   <img class="learnCapitalImage" src="{{capitalImage}}" style="opacity: {{capitalOpacity}};" />
-
-           <h3 class="learnCapitalText" style="color: {{capitalTextColor}};">Capital: {{capitalName}}</h3>
-
-        </div>
-
-        <div class="learnRight">
-
-      		<img class="learnFlagImage" src="{{flagImage}}" />
-          <img class="learnLeaderImage" src="{{leaderImage}}" />
-        
-        </div>
+    	<div class="divLearnCountry" style="background-color: {{countryColor}}">
 
 
+      <div class="homelandText"  style="margin-left: {{HTMarginLeft}};">
+
+        <div class="transHomelandText" style="color: {{TTColor}}; font-size: {{TTSize}};">{{countryName}}</div>
+
+        <div  class="nativeHomelandText" style="color: {{HTColor}}; font-size: {{HTSize}};">{{homelandText}}</div>
+      
       </div>
 
-    {{/with}}
+        	<div class="learnLeft">
+
+        	   <img class="learnCapitalImage" src="{{capitalImage}}" style="opacity: {{capitalOpacity}};" />
+
+             <h3 class="learnCapitalText" style="color: {{capitalTextColor}};">Capital: {{capitalName}}</h3>
+
+          </div>
+
+          <div class="learnRight">
+
+        		<img class="learnFlagImage" src="{{flagImage}}" />
+            <img class="learnLeaderImage" src="{{leaderImage}}" />
+          
+          </div>
+
+
+        </div>
+
+      {{/with}}
+
+    {{else}}
+
+      {{> spinner}}
+
+    {{/if}}
 
 </template>
