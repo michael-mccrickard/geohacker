@@ -25,7 +25,6 @@ Accounts.onLogin( function() {
 
 gHackPreselect = "";
 
-//FS.debug = true;
 
 
  //determines what is displayed on the start screen: login or register

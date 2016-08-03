@@ -270,7 +270,7 @@ LessonMap = function( _mapCtl ) {
 
         var _alpha = 1.0;
 
-        var _bold = true;
+        var _bold = false;
 
         var rec;
 
@@ -289,6 +289,8 @@ LessonMap = function( _mapCtl ) {
         }
 
         if (_level == mlCountry) {
+
+            _bold = true;
 
             rec = db.getCountryRec( _code ); 
         }

@@ -1,81 +1,3 @@
-gEditLesson = false;
-
-doLesson = function(_continentID, _missionCode) {
-
-	if (!game.lesson) {
-
-		game.lesson = new LessonFactory();
-	}
-
-	game.user.mode = uLearn;
-
-	hack = game.lesson.hack;
-
-	var g = game.lesson;
-
-	g.index = -1;
-
-	g.continent = _continentID;
-
-	g.name = db.getContinentRec( _continentID).n;
-
-	g.lessonMap.selectedContinent = _continentID;
-
-	g.setMission( _missionCode );
-
-	var rec = db.getContinentRec( _continentID );
-
-	g.pop = rec.p;
-
-	g.count = rec.cnt;
-
-	g.rcount = db.ghR.find( { z: _continentID }).fetch().length; 
-
-	g.note = g.lnote;
-
-	g.mapLevel = mlWorld;
-
-	g.drawLevel = mlWorld;
-
-	g.detailLevel = mlContinent;
-
-	g.showMap();
-
-//uncomment these to jump straight to the list (helpful for editing country labels and capsules)
- 
-doLessonPrep();
-
-return;
-	//opening sequence
-
-	//need a better way to determine what to set the initial text to ...
-
-	g.setMessage(g.name, "intro1");
-
-	g.setHeader(g.name, "intro1");
-
-	//the last param is lessonID, which showBody will use to 
-	//call doNextLesson in its callback
-
-	g.showBody( g.name + " is home to " + g.pop + " people.", 0.5, 1);
-
-}
-
-doLessonPrep = function() {
-
-	game.lesson.setHeader( game.lesson.mission.name );
-
-	game.lesson.switchTo(".divTeachList");
-
-	Meteor.setTimeout( function() { game.lesson.lessonMap.doMap(mlContinent, mlContinent, mlCountry);}, 500);
-
-	Meteor.setTimeout( function() { doLesson9(); }, 500);
-}
-
-
-
-
-
 LessonFactory = function() {
 
 
@@ -165,6 +87,8 @@ LessonFactory = function() {
 	}
 
 	this.showCapsule = function( _ID ) {
+
+		$(".divLearnCountry").css("opacity", 0.0);
 
 		this.country = _ID;
 
@@ -339,13 +263,9 @@ LessonFactory = function() {
 		this.tl.play();
 	}
 
-	this.showBody = function( _text, _delay, _lessonID ) {
+	this.resetBody = function( _delay, _lessonID  ) {
 
 		var s = ".divTeachBody";
-
-		this.switchTo(s);
-
-		$(s).text( _text ); 
 
 		this.tl = new TimelineMax();
 
@@ -355,11 +275,41 @@ LessonFactory = function() {
 
 		if (_lessonID) {
 
-			this.tl.add( TweenMax.to(s, 1.0, {x: -800, ease:Power1.easeOut, onComplete: doNextLesson, onCompleteParams:[ _lessonID ] } ) );
+			this.tl.add( TweenMax.staggerTo(s, 1.0, {x: 800, ease:Power1.easeIn, onComplete: doNextLesson, onCompleteParams:[ _lessonID ]} ), 0.2 );
 		}
 		else {
 
-			this.tl.add( TweenMax.to(s, 1.0, {x: -800, ease:Power1.easeOut} ) );			
+			this.tl.add( TweenMax.staggerTo(s, 1.0, {x: 800, ease:Power1.easeIn} ), 0.2 );
+		}
+
+		this.tl.play();
+	}
+
+	this.showBody = function( _text1, _text2, _text3, _delay, _lessonID ) {
+
+		var s = ".divTeachBody";
+
+		this.switchTo(s);
+
+		$(".divTeachBody1").text( _text1 ); 
+
+		$(".divTeachBody2").text( _text2 ); 
+
+		$(".divTeachBody3").text( _text3 ); 
+
+		this.tl = new TimelineMax();
+
+		this.tl.pause();
+
+		this.tl.delay( _delay );
+
+		if (_lessonID) {
+
+			this.tl.add( TweenMax.staggerTo(s, 1.0, {x: -800, ease:Power1.easeOut, onComplete: doNextLesson, onCompleteParams:[ _lessonID ] }, 0.1 ) );
+		}
+		else {
+
+			this.tl.add( TweenMax.staggerTo(s, 1.0, {x: -800, ease:Power1.easeOut} ), 0.1 );			
 		}
 
 		this.tl.play();
@@ -408,11 +358,11 @@ LessonFactory = function() {
 
 	this.switchTo = function( _which ) {
 
-		$(".divTeachBody").css("visibility", "hidden");
+		$(".divTeachBody").css("display", "none");
 
-		$(".divTeachList").css("visibility", "hidden");
+		$(".divTeachList").css("display", "none");
 
-		$( _which ).css("visibility", "visible");	
+		$( _which ).css("display", "block");	
 	}
 
 	//***************************************************************
@@ -490,7 +440,7 @@ LessonFactory = function() {
 
 		if (_continentID == "africa") arr = ["nwaf", "neaf", "caf", "saf"];
 
-		if (_continentID == "europe") arr = ["neu", "weu", "eeu", "bal"];
+		if (_continentID == "europe") arr = ["neu", "eeu", "weu", "bal"];
 
 		if (_continentID == "north_america") arr = ["nam", "mam", "cam"];
 

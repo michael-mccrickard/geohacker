@@ -31,6 +31,12 @@ body {
     src: url("bitwise.ttf");
 }
 
+@font-face {
+    font-family: headline;
+    src: url("SansPosterBold.ttf");
+}
+
+
 .menuFont {
     font-size: 18px;
     text-transform: uppercase;

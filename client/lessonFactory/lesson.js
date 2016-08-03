@@ -1,3 +1,91 @@
+switchLesson = function(_continentID, _missionCode) {
+
+	FlowRouter.go("/waiting");
+
+	Meteor.setTimeout( function() { doLesson(_continentID, _missionCode); }, 250 );
+}
+
+doLesson = function(_continentID, _missionCode) {
+
+	//if (!game.lesson) {
+
+		game.lesson = new LessonFactory();
+	//}
+
+	game.user.mode = uLearn;
+
+	hack = game.lesson.hack;
+
+	var g = game.lesson;
+
+	g.index = -1;
+
+	g.continent = _continentID;
+
+	g.name = db.getContinentRec( _continentID).n;
+
+	g.lessonMap.selectedContinent = _continentID;
+
+	g.setMission( _missionCode );
+
+	var rec = db.getContinentRec( _continentID );
+
+	g.pop = rec.p;
+
+	g.count = rec.cnt;
+
+	g.rcount = db.ghR.find( { z: _continentID }).fetch().length; 
+
+	g.note = g.lnote;
+
+	g.mapLevel = mlWorld;
+
+	g.drawLevel = mlWorld;
+
+	g.detailLevel = mlContinent;
+
+	g.showMap();
+
+//uncomment these to jump straight to the list (helpful for editing country labels and capsules)
+ 
+//doLessonList();
+
+//return;
+	//opening sequence
+
+	g.switchTo(".divTeachBody");
+
+	g.setMessage(g.name, "intro1");
+
+	//g.setHeader(g.name, "intro1");
+
+
+	var _text1 = g.name + " is home to ";
+
+	var _text2 = g.pop;
+
+	var _text3 = " people";
+
+	//the last param is lessonID, which showBody will use to 
+	//call doNextLesson in its callback
+
+	g.showBody(_text1, _text2, _text3, 0.5, 1 );
+
+	//g.showBody( g.name + " is home to " + g.pop + " people.", 0.5, 1);
+
+}
+
+doLessonList = function() {
+
+	game.lesson.setHeader( game.lesson.mission.name );
+
+	game.lesson.switchTo(".divTeachList");
+
+	Meteor.setTimeout( function() { game.lesson.lessonMap.doMap(mlContinent, mlContinent, mlCountry);}, 500);
+
+	Meteor.setTimeout( function() { doLesson9(); }, 500);
+}
+
 doNextLesson = function( _val) {
 
 	if (_val == 1) doLesson2();
@@ -30,7 +118,13 @@ doLesson4 = function() {
 
 	var g = game.lesson;
 
-	g.showBody( g.name + " is composed of " + g.count + " major countries.", 0, 4 );
+	var _text1 = g.name + " is composed of ";
+
+	var _text2 = g.count;
+
+	var _text3 = " major countries.";
+
+	g.showBody(_text1, _text2, _text3, 0, 4 );
 
 }
 
@@ -53,7 +147,18 @@ doLesson6 = function() {
 
 	var g = game.lesson;
 
-	g.showBody("The " + g.count + " countries are divided into " + g.rcount + " regions.", 0, 6);
+	var _text1 = "The " + g.count + " countries are divided into "
+
+	var _text2 = g.rcount;
+
+	var _text3 = " regions";
+
+	//the last param is lessonID, which showBody will use to 
+	//call doNextLesson in its callback
+
+	g.showBody(_text1, _text2, _text3, 0, 6 );
+
+	//g.showBody( + g.rcount + " regions.", 0, 6);
 
 }
 
@@ -121,102 +226,11 @@ doLesson9 = function() {
 
 	g.tl.pause();
 
+	g.addSwitchTo(".divTeachList");
+
 	g.addRevealList();
 
 	g.addSetHeader( "click the name of each country", "+=1.5" );
 
 	g.tl.play();
 }
-
-
-//*****************************************************************************
-//			AUTOMATED TOP TEN REVIEW
-//*****************************************************************************
-/*
-doLesson11 = function() {
-
-	var g = game.lesson;
-
-	g.index++;
-
-	if (g.index == 10) return;
-
-	var ID = game.lesson.items[ g.index ];
-
-	hack.initForLearn( ID );
-
-	g.selectListItem( ID );
-
-
-
-	var rec = db.getCountryRec( ID );
-
-	g.lessonMap.doThisMap( mlContinent, mlRegion, mlCountry, g.lessonMap.selectedContinent, rec.r);
-
-	g.tl = new TimelineMax();
-
-	g.tl.pause();
-
-	g.addFlyListItemToMap(ID);
-
-	g.addFadeUnselectedList("out");
-
-	g.addFadeHeader("out");
-
-	var rec = db.getCountryRec( ID );
-
-	g.addSetHeader( db.getCountryName( ID ) + " is in " + db.getRegionName( rec.r ) );
-
-	g.addFadeHeader("in");
-
-	g.tl.add( doLesson12, "+=0.1" );
-
-	g.tl.play();
-}
-
-doLesson12 = function() {
-
-	var g = game.lesson;
-
-	g.tl = new TimelineMax();
-
-	g.tl.pause();
-
-	g.addFadeCapsule("in");
-
-g.tl.add( doLesson13, "+=0.5" );	
-
-	g.tl.play();
-}
-
-doLesson13 = function() {
-
-	var g = game.lesson;
-
-	g.tl = new TimelineMax();
-
-	g.tl.pause();
-
-g.addFadeCapsule("out", "+=0.5" );	
-
-	g.addFadeHeader("out");
-
-	g.addSetHeader("The Ten Largest Countries in ");
-
-	g.addFadeHeader("in");
-
-	g.tl.add( doLesson14, "+=0.1" );	
-
-	g.tl.play();
-}
-
-doLesson14 = function() {
-
-	var g = game.lesson;
-
-	g.redrawList();
-
-Meteor.setTimeout( function() { doLesson11(); }, 1500);
-}
-*/
-
