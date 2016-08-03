@@ -537,8 +537,7 @@ Tracker.autorun( function(comp) {
 
 if (game.user.mode == uLearn) {
 
-c("calling loadCapsule fm hack")
-   game.lesson.loadCapsule();
+   game.lesson.updateContent();
 
   return;
 }
@@ -550,7 +549,7 @@ c("calling loadCapsule fm hack")
             return;
           }
 
-
+          if (!hack) return;
 
           hack.startNew();  
 
