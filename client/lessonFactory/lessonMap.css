@@ -16,7 +16,7 @@
 position: relative;
 left: 800px;
 
-	visibility: hidden;  
+	/*visibility: hidden;  */
 }
 
 .divTeach {
@@ -45,24 +45,46 @@ left: 800px;
 }
 
 .divTeachBody {
-
+	text-align: center;
 	text-transform: uppercase;
 
-	font-size: 24px;
-
-	color: white;
-
-	margin: 8px;
+	/*margin: 8px;*/
 
 	margin-left: 16px;
 
-	text-align: left;
+
+
+	font-family: headline;
+
 
 position: relative;
 left: 800px;
 
-	visibility: hidden;
+	/*visibility: hidden;*/
 }
+
+.divTeachBody1 {
+
+	font-size: 48px;
+
+	color: white;
+}
+
+.divTeachBody2 {
+
+	font-size: 144px;
+
+	color: yellow;
+}
+
+
+.divTeachBody3 {
+
+	font-size: 72px;
+
+	color: white;
+}
+
 
 #lessonMapMessageBox {
 

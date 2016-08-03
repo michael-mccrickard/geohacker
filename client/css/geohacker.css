@@ -31,6 +31,11 @@ body {
     src: url("bitwise.ttf");
 }
 
+@font-face {
+    font-family: headline;
+    src: url("SansPosterBold.ttf");
+}
+
 .menuFont {
     font-size: 18px;
     text-transform: uppercase;
@@ -62,14 +67,6 @@ body {
 /*  General use styles        */
 
 /******************************/
-
-/*
-.clearfix:after { content: "\00A0"; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;}
-.clearfix{ display: inline-block;}
-html[xmlns] .clearfix { display: block;}
-* html .clearfix{ height: 1%;}
-.clearfix {display: block}
-*/
 
 .modalText {
     color: black; 

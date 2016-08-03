@@ -6,7 +6,7 @@
     "_id": "HeGDLhqX9XhnPneFy",  //"meteor" mongo id
     "c": "NG",                   //2 letter country ID
     "co": "#7B68EE",			 //color on map
-    "d": 1,						 //data?
+    "d": 1,						 //data? (1 or 0)
     "n": "Nigeria",				 //name
     "r": "nwaf",				 //region
     "xl": 0.42044444444444445,   //x label pos (normalized) for map in full-width mode
@@ -31,6 +31,8 @@
     "llat": 10.505739,			//y position of country label on continent map (latitude)
     "cpLon": 13.850708,			//x position of capsule on continent map (longitude)
     "cpLat": 0.687274			//y position of capsule on continent map (latitude)
+    "ll_co": "yellow"			//label color, learning mode (optional)
+    "ll_r": -90					//label rotation, learning mode (optional)
 }
 
 
@@ -50,7 +52,8 @@
     "n": "Northwestern Africa",	 //name
     "lc": -5,					 //???
     "llon": -15.202173,			 //label position longitude (new method)
-    "llat": 18.898455			 //label position latitude (new method)
+    "llat": 18.898455,			 //label position latitude (new method)
+	"rll_co": "yellow"			 //label color in learn mode
 }
 
 */
