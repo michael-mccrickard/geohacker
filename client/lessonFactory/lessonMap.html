@@ -22,11 +22,65 @@
 
 				{{#each countryListItem}}
 
-					<a href="javascript:void(0);" onclick="game.lesson.showCapsule('{{this}}')"><div class="divCountryListItem listItem" id="{{countryListItemID}}">{{countryName this}}</div></a>
+					<a href="javascript:void(0);" onclick="game.lesson.showCapsule('{{this}}')">
+
+						<div class="divCountryListItem listItem" style="color:white;" id="{{countryListItemID}}">
+
+							{{#if visited}}
+								<span style="font-family: Arial">&#9745;</span>
+							{{/if}}
+							
+							{{countryName this}}
+						
+						</div>
+					</a>
 
 				{{/each}}
 
 			</div>
+
+			{{#if decideNextStep}}
+
+				<div class="centered">
+					<button type="button" class="btn btn-primary btn-lg btnQuizEnd" id="btnReview">REVIEW {{areaName}}</button>
+				</div>	
+
+				<div class="centered">
+					<button type="button" class="btn btn-primary btn-lg btnQuizEnd" id="btnRetakeQuiz">TAKE QUIZ AGAIN</button>
+				</div>	
+
+				<div class="centered">
+					<button type="button" class="btn btn-primary btn-lg btnQuizEnd" id="btnChooseLesson">CHANGE SUBJECT</button>
+				</div>					
+
+			{{/if}}
+
+			{{#if quizInProgress}}
+
+				<div class="quizItem centered">
+					{{quizDisplayItem}}
+				</div>
+
+				{{#if quizReadyForNextOrEnd}} 
+
+					<div class="centered">
+						<button type="button" class="btn btn-primary btn-lg btnQuiz" id="btnNextOrEnd">{{nextOrEndText}}</button>
+					</div>
+
+				{{/if}}
+
+			{{else}}
+
+				{{#if allVisited}}
+
+					<div class="centered">
+						<button type="button" class="btn btn-success btn-lg btnQuiz" id="btnQuiz">QUIZ</button>
+					</div>
+
+				{{/if}}
+
+			{{/if}}
+
 
 	</div>
 

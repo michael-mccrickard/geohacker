@@ -5,6 +5,21 @@
     z-index: 1050;   
 }
 
+.quizItem {
+
+	margin-top: 15%;
+
+	color: white;
+
+	font-family: Arial;
+
+	font-variant: bold;
+
+	text-transform: uppercase;
+
+	font-size: 72px;
+}
+
 .divTeachList {
 
 	text-align: center;
@@ -98,4 +113,22 @@ left: 800px;
 	color: yellow;	
 
 	text-align: center;
+}
+
+.btnQuiz {
+
+	margin-top: 32px;
+
+	font-size: 7.0vh;
+
+	font-family: headline;
+}
+
+.btnQuizEnd {
+
+	margin-top: 32px;
+
+	font-size: 5.0vh;
+
+	font-family: headline;
 }

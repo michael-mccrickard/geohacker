@@ -24,6 +24,21 @@ Template.lessonMap.rendered = function () {
 
 Template.lessonMap.helpers({
 
+  allVisited: function() {
+
+    if (game.lesson.quizState.get() == "decideNextStep") return false;
+
+    if ( game.lesson.visited.length() == game.lesson.items.length ) return true;
+
+    return false;
+
+  },
+
+  areaName: function() {
+
+    return game.lesson.name;
+  },
+
   countryListItem: function() {
 
       var _val = game.lesson.updateFlag.get();
@@ -43,28 +58,14 @@ Template.lessonMap.helpers({
     return db.getCountryName( _code );
   },
 
-  continentName: function() { 
+  decideNextStep: function() {
 
-    var level = display.ctl["MAP"].level.get();
+    if (game.lesson.quizState.get() == "decideNextStep") return true;
 
-    var name = "";
-
-    var map =  display.ctl["MAP"].lessonMap;
-
-    if (map.selectedContinent.length) return db.getContinentName( map.selectedContinent );
-
+    return false;
   },
 
-  regionName: function() { 
-
-    var level = display.ctl["MAP"].level.get();
-
-    var name = "";
-
-    var map =  display.ctl["MAP"].lessonMap;
-
-    if (map.selectedRegion.length) return db.getRegionName( map.selectedRegion );
-  },
+  divTeachWidth: function() { return Session.get("gWindowWidth") * 0.49},
 
   mapWidth: function() { return Session.get("gWindowWidth") * 0.50},
 
@@ -76,23 +77,43 @@ Template.lessonMap.helpers({
 
   },
 
-  divTeachWidth: function() { return Session.get("gWindowWidth") * 0.49},
+  nextOrEndText: function() {
 
-  showBody: function() { 
+      var _state = game.lesson.quizState.get();
 
-    if (game.lesson.content.get() == "body") return true;
+      if ( _state == "readyForNext") return "NEXT";
 
-    return false;
-
-  },
-
-  showList: function() { 
-
-    if (game.lesson.content.get() == "list") return true;
-
-    return false;
+      if ( _state == "quizEnd" || _state == "examEnd") return "OK"; 
 
   },
+
+  quizInProgress: function() {
+
+    return game.lesson.quizInProgress.get();
+  },
+
+  quizDisplayItem: function() {
+
+    return game.lesson.quizDisplayItem.get();
+  },
+
+  quizReadyForNextOrEnd: function()  {
+
+    var _state = game.lesson.quizState.get();
+
+     if ( _state == "readyForNext" || _state == "quizEnd" || _state == "examEnd" ) return true;
+
+     return false;
+  },
+
+  visited: function() {
+
+    if ( isInReactiveArray( this, game.lesson.visited ) ) return true;
+
+    return false;
+  },
+
+
 
 });
 
@@ -104,6 +125,36 @@ Template.lessonMap.events = {
       Control.playEffect("new_feedback.mp3");
 
       FlowRouter.go("/main");
+  },
+
+  'click #btnQuiz': function (evt, template) {
+
+      Control.playEffect("new_feedback.mp3");
+
+      game.lesson.doQuiz();
+  },
+
+  'click #btnReview': function (evt, template) {
+
+      switchLesson( game.lesson.continent, game.lesson.mission.code );
+  },
+
+  'click #btnRetakeQuiz': function (evt, template) {
+
+      game.lesson.retakeQuiz();
+  },
+
+  'click #btnNextOrEnd': function (evt, template) {
+
+      Control.playEffect("new_feedback.mp3");
+
+      var _state = game.lesson.quizState.get();
+
+      if ( _state == "readyForNext") game.lesson.doQuizQuestion();
+
+      if ( _state == "quizEnd") game.lesson.doQuiz();     
+
+      if ( _state == "examEnd") game.lesson.finishExam();
   },
 }
 

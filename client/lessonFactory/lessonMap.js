@@ -208,8 +208,11 @@ LessonMap = function( _mapCtl ) {
 
         }
 
+        var _dontIdentify = false;
 
-        this.dp.areas = this.mm.getJSONForMap(this.selectedContinent, this.selectedRegion, _mapLevel, _drawLevel, _detailLevel, z1, z2, z3);
+        if (game.lesson.quizInProgress.get() ) _dontIdentify = true;
+
+        this.dp.areas = this.mm.getJSONForMap(this.selectedContinent, this.selectedRegion, _mapLevel, _drawLevel, _detailLevel, z1, z2, z3, false);
 
         this.dp.images = [];
 
@@ -236,10 +239,11 @@ LessonMap = function( _mapCtl ) {
             selectedOutlineColor: "#FFFFFF"
 
         };
-
+        
+        this.map.areasSettings.balloonText = "[[customData]]";
 
         //set the ballon text (popup text) for each area (this will be continent, region or country)
-        this.map.areasSettings.balloonText = "[[customData]]";
+        if ( _dontIdentify ) this.map.areasSettings.balloonText = "";
 
 
         // when the zoom is done (going to continent or region) then we need to adjust the zoom on the new map
@@ -425,94 +429,50 @@ function handleClick(_event) {
 
     var ev = _event.event;
 
+    var _code = "";
+
     Control.playEffect( worldMap.map_sound );
 
     //allow zoomComplete to set the new map level and redraw the map
     //when the zoom is complete
 
-    worldMap.zoomDone = false;
+    //worldMap.zoomDone = false;
 
-    worldMap.map.clearLabels();
+    //worldMap.map.clearLabels();
 
     worldMap.mapObjectClicked = _event.mapObject.id;
 
-    var level = worldMap.mapCtl.level.get();
+    var g = game.lesson;
 
-    //here we set the module vars for the area and the customData var for labelMapObject
+    var level = game.lesson.mapLevel;
 
-    if (level == mlWorld) {
+if ( g.quizInProgress.get() == false ) return;
 
-        var _code = db.getContinentCodeForCountry(worldMap.mapObjectClicked);  //in database.js
 
-        worldMap.selectedContinent = _code;
+    if (g.quiz == "quizFindRegionOfCountry") {
 
-        worldMap.customData = _event.mapObject.customData;
+        _code = db.getRegionCodeForCountry(worldMap.mapObjectClicked);   //in database.js
 
-    }
+        if (_code == g.quizAnswer) {
 
-    if (level == mlContinent) {
+            g.doCorrectAnswer();
+        }
+        else {
 
-        var _code = db.getRegionCodeForCountry(worldMap.mapObjectClicked);   //in database.js
-
-        worldMap.selectedRegion = _code;
-
-        worldMap.customData = _event.mapObject.customData;
-
-    }
-
-    if (level == mlRegion) {
-
-        worldMap.selectedCountry.set( worldMap.mapObjectClicked );
-
-        worldMap.customData = _event.mapObject.customData;
-
-        if (_event.mapObject.objectType == "MapImage") {  //simulate the click on the country
-
-            var _mapObj = worldMap.mapCtl.getCountryObject( worldMap.map.dataProvider, worldMap.mapObjectClicked );
-
-            worldMap.map.selectObject( _mapObj );
-
-            return;
+            g.doIncorrectAnswer( worldMap.mapObjectClicked );
         }
     }
 
-    if (level == mlCountry) { 
-        
-        //If a different country was previously selected and we're still at the country
-        //level, then the user can click on a nearby country.  We want the map to re-center and re-label
-        //in this case, but not jump to browsing
+    if (g.quiz == "quizFindCountryInRegion") {
 
+        if (worldMap.mapObjectClicked == g.quizAnswer) {
 
-
-        if (worldMap.selectedCountry.get() != worldMap.mapObjectClicked) {
-
-            worldMap.selectedCountry.set( worldMap.mapObjectClicked );
-
-            //in ths case, we need zoomComplete to redraw and validate, so reset the level
-            //and unset the zoomDone flag
-
-            worldMap.mapCtl.level.set( mlRegion );
-
-            worldMap.zoomDone = false;
-
-            return;
+            g.doCorrectAnswer();
         }
+        else {
 
-        //we set this flag when we simulate the click on the country
-        //so that the autoZoom will just center the map on the country
-        //but we can exit before the jump to the browse screen
-
-        if (worldMap.zoomOnlyOnClick) {
-
-            worldMap.mapCtl.level.set(mlRegion); 
-
-            worldMap.zoomOnlyOnClick = false;
-
-            return;
+            g.doIncorrectAnswer( worldMap.mapObjectClicked );
         }
-
-        game.user.browseCountry( worldMap.mapObjectClicked );
-
     }
 
 }
@@ -521,6 +481,8 @@ function handleClick(_event) {
 
 
 function handleZoomCompleted() { 
+
+return;
 
     var _rec;
 

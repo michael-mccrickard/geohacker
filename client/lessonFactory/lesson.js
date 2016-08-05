@@ -5,6 +5,24 @@ switchLesson = function(_continentID, _missionCode) {
 	Meteor.setTimeout( function() { doLesson(_continentID, _missionCode); }, 250 );
 }
 
+doNextLesson = function( _val) {
+
+	if (_val == 1) doLesson2();
+
+	if (_val == 3) doLesson4();
+
+	if (_val == 4) doLesson4a();
+
+	if (_val == 5) doLesson6();
+
+	if (_val == 6) doLesson6a();
+
+	//quiz
+
+	if (_val == 10) game.lesson.doQuizQuestion();
+}
+
+
 doLesson = function(_continentID, _missionCode) {
 
 	//if (!game.lesson) {
@@ -17,6 +35,8 @@ doLesson = function(_continentID, _missionCode) {
 	hack = game.lesson.hack;
 
 	var g = game.lesson;
+
+	g.quizInProgress.set( false );
 
 	g.index = -1;
 
@@ -47,8 +67,11 @@ doLesson = function(_continentID, _missionCode) {
 	g.showMap();
 
 //uncomment these to jump straight to the list (helpful for editing country labels and capsules)
- 
+//or to the quiz
+
 //doLessonList();
+
+//doLessonQuiz();
 
 //return;
 	//opening sequence
@@ -86,18 +109,20 @@ doLessonList = function() {
 	Meteor.setTimeout( function() { doLesson9(); }, 500);
 }
 
-doNextLesson = function( _val) {
+doLessonQuiz = function() {
 
-	if (_val == 1) doLesson2();
+	game.lesson.setHeader( game.lesson.mission.name );
 
-	if (_val == 3) doLesson4();
+	game.lesson.switchTo(".divTeachList");
 
-	if (_val == 4) doLesson4a();
+	Meteor.setTimeout( function() { game.lesson.lessonMap.doMap(mlContinent, mlContinent, mlCountry);}, 500);
 
-	if (_val == 5) doLesson6();
+	Meteor.setTimeout( function() { game.lesson.visited.set( game.lesson.items) }, 500);
 
-	if (_val == 6) doLesson6a();
+	Meteor.setTimeout( function() { game.lesson.revealList() }, 500);
 }
+
+
 
 doLesson2 = function() {
 
@@ -183,7 +208,7 @@ doLesson7 = function() {
 
 	g.addPulseRegionsInSequence( g.continent );
 
-	g.tl.add( doLesson8, 4.5 );
+	g.tl.add( doLesson8, g.rcount );
 
 	g.tl.play();
 }
