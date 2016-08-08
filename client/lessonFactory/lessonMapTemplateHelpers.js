@@ -34,9 +34,9 @@ Template.lessonMap.helpers({
 
   },
 
-  areaName: function() {
+  lessonShortName: function() {
 
-    return game.lesson.name;
+    return game.lesson.mission.shortName;
   },
 
   countryListItem: function() {

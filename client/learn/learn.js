@@ -100,9 +100,9 @@ Template.learnCountry.helpers({
 
     capitalTextColor: function() {
 
-    	//the white text on yellow bg is problematic
+    	//the white text on a light-colored bg is problematic
 
-		if (this.co == "#FFD700" || this.co == "#FFFF00" || this.co == "#33FFFF") return "black"
+		if (this.co == "#FFD700" || this.co == "#FFFF00" || this.co == "#33FFFF" || this.co == "#7FFFD4" || this.co == "#00FFFF" || this.co=="#87CEFA") return "black"
 
 		return "white";
   	},

@@ -680,8 +680,11 @@ LessonFactory = function() {
 			}			
 		}
 
-
 		this.lessonMap.labelMapObject(mlCountry, _ID, x, y, 12, "black");
+
+		x = 200;
+
+		y = 200;
 
 		var s = ".divLearnCountry";
 

@@ -12,6 +12,8 @@ Mission = function(_code) {
 
   this.mapCode = null;
 
+  this.type = "quizOnly";
+
   this.name = "0";
 
   this.customList = ["ttp", "ttp_africa","ttp_asia","ttp_europe","ttp_americas","pg", "all"];
@@ -39,9 +41,15 @@ Mission = function(_code) {
 
   //ten largest population (Africa)
 
-  if (this.code == "ttp_africa") {
+  if (this.code == "ttp_africa" || this.code == "africa_1") {
+
+    this.type ="introAndQuiz";
 
     this.name = "Top Ten Africa";
+
+    if (this.code == "africa_1") this.name = "Africa by population (1 - 10)";
+
+    this.shortName = "Africa 1";
 
     this.mapCode = "africa";
 
@@ -52,11 +60,45 @@ Mission = function(_code) {
     return;
   }
 
+  if (this.code == "africa_2") {
+
+    this.name = "Africa by population (11 - 20)"
+
+    this.shortName = "Africa 2";
+
+    this.mapCode = "africa";
+
+    this.level = mlContinent;
+
+    this.items = ["MA","GH","MZ","AO","CI","MG","CM","NE","BF","ML"]; 
+
+    return;
+  }
+
+  if (this.code == "africa_3") {
+
+    this.name = "Africa by population (21 - 30)"
+
+    this.shortName = "Africa 3";
+
+    this.mapCode = "africa";
+
+    this.level = mlContinent;
+
+    this.items = ["MW","ZM","SN","TD","ZW","SS","RW","TN","SO","GN"]; 
+
+    return;
+  }
+
   //ten largest population (Asia)
 
-  if (this.code == "ttp_asia") {
+  if (this.code == "ttp_asia" || this.code == "asia_1") {
 
     this.name = "Top Ten Asia";
+
+    if (this.code == "asia_1") this.name = "Asia by population (1 - 10)";
+
+    this.shortName = "Asia 1";
 
     this.mapCode = "asia";
 
@@ -67,17 +109,81 @@ Mission = function(_code) {
     return;
   }
 
+  if (this.code == "asia_2") {
+
+    this.name = "Asia by population (11 - 20)"
+
+    this.shortName = "Asia 2";
+
+    this.mapCode = "asia";
+
+    this.level = mlContinent;
+
+    this.items = ["TR","TH","MM","KR","IQ","SA","UZ","MY","NP","AF"]; 
+
+    return;
+  }
+
+  if (this.code == "asia_3") {
+
+    this.name = "Asia by population (21 - 30)"
+
+    this.shortName = "Asia 3";
+
+    this.mapCode = "asia";
+
+    this.level = mlContinent;
+
+    this.items = ["SY","YE","LK","KZ","KH","IL","TJ","JO","LA","KG"]; 
+
+    return;
+  }
+
   //ten largest population (Europe)
 
-  if (this.code == "ttp_europe") {
+  if (this.code == "ttp_europe" || this.code == "europe_1") {
 
     this.name = "Top Ten Europe";
+
+    if (this.code == "europe_1") this.name = "Europe by population (1 - 10)";
+
+    this.shortName = "Europe 1"
 
     this.mapCode = "europe";
 
     this.level = mlContinent;
 
     this.items = ["DE","FR","GB","IT","ES","UA","PL","RO","NL","BE"]; 
+
+    return;
+  }
+
+  if (this.code == "europe_2") {
+
+    this.name = "Europe by population (11 - 20)"
+
+    this.shortName = "Europe 2";
+
+    this.mapCode = "europe";
+
+    this.level = mlContinent;
+
+    this.items = ["GR","CZ","PT","SE","HU","BY","AT","CH","BG","RS"]; 
+
+    return;
+  }
+
+  if (this.code == "europe_3") {
+
+    this.name = "Europe by population (21 - 30)"
+
+    this.shortName = "Europe 3";
+
+    this.mapCode = "europe";
+
+    this.level = mlContinent;
+
+    this.items = ["DK","FI","SK","NO","IE","HR","BA","MD","LT","AL"]; 
 
     return;
   }
@@ -97,9 +203,11 @@ Mission = function(_code) {
 
   //ten largest population (NORTH AMERICA)
 
-  if (this.code == "ttp_north_america") {
+  if (this.code == "ttp_north_america" || this.code == "north_america_1") {
 
     this.name = "Top Ten North America";
+
+    this.shortName = "North America 1";
 
     this.level = mlWorld;
 
@@ -108,15 +216,47 @@ Mission = function(_code) {
     return;
   }
 
+  if (this.code == "north_america_2") {
+
+    this.name = "North America by population (11 - 16)"
+
+    this.shortName = "North America 2";
+
+    this.mapCode = "north_america";
+
+    this.level = mlContinent;
+
+    this.items = ["CR","PA","PR","JM","BS","BZ"]; 
+
+    return;
+  }
+
   //ten largest population (SOUTH AMERICA)
 
-  if (this.code == "ttp_south_america") {
+  if (this.code == "ttp_south_america" || this.code == "South America 1") {
 
     this.name = "Top Ten South America";
+
+    this.shortName = "South America 1"
 
     this.level = mlWorld;
 
     this.items = ["BR","CO","AR","VE","PE","CL","EC","BO","PY","UY"]; 
+
+    return;
+  }
+
+  if (this.code == "south_america_2") {
+
+    this.name = "South America by population (11 - 15)"
+
+    this.shortName = "South America 2";
+
+    this.mapCode = "south_america";
+
+    this.level = mlContinent;
+
+    this.items = ["GY","SR","GF","FK","TT"]; 
 
     return;
   }

@@ -25,10 +25,7 @@ doNextLesson = function( _val) {
 
 doLesson = function(_continentID, _missionCode) {
 
-	//if (!game.lesson) {
-
-		game.lesson = new LessonFactory();
-	//}
+	game.lesson = new LessonFactory();
 
 	game.user.mode = uLearn;
 
@@ -66,14 +63,22 @@ doLesson = function(_continentID, _missionCode) {
 
 	g.showMap();
 
-//uncomment these to jump straight to the list (helpful for editing country labels and capsules)
-//or to the quiz
+	//uncomment next two lines ...
+	//for dev work on the capsule positions and country labels
 
-//doLessonList();
+doLessonList();
 
-//doLessonQuiz();
+return;	
 
-//return;
+	var _readyFlag = false;
+
+	if (game.lesson.mission.type == "quizOnly") {
+
+		doLessonQuiz();
+
+		return;
+	}
+
 	//opening sequence
 
 	g.switchTo(".divTeachBody");
@@ -109,7 +114,7 @@ doLessonList = function() {
 	Meteor.setTimeout( function() { doLesson9(); }, 500);
 }
 
-doLessonQuiz = function() {
+doLessonQuiz = function( _readyFlag ) {
 
 	game.lesson.setHeader( game.lesson.mission.name );
 
@@ -117,7 +122,7 @@ doLessonQuiz = function() {
 
 	Meteor.setTimeout( function() { game.lesson.lessonMap.doMap(mlContinent, mlContinent, mlCountry);}, 500);
 
-	Meteor.setTimeout( function() { game.lesson.visited.set( game.lesson.items) }, 500);
+	//Meteor.setTimeout( function() { game.lesson.visited.set( game.lesson.items) }, 500);
 
 	Meteor.setTimeout( function() { game.lesson.revealList() }, 500);
 }

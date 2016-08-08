@@ -232,6 +232,15 @@ $(document).keydown(function(e) {
 });
 
 
+function resetArrowKeyModes() {
+
+  gEditLabels = false;
+
+  gEditCapsulePos = false;
+
+  gEditLearnCountry = false;
+
+}
 
 //***************************************************************
 //            TOGGLE EDITOR MODES
@@ -265,9 +274,9 @@ startGameEditor = function() {
 
 stopGameEditor = function() {
 
-	c("stopping game editor")
+	c("stopping game editor");
 
-	gEditLabels = false;
+  resetArrowKeyModes();
 
 	gInstantMode = false;
 
@@ -286,6 +295,8 @@ function toggleEditLabels() {
    }
    else {
 
+    resetArrowKeyModes();
+
       gEditLabels = true;
 
       showMessage("Edit labels is on")        
@@ -302,6 +313,8 @@ function toggleEditCapsulePos() {
 
    }
    else {
+
+    resetArrowKeyModes();
 
       gEditCapsulePos = true;
 
@@ -329,12 +342,11 @@ function toggleInstantMode() {
 
 function toggleEditLearnCountryMode() {
 
+  if (!gEditLearnCountry) resetArrowKeyModes();
+
    gEditLearnCountry = !gEditLearnCountry;
 
-   if (gEditLearnCountry) {
-
-    showMessage( "Edit learn country mode on");
-  }
+   if (gEditLearnCountry) showMessage( "Edit learn country mode on");
 
    if (!gEditLearnCountry) showMessage( "Edit learn country mode off");   
 }
