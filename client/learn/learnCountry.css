@@ -34,6 +34,8 @@
 
    width: 384px;
 
+height: 200px;
+
    opacity: 0;
 }
 
@@ -50,12 +52,14 @@
 
 	margin-top: 8px;
 	width: 256px;
+	height: 156px;
 
 }
 
 .learnLeaderImage {
 
 	width: 96px;
+height: 128px;
 	    -webkit-align-self: flex-end;
 	align-self: flex-end;
 
@@ -64,6 +68,7 @@
 .learnFlagImage {
 	margin-top: 8px;
 	width: 96px;
+height: 58px;
 	    -webkit-align-self: flex-end;
 	align-self: flex-end;
 }
