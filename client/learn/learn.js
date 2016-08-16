@@ -66,6 +66,14 @@ Template.learnCountry.helpers({
    return scaleMe( 128 );
   },  
 
+  capitalMarginTop: function() {
+   return scaleMe( 8 );
+  }, 
+
+  capitalFontSize: function() {
+   return scaleMe( 18 );
+  }, 
+
 	country: function() {
 
 		var _val = game.lesson.updateFlag.get();
@@ -89,9 +97,9 @@ Template.learnCountry.helpers({
 
 	TTSize: function() {
 
-		if (this.tts) return this.tts + "px";
+		if (this.tts) return scaleMe(this.tts);
 
-		return "18px";
+		return scaleMe( 18 )
 	},
 
 	TTColor: function() {
@@ -104,9 +112,9 @@ Template.learnCountry.helpers({
 
 	HTSize: function() {
 
-		if (this.hts) return this.hts + "px";
+		if (this.hts) return scaleMe(this.hts);
 
-		return "28px";
+		return scaleMe(28);
 	},
 
 	HTColor: function() {
@@ -118,9 +126,9 @@ Template.learnCountry.helpers({
 
 	HTMarginLeft: function() {
 
-		if (this.htl) return this.htl + "px";
+		if (this.htl) return scaleMe( this.htl );
 
-		return "-134px"
+		return scaleMe( -134);
 	},
 
 	countryName: function() {
