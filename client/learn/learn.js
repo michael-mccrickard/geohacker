@@ -14,16 +14,23 @@ Template.learnCountry.onCreated(function () {
 
 });
 
-var scaleFactor = 216/360;
+var scaleFactorSmall = 216/360;
 
-var widthBreakpoint = 1301;
+var scaleFactorMedium = 284/360;
+
+var widthBreakpointSmall = 1025;
+
+var widthBreakpointMedium = 1301;
+
 
 
 function scaleMe( _val ) {
 
    var _w = $(window).width();
 
-   if (_w < widthBreakpoint) return (scaleFactor * _val) + "px";
+   if (_w < widthBreakpointSmall) return (scaleFactorSmall * _val) + "px";
+
+   if (_w < widthBreakpointMedium) return (scaleFactorMedium * _val) + "px";
 
    return _val + "px";
 
