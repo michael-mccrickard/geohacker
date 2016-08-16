@@ -65,15 +65,9 @@ Template.lessonMap.helpers({
     return false;
   },
 
-<<<<<<< HEAD
-  divTeachWidth: function() { return Session.get("gWindowWidth") * 0.495 },
-
-  mapWidth: function() { return Session.get("gWindowWidth") * 0.495 },
-=======
   divTeachWidth: function() { return Session.get("gWindowWidth") * 0.495},
 
   mapWidth: function() { return Session.get("gWindowWidth") * 0.495},
->>>>>>> origin/master
 
   mapHeight: function() { 
 
