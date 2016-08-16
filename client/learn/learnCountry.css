@@ -33,11 +33,9 @@
    border-radius: 4px;
 
    width: 384px;
-<<<<<<< HEAD
 
 height: 200px;
-=======
->>>>>>> origin/master
+
 
    opacity: 0;
 }
@@ -69,21 +67,17 @@ height: 200px;
 
 	margin-top: 8px;
 	width: 256px;
-<<<<<<< HEAD
-	height: 80%;
 
-=======
->>>>>>> origin/master
+	height: 80%;
 
 }
 
 .learnLeaderImage {
 
 	width: 96px;
-<<<<<<< HEAD
+
 height: 128px;
-=======
->>>>>>> origin/master
+
 	    -webkit-align-self: flex-end;
 	align-self: flex-end;
 
@@ -92,10 +86,8 @@ height: 128px;
 .learnFlagImage {
 	margin-top: 8px;
 	width: 96px;
-<<<<<<< HEAD
 height: 58px;
-=======
->>>>>>> origin/master
+
 	    -webkit-align-self: flex-end;
 	align-self: flex-end;
 }
