@@ -39,7 +39,7 @@ Template.learnCountry.helpers({
 	},
 
 	TTSize: function() {
-return;
+
 		if (this.tts) return this.tts + "px";
 
 		return "18px";
@@ -54,7 +54,7 @@ return;
 
 
 	HTSize: function() {
-return;
+
 		if (this.hts) return this.hts + "px";
 
 		return "28px";
@@ -68,7 +68,7 @@ return;
 	},	
 
 	HTMarginLeft: function() {
-return;
+
 		if (this.htl) return this.htl + "px";
 
 		return "-134px"
