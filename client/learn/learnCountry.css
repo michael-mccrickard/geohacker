@@ -3,18 +3,18 @@
 
 .transHomelandText {
 	
-	font-size: 18px;
+	font-size: 80%;
 }
 
 .homelandText {
 	position: absolute;
-	margin-top: 12px;
-	margin-left: -134px;
+margin-top: 1%;
+margin-left: -30%;
 	font-family: Arial;
 	text-align: left;
-	   width: 384px;
+width: 75%;
 	z-index: 100;
-	font-size: 28px;
+	font-size: 100%;
 
 }
 
@@ -32,7 +32,7 @@
    border-color: #383838;
    border-radius: 4px;
 
-   width: 384px;
+width: 25%;
 
    opacity: 0;
 }
@@ -48,30 +48,31 @@
 
 .learnCapitalImage {
 
-	margin-top: 8px;
-	width: 256px;
+margin-top: 0.8%;
+margin-right: -14%;
+width: 115%;
 
 }
 
 .learnLeaderImage {
 
-	width: 96px;
+width: 75%;
 	    -webkit-align-self: flex-end;
 	align-self: flex-end;
 
 }
 
 .learnFlagImage {
-	margin-top: 8px;
-	width: 96px;
+margin-top: 0.8%;
+width: 75%;
 	    -webkit-align-self: flex-end;
 	align-self: flex-end;
 }
 
 
 .learnCapitalText {
-	font-size: 18px;
-	margin-top: 8px;
-	margin-left: 12px;
+	font-size: 80%;
+margin-top: 0.8%;
+margin-left: 1%;
 	text-transform: uppercase;
 }
