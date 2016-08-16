@@ -36,6 +36,18 @@ function scaleMe( _val ) {
 
 }
 
+function scaleMe2( _val ) {
+
+   var _w = $(window).width();
+
+   if (_w < widthBreakpointSmall) return (scaleFactorSmall * _val * 0.95) + "px";
+
+   if (_w < widthBreakpointMedium) return (scaleFactorMedium * _val * 0.95) + "px";
+
+   return _val + "px";
+
+}
+
 Template.learnCountry.helpers({
 
   LCWidth: function() {
@@ -133,7 +145,7 @@ Template.learnCountry.helpers({
 
 	HTMarginLeft: function() {
 
-		if (this.htl) return scaleMe( this.htl );
+		if (this.htl) return scaleMe2( this.htl );
 
 		return scaleMe( -134);
 	},
