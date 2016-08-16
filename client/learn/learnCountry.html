@@ -4,10 +4,10 @@
 
     {{#with country}}
 
-    	<div class="divLearnCountry" style="background-color: {{countryColor}}">
+    	<div class="divLearnCountry" style="background-color: {{countryColor}}; ; width: {{LCWidth}}; height: {{LCHeight}};">
 
 
-      <div class="homelandText"  style="margin-left: {{HTMarginLeft}};">
+      <div class="homelandText"  style="margin-left: {{HTMarginLeft}}; width: {{LCWidth}}; font-size: {{HTBaseFontSize}}">
 
         <div class="transHomelandText" style="color: {{TTColor}}; font-size: {{TTSize}};">{{countryName}}</div>
 
@@ -17,7 +17,7 @@
 
         	<div class="learnLeft">
 
-        	   <img class="learnCapitalImage" src="{{capitalImage}}" style="opacity: {{capitalOpacity}};" />
+        	   <img class="learnCapitalImage" src="{{capitalImage}}" style="opacity: {{capitalOpacity}}; width: {{capitalWidth}};" />
 
              <h3 class="learnCapitalText" style="color: {{capitalTextColor}};">Capital: {{capitalName}}</h3>
 
@@ -25,8 +25,8 @@
 
           <div class="learnRight">
 
-        		<img class="learnFlagImage" src="{{flagImage}}" />
-            <img class="learnLeaderImage" src="{{leaderImage}}" />
+        		<img class="learnFlagImage" src="{{flagImage}}" style="width: {{learnRightWidth}}; height: {{flagHeight}};"/>
+            <img class="learnLeaderImage" src="{{leaderImage}}" style="width: {{learnRightWidth}}; height: {{leaderHeight}};"/>
           
           </div>
 

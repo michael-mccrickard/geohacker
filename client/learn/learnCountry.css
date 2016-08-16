@@ -12,7 +12,7 @@
 	margin-left: -134px;
 	font-family: Arial;
 	text-align: left;
-	   width: 384px;
+	   width: 360px;
 	z-index: 100;
 	font-size: 28px;
 
@@ -32,7 +32,7 @@
    border-color: #383838;
    border-radius: 4px;
 
-   width: 384px;
+   width: 360px;
 
 height: 200px;
 
@@ -49,24 +49,11 @@ height: 200px;
 	-webkit-align-items: center;
 }
 
-/*
-.learnLeft {
-
-	height: 100%;
-	overflow: hidden;
-}
-
-.learnRight {
-
-	height: 100%;
-}
-
-*/
 
 .learnCapitalImage {
 
 	margin-top: 8px;
-	width: 256px;
+	width: 232px;
 
 	height: 75%;
 
