@@ -14,8 +14,57 @@ Template.learnCountry.onCreated(function () {
 
 });
 
+var scaleFactor = 216/360;
+
+var widthBreakpoint = 1301;
+
+
+function scaleMe( _val ) {
+
+   var _w = $(window).width();
+
+   if (_w < widthBreakpoint) return (scaleFactor * _val) + "px";
+
+   return _val + "px";
+
+}
 
 Template.learnCountry.helpers({
+
+  LCWidth: function() {
+
+   return scaleMe( 360 );
+
+  },
+
+  LCHeight: function() {
+
+   return scaleMe( 200 );
+  },  
+
+  HTBaseFontSize: function() {
+
+   return scaleMe( 28 );
+  },
+
+  capitalWidth: function() {
+
+   return scaleMe( 232 );
+  },
+  
+  learnRightWidth: function() {
+
+   return scaleMe( 96 );
+  }, 
+
+  flagHeight: function() {
+
+   return scaleMe( 58 );
+  },  
+
+  leaderHeight: function() {
+   return scaleMe( 128 );
+  },  
 
 	country: function() {
 
