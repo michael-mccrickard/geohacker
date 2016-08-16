@@ -90,21 +90,6 @@ Mission = function(_code) {
     return;
   }
 
-  if (this.code == "africa_4") {
-
-    this.name = "Africa by population (21 - 40)"
-
-    this.shortName = "Africa 4";
-
-    this.mapCode = "africa";
-
-    this.level = mlContinent;
-
-    this.items = ["BJ","BI","TG","ER","SL","LY","CF","CD","LR","MR"]; 
-
-    return;
-  }
-
   //ten largest population (Asia)
 
   if (this.code == "ttp_asia" || this.code == "asia_1") {
