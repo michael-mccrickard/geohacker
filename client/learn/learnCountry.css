@@ -48,11 +48,26 @@ height: 200px;
 	-webkit-align-items: center;
 }
 
+/*
+.learnLeft {
+
+	height: 100%;
+	overflow: hidden;
+}
+
+.learnRight {
+
+	height: 100%;
+}
+
+*/
+
 .learnCapitalImage {
 
 	margin-top: 8px;
 	width: 256px;
-	height: 156px;
+	height: 80%;
+
 
 }
 
