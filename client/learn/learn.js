@@ -14,23 +14,14 @@ Template.learnCountry.onCreated(function () {
 
 });
 
-var scaleFactorSmall = 216/360;
-
-var scaleFactorMedium = 284/360;
-
-var widthBreakpointSmall = 1025;
-
-var widthBreakpointMedium = 1301;
-
+var fullWidth = 1700;
 
 
 function scaleMe( _val ) {
 
    var _w = $(window).width();
 
-   if (_w < widthBreakpointSmall) return (scaleFactorSmall * _val) + "px";
-
-   if (_w < widthBreakpointMedium) return (scaleFactorMedium * _val) + "px";
+   _val = _val * (_w / fullWidth);
 
    return _val + "px";
 
@@ -40,58 +31,79 @@ function scaleMe2( _val ) {
 
    var _w = $(window).width();
 
-   if (_w < widthBreakpointSmall) return (scaleFactorSmall * _val * 0.95) + "px";
+   _val = _val * (_w / fullWidth);
 
-   if (_w < widthBreakpointMedium) return (scaleFactorMedium * _val * 0.95) + "px";
-
-   return _val + "px";
+   return (_val * 0.95) + "px";
 
 }
 
 Template.learnCountry.helpers({
 
-  LCWidth: function() {
+	LCWidth: function() {
 
-   return scaleMe( 360 );
+		return scaleMe( 400 );
 
-  },
+	},
 
-  LCHeight: function() {
+	LCHeight: function() {
 
-   return scaleMe( 200 );
-  },  
+		return scaleMe( 222.22 );
+	},  
 
-  HTBaseFontSize: function() {
+	HTBaseFontSize: function() {
 
-   return scaleMe( 28 );
-  },
+		return scaleMe( 31.11 );
+	},
 
-  capitalWidth: function() {
+	capitalWidth: function() {
 
-   return scaleMe( 232 );
-  },
-  
-  learnRightWidth: function() {
+		return scaleMe( 257.77 );
+	},
 
-   return scaleMe( 96 );
-  }, 
+	learnRightWidth: function() {
 
-  flagHeight: function() {
+		return scaleMe( 106.66 );
+	}, 
 
-   return scaleMe( 58 );
-  },  
+	flagHeight: function() {
 
-  leaderHeight: function() {
-   return scaleMe( 128 );
-  },  
+		return scaleMe( 64.44 );
+	},  
 
-  capitalMarginTop: function() {
-   return scaleMe( 8 );
-  }, 
+	leaderHeight: function() {
+		return scaleMe( 142.22 );
+	},  
 
-  capitalFontSize: function() {
-   return scaleMe( 18 );
-  }, 
+	capitalMarginTop: function() {
+		return scaleMe( 8.88 );
+	}, 
+
+	capitalFontSize: function() {
+		return scaleMe( 20 );
+	}, 
+
+	TTSize: function() {
+
+		if (this.tts) return scaleMe(this.tts);
+
+		return scaleMe( 20 )
+	},
+
+	HTSize: function() {
+
+		if (this.hts) return scaleMe(this.hts);
+
+		return scaleMe(31.11);
+	},
+
+	HTMarginLeft: function() {
+
+		if (this.htl) return scaleMe2( this.htl );
+
+		return scaleMe( -148.88);
+	},
+
+	/*  end scaled values */
 
 	country: function() {
 
@@ -114,12 +126,7 @@ Template.learnCountry.helpers({
 		//return hack.getHomelandText();
 	},
 
-	TTSize: function() {
 
-		if (this.tts) return scaleMe(this.tts);
-
-		return scaleMe( 18 )
-	},
 
 	TTColor: function() {
 
@@ -128,27 +135,12 @@ Template.learnCountry.helpers({
 		return "yellow";
 	},	
 
-
-	HTSize: function() {
-
-		if (this.hts) return scaleMe(this.hts);
-
-		return scaleMe(28);
-	},
-
 	HTColor: function() {
 
 		if (this.htc) return this.htc;
 
 		return "white";
 	},	
-
-	HTMarginLeft: function() {
-
-		if (this.htl) return scaleMe2( this.htl );
-
-		return scaleMe( -134);
-	},
 
 	countryName: function() {
 
@@ -200,3 +192,58 @@ Template.learnCountry.helpers({
   	}
 
  });
+
+
+/*
+
+var scaleFactorSmall = 216/360;
+
+var scaleFactorMedium = 266/360;
+
+var scaleFactorLarge = 316/360;
+
+var scaleFactorXLarge = 346/360;
+
+var widthBreakpointSmall = 1231;
+
+var widthBreakpointMedium = 1341;
+
+var widthBreakpointLarge = 1551;
+
+var widthBreakpointXLarge = 1651;
+
+
+
+function scaleMe( _val ) {
+
+   var _w = $(window).width();
+
+   if (_w < widthBreakpointSmall) return (scaleFactorSmall * _val) + "px";
+
+   if (_w < widthBreakpointMedium) return (scaleFactorMedium * _val) + "px";
+
+    if (_w < widthBreakpointLarge) return (scaleFactorLarge * _val) + "px";
+
+   if (_w < widthBreakpointXLarge) return (scaleFactorXlarge * _val) + "px";
+
+
+   return _val + "px";
+
+}
+
+function scaleMe2( _val ) {
+
+   var _w = $(window).width();
+
+   if (_w < widthBreakpointSmall) return (scaleFactorSmall * _val * 0.95) + "px";
+
+   if (_w < widthBreakpointMedium) return (scaleFactorMedium * _val * 0.95) + "px";
+
+    if (_w < widthBreakpointLarge) return (scaleFactorLarge * _val * 0.95) + "px";
+
+   if (_w < widthBreakpointXLarge) return (scaleFactorXlarge * _val * 0.95) + "px";
+
+   return (_val * 0.95) + "px";
+
+}
+*/
