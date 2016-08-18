@@ -33,6 +33,8 @@ doLesson = function(_continentID, _missionCode) {
 
 	var g = game.lesson;
 
+	g.setTextColor( "yellow" );
+
 	g.quizInProgress.set( false );
 
 	g.index = -1;

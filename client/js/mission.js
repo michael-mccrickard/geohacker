@@ -315,7 +315,7 @@ Mission = function(_code) {
 
   //ten largest population (SOUTH AMERICA)
 
-  if (this.code == "ttp_south_america" || this.code == "South America 1") {
+  if (this.code == "ttp_south_america" || this.code == "south_america_1") {
 
     this.type = "introAndQuiz";
 

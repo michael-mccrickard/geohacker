@@ -23,6 +23,17 @@ Template.lessonMap.rendered = function () {
 
 Template.lessonMap.helpers({
 
+
+  headerColor: function() {
+
+    return game.lesson.headerColor.get();
+  },
+
+  messageColor: function() {
+
+    return game.lesson.messageColor.get();
+  },  
+
   allVisited: function() {
 
     if (game.lesson.quizState.get() == "decideNextStep") return false;

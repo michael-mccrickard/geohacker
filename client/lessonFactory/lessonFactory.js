@@ -55,6 +55,12 @@ LessonFactory = function() {
 
 	this.note = "";  //any note needed to explain something basic abt the lesson ("We include Russia as part of Asia". e.g.)
 
+	//FORMAT PROPERTIES
+
+	this.messageColor = new Blaze.ReactiveVar( "yellow" );
+
+	this.headerColor = new Blaze.ReactiveVar( "yellow" );
+
 	//QUIZ PROPERTIES
 
 	this.quizType = ["quizFindRegionOfCountry", "quizFindCountryInRegion"];
@@ -88,7 +94,7 @@ LessonFactory = function() {
 
 	this.resultsLimit = 1;
 
-	this.newQuestionLimit = 2;
+	this.newQuestionLimit = 3;
 
 	this.selectSoundLimit = 3;
 
@@ -192,9 +198,20 @@ c(_s);
 
 	}
 
+	this.setTextColor = function( _which ) {
+
+		this.messageColor.set( _which );
+
+		this.headerColor.set( _which );
+
+
+	}
+
 	this.doQuizQuestion = function() {
 
-		Control.playEffect( "question_2.mp3" );
+		this.setTextColor( "yellow" );
+
+		this.playSound("question");
 
 		this.hideCapsule();
 
@@ -241,6 +258,8 @@ c(_s);
 
 	this.doCorrectAnswer = function( _ID ) {
 
+		this.setTextColor( "lime" );
+
 		this.playSound3( "right" );
 
 		this.quizCorrectCount++;
@@ -268,6 +287,8 @@ c(_s);
 	}
 
 	this.doIncorrectAnswer = function( _ID )  {
+
+		this.setTextColor( "red" );
 
 		this.playSound3( "wrong" );
 
@@ -311,6 +332,8 @@ c(_s);
 	this.postResults = function() {
 
 		Meteor.setTimeout( function() { game.lesson.playSound( "results" ); }, 1500 );
+
+		this.setTextColor( "yellow" );
 
 		this.setMessage("QUIZ COMPLETE");
 
@@ -783,7 +806,7 @@ c(_s);
 
 		this.setMessage( rec.n + " is in " + regionName);
 
-		this.pulseCountry();
+		this.pulseCountry( _ID);
 	}
 
 	this.selectListItem = function( _which ) {
