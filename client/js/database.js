@@ -708,6 +708,8 @@ Database.getRandomElement = function(arr) {
     return ele;
   }
 
+//will return from zero up to limit - 1
+
 Database.getRandomValue = function( _limit ) {
 
     return ( Math.floor( Math.random() * _limit ) );

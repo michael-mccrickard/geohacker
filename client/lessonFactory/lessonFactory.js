@@ -80,6 +80,63 @@ LessonFactory = function() {
 
 	this.quizQuestionCount = 0;
 
+	//SOUNDS
+
+	this.rightSoundLimit = 4;
+
+	this.wrongSoundLimit = 5;
+
+	this.resultsLimit = 1;
+
+	this.newQuestionLimit = 2;
+
+	this.selectSoundLimit = 3;
+
+	this.buttonSoundLimit = 2;
+
+	//***************************************************************
+	//					SOUND FUNCTIONS
+	//***************************************************************
+
+	this.getSoundFile = function( _type) {
+
+		var _s = '';
+
+		if (_type == "right") _s = _type + "_" + (Database.getRandomValue( this.rightSoundLimit ) + 1) + ".mp3";
+
+		if (_type == "wrong") _s = _type + "_" + (Database.getRandomValue( this.wrongSoundLimit ) + 1) + ".mp3";
+
+		if (_type == "results") _s = _type + "_" + (Database.getRandomValue( this.resultsLimit )  + 1) + ".mp3";
+
+		if (_type == "question") _s = _type + "_" + (Database.getRandomValue( this.newQuestionLimit ) + 1) + ".mp3";
+
+		if (_type == "select") _s = _type + "_" + (Database.getRandomValue( this.selectSoundLimit ) + 1) + ".mp3";
+
+		if (_type == "button") _s = _type + "_" + (Database.getRandomValue( this.buttonSoundLimit ) + 1) + ".mp3";
+c(_s);
+		return _s;
+	}
+
+	this.playSound = function( _type ) {
+
+		var _s = this.getSoundFile( _type);
+
+		Control.playEffect( _s );
+	}
+
+	this.playSound2 = function( _type ) {
+
+		var _s = this.getSoundFile( _type);
+
+		Control.playEffect2( _s );
+	}
+
+	this.playSound3 = function( _type ) {
+
+		var _s = this.getSoundFile( _type);
+
+		Control.playEffect3( _s );
+	}
 
 	//***************************************************************
 	//					QUIZ FUNCTIONS
@@ -137,6 +194,8 @@ LessonFactory = function() {
 
 	this.doQuizQuestion = function() {
 
+		Control.playEffect( "question_2.mp3" );
+
 		this.hideCapsule();
 
 		this.quizState.set( "waiting" );
@@ -182,6 +241,8 @@ LessonFactory = function() {
 
 	this.doCorrectAnswer = function( _ID ) {
 
+		this.playSound3( "right" );
+
 		this.quizCorrectCount++;
 
 		var _item = this.quizItem[ this.questionIndex ];
@@ -207,6 +268,8 @@ LessonFactory = function() {
 	}
 
 	this.doIncorrectAnswer = function( _ID )  {
+
+		this.playSound3( "wrong" );
 
 		var _item = this.quizItem[ this.questionIndex ];
 
@@ -246,6 +309,8 @@ LessonFactory = function() {
 	}
 
 	this.postResults = function() {
+
+		Meteor.setTimeout( function() { game.lesson.playSound( "results" ); }, 1500 );
 
 		this.setMessage("QUIZ COMPLETE");
 
@@ -643,6 +708,8 @@ LessonFactory = function() {
 	}
 
 	this.showCapsule = function( _ID ) {
+
+		Control.playEffect2( "button_1.mp3" );
 
 		this.pushID( _ID );
 

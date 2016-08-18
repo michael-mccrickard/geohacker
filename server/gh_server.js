@@ -500,55 +500,10 @@ console.log(this.userId);
 
     var email = Meteor.user().emails[0].address;
 
-    var url =  Gravatar.imageUrl( email );
+    var url =  Gravatar.imageUrl( email, {default: 'retro'} );
 
 
     Meteor.users.update( {_id: userID }, { $set: { 'profile.av': url }  });
-
-return;
-
-    var avatar = Meteor.npmRequire('avatar-generator')(), fs = Npm.require('fs');
-
-      //create the file with the supplied params
-
-      self = this;
-
-      avatar(userID, _gender, 256).toBuffer( Meteor.bindEnvironment( function(error, buffer) { 
-
-          if (error) console.log(error.message);
-
-          //When get the callback we attach the picture data to the file
-
-              var _key = "ghAvatar/" + userID + '.png';
-
-              var s3 = new AWS.S3();
-
-              var params = {
-                Bucket: 'gh-resource', /* required */
-                Key: _key, /* required */
-                ACL: 'public-read-write',
-                Body: buffer,
-                ContentType: "image/png"
-              };
-
-              s3.putObject(params, Meteor.bindEnvironment(function(err, data) {
-
-                if (err) {
-                  
-                  console.log(err, err.stack); // an error occurred
-                }
-                else {
-
-                  console.log(data);           // successful response
-
-                  Meteor.users.update( {_id: userID }, { $set: { 'profile.av': prefix + _key }  });
-
-                  return data;
-                }    
-              
-              }));
-
-        }));
 
   },  
 
