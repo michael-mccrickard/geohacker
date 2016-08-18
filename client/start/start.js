@@ -17,6 +17,12 @@ Accounts.onResetPasswordLink( function(token) {
 
 Accounts.onLogin( function() { 
 
+  if (Meteor.userId == "SWjqzgXy9rGCYvpRF")  { //if (Meteor.userId == "yzKJ73366P5AoTjzf")  {
+
+      //activate special modal here
+
+  }
+
   game.user = game.createGeohackerUser(); 
 
 });

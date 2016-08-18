@@ -90,9 +90,41 @@ Mission = function(_code) {
     return;
   }
 
+  if (this.code == "africa_4") {
+
+    this.name = "Africa by population (31 - 40)"
+
+    this.shortName = "Africa 4";
+
+    this.mapCode = "africa";
+
+    this.level = mlContinent;
+
+    this.items = ["BJ","BI","TG","ER","SL","LY","CF","CG","LR","MR"]; 
+
+    return;
+  }
+
+  if (this.code == "africa_5") {
+
+    this.name = "Africa by population (41 - 50)"
+
+    this.shortName = "Africa 5";
+
+    this.mapCode = "africa";
+
+    this.level = mlContinent;
+
+    this.items = ["NA","BW","GM","GQ","LS","GA","GW","SZ","DJ","EH"]; 
+
+    return;
+  }
+
   //ten largest population (Asia)
 
   if (this.code == "ttp_asia" || this.code == "asia_1") {
+
+    this.type = "introAndQuiz";
 
     this.name = "Top Ten Asia";
 
@@ -139,6 +171,21 @@ Mission = function(_code) {
     return;
   }
 
+  if (this.code == "asia_4") {
+
+    this.name = "Asia by population (31 - 42)"
+
+    this.shortName = "Asia 4";
+
+    this.mapCode = "asia";
+
+    this.level = mlContinent;
+
+    this.items = ["TM","PS","LB","OM","KW","GE","MN","AM","QA","TL","BT","BN"]; 
+
+    return;
+  }
+  
   //ten largest population (Europe)
 
   if (this.code == "ttp_europe" || this.code == "europe_1") {
@@ -146,6 +193,8 @@ Mission = function(_code) {
     this.name = "Top Ten Europe";
 
     if (this.code == "europe_1") this.name = "Europe by population (1 - 10)";
+
+    this.type = "introAndQuiz";
 
     this.shortName = "Europe 1"
 
@@ -188,6 +237,37 @@ Mission = function(_code) {
     return;
   }
 
+  if (this.code == "europe_4") {
+
+    this.name = "Europe by population (31 - 39)"
+
+    this.shortName = "Europe 4";
+
+    this.mapCode = "europe";
+
+    this.level = mlContinent;
+
+    this.items = ["MK","SI","LV","XK","EE","ME","LU","MD","IS"]; 
+
+    return;
+  }
+
+/*  if (this.code == "europe_5") {
+
+    this.name = "Europe by population (41 - 50)"
+
+    this.shortName = "Europe 5";
+
+    this.mapCode = "europe";
+
+    this.level = mlContinent;
+
+    this.items = ["","","","","","","","","",""]; 
+
+    return;
+  }
+*/
+
   //ten largest population (AMERICAS)
 
   if (this.code == "ttp_americas") {
@@ -204,6 +284,8 @@ Mission = function(_code) {
   //ten largest population (NORTH AMERICA)
 
   if (this.code == "ttp_north_america" || this.code == "north_america_1") {
+
+    this.type = "introAndQuiz";
 
     this.name = "Top Ten North America";
 
@@ -235,6 +317,8 @@ Mission = function(_code) {
 
   if (this.code == "ttp_south_america" || this.code == "South America 1") {
 
+    this.type = "introAndQuiz";
+
     this.name = "Top Ten South America";
 
     this.shortName = "South America 1"
@@ -264,6 +348,8 @@ Mission = function(_code) {
   //Top 7 largest population (OCEANIA)
 
   if (this.code == "ttp_oceania") {
+
+    this.type = "introAndQuiz";
 
     this.name = "Top Seven Oceania";
 

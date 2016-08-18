@@ -66,9 +66,9 @@ doLesson = function(_continentID, _missionCode) {
 	//uncomment next two lines ...
 	//for dev work on the capsule positions and country labels
 
-doLessonList();
+//doLessonList();
 
-return;	
+//return;	
 
 	var _readyFlag = false;
 

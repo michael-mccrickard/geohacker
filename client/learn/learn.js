@@ -116,17 +116,12 @@ Template.learnCountry.helpers({
 	countryColor: function() {
 
 		return this.co;
-
 	},
 
 	homelandText: function() {
 
 		return this.ht;
-
-		//return hack.getHomelandText();
 	},
-
-
 
 	TTColor: function() {
 
@@ -145,8 +140,6 @@ Template.learnCountry.helpers({
 	countryName: function() {
 
 		return this.n;
-
-		//return hack.getCountryName();
 	},
 
     capitalImage: function() {
@@ -170,7 +163,7 @@ Template.learnCountry.helpers({
 
     	//the white text on a light-colored bg is problematic
 
-		if (this.co == "#FFD700" || this.co == "#FFFF00" || this.co == "#33FFFF" || this.co == "#7FFFD4" || this.co == "#00FFFF" || this.co=="#87CEFA") return "black"
+		if (this.co == "#FFD700" || this.co == "#FFFF00" || this.co == "#33FFFF" || this.co == "#7FFFD4" || this.co == "#00FFFF" || this.co=="#87CEFA" || this.co == "#66FFFF") return "black"
 
 		return "white";
   	},

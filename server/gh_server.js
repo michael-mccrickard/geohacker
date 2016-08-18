@@ -498,6 +498,15 @@ console.log(this.userId);
   makeAvatar: function(_gender, userID) {  
 
 
+    var email = Meteor.user().emails[0].address;
+
+    var url =  Gravatar.imageUrl( email );
+
+
+    Meteor.users.update( {_id: userID }, { $set: { 'profile.av': url }  });
+
+return;
+
     var avatar = Meteor.npmRequire('avatar-generator')(), fs = Npm.require('fs');
 
       //create the file with the supplied params
@@ -666,7 +675,7 @@ console.log( bad + " bad image links found")
 
     //self.unblock();
 
-    //console.log("trying URL: " + URL);
+//console.log("trying URL: " + URL);
 
     //try the URL and timeout after 5 seconds
 
@@ -674,7 +683,7 @@ console.log( bad + " bad image links found")
 
       var result = HTTP.call("GET", URL, { timeout: 5000});
 
-      //console.log(URL + " -- OK");
+//console.log(URL + " -- OK");
 
       good++;
 
