@@ -12,6 +12,7 @@
           "dependencies": {
             "graceful-readlink": {
               "version": "1.0.1",
+              "resolved": "https://registry.npmjs.org/graceful-readlink/-/graceful-readlink-1.0.1.tgz",
               "from": "graceful-readlink@1.0.1"
             }
           }

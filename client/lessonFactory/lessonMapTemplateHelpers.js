@@ -21,8 +21,38 @@ Template.lessonMap.rendered = function () {
     }
 }
 
+var fullHeight = 900;
+
+
+function scaleMe( _val ) {
+
+   var _w = $(window).height();
+
+   _val = _val * (_w / fullHeight);
+
+   return _val + "px";
+
+}
+
 Template.lessonMap.helpers({
 
+  body1FontSize: function() {
+
+      return scaleMe(38);
+
+  },
+
+  body2FontSize: function() {
+
+      return scaleMe(144);
+
+  },
+
+  body3FontSize: function() {
+
+      return scaleMe(72);
+
+  },
 
   headerColor: function() {
 
