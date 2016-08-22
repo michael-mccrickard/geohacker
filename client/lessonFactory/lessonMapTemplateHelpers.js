@@ -39,19 +39,16 @@ Template.lessonMap.helpers({
   body1FontSize: function() {
 
       return scaleMe(38);
-
   },
 
   body2FontSize: function() {
 
       return scaleMe(144);
-
   },
 
   body3FontSize: function() {
 
       return scaleMe(72);
-
   },
 
   headerColor: function() {
