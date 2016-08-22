@@ -119,7 +119,7 @@ LessonFactory = function() {
 		if (_type == "select") _s = _type + "_" + (Database.getRandomValue( this.selectSoundLimit ) + 1) + ".mp3";
 
 		if (_type == "button") _s = _type + "_" + (Database.getRandomValue( this.buttonSoundLimit ) + 1) + ".mp3";
-c(_s);
+
 		return _s;
 	}
 
@@ -266,7 +266,7 @@ c(_s);
 
 		var _item = this.quizItem[ this.questionIndex ];
 
-		this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, _item);
+		//this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, _item, false);
 
 		this.setHeader("CORRECT!");
 
@@ -294,7 +294,7 @@ c(_s);
 
 		var _item = this.quizItem[ this.questionIndex ];
 
-		this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, _item);
+		//this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, _item, false);
 
 		if (this.quiz == "quizFindRegionOfCountry") {
 
@@ -748,7 +748,7 @@ c(_s);
 
 		this.region = rec.r;
 
-		this.lessonMap.doThisMap( mlContinent, mlRegion, mlCountry, this.lessonMap.selectedContinent, this.region);	
+		this.lessonMap.doThisMap( mlContinent, mlRegion, mlCountry, this.lessonMap.selectedContinent, this.region, false);	
 
 		var x = 0;
 

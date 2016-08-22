@@ -82,7 +82,7 @@ LessonMap = function( _mapCtl ) {
 
     }
 
-    this.doThisMap = function(_mapLevel, _drawLevel, _detailLevel, _continentID, _regionID) {
+    this.doThisMap = function(_mapLevel, _drawLevel, _detailLevel, _continentID, _regionID, _dontIdentify) {
 
         //reset this each time, b/c it disappears if we switch hack/display objects
 
@@ -104,7 +104,7 @@ LessonMap = function( _mapCtl ) {
         if (_regionID) this.selectedRegion = _regionID;
 
 
-        this.doMap(_mapLevel, _drawLevel, _detailLevel);
+        this.doMap(_mapLevel, _drawLevel, _detailLevel, _dontIdentify);
 
     }
 
@@ -124,7 +124,7 @@ LessonMap = function( _mapCtl ) {
 
     }
 
-    this.doMap = function(_mapLevel, _drawLevel, _detailLevel) {
+    this.doMap = function(_mapLevel, _drawLevel, _detailLevel, _dontIdentify) {
 
         var z1 = 1.0;
 
@@ -208,11 +208,7 @@ LessonMap = function( _mapCtl ) {
 
         }
 
-        var _dontIdentify = false;
-
-        if (game.lesson.quizInProgress.get() ) _dontIdentify = true;
-
-        this.dp.areas = this.mm.getJSONForMap(this.selectedContinent, this.selectedRegion, _mapLevel, _drawLevel, _detailLevel, z1, z2, z3, false);
+        this.dp.areas = this.mm.getJSONForMap(this.selectedContinent, this.selectedRegion, _mapLevel, _drawLevel, _detailLevel, z1, z2, z3);
 
         this.dp.images = [];
 
@@ -243,6 +239,18 @@ LessonMap = function( _mapCtl ) {
         this.map.areasSettings.balloonText = "[[customData]]";
 
         //set the ballon text (popup text) for each area (this will be continent, region or country)
+c(_dontIdentify)
+        if (_dontIdentify === undefined) {
+
+            if (game.lesson.quizInProgress.get() ) {
+
+                _dontIdentify = true;
+            }
+            else {
+                 _dontIdentify = false;               
+            }
+        }
+c(_dontIdentify)
         if ( _dontIdentify ) this.map.areasSettings.balloonText = "";
 
 
@@ -446,7 +454,8 @@ function handleClick(_event) {
 
     var level = game.lesson.mapLevel;
 
-if ( g.quizInProgress.get() == false ) return;
+    
+    if ( g.quizInProgress.get() == false ) return;
 
 
     if (g.quiz == "quizFindRegionOfCountry") {
