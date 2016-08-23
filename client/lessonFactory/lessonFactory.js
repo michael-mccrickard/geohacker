@@ -249,7 +249,7 @@ LessonFactory = function() {
 
 			this.setHeader("Can you find this country in " + rec.n + "?");
 
-this.lessonMap.doThisMap(mlRegion, mlRegion, mlCountry, this.continent, rec.c);
+			this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, rec.c);
 
 			this.quizDisplayItem.set( db.getCountryName(  _item ) );			
 		}
@@ -756,11 +756,9 @@ this.lessonMap.doThisMap(mlRegion, mlRegion, mlCountry, this.continent, rec.c);
 
 		if (rec.llon !== undefined) {
 
-			var loc = this.lessonMap.map.coordinatesToStageXY( rec.llon, rec.llat );
+			x = this.lessonMap.map.longitudeToX( rec.llon );
 
-			x = loc.longitude;
-
-			y = loc.latitude;
+			y = this.lessonMap.map.latitudeToY( rec.llat );
 		}
 		else {
 
@@ -784,11 +782,9 @@ this.lessonMap.doThisMap(mlRegion, mlRegion, mlCountry, this.continent, rec.c);
 
 		if (rec.cpLon !== undefined) {
 
-			var loc = this.lessonMap.map.coordinatesToStageXY( rec.cpLon, rec.cpLat );
+			x = this.lessonMap.map.longitudeToStageX( rec.cpLon );
 
-			x = loc.longitude;
-
-			y = loc.latitude;
+			y = this.lessonMap.map.latitudeToStageY( rec.cpLat );
 		}
 		else {
 
@@ -801,8 +797,6 @@ this.lessonMap.doThisMap(mlRegion, mlRegion, mlCountry, this.continent, rec.c);
 		}
 
 		$(".divLearnCountry").css("display", "flex");
-
-if (x == 0.0) x = 100.0;
 
 		Meteor.setTimeout( function() { $(".divLearnCountry").offset( { top: y , left: x } ); }, 200 );			
 
