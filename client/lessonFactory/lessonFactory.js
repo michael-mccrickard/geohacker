@@ -782,9 +782,15 @@ LessonFactory = function() {
 
 		if (rec.cpLon !== undefined) {
 
-			x = this.lessonMap.map.longitudeToStageX( rec.cpLon );
+			//x = map.longitudeToStageX( rec.cpLon );
 
-			y = this.lessonMap.map.latitudeToStageY( rec.cpLat );
+			//y = map.latitudeToStageY( rec.cpLat );
+
+            var loc = map.coordinatesToStageXY( rec.cpLon, rec.cpLat);
+
+            x = loc.x;
+
+            y = loc.y;
 		}
 		else {
 

@@ -197,6 +197,12 @@ $(document).keydown(function(e) {
 
         break;
 
+      case 81: //q
+
+        if (gEditCapsulePos) moveCapsuleToDefault();
+
+        break;
+
 	    case 83: //s
 
         if (gEditCapsulePos) updateCapsulePos();
@@ -444,6 +450,17 @@ function moveCapsule( _obj) {
   $(".divLearnCountry").offset( _obj );
 }
 
+function moveCapsuleToDefault() {
+
+
+    var _obj = {};
+
+    _obj.top = 200;
+
+    _obj.left = 200;
+
+    moveCapsule( _obj );
+}
 
 function moveLabel() {
 
@@ -735,9 +752,15 @@ updateLabelPosition = function(_which) {
     var y = map.allLabels[0].y;
 
 
-      var _long = map.stageXToLongitude( x );
+      //var _long = map.stageXToLongitude( x );
 
-      var _lat = map.stageYToLatitude( y );
+      //var _lat = map.stageYToLatitude( y );
+
+      var loc = map.stageXYToCoordinates(x, y);
+
+      var _long = loc.longitude;
+
+      var _lat = loc.latitude;
 
     if (game.user.mode == uLearn) {
 

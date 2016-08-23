@@ -319,9 +319,15 @@ LessonMap = function( _mapCtl ) {
 
                     if (rec.llon !== undefined) {
 
-                        _x = this.map.longitudeToStageX( rec.llon);
+                       // _x = this.map.longitudeToStageX( rec.llon);
 
-                        _y = this.map.latitudeToStageY( rec.llat);
+                       // _y = this.map.latitudeToStageY( rec.llat);
+
+                        var loc = this.map.coordinatesToStageXY( rec.llon, rec.llat);
+
+                        _x = loc.x;
+
+                        _y = loc.y;
 
                     }
                     else {
