@@ -681,12 +681,13 @@ function updateCapsulePos() {
 
     var y = $(s).offset().top;
 
-
-      var _long = map.stageXToLongitude( x );
-
-      var _lat = map.stageYToLatitude( y );
+    var loc = map.stageXYToCoordinates( x, y );
 
     var rec = db.getCountryRec(game.lesson.country);
+
+      var _long = loc.longitude;
+
+      var _lat = loc.latitude;
 
     db.updateRecord2( cCountry, "cpLon", rec._id, _long);
 
