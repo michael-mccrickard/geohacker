@@ -239,7 +239,7 @@ LessonMap = function( _mapCtl ) {
         this.map.areasSettings.balloonText = "[[customData]]";
 
         //set the ballon text (popup text) for each area (this will be continent, region or country)
-c(_dontIdentify)
+
         if (_dontIdentify === undefined) {
 
             if (game.lesson.quizInProgress.get() ) {
@@ -250,7 +250,7 @@ c(_dontIdentify)
                  _dontIdentify = false;               
             }
         }
-c(_dontIdentify)
+
         if ( _dontIdentify ) this.map.areasSettings.balloonText = "";
 
 
