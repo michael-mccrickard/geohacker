@@ -35,6 +35,13 @@ LessonFactory = function() {
 
 	this.index = 0;  //index into the list of countries (items)
 
+	this.lessonNumber = 0;
+
+	this.lessonLimit = 0;  //actually applies to the each group of continent lessons, not any particular lesson itself, 
+							//but we lack an appropriate
+							//entity to attach this to, so this is where it is for now
+
+
 	this.content = new Blaze.ReactiveVar("");
 
 	this.updateFlag = new Blaze.ReactiveVar( false );
@@ -234,7 +241,7 @@ LessonFactory = function() {
 
 			this.setHeader("Which region is this country in?");
 
-			this.lessonMap.doThisMap(mlContinent, mlContinent, mlRegion, this.continent);
+			this.lessonMap.doThisMap(mlContinent, mlContinent, mlRegion, this.continent, this.quizAnswer, false);
 
 			this.quizDisplayItem.set( db.getCountryName(  _item ) );			
 		}
@@ -249,7 +256,7 @@ LessonFactory = function() {
 
 			this.setHeader("Can you find this country in " + rec.n + "?");
 
-			this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, rec.c);
+			this.lessonMap.doThisMap(mlRegion, mlRegion, mlCountry, this.continent, rec.c, true);
 
 			this.quizDisplayItem.set( db.getCountryName(  _item ) );			
 		}
@@ -264,18 +271,25 @@ LessonFactory = function() {
 
 		this.quizCorrectCount++;
 
+		//the map detects clicks on individual countries, so our quiz items are always
+		//countries, but we need the region of the country to draw the map appropriately
+
 		var _item = this.quizItem[ this.questionIndex ];
 
-		//this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, _item, false);
+		var _region = db.getRegionCodeForCountry( _item );
 
 		this.setHeader("CORRECT!");
 
 		if (this.quiz == "quizFindRegionOfCountry") {
 
+			this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, _region, false);
+
 			this.setMessage( this.quizDisplayItem.get() + " is in " + db.getRegionRec( this.quizAnswer ).n );	
 		}
 
 		if (this.quiz == "quizFindCountryInRegion") {
+
+			this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, _region, false);
 
 			this.setMessage( this.quizDisplayItem.get() + " is in " + db.getRegionRecForCountry( this.quizAnswer ).n );	
 		}
@@ -294,7 +308,9 @@ LessonFactory = function() {
 
 		var _item = this.quizItem[ this.questionIndex ];
 
-		//this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, _item, false);
+		var _region = db.getRegionCodeForCountry( _item );		
+
+		this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, _region, false);
 
 		if (this.quiz == "quizFindRegionOfCountry") {
 
@@ -401,6 +417,22 @@ LessonFactory = function() {
 		this.mission = new Mission( _code );
 
 		this.items = this.mission.items;
+
+		if (this.continent == "africa")  this.lessonLimit = 5;
+
+		if (this.continent == "asia")  this.lessonLimit = 4;
+
+		if (this.continent == "europe")  this.lessonLimit = 4;
+
+		if (this.continent == "north_america")  this.lessonLimit = 2;
+
+		if (this.continent == "south_america")  this.lessonLimit = 2;		
+
+		if (this.continent == "oceania")  this.lessonLimit = 1;	
+
+		this.lessonNumber = this.mission.shortName.substr( this.mission.shortName.length - 1, 1);
+
+		this.lessonNumber = parseInt(this.lessonNumber);	
 	}
 
 	this.pushID = function( _ID ) {
@@ -730,6 +762,19 @@ LessonFactory = function() {
 		$(".divLearnCountry").css("opacity", 0.0);
 	}
 
+	this.showCountryAndCapsule = function( _ID ) {
+
+		this.country = _ID;
+
+		var rec = db.getCountryRec( _ID );
+
+		this.region = rec.r;
+
+		this.lessonMap.doThisMap( mlContinent, mlRegion, mlCountry, this.lessonMap.selectedContinent, this.region, false);	
+
+		this.showCapsule( _ID );
+	}
+
 	this.showCapsule = function( _ID ) {
 
 		Control.playEffect2( "button_1.mp3" );
@@ -747,8 +792,6 @@ LessonFactory = function() {
 		var rec = db.getCountryRec( _ID );
 
 		this.region = rec.r;
-
-		this.lessonMap.doThisMap( mlContinent, mlRegion, mlCountry, this.lessonMap.selectedContinent, this.region, false);	
 
 		var x = 0;
 
@@ -781,10 +824,6 @@ LessonFactory = function() {
 		var map = this.lessonMap.map;
 
 		if (rec.cpLon !== undefined) {
-
-			//x = map.longitudeToStageX( rec.cpLon );
-
-			//y = map.latitudeToStageY( rec.cpLat );
 
             var loc = map.coordinatesToStageXY( rec.cpLon, rec.cpLat);
 

@@ -81,6 +81,10 @@ whichBrowser = function(){
 //     Formatting functions
 //************************************************************
 
+capitalizeFirstLetter = function(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 centerDivOnDiv = function( _eleNarrow, _eleWide ) {
 
     var fullWidth = $(_eleWide).innerWidth();

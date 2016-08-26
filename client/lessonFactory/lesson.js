@@ -127,6 +127,8 @@ doLessonQuiz = function( _readyFlag ) {
 	//Meteor.setTimeout( function() { game.lesson.visited.set( game.lesson.items) }, 500);
 
 	Meteor.setTimeout( function() { game.lesson.revealList() }, 500);
+
+	Meteor.setTimeout( function() { doLesson9() }, 501);
 }
 
 

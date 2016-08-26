@@ -698,18 +698,15 @@ function updateCapsulePos() {
 
     var y = $(s).offset().top;
 
-
-      var _long = map.stageXToLongitude( x );
-
-      var _lat = map.stageYToLatitude( y );
+    var loc = map.stageXYToCoordinates(x, y);
 
     var rec = db.getCountryRec(game.lesson.country);
 
-    db.updateRecord2( cCountry, "cpLon", rec._id, _long);
+    db.updateRecord2( cCountry, "cpLon", rec._id, loc.longitude);
 
-    db.updateRecord2( cCountry, "cpLat", rec._id, _lat);
+    db.updateRecord2( cCountry, "cpLat", rec._id, loc.latitude);
 
-    showMessage(db.getCountryName( game.lesson.country ) + " capsule pos updated to " + _lat + ", " + _long);
+    showMessage(db.getCountryName( game.lesson.country ) + " capsule pos updated to lon:" + loc.longitude + ", lat: " + loc.latitude);
 
     return;
 

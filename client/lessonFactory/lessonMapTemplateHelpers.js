@@ -76,6 +76,22 @@ Template.lessonMap.helpers({
     return game.lesson.mission.shortName;
   },
 
+  nextLessonShortName: function() {
+
+     var s = capitalizeFirstLetter( game.lesson.continent);
+
+     var lessonNumber = game.lesson.lessonNumber + 1;
+
+     return (s + " " + lessonNumber);
+  },
+
+  hasNextLesson: function() {
+
+    if (game.lesson.lessonNumber < game.lesson.lessonLimit) return true;
+
+    return false;
+  },
+
   countryListItem: function() {
 
       var _val = game.lesson.updateFlag.get();
@@ -169,6 +185,17 @@ Template.lessonMap.events = {
       Control.playEffect("new_feedback.mp3");
 
       game.lesson.doQuiz();
+  },
+
+  'click #btnNextLesson': function (evt, template) {
+
+      Control.playEffect("new_feedback.mp3");
+
+     var lessonNumber = game.lesson.lessonNumber + 1;
+
+     var s = game.lesson.continent + "_" + lessonNumber;
+c(s);
+     switchLesson( game.lesson.continent, s);
   },
 
   'click #btnReview': function (evt, template) {

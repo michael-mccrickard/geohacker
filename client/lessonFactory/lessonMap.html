@@ -22,7 +22,7 @@
 
 				{{#each countryListItem}}
 
-					<a href="javascript:void(0);" onclick="game.lesson.showCapsule('{{this}}')">
+					<a href="javascript:void(0);" onclick="game.lesson.showCountryAndCapsule('{{this}}')">
 
 						<div class="divCountryListItem listItem" style="color:white;" id="{{countryListItemID}}">
 
@@ -49,9 +49,13 @@
 					<button type="button" class="btn btn-primary btn-lg btnQuizEnd" id="btnRetakeQuiz">TAKE QUIZ AGAIN</button>
 				</div>	
 
-				<!--div class="centered">
-					<button type="button" class="btn btn-primary btn-lg btnQuizEnd" id="btnChooseLesson">CHANGE SUBJECT</button>
-				</div-->					
+				{{#if hasNextLesson}}
+
+					<div class="centered">
+						<button type="button" class="btn btn-primary btn-lg btnQuizEnd" id="btnNextLesson">LEARN {{nextLessonShortName}}</button>
+					</div>				
+
+				{{/if}}	
 
 			{{/if}}
 
