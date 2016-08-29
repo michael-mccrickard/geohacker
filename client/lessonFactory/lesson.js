@@ -25,7 +25,9 @@ doNextLesson = function( _val) {
 
 doLesson = function(_continentID, _missionCode) {
 
-	game.lesson = new LessonFactory();
+	game.lesson = game.lesson || new LessonFactory();
+
+	game.lesson.init();
 
 	game.user.mode = uLearn;
 
@@ -40,6 +42,10 @@ doLesson = function(_continentID, _missionCode) {
 	g.index = -1;
 
 	g.continent = _continentID;
+
+g.lessonGroup = _continentID;
+
+	g.code = _missionCode;
 
 	g.name = db.getContinentRec( _continentID).n;
 

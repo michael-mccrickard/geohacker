@@ -194,7 +194,7 @@ Template.lessonMap.events = {
      var lessonNumber = game.lesson.lessonNumber + 1;
 
      var s = game.lesson.continent + "_" + lessonNumber;
-c(s);
+
      switchLesson( game.lesson.continent, s);
   },
 

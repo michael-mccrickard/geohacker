@@ -17,13 +17,20 @@ Accounts.onResetPasswordLink( function(token) {
 
 Accounts.onLogin( function() { 
 
-  if (Meteor.userId == "SWjqzgXy9rGCYvpRF")  { //if (Meteor.userId == "yzKJ73366P5AoTjzf")  {
+//not tested, modal not implemented either
+/*
+  if (Meteor.userId == "SWjqzgXy9rGCYvpRF")  {
 
       //activate special modal here
 
   }
+*/
+
+  console.log("creating game.user in Accounts.login")
 
   game.user = game.createGeohackerUser(); 
+
+  LessonFactory.updateLessons();
 
 });
 
@@ -285,6 +292,8 @@ Template.start.rendered = function () {
       console.log("creating game user in start.rendered event")
 
       game.user = game.createGeohackerUser();
+
+      LessonFactory.updateLessons();
   }
   else {
 

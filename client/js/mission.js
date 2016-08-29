@@ -353,6 +353,8 @@ Mission = function(_code) {
 
     this.name = "Top Seven Oceania";
 
+    this.shortName = "Oceania";
+
     this.level = mlWorld;
 
     this.items = ["AU","PG","NZ","FJ","SB","VU","NC"]; 
@@ -424,6 +426,22 @@ Mission = function(_code) {
     if ( regions.indexOf( countries[i].r ) != -1) this.items.push( countries[i].c );
   }  
 
+}
+
+Mission.addThisLesson = function( _code, _pro ) {
+
+   var _len = LessonFactory[ _code ].length;
+
+   var _arr = [];
+
+  for (var i = 0; i < _len; i++) {
+
+    _arr.push(0.0);
+  }  
+
+  var _propName = "l_" + _code;
+
+  _pro[ _propName ] = _arr;
 }
 
 Mission.updateAll = function( _user ) {

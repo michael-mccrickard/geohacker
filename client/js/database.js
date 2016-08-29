@@ -51,40 +51,7 @@ Database = function() {
     Meteor.call("clearUsers");
   }
 
-  /*User profile fields:
 
-  The default / initial values are in login.js.  
-
-  //hacking stuff 
-  //see user.js, assignTicketAndTag.js, game.js ( .createGHUser() ) for details
-
-  a = assigns (object array -- assigns)
-  c = assign code (current mission)
-  h = atlas (object array -- tickets)
-
-  //badge stuff  (all integers, most are arrays [gold, silver, bronze])
-  // see badge.js for details
-  ge = genius 
-  ex = expert
-  sp = speed
-  in = investigator
-  sc = scholar
-  ft = first time
-
-  //bio stuff
-  //see bio.html and bio.js for details
-  st = user status  (active, virtual, etc.)
-  t = text
-  p = picture
-  pt = picture text
-  av = avatar or photo  //widely used in the code; bio, template_helpers, newNav, userDirectory
-  f = flag pic
-  cn = country name
-  cc = country code  //essentially read-only, created when user is first created
-                     //but reader has no way to edit this value (or cn's value, either)
-                     //so these two not included in updates currently
-  ag = agents in network (array of user ids)
-  */
 
 
   this.updateUserHacks = function() {
@@ -182,6 +149,20 @@ this.updateUserBadgeCount = function() {
    }); 
 
 }
+
+
+this.updateUserLessons = function() {
+
+   var res =  Meteor.users.update( {_id: Meteor.userId() }, { $set: 
+
+      {
+       'profile.lesson': game.user.profile.lesson
+      }
+
+   }); 
+
+}
+
 
 this.saveScroll = function(_val) {
 

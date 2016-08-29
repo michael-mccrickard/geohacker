@@ -2,110 +2,115 @@
 
 LessonFactory = function() {
 
+	this.init = function() {
 
-	display.ctl[ "MAP" ] = new ghMapCtl();
+		display.ctl[ "MAP" ] = new ghMapCtl();
 
-	this.mapCtl = display.ctl["MAP"];
+		this.mapCtl = display.ctl["MAP"];
 
-	this.lessonMap = this.mapCtl.lessonMap;
+		this.lessonMap = this.mapCtl.lessonMap;
 
-	this.mapCtl.init();
+		this.mapCtl.init();
 
-	this.tl = new TimelineMax();
+		this.tl = new TimelineMax();
 
-	//the temporary lesson/map levels and code
+		//the temporary lesson/map levels and codes
 
-	this.mapLevel = "";
+		this.lessonGroup = "";
 
-	this.drawLevel = "";
+		this.mapLevel = "";
 
-	this.detailLevel = "";
+		this.drawLevel = "";
 
-	this.hack = new Hack();
+		this.detailLevel = "";
 
-	this.code = "";
+		this.hack = new Hack();
 
-	this.mission = null;
+		this.code = "";
 
-	this.items = [];  //Contrary to the normal policy of keepings all array names singular
-					  //this is just a source array that is never manipulated, so this is like
-					  //a reminder of it's non-scalar nature
+		this.mission = null;
 
-	this.name = "";
+		this.items = [];  //Contrary to the normal policy of keepings all array names singular
+						  //this is just a source array that is never manipulated, so this is like
+						  //a reminder of it's non-scalar nature
 
-	this.index = 0;  //index into the list of countries (items)
+		this.name = "";
 
-	this.lessonNumber = 0;
+		this.index = 0;  //index into the list of countries (items)
 
-	this.lessonLimit = 0;  //actually applies to the each group of continent lessons, not any particular lesson itself, 
-							//but we lack an appropriate
-							//entity to attach this to, so this is where it is for now
+		this.lessonNumber = 0;
+
+		this.lessonLimit = 0;  //actually applies to each group of continent lessons, not any particular lesson itself, 
+								//but we lack an appropriate
+								//entity to attach this to, so this is where it is for now
 
 
-	this.content = new Blaze.ReactiveVar("");
+		this.content = new Blaze.ReactiveVar("");
 
-	this.updateFlag = new Blaze.ReactiveVar( false );
+		this.updateFlag = new Blaze.ReactiveVar( false );
 
-	this.country = "";
+		this.country = "";
 
-	this.continent = "";
+		this.continent = "";
 
-	this.region = "";
+		this.region = "";
 
-	this.pop = 0;  //population
+		this.pop = 0;  //population
 
-	this.count = 0;  //country count
+		this.count = 0;  //country count
 
-	this.rcount = 0;  //region count
+		this.rcount = 0;  //region count
 
-	this.visited = new ReactiveArray();  //for keeping track of which countries the user has clicked on
+		this.visited = new ReactiveArray();  //for keeping track of which countries the user has clicked on
 
-	this.note = "";  //any note needed to explain something basic abt the lesson ("We include Russia as part of Asia". e.g.)
+		this.note = "";  //any note needed to explain something basic abt the lesson ("We include Russia as part of Asia". e.g.)
 
-	//FORMAT PROPERTIES
+		//FORMAT PROPERTIES
 
-	this.messageColor = new Blaze.ReactiveVar( "yellow" );
+		this.messageColor = new Blaze.ReactiveVar( "yellow" );
 
-	this.headerColor = new Blaze.ReactiveVar( "yellow" );
+		this.headerColor = new Blaze.ReactiveVar( "yellow" );
 
-	//QUIZ PROPERTIES
 
-	this.quizType = ["quizFindRegionOfCountry", "quizFindCountryInRegion"];
+		//QUIZ PROPERTIES
 
-	this.quiz = "";
+		this.quizType = ["quizFindRegionOfCountry", "quizFindCountryInRegion"];
 
-	this.quizTypeIndex = -1;
+		this.quiz = "";
 
-	this.quizItem = []; //the array of countries that provides the basis for the questions
-						//Sometimes the answer IS the element from quizItem, sometimes it is DERIVED from it
+		this.quizTypeIndex = -1;
 
-	this.quizAnswer = ""; //Again, either the element from quizItem, or an answer derived from it
+		this.quizItem = []; //the array of countries that provides the basis for the questions
+							//Sometimes the answer IS the element from quizItem, sometimes it is DERIVED from it
 
-	this.questionIndex = -1;
+		this.quizAnswer = ""; //Again, either the element from quizItem, or an answer derived from it
 
-	this.quizInProgress = new Blaze.ReactiveVar( false );
+		this.questionIndex = -1;
 
-	this.quizDisplayItem = new Blaze.ReactiveVar( "" );
+		this.quizInProgress = new Blaze.ReactiveVar( false );
 
-	this.quizState = new Blaze.ReactiveVar( "waiting" );  //waiting, readyForNext, quizEnd, examEnd, decideNextStep
+		this.quizDisplayItem = new Blaze.ReactiveVar( "" );
 
-	this.quizCorrectCount = 0;
+		this.quizState = new Blaze.ReactiveVar( "waiting" );  //waiting, readyForNext, quizEnd, examEnd, decideNextStep
 
-	this.quizQuestionCount = 0;
+		this.quizCorrectCount = 0;
 
-	//SOUNDS
+		this.quizQuestionCount = 0;
 
-	this.rightSoundLimit = 4;
+		//SOUNDS
 
-	this.wrongSoundLimit = 5;
+		this.rightSoundLimit = 4;
 
-	this.resultsLimit = 1;
+		this.wrongSoundLimit = 5;
 
-	this.newQuestionLimit = 3;
+		this.resultsLimit = 1;
 
-	this.selectSoundLimit = 3;
+		this.newQuestionLimit = 3;
 
-	this.buttonSoundLimit = 2;
+		this.selectSoundLimit = 3;
+
+		this.buttonSoundLimit = 2;
+	}
 
 	//***************************************************************
 	//					SOUND FUNCTIONS
@@ -359,7 +364,9 @@ LessonFactory = function() {
 
 		this.showTeachLayout();
 
-		this.showBody("YOUR RESULTS:", this.quizCorrectCount + " out of " + this.quizQuestionCount, "CORRECT", 0.3)
+		this.showBody("YOUR RESULTS:", this.quizCorrectCount + " out of " + this.quizQuestionCount, "CORRECT", 0.3);
+
+		LessonFactory.updateScore( this.lessonGroup, this.code, parseFloat( this.quizCorrectCount/this.quizQuestionCount * 100.0) );
 	}
 
 	this.finishExam = function() {
@@ -915,3 +922,60 @@ this.lessonMap.map.zoomDuration = 2;
 
 }  //END LESSONFACTORY()
 
+LessonFactory.updateScore = function( _lessonGroupCode, _lessonID, _score)  {
+
+	var lessonIndex = getElementIndexForObjectID( _lessonGroupCode, game.user.profile.lesson );
+
+	var ls = game.user.profile.lesson[ lessonIndex ];
+
+	if (ls) {
+
+		var _index = ls.item.indexOf( _lessonID );
+
+		if ( _index != -1) {
+
+			ls.score[ _index ] = _score.toPrecision(2);
+
+			game.user.profile.lesson[ lessonIndex ] = ls;			
+		}
+	}
+}
+
+LessonFactory.updateLessons = function() {
+
+     //basic update for now; check for existence of lessonScore objects
+     //and add if they are not found
+
+     var _user = game.user;
+
+     if ( !_user.profile.lesson )  {
+
+     	_user.profile.lesson = [];
+     }
+
+
+     var _dirty = false;
+
+     var lp = new LessonPack();
+
+     for (var i = 0; i < lp.item.length; i++ ) {
+
+     	//is there an object with this id in the array?
+
+     	if ( findObjectWithID( lp.item[i], _user.profile.lesson ) == null ) {
+
+     		//then add it
+
+     		var ls = new LessonScore( lp.item[i] );
+
+     		_user.profile.lesson.push( ls );
+
+     		_dirty = true;
+     	}
+     }
+
+     if (_dirty) {
+
+     	db.updateUserLessons();
+     }
+}

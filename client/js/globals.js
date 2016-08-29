@@ -15,6 +15,27 @@ isInReactiveArray = function(_ele, _arr) {
     return false;
 }
 
+findObjectWithID = function( _id, _arr) {
+
+     for (var i = 0; i < _arr.length; i++) {
+
+        if (_arr[i].id == _id) return _arr[i];
+    }
+
+    return null;   
+}
+
+getElementIndexForObjectID = function( _id, _arr) {
+
+     for (var i = 0; i < _arr.length; i++) {
+
+        if (_arr[i].id == _id) return i;
+    }
+
+    return -1;  
+
+}
+
 //************************************************************
 //     filename utilities
 //************************************************************
