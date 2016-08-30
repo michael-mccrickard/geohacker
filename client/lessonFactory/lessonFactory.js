@@ -4,6 +4,8 @@ LessonFactory = function() {
 
 	this.init = function() {
 
+		this.state = new Blaze.ReactiveVar("none");
+
 		display.ctl[ "MAP" ] = new ghMapCtl();
 
 		this.mapCtl = display.ctl["MAP"];
@@ -32,7 +34,7 @@ LessonFactory = function() {
 
 		this.items = [];  //Contrary to the normal policy of keepings all array names singular
 						  //this is just a source array that is never manipulated, so this is like
-						  //a reminder of it's non-scalar nature
+						  //a reminder of its non-scalar nature
 
 		this.name = "";
 

@@ -44,6 +44,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.headline = new Headline( "welcomeAgent" );
 
+    this.lessonSequenceCode = new Blaze.ReactiveVar("");
+
     this.browseCountry = function( _code ) {
 
       if ( db.getDataFlagForCountry( _code) == false) {
@@ -64,6 +66,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     this.setMode = function(_mode) {
 
     	if (_mode == uIntro) return;
+
+    	if (_mode == uLearn) _mode = uHack;  //if we're in learning mode, for now just switch to hack mode
 
     	deselectAllModes();
 

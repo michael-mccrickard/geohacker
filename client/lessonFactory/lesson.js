@@ -5,6 +5,56 @@ switchLesson = function(_continentID, _missionCode) {
 	Meteor.setTimeout( function() { doLesson(_continentID, _missionCode); }, 250 );
 }
 
+
+goLessonMenu = function() {
+
+	FlowRouter.go("/waiting");
+
+	game.lesson = game.lesson || new LessonFactory();
+
+	game.lesson.init();
+
+	game.lesson.state.set( "menu" );
+
+	Meteor.setTimeout( function() { game.lesson.showMap(); }, 250 );
+}
+
+showLessonMenu = function() {
+
+	var g = game.lesson;
+
+	g.setTextColor( "yellow" );
+
+	g.quiz.inProgress.set( false );
+
+	g.setMessage("LEARN THE WORLD");
+
+	g.setHeader("");
+
+	var _text1 = "";
+
+	var _text2 = ""
+
+	var _text3 = "CHOOSE A CONTINENT";
+
+	g.showBody(_text1, _text2, _text3, 0.1 );
+
+	g.lessonMap.doThisMap(mlWorld, mlWorld, mlContinent, null, null);
+}
+
+showContinentMenu = function(_code) {
+
+	var _continentID = db.getContinentCodeForCountry( _code );
+
+	var g = game.lesson;
+
+	game.user.lessonSequenceCode.set( _continentID );
+
+	g.state.set("continentMenu");
+
+	
+}
+
 doNextLesson = function( _val) {
 
 	if (_val == 1) doLesson2();
@@ -34,6 +84,8 @@ doLesson = function(_continentID, _missionCode) {
 	hack = game.lesson.hack;
 
 	var g = game.lesson;
+
+	g.state.set( "learn" );
 
 	g.setTextColor( "yellow" );
 

@@ -63,12 +63,19 @@ Template.lessonMap.helpers({
 
   allVisited: function() {
 
+    if (game.lesson.state.get() == "menu" || game.lesson.state.get() == "continentMenu" ) return false;
+
     if (game.lesson.quiz.state.get() == "decideNextStep") return false;
 
     if ( game.lesson.visited.length() == game.lesson.items.length ) return true;
 
     return false;
 
+  },
+
+  lesson: function() {
+
+     return LessonSequence.makeMenuArray( game.user.lessonSequenceCode.get() );
   },
 
   lessonShortName: function() {
@@ -159,6 +166,22 @@ Template.lessonMap.helpers({
      return false;
   },
 
+  showContinentMenu: function() {
+
+     if (game.lesson.state.get() == "continentMenu") return true;
+
+     return false;
+  },
+
+  showMenu: function() {
+
+     if (game.lesson.state.get() == "menu") return true;
+
+     return false;
+  },
+
+
+
   visited: function() {
 
     if ( isInReactiveArray( this, game.lesson.visited ) ) return true;
@@ -208,6 +231,15 @@ Template.lessonMap.events = {
       game.lesson.quiz.retake();
   },
 
+  'click .btnGoLesson': function (evt, template) {
+
+      var _code = evt.target.id;
+
+      var _continent = $(evt.target).attr("data-continent");
+
+      switchLesson(_continent, _code);
+  },
+
   'click #btnNextOrEnd': function (evt, template) {
 
       Control.playEffect("new_feedback.mp3");
@@ -231,13 +263,15 @@ Template.lessonMap.rendered = function () {
   
     stopSpinner();
 
-    if (!display) return;
+    if (!game.lesson) return;
 
     if (display.worldMapTemplateReady == false) {
 
       display.worldMapTemplateReady = true;
 
-      Meteor.setTimeout( function() { display.ctl["MAP"].lessonMap.doCurrentMap() }, 250 );
+      if (game.lesson.state.get() == "learn") Meteor.setTimeout( function() { display.ctl["MAP"].lessonMap.doCurrentMap() }, 250 );
+
+      if (game.lesson.state.get() ==  "menu") Meteor.setTimeout( function() { showLessonMenu(); }, 250 );
 
       Meteor.setTimeout( function() { display.ctl["MAP"].lessonFinishDraw() }, 251 );
 

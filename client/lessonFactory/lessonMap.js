@@ -460,6 +460,12 @@ function handleClick(_event) {
 
     var level = game.lesson.mapLevel;
 
+    if (g.state.get() == "menu"  || g.state.get() == "continentMenu"  ) {
+
+        showContinentMenu( _event.mapObject.id );
+
+        return;
+    }
     
     if ( g.quiz.inProgress.get() == false ) return;
 

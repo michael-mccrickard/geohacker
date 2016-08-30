@@ -16,7 +16,7 @@ LessonSequence = function( _id ) {
 
 	if ( _id == "south_america" ) this.item = ["south_america_1", "south_america_2"];	
 
-	if ( _id == "oceania" ) this.item = ["oceania_1", "oceania_2"];	
+	if ( _id == "oceania" ) this.item = ["oceania_1"];	
 
 	this.score = [];
 
@@ -26,6 +26,32 @@ LessonSequence = function( _id ) {
      }	
 }
 
+
+LessonSequence.makeMenuArray = function( _code ) {
+
+  var _arr = [];
+
+  var ls = new LessonSequence( _code );
+
+  for (var i = 0; i < ls.item.length; i++) {
+
+  	  	var _obj = {};
+
+  		var _mission = new Mission( ls.item[i] );
+
+  		_obj.n = _mission.shortName;
+
+  		_obj.z = _mission.mapCode;
+
+  		_obj.c = _mission.code;
+
+  		_arr.push(_obj);
+  }
+
+  return _arr;
+
+}
+
 //this singleton has the lesson group ids, like "africa" or "asia"
 
 LessonPack = function() {
@@ -33,6 +59,8 @@ LessonPack = function() {
 	this.item = ["africa","asia","europe","north_america","south_america","oceania"];
 
 }
+
+
 
 //this object used to store the scores per user in the db
 

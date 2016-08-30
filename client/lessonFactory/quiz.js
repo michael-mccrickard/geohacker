@@ -108,6 +108,8 @@ Quiz = function( _lesson ) {
 
 	this.start = function() {
 
+		this.lesson.state.set("quiz");
+
 		this.lesson.hideCapsule();
 
 		this.typeIndex++;

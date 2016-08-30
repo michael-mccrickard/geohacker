@@ -4,13 +4,19 @@
 
 fix1 = function() {
 
-  var ID =  Database.getChiefID();
-c(ID)
+
   var arr = Meteor.users.find({}).fetch();
-c(arr.length)
+
       for (var i = 0; i < arr.length; i++) {
 
-       Meteor.users.update( {_id: arr[i]._id}, { $set: { 'profile.ag': ID } } ) ;
+        var _arr = arr[0].profile.ag;
+
+        var _arr2  = _arr.filter(function(item, pos) {
+            
+            return _arr.indexOf(item) == pos;
+        })
+
+        Meteor.users.update( {_id: arr[i]._id}, { $set: { 'profile.ag': _arr2 } } ) ;
 
     }
 }

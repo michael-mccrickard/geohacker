@@ -252,22 +252,6 @@ Mission = function(_code) {
     return;
   }
 
-/*  if (this.code == "europe_5") {
-
-    this.name = "Europe by population (41 - 50)"
-
-    this.shortName = "Europe 5";
-
-    this.mapCode = "europe";
-
-    this.level = mlContinent;
-
-    this.items = ["","","","","","","","","",""]; 
-
-    return;
-  }
-*/
-
   //ten largest population (AMERICAS)
 
   if (this.code == "ttp_americas") {
@@ -290,6 +274,8 @@ Mission = function(_code) {
     this.name = "Top Ten North America";
 
     this.shortName = "North America 1";
+
+    this.mapCode = "north_america";
 
     this.level = mlWorld;
 
@@ -321,7 +307,9 @@ Mission = function(_code) {
 
     this.name = "Top Ten South America";
 
-    this.shortName = "South America 1"
+    this.shortName = "South America 1";
+
+    this.mapCode = "south_america";
 
     this.level = mlWorld;
 
@@ -347,13 +335,15 @@ Mission = function(_code) {
 
   //Top 7 largest population (OCEANIA)
 
-  if (this.code == "ttp_oceania") {
+  if (this.code == "ttp_oceania" || this.code == "oceania_1") {
 
     this.type = "introAndQuiz";
 
     this.name = "Top Seven Oceania";
 
-    this.shortName = "Oceania";
+    this.mapCode = "oceania";
+
+    this.shortName = "Oceania 1";
 
     this.level = mlWorld;
 
@@ -535,6 +525,7 @@ Mission.updateAll = function( _user ) {
      } //end looping thru custom list
 
 } //end Mission.updateAll()
+
 
 
 
