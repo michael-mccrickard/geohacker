@@ -63,7 +63,7 @@ Template.lessonMap.helpers({
 
   allVisited: function() {
 
-    if (game.lesson.quizState.get() == "decideNextStep") return false;
+    if (game.lesson.quiz.state.get() == "decideNextStep") return false;
 
     if ( game.lesson.visited.length() == game.lesson.items.length ) return true;
 
@@ -113,7 +113,7 @@ Template.lessonMap.helpers({
 
   decideNextStep: function() {
 
-    if (game.lesson.quizState.get() == "decideNextStep") return true;
+    if (game.lesson.quiz.state.get() == "decideNextStep") return true;
 
     return false;
   },
@@ -132,7 +132,7 @@ Template.lessonMap.helpers({
 
   nextOrEndText: function() {
 
-      var _state = game.lesson.quizState.get();
+      var _state = game.lesson.quiz.state.get();
 
       if ( _state == "readyForNext") return "NEXT";
 
@@ -142,17 +142,17 @@ Template.lessonMap.helpers({
 
   quizInProgress: function() {
 
-    return game.lesson.quizInProgress.get();
+    return game.lesson.quiz.inProgress.get();
   },
 
   quizDisplayItem: function() {
 
-    return game.lesson.quizDisplayItem.get();
+    return game.lesson.quiz.displayItem.get();
   },
 
   quizReadyForNextOrEnd: function()  {
 
-    var _state = game.lesson.quizState.get();
+    var _state = game.lesson.quiz.state.get();
 
      if ( _state == "readyForNext" || _state == "quizEnd" || _state == "examEnd" ) return true;
 
@@ -184,7 +184,7 @@ Template.lessonMap.events = {
 
       Control.playEffect("new_feedback.mp3");
 
-      game.lesson.doQuiz();
+      game.lesson.quiz.start();
   },
 
   'click #btnNextLesson': function (evt, template) {
@@ -205,20 +205,20 @@ Template.lessonMap.events = {
 
   'click #btnRetakeQuiz': function (evt, template) {
 
-      game.lesson.retakeQuiz();
+      game.lesson.quiz.retake();
   },
 
   'click #btnNextOrEnd': function (evt, template) {
 
       Control.playEffect("new_feedback.mp3");
 
-      var _state = game.lesson.quizState.get();
+      var _state = game.lesson.quiz.state.get();
 
-      if ( _state == "readyForNext") game.lesson.doQuizQuestion();
+      if ( _state == "readyForNext") game.lesson.quiz.doQuestion();
 
-      if ( _state == "quizEnd") game.lesson.doQuiz();     
+      if ( _state == "quizEnd") game.lesson.quiz.start();     
 
-      if ( _state == "examEnd") game.lesson.finishExam();
+      if ( _state == "examEnd") game.lesson.quiz.finishExam();
   },
 }
 

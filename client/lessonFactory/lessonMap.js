@@ -242,7 +242,7 @@ LessonMap = function( _mapCtl ) {
 
         if (_dontIdentify === undefined) {
 
-            if (game.lesson.quizInProgress.get() ) {
+            if (game.lesson.quiz.inProgress.get() ) {
 
                 _dontIdentify = true;
             }
@@ -461,32 +461,32 @@ function handleClick(_event) {
     var level = game.lesson.mapLevel;
 
     
-    if ( g.quizInProgress.get() == false ) return;
+    if ( g.quiz.inProgress.get() == false ) return;
 
 
-    if (g.quiz == "quizFindRegionOfCountry") {
+    if (g.quiz.type == "quizFindRegionOfCountry") {
 
         _code = db.getRegionCodeForCountry(worldMap.mapObjectClicked);   //in database.js
 
-        if (_code == g.quizAnswer) {
+        if (_code == g.quiz.answer) {
 
-            g.doCorrectAnswer();
+            g.quiz.doCorrectAnswer();
         }
         else {
 
-            g.doIncorrectAnswer( worldMap.mapObjectClicked );
+            g.quiz.doIncorrectAnswer( worldMap.mapObjectClicked );
         }
     }
 
-    if (g.quiz == "quizFindCountryInRegion") {
+    if (g.quiz.type == "quizFindCountryInRegion") {
 
-        if (worldMap.mapObjectClicked == g.quizAnswer) {
+        if (worldMap.mapObjectClicked == g.quiz.answer) {
 
-            g.doCorrectAnswer();
+            g.quiz.doCorrectAnswer();
         }
         else {
 
-            g.doIncorrectAnswer( worldMap.mapObjectClicked );
+            g.quiz.doIncorrectAnswer( worldMap.mapObjectClicked );
         }
     }
 

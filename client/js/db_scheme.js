@@ -36,13 +36,7 @@
   t = title (no programmatic way to add or edit this, so not used in updates either) 
 
   //lessons
-
-  l_africa = array of scores for each lesson on this continent
-  l_asia = array of scores for each lesson on this continent
-  l_europe = array of scores for each lesson on this continent
-  l_north_america = array of scores for each lesson on this continent
-  l_south_america = array of scores for each lesson on this continent
-  l_oceania = array of scores for each lesson on this continent
+  lesson = array of lessonScore objects
 
 
   //miscellaneous

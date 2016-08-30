@@ -65,150 +65,25 @@ LessonFactory = function() {
 
 		this.note = "";  //any note needed to explain something basic abt the lesson ("We include Russia as part of Asia". e.g.)
 
+		//QUIZ OBJECT
+
+		this.quiz = new Quiz(this);
+
+
+
 		//FORMAT PROPERTIES
 
 		this.messageColor = new Blaze.ReactiveVar( "yellow" );
 
 		this.headerColor = new Blaze.ReactiveVar( "yellow" );
 
-
-		//QUIZ PROPERTIES
-
-		this.quizType = ["quizFindRegionOfCountry", "quizFindCountryInRegion"];
-
-		this.quiz = "";
-
-		this.quizTypeIndex = -1;
-
-		this.quizItem = []; //the array of countries that provides the basis for the questions
-							//Sometimes the answer IS the element from quizItem, sometimes it is DERIVED from it
-
-		this.quizAnswer = ""; //Again, either the element from quizItem, or an answer derived from it
-
-		this.questionIndex = -1;
-
-		this.quizInProgress = new Blaze.ReactiveVar( false );
-
-		this.quizDisplayItem = new Blaze.ReactiveVar( "" );
-
-		this.quizState = new Blaze.ReactiveVar( "waiting" );  //waiting, readyForNext, quizEnd, examEnd, decideNextStep
-
-		this.quizCorrectCount = 0;
-
-		this.quizQuestionCount = 0;
-
-		//SOUNDS
-
-		this.rightSoundLimit = 4;
-
-		this.wrongSoundLimit = 5;
-
-		this.resultsLimit = 1;
-
-		this.newQuestionLimit = 3;
-
-		this.selectSoundLimit = 3;
-
-		this.buttonSoundLimit = 2;
 	}
+
+
 
 	//***************************************************************
-	//					SOUND FUNCTIONS
+	//					MISCELLANEOUS FUNCTIONS
 	//***************************************************************
-
-	this.getSoundFile = function( _type) {
-
-		var _s = '';
-
-		if (_type == "right") _s = _type + "_" + (Database.getRandomValue( this.rightSoundLimit ) + 1) + ".mp3";
-
-		if (_type == "wrong") _s = _type + "_" + (Database.getRandomValue( this.wrongSoundLimit ) + 1) + ".mp3";
-
-		if (_type == "results") _s = _type + "_" + (Database.getRandomValue( this.resultsLimit )  + 1) + ".mp3";
-
-		if (_type == "question") _s = _type + "_" + (Database.getRandomValue( this.newQuestionLimit ) + 1) + ".mp3";
-
-		if (_type == "select") _s = _type + "_" + (Database.getRandomValue( this.selectSoundLimit ) + 1) + ".mp3";
-
-		if (_type == "button") _s = _type + "_" + (Database.getRandomValue( this.buttonSoundLimit ) + 1) + ".mp3";
-
-		return _s;
-	}
-
-	this.playSound = function( _type ) {
-
-		var _s = this.getSoundFile( _type);
-
-		Control.playEffect( _s );
-	}
-
-	this.playSound2 = function( _type ) {
-
-		var _s = this.getSoundFile( _type);
-
-		Control.playEffect2( _s );
-	}
-
-	this.playSound3 = function( _type ) {
-
-		var _s = this.getSoundFile( _type);
-
-		Control.playEffect3( _s );
-	}
-
-	//***************************************************************
-	//					QUIZ FUNCTIONS
-	//***************************************************************
-
-	this.retakeQuiz = function() {
-
-		this.quizTypeIndex = -1;
-
-		this.quizQuestionCount = 0;
-
-		this.quizCorrectCount = 0;
-
-		this.doQuiz();
-	}
-
-	this.doQuiz = function() {
-
-		this.hideCapsule();
-
-		this.quizTypeIndex++;
-
-		if ( this.quizTypeIndex == this.quizType.length ) {
-
-			this.quizState.set( "examEnd" );
-
-			this.postResults();
-
-			return;
-		}
-
-		this.quizInProgress.set( true );
-
-		//set the array using the mission.items
-
-		this.quizItem = this.items;
-
-		Database.shuffle( this.quizItem );
-
-		this.quizQuestionCount += this.quizItem.length;
-
-		this.hideTeachLayout();
-
-		this.showQuizItem();
-
-		this.quiz = this.quizType[ this.quizTypeIndex ];
-
-//this.quiz = "quizFindCountryInRegion";
-
-		this.questionIndex = -1;
-
-		this.doQuizQuestion();
-
-	}
 
 	this.setTextColor = function( _which ) {
 
@@ -218,182 +93,6 @@ LessonFactory = function() {
 
 
 	}
-
-	this.doQuizQuestion = function() {
-
-		this.setTextColor( "yellow" );
-
-		this.playSound("question");
-
-		this.hideCapsule();
-
-		this.quizState.set( "waiting" );
-
-		this.questionIndex++;
-
-		var _item = this.quizItem[ this.questionIndex ];
-
-		var rec = null;
-
-
-		//regions
-
-		if (this.quiz == "quizFindRegionOfCountry") {
-
-			this.setMessage("click the region");
-
-	        this.quizAnswer = db.getRegionCodeForCountry( _item ); 
-
-			this.setHeader("Which region is this country in?");
-
-			this.lessonMap.doThisMap(mlContinent, mlContinent, mlRegion, this.continent, this.quizAnswer, false);
-
-			this.quizDisplayItem.set( db.getCountryName(  _item ) );			
-		}
-
-		if (this.quiz == "quizFindCountryInRegion") {
-
-			this.setMessage("click the country");
-
-	        this.quizAnswer = _item; 
-
-	        rec = db.getRegionRecForCountry( _item);
-
-			this.setHeader("Can you find this country in " + rec.n + "?");
-
-			this.lessonMap.doThisMap(mlRegion, mlRegion, mlCountry, this.continent, rec.c, true);
-
-			this.quizDisplayItem.set( db.getCountryName(  _item ) );			
-		}
-
-	}
-
-	this.doCorrectAnswer = function( _ID ) {
-
-		this.setTextColor( "lime" );
-
-		this.playSound3( "right" );
-
-		this.quizCorrectCount++;
-
-		//the map detects clicks on individual countries, so our quiz items are always
-		//countries, but we need the region of the country to draw the map appropriately
-
-		var _item = this.quizItem[ this.questionIndex ];
-
-		var _region = db.getRegionCodeForCountry( _item );
-
-		this.setHeader("CORRECT!");
-
-		if (this.quiz == "quizFindRegionOfCountry") {
-
-			this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, _region, false);
-
-			this.setMessage( this.quizDisplayItem.get() + " is in " + db.getRegionRec( this.quizAnswer ).n );	
-		}
-
-		if (this.quiz == "quizFindCountryInRegion") {
-
-			this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, _region, false);
-
-			this.setMessage( this.quizDisplayItem.get() + " is in " + db.getRegionRecForCountry( this.quizAnswer ).n );	
-		}
-
-		this.showCapsule( _item );
-
-		this.checkForQuizEnd();
-
-	}
-
-	this.doIncorrectAnswer = function( _ID )  {
-
-		this.setTextColor( "red" );
-
-		this.playSound3( "wrong" );
-
-		var _item = this.quizItem[ this.questionIndex ];
-
-		var _region = db.getRegionCodeForCountry( _item );		
-
-		this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, _region, false);
-
-		if (this.quiz == "quizFindRegionOfCountry") {
-
-			this.setHeader("INCORRECT! YOU CLICKED " + db.getRegionRecForCountry( _ID ).n );
-
-			this.setMessage( this.quizDisplayItem.get() + " is in " + db.getRegionRec( this.quizAnswer ).n );	
-		}
-
-		if (this.quiz == "quizFindCountryInRegion") {
-
-			this.setHeader("INCORRECT! YOU CLICKED " +  db.getCountryName( _ID ) );
-
-			this.setMessage( this.quizDisplayItem.get() + " is in " + db.getRegionRecForCountry( this.quizAnswer ).n );	
-		}		
-
-		this.showCapsule( _item );
-
-		this.checkForQuizEnd();
-	}
-
-	this.checkForQuizEnd = function() {
-
-		if (this.questionIndex == this.quizItem.length - 1) {
-
-			this.quizState.set( "quizEnd" );
-
-			return;
-		}
-		else {
-
-			this.quizState.set( "readyForNext" );
-		}
-	}
-
-	this.postResults = function() {
-
-		Meteor.setTimeout( function() { game.lesson.playSound( "results" ); }, 1500 );
-
-		this.setTextColor( "yellow" );
-
-		this.setMessage("QUIZ COMPLETE");
-
-		this.setHeader("");
-
-		this.hideQuizItem();
-
-		this.showTeachLayout();
-
-		this.showBody("YOUR RESULTS:", this.quizCorrectCount + " out of " + this.quizQuestionCount, "CORRECT", 0.3);
-
-		LessonFactory.updateScore( this.lessonGroup, this.code, parseFloat( this.quizCorrectCount/this.quizQuestionCount * 100.0) );
-	}
-
-	this.finishExam = function() {
-
-		this.hideTeachLayout();
-
-		this.quizState.set("decideNextStep");
-	}
-
-
-
-	//***************************************************************
-	//					MISCELLANEOUS FUNCTIONS
-	//***************************************************************
-
-	this.hideQuizItem = function() {
-
-		$(".quizItem").css("display","none");
-	
-	}
-
-	this.showQuizItem = function() {
-
-		$(".quizItem").css("display","block");
-	
-	}
-
 
 	this.hideTeachLayout = function() {
 
@@ -922,24 +621,7 @@ this.lessonMap.map.zoomDuration = 2;
 
 }  //END LESSONFACTORY()
 
-LessonFactory.updateScore = function( _lessonGroupCode, _lessonID, _score)  {
 
-	var lessonIndex = getElementIndexForObjectID( _lessonGroupCode, game.user.profile.lesson );
-
-	var ls = game.user.profile.lesson[ lessonIndex ];
-
-	if (ls) {
-
-		var _index = ls.item.indexOf( _lessonID );
-
-		if ( _index != -1) {
-
-			ls.score[ _index ] = _score.toPrecision(2);
-
-			game.user.profile.lesson[ lessonIndex ] = ls;			
-		}
-	}
-}
 
 LessonFactory.updateLessons = function() {
 

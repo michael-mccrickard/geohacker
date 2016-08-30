@@ -46,3 +46,16 @@ LessonScore = function( _id ) {
 
 	this.score = lessonSeq.score;
 }
+
+
+LessonScore.get = function( _lessonGroupCode )  {
+
+	var lessonIndex = LessonScore.getIndex( _lessonGroupCode );
+
+	return game.user.profile.lesson[ lessonIndex ];
+}
+
+LessonScore.getIndex = function(_lessonGroupCode) {
+
+	return getElementIndexForObjectID( _lessonGroupCode, game.user.profile.lesson );
+}

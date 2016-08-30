@@ -19,7 +19,7 @@ doNextLesson = function( _val) {
 
 	//quiz
 
-	if (_val == 10) game.lesson.doQuizQuestion();
+	if (_val == 10) game.lesson.quiz.doQuestion();
 }
 
 
@@ -37,7 +37,7 @@ doLesson = function(_continentID, _missionCode) {
 
 	g.setTextColor( "yellow" );
 
-	g.quizInProgress.set( false );
+	g.quiz.inProgress.set( false );
 
 	g.index = -1;
 
