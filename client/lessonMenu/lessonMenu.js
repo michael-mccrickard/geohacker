@@ -233,6 +233,11 @@ Template.home.events({
 
 	      switchLesson(_continent, _code);
 	  },
+
+	  'click #btnReturnToMenu': function (evt, template) {
+
+	  		game.lesson.showLessonMenu();
+	  },
  });
 
 

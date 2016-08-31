@@ -227,6 +227,11 @@ Template.lessonMap.events = {
 
       if ( _state == "examEnd") game.lesson.quiz.finishExam();
   },
+
+    'click #btnReturnToMenu2': function (evt, template) {
+
+        game.user.goHome();
+    },
 }
 
 //*************************************************************************

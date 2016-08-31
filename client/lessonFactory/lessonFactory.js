@@ -95,7 +95,7 @@ LessonFactory = function() {
 
 	this.showLessonMenu = function() {
 
-		var _text3 = "CHOOSE A CONTINENT";
+		this.state.set("menu");
 
 		this.worldMenu.doThisMap(mlWorld, mlWorld, mlContinent, null, null);
 	}

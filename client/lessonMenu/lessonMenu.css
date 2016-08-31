@@ -4,6 +4,8 @@
 
 	position: relative;
 
+	top: -48px;
+
 	margin-top: 32px;
 
 	font-size: 5.0vh;
@@ -23,3 +25,15 @@
     font-size: 3.0vh;
     text-align: center;
 }
+
+.menuReturn {
+    
+	position: relative;
+	top: -64px;
+
+    z-index: 1050;
+    text-transform: uppercase;
+
+    font-size: 1.3vh;
+}
+
