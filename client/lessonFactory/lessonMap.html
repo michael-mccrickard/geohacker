@@ -16,19 +16,6 @@
 			<div class="divTeachBody divTeachBody2" style="font-size: {{body2FontSize}}"></div>
 			<div class="divTeachBody divTeachBody3" style="font-size: {{body3FontSize}}"></div>
 
-			{{#if showContinentMenu}} 
-
-				{{#each lesson}}
-
-					<div class="centered">
-						<button type="button" class="btn btn-primary btn-lg btnQuizEnd btnGoLesson" data-continent="{{this.z}}" id="{{this.c}}">{{this.n}}</button>
-					</div>	
-
-				{{/each}}
-
-			{{/if}}
-
-
 			<div class="divTeachList">
 
 				{{#each countryListItem}}

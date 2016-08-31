@@ -67,8 +67,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	if (_mode == uIntro) return;
 
-    	if (_mode == uLearn) _mode = uHack;  //if we're in learning mode, for now just switch to hack mode
-
     	deselectAllModes();
 
     	//store the current mode if we're going to browse something
@@ -96,6 +94,20 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	  		this.template.set("missionListing");
     	}
+
+    	if (_mode == uLearn) {
+
+	  		Meteor.defer( function() { $(".divHomeLearnPic").css("border-color","gray") } );
+
+	  		game.lesson = game.lesson || new LessonFactory();
+
+	  		game.lesson.init();
+
+	  		game.lesson.state.set("menu");
+
+	  		this.template.set("lessonMenu");
+    	}
+
 
       	if (_mode == uMessage) {
 

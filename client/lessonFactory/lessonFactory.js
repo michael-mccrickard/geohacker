@@ -4,8 +4,6 @@ LessonFactory = function() {
 
 	this.init = function() {
 
-		this.state = new Blaze.ReactiveVar("none");
-
 		display.ctl[ "MAP" ] = new ghMapCtl();
 
 		this.mapCtl = display.ctl["MAP"];
@@ -15,6 +13,10 @@ LessonFactory = function() {
 		this.mapCtl.init();
 
 		this.tl = new TimelineMax();
+
+		//state = menu, continentMenu, learn or quiz
+
+		this.state = new Blaze.ReactiveVar("none");
 
 		//the temporary lesson/map levels and codes
 
@@ -72,6 +74,10 @@ LessonFactory = function() {
 		this.quiz = new Quiz(this);
 
 
+		//QUIZ OBJECT
+
+		this.worldMenu = new WorldMenu(this);
+
 
 		//FORMAT PROPERTIES
 
@@ -86,6 +92,14 @@ LessonFactory = function() {
 	//***************************************************************
 	//					MISCELLANEOUS FUNCTIONS
 	//***************************************************************
+
+	this.showLessonMenu = function() {
+
+		var _text3 = "CHOOSE A CONTINENT";
+
+		this.worldMenu.doThisMap(mlWorld, mlWorld, mlContinent, null, null);
+	}
+
 
 	this.setTextColor = function( _which ) {
 

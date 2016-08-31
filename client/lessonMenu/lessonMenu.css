@@ -1,0 +1,25 @@
+/*lessonMenu.css*/
+
+.btnGoLesson {
+
+	position: relative;
+
+	margin-top: 32px;
+
+	font-size: 5.0vh;
+
+	font-family: headline;
+
+	text-transform: uppercase;
+
+	z-index: 10000;
+}
+
+.menuMessages {
+    
+    z-index: 1050;
+    text-transform: uppercase;
+    pointer-events: none;
+    font-size: 3.0vh;
+    text-align: center;
+}

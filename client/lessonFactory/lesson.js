@@ -19,42 +19,6 @@ goLessonMenu = function() {
 	Meteor.setTimeout( function() { game.lesson.showMap(); }, 250 );
 }
 
-showLessonMenu = function() {
-
-	var g = game.lesson;
-
-	g.setTextColor( "yellow" );
-
-	g.quiz.inProgress.set( false );
-
-	g.setMessage("LEARN THE WORLD");
-
-	g.setHeader("");
-
-	var _text1 = "";
-
-	var _text2 = ""
-
-	var _text3 = "CHOOSE A CONTINENT";
-
-	g.showBody(_text1, _text2, _text3, 0.1 );
-
-	g.lessonMap.doThisMap(mlWorld, mlWorld, mlContinent, null, null);
-}
-
-showContinentMenu = function(_code) {
-
-	var _continentID = db.getContinentCodeForCountry( _code );
-
-	var g = game.lesson;
-
-	game.user.lessonSequenceCode.set( _continentID );
-
-	g.state.set("continentMenu");
-
-	
-}
-
 doNextLesson = function( _val) {
 
 	if (_val == 1) doLesson2();

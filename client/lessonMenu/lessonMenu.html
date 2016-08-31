@@ -1,0 +1,23 @@
+	
+<template name="lessonMenu">
+
+	<div class="menuMessages" id="lessonMenuMessageBox" style="color:white;">{{message}}</div>
+
+	{{#if showContinentMenu}} 
+
+		{{#each lesson}}
+
+			<div class="centered">
+				<button type="button" class="btn btn-primary btn-lg btnQuizEnd btnGoLesson" data-continent="{{this.z}}" id="{{this.c}}">{{this.n}}</button>
+			</div>	
+
+		{{/each}}
+
+	{{/if}}
+
+
+
+	<div id="divLessonMenuMap"  style="position: absolute; top: 292px; left: 2%; width:{{mapWidth}}px; height:{{mapHeight}}px; border-radius: 7px; border: 4px solid; border-color: gray;">
+	</div> 
+
+</template>
