@@ -97,7 +97,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	if (_mode == uLearn) {
 
-	  		Meteor.defer( function() { $(".divHomeLearnPic").css("border-color","gray") } );
+	  		Meteor.defer( function() { $("#divHomeLearnPic").css("border-color","gray") } );
 
 	  		if (!game.lesson) {
 

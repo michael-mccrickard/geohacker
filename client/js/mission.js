@@ -294,7 +294,7 @@ Mission = function(_code) {
 
     this.level = mlContinent;
 
-    this.items = ["CR","PA","PR","JM","BS","BZ"]; 
+    this.items = ["CR","PA","PR","JM","BS","BZ","GL"]; 
 
     return;
   }
