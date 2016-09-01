@@ -1,7 +1,7 @@
 	
 <template name="lessonMenu">
 
-	<div class="menuMessages" id="lessonMenuMessageBox" style="color:white;">{{message}}</div>
+	<div class="menuMessages" id="lessonMenuMessageBox">{{message}}</div>
 
 	{{#if showContinentMenu}} 
 
@@ -16,7 +16,7 @@
 
 		{{#each lesson}}
 
-			<div class="centered">
+			<div class="divLessonMenuButtons centered">
 				<button type="button" class="btn btn-primary btn-lg btnGoLesson" data-continent="{{this.z}}" data-index={{@index}} id="{{this.c}}">
 
 					{{#if alreadyDone}}

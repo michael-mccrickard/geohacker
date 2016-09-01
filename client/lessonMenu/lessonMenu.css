@@ -1,5 +1,15 @@
 /*lessonMenu.css*/
 
+.divLessonMenuButtons {
+
+    position: relative;
+
+    top: -25px;
+
+    background-color: black;
+}
+
+
 .btnGoLesson {
 
 	position: relative;
@@ -24,8 +34,11 @@
     pointer-events: none;
     font-size: 3.0vh;
     position: absolute;
-    top: 245px;
-    left: 42px;
+  /*  top: 245px;
+    left: 42px;  */
+color: yellow;
+  left: 50%;
+  margin-left: -120px;
 }
 
 .lessonTickMark {
@@ -40,7 +53,7 @@
 .menuReturn {
     cursor: pointer;
     position: relative;
-    top: 8px;
+    top: -16px;
 
     z-index: 900;
     text-transform: uppercase;
