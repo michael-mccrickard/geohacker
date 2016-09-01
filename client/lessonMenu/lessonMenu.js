@@ -197,9 +197,9 @@ Template.lessonMenu.helpers({
 
   	mapHeight: function() { 
 
-	    var h = Session.get("gWindowHeight") - display.menuHeight;
+	    var h = Session.get("gWindowHeight") - display.menuHeight - 186;
 
-	    return h * 0.7;
+	    return h;
 
   	},
 

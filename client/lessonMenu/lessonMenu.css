@@ -14,16 +14,18 @@
 
 	text-transform: uppercase;
 
-	z-index: 1000;
+	z-index: 900;
 }
 
 .menuMessages {
     
-    z-index: 1050;
+    z-index: 900;
     text-transform: uppercase;
     pointer-events: none;
     font-size: 3.0vh;
-    text-align: center;
+    position: absolute;
+    top: 245px;
+    left: 42px;
 }
 
 .lessonTickMark {
@@ -40,7 +42,7 @@
     position: relative;
     top: 8px;
 
-    z-index: 1050;
+    z-index: 900;
     text-transform: uppercase;
 
     font-size: 1.3vh;
