@@ -4,17 +4,17 @@
 
 	position: relative;
 
-	top: -48px;
+	top: -1%;
 
-	margin-top: 32px;
-
-	font-size: 5.0vh;
+	margin-top: 1.5%;
 
 	font-family: headline;
 
+    font-size: 3.5vh;
+
 	text-transform: uppercase;
 
-	z-index: 10000;
+	z-index: 1000;
 }
 
 .menuMessages {
@@ -26,10 +26,19 @@
     text-align: center;
 }
 
+.lessonTickMark {
+
+	font-family: Arial;
+
+    font-size: 3.0vh;
+
+
+}
+
 .menuReturn {
-    
-	position: relative;
-	top: -64px;
+    cursor: pointer;
+    position: relative;
+    top: 8px;
 
     z-index: 1050;
     text-transform: uppercase;
@@ -37,3 +46,7 @@
     font-size: 1.3vh;
 }
 
+#menuReturnText {
+
+    color: yellow;
+}

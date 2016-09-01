@@ -63,6 +63,13 @@ Template.main.helpers({
 
     },
 
+    lessonModeLearn: function() {
+
+      if (game.lesson.state.get() == "learn") return true;
+
+      return false;
+    },
+
     opacityClass: function() {
 
       if (display.ctl[ this ].getState() <= sIcon) return "faded";
@@ -389,7 +396,14 @@ Template.main.events({
         hack.debrief.go();
 
         FlowRouter.go("/debrief");
-    }
+    },
+
+    'click .btnReturnToLesson': function(e) {
+      
+      e.preventDefault();
+
+      initiateResumeLesson();
+    },
 
 });
 

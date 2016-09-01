@@ -31,19 +31,25 @@ LessonSequence.makeMenuArray = function( _code ) {
 
   var _arr = [];
 
-  var ls = new LessonSequence( _code );
+  var lessonSequence = new LessonSequence( _code );
 
-  for (var i = 0; i < ls.item.length; i++) {
+  var lessonScore = LessonScore.get( _code );
+
+  for (var i = 0; i < lessonSequence.item.length; i++) {
 
   	  	var _obj = {};
 
-  		var _mission = new Mission( ls.item[i] );
+  		var _mission = new Mission( lessonSequence.item[i] );
 
   		_obj.n = _mission.shortName;
 
   		_obj.z = _mission.mapCode;
 
   		_obj.c = _mission.code;
+
+  		var _ind = lessonScore.item.indexOf( _mission.code);
+
+  		_obj.s = lessonScore.score[ _ind ];
 
   		_arr.push(_obj);
   }

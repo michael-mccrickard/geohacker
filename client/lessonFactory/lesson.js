@@ -5,14 +5,43 @@ switchLesson = function(_continentID, _missionCode) {
 	Meteor.setTimeout( function() { doLesson(_continentID, _missionCode); }, 250 );
 }
 
+initiateResumeLesson = function() {
+
+	display.suspendMedia();
+
+    game.lesson.state.set("resuming");
+
+    game.user.mode = uLearn;
+
+    display.worldMapTemplateReady = false;
+
+    FlowRouter.go("/lessonMap");
+}
+
+resumeLesson = function() {
+
+	var g = game.lesson;
+
+	g.state.set("learn");
+
+	if (g.country.length) g.showCapsule( g.country );
+
+	g.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, g.continent, g.region);
+
+	doLesson9();
+}
+
 
 goLessonMenu = function() {
 
 	FlowRouter.go("/waiting");
 
-	game.lesson = game.lesson || new LessonFactory();
+	if (!game.lesson) {
 
-	game.lesson.init();
+		game.lesson = new LessonFactory();
+
+		game.lesson.init();
+	}
 
 	game.lesson.state.set( "menu" );
 
@@ -39,7 +68,11 @@ doNextLesson = function( _val) {
 
 doLesson = function(_continentID, _missionCode) {
 
-	game.lesson = game.lesson || new LessonFactory();
+
+	if (!game.lesson) {
+
+		game.lesson = new LessonFactory();
+	}
 
 	game.lesson.init();
 

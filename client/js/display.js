@@ -414,7 +414,7 @@ Display = function() {
 
 
     this.doHeadlines = function() {
-
+c("doHeadlines in display.js")
         this.status.setAndShow();
 
         this.cue.setAndType();

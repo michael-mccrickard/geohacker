@@ -10,6 +10,15 @@ WorldMenu = function( _lessonFactory) {
 
 	this.selectedRegion = "";
 
+	this.lessonGroupCode = "";
+
+	this.lessonGroup = [];
+
+	this.lessonCode = "";
+
+	this.lessonIndex = 0;
+
+
 	this.doThisMap = function(_mapLevel, _drawLevel, _detailLevel) {
 
         var z1 = 1.0;
@@ -24,17 +33,17 @@ WorldMenu = function( _lessonFactory) {
 
             return;
         }
-/*
+
         if (_mapLevel == mlContinent && this.selectedContinent.length == 0 ) {
 
-            showMessage("No continent selected for map level continent.  Cannot draw map in drawWorldMenu()");
+            showMessage("No continent selected for map level continent.  Cannot draw map in worldMenu.doThisMap()");
             
             return;     
         }
 
         if (_mapLevel == mlRegion && this.selectedRegion.length == 0 ) {
 
-            showMessage("No region selected for map level region.  Cannot draw map in drawWorldMenu()");
+            showMessage("No region selected for map level region.  Cannot draw map in worldMenudoThisMap()");
             
             return;     
         }
@@ -45,7 +54,7 @@ WorldMenu = function( _lessonFactory) {
             
             this.selectedContinent = tempRec.z;
         }      
-*/
+
         //initialize variables related to the map
 
         var rec = null;
@@ -102,7 +111,7 @@ WorldMenu = function( _lessonFactory) {
 
         this.map.dataProvider = this.dp;
 
-        this.map.creditsPosition = "top-left";
+        this.map.creditsPosition = "bottom-left";
 
         this.map.zoomControl.zoomControlEnabled = false;
 
@@ -135,9 +144,9 @@ WorldMenu = function( _lessonFactory) {
 
     }
 
-    this.showContinentMenu = function(_code) {
+    this.showContinentMenu = function(_continentID) {
 
-		var _continentID = db.getContinentCodeForCountry( _code );
+		this.selectedContinent = _continentID;
 
 		var g = game.lesson;
 
@@ -147,14 +156,10 @@ WorldMenu = function( _lessonFactory) {
 
 		rec = db.getContinentRec( _continentID );
 
-var zoomLevel = rec.z1;
-var zoomLatitude = rec.z2;
-var zoomLongitude = rec.z3;
-/*
-if (rec.lz1) zoomLevel = rec.lz1;
-if (rec.lz2) zoomLatitude = rec.lz2;
-if (rec.lz3) zoomLongitude = rec.lz3;
-*/
+		var zoomLevel = rec.z1;
+		var zoomLatitude = rec.z2;
+		var zoomLongitude = rec.z3;
+
 		this.map.zoomToLongLat(zoomLevel, zoomLongitude, zoomLatitude);
 	}
 
@@ -166,7 +171,13 @@ function handleClick( _event ) {
 
 	if (g.state.get() == "menu"  || g.state.get() == "continentMenu"  ) {
 
-        g.worldMenu.showContinentMenu( _event.mapObject.id );
+		var _continentID = db.getContinentCodeForCountry( _event.mapObject.id );
+
+var _ls = new LessonSequence( _continentID );
+
+g.worldMenu.lessonGroup = _ls.item;
+
+        g.worldMenu.showContinentMenu( _continentID );
 
         return;
     }
@@ -175,6 +186,12 @@ function handleClick( _event ) {
 
 Template.lessonMenu.helpers({
 
+	alreadyDone: function() {
+
+		if (this.s > 0) return true;
+
+		return false;
+	},
 
 	mapWidth: function() { return Session.get("gWindowWidth") * 0.95},
 
@@ -227,14 +244,34 @@ Template.home.events({
 
 	  'click .btnGoLesson': function (evt, template) {
 
-	      var _code = evt.target.id;
+	  	  var wm = game.lesson.worldMenu;
 
-	      var _continent = $(evt.target).attr("data-continent");
+        var _lessonGroupCode = $(evt.target).attr("data-continent");
 
-	      switchLesson(_continent, _code);
+        var _lessonCode = evt.target.id;
+
+        var _lessonIndex = parseInt( $(evt.target).attr("data-index") );
+
+
+        if ( (wm.lessonGroupCode  == _lessonGroupCode) && (wm.lessonCode  == _lessonCode) && (wm.lessonIndex  == _lessonIndex) ){
+
+            initiateResumeLesson();
+
+            return;
+        }
+
+        wm.lessonGroupCode = _lessonGroupCode;
+
+        wm.lessonCode = _lessonCode;
+
+        wm.lessonIndex = _lessonIndex;
+
+	      switchLesson(wm.lessonGroupCode, wm.lessonCode);
 	  },
 
-	  'click #btnReturnToMenu': function (evt, template) {
+	  'click .btnReturnToMenu': function (evt, template) {
+
+	  		game.lesson.worldMenu.selectedContinent = "";
 
 	  		game.lesson.showLessonMenu();
 	  },
@@ -252,7 +289,7 @@ Template.lessonMenu.rendered = function () {
 
     if (!game.lesson) return;
 
-    if (game.lesson.state.get() ==  "menu") Meteor.setTimeout( function() { game.lesson.showLessonMenu(); }, 250 );
+    Meteor.setTimeout( function() { game.lesson.showLessonMenu(); }, 250 );
 
     //Meteor.setTimeout( function() { display.ctl["MAP"].lessonFinishDraw() }, 251 );
 

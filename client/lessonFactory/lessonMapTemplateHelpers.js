@@ -85,16 +85,20 @@ Template.lessonMap.helpers({
 
   nextLessonShortName: function() {
 
-     var s = capitalizeFirstLetter( game.lesson.continent);
+    var _wm = game.lesson.worldMenu;
 
-     var lessonNumber = game.lesson.lessonNumber + 1;
+     var _index = _wm.lessonIndex + 1;
 
-     return (s + " " + lessonNumber);
+     var _mission = new Mission(  _wm.lessonGroup[ _index ] )
+
+     return ( _mission.shortName );
   },
 
   hasNextLesson: function() {
 
-    if (game.lesson.lessonNumber < game.lesson.lessonLimit) return true;
+    var _wm = game.lesson.worldMenu;
+
+    if (_wm.lessonIndex < _wm.lessonGroup.length - 1) return true;
 
     return false;
   },
@@ -198,11 +202,11 @@ Template.lessonMap.events = {
 
       Control.playEffect("new_feedback.mp3");
 
-     var lessonNumber = game.lesson.lessonNumber + 1;
+      var _wm = game.lesson.worldMenu;
 
-     var s = game.lesson.continent + "_" + lessonNumber;
+      _wm.lessonIndex++;
 
-     switchLesson( game.lesson.continent, s);
+     switchLesson( _wm.selectedContinent, _wm.lessonGroup[ _wm.lessonIndex ]);
   },
 
   'click #btnReview': function (evt, template) {
@@ -249,7 +253,12 @@ Template.lessonMap.rendered = function () {
 
       display.worldMapTemplateReady = true;
 
+c("lessonMap rendered, state follows")
+c(game.lesson.state.get())
+
       if (game.lesson.state.get() == "learn") Meteor.setTimeout( function() { display.ctl["MAP"].lessonMap.doCurrentMap() }, 250 );
+
+      if (game.lesson.state.get() == "resuming") Meteor.setTimeout( function() { resumeLesson(); }, 250 );
 
       Meteor.setTimeout( function() { display.ctl["MAP"].lessonFinishDraw() }, 251 );
 

@@ -96,6 +96,8 @@ BrowseWorldMap = function( _mapCtl ) {
 
         if (level == mlCountry) {  //this is just a replay of the map zooming in on the correct country (browse mode)
 
+c("selectedRegion in doCurrentMap is " + this.selectedRegion)
+
            this.doMap( this.selectedRegion, mlRegion);
 
            //reset level back to country, so that the label uses the correct coords
@@ -114,10 +116,19 @@ BrowseWorldMap = function( _mapCtl ) {
 
             this.zoomDone = false;
 
-            c("calling clickMapObject")
+            if (mapObject) {
 
-            if (mapObject) this.map.clickMapObject(mapObject);
-        }    
+                c("calling clickMapObject")
+
+                this.map.clickMapObject(mapObject);
+        
+            }
+            else {
+
+                c("No map object in doCurrentMap() in BrowseWorldMap.js")
+            }
+        }
+
     }
 
     this.doMap = function(_code, _level) {
@@ -513,8 +524,6 @@ function handleZoomCompleted() {
     //this is necessary for the initial zoom-in (when a country has already been selected)
 
     if (level == mlCountry) {
-
-
 
         worldMap.labelMapObject();
 

@@ -99,12 +99,13 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	  		Meteor.defer( function() { $(".divHomeLearnPic").css("border-color","gray") } );
 
-	  		game.lesson = game.lesson || new LessonFactory();
+	  		if (!game.lesson) {
 
-	  		game.lesson.init();
+	  			game.lesson = new LessonFactory();
 
-	  		game.lesson.state.set("menu");
-
+	  			game.lesson.init();
+	  		}
+	  		
 	  		this.template.set("lessonMenu");
     	}
 
@@ -552,7 +553,9 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
  		if (_index != -1) return this.atlas[ _index ];
 
- 		showMessage( "No ticket found for country " + _code);
+//this is happening during browse while learning
+
+// 		showMessage( "No ticket found for country " + _code);
  	}
 
 	this.getTicketCount = function( _code ) {

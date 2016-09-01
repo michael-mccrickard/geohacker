@@ -81,7 +81,7 @@ MapMaker = function() {
         s = '[]';
       }
       
-  //console.log(s);
+  console.log(s);
 
       return JSON.parse(s);
 
@@ -209,8 +209,10 @@ MapMaker = function() {
 
           for (var i = 0; i < arr.length; i++) { 
 
-            //normally we only show the user the countries they have hacked (when browsing)
+//disabling this for the time being, this conflicts with browsing during learn mode (browsing countries you haven't hacked before)
 
+            //normally we only show the user the countries they have hacked (when browsing)
+/*
             if (game.user.mode == uBrowseMap || game.user.mode == uBrowseCountry) {
 
               if (gUserCountriesOnlyMode) {
@@ -218,7 +220,7 @@ MapMaker = function() {
                 if ( game.user.isCountryInAtlas( arr[i].c ) == -1) continue;
               }              
             }
-
+*/
             s = s + '{' + newline;
 
             s = s + '"title"' + ': "' + arr[i].n + '", ' + newline; 

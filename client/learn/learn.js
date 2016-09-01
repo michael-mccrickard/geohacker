@@ -37,6 +37,16 @@ function scaleMe2( _val ) {
 
 }
 
+Template.lessonMap.events = {
+
+  'click .learnCountry': function (evt, template) {
+
+      Control.playEffect("new_feedback.mp3");
+
+      FlowRouter.go("/main");
+  },
+}
+
 Template.learnCountry.helpers({
 
 	LCWidth: function() {
@@ -187,56 +197,22 @@ Template.learnCountry.helpers({
  });
 
 
-/*
 
-var scaleFactorSmall = 216/360;
+Template.learnCountry.events = {
 
-var scaleFactorMedium = 266/360;
+  'click .learnCountryElement': function (evt, template) {
 
-var scaleFactorLarge = 316/360;
+  	  if (game.lesson.quiz.inProgress.get() ) {
 
-var scaleFactorXLarge = 346/360;
+  	  	  Control.playEffect( display.locked_sound_file );
 
-var widthBreakpointSmall = 1231;
+	  	  game.lesson.setMessage("BROWSE COUNTRY NOT AVAILABLE DURING QUIZ");
 
-var widthBreakpointMedium = 1341;
+	  	  game.lesson.setTextColor("red");
 
-var widthBreakpointLarge = 1551;
+	  	  return;  	  	
+  	  }
 
-var widthBreakpointXLarge = 1651;
-
-
-
-function scaleMe( _val ) {
-
-   var _w = $(window).width();
-
-   if (_w < widthBreakpointSmall) return (scaleFactorSmall * _val) + "px";
-
-   if (_w < widthBreakpointMedium) return (scaleFactorMedium * _val) + "px";
-
-    if (_w < widthBreakpointLarge) return (scaleFactorLarge * _val) + "px";
-
-   if (_w < widthBreakpointXLarge) return (scaleFactorXlarge * _val) + "px";
-
-
-   return _val + "px";
-
+      game.user.browseCountry( evt.target.id );
+  },
 }
-
-function scaleMe2( _val ) {
-
-   var _w = $(window).width();
-
-   if (_w < widthBreakpointSmall) return (scaleFactorSmall * _val * 0.95) + "px";
-
-   if (_w < widthBreakpointMedium) return (scaleFactorMedium * _val * 0.95) + "px";
-
-    if (_w < widthBreakpointLarge) return (scaleFactorLarge * _val * 0.95) + "px";
-
-   if (_w < widthBreakpointXLarge) return (scaleFactorXlarge * _val * 0.95) + "px";
-
-   return (_val * 0.95) + "px";
-
-}
-*/

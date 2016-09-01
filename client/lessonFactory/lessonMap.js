@@ -26,7 +26,7 @@ LessonMap = function( _mapCtl ) {
 
     this.dp = null;
 
-    this.mm = this.mm || new LessonMapMaker();
+    if (!this.mm) this.mm = new LessonMapMaker();
 
     this.mapCtl = _mapCtl;
 
@@ -376,63 +376,11 @@ LessonMap = function( _mapCtl ) {
             if (_level == mlCountry) _col = "black";       
         }
 
-        Meteor.defer( function() {display.ctl["MAP"].lessonMap.map.addLabel(_x, _y, _name.toUpperCase(), "", _fontSize, _col, _rot, _alpha, _bold); } );
+    
+        Meteor.defer( function() {game.lesson.lessonMap.map.addLabel(_x, _y, _name.toUpperCase(), "", _fontSize, _col, _rot, _alpha, _bold); } );
     }
 
-
-    //**********************************************************************************
-    //                      BACKUP THE MAP (move to previous level)
-    //**********************************************************************************
-
-    //Redraw the map using the previous level
-
-    this.backupMap = function() {
-
-        var level = this.mapCtl.level.get();
-
-
-        if (level == mlContinent) {
-
-            this.doMap("world", mlWorld);
-
-            this.map.validateData();
-
-            refreshMap();
-
-            this.labelMapObject();
-
-            return;
-        }
-
-        if (level == mlRegion) {
-
-            this.doMap( this.selectedContinent, mlContinent );
-
-            this.map.validateData();
-
-            refreshMap();
-
-            this.labelMapObject();
-
-            return;
-        }   
-
-        if (level == mlCountry) {
-
-            this.doMap(this.selectedRegion, mlRegion);
-
-            this.map.validateData();
-
-            refreshMap();
-
-            this.labelMapObject();
-
-            return;
-        }     
-
-    }
-
-}  //end browseWorldMap Object
+}  //end LessonMap Object
 
 
 //**********************************************************************************

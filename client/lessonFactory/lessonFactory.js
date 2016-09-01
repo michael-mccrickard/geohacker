@@ -2,6 +2,10 @@
 
 LessonFactory = function() {
 
+	//MENU OBJECT
+
+	this.worldMenu = new WorldMenu(this);
+
 	this.init = function() {
 
 		display.ctl[ "MAP" ] = new ghMapCtl();
@@ -40,15 +44,6 @@ LessonFactory = function() {
 
 		this.name = "";
 
-		this.index = 0;  //index into the list of countries (items)
-
-		this.lessonNumber = 0;
-
-		this.lessonLimit = 0;  //actually applies to each group of continent lessons, not any particular lesson itself, 
-								//but we lack an appropriate
-								//entity to attach this to, so this is where it is for now
-
-
 		this.content = new Blaze.ReactiveVar("");
 
 		this.updateFlag = new Blaze.ReactiveVar( false );
@@ -74,11 +69,6 @@ LessonFactory = function() {
 		this.quiz = new Quiz(this);
 
 
-		//QUIZ OBJECT
-
-		this.worldMenu = new WorldMenu(this);
-
-
 		//FORMAT PROPERTIES
 
 		this.messageColor = new Blaze.ReactiveVar( "yellow" );
@@ -94,6 +84,16 @@ LessonFactory = function() {
 	//***************************************************************
 
 	this.showLessonMenu = function() {
+
+		if (this.worldMenu.selectedContinent.length) {
+
+			this.worldMenu.doThisMap(mlWorld, mlContinent, mlContinent, null, null);
+
+			this.worldMenu.showContinentMenu( this.worldMenu.selectedContinent );
+
+			return;			
+
+		}
 
 		this.state.set("menu");
 
@@ -139,22 +139,6 @@ LessonFactory = function() {
 		this.mission = new Mission( _code );
 
 		this.items = this.mission.items;
-
-		if (this.continent == "africa")  this.lessonLimit = 5;
-
-		if (this.continent == "asia")  this.lessonLimit = 4;
-
-		if (this.continent == "europe")  this.lessonLimit = 4;
-
-		if (this.continent == "north_america")  this.lessonLimit = 2;
-
-		if (this.continent == "south_america")  this.lessonLimit = 2;		
-
-		if (this.continent == "oceania")  this.lessonLimit = 1;	
-
-		this.lessonNumber = this.mission.shortName.substr( this.mission.shortName.length - 1, 1);
-
-		this.lessonNumber = parseInt(this.lessonNumber);	
 	}
 
 	this.pushID = function( _ID ) {

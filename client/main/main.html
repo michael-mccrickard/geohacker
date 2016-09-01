@@ -3,6 +3,17 @@
 
 	<div class="newWrapper">
 		
+
+		{{#if lessonModeLearn}}
+			<div class="lessonReturn" id="lessonReturn" style="color:white;">
+
+				<img src="pixel_globe.png" width="60px" height="60px" class="btnReturnToLesson" />
+
+				<span class="btnReturnToLesson" id="lessonReturnText" >RETURN TO LESSON</span>
+
+			</div>	
+		{{/if}}
+
 		<img class="backdrop" src="screenBackdrop.jpg">
 
 		<div class="divStatus" id="headlineStatus">{{status}}</div>

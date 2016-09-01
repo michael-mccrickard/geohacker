@@ -535,12 +535,12 @@ Tracker.autorun( function(comp) {
 
           Hack.resetDataFlags();
 
-if (game.user.mode == uLearn) {
+          if (game.user.mode == uLearn) {
 
-   game.lesson.updateContent();
+             game.lesson.updateContent();
 
-  return;
-}
+            return;
+          }
 
           if (game.user.mode == uBrowseCountry) {
 

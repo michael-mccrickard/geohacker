@@ -4,6 +4,25 @@
 
 /******************************/
 
+.lessonReturn {
+    cursor: pointer;
+    position: relative;
+    top: 58px;
+
+    z-index: 1050;
+    text-transform: uppercase;
+
+    font-size: 1.3vh;
+}
+
+#lessonReturnText {
+
+    color: yellow;
+}
+
+
+
+
 body.noscroll {
 
     position: fixed; 

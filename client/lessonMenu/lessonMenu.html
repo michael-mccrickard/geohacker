@@ -5,18 +5,27 @@
 
 	{{#if showContinentMenu}} 
 
-	<div class="menuReturn" id="lessonMenuReturn" style="color:white;">
+		<div class="menuReturn" id="menuReturn" style="color:white;">
 
-		<img src="pixel_globe.png" width="60px" height="60px" id="btnReturnToMenu" style="cursor: pointer;" />
+			<img src="pixel_globe.png" width="60px" height="60px" class="btnReturnToMenu" />
 
-		RETURN TO MAIN MENU
+			<span class="btnReturnToMenu" id="menuReturnText" >RETURN TO MAIN MENU</span>
 
-	</div>	
+		</div>	
+
 
 		{{#each lesson}}
 
 			<div class="centered">
-				<button type="button" class="btn btn-primary btn-lg btnGoLesson" data-continent="{{this.z}}" id="{{this.c}}">{{this.n}}</button>
+				<button type="button" class="btn btn-primary btn-lg btnGoLesson" data-continent="{{this.z}}" data-index={{@index}} id="{{this.c}}">
+
+					{{#if alreadyDone}}
+						<span class="lessonTickMark">&#9745;</span>
+					{{/if}}
+
+					{{this.n}}
+
+				</button>
 			</div>	
 
 		{{/each}}
