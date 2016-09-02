@@ -166,14 +166,14 @@ Mission = function(_code) {
 
     this.level = mlContinent;
 
-    this.items = ["SY","YE","LK","KZ","KH","IL","TJ","JO","LA","KG"]; 
+    this.items = ["YE","KP","TW","SY","LK","KZ","KH","AZ","AE","TJ"]; 
 
     return;
   }
 
   if (this.code == "asia_4") {
 
-    this.name = "Asia by population (31 - 42)"
+    this.name = "Asia by population (31 - 40)"
 
     this.shortName = "Asia 4";
 
@@ -181,10 +181,26 @@ Mission = function(_code) {
 
     this.level = mlContinent;
 
-    this.items = ["TM","PS","LB","OM","KW","GE","MN","AM","QA","TL","BT","BN"]; 
+    this.items = ["IL","JO","LA","KG","TM","PS","LB","OM","KW","GE"]; 
 
     return;
   }
+
+  if (this.code == "asia_5") {
+
+    this.name = "Asia by population (41 - 47)"
+
+    this.shortName = "Asia 5";
+
+    this.mapCode = "asia";
+
+    this.level = mlContinent;
+
+    this.items = ["MN","AM","QA","TL","CY","BT","BN"]; 
+
+    return;
+  }
+
   
   //ten largest population (Europe)
 
@@ -232,14 +248,14 @@ Mission = function(_code) {
 
     this.level = mlContinent;
 
-    this.items = ["DK","FI","SK","NO","IE","HR","BA","MD","LT","AL"]; 
+    this.items = ["DK","FI","SK","NO","IE","HR","BA","LT","AL","MK"]; 
 
     return;
   }
 
   if (this.code == "europe_4") {
 
-    this.name = "Europe by population (31 - 39)"
+    this.name = "Europe by population (31 - 38)"
 
     this.shortName = "Europe 4";
 
@@ -247,7 +263,7 @@ Mission = function(_code) {
 
     this.level = mlContinent;
 
-    this.items = ["MK","SI","LV","XK","EE","ME","LU","MD","IS"]; 
+    this.items = ["SI","LV","XK","EE","ME","LU","MD","IS"]; 
 
     return;
   }

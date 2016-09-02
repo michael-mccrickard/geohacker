@@ -8,7 +8,7 @@ LessonSequence = function( _id ) {
 
 	if ( _id == "africa" ) this.item = ["africa_1", "africa_2", "africa_3", "africa_4", "africa_5"];
 
-	if ( _id == "asia" ) this.item = ["asia_1", "asia_2", "asia_3", "asia_4"];
+	if ( _id == "asia" ) this.item = ["asia_1", "asia_2", "asia_3", "asia_4","asia_5"];
 
 	if ( _id == "europe" ) this.item = ["europe_1", "europe_2", "europe_3", "europe_4"];
 

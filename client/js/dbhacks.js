@@ -21,6 +21,83 @@ fix1 = function() {
     }
 }
 
+fix2 = function() {
+
+  var   arr = db.ghR.find( { z: "europe" }).fetch();
+  
+  //Now make an array of just the region codes for this mission
+
+  var regions = Database.makeSingleElementArray( arr, "c");
+
+  //And make an array of all the countries with data
+
+  var countries = db.ghC.find( {d: 1} ).fetch();
+
+
+  //Now loop thru the countries and any of them that have a region code that's in our array get added
+
+  var _arr = [];
+
+  for (var i = 0; i < countries.length; i++) {
+
+    if ( regions.indexOf( countries[i].r ) != -1) _arr.push( countries[i].c );
+  }
+
+//var arrdb = Database.makeSingleElementArray( _arr, "c");
+
+c(_arr);
+
+c(_arr.length + " items in db")
+
+/*
+
+        var _arr2  = _arr.filter(function(item, pos) {
+            
+            return _arr.indexOf(item) == pos;
+        })
+
+c(_arr2)
+c(_arr2.length)
+return;
+
+*/
+
+var _miss = new Mission("europe_1");
+
+var arr3 = [];
+
+  arr3 = _miss.items;
+
+
+  _miss = new Mission("europe_2");
+
+      var arr4 = arr3.concat(_miss.items);
+
+      _miss = new Mission("europe_3");
+
+      var arr5 = arr4.concat(_miss.items);
+
+      _miss = new Mission("europe_4");
+
+      var arr6 = arr5.concat(_miss.items);
+
+
+c(arr6);
+
+c(arr6.length + " items in missions")
+
+
+  var _arr2 = [];
+
+  for (var i = 0; i < _arr.length; i++) {
+
+    if ( arr6.indexOf( arr6[i] ) != arr6.lastIndexOf( arr6[i] )) _arr2.push( arr6[i] );
+  }
+
+  c(_arr2);
+  c(_arr2.length + " duped items found")
+}
+
 tw = function(_city) {
 
   Meteor.call("getWeatherStringFor", _city , function(err, res) {

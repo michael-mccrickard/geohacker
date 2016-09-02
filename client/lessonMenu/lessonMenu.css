@@ -5,8 +5,6 @@
     position: relative;
 
     top: -25px;
-
-    background-color: black;
 }
 
 
@@ -34,11 +32,16 @@
     pointer-events: none;
     font-size: 3.0vh;
     position: absolute;
-  /*  top: 245px;
-    left: 42px;  */
+    width: 350px;
 color: yellow;
-  left: 50%;
-  margin-left: -120px;
+left: 50%;
+   margin-left: -12%;
+  text-align: center;
+  padding: 8px;
+  padding-bottom: 0px;
+  background-color: black;
+
+  border-radius: 8px;
 }
 
 .lessonTickMark {

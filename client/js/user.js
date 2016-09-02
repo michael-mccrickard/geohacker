@@ -247,7 +247,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     		
     	if (this.mode == uNone) {
 
-    		this.setMode( uHack );
+    		this.setMode( uLearn );
     	}
     	else {
 
