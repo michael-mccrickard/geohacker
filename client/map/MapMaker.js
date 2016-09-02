@@ -80,8 +80,6 @@ MapMaker = function() {
 
         s = '[]';
       }
-      
-  console.log(s);
 
       return JSON.parse(s);
 

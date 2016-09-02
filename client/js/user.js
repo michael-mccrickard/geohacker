@@ -664,7 +664,9 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		if (_ticket.count == 1) {
 
-			game.user.profile.ag.push( hack.getWelcomeAgent()._id );
+			var _id = hack.getWelcomeAgent()._id;
+
+			if ( game.user.profile.ag.indexOf(_id) == -1 ) game.user.profile.ag.push( _id );
 		}
 
 

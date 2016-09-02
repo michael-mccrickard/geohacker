@@ -55,6 +55,10 @@ Hack = function() {
 
         game.user.assign.resetMap();
 
+        this.welcomeAgent = null;
+
+        this.welcomeAgentIsChief = false;
+
         this.mode = mReady;
 
         game.playMusic();
@@ -480,20 +484,20 @@ Hack = function() {
       //when we have the title field implemented on the user records,
       //we'll return the GIC for the country
 
-      this.welcomeAgent = null;
 
-      this.welcomeAgentIsChief = false;
+      if (!this.welcomeAgent) {
 
-      this.welcomeAgent = Meteor.users.findOne( { 'profile.cc': this.countryCode, '_id': { $ne: Database.getChiefID()[0]  } } );
-
-      if (this.welcomeAgent) {
-        
-        return this.welcomeAgent;
+        this.welcomeAgent = Meteor.users.findOne( { 'profile.cc': this.countryCode, '_id': { $ne: Database.getChiefID()[0]  } } );
       }
 
-      this.welcomeAgentIsChief = true;
+      if (!this.welcomeAgent) {
 
-      return Meteor.users.findOne( { _id: Database.getChiefID()[0] } );
+        this.welcomeAgentIsChief = true;
+
+        this.welcomeAgent = Meteor.users.findOne( { _id: Database.getChiefID()[0] } );
+      }
+
+      return this.welcomeAgent;
 
     }
 
