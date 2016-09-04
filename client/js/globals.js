@@ -211,6 +211,8 @@ refreshWindow = function(_which) {
 
 onYouTubeIframeAPIReady = function () {
 
+c("youtube ready")
+
     var _file = null;
 
     youTubeLoaded = true;
@@ -221,13 +223,18 @@ onYouTubeIframeAPIReady = function () {
     }
     else {
 
-        if (display != null) {
+        if (hack.mode == mBrowse) {
+
+            _file = display.browser.video;
+c(_file)
+        }
+        else {
 
           if (display.ctl["VIDEO"]) {
 
-            _file = display.feature.video;
+             _file = display.feature.video;
 
-          }
+          }          
         }
 
         if (editor && hack.mode == mEdit) {
@@ -239,8 +246,6 @@ onYouTubeIframeAPIReady = function () {
         }
 
     }
-
-    
 
     //We are either sizing this to fit the featured area or just doing
     //a preset size for the editor or relative one for the intro
@@ -255,21 +260,40 @@ onYouTubeIframeAPIReady = function () {
 
         $(".featuredYouTubeVideo").css("top", myVideo.top);
     }
-    else {
 
-        if (hack.mode == mEdit) {
+    switch (hack.mode) {
+
+        case mEdit:
 
             myVideo = { width: 720, height: 480, top: 0, left: 0 };
-        }
-        else {
+
+            break;
+        
+        case mBrowse:
+
+            myVideo.width = $(".centerImg").outerWidth() + 8;
+
+            myVideo.height = $(".centerImg").outerHeight() + 8; 
+
+            $(".featuredYouTubeVideo").css("top",  $(".divCenterImg").position().top ) + 8;
+
+            $(".featuredYouTubeVideo").css("left",  $(window).width() * .35 ) + 8;
+
+console.log(myVideo)   
+            break;
+
+        default: 
 
             display.feature.dimension( "video", myVideo, null );
             
             $(".featuredYouTubeVideo").css("left",  myVideo.left);  
 
             $(".featuredYouTubeVideo").css("top", myVideo.top);
-        }        
-    }
+
+            break;
+
+    }      
+
 
 
     ytplayer = new YT.Player("ytplayer", {
@@ -300,10 +324,12 @@ onYouTubeIframeAPIReady = function () {
 
                 if (_file) event.target.playVideo();
 
+if (hack.mode == mBrowse) Session.set("sYouTubeOn", true);
+
             },
 
             onStateChange: function (event) {
-
+return;
                 // Play video when player ready.
 
                 if (event.data == YT.PlayerState.PLAYING) {

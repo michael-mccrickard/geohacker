@@ -22,6 +22,8 @@ Display = function() {
 
     this.weather = new Weather();
 
+    this.browser = new Browser();
+
     //media files
 
     this.fb_sound_file = "msg.mp3";

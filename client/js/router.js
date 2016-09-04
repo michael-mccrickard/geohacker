@@ -1,4 +1,13 @@
+FlowRouter.route('/newBrowse', {
 
+  name: "newBrowse",
+
+  action: function (params, queryParams) { 
+
+    BlazeLayout.render('layout', { content: "newBrowse" } ) 
+  },
+
+});
 
 
 //*********************************************
