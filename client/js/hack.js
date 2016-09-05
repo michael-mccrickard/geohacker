@@ -157,6 +157,8 @@ Hack = function() {
 
     this.subscribeToData = function( _code ) {
 
+        this.cancelSubs();
+
         Meteor.call("setCountry", _code );
 
         Hack.resetDataFlags();
@@ -165,22 +167,36 @@ Hack = function() {
         //                  SUBSCRIBE TO HACK DATA
         //****************************************************************
 
-        Meteor.subscribe("ghImage", function() { Session.set("sImageReady", true ) });
+        this.imageSub = Meteor.subscribe("ghImage", function() { Session.set("sImageReady", true ) });
 
-        Meteor.subscribe("ghSound", function() { Session.set("sSoundReady", true ) });
+        this.soundSub = Meteor.subscribe("ghSound", function() { Session.set("sSoundReady", true ) });
 
-        Meteor.subscribe("ghVideo", function() { Session.set("sVideoReady", true ) });
+        this.videoSub = Meteor.subscribe("ghVideo", function() { Session.set("sVideoReady", true ) });
 
-        Meteor.subscribe("ghWeb", function() { Session.set("sWebReady", true ) });
+        this.webSub = Meteor.subscribe("ghWeb", function() { Session.set("sWebReady", true ) });
 
 
-        Meteor.subscribe("ghText", function() { Session.set("sTextReady", true ) });
+       this.textSub =  Meteor.subscribe("ghText", function() { Session.set("sTextReady", true ) });
 
-        Meteor.subscribe("ghMap", function() { Session.set("sMapReady", true ) });
+        this.mapSub = Meteor.subscribe("ghMap", function() { Session.set("sMapReady", true ) });
 
-        Meteor.subscribe("ghDebrief", function() { Session.set("sDebriefReady", true ) });     
+       this.debriefSub =  Meteor.subscribe("ghDebrief", function() { Session.set("sDebriefReady", true ) });     
 
-        Meteor.subscribe("agentsInCountry", function() { Session.set( "sAgentsInCountryReady", true ) } );
+       this.agentsSub =  Meteor.subscribe("agentsInCountry", function() { Session.set( "sAgentsInCountryReady", true ) } );
+    }
+
+    this.cancelSubs = function() {
+
+      if (!this.imageSub) return;
+
+       this.imageSub.stop();
+       this.soundSub.stop();
+       this.videoSub.stop();
+       this.webSub.stop();
+       this.textSub.stop();
+       this.mapSub.stop();
+       this.debriefSub.stop();
+       this.agentsSub.stop();
     }
 
     this.autoHack = function() {
@@ -231,6 +247,8 @@ Hack = function() {
         map.selectedCountry.set( this.countryCode );
 
         display.ctl["MAP"].level.set( mlCountry );
+
+display.browser.init( this.countryCode);
 
         display.browse(this.countryCode);
 
@@ -547,6 +565,8 @@ Tracker.autorun( function(comp) {
           }
 
           if (game.user.mode == uBrowseCountry) {
+
+console.log( db.ghVideo.find().fetch() )
 
             hack.startBrowsing();
 

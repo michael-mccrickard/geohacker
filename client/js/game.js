@@ -54,7 +54,7 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_s
 	}
 
 	this.playMusic = function() {
-
+return;
 		if (this.musicOn == false) return;
 
 		if (this.musicStarted == false) {

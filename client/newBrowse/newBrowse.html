@@ -1,9 +1,34 @@
 <template name="newBrowse">
 
-	<div class="divRotatedImg"><img class="imgRotated imgLeft" src="brazil.jpg"></div>
+	{{#with country}}
 
-	<div class="divRotatedImg"><img class="imgRotated imgRight" src="buenos_aires.jpg"></div>
+		<div class="browseHomelandText">
 
-	<div class="divCenterImg"><img class="centerImg" src="featuredBackdrop.jpg"></div>
+			<div class="browseTransHomelandText">
+
+			  <span>{{countryName}}</span>
+			</div>
+
+			<div  class="browseNativeHomelandText">
+
+			  <span style="font-size: {{HTSize}}">{{homelandText}}</span>
+
+			</div>
+
+		</div>
+
+		<div class="divBrowseFlagImg">
+
+			<img class="imgFlag" src="{{flagImage}}">
+		</div>
+
+
+		<div class="divRotatedImg"><img class="imgRotated imgLeft" src="{{capitalImage}}"></div>
+
+		<div class="divRotatedImg"><img class="imgRotated imgRight" src="{{leaderImage}}"></div>
+
+		<div class="divCenterImg"><img class="centerImg" src="featuredBackdrop.jpg"></div>
+
+	{{/with}}
 
 </template>

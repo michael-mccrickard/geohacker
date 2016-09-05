@@ -1,3 +1,51 @@
+.divBrowseFlagImg {
+
+	position: absolute;
+
+	left: 55%;
+
+	height: 15%;
+
+	top: 60px;
+
+	z-index: 5000;
+
+
+}
+
+.imgFlag {
+	border: 4px solid;
+    border-color: gray;
+	width: 25%;
+
+	min-width: 200px;
+}
+
+.browseTransHomelandText {
+	
+	font-size: 1.5vw;
+
+	color: yellow;
+}
+
+.browseHomelandText {
+	position: absolute;
+	top: 60px;
+	left: 35%;
+	font-family: Arial;
+	text-align: left;
+	 width: 400px;
+	z-index: 100;
+
+	color: white;
+
+}
+
+.browseNativeHomelandText {
+	/*margin-top: -10%;*/
+	/*font-size: 6.0vw;*/
+}
+
 .divRotatedImg {
 
 	display: inline;
@@ -39,9 +87,9 @@
 
 	position: absolute;
 
-	top: 160px;
+	top: 19.5%;
 
-	margin: 8px;
+	/*margin: 8px;*/
 
 	left: 35%;
 

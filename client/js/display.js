@@ -104,6 +104,11 @@ Display = function() {
 
     this.browse = function( _code) {
 
+
+        FlowRouter.go("/newBrowse");
+
+return;
+
         this.feature.set("IMAGE");
 
         this.feature.setImageSource("IMAGE");

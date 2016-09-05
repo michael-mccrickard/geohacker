@@ -199,9 +199,24 @@ refreshWindow = function(_which) {
         return;
     }
 
+    if (name == "newBrowse") {
 
+        var myVideo = { width: 0, height: 0, top: 0, left: 0 };
 
+        display.browser.draw( myVideo );
 
+        ytplayer.setSize( myVideo.width, myVideo.height);
+
+        setVideoPos( myVideo );
+
+    }
+}
+
+function setVideoPos(_obj) {
+
+    $(".featuredYouTubeVideo").css("top", _obj.top);
+
+    $(".featuredYouTubeVideo").css("left",  _obj.left);  
 }
 
 
@@ -226,7 +241,6 @@ c("youtube ready")
         if (hack.mode == mBrowse) {
 
             _file = display.browser.video;
-c(_file)
         }
         else {
 
@@ -256,9 +270,7 @@ c(_file)
 
         myVideo = { width: $(window).width(), height: $(window).height() * 9/16, left: 0, top: 70 };
 
-        $(".featuredYouTubeVideo").css("left",  myVideo.left);  
-
-        $(".featuredYouTubeVideo").css("top", myVideo.top);
+        setVideoPos( myVideo );
     }
 
     switch (hack.mode) {
@@ -271,24 +283,15 @@ c(_file)
         
         case mBrowse:
 
-            myVideo.width = $(".centerImg").outerWidth() + 8;
-
-            myVideo.height = $(".centerImg").outerHeight() + 8; 
-
-            $(".featuredYouTubeVideo").css("top",  $(".divCenterImg").position().top ) + 8;
-
-            $(".featuredYouTubeVideo").css("left",  $(window).width() * .35 ) + 8;
-
-console.log(myVideo)   
+            display.browser.draw( myVideo );
+ 
             break;
 
         default: 
 
             display.feature.dimension( "video", myVideo, null );
             
-            $(".featuredYouTubeVideo").css("left",  myVideo.left);  
-
-            $(".featuredYouTubeVideo").css("top", myVideo.top);
+            setVideoPos( myVideo );
 
             break;
 
@@ -324,8 +327,12 @@ console.log(myVideo)
 
                 if (_file) event.target.playVideo();
 
-if (hack.mode == mBrowse) Session.set("sYouTubeOn", true);
+                if (hack.mode == mBrowse) {
 
+                    setVideoPos( myVideo );               
+                 
+                    Session.set("sYouTubeOn", true);
+                }
             },
 
             onStateChange: function (event) {

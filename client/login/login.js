@@ -194,26 +194,9 @@ Template.login.events({
     'click #goHack': function (e) { 
 
       e.preventDefault();
-
-
-//game.user.mode = uBrowseCountry;
-
-//game.user.setGlobals( "browse" );
-
-youTubeLoaded = false;
-
-display.init("EG");
-
-hack = new Hack();
-
-hack.mode = mBrowse;
-
-FlowRouter.go("/newBrowse");
-
+game.user.browseCountry( db.getRandomRec( db.ghC ).c );
 
 return;
-
-
       //This is here b/c we were having instances where the onLogin event
       //was apparently not firing ...
 
