@@ -4,9 +4,11 @@ Browser = function(  ) {
 
 	this.init = function( _code ) {
 
-		this.video = db.getRandomRec( db.ghVideo ).f;
-
 		this.code = _code;
+
+		this.videoCtl = display.ctl["VIDEO"];
+	
+		this.video = this.videoCtl.getFile();
 	}
 
 	this.draw = function(  _obj ) {
@@ -18,6 +20,11 @@ Browser = function(  ) {
         _obj.top  = $(".divCenterImg").position().top;
 
         _obj.left  = $(window).width() * .35;		
+	}
+
+	this.playVideo = function() {
+
+		this.videoCtl.play();
 	}
 }
 
@@ -124,18 +131,7 @@ Template.newBrowse.events({
 
 Template.newBrowse.rendered = function() {
 
-	  if (youTubeLoaded == false || !ytplayer) {
-	    
-	    c("calling YT.load() in browser")
-	    
-	    YT.load();
-	  }
-	  else {
+	  display.browser.playVideo();
 
-	  	c("loading YT vid by ID in browser")
-	    
-	    ytplayer.loadVideoById( display.browser.video );            
-	  }
 
-	  Session.set("sYouTubeOn", true);
 }

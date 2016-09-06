@@ -222,11 +222,8 @@ function setVideoPos(_obj) {
 
 
 // YouTube API will call onYouTubeIframeAPIReady() when API ready.
-// Make sure it's a global variable.
 
 onYouTubeIframeAPIReady = function () {
-
-c("youtube ready")
 
     var _file = null;
 
@@ -262,7 +259,7 @@ c("youtube ready")
     }
 
     //We are either sizing this to fit the featured area or just doing
-    //a preset size for the editor or relative one for the intro
+    //a preset size for the editor or a relative one for the intro
 
     var myVideo = { width: 0, height: 0, top: 0, left: 0 };
 
@@ -336,7 +333,7 @@ c("youtube ready")
             },
 
             onStateChange: function (event) {
-return;
+
                 // Play video when player ready.
 
                 if (event.data == YT.PlayerState.PLAYING) {
@@ -344,6 +341,8 @@ return;
                     if ( videoControl() ) {
 
                         display.ctl["VIDEO"].setState( sPlaying );
+
+                        if (game.user.mode != uHack) return;
 
                         $("img#picVIDEO").attr("src", display.ctl["VIDEO"].pauseControlPic);
                     }
@@ -354,6 +353,8 @@ return;
                     if ( videoControl() ) {
 
                         display.ctl["VIDEO"].setState( sPaused );
+
+                        if (game.user.mode != uHack) return;
 
                         $("img#picVIDEO").attr("src", display.ctl["VIDEO"].playControlPic);
                     }

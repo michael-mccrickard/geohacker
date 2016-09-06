@@ -104,18 +104,15 @@ Display = function() {
 
     this.browse = function( _code) {
 
+       // this.feature.set("IMAGE");
 
-        FlowRouter.go("/newBrowse");
-
-return;
-
-        this.feature.set("IMAGE");
-
-        this.feature.setImageSource("IMAGE");
+       // this.feature.setImageSource("IMAGE");
 
         this.fullyLoadControls();
 
-        this.loadMainForBrowsing();
+        //this.loadMainForBrowsing();
+
+        FlowRouter.go("/newBrowse");
     }
 
     this.makeControls = function(_code) {
@@ -421,7 +418,7 @@ return;
 
 
     this.doHeadlines = function() {
-c("doHeadlines in display.js")
+
         this.status.setAndShow();
 
         this.cue.setAndType();
@@ -440,18 +437,20 @@ c("doHeadlines in display.js")
             if (this.feature.ctl) this.feature.ctl.suspend();
         }
 
+        if (game.user.mode == uBrowseCountry) {
+
+            this.ctl["VIDEO"].suspend();
+
+            this.ctl["SOUND"].suspend();
+        }
+
     }
 
     this.suspendBGSound = function() {
 
-        if (!display.ctl["SOUND"]) return;
+        if (!this.ctl["SOUND"]) return;
 
-        if (display.ctl["SOUND"].getState() == sPlaying) {
-
-c("display is suspending the bg sound")
-
-            display.ctl["SOUND"].pause();
-        }
+        this.ctl["SOUND"].suspend();
     }
 
     this.resumeMedia = function() {

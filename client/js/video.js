@@ -144,7 +144,7 @@ Video = function() {
 
 		if (game.user.mode == uBrowseCountry) {
 
-			display.feature.load( "VIDEO" );  //the imagesLoaded callback will update the screen
+			//display.feature.load( "VIDEO" );  //the imagesLoaded callback will update the screen
 
 			return;
 		}	
