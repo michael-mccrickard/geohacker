@@ -4,9 +4,11 @@ Browser = function(  ) {
 
 	this.init = function( _code ) {
 
-		this.video = db.getRandomRec( db.ghVideo ).f;
-
 		this.code = _code;
+
+		this.videoCtl = display.ctl["VIDEO"];
+
+		this.video = this.videoCtl.getFile();
 	}
 
 	this.draw = function(  _obj ) {
@@ -18,6 +20,20 @@ Browser = function(  ) {
         _obj.top  = $(".divCenterImg").position().top;
 
         _obj.left  = $(window).width() * .35;		
+	}
+
+	this.playVideo = function( _id ) {
+
+		if (_id) this.video = _id;
+
+		this.videoCtl.play();
+	}
+
+	this.playVideoByIndex = function( _index ) {
+
+		this.videoCtl.index.set( _index );
+
+		this.videoCtl.playNewVideo();
 	}
 }
 
@@ -110,7 +126,22 @@ Template.newBrowse.helpers({
      leaderName: function() {
 
     	return hack.getLeaderName();
+  	},
+
+  	video: function() {
+
+  		return display.browser.videoCtl.items;
+  	},
+
+  	leftEdgeVideos: function() {
+
+  		var _count = display.browser.videoCtl.items.length;
+
+  		var _fullWidth = _count * (120 + 8);
+
+  		return ( $(window).width() / 2) - (_fullWidth/2);
   	}
+
  });
 
 Template.newBrowse.events({
@@ -124,18 +155,7 @@ Template.newBrowse.events({
 
 Template.newBrowse.rendered = function() {
 
-	  if (youTubeLoaded == false || !ytplayer) {
-	    
-	    c("calling YT.load() in browser")
-	    
-	    YT.load();
-	  }
-	  else {
+	display.browser.playVideo();
 
-	  	c("loading YT vid by ID in browser")
-	    
-	    ytplayer.loadVideoById( display.browser.video );            
-	  }
-
-	  Session.set("sYouTubeOn", true);
+	stopSpinner();
 }

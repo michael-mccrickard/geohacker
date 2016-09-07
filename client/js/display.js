@@ -104,18 +104,10 @@ Display = function() {
 
     this.browse = function( _code) {
 
-
-        FlowRouter.go("/newBrowse");
-
-return;
-
-        this.feature.set("IMAGE");
-
-        this.feature.setImageSource("IMAGE");
-
         this.fullyLoadControls();
 
-        this.loadMainForBrowsing();
+        FlowRouter.go("/newBrowse");
+        
     }
 
     this.makeControls = function(_code) {
@@ -421,7 +413,7 @@ return;
 
 
     this.doHeadlines = function() {
-c("doHeadlines in display.js")
+
         this.status.setAndShow();
 
         this.cue.setAndType();
@@ -440,6 +432,8 @@ c("doHeadlines in display.js")
             if (this.feature.ctl) this.feature.ctl.suspend();
         }
 
+        if (game.user.mode == uBrowseCountry) this.ctl["VIDEO"].suspend();
+
     }
 
     this.suspendBGSound = function() {
@@ -448,7 +442,7 @@ c("doHeadlines in display.js")
 
         if (display.ctl["SOUND"].getState() == sPlaying) {
 
-c("display is suspending the bg sound")
+            c("display is suspending the bg sound")
 
             display.ctl["SOUND"].pause();
         }
@@ -458,7 +452,7 @@ c("display is suspending the bg sound")
 
           if (this.feature.on() ) {
 
-c("display is resuming the media, if necessary")
+            c("display is resuming the media, if necessary")
 
             if (this.feature.getName() == "VIDEO")  this.feature.ctl.play();
 
@@ -485,7 +479,7 @@ c("display is resuming the media, if necessary")
 
         if ( _name == "SOUND" || _name == "VIDEO") {
 
-c("showFeaturedContent is playing the media file")
+            c("showFeaturedContent is playing the media file")
             
             this.ctl[ _name ].play();
         }

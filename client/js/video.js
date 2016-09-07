@@ -144,7 +144,7 @@ Video = function() {
 
 		if (game.user.mode == uBrowseCountry) {
 
-			display.feature.load( "VIDEO" );  //the imagesLoaded callback will update the screen
+			//display.feature.load( "VIDEO" );  //the imagesLoaded callback will update the screen
 
 			return;
 		}	
@@ -182,7 +182,7 @@ Video = function() {
 	  //set the yt flag to false, so that playMedia
 	  //won't think we're resuming from a pause
 
-		//Session.set("sYouTubeOn", false);    
+		Session.set("sYouTubeOn", false);    
 
 	  }
 

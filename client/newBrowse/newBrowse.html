@@ -33,6 +33,17 @@
 
 		<div class="divBrowseText divRightText">{{leaderName}}</div>
 
+
+		<div class="divVideoThumbs" style="left:{{leftEdgeVideos}}px">
+			{{#each video}}
+
+				<a href="javascript:void(0);" onclick="display.browser.playVideoByIndex( {{@index}} )">
+					<img class="ytthumb" src="http://img.youtube.com/vi/{{this.f}}/default.jpg" >
+				</a>
+
+			{{/each}}
+		</div>
+
 	{{/with}}
 
 </template>

@@ -336,7 +336,7 @@ c("youtube ready")
             },
 
             onStateChange: function (event) {
-return;
+
                 // Play video when player ready.
 
                 if (event.data == YT.PlayerState.PLAYING) {
@@ -344,6 +344,8 @@ return;
                     if ( videoControl() ) {
 
                         display.ctl["VIDEO"].setState( sPlaying );
+
+                        if (game.user.mode != uHack) return;
 
                         $("img#picVIDEO").attr("src", display.ctl["VIDEO"].pauseControlPic);
                     }
@@ -354,6 +356,8 @@ return;
                     if ( videoControl() ) {
 
                         display.ctl["VIDEO"].setState( sPaused );
+
+                        if (game.user.mode != uHack) return;
 
                         $("img#picVIDEO").attr("src", display.ctl["VIDEO"].playControlPic);
                     }
