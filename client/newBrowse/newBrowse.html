@@ -19,7 +19,7 @@
 
 		<div class="divBrowseFlagImg">
 
-			<img class="imgFlag" src="{{flagImage}}">
+			<img class="imgFlag" src="{{flagImage}}" style="max-width: {{flagMaxWidth}}px">
 		</div>
 
 
@@ -32,6 +32,22 @@
 		<div class="divBrowseText divLeftText">{{capitalName}}</div>
 
 		<div class="divBrowseText divRightText">{{leaderName}}</div>
+
+		<div class="divPrimary">
+
+			{{#each primary}}
+
+				<div class="divPrimaryEntry" style="left: {{leftPrimaryEdge @index}}px">
+
+						
+						<img class="imgPrimaryThumb" id="{{this.name}}" src="{{this.src}}">
+
+						<div class="divPrimaryName">{{this.name}}</div>
+
+				</div>
+
+			{{/each}}
+		</div>
 
 
 		<div class="divVideoThumbs" style="left:{{leftEdgeVideos}}px">

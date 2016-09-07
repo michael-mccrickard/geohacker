@@ -2,13 +2,30 @@
 
 Browser = function(  ) {
 
+	this.updateFlag = new Blaze.ReactiveVar(false);
+
 	this.init = function( _code ) {
+		
+		this.primary = [];
 
 		this.code = _code;
 
 		this.videoCtl = display.ctl["VIDEO"];
 
 		this.video = this.videoCtl.getFile();
+
+		//make primaries
+
+		var _obj = new Meme("Map", hack.getCountryMapURL());
+
+		this.primary.push( _obj );
+	
+
+		_obj = new Meme("Anthem", display.ctl["SOUND"].playControlPic);
+
+		_obj.soundFile = hack.getAnthemFile();
+
+		this.primary.push( _obj);	
 	}
 
 	this.draw = function(  _obj ) {
@@ -34,6 +51,13 @@ Browser = function(  ) {
 		this.videoCtl.index.set( _index );
 
 		this.videoCtl.playNewVideo();
+	}
+
+	this.updateContent = function() {
+
+		var _val = this.updateFlag.get();
+
+		this.updateFlag.set( !_val );
 	}
 }
 
@@ -118,6 +142,16 @@ Template.newBrowse.helpers({
     	return hack.getFlagPic();
   	},
 
+  	flagMaxHeight: function() {
+
+  		return $(window).height() * 0.08;
+  	},
+
+  	flagMaxWidth: function() {
+
+  		return $(window).width() * 0.135;
+  	},
+
      leaderImage: function() {
 
     	return hack.getLeaderPic();
@@ -135,12 +169,30 @@ Template.newBrowse.helpers({
 
   	leftEdgeVideos: function() {
 
+  		display.browser.updateFlag.get();
+
   		var _count = display.browser.videoCtl.items.length;
 
   		var _fullWidth = _count * (120 + 8);
 
   		return ( $(window).width() / 2) - (_fullWidth/2);
-  	}
+  	},
+
+  	primary: function() {
+
+  		return display.browser.primary;
+  	},
+
+   	leftPrimaryEdge: function( _index ) {
+
+  		display.browser.updateFlag.get();
+
+  		var _count = display.browser.primary.length;
+
+  		var _fullWidth = _count * (120 + 8);
+
+  		return ( $(window).width() / 2) - (_fullWidth/2) + (_index * (120 + 8) );
+  	},
 
  });
 
@@ -149,6 +201,20 @@ Template.newBrowse.events({
     'click .imgFlag': function(event, template) {
 
 		game.user.browseCountry( db.getRandomRec( db.ghC ).c );
+      },
+
+    'click .imgPrimaryThumb': function(event, template) {
+
+		var _p = event.target.id;
+
+		$('#zoomInModal').modal('show');
+
+		if ( _p == "Map" ) {
+
+			display.meme.preloadImage( hack.getCountryMapURL() );
+		}
+
+
       },
  });
 

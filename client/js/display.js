@@ -24,6 +24,8 @@ Display = function() {
 
     this.browser = new Browser();
 
+    this.meme = new Meme();
+
     //media files
 
     this.fb_sound_file = "msg.mp3";
@@ -51,6 +53,8 @@ Display = function() {
     this.countryCode = "";  //To enable us to tell when the country has changed in browse mode
 
     this.soundPlayingPic =  "vu_meter1.gif";  //should match the prop in sound.js (used by debrief when there is no sound control)
+
+    this.updateFlag = new Blaze.ReactiveVar(false);
 
     //arrays
 
@@ -277,6 +281,13 @@ Display = function() {
     //      Utility functions
     //*********************************************
 
+    this.updateContent = function() {
+
+        var _val = this.updateFlag.get();
+
+        this.updateFlag.set( !_val );        
+    }
+
     this.reset = function() {
 
         this.stopBlinking();   
@@ -373,7 +384,7 @@ Display = function() {
     }
 
     this.loadMainForBrowsing = function() {
-
+ 
 //        this.mainTemplateReady = false;
 
         for (i=0; i < this.ctlName.length; i++) {

@@ -209,6 +209,8 @@ refreshWindow = function(_which) {
 
         setVideoPos( myVideo );
 
+        display.browser.updateContent();
+
     }
 }
 
