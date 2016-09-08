@@ -59,6 +59,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
       this.setGlobals( "browse" );
 
+      display.suspendMedia();
+
       hack.initForBrowse( _code );
       
     };

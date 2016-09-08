@@ -110,11 +110,17 @@ Video = function() {
 
 		if (this.isYouTube) {
 
-			var _file = this.items[ this.getIndex() ].u;
-
 			ytplayer.pauseVideo();
 		}
 		else {
+
+			if (game.user.mode == uBrowseCountry) {
+
+				display.browser.setVideoBG( this.playControlPic );
+
+				return;
+			}
+
 			display.feature.setImage("VIDEO");
 		}
 	}
@@ -156,7 +162,7 @@ Video = function() {
 		}	
 
 	},// end play
-
+/*
 	this.pause = function() {
 
 		//put control in pause mode 
@@ -173,7 +179,7 @@ Video = function() {
 		}
 
 	}, //end pauseMedia
-
+*/
 	this.playNewVideo = function() {
 
 	  if (this.isYouTube ) {

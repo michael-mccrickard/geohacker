@@ -443,7 +443,7 @@ Display = function() {
             if (this.feature.ctl) this.feature.ctl.suspend();
         }
 
-        if (game.user.mode == uBrowseCountry) this.ctl["VIDEO"].suspend();
+        if (game.user.mode == uBrowseCountry && this.ctl["VIDEO"] ) this.ctl["VIDEO"].suspend();
 
     }
 

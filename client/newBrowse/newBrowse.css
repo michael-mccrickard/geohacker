@@ -11,6 +11,7 @@
 	border: 4px solid;
     border-color: gray;
     margin-left: 4px;		
+    cursor: pointer;
 
 }
 
@@ -31,18 +32,22 @@
 
 .ytthumb {
 
+	width: 120px;
+	height: 90px;
+
 	border: 4px solid;
     border-color: gray;
     margin-left: 4px;	
 
     cursor: pointer;
+
 }
 
 .divVideoThumbs {
 
 	position: absolute;
-
 	top: 85%;
+	width: 120px;
 
 }
 

@@ -41,9 +41,7 @@ Browser = function(  ) {
         _obj.left  = $(window).width() * .35;		
 	}
 
-	this.playVideo = function( _id ) {
-
-		if (_id) this.video = _id;
+	this.playVideo = function( _id, _index ) {
 
 		//reset our plain bg if we are using YouTube
 		//(otherwise the src on the bg is an animated .gif file; this happens in video.js)
@@ -52,15 +50,56 @@ Browser = function(  ) {
 
 			this.setVideoBG( this.videoBGFile );
 		}
+		else {
+
+			//for a non-youtube video ( a .gif), we have to flip the button image from pause to play
+			//if they clicked the video button while it was playing (pausing the video)
+
+			if (this.videoCtl.state.get() == sPlaying) {
+
+				if (_id == this.video) {
+
+					this.videoCtl.pause();
+
+					this.setThumbForGIF(_index, this.videoCtl.playControlPic )
+
+					return;
+				}
+			}
+
+		}
+
+		this.video = _id;
+
+		//If we are playing this .gif and not pausing it, then we have to change the button image to pause
+
+		if ( !Control.isYouTubeURL(_id) ) this.setThumbForGIF(_index, this.videoCtl.pauseControlPic )
 
 		this.videoCtl.playNewVideo();
+
+
 	}
 
 	this.playVideoByIndex = function( _index ) {
 
+		//are they clicking a different video?
+
+		if (_index != this.videoCtl.index.get() ) {
+
+			//is there a video currently playing
+
+			if (this.videoCtl.state.get() == sPlaying ) {
+
+				//if the current video is a gif, then switch its picture to the play button, since we are about to "auto-pause" it
+
+				if ( !Control.isYouTubeURL( this.video) )  this.setThumbForGIF( this.videoCtl.index.get(), this.videoCtl.playControlPic )
+			}
+			
+		}
+
 		this.videoCtl.index.set( _index );
 
-		this.playVideo( this.videoCtl.items[_index].u );
+		this.playVideo( this.videoCtl.items[_index].u, _index );
 	}
 
 	this.setVideoBG = function( _file ) {
@@ -68,11 +107,23 @@ Browser = function(  ) {
 		$(".centerImg").attr("src", _file);
 	}
 
+	this.setThumbForGIF = function(_index, _file) {
+
+		$("#video" + _index).attr("src", _file);
+	}
+
 	this.setVideoSize = function( _obj ) {
 
           $("iframe#ytplayer").css("height", _obj.height );
 
           $("iframe#ytplayer").css("width", _obj.width );  
+	}
+
+	this.setCurrentThumbToPause = function() {
+
+		var _index = this.videoCtl.index.get();
+
+		this.setThumbForGIF( _index, this.videoCtl.pauseControlPic);
 	}
 
 	this.updateContent = function() {
@@ -146,7 +197,7 @@ Template.newBrowse.helpers({
 
 	countryName: function() {
 
-		return this.n;
+		return hack.getCountryName();
 	},
 
     capitalImage: function() {
@@ -199,16 +250,8 @@ Template.newBrowse.helpers({
   		}
   		else {
 
-  			if (display.browser.videoCtl.state.get() == sPlaying && !Control.isYouTubeURL(display.browser.video) ) {
-
-  				return display.browser.videoCtl.pauseControlPic;
-  			}
-  			else {
-
-  				return display.browser.videoCtl.playControlPic;
-  			}
-  		}
-
+			return display.browser.videoCtl.playControlPic;
+		}
   	},
 
   	leftEdgeVideos: function() {
@@ -232,6 +275,17 @@ Template.newBrowse.helpers({
   		display.browser.updateFlag.get();
 
   		var _count = display.browser.primary.length;
+
+  		var _fullWidth = _count * (120 + 8);
+
+  		return ( $(window).width() / 2) - (_fullWidth/2) + (_index * (120 + 8) );
+  	},
+
+   	leftVideoEdge: function( _index ) {
+
+  		display.browser.updateFlag.get();
+
+  		var _count = display.browser.videoCtl.items.length;
 
   		var _fullWidth = _count * (120 + 8);
 
@@ -265,7 +319,9 @@ Template.newBrowse.events({
 
 Template.newBrowse.rendered = function() {
 
-	display.browser.playVideo();
+	display.browser.playVideoByIndex(0);
+
+	//if ( !Control.isYouTubeURL( display.browser.video) ) display.browser.setCurrentThumbToPause();
 
 	stopSpinner();
 }

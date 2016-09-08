@@ -566,8 +566,6 @@ Tracker.autorun( function(comp) {
 
           if (game.user.mode == uBrowseCountry) {
 
-console.log( db.ghVideo.find().fetch() )
-
             hack.startBrowsing();
 
             return;
