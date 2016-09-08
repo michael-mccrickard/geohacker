@@ -535,7 +535,7 @@ Control.isYouTubeURL = function(_s) {
 
     //check for the file type designator and return false if found
 
-    if (typeof _s === 'undefined') return false;
+    if (!_s) return false;
 
     if (_s.substr(_s.length - 4) == ".gif") return false;
 

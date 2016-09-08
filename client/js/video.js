@@ -132,6 +132,8 @@ Video = function() {
 
 			this.playYouTube( _file);
 
+			if (game.user.mode == uBrowseCountry) display.browser.updateContent(); 
+
 			return;
 
 		}
@@ -144,15 +146,14 @@ Video = function() {
 
 		if (game.user.mode == uBrowseCountry) {
 
-			//display.feature.load( "VIDEO" );  //the imagesLoaded callback will update the screen
+			display.browser.setVideoBG( _file );
+
+			//this is to reset any play/pause buttons on animated gifs
+
+			display.browser.updateContent();
 
 			return;
 		}	
-
-		//Not browse mode, not youtube
-
-		//display.feature.setImageSource("VIDEO");
-
 
 	},// end play
 
@@ -177,7 +178,7 @@ Video = function() {
 
 	  if (this.isYouTube ) {
 
-	  	ytplayer.stopVideo();
+	  	if (ytplayer) ytplayer.stopVideo();
 
 	  //set the yt flag to false, so that playMedia
 	  //won't think we're resuming from a pause
@@ -201,12 +202,6 @@ Video = function() {
 
 		this.setState( sPlaying );
 
-		console.log("video.playYouTube is setting sYouTubeOn to true")
-		
-		Session.set("sYouTubeOn", true);    
-
-		this.isYouTube = true;
-
 		//if the YT player doesn't exist, then create it
 		//and the onYouTubeIframeAPIReady() function will load the correct
 		//file for us 
@@ -227,14 +222,13 @@ Video = function() {
 		  return;
 		}
 
+		this.isYouTube = true;
 
 		if (_file == ytplayer.getVideoData()['video_id']) {
 
 			console.log("ytplayer resuming from pause")
 
 			ytplayer.playVideo();
-
-			return;
 
 		}
 		else {
@@ -248,6 +242,10 @@ Video = function() {
 		  ytplayer.loadVideoById( _file );
 
 		}
+
+		c("video.playYouTube is setting sYouTubeOn to true")
+
+		Session.set("sYouTubeOn", true); 
 
 	}//end playYouTube
 

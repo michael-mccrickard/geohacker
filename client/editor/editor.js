@@ -110,6 +110,34 @@ Editor = function() {
 		this.arrCode[14] = "flg";
 	this.arrCodeExplain[14] = "Image.file = flag"; 
 
+	this.arrCodeText[15] = "Geography Now";
+		this.arrCode[15] = "gn";
+	this.arrCodeExplain[15] = "Geography Now video, if available"; 
+
+	this.arrCodeText[16] = "Seeker Daily";
+		this.arrCode[16] = "sd";
+	this.arrCodeExplain[16] = "Music video or live performance"; 
+
+	this.arrCodeText[17] = "Top Ten Archive";
+		this.arrCode[17] = "tt";
+	this.arrCodeExplain[17] = "Top Ten Archive video"; 
+
+	this.arrCodeText[18] = "Music";
+		this.arrCode[18] = "mu";
+	this.arrCodeExplain[18] = "Music video or live performance"; 
+
+	this.arrCodeText[19] = "Tourism";
+		this.arrCode[19] = "to";
+	this.arrCodeExplain[19] = "General tourism video"; 
+
+	this.arrCodeText[20] = "Lists";
+		this.arrCode[20] = "li";
+	this.arrCodeExplain[20] = "Lists other than Top Ten Archive; things you will love and hate about the country, etc."; 
+
+	this.arrCodeText[21] = "Other";
+		this.arrCode[21] = "ot";
+	this.arrCodeExplain[21] = "Videos that don't fit into the other categories"; 
+
 
 	this.getCodes = function( _coll ) {
 
@@ -123,7 +151,7 @@ Editor = function() {
 
 		if (_coll == cWeb) res = [10, 11, 12, 13];
 
-		if (_coll == cVideo) res = [];
+		if (_coll == cVideo) res = [15, 16, 17, 18, 19, 20, 21];
 
 		if (_coll == cDebrief) res = [ 1, 2, 6, 7, 8, 10, 11, 12, 13, 14 ];
 

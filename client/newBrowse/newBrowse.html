@@ -19,7 +19,7 @@
 
 		<div class="divBrowseFlagImg">
 
-			<img class="imgFlag" src="{{flagImage}}" style="max-width: {{flagMaxWidth}}px">
+			<img class="imgFlag" src="{{flagImage}}" style="max-width: {{flagMaxWidth}}px; max-height: {{flagMaxHeight}}px;">
 		</div>
 
 
@@ -38,8 +38,7 @@
 			{{#each primary}}
 
 				<div class="divPrimaryEntry" style="left: {{leftPrimaryEdge @index}}px">
-
-						
+				
 						<img class="imgPrimaryThumb" id="{{this.name}}" src="{{this.src}}">
 
 						<div class="divPrimaryName">{{this.name}}</div>
@@ -54,7 +53,7 @@
 			{{#each video}}
 
 				<a href="javascript:void(0);" onclick="display.browser.playVideoByIndex( {{@index}} )">
-					<img class="ytthumb" src="http://img.youtube.com/vi/{{this.f}}/default.jpg" >
+					<img class="ytthumb" src="{{videoThumbnailOrFile}}" >
 				</a>
 
 			{{/each}}

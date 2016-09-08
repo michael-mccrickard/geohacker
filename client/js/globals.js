@@ -205,7 +205,7 @@ refreshWindow = function(_which) {
 
         display.browser.draw( myVideo );
 
-        ytplayer.setSize( myVideo.width, myVideo.height);
+        display.browser.setVideoSize( myVideo );
 
         setVideoPos( myVideo );
 
@@ -299,8 +299,6 @@ c("youtube ready")
 
     }      
 
-
-
     ytplayer = new YT.Player("ytplayer", {
 
         height: myVideo.height, 
@@ -332,9 +330,9 @@ c("youtube ready")
                 if (hack.mode == mBrowse) {
 
                     setVideoPos( myVideo );               
-                 
-                    Session.set("sYouTubeOn", true);
                 }
+
+                Session.set("sYouTubeOn", true);
             },
 
             onStateChange: function (event) {
@@ -346,6 +344,13 @@ c("youtube ready")
                     if ( videoControl() ) {
 
                         display.ctl["VIDEO"].setState( sPlaying );
+
+                          //redundant, except when we are coming here from a hack, or after a hack 
+
+                          if (game.user.mode == uBrowseCountry) {
+
+                              refreshWindow("ytplayer");
+                          }
 
                         if (game.user.mode != uHack) return;
 

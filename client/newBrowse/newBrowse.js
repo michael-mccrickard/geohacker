@@ -4,6 +4,8 @@ Browser = function(  ) {
 
 	this.updateFlag = new Blaze.ReactiveVar(false);
 
+	this.videoBGFile = "featuredBackdrop.jpg";
+
 	this.init = function( _code ) {
 		
 		this.primary = [];
@@ -16,7 +18,7 @@ Browser = function(  ) {
 
 		//make primaries
 
-		var _obj = new Meme("Map", hack.getCountryMapURL());
+		var _obj = new Meme( "Map", hack.getCountryMapURL() );
 
 		this.primary.push( _obj );
 	
@@ -43,14 +45,34 @@ Browser = function(  ) {
 
 		if (_id) this.video = _id;
 
-		this.videoCtl.play();
+		//reset our plain bg if we are using YouTube
+		//(otherwise the src on the bg is an animated .gif file; this happens in video.js)
+
+		if ( Control.isYouTubeURL( _id) ) {
+
+			this.setVideoBG( this.videoBGFile );
+		}
+
+		this.videoCtl.playNewVideo();
 	}
 
 	this.playVideoByIndex = function( _index ) {
 
 		this.videoCtl.index.set( _index );
 
-		this.videoCtl.playNewVideo();
+		this.playVideo( this.videoCtl.items[_index].u );
+	}
+
+	this.setVideoBG = function( _file ) {
+
+		$(".centerImg").attr("src", _file);
+	}
+
+	this.setVideoSize = function( _obj ) {
+
+          $("iframe#ytplayer").css("height", _obj.height );
+
+          $("iframe#ytplayer").css("width", _obj.width );  
 	}
 
 	this.updateContent = function() {
@@ -149,7 +171,7 @@ Template.newBrowse.helpers({
 
   	flagMaxWidth: function() {
 
-  		return $(window).width() * 0.135;
+  		return $(window).width() * 0.117;
   	},
 
      leaderImage: function() {
@@ -165,6 +187,28 @@ Template.newBrowse.helpers({
   	video: function() {
 
   		return display.browser.videoCtl.items;
+  	},
+
+  	videoThumbnailOrFile: function() {
+
+   		display.browser.updateFlag.get(); 		
+
+  		if ( Control.isYouTubeURL(this.u) ) {
+
+  			return ("http://img.youtube.com/vi/" + this.u + "/default.jpg");
+  		}
+  		else {
+
+  			if (display.browser.videoCtl.state.get() == sPlaying && !Control.isYouTubeURL(display.browser.video) ) {
+
+  				return display.browser.videoCtl.pauseControlPic;
+  			}
+  			else {
+
+  				return display.browser.videoCtl.playControlPic;
+  			}
+  		}
+
   	},
 
   	leftEdgeVideos: function() {
