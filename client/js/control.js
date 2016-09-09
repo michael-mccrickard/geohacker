@@ -289,7 +289,7 @@ c("control activateState() called on " + this.name + " and state is " + this.get
         return;
 
     }
-
+f
     if (this.getState() == sPaused) {
 
           c("control.activateState is pausing the media")
@@ -570,7 +570,7 @@ ghImageCtl = function() {
 
   this.setItems = function() {
 
-      if (game.user.mode == uBrowseCountry || game.user.mode == uBrowseMap) {
+      if (game.user.mode == uBrowseCountry) {
 
         this.items = this.collection.find( { cc: this.countryCode, dt: { $ne: "rmp"} } ).fetch();
       }

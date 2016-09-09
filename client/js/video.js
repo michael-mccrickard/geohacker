@@ -59,6 +59,16 @@ Video = function() {
 
 	}, //end getControlPic
 
+	  this.setItems = function() {
+
+	      if (game.user.mode == uBrowseCountry) {
+
+	      	//screen out the ones used as primaries in the newBrowser
+
+	        this.items = this.collection.find( { cc: this.countryCode, dt: { $nin: ["gn","sd","tt"] } } ).fetch();
+	      }
+	  },
+
 	//Used to get the file to display in featured area.
 	//Usually this returns the content, but if animated gif is paused
 	//it returns the big play button

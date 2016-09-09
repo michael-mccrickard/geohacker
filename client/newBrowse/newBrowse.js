@@ -7,6 +7,8 @@ Browser = function(  ) {
 	this.videoBGFile = "featuredBackdrop.jpg";
 
 	this.init = function( _code ) {
+
+		if (!editor) editor = new Editor();
 		
 		this.primary = [];
 
@@ -238,6 +240,17 @@ Template.newBrowse.helpers({
   	video: function() {
 
   		return display.browser.videoCtl.items;
+  	},
+
+  	videoName: function() {
+
+  		var _dt = this.dt;
+
+  		var _index = editor.arrCode.indexOf( _dt );
+
+  		if ( _index != -1) return editor.arrCodeText[ _index ];
+
+  		return "???";
   	},
 
   	videoThumbnailOrFile: function() {
