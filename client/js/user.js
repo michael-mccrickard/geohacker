@@ -240,6 +240,11 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	}
 
+    	if (FlowRouter.current().path == "/editor") {
+
+    		Control.stopEditMedia();
+    	}
+
     	if (this.mode == uBrowseMap || this.mode == uBrowseCountry)  {
 
     		FlowRouter.go("/home")

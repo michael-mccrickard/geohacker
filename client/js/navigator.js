@@ -134,7 +134,7 @@ Navigator = function() {
 
   this.closeEditor = function() {
 
-    Control.stopEditVideo();
+    Control.stopEditMedia();
 
     this.goBackAdmin();
   }

@@ -20,16 +20,29 @@ Browser = function(  ) {
 
 		//make primaries
 
-		var _obj = new Meme( "Map", hack.getCountryMapURL() );
+		this.primaryItems = [];
 
-		this.primary.push( _obj );
+		var _obj = new Meme("modal", "Map", hack.getCountryMapURL() );
+
+		this.primaryItems.push( _obj );
+
 	
+		var _items = db.ghVideo.find( { cc: hack.countryCode, dt: { $in: ["gn","sd","tt"] } } ).fetch();
 
-		_obj = new Meme("Anthem", display.ctl["SOUND"].playControlPic);
+		var _meme = null;
 
-		_obj.soundFile = hack.getAnthemFile();
+		//Geography now?
 
-		this.primary.push( _obj);	
+		var _index = Database.getObjectIndexWithValue( _items, "dt", "gn");
+
+		if (_index != -1) {
+
+			_obj = _items[ _index ];
+
+			_meme = new Meme("video", "Geography Now", "http://img.youtube.com/vi/" + _items[_index].u + "/default.jpg", _obj.u);
+
+			this.primaryItems.push(_meme);
+		}
 	}
 
 	this.draw = function(  _obj ) {
@@ -77,7 +90,7 @@ Browser = function(  ) {
 
 		if ( !Control.isYouTubeURL(_id) ) this.setThumbForGIF(_index, this.videoCtl.pauseControlPic )
 
-		this.videoCtl.playNewVideo();
+		this.videoCtl.playNewVideo( _id );
 
 
 	}
@@ -280,14 +293,14 @@ Template.newBrowse.helpers({
 
   	primary: function() {
 
-  		return display.browser.primary;
+  		return display.browser.primaryItems;
   	},
 
    	leftPrimaryEdge: function( _index ) {
 
   		display.browser.updateFlag.get();
 
-  		var _count = display.browser.primary.length;
+  		var _count = display.browser.primaryItems.length;
 
   		var _fullWidth = _count * (120 + 8);
 
@@ -316,13 +329,30 @@ Template.newBrowse.events({
 
     'click .imgPrimaryThumb': function(event, template) {
 
-		var _p = event.target.id;
+		var _id = event.target.id;
 
-		$('#zoomInModal').modal('show');
+		var _type = $("#" + _id).data("type");
 
-		if ( _p == "Map" ) {
+		var _name = $("#" + _id).data("name");
 
-			display.meme.preloadImage( hack.getCountryMapURL() );
+		var _videoid = $("#" + _id).data("videoid");
+
+		var _src = $("#" + _id).attr("src");
+
+		
+		if ( _type == "modal" ) {
+
+			display.meme = new Meme("modal", _name, _src);
+c(display.meme)
+
+			display.meme.preloadImage();
+
+			$('#zoomInModal').modal('show');
+		}
+
+		if (_type == "video") {
+
+			display.browser.playVideo( _videoid );
 		}
 
 
@@ -338,3 +368,11 @@ Template.newBrowse.rendered = function() {
 
 	stopSpinner();
 }
+/*
+Template.newBrowse.onCreated(function () {
+
+  // Use this.subscribe inside onCreated callback
+  this.subscribe("allVideos");  
+
+});
+*/

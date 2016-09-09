@@ -504,7 +504,7 @@ Control.suspendAllMedia = function() {
 
 }
 
-Control.stopEditVideo = function() {
+Control.stopEditMedia = function() {
 
   if (youTubeLoaded) {
 
@@ -515,14 +515,14 @@ Control.stopEditVideo = function() {
 
   try {
 
-c("attempting to stop sound player in control.js")
+    c("attempting to stop sound player in control.js")
 
     document.getElementById("editorSoundPlayer").pause();
 
   }
   catch(err) {
 
-
+     console.log(err.reason);
   }
 }
 

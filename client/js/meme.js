@@ -1,18 +1,56 @@
-Meme = function(_name, _src) {
+/*
+******************************************************************
+
+              MEMES
+  Memes are used to display info to the user in the country browser.
+  The types are:
+
+  modal -- An image, with optional text and sound file, displayed in a modal window.  Any meme with this type is 
+  temporarily assigned to display.meme when displayed.
+
+  video -- A youtube video to be shown on the browser screen
+
+  classic -- still image with text, with an optional sound file.  These can also be temporarily assigned to
+  display.meme, if we need to show them in a modal window.
+
+******************************************************************
+*/
+
+// Constructor with four optional arguments; soundFile is added to the
+// object after creation, if desired, by the calling function
+
+Meme = function(_type, _name, _src, _videoID) {
 	
-	this.soundFile = "";
+  if (!_type) {
 
-	if (_name) this.name = _name;
+    _type = "unknown";
+  }
 
-	if (_src) this.src = _src;
+  this.type = _type;
 
-	this.imageSrc = null;
+  this.name = "";
 
-    this.frame = {width: 0, height: 0, top: 0, left: 0 }
+  this.src = "";
 
-	this.preloadImage = function( _file ) {
+  this.videoID = "";
 
-		this.src = _file;
+  if (_name) this.name = _name;
+
+  if (_src) this.src = _src;
+
+  if (_videoID) this.videoID = _videoID;
+
+
+  this.imageSrc = null;
+
+  this.frame = {width: 0, height: 0, top: 0, left: 0 }
+
+  this.soundFile = "";
+
+
+	this.preloadImage = function() {
+
+		var _file = this.src;
 
 		//borrow the feature preload element
 

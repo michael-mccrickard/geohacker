@@ -732,7 +732,20 @@ Database.makeSingleElementArray = function( _arr, _field) {
   }
 
   return arr;
+}
 
+Database.getObjectIndexWithValue = function( _arr, _field, _val) {
+
+    var _obj = null;
+
+     for (var i = 0; i < _arr.length; i++) {
+
+          _obj = _arr[i];
+
+          if ( _obj[ _field ] == _val) return i;    
+      } 
+
+      return -1;
 }
 
 

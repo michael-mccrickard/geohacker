@@ -126,17 +126,29 @@ Editor = function() {
 		this.arrCode[18] = "mu";
 	this.arrCodeExplain[18] = "Music video or live performance"; 
 
-	this.arrCodeText[19] = "Tourism";
-		this.arrCode[19] = "to";
-	this.arrCodeExplain[19] = "General tourism video"; 
+	this.arrCodeText[19] = "Dance";
+		this.arrCode[19] = "da";
+	this.arrCodeExplain[19] = "Any dance performance from this country"; 
 
-	this.arrCodeText[20] = "Lists";
-		this.arrCode[20] = "li";
-	this.arrCodeExplain[20] = "Lists other than Top Ten Archive; things you will love and hate about the country, etc."; 
+	this.arrCodeText[20] = "Documentary";
+		this.arrCode[20] = "do";
+	this.arrCodeExplain[20] = "Any documentary about this country"; 
 
-	this.arrCodeText[21] = "Other";
-		this.arrCode[21] = "ot";
-	this.arrCodeExplain[21] = "Videos that don't fit into the other categories"; 
+	this.arrCodeText[21] = "Historical";
+		this.arrCode[21] = "do";
+	this.arrCodeExplain[21] = "Any archival footage or historical video"; 
+
+	this.arrCodeText[22] = "Tourism";
+		this.arrCode[22] = "to";
+	this.arrCodeExplain[22] = "General tourism video"; 
+
+	this.arrCodeText[23] = "Lists";
+		this.arrCode[23] = "li";
+	this.arrCodeExplain[23] = "Lists other than Top Ten Archive; things you will love and hate about the country, etc."; 
+
+	this.arrCodeText[24] = "Other";
+		this.arrCode[24] = "ot";
+	this.arrCodeExplain[24] = "Videos that don't fit into the other categories"; 
 
 
 	this.getCodes = function( _coll ) {
@@ -151,7 +163,7 @@ Editor = function() {
 
 		if (_coll == cWeb) res = [10, 11, 12, 13];
 
-		if (_coll == cVideo) res = [15, 16, 17, 18, 19, 20, 21];
+		if (_coll == cVideo) res = [15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
 
 		if (_coll == cDebrief) res = [ 1, 2, 6, 7, 8, 10, 11, 12, 13, 14 ];
 

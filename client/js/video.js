@@ -136,11 +136,13 @@ Video = function() {
 	}
 
 
-	this.play = function() {
+	this.play = function( _id ) {
 
 		this.setState( sPlaying );
 
 		var _file = this.items[ this.getIndex() ].u;
+
+		if (_id) _file = _id;
 
 		//First, is it a YT?
 
@@ -172,25 +174,8 @@ Video = function() {
 		}	
 
 	},// end play
-/*
-	this.pause = function() {
 
-		//put control in pause mode 
-
-		this.setState( sPaused );
-
-		//how does display.feature get the big pause button displayed if file is GIF?
-
-		//We have to explicitly pause the YT file
-
-		if (this.isYouTube ) {
-
-		   	ytplayer.pauseVideo();
-		}
-
-	}, //end pauseMedia
-*/
-	this.playNewVideo = function() {
+	this.playNewVideo = function(_id) {
 
 	  if (this.isYouTube ) {
 
@@ -203,9 +188,10 @@ Video = function() {
 
 	  }
 
-	  this.play();
+	  this.play( _id );
 
 	}, //end playNewVideo
+
 
 	this.playAnotherVideo = function(_val) {
 
