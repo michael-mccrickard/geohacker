@@ -61,7 +61,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
       display.suspendMedia();
 
-      hack.initForBrowse( _code );
+      hack.initForBrowse( _code);
       
     };
 

@@ -135,7 +135,7 @@ Editor = function() {
 	this.arrCodeExplain[20] = "Any documentary about this country"; 
 
 	this.arrCodeText[21] = "Historical";
-		this.arrCode[21] = "do";
+		this.arrCode[21] = "hi";
 	this.arrCodeExplain[21] = "Any archival footage or historical video"; 
 
 	this.arrCodeText[22] = "Tourism";
@@ -149,6 +149,15 @@ Editor = function() {
 	this.arrCodeText[24] = "Other";
 		this.arrCode[24] = "ot";
 	this.arrCodeExplain[24] = "Videos that don't fit into the other categories"; 
+
+	this.setVideoPos = function( _obj ) {
+
+		_obj.top = -16;
+
+		_obj.left = $(window).width()/2 - _obj.width/2;
+
+
+	}
 
 
 	this.getCodes = function( _coll ) {
@@ -380,9 +389,15 @@ Tracker.autorun( function(comp) {
 
           console.log("editor data ready")
 
-			if (typeof editor  === 'undefined') return;
+			if (!editor) return;
 
       	  editor.dataReady = true;
+
+c("in autorun editor, cc is " + editor.hack.countryCode)
+
+          if (editor.hack.countryCode.length) editor.hack.index = Database.getCountryIndex( editor.hack.countryCode ); 
+
+c("in autorun editor, index is " + editor.hack.index)
 
       	  nav.goEditRoute();
 

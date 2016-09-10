@@ -48,14 +48,14 @@
 			{{/each}}
 		</div>
 
-		<div class="divPrimary">
+		<div class="divVideos">
 
 			
 			{{#each video}}
 
 				<div class="divVideoThumbs" style="left:{{leftVideoEdge @index}}px;" >
 
-					<img class="ytthumb" id="{{this.u}}" src="{{videoThumbnailOrFile}}" onclick="display.browser.playVideoByIndex( {{@index}} )" />
+					<img class="ytthumb" id="{{this.f}}" src="{{videoThumbnailOrFile}}" onclick="display.browser.playVideoByIndex( {{@index}} )" />
 
 					<div class="divPrimaryName">{{videoName}}</div>
 

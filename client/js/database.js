@@ -678,6 +678,32 @@ Database.getIndexWithNValue = function(_val, _arr) {
 //        Array-related
 //***********************************************************************
 
+Database.getCountryIndex = function( _code )   {
+
+      var _arr = db.ghC.find( { d: 1 }, {sort: {n: 1} } ).fetch();
+
+      var _index = -1;
+
+      for (var i = 0; i < _arr.length; i++) {
+
+        if (_arr[i].c == _code) {
+
+          _index = i;
+
+          break;
+        }
+      }
+
+      return i;
+}
+
+Database.getCountryCodeForIndex = function( _index ) {
+
+      var _arr = db.ghC.find( { d: 1 }, {sort: {n: 1} } ).fetch();
+
+      return  _arr[_index].c;    
+}
+
 Database.getRandomElement = function(arr) {
 
     var count = arr.length;

@@ -17,6 +17,8 @@ gEditLearnCountry = false;
 
 gEditCapsulePos = false;
 
+gNavigateCountries = false;
+
 gEditElement = "div.transHomelandText";
 
 gArrCountry = [];
@@ -124,6 +126,8 @@ $(document).keydown(function(e) {
 
         if (gEditLearnCountry) posElementLeft(1); 
 
+        if (gNavigateCountries) hackAdjacentCountry( 1);
+
         break;
 
       case 38: //arrow key up
@@ -139,6 +143,8 @@ $(document).keydown(function(e) {
         if (gEditLabels || gEditCapsulePos) nudgeLabel( e.which );
 
         if (gEditLearnCountry) posElementLeft(-1); 
+
+        if (gNavigateCountries) hackAdjacentCountry( -1);
 
         break;
 
@@ -197,6 +203,12 @@ $(document).keydown(function(e) {
 
         break;
 
+      case 78: //n
+
+        toggleNavigateCountriesMode();
+
+        break;
+
       case 81: //q
 
         if (gEditCapsulePos) moveCapsuleToDefault();
@@ -246,6 +258,8 @@ function resetArrowKeyModes() {
 
   gEditLearnCountry = false;
 
+  gNavigateCountries = false;
+
 }
 
 //***************************************************************
@@ -287,6 +301,7 @@ stopGameEditor = function() {
 	gInstantMode = false;
 
 	gUserCountriesOnlyMode = true;
+
 }
 
 
@@ -355,6 +370,17 @@ function toggleEditLearnCountryMode() {
    if (gEditLearnCountry) showMessage( "Edit learn country mode on");
 
    if (!gEditLearnCountry) showMessage( "Edit learn country mode off");   
+}
+
+function toggleNavigateCountriesMode() {
+
+  if (!gNavigateCountries) resetArrowKeyModes();
+
+   gNavigateCountries = !gNavigateCountries;
+
+   if (gNavigateCountries) showMessage( "Navigate countries mode on");
+
+   if (!gNavigateCountries) showMessage( "Navigate countries mode off");   
 }
 
 //***************************************************************
@@ -683,6 +709,48 @@ function startCrop() {
 
 	});	
 }
+
+//***************************************************************
+//            NAVIGATE COUNTRIES
+//***************************************************************
+
+function hackAdjacentCountry( _val ) {
+
+    if (hack.mode == mEdit)  {
+
+        hack.index += _val;
+
+        var _code = Database.getCountryCodeForIndex( hack.index );
+
+        hack.countryCode = _code;  
+
+        FlowRouter.go("/waiting");
+
+        editor.dataReady = false;
+
+        Meteor.setTimeout( function() { editor.subscribeToData(); }, 100 );
+     
+    }
+
+/*
+
+    if (game.user.mode == uLearn) {
+
+       game.lesson.updateContent();
+
+      return;
+    }
+
+    if (game.user.mode == uBrowseCountry) {
+
+      hack.startBrowsing();
+
+      return;
+    }
+
+*/
+}
+
 
 //***************************************************************
 //            DATABASE UPDATES

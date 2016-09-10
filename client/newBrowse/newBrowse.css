@@ -92,8 +92,6 @@ transform-origin: 104% -585%;
 
 	left: 55%;
 
-	height: 15%;
-
 	top: 60px;
 
 	z-index: 1000;
@@ -101,6 +99,7 @@ transform-origin: 104% -585%;
 }
 
 .imgFlag {
+
 	border: 4px solid;
     border-color: gray;
 

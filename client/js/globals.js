@@ -281,6 +281,10 @@ c("youtube ready")
 
             myVideo = { width: 720, height: 480, top: 0, left: 0 };
 
+            editor.setVideoPos( myVideo );
+
+            setVideoPos( myVideo );
+
             break;
         
         case mBrowse:

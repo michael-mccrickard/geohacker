@@ -6,6 +6,8 @@ Browser = function(  ) {
 
 	this.videoBGFile = "featuredBackdrop.jpg";
 
+	this.index = 0;
+
 	this.init = function( _code ) {
 
 		if (!editor) editor = new Editor();
@@ -31,18 +33,28 @@ Browser = function(  ) {
 
 		var _meme = null;
 
-		//Geography now?
 
-		var _index = Database.getObjectIndexWithValue( _items, "dt", "gn");
+		//primary videos
 
-		if (_index != -1) {
+		var _arrCode = ["gn", "sd", "tt"];
 
-			_obj = _items[ _index ];
+		var _arrName = ["Geography Now", "Seeker Daily", "Top Ten Archive"];
 
-			_meme = new Meme("video", "Geography Now", "http://img.youtube.com/vi/" + _items[_index].u + "/default.jpg", _obj.u);
+		for (var i = 0; i < _arrCode.length; i++) {
 
-			this.primaryItems.push(_meme);
+			_index = Database.getObjectIndexWithValue( _items, "dt", _arrCode[i] );
+
+			if (_index != -1) {
+
+				_obj = _items[ _index ];
+
+				_meme = new Meme("video", _arrName[i], "http://img.youtube.com/vi/" + _obj.u + "/default.jpg", _obj.u);
+
+				this.primaryItems.push(_meme);
+			}
+
 		}
+
 	}
 
 	this.draw = function(  _obj ) {
@@ -148,231 +160,3 @@ Browser = function(  ) {
 		this.updateFlag.set( !_val );
 	}
 }
-
-var fullWidth = 1500;
-
-
-function scaleMe( _val ) {
-
-   var _w = $(window).width();
-
-   _val = _val * (_w / fullWidth);
-
-   return _val + "px";
-
-}
-
-Template.newBrowse.helpers({
-
-	country: function() {
-
-		//var _val = game.lesson.updateFlag.get();
-
-		return db.getCountryRec( hack.countryCode );
-
-	},
-
-	countryColor: function() {
-
-		return this.co;
-	},
-
-	homelandText: function() {
-
-		return this.ht;
-	},
-
-	TTSize: function() {
-
-		if (this.tts) return scaleMe(this.tts);
-
-		return scaleMe(20);
-	},
-
-	HTSize: function() {
-
-		if (this.hts) return scaleMe(this.hts);
-
-		return scaleMe(31.11);
-	},
-
-	TTColor: function() {
-
-		if (this.ttc) return this.ttc;
-
-		return "yellow";
-	},	
-
-	HTColor: function() {
-
-		if (this.htc) return this.htc;
-
-		return "white";
-	},	
-
-	countryName: function() {
-
-		return hack.getCountryName();
-	},
-
-    capitalImage: function() {
-
-    	return hack.getCapitalPic();
-  	},
-
-     capitalName: function() {
-
-    	return hack.getCapitalName();
-  	},
-
-     flagImage: function() {
-
-    	return hack.getFlagPic();
-  	},
-
-  	flagMaxHeight: function() {
-
-  		return $(window).height() * 0.08;
-  	},
-
-  	flagMaxWidth: function() {
-
-  		return $(window).width() * 0.117;
-  	},
-
-     leaderImage: function() {
-
-    	return hack.getLeaderPic();
-  	},
-
-     leaderName: function() {
-
-    	return hack.getLeaderName();
-  	},
-
-  	video: function() {
-
-  		return display.browser.videoCtl.items;
-  	},
-
-  	videoName: function() {
-
-  		var _dt = this.dt;
-
-  		var _index = editor.arrCode.indexOf( _dt );
-
-  		if ( _index != -1) return editor.arrCodeText[ _index ];
-
-  		return "???";
-  	},
-
-  	videoThumbnailOrFile: function() {
-
-   		display.browser.updateFlag.get(); 		
-
-  		if ( Control.isYouTubeURL(this.u) ) {
-
-  			return ("http://img.youtube.com/vi/" + this.u + "/default.jpg");
-  		}
-  		else {
-
-			return display.browser.videoCtl.playControlPic;
-		}
-  	},
-
-  	leftEdgeVideos: function() {
-
-  		display.browser.updateFlag.get();
-
-  		var _count = display.browser.videoCtl.items.length;
-
-  		var _fullWidth = _count * (120 + 8);
-
-  		return ( $(window).width() / 2) - (_fullWidth/2);
-  	},
-
-  	primary: function() {
-
-  		return display.browser.primaryItems;
-  	},
-
-   	leftPrimaryEdge: function( _index ) {
-
-  		display.browser.updateFlag.get();
-
-  		var _count = display.browser.primaryItems.length;
-
-  		var _fullWidth = _count * (120 + 8);
-
-  		return ( $(window).width() / 2) - (_fullWidth/2) + (_index * (120 + 8) );
-  	},
-
-   	leftVideoEdge: function( _index ) {
-
-  		display.browser.updateFlag.get();
-
-  		var _count = display.browser.videoCtl.items.length;
-
-  		var _fullWidth = _count * (120 + 8);
-
-  		return ( $(window).width() / 2) - (_fullWidth/2) + (_index * (120 + 8) );
-  	},
-
- });
-
-Template.newBrowse.events({
-
-    'click .imgFlag': function(event, template) {
-
-		game.user.browseCountry( db.getRandomRec( db.ghC ).c );
-      },
-
-    'click .imgPrimaryThumb': function(event, template) {
-
-		var _id = event.target.id;
-
-		var _type = $("#" + _id).data("type");
-
-		var _name = $("#" + _id).data("name");
-
-		var _videoid = $("#" + _id).data("videoid");
-
-		var _src = $("#" + _id).attr("src");
-
-		
-		if ( _type == "modal" ) {
-
-			display.meme = new Meme("modal", _name, _src);
-c(display.meme)
-
-			display.meme.preloadImage();
-
-			$('#zoomInModal').modal('show');
-		}
-
-		if (_type == "video") {
-
-			display.browser.playVideo( _videoid );
-		}
-
-
-      },
- });
-
-
-Template.newBrowse.rendered = function() {
-
-	display.browser.playVideoByIndex(0);
-
-	//if ( !Control.isYouTubeURL( display.browser.video) ) display.browser.setCurrentThumbToPause();
-
-	stopSpinner();
-}
-/*
-Template.newBrowse.onCreated(function () {
-
-  // Use this.subscribe inside onCreated callback
-  this.subscribe("allVideos");  
-
-});
-*/
