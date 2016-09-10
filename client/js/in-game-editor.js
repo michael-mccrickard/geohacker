@@ -126,7 +126,7 @@ $(document).keydown(function(e) {
 
         if (gEditLearnCountry) posElementLeft(1); 
 
-        if (gNavigateCountries) hackAdjacentCountry( 1);
+        if (gNavigateCountries) hackAdjacentCountry( -1);
 
         break;
 
@@ -144,7 +144,7 @@ $(document).keydown(function(e) {
 
         if (gEditLearnCountry) posElementLeft(-1); 
 
-        if (gNavigateCountries) hackAdjacentCountry( -1);
+        if (gNavigateCountries) hackAdjacentCountry( 1);
 
         break;
 
@@ -746,7 +746,7 @@ function hackAdjacentCountry( _val ) {
     }
 
     if (game.user.mode == uBrowseCountry) {
-c("index in hackAdjacentCountry is  " + hack.index)
+
         hack.index += _val;
 
         var _code = Database.getCountryCodeForIndex( hack.index );
