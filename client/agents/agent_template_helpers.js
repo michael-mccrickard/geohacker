@@ -209,7 +209,7 @@ Template.bigAgent.events({
   //clicking anywhere on the agent banner hides the agent
 
   'click .imgBigAgentDeleteButton': function(e) { 
-c("click")
+
       e.preventDefault();  
 
       $(".divWelcomeAgent").css("display", "none");  

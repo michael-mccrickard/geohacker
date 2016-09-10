@@ -181,11 +181,13 @@ Navigator = function() {
 
       editor.controlType.set( cSound );
 
-      //bring over the countryCode from the global hack
+      //bring over the countryCode from the global hack (only necessary for the Edit this country ... menu option)
 
       if (hack) {
 
         if (hack.countryCode.length)  editor.hack.countryCode = hack.countryCode;
+
+        editor.hack.index = Database.getIndexForCountryCode( editor.hack.countryCode);
       }
 
       //Switch the global to be the edit hack

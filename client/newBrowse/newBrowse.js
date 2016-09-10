@@ -55,6 +55,8 @@ Browser = function(  ) {
 
 		}
 
+		this.updateContent();
+
 	}
 
 	this.draw = function(  _obj ) {

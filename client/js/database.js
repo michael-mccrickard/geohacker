@@ -678,7 +678,7 @@ Database.getIndexWithNValue = function(_val, _arr) {
 //        Array-related
 //***********************************************************************
 
-Database.getCountryIndex = function( _code )   {
+Database.getIndexForCountryCode = function( _code )   {
 
       var _arr = db.ghC.find( { d: 1 }, {sort: {n: 1} } ).fetch();
 
@@ -694,7 +694,9 @@ Database.getCountryIndex = function( _code )   {
         }
       }
 
-      return i;
+c("returning this value from getIndexForCountryCode " + i)
+
+      return _index;
 }
 
 Database.getCountryCodeForIndex = function( _index ) {

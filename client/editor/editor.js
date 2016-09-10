@@ -389,15 +389,9 @@ Tracker.autorun( function(comp) {
 
           console.log("editor data ready")
 
-			if (!editor) return;
+			if (typeof editor === 'undefined') return;
 
       	  editor.dataReady = true;
-
-c("in autorun editor, cc is " + editor.hack.countryCode)
-
-          if (editor.hack.countryCode.length) editor.hack.index = Database.getCountryIndex( editor.hack.countryCode ); 
-
-c("in autorun editor, index is " + editor.hack.index)
 
       	  nav.goEditRoute();
 

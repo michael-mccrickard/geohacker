@@ -17,7 +17,7 @@ Template.newBrowse.helpers({
 
 	country: function() {
 
-		//var _val = game.lesson.updateFlag.get();
+		if (display.browser) display.browser.updateFlag.get();
 
 		return db.getCountryRec( hack.countryCode );
 
@@ -103,10 +103,14 @@ Template.newBrowse.helpers({
 
   	video: function() {
 
+      display.browser.updateFlag.get();
+
   		return display.browser.videoCtl.items;
   	},
 
   	videoName: function() {
+
+      display.browser.updateFlag.get(); 
 
   		var _dt = this.dt;
 
@@ -133,7 +137,7 @@ Template.newBrowse.helpers({
 
   	leftEdgeVideos: function() {
 
-  		display.browser.updateFlag.get();
+      display.browser.updateFlag.get(); 
 
   		var _count = display.browser.videoCtl.items.length;
 
@@ -143,6 +147,8 @@ Template.newBrowse.helpers({
   	},
 
   	primary: function() {
+
+      display.browser.updateFlag.get(); 
 
   		return display.browser.primaryItems;
   	},

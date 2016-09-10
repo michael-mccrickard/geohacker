@@ -476,6 +476,10 @@ LessonFactory = function() {
 
 		this.region = rec.r;
 
+		//most of the time this isn't necessary, but for some editing features, we need to do this
+
+		this.lessonMap.selectedContinent = db.getContinentCodeForCountry( _ID );
+
 		this.lessonMap.doThisMap( mlContinent, mlRegion, mlCountry, this.lessonMap.selectedContinent, this.region, false);	
 
 		this.showCapsule( _ID );

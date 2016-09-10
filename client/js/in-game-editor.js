@@ -722,7 +722,7 @@ function hackAdjacentCountry( _val ) {
 
         var _code = Database.getCountryCodeForIndex( hack.index );
 
-        hack.countryCode = _code;  
+        editor.hack.countryCode = _code;  
 
         FlowRouter.go("/waiting");
 
@@ -732,23 +732,32 @@ function hackAdjacentCountry( _val ) {
      
     }
 
-/*
-
     if (game.user.mode == uLearn) {
 
-       game.lesson.updateContent();
+        hack.index += _val;
+
+        var _code = Database.getCountryCodeForIndex( hack.index );
+
+        hack.countryCode = _code;  
+
+        game.lesson.showCountryAndCapsule( _code );
 
       return;
     }
 
     if (game.user.mode == uBrowseCountry) {
+c("index in hackAdjacentCountry is  " + hack.index)
+        hack.index += _val;
 
-      hack.startBrowsing();
+        var _code = Database.getCountryCodeForIndex( hack.index );
+
+        hack.countryCode = _code;  
+
+        game.user.browseCountry( _code );
 
       return;
     }
 
-*/
 }
 
 

@@ -253,8 +253,6 @@ Template.lessonMap.rendered = function () {
 
       display.worldMapTemplateReady = true;
 
-c("lessonMap rendered, state follows")
-c(game.lesson.state.get())
 
       if (game.lesson.state.get() == "learn") Meteor.setTimeout( function() { display.ctl["MAP"].lessonMap.doCurrentMap() }, 250 );
 

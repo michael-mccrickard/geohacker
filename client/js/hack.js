@@ -1,4 +1,4 @@
- 
+
 
 /**************************************************************/
 /*              HACK OBJECT         
@@ -35,6 +35,8 @@ Hack = function() {
   this.messageID = "(not set)";
 
   this.auto = false;
+
+  this.index = -1;
 
    /********************************************/
   /*            FUNCTIONS        
@@ -99,6 +101,8 @@ Hack = function() {
 
         c( db.getCountryName( _code ) + ' was selected for browsing.');   
 
+        this.index = Database.getIndexForCountryCode( _code );
+c("index in initForBrowse " + this.index)
         this.subscribeToData( _code );
 
         FlowRouter.go("/waiting");
@@ -248,7 +252,7 @@ Hack = function() {
 
         display.ctl["MAP"].level.set( mlCountry );
 
-display.browser.init( this.countryCode);
+        display.browser.init( this.countryCode);
 
         display.browse(this.countryCode);
 
@@ -557,6 +561,8 @@ Tracker.autorun( function(comp) {
 
           Hack.resetDataFlags();
 
+          hack.index = Database.getIndexForCountryCode( hack.countryCode );
+c("index in autorun " + hack.index)
           if (game.user.mode == uLearn) {
 
              game.lesson.updateContent();

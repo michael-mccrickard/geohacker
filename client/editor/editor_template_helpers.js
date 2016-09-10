@@ -420,8 +420,6 @@ Template.editor.events = {
       
       }
 
-c(evt.target.id);
-
       editor.doUpdateRecord(evt.target.id, editor.hack.countryCode);
 
   },
