@@ -46,7 +46,7 @@
 .divVideoThumbs {
 
 	position: absolute;
-	top: 85%;
+	top: 83%;
 	width: 120px;
 
 }
@@ -73,7 +73,7 @@
 	left: 4.5%;
   transform: perspective( 1000px ) rotateY( 45deg );
 
-transform-origin: 104% -585%;
+transform-origin: 85% -525%;
 
 }
 
@@ -83,7 +83,7 @@ transform-origin: 104% -585%;
 	left: 67.1%;
   transform: perspective( 1000px ) rotateY( -45deg );
 
- transform-origin: -10% -575%;
+ transform-origin: 20% -535%;
 }
 
 .divBrowseFlagImg {
@@ -136,7 +136,7 @@ transform-origin: 104% -585%;
 
 	position: relative;
 
-	top: 180px;
+	top: 110px;
 
 
 	width: 100%;

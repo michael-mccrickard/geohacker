@@ -36,13 +36,15 @@ Browser = function(  ) {
 
 		//primary videos
 
-		var _arrCode = ["gn", "sd", "tt"];
+		var _arrCode = ["gn", "sd", "tt", "p"];
 
-		var _arrName = ["Geography Now", "Seeker Daily", "Top Ten Archive"];
+		var _arrField = ["dt", "dt","dt", "s"];
+
+		var _arrName = ["Geography Now", "Seeker Daily", "Top Ten Archive", "Other"];
 
 		for (var i = 0; i < _arrCode.length; i++) {
 
-			_index = Database.getObjectIndexWithValue( _items, "dt", _arrCode[i] );
+			_index = Database.getObjectIndexWithValue( _items, _arrField[i], _arrCode[i] );
 
 			if (_index != -1) {
 
