@@ -65,7 +65,7 @@ Video = function() {
 
 	      	//screen out the ones used as primaries in the newBrowser
 
-	        this.items = this.collection.find( { cc: this.countryCode, dt: { $nin: ["gn","sd","tt"] } } ).fetch();
+	        this.items = this.collection.find( { cc: this.countryCode, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } } ).fetch();
 	      }
 	  },
 

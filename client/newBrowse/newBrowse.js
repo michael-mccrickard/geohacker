@@ -28,23 +28,22 @@ Browser = function(  ) {
 
 		this.primaryItems.push( _obj );
 
-	
-		var _items = db.ghVideo.find( { cc: hack.countryCode, dt: { $in: ["gn","sd","tt"] } } ).fetch();
+		var items = [];
+
+		_items = db.ghVideo.find( { cc: hack.countryCode, dt: { $in: ["gn","sd","tt"] } } ).fetch();
 
 		var _meme = null;
 
 
-		//primary videos
+		//named primary videos
 
-		var _arrCode = ["gn", "sd", "tt", "p"];
+		var _arrCode = ["gn", "sd", "tt"];
 
-		var _arrField = ["dt", "dt","dt", "s"];
-
-		var _arrName = ["Geography Now", "Seeker Daily", "Top Ten Archive", "Other"];
+		var _arrName = ["Geography Now", "Seeker Daily", "Top Ten Archive"];
 
 		for (var i = 0; i < _arrCode.length; i++) {
 
-			_index = Database.getObjectIndexWithValue( _items, _arrField[i], _arrCode[i] );
+			_index = Database.getObjectIndexWithValue( _items, "dt", _arrCode[i] );
 
 			if (_index != -1) {
 
@@ -55,6 +54,34 @@ Browser = function(  ) {
 				this.primaryItems.push(_meme);
 			}
 
+		}
+
+		//Other primaries
+
+		_items = db.ghVideo.find( { cc: hack.countryCode, s: { $in: ["p"] } } ).fetch();
+
+		var _meme = null;
+
+		var _name = "";
+
+		for (var i = 0; i < _items.length; i++) {
+
+			_obj = _items[ i ];
+
+	  		_index = editor.arrCode.indexOf( _obj.dt );
+
+	  		if ( _index != -1) {
+
+	  			_name = editor.arrCodeText[ _index ];
+	  		}
+	  		else {
+
+	  			_name = "Info";
+	  		}
+	  		
+			_meme = new Meme("video", _name, "http://img.youtube.com/vi/" + _obj.u + "/default.jpg", _obj.u);
+
+			this.primaryItems.push(_meme);
 		}
 
 		this.updateContent();

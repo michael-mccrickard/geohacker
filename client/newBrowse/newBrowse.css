@@ -67,23 +67,47 @@
 
 .divLeftText {
 
-
+top: 67%;
 
 	width: 28.5%;
 	left: 4.5%;
   transform: perspective( 1000px ) rotateY( 45deg );
 
-transform-origin: 85% -525%;
+ transform-origin: 110% -550%;
+
 
 }
 
 .divRightText {
-
-	width: 26%;
-	left: 67.1%;
+top: 72%;
+	width: 34%;
+	left: 64%;
   transform: perspective( 1000px ) rotateY( -45deg );
 
- transform-origin: 20% -535%;
+transform-origin: 20% -535%;  
+}
+
+.imgRotated {
+
+	 transform-style: preserve-3d;
+
+	width: 43%; 
+
+	height: 66%;
+}
+
+.imgLeft {
+
+  transform: perspective( 1000px ) rotateY( 45deg );
+
+}
+
+.imgRight {
+
+	float: right;
+
+  transform: perspective( 1000px ) rotateY( -45deg );
+
 }
 
 .divBrowseFlagImg {
@@ -142,29 +166,7 @@ transform-origin: 85% -525%;
 	width: 100%;
 }
 
-.imgRotated {
 
-	 transform-style: preserve-3d;
-
-	width: 43%; 
-
-	height: 66%;
-}
-
-.imgLeft {
-
-  transform: perspective( 1000px ) rotateY( 45deg );
-
-
-}
-
-.imgRight {
-
-	float: right;
-
-  transform: perspective( 1000px ) rotateY( -45deg );
-
-}
 
 .divCenterImg {
 
