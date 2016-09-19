@@ -8,6 +8,10 @@ Browser = function(  ) {
 
 	this.index = 0;
 
+	this.video = "";
+
+	this.videoFrameID = "";
+
 	this.init = function( _code ) {
 
 		if (!editor) editor = new Editor();
@@ -18,7 +22,9 @@ Browser = function(  ) {
 
 		this.videoCtl = display.ctl["VIDEO"];
 
-		this.video = this.videoCtl.getFile();
+		this.video = null;
+
+		//this.video = this.videoCtl.getFile();
 
 		//make primaries
 
@@ -99,6 +105,13 @@ Browser = function(  ) {
         _obj.left  = $(window).width() * .3467;		
 	}
 
+	this.hiliteFrame = function( _id) {
+
+		this.resetVideoBorders();
+
+		$("#" + _id).css("border-color","yellow");
+	}
+
 	this.playVideo = function( _videoid, _id ) {
 
 		//reset our plain bg if we are using YouTube
@@ -109,38 +122,11 @@ Browser = function(  ) {
 			this.setVideoBG( this.videoBGFile );
 		}
 
-		/*
-		else {
-
-			//for a non-youtube video ( a .gif), we have to flip the button image from pause to play
-			//if they clicked the video button while it was playing (pausing the video)
-
-			if (this.videoCtl.state.get() == sPlaying) {
-
-				if (_id == this.video) {
-
-					this.videoCtl.pause();
-
-					this.setThumbForGIF(_index, this.videoCtl.playControlPic )
-
-					return;
-				}
-			}
-
-		}
-		*/
-
 		this.video = _videoid;
 
-		this.resetVideoBorders();
+		this.videoFrameID = _id;
 
-		$("#" + _id).css("border-color","yellow");
-
-		//If we are playing this .gif and not pausing it, then we have to change the button image to pause
-
-		/*if ( !Control.isYouTubeURL(_id) ) this.setThumbForGIF(_index, this.videoCtl.pauseControlPic )*/
-
-c("_videoid in playVideo is " + _videoid)
+		this.hiliteFrame( _id);
 
 		this.videoCtl.playNewVideo( _videoid );
 
@@ -148,22 +134,6 @@ c("_videoid in playVideo is " + _videoid)
 	}
 
 	this.playVideoByIndex = function( _index ) {
-
-		//are they clicking a different video?
-/*
-		if (_index != this.videoCtl.index.get() ) {
-
-			//is there a video currently playing
-
-			if (this.videoCtl.state.get() == sPlaying ) {
-
-				//if the current video is a gif, then switch its picture to the play button, since we are about to "auto-pause" it
-
-				if ( !Control.isYouTubeURL( this.video) )  this.setThumbForGIF( this.videoCtl.index.get(), this.videoCtl.playControlPic )
-			}
-			
-		}
-*/
 
 		this.videoCtl.index.set( _index );
 

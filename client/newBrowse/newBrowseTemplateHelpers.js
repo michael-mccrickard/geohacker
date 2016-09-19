@@ -203,6 +203,18 @@ Template.newBrowse.events({
     			display.meme.preloadImage();
 
     			$('#zoomInModal').modal('show');
+
+          display.browser.hiliteFrame( _id );
+
+          $('#zoomInModal').on('hidden.bs.modal', function () {
+
+              c("modal hide")
+
+              if (display.browser.videoFrameID.length) {
+
+                display.browser.hiliteFrame( display.browser.videoFrameID );
+              }
+          });
     		}
 
     		if (_type == "video") {
@@ -223,3 +235,4 @@ Template.newBrowse.rendered = function() {
 
 	stopSpinner();
 }
+
