@@ -144,11 +144,23 @@ Editor = function() {
 
 	this.arrCodeText[23] = "Lists";
 		this.arrCode[23] = "li";
-	this.arrCodeExplain[23] = "Lists other than Top Ten Archive; things you will love and hate about the country, etc."; 
+	this.arrCodeExplain[23] = "Lists other than named lists above; things you will love and hate about the country, etc."; 
 
 	this.arrCodeText[24] = "Other";
 		this.arrCode[24] = "ot";
 	this.arrCodeExplain[24] = "Videos that don't fit into the other categories"; 
+
+	this.arrCodeText[25] = "7 Facts";
+		this.arrCode[25] = "7f";
+	this.arrCodeExplain[25] = "Seven Facts video from youtube"; 
+
+	this.arrCodeText[26] = "8 Facts";
+		this.arrCode[26] = "8f";
+	this.arrCodeExplain[26] = "Eight Facts video from youtube"; 
+
+	this.arrCodeText[27] = "Victoria";
+		this.arrCode[27] = "vi";
+	this.arrCodeExplain[27] = "Victoria Flamel video from youtube (Victoria Judges)"; 
 
 	this.setVideoPos = function( _obj ) {
 
@@ -172,7 +184,7 @@ Editor = function() {
 
 		if (_coll == cWeb) res = [10, 11, 12, 13];
 
-		if (_coll == cVideo) res = [15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+		if (_coll == cVideo) res = [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
 
 		if (_coll == cDebrief) res = [ 1, 2, 6, 7, 8, 10, 11, 12, 13, 14 ];
 

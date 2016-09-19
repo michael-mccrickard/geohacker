@@ -39,7 +39,7 @@
 
 				<div class="divPrimaryEntry" style="left: {{leftPrimaryEdge @index}}px">
 				
-						<img class="imgPrimaryThumb" data-type="{{this.type}}" data-name="{{this.name}}" data-videoid="{{this.videoID}}" src="{{this.src}}" id="{{this.type}}{{@index}}">
+						<img class="imgPrimaryThumb" data-type="{{this.type}}" data-name="{{this.name}}" data-videoid="{{this.videoID}}" src="{{this.src}}" id="p{{@index}}">
 
 						<div class="divPrimaryName">{{this.name}}</div>
 
@@ -55,7 +55,7 @@
 
 				<div class="divVideoThumbs" style="left:{{leftVideoEdge @index}}px;" >
 
-					<img class="ytthumb" id="{{this.f}}" src="{{videoThumbnailOrFile}}" onclick="display.browser.playVideoByIndex( {{@index}} )" />
+					<img class="ytthumb" data-videoid="{{this.u}}" id="v{{@index}}" src="{{videoThumbnailOrFile}}" />
 
 					<div class="divPrimaryName">{{videoName}}</div>
 

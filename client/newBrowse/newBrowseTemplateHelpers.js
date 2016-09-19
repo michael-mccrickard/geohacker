@@ -127,23 +127,12 @@ Template.newBrowse.helpers({
 
   		if ( Control.isYouTubeURL(this.u) ) {
 
-  			return ("http://img.youtube.com/vi/" + this.u + "/default.jpg");
+  			 return ("http://img.youtube.com/vi/" + this.u + "/default.jpg");
   		}
   		else {
 
-			return display.browser.videoCtl.playControlPic;
-		}
-  	},
-
-  	leftEdgeVideos: function() {
-
-      display.browser.updateFlag.get(); 
-
-  		var _count = display.browser.videoCtl.items.length;
-
-  		var _fullWidth = _count * (120 + 8);
-
-  		return ( $(window).width() / 2) - (_fullWidth/2);
+			   return display.browser.videoCtl.playControlPic;
+		  }
   	},
 
   	primary: function() {
@@ -181,35 +170,45 @@ Template.newBrowse.events({
 
     'click .imgFlag': function(event, template) {
 
-		game.user.browseCountry( db.getRandomRec( db.ghC ).c );
+		      game.user.browseCountry( db.getRandomRec( db.ghC ).c );
       },
+
+    'click .ytthumb': function(event, template) {
+
+        var _id = event.target.id;
+
+        var _videoid = $("img#" + _id).data("videoid");
+
+        display.browser.playVideo( _videoid, _id );
+
+    },
 
     'click .imgPrimaryThumb': function(event, template) {
 
-		var _id = event.target.id;
+    		var _id = event.target.id;
 
-		var _type = $("#" + _id).data("type");
+    		var _type = $("#" + _id).data("type");
 
-		var _name = $("#" + _id).data("name");
+    		var _name = $("#" + _id).data("name");
 
-		var _videoid = $("#" + _id).data("videoid");
+    		var _videoid = $("#" + _id).data("videoid");
 
-		var _src = $("#" + _id).attr("src");
+    		var _src = $("#" + _id).attr("src");
 
-		
-		if ( _type == "modal" ) {
+    		
+    		if ( _type == "modal" ) {
 
-			display.meme = new Meme("modal", _name, _src);
+    			display.meme = new Meme("modal", _name, _src);
 
-			display.meme.preloadImage();
+    			display.meme.preloadImage();
 
-			$('#zoomInModal').modal('show');
-		}
+    			$('#zoomInModal').modal('show');
+    		}
 
-		if (_type == "video") {
+    		if (_type == "video") {
 
-			display.browser.playVideo( _videoid );
-		}
+    			display.browser.playVideo( _videoid, _id );
+    		}
 
 
       },

@@ -78,7 +78,7 @@ Browser = function(  ) {
 
 	  			_name = "Info";
 	  		}
-	  		
+
 			_meme = new Meme("video", _name, "http://img.youtube.com/vi/" + _obj.u + "/default.jpg", _obj.u);
 
 			this.primaryItems.push(_meme);
@@ -96,18 +96,20 @@ Browser = function(  ) {
 
         _obj.top  = $(".divCenterImg").position().top;
 
-        _obj.left  = $(window).width() * .35;		
+        _obj.left  = $(window).width() * .3467;		
 	}
 
-	this.playVideo = function( _id, _index ) {
+	this.playVideo = function( _videoid, _id ) {
 
 		//reset our plain bg if we are using YouTube
 		//(otherwise the src on the bg is an animated .gif file; this happens in video.js)
 
-		if ( Control.isYouTubeURL( _id) ) {
+		if ( Control.isYouTubeURL( _videoid) ) {
 
 			this.setVideoBG( this.videoBGFile );
 		}
+
+		/*
 		else {
 
 			//for a non-youtube video ( a .gif), we have to flip the button image from pause to play
@@ -126,14 +128,21 @@ Browser = function(  ) {
 			}
 
 		}
+		*/
 
-		this.video = _id;
+		this.video = _videoid;
+
+		this.resetVideoBorders();
+
+		$("#" + _id).css("border-color","yellow");
 
 		//If we are playing this .gif and not pausing it, then we have to change the button image to pause
 
-		if ( !Control.isYouTubeURL(_id) ) this.setThumbForGIF(_index, this.videoCtl.pauseControlPic )
+		/*if ( !Control.isYouTubeURL(_id) ) this.setThumbForGIF(_index, this.videoCtl.pauseControlPic )*/
 
-		this.videoCtl.playNewVideo( _id );
+c("_videoid in playVideo is " + _videoid)
+
+		this.videoCtl.playNewVideo( _videoid );
 
 
 	}
@@ -141,7 +150,7 @@ Browser = function(  ) {
 	this.playVideoByIndex = function( _index ) {
 
 		//are they clicking a different video?
-
+/*
 		if (_index != this.videoCtl.index.get() ) {
 
 			//is there a video currently playing
@@ -154,11 +163,20 @@ Browser = function(  ) {
 			}
 			
 		}
+*/
 
 		this.videoCtl.index.set( _index );
 
-		this.playVideo( this.videoCtl.items[_index].u, _index );
+		this.playVideo( this.videoCtl.items[_index].u,  "v" + _index);
 	}
+
+	this.resetVideoBorders = function() {
+
+		$(".ytthumb").css("border-color","gray");
+
+		$(".imgPrimaryThumb").css("border-color","gray");
+	}
+
 
 	this.setVideoBG = function( _file ) {
 
