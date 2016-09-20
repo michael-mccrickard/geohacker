@@ -165,6 +165,10 @@ Browser = function(  ) {
 			game.user.mode = uBrowseMap
 		}
 
+		if (_route == "home") {
+
+			game.user.mode = game.user.prevMode;
+		}
 
 		FlowRouter.go( _route);
 

@@ -171,7 +171,7 @@ Template.agent.events({
 
       e.preventDefault();  
 
-      game.user.browseCountry( e.target.id );
+      game.user.browseCountry( e.target.id, "home" );
 
     },
 

@@ -120,6 +120,8 @@ FlowRouter.route('/dataChecker', {
 
 FlowRouter.route('/congrats', {
 
+    name: "congrats",
+
   action: function() {
 
     $('body').removeClass('noscroll');
