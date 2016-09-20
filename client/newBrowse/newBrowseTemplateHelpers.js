@@ -197,7 +197,7 @@ Template.newBrowse.events({
 
     'click .imgFlag': function(event, template) {
 
-		      game.user.browseCountry( db.getRandomRec( db.ghC ).c );
+		      game.user.browseCountry( db.getRandomRec( db.ghC ).c, "newBrowse" );
       },
 
     'click .ytthumb': function(event, template) {
@@ -262,7 +262,10 @@ Template.newBrowse.events({
 
 Template.newBrowse.rendered = function() {
 
-	display.browser.playVideoByIndex(0);
+  var _count = display.browser.videoCtl.items.length;
+
+
+	display.browser.playVideoByIndex( Database.getRandomValue(_count) );
 
 	//if ( !Control.isYouTubeURL( display.browser.video) ) display.browser.setCurrentThumbToPause();
 
