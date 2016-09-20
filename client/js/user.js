@@ -48,6 +48,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.returnRoute = "";  
 
+    this.returnName = "";
+
     this.browseCountry = function( _code, _returnRoute ) {
 
       if ( db.getDataFlagForCountry( _code) == false) {
@@ -58,6 +60,14 @@ User = function( _name ) {  //name, scroll pos (for content editors)
       }
 
       this.returnRoute = _returnRoute;
+
+      this.returnName = _returnRoute;
+
+      if (_returnRoute == "worldMap" || _returnRoute == "browseWorldMap") this.returnName = "map";
+
+      if (_returnRoute == "congrats") this.returnName = "mission";     
+
+      if (_returnRoute == "lessonMap") this.returnName = "lesson";     
 
       this.setMode( uBrowseCountry );
 

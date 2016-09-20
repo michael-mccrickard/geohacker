@@ -147,6 +147,11 @@ Template.newBrowse.helpers({
   		return display.browser.primaryItems;
   	},
 
+    returnName: function() {
+
+      return game.user.returnName;
+    },
+
    	leftPrimaryEdge: function( _index ) {
 
   		display.browser.updateFlag.get();

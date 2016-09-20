@@ -118,21 +118,18 @@ Video = function() {
 
 		this.setState( sPaused );
 
-		if (this.isYouTube) {
+		if (ytplayer) {
 
 			ytplayer.pauseVideo();
 		}
-		else {
 
-			if (game.user.mode == uBrowseCountry) {
+		if (game.user.mode == uBrowseCountry) {
 
-				display.browser.setVideoBG( this.playControlPic );
-
-				return;
-			}
-
-			display.feature.setImage("VIDEO");
+			return;
 		}
+
+		display.feature.setImage("VIDEO");
+
 	}
 
 

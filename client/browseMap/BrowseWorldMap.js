@@ -292,6 +292,11 @@ BrowseWorldMap = function( _mapCtl ) {
 
         if (_col == undefined) _col = "white";
 
+         if (level == mlCountry) {
+
+            _col = getTextColorForBackground( db.getCountryRec( this.mapObjectClicked ).co );
+        }       
+
         Meteor.defer( function() {display.ctl["MAP"].browseWorldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
     }
 

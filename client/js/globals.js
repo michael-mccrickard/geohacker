@@ -126,7 +126,12 @@ centerDivOnDiv2 = function( _eleToCenter, _eleToCenterWidth, _eleWide ) {
 
 }
 
+getTextColorForBackground = function( _col )  {
 
+    if (_col == "#FFD700" || _col == "#FFFF00" || _col == "#33FFFF" || _col == "#7FFFD4" || _col == "#00FFFF" || _col =="#87CEFA" || _col == "#66FFFF" || _col == "#FFB6C1" || _col == "#87CEEB") return "black"
+
+    return "white";
+}
 //************************************************************
 //     Update the screen element proportions
 //************************************************************

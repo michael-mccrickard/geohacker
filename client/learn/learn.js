@@ -173,9 +173,7 @@ Template.learnCountry.helpers({
 
     	//the white text on a light-colored bg is problematic
 
-		if (this.co == "#FFD700" || this.co == "#FFFF00" || this.co == "#33FFFF" || this.co == "#7FFFD4" || this.co == "#00FFFF" || this.co=="#87CEFA" || this.co == "#66FFFF" || this.co == "#FFB6C1" || this.co == "#87CEEB") return "black"
-
-		return "white";
+    	return getTextColorForBackground( this.co );
   	},
 
 

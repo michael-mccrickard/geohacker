@@ -362,6 +362,11 @@ c("doCurrentMap");
 
         if (typeof _col == 'undefined') _col = "black";
 
+         if (level == mlCountry) {
+
+            _col = getTextColorForBackground( db.getCountryRec( this.mapObjectClicked ).co );
+        }   
+
         if (typeof _x !== 'undefined') x = _x;
 
         if (typeof _y !== 'undefined') y = _y;       

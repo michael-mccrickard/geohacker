@@ -1,6 +1,8 @@
 .divPrimary {
 
+	position: relative;
 
+	top: -5%;
 }
 
 .returnToMapOrLesson {
@@ -11,7 +13,7 @@
     z-index: 1050;
     text-transform: uppercase;
 
-    width: 10%;
+    width: 15%;
 
     margin-left: auto;
     margin-right: auto;
@@ -42,8 +44,6 @@
 
 	position: absolute;
 	width: 120px;
-
-
 }
 
 .divPrimaryName {

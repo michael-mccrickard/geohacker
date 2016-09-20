@@ -170,6 +170,11 @@ Browser = function(  ) {
 			game.user.mode = game.user.prevMode;
 		}
 
+		if (_route == "congrats") {
+
+			game.user.mode = uHack;
+		}
+
 		FlowRouter.go( _route);
 
 	}

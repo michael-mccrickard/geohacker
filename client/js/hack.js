@@ -562,7 +562,7 @@ Tracker.autorun( function(comp) {
           Hack.resetDataFlags();
 
           hack.index = Database.getIndexForCountryCode( hack.countryCode );
-c("index in autorun " + hack.index)
+
           if (game.user.mode == uLearn) {
 
              game.lesson.updateContent();
