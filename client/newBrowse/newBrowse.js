@@ -147,6 +147,29 @@ Browser = function(  ) {
 		$(".imgPrimaryThumb").css("border-color","gray");
 	}
 
+	this.returnToPrevious = function() {
+
+      	display.suspendMedia();	
+
+		_route = game.user.returnRoute;
+
+		if (_route == "lessonMap") {
+
+			initiateResumeLesson();
+
+			return;
+		}
+
+		if (_route == "browseWorldMap") {
+
+			game.user.mode = uBrowseMap
+		}
+
+
+		FlowRouter.go( _route);
+
+	}
+
 
 	this.setVideoBG = function( _file ) {
 

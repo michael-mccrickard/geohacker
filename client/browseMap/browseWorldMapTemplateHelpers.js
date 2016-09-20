@@ -202,13 +202,13 @@ Template.browseWorldMap.rendered = function () {
 
     if (!display) return;
 
-    if (display.worldMapTemplateReady == false) {
+    //if (display.worldMapTemplateReady == false) {
 
-      display.worldMapTemplateReady = true;
+     // display.worldMapTemplateReady = true;
 
       Meteor.setTimeout( function() { display.ctl["MAP"].browseWorldMap.doCurrentMap() }, 250 );
 
       Meteor.setTimeout( function() { display.ctl["MAP"].browseFinishDraw() }, 251 );
 
-    }
+   // }
 }

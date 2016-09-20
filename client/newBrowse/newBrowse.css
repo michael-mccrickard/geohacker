@@ -3,6 +3,29 @@
 
 }
 
+.returnToMapOrLesson {
+    cursor: pointer;
+    position: relative;
+    top: 0px;
+
+    z-index: 1050;
+    text-transform: uppercase;
+
+    width: 10%;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    font-size: 1.3vh;
+}
+
+#returnText {
+
+    color: yellow;
+}
+
+
+
 .imgPrimaryThumb {
 
 	width: 120px;

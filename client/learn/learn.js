@@ -213,6 +213,6 @@ Template.learnCountry.events = {
 	  	  return;  	  	
   	  }
 
-      game.user.browseCountry( evt.target.id );
+      game.user.browseCountry( evt.target.id, "lessonMap" );
   },
 }

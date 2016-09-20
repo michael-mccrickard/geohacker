@@ -15,6 +15,8 @@ Video = function() {
 
 	this.youTubeWaiting = new Blaze.ReactiveVar( false );  //are waiting on the YT player to load?
 
+	this.items = [];
+
 
 	this.init = function() {
 
@@ -61,12 +63,10 @@ Video = function() {
 
 	  this.setItems = function() {
 
-	      if (game.user.mode == uBrowseCountry) {
-
 	      	//screen out the ones used as primaries in the newBrowser
 
 	        this.items = this.collection.find( { cc: this.countryCode, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } } ).fetch();
-	      }
+
 	  },
 
 	//Used to get the file to display in featured area.

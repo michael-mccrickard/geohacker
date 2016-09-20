@@ -135,6 +135,11 @@ Template.newBrowse.helpers({
 		  }
   	},
 
+    youTubeWaiting: function() {
+
+      return display.ctl["VIDEO"].youTubeWaiting.get();
+    },
+
   	primary: function() {
 
       display.browser.updateFlag.get(); 
@@ -163,6 +168,23 @@ Template.newBrowse.helpers({
 
   		return ( $(window).width() / 2) - (_fullWidth/2) + (_index * (120 + 8) );
   	},
+
+    isBrowseMode: function() {
+
+      if (!game.user) return;
+
+      if (game.user.mode == uBrowseCountry) return true;
+
+      return false;
+
+    },
+
+    lessonModeLearn: function() {
+
+      if (game.lesson.state.get() == "learn") return true;
+
+      return false;
+    },
 
  });
 
@@ -222,7 +244,13 @@ Template.newBrowse.events({
     			display.browser.playVideo( _videoid, _id );
     		}
 
+      },
 
+      'click .btnReturn': function(e) {
+        
+        e.preventDefault();
+
+        display.browser.returnToPrevious();
       },
  });
 

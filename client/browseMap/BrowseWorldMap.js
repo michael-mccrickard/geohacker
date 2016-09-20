@@ -96,8 +96,6 @@ BrowseWorldMap = function( _mapCtl ) {
 
         if (level == mlCountry) {  //this is just a replay of the map zooming in on the correct country (browse mode)
 
-c("selectedRegion in doCurrentMap is " + this.selectedRegion)
-
            this.doMap( this.selectedRegion, mlRegion);
 
            //reset level back to country, so that the label uses the correct coords
@@ -117,8 +115,6 @@ c("selectedRegion in doCurrentMap is " + this.selectedRegion)
             this.zoomDone = false;
 
             if (mapObject) {
-
-                c("calling clickMapObject")
 
                 this.map.clickMapObject(mapObject);
         
@@ -339,6 +335,8 @@ c("selectedRegion in doCurrentMap is " + this.selectedRegion)
 
         if (level == mlCountry) {
 
+c("selected region in backupmap is " + this.selectedRegion)
+
             this.doMap(this.selectedRegion, mlRegion);
 
             this.map.validateData();
@@ -447,7 +445,7 @@ function handleClick(_event) {
             return;
         }
 
-        game.user.browseCountry( worldMap.mapObjectClicked );
+        game.user.browseCountry( worldMap.mapObjectClicked, "browseWorldMap" );
 
     }
 

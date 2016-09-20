@@ -1,5 +1,15 @@
 <template name="newBrowse">
 
+
+	<div class="returnToMapOrLesson" id="divBtnReturn" style="color:white;">
+
+		<img src="pixel_globe.png" width="60px" height="60px" class="btnReturn" />
+
+		<span class="spanReturnText" id="returnText" >RETURN TO MAP</span>
+
+	</div>	
+
+
 	{{#with country}}
 
 		<div class="browseHomelandText">
@@ -28,6 +38,14 @@
 		<div class="divRotatedImg"><img class="imgRotated imgRight" src="{{leaderImage}}"></div>
 
 		<div class="divCenterImg"><img class="centerImg" src="featuredBackdrop.jpg"></div>
+
+		{{#if youTubeWaiting}}
+
+			<div class="displayWaiting">
+				{{> spinner}}
+			</div>
+		
+		{{/if}}
 
 		<div class="divBrowseText divLeftText">{{capitalName}}</div>
 

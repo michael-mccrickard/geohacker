@@ -194,9 +194,9 @@ Template.login.events({
     'click #goHack': function (e) { 
 
       e.preventDefault();
-game.user.browseCountry( db.getRandomRec( db.ghC ).c );
+//game.user.browseCountry( db.getRandomRec( db.ghC ).c );
 
-return;
+//return;
       //This is here b/c we were having instances where the onLogin event
       //was apparently not firing ...
 

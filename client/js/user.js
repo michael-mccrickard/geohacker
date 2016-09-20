@@ -46,7 +46,9 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.lessonSequenceCode = new Blaze.ReactiveVar("");
 
-    this.browseCountry = function( _code ) {
+    this.returnRoute = "";  
+
+    this.browseCountry = function( _code, _returnRoute ) {
 
       if ( db.getDataFlagForCountry( _code) == false) {
 
@@ -54,6 +56,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
       	return;
       }
+
+      this.returnRoute = _returnRoute;
 
       this.setMode( uBrowseCountry );
 
