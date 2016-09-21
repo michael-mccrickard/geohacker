@@ -2,7 +2,14 @@
 
 	position: relative;
 
-	top: -5%;
+	top: -9%;
+}
+
+.divVideos {
+
+	position: relative;
+
+	top: 9%;
 }
 
 .returnToMapOrLesson {
