@@ -147,8 +147,12 @@ Video = function() {
 
 			this.playYouTube( _file);
 
-			if (game.user.mode == uBrowseCountry) display.browser.updateContent(); 
+			if (game.user.mode == uBrowseCountry) {
 
+				display.browser.updateContent(); 
+
+				game.pauseMusic();
+			}
 			return;
 
 		}

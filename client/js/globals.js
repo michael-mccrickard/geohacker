@@ -358,12 +358,15 @@ c("youtube ready")
 
                           if (game.user.mode == uBrowseCountry) {
 
+                            c("yt player is pausing the music b/c video is playing in browse mode")
+
+                              game.pauseMusic();
+
                               refreshWindow("ytplayer");
+
+                              Session.set("sYouTubeOn", true);
                           }
 
-                        if (game.user.mode != uHack) return;
-
-                        $("img#picVIDEO").attr("src", display.ctl["VIDEO"].pauseControlPic);
                     }
                 }
 
@@ -373,9 +376,14 @@ c("youtube ready")
 
                         display.ctl["VIDEO"].setState( sPaused );
 
-                        if (game.user.mode != uHack) return;
+                          if (game.user.mode == uBrowseCountry) {
 
-                        $("img#picVIDEO").attr("src", display.ctl["VIDEO"].playControlPic);
+                            c("yt player is playing the music b/c video is paused in browse mode")
+
+                            game.playMusic();
+                          }
+
+
                     }
                 }
 

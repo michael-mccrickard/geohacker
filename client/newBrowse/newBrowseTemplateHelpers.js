@@ -262,12 +262,24 @@ Template.newBrowse.events({
 
 Template.newBrowse.rendered = function() {
 
-  var _count = display.browser.videoCtl.items.length;
+  if (hack.countryCode != display.browser.countryCode) {
 
+    display.browser.countryCode = hack.countryCode;
 
-	display.browser.playVideoByIndex( Database.getRandomValue(_count) );
+    var _count = display.browser.videoCtl.items.length;
 
-	//if ( !Control.isYouTubeURL( display.browser.video) ) display.browser.setCurrentThumbToPause();
+    display.browser.playVideoByIndex( Database.getRandomValue(_count) );    
+  }
+  else {
+
+    if (ytplayer) {
+      
+      game.pauseMusic();
+
+      Meteor.setTimeout( function() {refreshWindow("newBrowse"); }, 250 );
+
+    }
+  }
 
 	stopSpinner();
 }

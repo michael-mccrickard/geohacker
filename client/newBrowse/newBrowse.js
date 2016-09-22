@@ -12,6 +12,10 @@ Browser = function(  ) {
 
 	this.videoFrameID = "";
 
+	this.countryCode = "";  //we actually hack.countryCode throughout, but we keep a copy
+							//in this country, so we can tell when the country has changed
+							//upon return from the browsemap (user could have simply viewed the map)
+
 	this.init = function( _code ) {
 
 		if (!editor) editor = new Editor();
@@ -150,6 +154,8 @@ Browser = function(  ) {
 	this.returnToPrevious = function() {
 
       	display.suspendMedia();	
+
+      	game.playMusic();
 
 		_route = game.user.returnRoute;
 

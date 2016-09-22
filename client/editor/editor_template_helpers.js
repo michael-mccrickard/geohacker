@@ -2,6 +2,8 @@ Template.editor.rendered = function() {
 
   stopSpinner();
 
+  game.pauseMusic();
+
 setCodeExplainText();
 
 }
@@ -340,9 +342,6 @@ Template.editor.events = {
 
     nav.closeEditor();
 
-    //window.history.back();
-
-	  //FlowRouter.go("/selectCountry");
   },
 
   'click .dataRow' : function(evt, template) {

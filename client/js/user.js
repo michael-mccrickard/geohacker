@@ -77,7 +77,14 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
       display.suspendMedia();
 
-      hack.initForBrowse( _code);
+      if (_code != hack.countryCode) {
+
+      	hack.initForBrowse( _code);
+      }
+      else {
+
+      	FlowRouter.go("newBrowse");
+      }
       
     };
 
@@ -262,6 +269,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     	}
 
     	if (this.mode == uBrowseMap || this.mode == uBrowseCountry)  {
+
+    		game.playMusic();
 
     		FlowRouter.go("/home")
 

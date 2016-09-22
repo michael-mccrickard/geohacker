@@ -7,14 +7,14 @@
     	<div class="divLearnCountry" style="background-color: {{countryColor}}; ; width: {{LCWidth}}; height: {{LCHeight}};">
 
 
-      <div class="homelandText"  style="margin-left: {{HTMarginLeft}}; width: {{LCWidth}}; font-size: {{HTBaseFontSize}}">
+      <div class="homelandText learnCountryElement"  style="margin-left: {{HTMarginLeft}}; width: {{LCWidth}}; font-size: {{HTBaseFontSize}}">
 
-        <div class="transHomelandText" style="color: {{TTColor}}; font-size: {{TTSize}}">
+        <div class="transHomelandText learnCountryElement" style="color: {{TTColor}}; font-size: {{TTSize}}">
 
           <span>{{countryName}}</span>
         </div>
 
-        <div  class="nativeHomelandText" style="color: {{HTColor}}; font-size: {{HTSize}}">
+        <div  class="nativeHomelandText learnCountryElement" style="color: {{HTColor}}; font-size: {{HTSize}}">
 
 
           <span>{{homelandText}}</span>
@@ -25,7 +25,7 @@
 
         	<div class="learnLeft">
 
-        	   <img class="learnCapitalImage learnCountryElement" src="{{capitalImage}}" style="opacity: {{capitalOpacity}}; width: {{capitalWidth}}; margin-top: {{capitalMarginTop}}; cursor:pointer"  id="{{this.c}}" />
+        	   <img class="learnCapitalImage learnCountryElement" src="{{capitalImage}}" style="opacity: {{capitalOpacity}}; width: {{capitalWidth}}; margin-top: {{capitalMarginTop}};"  id="{{this.c}}" />
 
              <h3 class="learnCapitalText learnCountryElement" style="color: {{capitalTextColor}}; margin-top: {{capitalMarginTop}}; font-size: {{capitalFontSize}}">Capital: {{capitalName}}</h3>
 
@@ -33,8 +33,9 @@
 
           <div class="learnRight">
 
-        		<img class="learnFlagImage learnCountryElement"  id="{{this.c}}" src="{{flagImage}}" style="width: {{learnRightWidth}}; height: {{flagHeight}}; margin-top: {{capitalMarginTop}}; cursor:pointer" />
-            <img class="learnLeaderImage learnCountryElement"  id="{{this.c}}" src="{{leaderImage}}" style="width: {{learnRightWidth}}; height: {{leaderHeight}}; cursor:pointer" />
+        		<img class="learnFlagImage learnCountryElement"  id="{{this.c}}" src="{{flagImage}}" style="width: {{learnRightWidth}}; height: {{flagHeight}}; margin-top: {{capitalMarginTop}};" />
+
+            <img class="learnLeaderImage learnCountryElement"  id="{{this.c}}" src="{{leaderImage}}" style="width: {{learnRightWidth}}; height: {{leaderHeight}};" />
           
           </div>
 

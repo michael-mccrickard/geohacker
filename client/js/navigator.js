@@ -136,6 +136,12 @@ Navigator = function() {
 
     Control.stopEditMedia();
 
+    //reset this manually after editing
+
+    $(".featuredYouTubeVideo").css("position", "absolute");
+
+    game.playMusic();
+
     this.goBackAdmin();
   }
 
@@ -190,6 +196,7 @@ Navigator = function() {
         editor.hack.index = Database.getIndexForCountryCode( editor.hack.countryCode);
       }
 
+
       //Switch the global to be the edit hack
 
       hack = editor.hack;
@@ -197,6 +204,7 @@ Navigator = function() {
       hack.mode = mEdit;
 
       display.closeOutMain();
+
 
     }
 
