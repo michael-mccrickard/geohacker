@@ -199,9 +199,9 @@ BrowseWorldMap = function( _mapCtl ) {
         //set the ballon text (popup text) for each area (this will be continent, region or country)
         this.map.areasSettings.balloonText = "[[customData]]";
 
-        //if (_level == mlContinent) this.mapCtl.addContinentTags(this.map.dataProvider, 16, rec.c);
+        if (_level == mlContinent) this.mapCtl.addContinentTags(this.map.dataProvider, 16, rec.c);
 
-        //if (_level == mlRegion) this.mapCtl.addRegionTags( this.selectedRegion, this.map.dataProvider, 48, rec.c);
+        if (_level == mlRegion) this.mapCtl.addRegionTags( this.selectedRegion, this.map.dataProvider, 48, rec.c);
 
         // when the zoom is done (going to continent or region) then we need to adjust the zoom on the new map
         this.map.addListener("zoomCompleted", handleZoomCompleted);
@@ -509,7 +509,7 @@ function handleZoomCompleted() {
 
         worldMap.zoomDone = true;
 
-//        worldMap.mapCtl.addCountryTags( worldMap.mapObjectClicked, worldMap.map.dataProvider, 96);
+        worldMap.mapCtl.addCountryTags( worldMap.mapObjectClicked, worldMap.map.dataProvider, 96);
 
         worldMap.map.dataProvider.zoomLongitude = worldMap.map.zLongTemp;
 
