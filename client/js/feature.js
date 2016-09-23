@@ -354,8 +354,6 @@ if ( this.off() ) return;
 
 		if (this.getName().length) this.lastName = this.getName();
 
-c("feature.lastName is " + this.getName() );
-
 		this.setName( "" );
 
 		this.ctl = null;

@@ -490,7 +490,7 @@ return;
 
         worldMap.zoomDone = true;
 
-        worldMap.mapCtl.addCountryTags( worldMap.mapObjectClicked, worldMap.map.dataProvider, 96);
+//        worldMap.mapCtl.addCountryTags( worldMap.mapObjectClicked, worldMap.map.dataProvider, 96);
 
         worldMap.map.dataProvider.zoomLongitude = worldMap.map.zLongTemp;
 
