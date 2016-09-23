@@ -103,7 +103,7 @@ Template.browseWorldMap.helpers({
       }
   },
 
-  mapWidth: function() { return Session.get("gWindowWidth") * 0.81},
+  mapWidth: function() { return Session.get("gWindowWidth") * 0.89},
 
   mapHeight: function() { 
 
