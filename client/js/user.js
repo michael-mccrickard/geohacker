@@ -279,7 +279,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     		
     	if (this.mode == uNone) {
 
-    		this.setMode( uLearn );
+    		this.setMode( uHack );
     	}
     	else {
 
@@ -698,7 +698,16 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 			var _id = hack.getWelcomeAgent()._id;
 
-			if ( game.user.profile.ag.indexOf(_id) == -1 ) game.user.profile.ag.push( _id );
+//c("checking for " + _id + " in profile.ag")
+
+			if ( game.user.profile.ag.indexOf(_id) == -1 ) { 
+
+//c("about to push " + _id + " onto profile.ag")
+
+				game.user.profile.ag.push( _id );
+			}
+
+//console.log(game.user.profile.ag);
 		}
 
 

@@ -128,7 +128,7 @@ Video = function() {
 			return;
 		}
 
-		display.feature.setImage("VIDEO");
+		if (game.user.mode == uHack) display.feature.setImage("VIDEO");
 
 	}
 

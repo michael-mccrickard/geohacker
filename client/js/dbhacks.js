@@ -15,7 +15,7 @@ fix1 = function() {
             
             return _arr.indexOf(item) == pos;
         })
-
+c("updating user " + i);
         Meteor.users.update( {_id: arr[i]._id}, { $set: { 'profile.ag': _arr2 } } ) ;
 
     }
