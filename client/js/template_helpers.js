@@ -21,6 +21,7 @@ Template.registerHelper("countryName",  function() {
 
 )
 
+/*
 Template.registerHelper("badge", function() {
 
     var _obj = new BadgeList();
@@ -31,6 +32,7 @@ Template.registerHelper("badge", function() {
 
   }
 )
+*/
 
 Template.registerHelper("avatarURL",  function() {
 
