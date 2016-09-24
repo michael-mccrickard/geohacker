@@ -1,5 +1,3 @@
-
-
 Template.atlas.helpers({
 
 	country: function() {
