@@ -77,7 +77,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
       display.suspendMedia();
 
-      if (_code != hack.countryCode) {
+      if (_code != display.countryCode) {
 
       	hack.initForBrowse( _code);
       }
