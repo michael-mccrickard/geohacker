@@ -694,8 +694,6 @@ Database.getIndexForCountryCode = function( _code )   {
         }
       }
 
-c("returning this value from getIndexForCountryCode " + i)
-
       return _index;
 }
 

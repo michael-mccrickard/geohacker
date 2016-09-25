@@ -96,13 +96,9 @@ Display = function() {
 
         //reset vars and re-do controls and map
 
-//        this.mainTemplateReady = false;
-
         this.loader.totalClueCount = 0;
 
         this.makeControls(_code);
-        
-        //this.feature.setBackground( sIcon );
 
     }
 

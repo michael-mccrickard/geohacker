@@ -52,12 +52,17 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.browseCountry = function( _code, _returnRoute ) {
 
+c(_code)
+c(hack.countryCode)
+
+    /*
       if ( db.getDataFlagForCountry( _code) == false) {
 
       	showMessage("NO DATA FOUND FOR THIS COUNTRY");
 
       	return;
       }
+	*/
 
       this.returnRoute = _returnRoute;
 
@@ -77,7 +82,16 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
       display.suspendMedia();
 
-      if (_code != hack.countryCode) {
+//if we're in lesson mode, uLearn, then the hack.countryCode
+//will aready be set to _code (to create the learning capsule) but
+//display will still have the previous countryCode (if any), so we
+//need to re-init the display.  If the codes are the same, then
+//we are probably just cmoing back from the browseMap
+
+//But will this work for other scenarios?
+
+
+      if (_code != display.countryCode) {
 
       	hack.initForBrowse( _code);
       }

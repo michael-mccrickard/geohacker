@@ -966,7 +966,7 @@ c("hackDone4")
         //If this is the first time they've hacked this country (ticket.count == 1) then
         //we add the welcoming agent to the user's network, BUT ...
         //if the country has no dedicated welcome agent; we default to the GIC
-
+/*
         if ( (_ticket.count == 1 && game.user.hasChiefInNetwork && hack.welcomeAgentIsChief) || _ticket.count > 1) {
 
 
@@ -976,10 +976,10 @@ c("hackDone4")
 
         }
         else {
-            
+*/            
             Meteor.setTimeout( function() { display.mapStatus.setThisAndType("NEW AGENT ADDED TO YOUR NETWORK"); }, 6500 );
 
-        }
+  //      }
 
         //fade in the agent's snapshot
 
