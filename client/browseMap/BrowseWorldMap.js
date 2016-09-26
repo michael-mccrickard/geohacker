@@ -464,20 +464,18 @@ BrowseWorldMap = function( _mapCtl ) {
 
         if (level == mlContinent) {
 
-            this.doMap("world", mlWorld);
+            this.doThisMap(mlWorld, mlWorld, mlContinent);
 
             this.map.validateData();
 
             refreshMap();
-
-            this.labelMapObject();
 
             return;
         }
 
         if (level == mlRegion) {
 
-            this.doMap( this.selectedContinent, mlContinent );
+            this.doMap( mlContinent, mlContinent, mlRegion, this.selectedContinent, this.selectedRegion );
 
             this.map.validateData();
 
@@ -490,7 +488,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
         if (level == mlCountry) {
 
-            this.doMap(this.selectedRegion, mlRegion);
+            this.doMap( mlContinent, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion );
 
             this.map.validateData();
 
@@ -575,7 +573,7 @@ c("level is continent")
         worldMap.selectedCountry.set( worldMap.mapObjectClicked );
 
         worldMap.customData = _event.mapObject.customData;
-c("level is region")
+
 
     }
 
@@ -584,12 +582,10 @@ c("level is region")
         //If a different country was previously selected and we're still at the country
         //level, then the user can click on a nearby country.  We want the map to re-center and re-label
         //in this case, but not jump to browsing
-c("level is country")
 
 
         if (worldMap.selectedCountry.get() != worldMap.mapObjectClicked) {
 
-c("inside if")
             worldMap.selectedCountry.set( worldMap.mapObjectClicked );
 
             //in ths case, we need zoomComplete to redraw and validate, so reset the level
@@ -615,7 +611,7 @@ c("inside if")
             return;
         }
 */
-c("about to call browseCoounry")
+
         game.user.browseCountry( worldMap.mapObjectClicked, "browseWorldMap" );
 
     }

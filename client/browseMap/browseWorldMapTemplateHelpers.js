@@ -154,14 +154,6 @@ Template.browseWorldMap.events = {
 
           return;
       }
-
-      //assuming we are in browseCountryMode
-
-c("mode is not uBrowseMap in map close handler")
-      
-      //display.feature.resetToPrevious();
-
-      //FlowRouter.go("/main");
   },
 
   'click .imgMapTag': function (evt, template) {
@@ -198,7 +190,19 @@ Template.browseWorldMap.rendered = function () {
 
         game.user.mode = uBrowseMap;
 
-        Meteor.setTimeout( function() { var  d = display.ctl["MAP"].browseWorldMap; d.doThisMap( d.mapLevel, d.drawLevel, d.detailLevel, d.selectedContinent, d.selectedRegion); }, 250 );
+        display.ctl["MAP"].level.set(mlRegion);
+
+        Meteor.setTimeout( function() { 
+
+          var  d = display.ctl["MAP"].browseWorldMap; 
+
+          d.doThisMap( d.mapLevel, d.drawLevel, d.detailLevel, d.selectedContinent, d.selectedRegion); 
+
+          d.doLabelCountry( d.selectedCountry.get() );
+
+        }, 250 );
+
+        Meteor.setTimeout( function() { display.ctl["MAP"].browseFinishDraw() }, 251 );
 
         return;
     }
