@@ -369,6 +369,8 @@ return;
           this.browseFadeInIcons("continentOnly");
 
         }
+
+        this.browseWorldMap.updateContent();
     }
 
     this.browseFadeInIcons = function(_which) {

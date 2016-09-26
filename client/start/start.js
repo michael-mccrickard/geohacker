@@ -154,6 +154,8 @@ Meteor.startup(function() {
 
   display = new Display();
 
+  display.initMap();
+
   editor = null;
 
   mission = null;

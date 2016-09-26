@@ -28,9 +28,7 @@ Template.browseWorldMap.helpers({
 
   continentName: function() { 
 
-    var level = display.ctl["MAP"].level.get();
-
-    var name = "";
+    var updateFlag = display.ctl["MAP"].browseWorldMap.updateFlag.get();
 
     var map =  display.ctl["MAP"].browseWorldMap;
 
@@ -40,9 +38,7 @@ Template.browseWorldMap.helpers({
 
   regionName: function() { 
 
-    var level = display.ctl["MAP"].level.get();
-
-    var name = "";
+    var updateFlag = display.ctl["MAP"].browseWorldMap.updateFlag.get();
 
     var map =  display.ctl["MAP"].browseWorldMap;
 
@@ -51,9 +47,7 @@ Template.browseWorldMap.helpers({
 
   continentIcon: function() { 
 
-    var level = display.ctl["MAP"].level.get();
-
-    var name = "";
+    var updateFlag = display.ctl["MAP"].browseWorldMap.updateFlag.get();
 
     var map =  display.ctl["MAP"].browseWorldMap;
 
@@ -65,9 +59,7 @@ Template.browseWorldMap.helpers({
 
   regionIcon: function()  { 
 
-    var level = display.ctl["MAP"].level.get();
-
-    var name = "";
+    var updateFlag = display.ctl["MAP"].browseWorldMap.updateFlag.get();
 
     var map =  display.ctl["MAP"].browseWorldMap;
 
@@ -80,7 +72,7 @@ Template.browseWorldMap.helpers({
 
   labelYCorrection: function() {
 
-    var level = display.ctl["MAP"].level.get();
+    var level = display.ctl["MAP"].browseWorldMap.updateFlag.get();
 
     var map =  display.ctl["MAP"].browseWorldMap;
 
@@ -165,11 +157,11 @@ Template.browseWorldMap.events = {
 
       //assuming we are in browseCountryMode
 
-c("going to main  from browseMapClose")
+c("mode is not uBrowseMap in map close handler")
       
-      display.feature.resetToPrevious();
+      //display.feature.resetToPrevious();
 
-      FlowRouter.go("/main");
+      //FlowRouter.go("/main");
   },
 
   'click .imgMapTag': function (evt, template) {
@@ -202,13 +194,20 @@ Template.browseWorldMap.rendered = function () {
 
     if (!display) return;
 
-    //if (display.worldMapTemplateReady == false) {
+    if (game.user.mode == uBrowseCountry) {
 
-     // display.worldMapTemplateReady = true;
+        game.user.mode = uBrowseMap;
 
-      Meteor.setTimeout( function() { display.ctl["MAP"].browseWorldMap.doCurrentMap() }, 250 );
+        Meteor.setTimeout( function() { var  d = display.ctl["MAP"].browseWorldMap; d.doThisMap( d.mapLevel, d.drawLevel, d.detailLevel, d.selectedContinent, d.selectedRegion); }, 250 );
 
-      Meteor.setTimeout( function() { display.ctl["MAP"].browseFinishDraw() }, 251 );
+        return;
+    }
 
-   // }
+    game.user.mode = uBrowseMap;
+
+    Meteor.setTimeout( function() { display.ctl["MAP"].browseWorldMap.doCurrentMap() }, 250 );
+
+    Meteor.setTimeout( function() { display.ctl["MAP"].browseFinishDraw() }, 251 );
+
+
 }

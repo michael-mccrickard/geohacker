@@ -214,14 +214,7 @@ Template.main.events({
           Control.playEffect( display.locked_sound_file );
 
           return; 
-      }  
-
-      if (game.user.mode == uBrowseCountry) {
-
-          game.user.goBrowseMap();
-
-          return;
-      }   
+      }    
       
       if (display.feature.name.get() == "VIDEO") display.suspendMedia();
 

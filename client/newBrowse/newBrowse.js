@@ -159,6 +159,8 @@ Browser = function(  ) {
 
 		_route = game.user.returnRoute;
 
+c("route in returnToPrevious is " + _route)
+
 		if (_route == "lessonMap") {
 
 			initiateResumeLesson();
@@ -168,12 +170,15 @@ Browser = function(  ) {
 
 		if (_route == "browseWorldMap") {
 
-			game.user.mode = uBrowseMap
+			game.user.goBrowseMap();
+
+			return;
 		}
 
 		if (_route == "home") {
 
 			game.user.mode = game.user.prevMode;
+
 		}
 
 		if (_route == "congrats") {

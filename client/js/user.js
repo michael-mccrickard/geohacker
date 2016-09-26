@@ -52,9 +52,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.browseCountry = function( _code, _returnRoute ) {
 
-c(_code)
-c(hack.countryCode)
-
     /*
       if ( db.getDataFlagForCountry( _code) == false) {
 
@@ -82,13 +79,11 @@ c(hack.countryCode)
 
       display.suspendMedia();
 
-//if we're in lesson mode, uLearn, then the hack.countryCode
-//will aready be set to _code (to create the learning capsule) but
-//display will still have the previous countryCode (if any), so we
-//need to re-init the display.  If the codes are the same, then
-//we are probably just cmoing back from the browseMap
-
-//But will this work for other scenarios?
+		//if we're in lesson mode, uLearn, then the hack.countryCode
+		//will aready be set to _code (to create the learning capsule) but
+		//display will still have the previous countryCode (if any), so we
+		//need to re-init the display.  If the codes are the same, then
+		//we are probably just cmoing back from the browseMap
 
 
       if (_code != display.countryCode) {
@@ -194,13 +189,31 @@ c(hack.countryCode)
 
     this.goBrowseMap = function() {
 
-    	this.setMode( uBrowseMap );
-
-    	if (!display.countryCode.length) display.init( this.profile.cc );
-
     	display.suspendMedia();
 
-    	display.feature.browseMap();
+    	if (game.user.mode == uBrowseCountry) {
+c("setting display.browseWorldMap props")
+	      	var d = display.ctl["MAP"].browseWorldMap;
+
+	    	d.mapLevel = mlRegion;
+
+	    	d.drawLevel = mlRegion;
+
+	    	d.detailLevel = mlCountry;  		
+
+	    	d.selectedCountry.set( hack.countryCode );
+
+	    	d.selectedRegion = db.getRegionCodeForCountry( hack.countryCode );
+
+	    	d.selectedContinent = db.getContinentCodeForCountry( hack.countryCode );	    	
+    	}
+
+
+//do this in template.rendered for the map; after we check the current mode
+		//this.setMode( uBrowseMap );
+
+    	FlowRouter.go("/browseWorldMap");
+    	
     }
 
 //when this is called, do we know for sure the mission isn't complete?

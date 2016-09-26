@@ -155,6 +155,15 @@ Display = function() {
         }
     }
 
+    this.initMap = function() {
+
+        var _name = "MAP";
+
+        this.ctl[ _name ] = new ghMapCtl();        
+
+        this.ctl[ _name ].init();
+    }
+
     //*********************************************
     //      Data functions
     //*********************************************
