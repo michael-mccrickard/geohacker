@@ -52,15 +52,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.browseCountry = function( _code, _returnRoute ) {
 
-    /*
-      if ( db.getDataFlagForCountry( _code) == false) {
-
-      	showMessage("NO DATA FOUND FOR THIS COUNTRY");
-
-      	return;
-      }
-	*/
-
       this.returnRoute = _returnRoute;
 
       this.returnName = _returnRoute;
@@ -192,7 +183,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     	display.suspendMedia();
 
     	if (game.user.mode == uBrowseCountry) {
-c("setting display.browseWorldMap props")
+
 	      	var d = display.ctl["MAP"].browseWorldMap;
 
 	    	d.mapLevel = mlRegion;
@@ -208,9 +199,7 @@ c("setting display.browseWorldMap props")
 	    	d.selectedContinent = db.getContinentCodeForCountry( hack.countryCode );	    	
     	}
 
-
-//do this in template.rendered for the map; after we check the current mode
-		//this.setMode( uBrowseMap );
+    	this.setMode( uBrowseMap );
 
     	FlowRouter.go("/browseWorldMap");
     	
