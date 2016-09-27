@@ -196,27 +196,11 @@ Template.browseWorldMap.rendered = function () {
 
     if (!display) return;
 
+    //this check is likely unnecessary, can user enter this map in any other mode?
+
     if (game.user.mode == uBrowseCountry) {
 
-        game.user.mode = uBrowseMap;
-
         display.ctl["MAP"].browseWorldMap.mapLevel = mlCountry;
-
-        Meteor.setTimeout( function() { 
-
-          var  d = display.ctl["MAP"].browseWorldMap; 
-
-         //d.doThisMap( d.mapLevel, d.drawLevel, d.detailLevel, d.selectedContinent, d.selectedRegion); 
-
-          //d.doLabelCountry( d.selectedCountry.get() );
-
-              d.doCurrentMap();
-
-        }, 250 );
-
-        Meteor.setTimeout( function() { display.ctl["MAP"].browseFinishDraw() }, 251 );
-
-        return;
     }
 
     game.user.mode = uBrowseMap;

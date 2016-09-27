@@ -478,7 +478,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
         if (_level == mlRegion) {
 
-            this.doThisMap( mlContinent, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion );
+            this.doThisMap( mlRegion, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion );
 
             this.map.validateData();
 

@@ -74,7 +74,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 		//will aready be set to _code (to create the learning capsule) but
 		//display will still have the previous countryCode (if any), so we
 		//need to re-init the display.  If the codes are the same, then
-		//we are probably just cmoing back from the browseMap
+		//we are probably just coming back from the browseMap
 
 
       if (_code != display.countryCode) {
@@ -165,16 +165,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
      		game.logout();
      	}
 
-     	if (_mode == uBrowseMap) {
+		Control.playEffect( "blink.mp3" );
 
-     		this.setGlobals("browse");
-
-     		Control.playEffect( "mapButton.mp3" );
-     	}
-     	else {
-
-			Control.playEffect( "blink.mp3" );
-     	}
 
     }
 
@@ -199,7 +191,11 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 	    	d.selectedContinent = db.getContinentCodeForCountry( hack.countryCode );	    	
     	}
 
-    	this.setMode( uBrowseMap );
+    	Control.playEffect( "mapButton.mp3" );
+
+    	//we don't call setMode for uBrowseMap, because we manage that feature differently
+    	//but we probably could now that we have configured things.
+    	//Mode is currently set to uBrowseMap in Template.newBrowseMap.rendered
 
     	FlowRouter.go("/browseWorldMap");
     	
@@ -714,16 +710,10 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 			var _id = hack.getWelcomeAgent()._id;
 
-//c("checking for " + _id + " in profile.ag")
-
 			if ( game.user.profile.ag.indexOf(_id) == -1 ) { 
-
-//c("about to push " + _id + " onto profile.ag")
 
 				game.user.profile.ag.push( _id );
 			}
-
-//console.log(game.user.profile.ag);
 		}
 
 
