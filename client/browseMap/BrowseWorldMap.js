@@ -91,7 +91,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
         if (level == mlNone || level == mlWorld) {
 
-            this.mapCtl.level.set( mlContinent );
+            //this.mapCtl.level.set( mlContinent );
 
             this.mapLevel = mlWorld;
 
@@ -104,7 +104,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
         if (level == mlContinent) {
 
-            this.mapCtl.level.set( mlRegion );
+            //this.mapCtl.level.set( mlRegion );
 
             this.doThisMap( mlContinent, mlContinent, mlRegion, this.selectedContinent, null);
         }
@@ -112,14 +112,14 @@ BrowseWorldMap = function( _mapCtl ) {
 
         if (level == mlRegion) {
 
-            this.mapCtl.level.set( mlCountry );
+           //this.mapCtl.level.set( mlCountry );
 
             this.doThisMap( mlRegion, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion );        
         }
 
         if (level == mlCountry) {  //this is just a replay of the map zooming in on the correct country (browse mode)
 
-           this.doMap( mlRegion, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion);
+           this.doThisMap( mlRegion, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion);
 
            //set level to country, so that the label uses the correct coords
 
@@ -230,7 +230,6 @@ BrowseWorldMap = function( _mapCtl ) {
 
         //Set the map areas based on map level
 
-
         if (_mapLevel == mlContinent) rec = db.getContinentRec( this.selectedContinent );
 
         if (_mapLevel == mlRegion) rec = db.getRegionRec( this.selectedRegion );
@@ -337,115 +336,94 @@ BrowseWorldMap = function( _mapCtl ) {
 
          if (rec.ll_co !== undefined) _color = rec.ll_co;
 
-        this.labelMapObject( mlCountry, _countryID, 0, 0, 12, _color );
+        this.labelMapObject( mlCountry, _countryID, 0, 0, 24, _color );
     }
 
-    //label the clicked map object and pos it appropriately
 
     this.labelMapObject = function(_level, _code, _x, _y, _fontSize, _col) {
 
-        //var level = this.mapCtl.level.get();
-
-        var _code;
+        var level = _level;
 
         var _name = "";
 
-        var _rot = 0;
-
-        var _alpha = 1.0;
-
-        var _bold = false;
-
         var rec;
+
+        var x, y;
 
 
         //Look up in the db where to place the label 
         //(this is what all this code does except for the last line)
 
-        if (_level == mlContinent) {
+        if (level == mlContinent) {
 
             rec = db.getContinentRec( _code );                           
         }
 
-        if (_level == mlRegion) {
+        if (level == mlRegion) {
 
             rec = db.getRegionRec( _code );
+
+
+            if (rec.llon !== undefined) {
+
+                x = this.map.longitudeToX( rec.llon );
+
+                y = this.map.latitudeToY( rec.llat );
+            }
+            else {
+
+                if (rec.xl3 !== undefined) {
+
+                    x = rec.xl3;
+
+                    y = rec.yl3;
+                }           
+            }  
         }
 
-        if (_level == mlCountry) {
-
-            _bold = true;
+        if (level == mlCountry) {
 
             rec = db.getCountryRec( _code ); 
+
+            if (typeof rec.wl !== undefined) {
+
+                if (rec.wl == 1) _col = "white";
+            }
+
+            if (rec.xl != undefined) {
+
+                x = rec.xl * this.map.divRealWidth;
+
+                y = rec.yl * this.map.divRealHeight;
+            }
+            else {  //no label pos data?  then just center it
+
+                x = this.map.divRealWidth / 2;
+
+                y = this.map.divRealHeight / 2;    
+            }  
         }
 
         if (rec) {
-            
+
             _name = rec.n;
 
-            var _nameLen = _name.length;
-
-            if ( _level == mlRegion) {
-
-                if (_x == 0) {  //passing in zeros for the coordinates means "get them from the db"
-
-                    if (rec.llon !== undefined) {
-
-                        var loc = this.map.coordinatesToStageXY( rec.llon, rec.llat);
-
-                        _x = loc.x;
-
-                        _y = loc.y;
-
-                    }
-                    else {
-
-                        _x = rec.xl * this.map.divRealWidth;
-
-                        _y = rec.yl * this.map.divRealHeight;
-
-                    }
-                }
-
-
-            }
-
-
-            if ( _level == mlCountry & !_x ) {
-
-                var obj = this.map.getObjectById( _code );
-
-                _lat = this.map.getAreaCenterLatitude( obj );
-
-                _lon = this.map.getAreaCenterLongitude( obj );
-
-                _x = this.map.longitudeToX(_lon) - _nameLen * (_fontSize / 2);
-
-                _y = this.map.latitudeToY(_lat);
-            }
-
-            if (rec.ll_co !== undefined) _col = rec.ll_co;
-
-            if (rec.ll_r !== undefined) _rot = rec.ll_r;
-
         }
+        
+        if (typeof _fontSize == 'undefined') _fontSize = 24;
 
-        if (_fontSize == undefined) {
+        if (typeof _col == 'undefined') _col = "black";
 
-            if (_level <= mlRegion) _fontSize = 24;
+         if (level == mlCountry) {
 
-            if (_level == mlCountry) _fontSize = 12;           
-        }
+            _col = getTextColorForBackground( db.getCountryRec( _code ).co );
+        }   
 
-        if (_col == undefined) {
+        if (_x) x = _x;
 
-            if (_level <= mlRegion) _col = "white";
+        if (_y) y = _y;       
 
-            if (_level == mlCountry) _col = "black";       
-        }
-
-    
-        Meteor.defer( function() {display.ctl["MAP"].browseWorldMap.map.addLabel(_x, _y, _name.toUpperCase(), "", _fontSize, _col, _rot, _alpha, _bold); } );
+        Meteor.defer( function() { display.ctl["MAP"].browseWorldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
     }
 
 
@@ -457,47 +435,64 @@ BrowseWorldMap = function( _mapCtl ) {
 
     //Redraw the map using the previous level
 
-    this.backupMap = function() {
-
-        var level = this.mapCtl.level.get();
+    this.backupMap = function( _level) {
 
 
-        if (level == mlContinent) {
+        if (_level == mlWorld) {
 
             this.doThisMap(mlWorld, mlWorld, mlContinent);
 
             this.map.validateData();
+
+            this.mapCtl.level.set( mlWorld );
+
+            this.selectedContinent = "";
+
+            this.selectedRegion = "";
+
+            this.selectedCountry.set( "");
 
             refreshMap();
 
             return;
         }
 
-        if (level == mlRegion) {
+        if (_level == mlContinent) {
 
-            this.doMap( mlContinent, mlContinent, mlRegion, this.selectedContinent, this.selectedRegion );
+            this.doThisMap( mlContinent, mlContinent, mlRegion, this.selectedContinent, this.selectedRegion );
 
             this.map.validateData();
 
             refreshMap();
+
+            this.mapCtl.level.set( mlContinent );
+
+            this.selectedRegion = "";
+
+            this.selectedCountry.set( "");
 
             this.labelMapObject();
 
             return;
         }   
 
-        if (level == mlCountry) {
+        if (_level == mlRegion) {
 
-            this.doMap( mlContinent, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion );
+            this.doThisMap( mlContinent, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion );
 
             this.map.validateData();
 
             refreshMap();
 
+            this.mapCtl.level.set( mlRegion );
+
+            this.selectedCountry.set( "");
+
             this.labelMapObject();
 
             return;
         }     
+
 
     }
 
@@ -550,7 +545,6 @@ function handleClick(_event) {
     }
 
     if (level == mlContinent) {
-c("level is continent")
 
         var _code = db.getRegionCodeForCountry(worldMap.mapObjectClicked);   //in database.js
 
@@ -563,9 +557,6 @@ c("level is continent")
         this.drawLevel = mlRegion;
 
         this.detailLevel = mlCountry;
-
-
-
     }
 
     if (level == mlRegion) {
@@ -573,12 +564,10 @@ c("level is continent")
         worldMap.selectedCountry.set( worldMap.mapObjectClicked );
 
         worldMap.customData = _event.mapObject.customData;
-
-
     }
 
     if (level == mlCountry) { 
-        
+       
         //If a different country was previously selected and we're still at the country
         //level, then the user can click on a nearby country.  We want the map to re-center and re-label
         //in this case, but not jump to browsing
@@ -601,7 +590,7 @@ c("level is continent")
         //we set this flag when we simulate the click on the country
         //so that the autoZoom will just center the map on the country
         //but we can exit before the jump to the browse screen
-/*
+
         if (worldMap.zoomOnlyOnClick) {
 
             worldMap.mapCtl.level.set(mlRegion); 
@@ -610,7 +599,7 @@ c("level is continent")
 
             return;
         }
-*/
+
 
         game.user.browseCountry( worldMap.mapObjectClicked, "browseWorldMap" );
 
@@ -629,17 +618,21 @@ function handleZoomCompleted() {
 
     if (worldMap.zoomDone == true)  return; 
 
-    var level = worldMap.drawLevel;
+    worldMap.zoomDone = true;
+
+    var level = worldMap.mapCtl.level.get();
 
     var _continentCode = db.getContinentCodeForCountry( worldMap.mapObjectClicked );
 
     var _regionCode = db.getRegionCodeForCountry( worldMap.mapObjectClicked );
 
     if (level == mlWorld) {
-
+  
         worldMap.doThisMap(mlContinent, mlContinent, mlRegion, _continentCode, null);
 
         worldMap.labelAllRegions();
+
+        worldMap.mapCtl.level.set( mlContinent )
 
         refreshMap();
 
@@ -647,7 +640,7 @@ function handleZoomCompleted() {
     }
 
     if (level == mlContinent) {
-
+   
         worldMap.doThisMap(mlRegion, mlRegion, mlCountry, _continentCode, _regionCode);
 
         worldMap.doLabelRegion( _regionCode);
@@ -671,8 +664,6 @@ function handleZoomCompleted() {
 
         worldMap.doLabelCountry( worldMap.mapObjectClicked );
 
-        worldMap.zoomDone = true;
-
         worldMap.map.dataProvider.zoomLongitude = worldMap.map.zLongTemp;
 
         worldMap.map.dataProvider.zoomLatitude =  worldMap.map.zLatTemp;
@@ -685,6 +676,8 @@ function handleZoomCompleted() {
 
         return;
     }
+
+
 
     //this is necessary for the initial zoom-in (when a country has already been selected)
 

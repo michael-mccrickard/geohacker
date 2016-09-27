@@ -115,27 +115,37 @@ Template.browseWorldMap.events = {
 
     Control.playEffect("mapBackup.mp3");
 
-    display.ctl["MAP"].browseWorldMap.doClearButton(0);
+    var d = display.ctl["MAP"].browseWorldMap;
 
-    display.ctl["MAP"].backupMapToRegion();
+    d.doClearButton(0);
+
+    d.backupMap( mlRegion );
+
+    d.doLabelRegion( d.selectedRegion )
   },
 
   'click #browseContinentIcon': function (evt, template) {
 
     Control.playEffect("mapBackup.mp3");
 
-    display.ctl["MAP"].browseWorldMap.doClearButton(0);
+    var d = display.ctl["MAP"].browseWorldMap;
 
-    display.ctl["MAP"].backupMapToContinent();
+    d.doClearButton(0);
+
+    d.backupMap( mlContinent );
+
+    d.labelAllRegions();
   },
 
   'click #browseWorldIcon': function (evt, template) {
 
     Control.playEffect("mapBackup.mp3");
 
-    display.ctl["MAP"].browseWorldMap.doClearButton(0);
+    var d = display.ctl["MAP"].browseWorldMap;
 
-    display.ctl["MAP"].backupMapToWorld();
+    d.doClearButton(0);
+
+    d.backupMap( mlWorld );
   },
 
   'click #browseMapClose': function (evt, template) {
@@ -190,15 +200,17 @@ Template.browseWorldMap.rendered = function () {
 
         game.user.mode = uBrowseMap;
 
-        display.ctl["MAP"].level.set(mlRegion);
+        display.ctl["MAP"].browseWorldMap.mapLevel = mlCountry;
 
         Meteor.setTimeout( function() { 
 
           var  d = display.ctl["MAP"].browseWorldMap; 
 
-          d.doThisMap( d.mapLevel, d.drawLevel, d.detailLevel, d.selectedContinent, d.selectedRegion); 
+         //d.doThisMap( d.mapLevel, d.drawLevel, d.detailLevel, d.selectedContinent, d.selectedRegion); 
 
-          d.doLabelCountry( d.selectedCountry.get() );
+          //d.doLabelCountry( d.selectedCountry.get() );
+
+              d.doCurrentMap();
 
         }, 250 );
 
