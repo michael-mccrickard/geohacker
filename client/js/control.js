@@ -289,7 +289,7 @@ c("control activateState() called on " + this.name + " and state is " + this.get
         return;
 
     }
-f
+
     if (this.getState() == sPaused) {
 
           c("control.activateState is pausing the media")
