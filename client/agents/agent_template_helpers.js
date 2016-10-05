@@ -10,7 +10,15 @@ Session.set("sUpdate", false);
 
 Template.agent.rendered = function() {
 
-  Meteor.subscribe("agentsInNetwork", function() { stopSpinner();  arrS = Meteor.users.find( { _id: { $in: Meteor.user().profile.ag  } } ).fetch(); nextAgent(); });
+Meteor.subscribe("agentsInNetwork", function() { 
+
+  stopSpinner();  
+  //arrS = Meteor.users.find( { _id: { $in: Meteor.user().profile.ag  } } ).fetch(); 
+  //arrS.reverse();
+  //nextAgent(); 
+
+});
+
 
 }
 
@@ -26,6 +34,7 @@ Template.miniAgent.rendered = function() {
 
 }
 
+
 function nextAgent() {
 
     index++;
@@ -40,6 +49,7 @@ function nextAgent() {
 
     Meteor.setTimeout( function() { nextAgent() }, 150 );
 }
+
 
 Template.bigAgent.helpers({
 
@@ -74,25 +84,20 @@ Template.agent.helpers({
   },
 
 	agentInNetwork: function() {
-/*
-    if (FlowRouter.current().path == "/worldMap") {
-
-      var _arr = [];
-
-      _arr.push( hack.getWelcomeAgent() );
-
-      return _arr; 
-    }
 
     if (!Meteor.user() ) return Meteor.users.findOne( { _id: Database.getChiefID()[0] } ).fetch();
-*/
 
-Session.get("sUpdate");
+		var _arr = Meteor.users.find( { _id: { $in: Meteor.user().profile.ag  } } ).fetch();  
 
-return arrA;
+   _arr.reverse();  //see most recently added agents first
 
-		//return Meteor.users.find( { _id: { $in: Meteor.user().profile.ag  } } );  //
- 
+    return (_arr);
+
+/*
+ Session.get("sUpdate");
+
+ return arrA;
+ */
 	},
 	
 	name: function() {

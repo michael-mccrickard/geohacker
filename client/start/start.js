@@ -199,6 +199,8 @@ Meteor.startup(function() {
 
   //start screen
 
+//ps("HN")
+
   FlowRouter.go("/start"); 
 
 }); 

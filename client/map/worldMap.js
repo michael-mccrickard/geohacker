@@ -307,6 +307,24 @@ c("doCurrentMap");
             _code = db.getRegionCodeForCountry( this.mapObjectClicked );   
 
             rec = db.getRegionRec( _code );
+
+            if (rec.llon !== undefined) {
+
+                x = this.map.longitudeToX( rec.llon );
+
+                y = this.map.latitudeToY( rec.llat );
+            }
+            else {
+
+                if (rec.xl3 !== undefined) {
+
+                    x = rec.xl3;
+
+                    y = rec.yl3;
+                }           
+            } 
+
+            if (rec.rll_co !== undefined) _col = rec.rll_co; 
         }
 
         if (level == mlCountry) {
@@ -317,46 +335,46 @@ c("doCurrentMap");
 
                 if (rec.wl == 1) _col = "white";
             }
-        }
 
-        if (rec) {
 
-            //Some countries don't have hard-coded label positions but most do
+            if (rec) {
 
-            if (this.mapCtl.getState() == sCountryOK) {
+                //Some countries don't have hard-coded label positions but most do
 
-                if (typeof rec.xl2 !== 'undefined') {
+                if (this.mapCtl.getState() == sCountryOK) {
 
-                    x = rec.xl2 * this.map.divRealWidth;
+                    if (typeof rec.xl2 !== 'undefined') {
 
-                    y = rec.yl2* this.map.divRealHeight;
+                        x = rec.xl2 * this.map.divRealWidth;
+
+                        y = rec.yl2* this.map.divRealHeight;
+                    }
+                    else {  //no label pos data?  then just center it
+
+                        x = this.map.divRealWidth / 2;
+
+                        y = this.map.divRealHeight / 2;    
+                  }                 
                 }
-                else {  //no label pos data?  then just center it
+                else {
 
-                    x = this.map.divRealWidth / 2;
+                    if (rec.xl != undefined) {
 
-                    y = this.map.divRealHeight / 2;    
-              }                 
-            }
-            else {
+                        x = rec.xl * this.map.divRealWidth;
 
-                if (rec.xl != undefined) {
+                        y = rec.yl * this.map.divRealHeight;
+                    }
+                    else {  //no label pos data?  then just center it
 
-                    x = rec.xl * this.map.divRealWidth;
+                        x = this.map.divRealWidth / 2;
 
-                    y = rec.yl * this.map.divRealHeight;
+                        y = this.map.divRealHeight / 2;    
+                    }  
                 }
-                else {  //no label pos data?  then just center it
-
-                    x = this.map.divRealWidth / 2;
-
-                    y = this.map.divRealHeight / 2;    
-                }  
             }
-
-            _name = rec.n;
-
         }
+         
+       _name = rec.n;    
         
         if (typeof _fontSize == 'undefined') _fontSize = 24;
 
