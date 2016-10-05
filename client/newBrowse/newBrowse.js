@@ -13,7 +13,7 @@ Browser = function(  ) {
 	this.videoFrameID = "";
 
 	this.countryCode = "";  //we actually hack.countryCode throughout, but we keep a copy
-							//in this country, so we can tell when the country has changed
+							//in this.countryCode, so we can tell when the country has changed
 							//upon return from the browsemap (user could have simply viewed the map)
 
 	this.init = function( _code ) {
@@ -159,6 +159,8 @@ Browser = function(  ) {
 
 		_route = game.user.returnRoute;
 
+c("route in returnToPrevious is " + _route)
+
 		if (_route == "lessonMap") {
 
 			initiateResumeLesson();
@@ -168,12 +170,15 @@ Browser = function(  ) {
 
 		if (_route == "browseWorldMap") {
 
-			game.user.mode = uBrowseMap
+			game.user.goBrowseMap();
+
+			return;
 		}
 
 		if (_route == "home") {
 
 			game.user.mode = game.user.prevMode;
+
 		}
 
 		if (_route == "congrats") {

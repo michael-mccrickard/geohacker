@@ -1,6 +1,26 @@
 //****************************************
 //   edit hacks
 //****************************************
+fix0 = function() {
+
+
+  var arr = Meteor.users.find({}).fetch();
+
+      for (var i = 0; i < arr.length; i++) {
+
+
+        if (arr[i].profile.st == usVirtual || arr[i].profile.st == usHonorary ) {
+
+            game.user.profile.ag.push( arr[i]._id );
+
+            Meteor.users.update( {_id: "SWjqzgXy9rGCYvpRF"}, { $set: { 'profile.ag': game.user.profile.ag } } ) ;
+        }
+
+        
+
+    }
+}
+
 
 fix1 = function() {
 

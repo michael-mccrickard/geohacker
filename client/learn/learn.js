@@ -194,13 +194,9 @@ Template.learnCountry.helpers({
 
  });
 
+function goBrowse( _id ) {
 
-
-Template.learnCountry.events = {
-
-  'click .learnCountryElement': function (evt, template) {
-
-  	  if (game.lesson.quiz.inProgress.get() ) {
+	  if (game.lesson.quiz.inProgress.get() ) {
 
   	  	  Control.playEffect( display.locked_sound_file );
 
@@ -211,6 +207,15 @@ Template.learnCountry.events = {
 	  	  return;  	  	
   	  }
 
-      game.user.browseCountry( evt.target.id, "lessonMap" );
+      game.user.browseCountry( _id, "lessonMap" );
+}
+
+
+Template.learnCountry.events = {
+
+  'click .learnCountryElement': function (evt, template) {
+
+  		goBrowse( evt.target.id );
+
   },
 }

@@ -96,13 +96,9 @@ Display = function() {
 
         //reset vars and re-do controls and map
 
-//        this.mainTemplateReady = false;
-
         this.loader.totalClueCount = 0;
 
         this.makeControls(_code);
-        
-        //this.feature.setBackground( sIcon );
 
     }
 
@@ -157,6 +153,15 @@ Display = function() {
             this.ctl[ _name ].setState( sIcon );
 
         }
+    }
+
+    this.initMap = function() {
+
+        var _name = "MAP";
+
+        this.ctl[ _name ] = new ghMapCtl();        
+
+        this.ctl[ _name ].init();
     }
 
     //*********************************************

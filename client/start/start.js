@@ -154,6 +154,8 @@ Meteor.startup(function() {
 
   display = new Display();
 
+  display.initMap();
+
   editor = null;
 
   mission = null;
@@ -196,6 +198,8 @@ Meteor.startup(function() {
   Meteor.subscribe('userPresence');
 
   //start screen
+
+//ps("HN")
 
   FlowRouter.go("/start"); 
 

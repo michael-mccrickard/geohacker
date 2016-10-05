@@ -102,7 +102,7 @@ Hack = function() {
         c( db.getCountryName( _code ) + ' was selected for browsing.');   
 
         this.index = Database.getIndexForCountryCode( _code );
-c("index in initForBrowse " + this.index)
+
         this.subscribeToData( _code );
 
         FlowRouter.go("/waiting");
@@ -234,13 +234,14 @@ c("index in initForBrowse " + this.index)
     this.startBrowsing = function() {
 
         display.init( this.countryCode );
-
+/*
         if (this.debrief == null) {
 
           this.debrief = new Debrief( this );
         }
 
         this.debrief.init( this.countryCode );
+*/
 
         var map = display.ctl["MAP"].browseWorldMap;
 

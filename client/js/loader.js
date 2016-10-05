@@ -267,7 +267,7 @@ c("calling checkMain")
 //if we need to force a certain control for any reason, this is the place to do it
 
 /*
-if (this.totalClueCount == 0) randomControl = display.ctl["IMAGE"]; 
+if (this.totalClueCount == 0) randomControl = display.ctl["VIDEO"]; 
 
 if (this.totalClueCount == 1) randomControl = display.ctl["TEXT"];
 
@@ -287,13 +287,13 @@ if (this.totalClueCount == 4) randomControl = display.ctl["VIDEO"];
 
 			randomControl.setIndex( randomControl.loadedCount - 1);
 
-//if we need to force a certain clue on a control, this is the place to do it
-
+//If we need to force a certain clue on a control, this is the place to do it
+//(Comment out the Database.shuffle() command in control.setItems() if you need to do this)
 /*
-if (this.totalClueCount == 0) randomControl.setIndex( 1 );
+if (this.totalClueCount == 0) randomControl.setIndex( 8 );
+
+if (hack.countryCode == "CU") randomControl.setIndex( 1 );
 */
-
-
 			this.totalClueCount++;
 
 			return randomControl;

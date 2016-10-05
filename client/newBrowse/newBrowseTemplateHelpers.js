@@ -83,7 +83,7 @@ Template.newBrowse.helpers({
 
   	flagMaxHeight: function() {
 
-  		return $(window).height() * 0.23;
+  		return $(window).height() * 0.18;
   	},
 
   	flagMaxWidth: function() {
@@ -269,6 +269,9 @@ Template.newBrowse.rendered = function() {
     var _count = display.browser.videoCtl.items.length;
 
     display.browser.playVideoByIndex( Database.getRandomValue(_count) );    
+
+//display.browser.playVideoByIndex( 3 );
+
   }
   else {
 

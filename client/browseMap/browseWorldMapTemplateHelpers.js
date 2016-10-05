@@ -28,9 +28,7 @@ Template.browseWorldMap.helpers({
 
   continentName: function() { 
 
-    var level = display.ctl["MAP"].level.get();
-
-    var name = "";
+    var updateFlag = display.ctl["MAP"].browseWorldMap.updateFlag.get();
 
     var map =  display.ctl["MAP"].browseWorldMap;
 
@@ -40,9 +38,7 @@ Template.browseWorldMap.helpers({
 
   regionName: function() { 
 
-    var level = display.ctl["MAP"].level.get();
-
-    var name = "";
+    var updateFlag = display.ctl["MAP"].browseWorldMap.updateFlag.get();
 
     var map =  display.ctl["MAP"].browseWorldMap;
 
@@ -51,9 +47,7 @@ Template.browseWorldMap.helpers({
 
   continentIcon: function() { 
 
-    var level = display.ctl["MAP"].level.get();
-
-    var name = "";
+    var updateFlag = display.ctl["MAP"].browseWorldMap.updateFlag.get();
 
     var map =  display.ctl["MAP"].browseWorldMap;
 
@@ -65,9 +59,7 @@ Template.browseWorldMap.helpers({
 
   regionIcon: function()  { 
 
-    var level = display.ctl["MAP"].level.get();
-
-    var name = "";
+    var updateFlag = display.ctl["MAP"].browseWorldMap.updateFlag.get();
 
     var map =  display.ctl["MAP"].browseWorldMap;
 
@@ -80,7 +72,7 @@ Template.browseWorldMap.helpers({
 
   labelYCorrection: function() {
 
-    var level = display.ctl["MAP"].level.get();
+    var level = display.ctl["MAP"].browseWorldMap.updateFlag.get();
 
     var map =  display.ctl["MAP"].browseWorldMap;
 
@@ -123,27 +115,37 @@ Template.browseWorldMap.events = {
 
     Control.playEffect("mapBackup.mp3");
 
-    display.ctl["MAP"].browseWorldMap.doClearButton(0);
+    var d = display.ctl["MAP"].browseWorldMap;
 
-    display.ctl["MAP"].backupMapToRegion();
+    d.doClearButton(0);
+
+    d.backupMap( mlRegion );
+
+    d.doLabelRegion( d.selectedRegion )
   },
 
   'click #browseContinentIcon': function (evt, template) {
 
     Control.playEffect("mapBackup.mp3");
 
-    display.ctl["MAP"].browseWorldMap.doClearButton(0);
+    var d = display.ctl["MAP"].browseWorldMap;
 
-    display.ctl["MAP"].backupMapToContinent();
+    d.doClearButton(0);
+
+    d.backupMap( mlContinent );
+
+    d.labelAllRegions();
   },
 
   'click #browseWorldIcon': function (evt, template) {
 
     Control.playEffect("mapBackup.mp3");
 
-    display.ctl["MAP"].browseWorldMap.doClearButton(0);
+    var d = display.ctl["MAP"].browseWorldMap;
 
-    display.ctl["MAP"].backupMapToWorld();
+    d.doClearButton(0);
+
+    d.backupMap( mlWorld );
   },
 
   'click #browseMapClose': function (evt, template) {
@@ -162,14 +164,6 @@ Template.browseWorldMap.events = {
 
           return;
       }
-
-      //assuming we are in browseCountryMode
-
-c("going to main  from browseMapClose")
-      
-      display.feature.resetToPrevious();
-
-      FlowRouter.go("/main");
   },
 
   'click .imgMapTag': function (evt, template) {
@@ -202,13 +196,18 @@ Template.browseWorldMap.rendered = function () {
 
     if (!display) return;
 
-    //if (display.worldMapTemplateReady == false) {
+    //this check is likely unnecessary, can user enter this map in any other mode?
 
-     // display.worldMapTemplateReady = true;
+    if (game.user.mode == uBrowseCountry) {
 
-      Meteor.setTimeout( function() { display.ctl["MAP"].browseWorldMap.doCurrentMap() }, 250 );
+        display.ctl["MAP"].browseWorldMap.mapLevel = mlCountry;
+    }
 
-      Meteor.setTimeout( function() { display.ctl["MAP"].browseFinishDraw() }, 251 );
+    game.user.mode = uBrowseMap;
 
-   // }
+    Meteor.setTimeout( function() { display.ctl["MAP"].browseWorldMap.doCurrentMap() }, 250 );
+
+    Meteor.setTimeout( function() { display.ctl["MAP"].browseFinishDraw() }, 251 );
+
+
 }

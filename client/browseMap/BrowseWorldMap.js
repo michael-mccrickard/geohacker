@@ -28,15 +28,26 @@ BrowseWorldMap = function( _mapCtl ) {
 
     this.selectedCountry = new Blaze.ReactiveVar('');
 
+    //map extents and details
+
+    this.mapLevel = mlNone;
+
+    this.drawLevel = null;
+
+    this.detailLevel = null;
+    
+
     //objects
 
     this.dp = null;
 
-    this.mm = this.mm || new MapMaker();
+    this.mm = this.mm || new BrowseMapMaker();
 
     this.mapCtl = _mapCtl;
 
     //misc
+
+    this.updateFlag = new Blaze.ReactiveVar(false);
 
     this.customData = '';
 
@@ -76,29 +87,41 @@ BrowseWorldMap = function( _mapCtl ) {
 
         worldMap = this;
 
-        var level = this.mapCtl.level.get();
+        var level = this.mapLevel;
 
         if (level == mlNone || level == mlWorld) {
 
-            this.doMap( "world", mlWorld);
+            //this.mapCtl.level.set( mlContinent );
+
+            this.mapLevel = mlWorld;
+
+            this.drawLevel = mlWorld;
+
+            this.detailLevel = mlContinent;
+
+            this.doThisMap( this.mapLevel, this.drawLevel, this.detailLevel, null, null);
         }
 
         if (level == mlContinent) {
 
-            this.doMap( this.selectedContinent, level);
+            //this.mapCtl.level.set( mlRegion );
+
+            this.doThisMap( mlContinent, mlContinent, mlRegion, this.selectedContinent, null);
         }
 
 
         if (level == mlRegion) {
 
-            this.doMap( this.selectedRegion, level );        
+           //this.mapCtl.level.set( mlCountry );
+
+            this.doThisMap( mlRegion, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion );        
         }
 
         if (level == mlCountry) {  //this is just a replay of the map zooming in on the correct country (browse mode)
 
-           this.doMap( this.selectedRegion, mlRegion);
+           this.doThisMap( mlRegion, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion);
 
-           //reset level back to country, so that the label uses the correct coords
+           //set level to country, so that the label uses the correct coords
 
            this.mapCtl.level.set( mlCountry );
 
@@ -127,13 +150,66 @@ BrowseWorldMap = function( _mapCtl ) {
 
     }
 
-    this.doMap = function(_code, _level) {
+    this.doThisMap = function(_mapLevel, _drawLevel, _detailLevel, _continentID, _regionID) {
+
+        //reset this each time, b/c it disappears if we switch hack/display objects
+
+        worldMap = this;
+
+        this.selectedContinent = "";
+
+        this.selectedRegion = "";
+
+        this.mapLevel = _mapLevel;
+
+        this.drawLevel = _drawLevel;
+
+        this.detailLevel = _detailLevel;
+
+
+        if (_continentID) this.selectedContinent = _continentID;
+
+        if (_regionID) this.selectedRegion = _regionID;
+
+
+        var z1 = 1.0;
+
+        var z2 = 44.241616;
+
+        var z3 = 10.325;
+
+        if (_mapLevel == undefined) {
+
+            showMessage("No map level in browseWorldMap.doMap().")
+
+            return;
+        }
+
+        if (_mapLevel == mlContinent && this.selectedContinent.length == 0 ) {
+
+            showMessage("No continent selected for map level continent.  Cannot draw map in browseWorldMap.js");
+            
+            return;     
+        }
+
+        if (_mapLevel == mlRegion && this.selectedRegion.length == 0 ) {
+
+            showMessage("No region selected for map level region.  Cannot draw map in browseWorldMap.js");
+            
+            return;     
+        }
+
+        if (this.selectedContinent.length == 0 && this.selectedRegion.length > 0) {
+
+            var tempRec = db.getRegionRec( this.selectedRegion );
+            
+            this.selectedContinent = tempRec.z;
+        }      
 
         //initialize variables related to the map
 
         var rec = null;
 
-        this.mapCtl.level.set( _level );
 
         this.zoomDone = true;  //this is used to keep the zoomCompleted event from redrawing / validating map 
                                 //before we're ready
@@ -154,21 +230,20 @@ BrowseWorldMap = function( _mapCtl ) {
 
         //Set the map areas based on map level
 
-        this.dp.areas = this.mm.getJSONForMap(_code, _level, false);
+        if (_mapLevel == mlContinent) rec = db.getContinentRec( this.selectedContinent );
 
-        this.mm.getJSONForMap(_code, _level, false);
+        if (_mapLevel == mlRegion) rec = db.getRegionRec( this.selectedRegion );
 
-        if (_level == mlContinent) rec = db.getContinentRec(_code);
+        if (_mapLevel == mlContinent || _mapLevel == mlRegion) {
 
-        if (_level == mlRegion) rec = db.getRegionRec(_code);
-
-        if (_level == mlContinent || _level == mlRegion) {
-
-            this.dp.zoomLevel = rec.z1,
-            this.dp.zoomLatitude = rec.z2,
-            this.dp.zoomLongitude =  rec.z3
+            this.dp.zoomLevel = z1 = rec.z1,
+            this.dp.zoomLatitude = z2 = rec.z2,
+            this.dp.zoomLongitude = z3 = rec.z3            
 
         }
+
+
+        this.dp.areas = this.mm.getJSONForMap(this.selectedContinent, this.selectedRegion, _mapLevel, _drawLevel, _detailLevel, z1, z2, z3);
 
         this.dp.images = [];
 
@@ -192,16 +267,12 @@ BrowseWorldMap = function( _mapCtl ) {
             rollOverOutlineColor: "#000000",
             color: "#BBBB00",
             selectedColor: "#BBBB00",
+            selectedOutlineColor: "#FFFFFF"
 
         };
-
-
-        //set the ballon text (popup text) for each area (this will be continent, region or country)
+        
         this.map.areasSettings.balloonText = "[[customData]]";
 
-        if (_level == mlContinent) this.mapCtl.addContinentTags(this.map.dataProvider, 16, rec.c);
-
-        if (_level == mlRegion) this.mapCtl.addRegionTags( this.selectedRegion, this.map.dataProvider, 48, rec.c);
 
         // when the zoom is done (going to continent or region) then we need to adjust the zoom on the new map
         this.map.addListener("zoomCompleted", handleZoomCompleted);
@@ -212,6 +283,7 @@ BrowseWorldMap = function( _mapCtl ) {
         this.map.write("browseDivMap");
 
     }
+
 
 
     this.doClearButton = function(_val) {
@@ -231,13 +303,46 @@ BrowseWorldMap = function( _mapCtl ) {
     //                      UTILITY FUNCTIONS
     //**********************************************************************************
 
-    //label the clicked map object and pos it appropriately
+    this.labelAllRegions = function() {
 
-    this.labelMapObject = function(_fontSize, _col) {
+        var arr = db.ghR.find( { z: this.selectedContinent } ).fetch();
 
-        var level = this.mapCtl.level.get();
+        for (var i = 0; i < arr.length; i++) {      
 
-        var _code;
+            this.doLabelRegion ( arr[i].c );
+        }
+    }
+
+    this.doLabelRegion = function( _regionID )  {
+
+         this.region = _regionID;
+
+         var _color = "white";
+
+         var rec = db.getRegionRec( _regionID);
+
+         if (rec.rll_co !== undefined) _color = rec.rll_co;
+
+        this.labelMapObject( mlRegion, _regionID, 0, 0, 16, _color );
+    }
+
+    this.doLabelCountry = function( _countryID )  {
+
+         this.country = _countryID;
+
+         var _color = "black";
+
+         var rec = db.getCountryRec( _countryID);
+
+         if (rec.ll_co !== undefined) _color = rec.ll_co;
+
+        this.labelMapObject( mlCountry, _countryID, 0, 0, 24, _color );
+    }
+
+
+    this.labelMapObject = function(_level, _code, _x, _y, _fontSize, _col) {
+
+        var level = _level;
 
         var _name = "";
 
@@ -245,32 +350,45 @@ BrowseWorldMap = function( _mapCtl ) {
 
         var x, y;
 
+
         //Look up in the db where to place the label 
         //(this is what all this code does except for the last line)
 
         if (level == mlContinent) {
-
-            _code = db.getContinentCodeForCountry( this.mapObjectClicked ); 
 
             rec = db.getContinentRec( _code );                           
         }
 
         if (level == mlRegion) {
 
-            _code = db.getRegionCodeForCountry( this.mapObjectClicked );   
-
             rec = db.getRegionRec( _code );
+
+
+            if (rec.llon !== undefined) {
+
+                x = this.map.longitudeToX( rec.llon );
+
+                y = this.map.latitudeToY( rec.llat );
+            }
+            else {
+
+                if (rec.xl3 !== undefined) {
+
+                    x = rec.xl3;
+
+                    y = rec.yl3;
+                }           
+            }  
         }
 
         if (level == mlCountry) {
 
-            rec = db.getCountryRec( this.mapObjectClicked ); 
-        }
+            rec = db.getCountryRec( _code ); 
 
-        if (rec) {
+            if (typeof rec.wl !== undefined) {
 
-            //most of the countries don't have hard-coded label positions
-            //but some do
+                if (rec.wl == 1) _col = "white";
+            }
 
             if (rec.xl != undefined) {
 
@@ -283,22 +401,32 @@ BrowseWorldMap = function( _mapCtl ) {
                 x = this.map.divRealWidth / 2;
 
                 y = this.map.divRealHeight / 2;    
-            }
-
-            _name = rec.n;
+            }  
         }
 
-        if (_fontSize == undefined) _fontSize = 24;
+        if (rec) {
 
-        if (_col == undefined) _col = "white";
+            _name = rec.n;
+
+        }
+        
+        if (typeof _fontSize == 'undefined') _fontSize = 24;
+
+        if (typeof _col == 'undefined') _col = "black";
 
          if (level == mlCountry) {
 
-            _col = getTextColorForBackground( db.getCountryRec( this.mapObjectClicked ).co );
-        }       
+            _col = getTextColorForBackground( db.getCountryRec( _code ).co );
+        }   
 
-        Meteor.defer( function() {display.ctl["MAP"].browseWorldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
+        if (_x) x = _x;
+
+        if (_y) y = _y;       
+
+        Meteor.defer( function() { display.ctl["MAP"].browseWorldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
     }
+
+
 
 
     //**********************************************************************************
@@ -307,52 +435,72 @@ BrowseWorldMap = function( _mapCtl ) {
 
     //Redraw the map using the previous level
 
-    this.backupMap = function() {
-
-        var level = this.mapCtl.level.get();
+    this.backupMap = function( _level) {
 
 
-        if (level == mlContinent) {
+        if (_level == mlWorld) {
 
-            this.doMap("world", mlWorld);
+            this.doThisMap(mlWorld, mlWorld, mlContinent);
 
             this.map.validateData();
 
-            refreshMap();
+            this.mapCtl.level.set( mlWorld );
 
-            this.labelMapObject();
+            this.selectedContinent = "";
+
+            this.selectedRegion = "";
+
+            this.selectedCountry.set( "");
+
+            refreshMap();
 
             return;
         }
 
-        if (level == mlRegion) {
+        if (_level == mlContinent) {
 
-            this.doMap( this.selectedContinent, mlContinent );
+            this.doThisMap( mlContinent, mlContinent, mlRegion, this.selectedContinent, this.selectedRegion );
 
             this.map.validateData();
 
             refreshMap();
+
+            this.mapCtl.level.set( mlContinent );
+
+            this.selectedRegion = "";
+
+            this.selectedCountry.set( "");
 
             this.labelMapObject();
 
             return;
         }   
 
-        if (level == mlCountry) {
+        if (_level == mlRegion) {
 
-c("selected region in backupmap is " + this.selectedRegion)
-
-            this.doMap(this.selectedRegion, mlRegion);
+            this.doThisMap( mlRegion, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion );
 
             this.map.validateData();
 
             refreshMap();
+
+            this.mapCtl.level.set( mlRegion );
+
+            this.selectedCountry.set( "");
 
             this.labelMapObject();
 
             return;
         }     
 
+
+    }
+
+    this.updateContent = function() {
+
+        var _val = this.updateFlag.get();
+
+        this.updateFlag.set( !_val );
     }
 
 }  //end browseWorldMap Object
@@ -377,6 +525,7 @@ function handleClick(_event) {
 
     var level = worldMap.mapCtl.level.get();
 
+
     //here we set the module vars for the area and the customData var for labelMapObject
 
     if (level == mlWorld) {
@@ -386,6 +535,12 @@ function handleClick(_event) {
         worldMap.selectedContinent = _code;
 
         worldMap.customData = _event.mapObject.customData;
+
+        worldMap.mapLevel = mlContinent;
+
+        worldMap.drawLevel = mlContinent;
+
+        worldMap.detailLevel = mlRegion;
 
     }
 
@@ -397,6 +552,11 @@ function handleClick(_event) {
 
         worldMap.customData = _event.mapObject.customData;
 
+        this.mapLevel = mlRegion;
+
+        this.drawLevel = mlRegion;
+
+        this.detailLevel = mlCountry;
     }
 
     if (level == mlRegion) {
@@ -404,23 +564,13 @@ function handleClick(_event) {
         worldMap.selectedCountry.set( worldMap.mapObjectClicked );
 
         worldMap.customData = _event.mapObject.customData;
-
-        if (_event.mapObject.objectType == "MapImage") {  //simulate the click on the country
-
-            var _mapObj = worldMap.mapCtl.getCountryObject( worldMap.map.dataProvider, worldMap.mapObjectClicked );
-
-            worldMap.map.selectObject( _mapObj );
-
-            return;
-        }
     }
 
     if (level == mlCountry) { 
-        
+       
         //If a different country was previously selected and we're still at the country
         //level, then the user can click on a nearby country.  We want the map to re-center and re-label
         //in this case, but not jump to browsing
-
 
 
         if (worldMap.selectedCountry.get() != worldMap.mapObjectClicked) {
@@ -450,6 +600,7 @@ function handleClick(_event) {
             return;
         }
 
+
         game.user.browseCountry( worldMap.mapObjectClicked, "browseWorldMap" );
 
     }
@@ -467,15 +618,21 @@ function handleZoomCompleted() {
 
     if (worldMap.zoomDone == true)  return; 
 
+    worldMap.zoomDone = true;
+
     var level = worldMap.mapCtl.level.get();
 
+    var _continentCode = db.getContinentCodeForCountry( worldMap.mapObjectClicked );
+
+    var _regionCode = db.getRegionCodeForCountry( worldMap.mapObjectClicked );
+
     if (level == mlWorld) {
+  
+        worldMap.doThisMap(mlContinent, mlContinent, mlRegion, _continentCode, null);
 
-        _code = db.getContinentCodeForCountry( worldMap.mapObjectClicked );  //in database.js
+        worldMap.labelAllRegions();
 
-        worldMap.doMap(_code, mlContinent);
-
-        worldMap.labelMapObject();
+        worldMap.mapCtl.level.set( mlContinent )
 
         refreshMap();
 
@@ -483,12 +640,12 @@ function handleZoomCompleted() {
     }
 
     if (level == mlContinent) {
+   
+        worldMap.doThisMap(mlRegion, mlRegion, mlCountry, _continentCode, _regionCode);
 
-        _code = db.getRegionCodeForCountry( worldMap.mapObjectClicked );   //in database.js
+        worldMap.doLabelRegion( _regionCode);
 
-        worldMap.doMap(_code, mlRegion);
-
-        worldMap.labelMapObject();
+        worldMap.mapCtl.level.set( mlRegion )
 
         refreshMap();
 
@@ -505,11 +662,7 @@ function handleZoomCompleted() {
 
         worldMap.mapCtl.level.set( mlCountry );
 
-        worldMap.labelMapObject();
-
-        worldMap.zoomDone = true;
-
-        worldMap.mapCtl.addCountryTags( worldMap.mapObjectClicked, worldMap.map.dataProvider, 96);
+        worldMap.doLabelCountry( worldMap.mapObjectClicked );
 
         worldMap.map.dataProvider.zoomLongitude = worldMap.map.zLongTemp;
 
@@ -523,6 +676,8 @@ function handleZoomCompleted() {
 
         return;
     }
+
+
 
     //this is necessary for the initial zoom-in (when a country has already been selected)
 
