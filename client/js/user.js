@@ -114,12 +114,16 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	if (_mode == uHack) {
 
+    		this.setGlobals("hack");
+
 	  		Meteor.defer( function() { $("#divHomeHackPic").css("border-color","gray") } );
 
 	  		this.template.set("missionListing");
     	}
 
     	if (_mode == uLearn) {
+
+    		this.setGlobals("browse");
 
 	  		Meteor.defer( function() { $("#divHomeLearnPic").css("border-color","gray") } );
 
@@ -188,6 +192,12 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 	    	d.selectedRegion = db.getRegionCodeForCountry( hack.countryCode );
 
 	    	d.selectedContinent = db.getContinentCodeForCountry( hack.countryCode );	    	
+    	}
+    	else {
+
+    		this.setGlobals("browse");
+
+    		if (!display.ctl["MAP"]) display.ctl["MAP"] = new ghMapCtl( display );
     	}
 
     	Control.playEffect( "mapButton.mp3" );
