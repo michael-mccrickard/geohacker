@@ -91,6 +91,14 @@ Template.newBrowse.helpers({
   		return $(window).width() * 0.117;
   	},
 
+    flagBorder: function() {
+
+      if (hack.countryCode == "NP") return "";
+
+      return  "border: 4px solid; border-color: gray;"
+
+    },
+
      leaderImage: function() {
 
     	return hack.getLeaderPic();

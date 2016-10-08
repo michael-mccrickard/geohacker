@@ -249,6 +249,8 @@ BrowseWorldMap = function( _mapCtl ) {
 
         //set the data provider and areas settings
 
+        this.map.balloon.fontSize = 16;
+
         this.map.dataProvider = this.dp;
 
         this.map.creditsPosition = "top-left";
@@ -390,6 +392,7 @@ BrowseWorldMap = function( _mapCtl ) {
                 if (rec.wl == 1) _col = "white";
             }
 
+
             if (rec.xl != undefined) {
 
                 x = rec.xl * this.map.divRealWidth;
@@ -402,6 +405,29 @@ BrowseWorldMap = function( _mapCtl ) {
 
                 y = this.map.divRealHeight / 2;    
             }  
+/*
+
+            This is the method used by the browseWorldMap, which works well when you are displaying the country
+            in the context of the region.  Or it works well in the half-width map view that the Learn module uses.
+            MOST OF THE TIME it works well in this full-width map (at the region level)  
+            Is there no way to tweak the lat, long values so they work here consistently?
+
+            if (rec.llon !== undefined) {
+
+                x = this.map.longitudeToX( rec.llon );
+
+                y = this.map.latitudeToY( rec.llat );
+            }
+            else {
+
+                if (rec.xl3 !== undefined) {
+
+                    x = rec.xl3;
+
+                    y = rec.yl3;
+                }           
+            }
+*/
         }
 
         if (rec) {

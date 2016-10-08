@@ -37,20 +37,38 @@ FlowRouter.route('/intro', {
 
     action: function (params, queryParams) { 
 
-      $('body').addClass('noscroll'); 
-
       BlazeLayout.render('layout', { content: "intro" } ) 
     },
 
 });
 
-FlowRouter.route('/introVideo', {
+FlowRouter.route('/instructions', {
 
     action: function (params, queryParams) { 
 
-      $('body').addClass('noscroll'); 
+      BlazeLayout.render('layout', { content: "instructions" } ) 
+    },
 
-      BlazeLayout.render('layout', { content: "introVideo" } ) 
+});
+
+FlowRouter.route('/instructionVideoINTRO', {
+
+    name: "instructionVideoINTRO",
+
+    action: function (params, queryParams) { 
+
+      BlazeLayout.render('layout', { content: "instructionVideoINTRO" } ) 
+    },
+
+});
+
+FlowRouter.route('/instructionVideoEXPLORE', {
+
+    name: "instructionVideoEXPLORE",
+
+    action: function (params, queryParams) { 
+
+      BlazeLayout.render('layout', { content: "instructionVideoEXPLORE" } ) 
     },
 
 });

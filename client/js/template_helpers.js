@@ -1,5 +1,7 @@
 
 
+
+
 Template.registerHelper("waitingOnDatabase", function() {
 
 		return Session.get("sWaitingOnDatabase");

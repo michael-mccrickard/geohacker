@@ -1,4 +1,4 @@
-//intro.js
+
 
 Template.intro.rendered = function() {
 
@@ -21,13 +21,9 @@ Template.intro.rendered = function() {
 }
 
 
-Template.introVideo.rendered = function() {
+Template.instructions.rendered = function() {
 
-	$("#introVideo").get(0).autoplay = true;
 
-	$("#introVideo").get(0).load();
-
-    document.getElementById('introVideo').addEventListener('ended',videoEnded,false);
 
 }
 
@@ -55,7 +51,6 @@ Intro = function() {
 
 	this.startIntro = function() {
 
-c("startIntro")
 		var tl = this.tl;
 
 

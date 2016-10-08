@@ -26,6 +26,8 @@ Display = function() {
 
     this.meme = new Meme();
 
+    this.helpVideo = new HelpVideo();
+
     //media files
 
     this.fb_sound_file = "msg.mp3";

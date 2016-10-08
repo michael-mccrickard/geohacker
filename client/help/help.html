@@ -1,4 +1,40 @@
-<template name="help2">
+<template name="helpVideo">
+
+
+	<div class="divInstructions">
+
+	  <!-- Nav tabs -->
+	  <ul class="nav nav-tabs" role="tablist">
+	    <li role="presentation" class="active"><a href="#intro" aria-controls="intro" role="tab" data-toggle="tab">INTRO</a></li>
+	    <li role="presentation"><a href="#explore" aria-controls="explore" role="tab" data-toggle="tab">EXPLORE</a></li>
+	    <li role="presentation"><a href="#hack" aria-controls="hack" role="tab" data-toggle="tab">HACK</a></li>
+	    <li role="presentation"><a href="#customize" aria-controls="customize" role="tab" data-toggle="tab">CUSTOMIZE</a></li>
+	  </ul>
+
+	  <!-- Tab panes -->
+	  <div class="tab-content">
+	    <div role="tabpanel" class="tab-pane active" id="intro">{{> instructionVideoINTRO}}</div>
+	    <div role="tabpanel" class="tab-pane" id="explore">{{> instructionVideoEXPLORE}}</div>
+	    <div role="tabpanel" class="tab-pane" id="hack">{{> instructionVideoINTRO}}</div>
+	    <div role="tabpanel" class="tab-pane" id="customize">{{> instructionVideoEXPLORE}}</div>
+	  </div>
+
+	</div>
+
+	<script>
+
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+
+	e.target.text;
+
+});
+
+
+</script>
+
+</template>
+
+<template name="helpText">
 
 	<div class="divHelp centered">
 
