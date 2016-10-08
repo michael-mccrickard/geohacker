@@ -21,12 +21,6 @@ Template.intro.rendered = function() {
 }
 
 
-Template.instructions.rendered = function() {
-
-
-
-}
-
 function videoEnded(e) {
 
 	game.user.setMode( uHack );

@@ -215,8 +215,25 @@ refreshWindow = function(_which) {
         setVideoPos( myVideo );
 
         display.browser.updateContent();
-
     }
+
+    if (name == "help") {
+
+        var myVideo = { width: 0, height: 0, top: 0, left: 0 };
+
+        display.help.drawVideo(myVideo);
+
+        setVideoPos(myVideo);
+
+        setVideoSize(myVideo);
+    }
+}
+
+setVideoSize = function( _obj) {
+
+    $("iframe#ytplayer").css("height", _obj.height );
+
+     $("iframe#ytplayer").css("width", _obj.width );  
 }
 
 function setVideoPos(_obj) {
@@ -226,7 +243,7 @@ function setVideoPos(_obj) {
     $(".featuredYouTubeVideo").css("left",  _obj.left);  
 }
 
-
+myVideo = null;
 
 // YouTube API will call onYouTubeIframeAPIReady() when API ready.
 // Make sure it's a global variable.
@@ -239,50 +256,53 @@ c("youtube ready")
 
     youTubeLoaded = true;
 
-    if (game.user.mode == uIntro) {
+    switch (game.user.mode) {
 
-        _file = introVideoID;
-    }
-    else {
-
-        if (hack.mode == mBrowse) {
+        case uBrowseCountry:
 
             _file = display.browser.video;
-        }
-        else {
 
-          if (display.ctl["VIDEO"]) {
+            break;
+        
+        case uHack:
 
              _file = display.feature.video;
+ 
+            break;
 
-          }          
-        }
+        case uHelp:
 
-        if (editor && hack.mode == mEdit) {
+              _file = display.help.video;
 
-            if (editor.videoFile) {
+            break;
+
+        case uEdit:
 
               _file = editor.videoFile;
-            }
-        }
 
-    }
+            break;
+
+    }   
+
 
     //We are either sizing this to fit the featured area or just doing
     //a preset size for the editor or relative one for the intro
 
     var myVideo = { width: 0, height: 0, top: 0, left: 0 };
 
-    if (game.user.mode == uIntro) {
 
-        myVideo = { width: $(window).width(), height: $(window).height() * 9/16, left: 0, top: 70 };
+    switch (game.user.mode) {
 
-        setVideoPos( myVideo );
-    }
+        case uIntro: {
 
-    switch (hack.mode) {
+            myVideo = { width: $(window).width(), height: $(window).height() * 9/16, left: 0, top: 70 };
 
-        case mEdit:
+            setVideoPos( myVideo );
+
+            break;
+        }
+
+        case uEdit:
 
             myVideo = { width: 720, height: 480, top: 0, left: 0 };
 
@@ -292,15 +312,23 @@ c("youtube ready")
 
             break;
         
-        case mBrowse:
+        case uBrowseCountry:
 
             display.browser.draw( myVideo );
  
             break;
 
-        default: 
+        case uHack: 
 
             display.feature.dimension( "video", myVideo, null );
+            
+            setVideoPos( myVideo );
+
+            break;
+
+        case uHelp: 
+
+            display.help.drawVideo( myVideo );
             
             setVideoPos( myVideo );
 
@@ -336,10 +364,10 @@ c("youtube ready")
 
                 if (_file) event.target.playVideo();
 
-                if (hack.mode == mBrowse) {
+                if (game.user.mode == uBrowseCountry) {
 
                     setVideoPos( myVideo );               
-                }
+                }  
 
                 Session.set("sYouTubeOn", true);
             },
@@ -367,7 +395,10 @@ c("youtube ready")
                               Session.set("sYouTubeOn", true);
                           }
 
+                          if (game.user.mode == uHelp) refreshWindow("ytplayer");
                     }
+
+
                 }
 
                 if (event.data == YT.PlayerState.PAUSED) {

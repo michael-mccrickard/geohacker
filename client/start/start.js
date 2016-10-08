@@ -201,9 +201,9 @@ Meteor.startup(function() {
 
 //ps("HN")
 
-//  FlowRouter.go("/start"); 
+  FlowRouter.go("/start"); 
 
-FlowRouter.go("/instructions"); 
+
 
 }); 
 

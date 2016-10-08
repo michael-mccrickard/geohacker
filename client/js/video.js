@@ -29,7 +29,12 @@ Video = function() {
 
 		console.log("video.suspend() is pausing the video")
 		
-		this.pause();
+		this.setState( sPaused );
+
+		if (ytplayer) {
+
+			ytplayer.pauseVideo();
+		}
 
 		this.hide();
 		 

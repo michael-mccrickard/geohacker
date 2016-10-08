@@ -26,7 +26,7 @@ Display = function() {
 
     this.meme = new Meme();
 
-    this.helpVideo = new HelpVideo();
+    this.help = new Help();
 
     //media files
 
@@ -200,15 +200,6 @@ Display = function() {
 
             this.TV.stopIdle();
 
-        }
-
-        if (game.user.mode == uBrowseCountry || game.user.mode == uBrowseMap ) {
-            
-            this.ctl["MAP"].enableButton();    
-
-            Meteor.defer( function() { display.redraw(); } );
-
-            return;
         }
 
         if (this.loader.totalClueCount == 0) {
@@ -451,6 +442,13 @@ Display = function() {
         }
 
         if (game.user.mode == uBrowseCountry && this.ctl["VIDEO"] ) this.ctl["VIDEO"].suspend();
+
+        if ( game.user.mode == uHelp ) {
+
+            ytplayer.stopVideo();
+
+            Session.set("sYouTubeOn", false);
+        }
 
     }
 

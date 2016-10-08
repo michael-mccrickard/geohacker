@@ -95,9 +95,9 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	//store the current mode if we're going to browse something
 
-    	if (_mode == uBrowseMap || _mode == uBrowseCountry) {
+    	if (_mode == uBrowseMap || _mode == uBrowseCountry || _mode == uHelp) {
 
-    		if (this.mode != uBrowseMap && this.mode != uBrowseCountry ) this.prevMode = this.mode;
+    		if (this.mode != uBrowseMap && this.mode != uBrowseCountry && this.mode != uHelp ) this.prevMode = this.mode;
     	}
     	
 
@@ -166,6 +166,11 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 	  		Meteor.defer( function() { $("#divHomeClockOutPic").css("border-color","gray") } );
 
      		game.logout();
+     	}
+
+     	if (_mode == uHelp) {
+
+     		FlowRouter.go("help");
      	}
 
 		Control.playEffect( "blink.mp3" );
@@ -296,6 +301,18 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     		FlowRouter.go("/home")
 
     		return;
+    	}
+
+    	if (this.mode == uHelp) {
+
+    		if (this.prevMode.length) {
+
+    			this.mode = this.prevMode
+    		}
+    		else {
+
+    			this.mode = uNone;
+    		}
     	}
     		
     	if (this.mode == uNone) {

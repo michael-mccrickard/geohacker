@@ -1,4 +1,4 @@
-<template name="helpVideo">
+<template name="help">
 
 
 	<div class="divInstructions">
@@ -13,10 +13,10 @@
 
 	  <!-- Tab panes -->
 	  <div class="tab-content">
-	    <div role="tabpanel" class="tab-pane active" id="intro">{{> instructionVideoINTRO}}</div>
-	    <div role="tabpanel" class="tab-pane" id="explore">{{> instructionVideoEXPLORE}}</div>
-	    <div role="tabpanel" class="tab-pane" id="hack">{{> instructionVideoINTRO}}</div>
-	    <div role="tabpanel" class="tab-pane" id="customize">{{> instructionVideoEXPLORE}}</div>
+	    <div role="tabpanel" class="tab-pane active" id="intro"></div>
+	    <div role="tabpanel" class="tab-pane" id="explore"></div>
+	    <div role="tabpanel" class="tab-pane" id="hack"></div>
+	    <div role="tabpanel" class="tab-pane" id="customize"></div>
 	  </div>
 
 	</div>
@@ -25,9 +25,10 @@
 
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 
-	e.target.text;
+			display.help.playVideo( e.target.text );
 
-});
+		}
+	);
 
 
 </script>

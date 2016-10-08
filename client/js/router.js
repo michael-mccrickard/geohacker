@@ -42,35 +42,26 @@ FlowRouter.route('/intro', {
 
 });
 
-FlowRouter.route('/instructions', {
+FlowRouter.route('/help', {
+
+    name: "help",
 
     action: function (params, queryParams) { 
 
-      BlazeLayout.render('layout', { content: "instructions" } ) 
+      BlazeLayout.render('layout', { content: "help" } ) 
     },
 
 });
 
-FlowRouter.route('/instructionVideoINTRO', {
+FlowRouter.route('/help2', {
 
-    name: "instructionVideoINTRO",
-
-    action: function (params, queryParams) { 
-
-      BlazeLayout.render('layout', { content: "instructionVideoINTRO" } ) 
-    },
-
-});
-
-FlowRouter.route('/instructionVideoEXPLORE', {
-
-    name: "instructionVideoEXPLORE",
+    name: "help2",
 
     action: function (params, queryParams) { 
 
-      BlazeLayout.render('layout', { content: "instructionVideoEXPLORE" } ) 
-    },
+      BlazeLayout.render('layout', { content: "help2" } )
 
+    }
 });
 
 FlowRouter.route('/learnCountry', {
@@ -106,18 +97,6 @@ FlowRouter.route('/missionSelect', {
 
  },
 
-});
-
-
-FlowRouter.route('/help2', {
-
-    name: "help2",
-
-    action: function (params, queryParams) { 
-
-      BlazeLayout.render('layout', { content: "help2" } )
-
-    }
 });
 
 FlowRouter.route('/dataChecker', {

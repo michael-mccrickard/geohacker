@@ -203,9 +203,7 @@ c("route in returnToPrevious is " + _route)
 
 	this.setVideoSize = function( _obj ) {
 
-          $("iframe#ytplayer").css("height", _obj.height );
-
-          $("iframe#ytplayer").css("width", _obj.width );  
+		setVideoSize(_obj);
 	}
 
 	this.setCurrentThumbToPause = function() {
