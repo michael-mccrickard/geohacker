@@ -272,6 +272,8 @@ Template.newBrowse.rendered = function() {
 
   if (hack.countryCode != display.browser.countryCode) {
 
+c("playing video b/c countryCodes don't match")
+
     display.browser.countryCode = hack.countryCode;
 
     var _count = display.browser.videoCtl.items.length;
@@ -282,9 +284,11 @@ Template.newBrowse.rendered = function() {
 
   }
   else {
-
+c("not playing video b/c countryCodes do match")
     if (ytplayer) {
       
+      Session.set("sYouTubeOn", true);
+
       game.pauseMusic();
 
       Meteor.setTimeout( function() {refreshWindow("newBrowse"); }, 250 );

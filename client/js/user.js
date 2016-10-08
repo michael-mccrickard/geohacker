@@ -202,6 +202,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     		this.setGlobals("browse");
 
+    		display.browser.countryCode = "";  //reset this since we are going in fresh
+
     		if (!display.ctl["MAP"]) display.ctl["MAP"] = new ghMapCtl( display );
     	}
 
