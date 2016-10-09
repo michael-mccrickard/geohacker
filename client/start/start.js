@@ -142,17 +142,13 @@ Meteor.startup(function() {
 
   nav = new Navigator();
 
+  hack = new Hack();
+
+  display = new Display();
+
   db.initCore();
 
   db.initControls();
-
-  hack = null;
-
-  ytplayer = null;
-
-  youTubeLoaded = false;
-
-  display = new Display();
 
   display.initMap();
 
@@ -160,7 +156,9 @@ Meteor.startup(function() {
 
   mission = null;
 
+  ytplayer = null;
 
+  youTubeLoaded = false;
 
   //****************************************************************
   //                  SUBSCRIBE TO CORE DATA

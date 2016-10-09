@@ -1,5 +1,17 @@
 
 
+Template.intro.events = {
+
+  'click #introOK': function (evt, template) {
+
+ 		game.user.mode = uHelp; 		 
+
+  		 FlowRouter.go("/help"); 
+
+  },
+}
+
+
 Template.intro.rendered = function() {
 
 	game.intro.introIsWaiting = false;
@@ -21,13 +33,6 @@ Template.intro.rendered = function() {
 }
 
 
-function videoEnded(e) {
-
-	game.user.setMode( uHack );
-    
-    FlowRouter.go("/home");
-}
-
 Intro = function() {
 
 	this.tl = new TimelineLite();
@@ -44,6 +49,8 @@ Intro = function() {
 
 
 	this.startIntro = function() {
+
+		game.user.mode = uIntro;
 
 		var tl = this.tl;
 
@@ -170,7 +177,31 @@ Intro = function() {
 
 		tl.to( this.text, 1.0, { opacity: 0.0 }, "-=2" );	
 
-		tl.add( () => {  FlowRouter.go("/introVideo"); game.stopMusic(); } );
+
+		tl.add( () => {  $(".introText").text("AT ANY TIME, CLICK YOUR PHOTO TO GO TO THE MENU.") } );
+
+		tl.add( () => {  $(".introText").css("top", "390px")  } );
+
+		tl.add( () => {  $(".introText").css("text-align", "right")  } );
+
+		tl.add( () => {  $(".introText").css("margin-right", 16)  } );
+
+		tl.add( () => {  $("#clickPhoto").attr("src", "clickPhoto.png") }  );		   
+
+		tl.add( () => { $("#clickPhoto").css("top", "-20px") } );
+
+		var _left = $(window).width() - 790;
+
+		tl.add( () => { $("#clickPhoto").css("left", _left + "px") } );
+
+
+
+		tl.to( this.text, 0.5, { opacity: 1.0, delay: 0.0 } );	
+
+		tl.to( "#clickPhoto", 0.5, { opacity: 1.0, delay: 0.0 } );	
+
+		tl.to( "#introOK", 0.5, { opacity: 1.0, delay: 0.0 } );	
+
 
 	}
 

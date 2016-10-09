@@ -1,5 +1,4 @@
 
-introVideoID = "QMropuR-cHw"
 
 //************************************************************
 //    Array functions

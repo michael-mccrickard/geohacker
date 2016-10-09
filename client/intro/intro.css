@@ -64,22 +64,6 @@
 
 	text-align: center;
 
-	z-index: -1;
-
-}
-
-.divIntroMovie {
-
-	position: absolute;
-
-	width: 100%;
-	
-	top: 55px;  
-
-	text-align: center;
-
-	z-index: -1;
-
 }
 
 .introText {
