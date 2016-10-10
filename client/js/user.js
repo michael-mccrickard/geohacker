@@ -288,8 +288,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     		if ( display.homeButtonDisabled() ) return;
 
 			display.suspendMedia();
-
     	}
+
 
     	if (FlowRouter.current().path == "/editor") {
 
@@ -299,6 +299,10 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     	if (this.mode == uBrowseMap || this.mode == uBrowseCountry)  {
 
     		game.playMusic();
+
+//this has become necessary after a hack where a video was shown???
+
+Session.set("sYouTubeOn",false);
 
     		FlowRouter.go("/home")
 
