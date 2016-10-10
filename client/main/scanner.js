@@ -59,7 +59,7 @@ Scanner = function() {
 
 	this.ele[ scTopRight ].idle = ["Allocating sub-system resources ...", "Verifying credentials ...", "Testing ports ...", "Testing sockets ...", "Flushing cache ..."];
 
-	this.ele[ scBottomLeft ] =  new Ele("scanBottomLeft", scBottomLeft, "single");
+	this.ele[ scBottomLeft ] =  new Ele("scanLowerLeft", scBottomLeft, "single");
 
 	this.ele[ scBottomLeft ].idle = ["Analyzing port usage", "Testing RAM", "Checking peripherals", "Measuring CPU usage", "Indexing intercepts"];
 
