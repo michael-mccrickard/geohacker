@@ -76,6 +76,15 @@ BrowseWorldMap = function( _mapCtl ) {
 
     worldMap = this;
 
+    this.reset = function() {
+
+        this.mapLevel = mlWorld;
+
+        this.drawLevel = mlWorld;
+
+        this.detailLevel = mlContinent;        
+    }
+
     //the rendered callback for this template calls this function after a slight delay
     //to draw the map (by calling doMap with the right params)
 

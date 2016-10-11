@@ -205,6 +205,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     		display.browser.countryCode = "";  //reset this since we are going in fresh
 
     		if (!display.ctl["MAP"]) display.ctl["MAP"] = new ghMapCtl( display );
+
+    		//display.ctl["MAP"].browseWorldMap.reset();   //can't do this until we disconnect browseMap from ghMapCtl
     	}
 
     	Control.playEffect( "mapButton.mp3" );
@@ -302,7 +304,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 //this has become necessary after a hack where a video was shown???
 
-Session.set("sYouTubeOn",false);
+//Session.set("sYouTubeOn",false);
 
     		FlowRouter.go("/home")
 

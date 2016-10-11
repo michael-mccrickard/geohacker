@@ -509,6 +509,8 @@ Control.stopEditMedia = function() {
   if (youTubeLoaded) {
 
       ytplayer.stopVideo();
+
+      Session.set("sYouTubeOn", false);
   }
 
   Control.stopEffects();

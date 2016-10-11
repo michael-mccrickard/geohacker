@@ -58,6 +58,10 @@ Template.editor.helpers({
 
         editor.controlName.set("VIDEO"); 
 
+      //set this manually when editing
+
+      $(".featuredYouTubeVideo").css("position", "relative");
+
   			return db.ghVideo.find( { cc: ID });
   		}
 
