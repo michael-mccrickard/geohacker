@@ -196,6 +196,11 @@ Headline = function( _type ) {
 
     this.typeMessage = function( _ele ) {
 
+        //this case seems to be stray message from the main screen
+
+        if (game.user.mode == uBrowseMap) return;
+        
+
         if (this.type != "welcomeAgent") this.center();
 
         if (hack.mode != mScanning) {
@@ -247,8 +252,6 @@ Headline = function( _type ) {
         this.state = sPaused;
 
         if (this.hType == "cue") {
-
-            //if (hack.mode == mReady && display.loader.totalClueCount == 0) display.blinkScannerButton();
 
             if (hack.mode == mDataFound) {
 

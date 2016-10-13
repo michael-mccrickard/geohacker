@@ -6,7 +6,7 @@ Assign = function( _code, _mapCode, _hacked, _level, _name, _pool, _completions)
 	this.code = _code;  //string code for the mission
 
 	this.mapCode = _mapCode;
- 
+
 	this.hacked = _hacked;   //array of countries already hacked (codes)
 
 	this.level = _level;  //map level, if applicable

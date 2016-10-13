@@ -504,25 +504,27 @@ Control.suspendAllMedia = function() {
 
 }
 
-Control.stopEditVideo = function() {
+Control.stopEditMedia = function() {
 
   if (youTubeLoaded) {
 
       ytplayer.stopVideo();
+
+      Session.set("sYouTubeOn", false);
   }
 
   Control.stopEffects();
 
   try {
 
-c("attempting to stop sound player in control.js")
+    c("attempting to stop sound player in control.js")
 
     document.getElementById("editorSoundPlayer").pause();
 
   }
   catch(err) {
 
-
+     console.log(err.reason);
   }
 }
 
@@ -535,7 +537,7 @@ Control.isYouTubeURL = function(_s) {
 
     //check for the file type designator and return false if found
 
-    if (typeof _s === 'undefined') return false;
+    if (!_s) return false;
 
     if (_s.substr(_s.length - 4) == ".gif") return false;
 
@@ -570,7 +572,7 @@ ghImageCtl = function() {
 
   this.setItems = function() {
 
-      if (game.user.mode == uBrowseCountry || game.user.mode == uBrowseMap) {
+      if (game.user.mode == uBrowseCountry) {
 
         this.items = this.collection.find( { cc: this.countryCode, dt: { $ne: "rmp"} } ).fetch();
       }

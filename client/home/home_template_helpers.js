@@ -39,6 +39,14 @@ Template.home.events({
 
   },
 
+  'click #divHomeLearnPic': function(e) {
+
+      e.preventDefault();  
+
+      game.user.setMode( uLearn );
+
+  },
+
   'click #divHomeHackPic': function(e) {
 
       e.preventDefault();  

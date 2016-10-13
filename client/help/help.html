@@ -1,4 +1,41 @@
-<template name="help2">
+<template name="help">
+
+
+	<div class="divInstructions">
+
+	  <!-- Nav tabs -->
+	  <ul class="nav nav-tabs" role="tablist">
+	    <li role="presentation" class="active"><a href="#intro" aria-controls="intro" role="tab" data-toggle="tab">INTRO</a></li>
+	    <li role="presentation"><a href="#explore" aria-controls="explore" role="tab" data-toggle="tab">EXPLORE</a></li>
+	    <li role="presentation"><a href="#hack" aria-controls="hack" role="tab" data-toggle="tab">HACK</a></li>
+	    <li role="presentation"><a href="#customize" aria-controls="customize" role="tab" data-toggle="tab">CUSTOMIZE</a></li>
+	  </ul>
+
+	  <!-- Tab panes -->
+	  <div class="tab-content">
+	    <div role="tabpanel" class="tab-pane active" id="intro"></div>
+	    <div role="tabpanel" class="tab-pane" id="explore"></div>
+	    <div role="tabpanel" class="tab-pane" id="hack"></div>
+	    <div role="tabpanel" class="tab-pane" id="customize"></div>
+	  </div>
+
+	</div>
+
+	<script>
+
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+
+			display.help.playVideo( e.target.text );
+
+		}
+	);
+
+
+</script>
+
+</template>
+
+<template name="helpText">
 
 	<div class="divHelp centered">
 
@@ -41,7 +78,7 @@
 			<div><img class="imgHelpSmall" src="map4.png"/></div>
 		</div>
 		
-		<div class="divSpacer">blowme</div>
+		<div class="divSpacer">?????</div>
 
 		<div class="helpText3">7) Correctly identifying the country on the map will take you to a mission debriefing (simply click that screen to continue) and a brief awards ceremony, where you will hear the national anthem of the country that you just hacked.  After that, click CONTINUE MISSION to hack another country.</div>
 

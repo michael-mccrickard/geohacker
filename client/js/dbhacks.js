@@ -1,18 +1,121 @@
 //****************************************
 //   edit hacks
 //****************************************
+fix0 = function() {
+
+
+  var arr = Meteor.users.find({}).fetch();
+
+      for (var i = 0; i < arr.length; i++) {
+
+
+        if (arr[i].profile.st == usVirtual || arr[i].profile.st == usHonorary ) {
+
+            game.user.profile.ag.push( arr[i]._id );
+
+            Meteor.users.update( {_id: "SWjqzgXy9rGCYvpRF"}, { $set: { 'profile.ag': game.user.profile.ag } } ) ;
+        }
+
+        
+
+    }
+}
+
 
 fix1 = function() {
 
-  var ID =  Database.getChiefID();
-c(ID)
+
   var arr = Meteor.users.find({}).fetch();
-c(arr.length)
+
       for (var i = 0; i < arr.length; i++) {
 
-       Meteor.users.update( {_id: arr[i]._id}, { $set: { 'profile.ag': ID } } ) ;
+        var _arr = arr[0].profile.ag;
+
+        var _arr2  = _arr.filter(function(item, pos) {
+            
+            return _arr.indexOf(item) == pos;
+        })
+c("updating user " + i);
+        Meteor.users.update( {_id: arr[i]._id}, { $set: { 'profile.ag': _arr2 } } ) ;
 
     }
+}
+
+fix2 = function() {
+
+  var   arr = db.ghR.find( { z: "europe" }).fetch();
+  
+  //Now make an array of just the region codes for this mission
+
+  var regions = Database.makeSingleElementArray( arr, "c");
+
+  //And make an array of all the countries with data
+
+  var countries = db.ghC.find( {d: 1} ).fetch();
+
+
+  //Now loop thru the countries and any of them that have a region code that's in our array get added
+
+  var _arr = [];
+
+  for (var i = 0; i < countries.length; i++) {
+
+    if ( regions.indexOf( countries[i].r ) != -1) _arr.push( countries[i].c );
+  }
+
+//var arrdb = Database.makeSingleElementArray( _arr, "c");
+
+c(_arr);
+
+c(_arr.length + " items in db")
+
+/*
+
+        var _arr2  = _arr.filter(function(item, pos) {
+            
+            return _arr.indexOf(item) == pos;
+        })
+
+c(_arr2)
+c(_arr2.length)
+return;
+
+*/
+
+var _miss = new Mission("europe_1");
+
+var arr3 = [];
+
+  arr3 = _miss.items;
+
+
+  _miss = new Mission("europe_2");
+
+      var arr4 = arr3.concat(_miss.items);
+
+      _miss = new Mission("europe_3");
+
+      var arr5 = arr4.concat(_miss.items);
+
+      _miss = new Mission("europe_4");
+
+      var arr6 = arr5.concat(_miss.items);
+
+
+c(arr6);
+
+c(arr6.length + " items in missions")
+
+
+  var _arr2 = [];
+
+  for (var i = 0; i < _arr.length; i++) {
+
+    if ( arr6.indexOf( arr6[i] ) != arr6.lastIndexOf( arr6[i] )) _arr2.push( arr6[i] );
+  }
+
+  c(_arr2);
+  c(_arr2.length + " duped items found")
 }
 
 tw = function(_city) {

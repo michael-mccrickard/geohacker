@@ -37,6 +37,16 @@ function scaleMe2( _val ) {
 
 }
 
+Template.lessonMap.events = {
+
+  'click .learnCountry': function (evt, template) {
+
+      Control.playEffect("new_feedback.mp3");
+
+      FlowRouter.go("/main");
+  },
+}
+
 Template.learnCountry.helpers({
 
 	LCWidth: function() {
@@ -163,9 +173,7 @@ Template.learnCountry.helpers({
 
     	//the white text on a light-colored bg is problematic
 
-		if (this.co == "#FFD700" || this.co == "#FFFF00" || this.co == "#33FFFF" || this.co == "#7FFFD4" || this.co == "#00FFFF" || this.co=="#87CEFA" || this.co == "#66FFFF") return "black"
-
-		return "white";
+    	return getTextColorForBackground( this.co );
   	},
 
 
@@ -186,57 +194,28 @@ Template.learnCountry.helpers({
 
  });
 
+function goBrowse( _id ) {
 
-/*
+	  if (game.lesson.quiz.inProgress.get() ) {
 
-var scaleFactorSmall = 216/360;
+  	  	  Control.playEffect( display.locked_sound_file );
 
-var scaleFactorMedium = 266/360;
+	  	  game.lesson.setMessage("BROWSE COUNTRY NOT AVAILABLE DURING QUIZ");
 
-var scaleFactorLarge = 316/360;
+	  	  game.lesson.setTextColor("red");
 
-var scaleFactorXLarge = 346/360;
+	  	  return;  	  	
+  	  }
 
-var widthBreakpointSmall = 1231;
-
-var widthBreakpointMedium = 1341;
-
-var widthBreakpointLarge = 1551;
-
-var widthBreakpointXLarge = 1651;
-
-
-
-function scaleMe( _val ) {
-
-   var _w = $(window).width();
-
-   if (_w < widthBreakpointSmall) return (scaleFactorSmall * _val) + "px";
-
-   if (_w < widthBreakpointMedium) return (scaleFactorMedium * _val) + "px";
-
-    if (_w < widthBreakpointLarge) return (scaleFactorLarge * _val) + "px";
-
-   if (_w < widthBreakpointXLarge) return (scaleFactorXlarge * _val) + "px";
-
-
-   return _val + "px";
-
+      game.user.browseCountry( _id, "lessonMap" );
 }
 
-function scaleMe2( _val ) {
 
-   var _w = $(window).width();
+Template.learnCountry.events = {
 
-   if (_w < widthBreakpointSmall) return (scaleFactorSmall * _val * 0.95) + "px";
+  'click .learnCountryElement': function (evt, template) {
 
-   if (_w < widthBreakpointMedium) return (scaleFactorMedium * _val * 0.95) + "px";
+  		goBrowse( evt.target.id );
 
-    if (_w < widthBreakpointLarge) return (scaleFactorLarge * _val * 0.95) + "px";
-
-   if (_w < widthBreakpointXLarge) return (scaleFactorXlarge * _val * 0.95) + "px";
-
-   return (_val * 0.95) + "px";
-
+  },
 }
-*/

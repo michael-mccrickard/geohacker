@@ -1,5 +1,6 @@
 /* scanning.css  */
 
+/*  BG color on the scanner elements is #515368  */
 
 .scanScreen{
 	display : block;
@@ -66,12 +67,12 @@
 	width: 25%;
 }
 
-.scanBottomLeftText {
+.scanLowerLeftText {
 	margin-left: 1%;
 	padding: 1%;	 
 }
 
-.scanBottomLeftImg {
+.scanLowerLeftImg {
 
 	padding: 1%;
 

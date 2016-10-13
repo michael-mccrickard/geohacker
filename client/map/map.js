@@ -177,6 +177,7 @@ ghMapCtl = function() {
     }
 
     this.addCountryTags = function(_mapObjectID, _dp, _size, _groupId) {
+return;
 
         var _ticket = game.user.getTicket( _mapObjectID );
 
@@ -368,6 +369,8 @@ ghMapCtl = function() {
           this.browseFadeInIcons("continentOnly");
 
         }
+
+        this.browseWorldMap.updateContent();
     }
 
     this.browseFadeInIcons = function(_which) {

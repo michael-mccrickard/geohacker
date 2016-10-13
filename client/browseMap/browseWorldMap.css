@@ -28,3 +28,14 @@
   width:10%;
   
 }
+
+.browseMapMessages {
+    position: absolute;
+    top: 5px;
+    z-index: 1050;
+    text-transform: uppercase;
+    pointer-events: none;
+    font-size: 3.0vh;
+    left: 38%;
+
+}

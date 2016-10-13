@@ -2,7 +2,7 @@
 
 
 	<div class="newWrapper">
-		
+
 		<img class="backdrop" src="screenBackdrop.jpg">
 
 		<div class="divStatus" id="headlineStatus">{{status}}</div>
@@ -69,11 +69,6 @@
 	
 		<div><img class="mainButton clsMapButton" id="mapButton" src="./newGlobeIconYellow.png" /></div>
 
-		{{#if isBrowseMode}}
-
-			<div class="mainButton clsDebriefButton" id="debriefButton">{{> miniDebrief}}</div>
-		
-		{{/if}}
 
 		<div><img class="arrow invisible" id="mapArrow" src="./up-arrow.png" /></div>
 
@@ -81,24 +76,22 @@
 
 		<div><img class="mainButton clsScanButton" id="scanButton" src="./tvScannerYellow.png" /></div>
 
-		{{#unless isBrowseMode}}
 
-			{{#if TVisVideo}}
+		{{#if TVisVideo}}
 
-				<video class="clsScanButtonVideoContent" width="400" height="300" id="scannerVideo">
-				  <source src="" type="video/mp4" autoplay>
-				Your browser does not support the video tag.
-				</video>
+			<video class="clsScanButtonVideoContent" width="400" height="300" id="scannerVideo">
+			  <source src="" type="video/mp4" autoplay>
+			Your browser does not support the video tag.
+			</video>
 
-			{{else}}
+		{{else}}
 
-				<div><img class="clsScanButtonContent scanContentA" id="scanButtonContentA" src="" /></div>
+			<div><img class="clsScanButtonContent scanContentA" id="scanButtonContentA" src="" /></div>
 
-				<!--div><img class="clsScanButtonContent scanContentB" id="scanButtonContentB" src="static.gif" /></div-->
+			<!--div><img class="clsScanButtonContent scanContentB" id="scanButtonContentB" src="static.gif" /></div-->
 
-			{{/if}}
+		{{/if}}
 
-		{{/unless}}
 
 		<div class="divCue invisible"></div>
 

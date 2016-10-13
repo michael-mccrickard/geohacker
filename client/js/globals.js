@@ -1,5 +1,4 @@
 
-introVideoID = "QMropuR-cHw"
 
 //************************************************************
 //    Array functions
@@ -13,6 +12,27 @@ isInReactiveArray = function(_ele, _arr) {
     }
 
     return false;
+}
+
+findObjectWithID = function( _id, _arr) {
+
+     for (var i = 0; i < _arr.length; i++) {
+
+        if (_arr[i].id == _id) return _arr[i];
+    }
+
+    return null;   
+}
+
+getElementIndexForObjectID = function( _id, _arr) {
+
+     for (var i = 0; i < _arr.length; i++) {
+
+        if (_arr[i].id == _id) return i;
+    }
+
+    return -1;  
+
 }
 
 //************************************************************
@@ -81,6 +101,10 @@ whichBrowser = function(){
 //     Formatting functions
 //************************************************************
 
+capitalizeFirstLetter = function(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 centerDivOnDiv = function( _eleNarrow, _eleWide ) {
 
     var fullWidth = $(_eleWide).innerWidth();
@@ -101,7 +125,12 @@ centerDivOnDiv2 = function( _eleToCenter, _eleToCenterWidth, _eleWide ) {
 
 }
 
+getTextColorForBackground = function( _col )  {
 
+    if (_col == "#FFD700" || _col == "#FFFF00" || _col == "#33FFFF" || _col == "#7FFFD4" || _col == "#00FFFF" || _col =="#87CEFA" || _col == "#66FFFF" || _col == "#FFB6C1" || _col == "#87CEEB") return "black"
+
+    return "white";
+}
 //************************************************************
 //     Update the screen element proportions
 //************************************************************
@@ -174,78 +203,137 @@ refreshWindow = function(_which) {
         return;
     }
 
+    if (name == "newBrowse") {
 
+        var myVideo = { width: 0, height: 0, top: 0, left: 0 };
 
+        display.browser.draw( myVideo );
 
+        display.browser.setVideoSize( myVideo );
+
+        setVideoPos( myVideo );
+
+        display.browser.updateContent();
+    }
+
+    if (name == "help") {
+
+        var myVideo = { width: 0, height: 0, top: 0, left: 0 };
+
+        display.help.drawVideo(myVideo);
+
+        setVideoPos(myVideo);
+
+        setVideoSize(myVideo);
+    }
 }
 
+setVideoSize = function( _obj) {
 
+    $("iframe#ytplayer").css("height", _obj.height );
+
+     $("iframe#ytplayer").css("width", _obj.width );  
+}
+
+function setVideoPos(_obj) {
+
+    $(".featuredYouTubeVideo").css("top", _obj.top);
+
+    $(".featuredYouTubeVideo").css("left",  _obj.left);  
+}
+
+myVideo = null;
 
 // YouTube API will call onYouTubeIframeAPIReady() when API ready.
 // Make sure it's a global variable.
 
 onYouTubeIframeAPIReady = function () {
 
+c("youtube ready")
+
     var _file = null;
 
     youTubeLoaded = true;
 
-    if (game.user.mode == uIntro) {
+    switch (game.user.mode) {
 
-        _file = introVideoID;
-    }
-    else {
+        case uBrowseCountry:
 
-        if (display != null) {
+            _file = display.browser.video;
 
-          if (display.ctl["VIDEO"]) {
+            break;
+        
+        case uHack:
 
-            _file = display.feature.video;
+             _file = display.feature.video;
+ 
+            break;
 
-          }
-        }
+        case uHelp:
 
-        if (editor && hack.mode == mEdit) {
+              _file = display.help.video;
 
-            if (editor.videoFile) {
+            break;
+
+        case uEdit:
 
               _file = editor.videoFile;
-            }
-        }
 
-    }
+            break;
 
-    
+    }   
+
 
     //We are either sizing this to fit the featured area or just doing
     //a preset size for the editor or relative one for the intro
 
     var myVideo = { width: 0, height: 0, top: 0, left: 0 };
 
-    if (game.user.mode == uIntro) {
 
-        myVideo = { width: $(window).width(), height: $(window).height() * 9/16, left: 0, top: 70 };
+    switch (game.user.mode) {
 
-        $(".featuredYouTubeVideo").css("left",  myVideo.left);  
+        case uIntro: {
 
-        $(".featuredYouTubeVideo").css("top", myVideo.top);
-    }
-    else {
+            myVideo = { width: $(window).width(), height: $(window).height() * 9/16, left: 0, top: 70 };
 
-        if (hack.mode == mEdit) {
+            setVideoPos( myVideo );
+
+            break;
+        }
+
+        case uEdit:
 
             myVideo = { width: 720, height: 480, top: 0, left: 0 };
-        }
-        else {
+
+            editor.setVideoPos( myVideo );
+
+            setVideoPos( myVideo );
+
+            break;
+        
+        case uBrowseCountry:
+
+            display.browser.draw( myVideo );
+ 
+            break;
+
+        case uHack: 
 
             display.feature.dimension( "video", myVideo, null );
             
-            $(".featuredYouTubeVideo").css("left",  myVideo.left);  
+            setVideoPos( myVideo );
 
-            $(".featuredYouTubeVideo").css("top", myVideo.top);
-        }        
-    }
+            break;
 
+        case uHelp: 
+
+            display.help.drawVideo( myVideo );
+            
+            setVideoPos( myVideo );
+
+            break;
+
+    }      
 
     ytplayer = new YT.Player("ytplayer", {
 
@@ -275,6 +363,12 @@ onYouTubeIframeAPIReady = function () {
 
                 if (_file) event.target.playVideo();
 
+                if (game.user.mode == uBrowseCountry) {
+
+                    setVideoPos( myVideo );               
+                }  
+
+                Session.set("sYouTubeOn", true);
             },
 
             onStateChange: function (event) {
@@ -287,8 +381,23 @@ onYouTubeIframeAPIReady = function () {
 
                         display.ctl["VIDEO"].setState( sPlaying );
 
-                        $("img#picVIDEO").attr("src", display.ctl["VIDEO"].pauseControlPic);
+                          //redundant, except when we are coming here from a hack, or after a hack 
+
+                          if (game.user.mode == uBrowseCountry) {
+
+                            c("yt player is pausing the music b/c video is playing in browse mode")
+
+                              game.pauseMusic();
+
+                              refreshWindow("ytplayer");
+
+                              Session.set("sYouTubeOn", true);
+                          }
+
+                          if (game.user.mode == uHelp) refreshWindow("ytplayer");
                     }
+
+
                 }
 
                 if (event.data == YT.PlayerState.PAUSED) {
@@ -297,7 +406,14 @@ onYouTubeIframeAPIReady = function () {
 
                         display.ctl["VIDEO"].setState( sPaused );
 
-                        $("img#picVIDEO").attr("src", display.ctl["VIDEO"].playControlPic);
+                          if (game.user.mode == uBrowseCountry) {
+
+                            c("yt player is playing the music b/c video is paused in browse mode")
+
+                            game.playMusic();
+                          }
+
+
                     }
                 }
 

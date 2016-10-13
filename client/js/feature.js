@@ -55,17 +55,6 @@ Feature = function() {
 
 		c("feature.fileIsLoaded()")
 
-		if (game.user.mode == uBrowseCountry) {
-
-			display.redraw();
-
-			display.ctl[ this.getName() ].setControlPicSource();
-
-			display.ctl[ this.getName() ].setPicDimensions();
-
-			return;
-		}
-
 		//if the scanner is still running, it's possible that it is still waiting on the image to load
 
 		if ( display.scanner.centerState == "scan" || display.scanner.centerState == "rescan") {
@@ -136,7 +125,7 @@ Feature = function() {
 	this.setImage = function(_name) {
 
 		this.setImageSource( _name );
-
+c("feature.setImage is calling this.draw")
 		this.draw();
 
 	}
@@ -341,6 +330,8 @@ if ( this.off() ) return;
 			this.ctl.activateState();
 		}
 
+
+c("feature.set is calling this.draw()")
 		this.draw();
 
 	}
@@ -374,13 +365,6 @@ c("feature.lastName is " + this.getName() );
 		Meteor.defer( function(){ display.feature.drawNow( display.feature.file, display.feature.imageSrc); });
 		
 	}
-
-/*
-	this.drawBG = function() {
-
-		Meteor.defer( function(){ display.feature.drawNow( display.feature.bgFile, display.feature.bgImageSrc); });
-	}
-*/
 
 	this.drawNow = function(_file, _src) {
 

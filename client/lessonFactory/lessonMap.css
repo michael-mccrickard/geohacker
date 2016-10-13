@@ -1,4 +1,22 @@
 
+.menuReturn2 {
+    
+	position: absolute;
+
+	top: 0px;
+
+	left: 124px;
+
+	text-align: left;
+
+    z-index: 1050;
+    text-transform: uppercase;
+
+    font-size: 1.3vh;
+}
+
+
+
 #lessonMapClose {
     position: absolute;
     top: 60px;
@@ -71,8 +89,6 @@ left: 800px;
 
 	text-align: center;
 
-	line-height: 1.2;
-
 position: relative;
 left: 800px;
 
@@ -133,4 +149,6 @@ left: 800px;
 	font-size: 5.0vh;
 
 	font-family: headline;
+
+	text-transform: uppercase;
 }

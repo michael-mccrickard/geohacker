@@ -1,0 +1,70 @@
+/*lessonMenu.css*/
+
+.divLessonMenuButtons {
+
+    position: relative;
+
+    top: -25px;
+}
+
+
+.btnGoLesson {
+
+	position: relative;
+
+	top: -1%;
+
+	margin-top: 1.5%;
+
+	font-family: headline;
+
+    font-size: 3.5vh;
+
+	text-transform: uppercase;
+
+	z-index: 900;
+}
+
+.menuMessages {
+    
+    z-index: 900;
+    text-transform: uppercase;
+    pointer-events: none;
+    font-size: 3.0vh;
+    position: absolute;
+    width: 350px;
+color: yellow;
+left: 50%;
+   margin-left: -12%;
+  text-align: center;
+  padding: 8px;
+  padding-bottom: 0px;
+  background-color: black;
+
+  border-radius: 8px;
+}
+
+.lessonTickMark {
+
+	font-family: Arial;
+
+    font-size: 3.0vh;
+
+
+}
+
+.menuReturn {
+    cursor: pointer;
+    position: relative;
+    top: -16px;
+
+    z-index: 900;
+    text-transform: uppercase;
+
+    font-size: 1.3vh;
+}
+
+#menuReturnText {
+
+    color: yellow;
+}

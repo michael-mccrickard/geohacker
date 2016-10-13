@@ -1,4 +1,16 @@
+.divInstructions {
 
+	position: relative;
+
+	top: 65px;
+
+	left: 16px;
+}
+
+.nav-tabs{
+  background-color: black;
+  color: white;
+}
 
 #cameraCH {
 
@@ -51,22 +63,6 @@
 	top: 5px;  
 
 	text-align: center;
-
-	z-index: -1;
-
-}
-
-.divIntroMovie {
-
-	position: absolute;
-
-	width: 100%;
-	
-	top: 55px;  
-
-	text-align: center;
-
-	z-index: -1;
 
 }
 

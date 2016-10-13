@@ -17,13 +17,20 @@ Accounts.onResetPasswordLink( function(token) {
 
 Accounts.onLogin( function() { 
 
-  if (Meteor.userId == "SWjqzgXy9rGCYvpRF")  { //if (Meteor.userId == "yzKJ73366P5AoTjzf")  {
+//not tested, modal not implemented either
+/*
+  if (Meteor.userId == "SWjqzgXy9rGCYvpRF")  {
 
       //activate special modal here
 
   }
+*/
+
+  console.log("creating game.user in Accounts.login")
 
   game.user = game.createGeohackerUser(); 
+
+  LessonFactory.updateLessons();
 
 });
 
@@ -135,23 +142,23 @@ Meteor.startup(function() {
 
   nav = new Navigator();
 
+  hack = new Hack();
+
+  display = new Display();
+
   db.initCore();
 
   db.initControls();
 
-  hack = null;
-
-  ytplayer = null;
-
-  youTubeLoaded = false;
-
-  display = new Display();
+  display.initMap();
 
   editor = null;
 
   mission = null;
 
+  ytplayer = null;
 
+  youTubeLoaded = false;
 
   //****************************************************************
   //                  SUBSCRIBE TO CORE DATA
@@ -190,7 +197,11 @@ Meteor.startup(function() {
 
   //start screen
 
+//ps("HN")
+
   FlowRouter.go("/start"); 
+
+
 
 }); 
 
@@ -285,6 +296,8 @@ Template.start.rendered = function () {
       console.log("creating game user in start.rendered event")
 
       game.user = game.createGeohackerUser();
+
+      LessonFactory.updateLessons();
   }
   else {
 

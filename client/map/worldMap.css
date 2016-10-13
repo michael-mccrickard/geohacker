@@ -209,7 +209,7 @@ display: block;
 
 .mapMessages {
     position: absolute;
-    top: 2%;
+    top: 10px;
     z-index: 1050;
     text-transform: uppercase;
     pointer-events: none;

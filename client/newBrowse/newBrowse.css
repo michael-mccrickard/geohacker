@@ -1,0 +1,219 @@
+.divPrimary {
+
+	position: relative;
+
+	top: -9%;
+}
+
+.divVideos {
+
+	position: relative;
+
+	top: 9%;
+}
+
+.returnToMapOrLesson {
+    cursor: pointer;
+    position: relative;
+    top: 0px;
+
+    z-index: 1050;
+    text-transform: uppercase;
+
+    width: 15%;
+
+    margin-left: auto;
+    margin-right: auto;
+
+    font-size: 1.3vh;
+}
+
+#returnText {
+
+    color: yellow;
+}
+
+
+
+.imgPrimaryThumb {
+
+	width: 120px;
+	height: 90px;
+
+	border: 4px solid;
+    border-color: gray;
+    margin-left: 4px;		
+    cursor: pointer;
+
+}
+
+.divPrimaryEntry{
+
+	position: absolute;
+	width: 120px;
+}
+
+.divPrimaryName {
+
+	font-family: Arial;
+	font-size: 14px;
+	text-align: center;
+}
+
+.ytthumb {
+
+	width: 120px;
+	height: 90px;
+
+	border: 4px solid;
+    border-color: gray;
+    margin-left: 4px;	
+
+    cursor: pointer;
+
+}
+
+.divVideoThumbs {
+
+	position: absolute;
+	top: 83%;
+	width: 120px;
+
+}
+
+.divBrowseText {
+	position: absolute;
+	text-align: center;
+
+	top: 73%;
+
+	font-family: Arial;
+
+	font-size: 2.0vw;
+
+	background: red;
+
+}
+
+.divLeftText {
+
+top: 67%;
+
+	width: 28.5%;
+	left: 4.5%;
+  transform: perspective( 1000px ) rotateY( 45deg );
+
+ transform-origin: 110% -550%;
+
+
+}
+
+.divRightText {
+top: 72%;
+	width: 34%;
+	left: 64%;
+  transform: perspective( 1000px ) rotateY( -45deg );
+
+transform-origin: 20% -535%;  
+}
+
+.imgRotated {
+
+	 transform-style: preserve-3d;
+
+	width: 43%; 
+
+	height: 66%;
+}
+
+.imgLeft {
+
+  transform: perspective( 1000px ) rotateY( 45deg );
+
+}
+
+.imgRight {
+
+	float: right;
+
+  transform: perspective( 1000px ) rotateY( -45deg );
+
+}
+
+.divBrowseFlagImg {
+
+	position: absolute;
+
+	left: 55%;
+
+	top: 60px;
+
+	z-index: 1000;
+
+}
+
+.imgFlag {
+/*
+	border: 4px solid;
+    border-color: gray;
+*/
+}
+
+.browseTransHomelandText {
+	
+	font-size: 1.5vw;
+
+	color: yellow;
+}
+
+.browseHomelandText {
+	position: absolute;
+	top: 60px;
+	left: 35%;
+	font-family: Arial;
+	text-align: left;
+	 width: 400px;
+	z-index: 100;
+
+	color: white;
+
+}
+
+.browseNativeHomelandText {
+	/*margin-top: -10%;*/
+	/*font-size: 6.0vw;*/
+}
+
+.divRotatedImg {
+
+	display: inline;
+
+	position: relative;
+
+	top: 110px;
+
+
+	width: 100%;
+}
+
+
+
+.divCenterImg {
+
+	position: absolute;
+
+	top: 24%;
+
+	width: 100%;
+
+	height: 50%;
+
+	text-align: center;
+}
+
+.centerImg {
+
+	width: 30%;
+height: 75%;
+
+}

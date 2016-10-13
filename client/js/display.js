@@ -22,6 +22,12 @@ Display = function() {
 
     this.weather = new Weather();
 
+    this.browser = new Browser();
+
+    this.meme = new Meme();
+
+    this.help = new Help();
+
     //media files
 
     this.fb_sound_file = "msg.mp3";
@@ -49,6 +55,8 @@ Display = function() {
     this.countryCode = "";  //To enable us to tell when the country has changed in browse mode
 
     this.soundPlayingPic =  "vu_meter1.gif";  //should match the prop in sound.js (used by debrief when there is no sound control)
+
+    this.updateFlag = new Blaze.ReactiveVar(false);
 
     //arrays
 
@@ -90,25 +98,18 @@ Display = function() {
 
         //reset vars and re-do controls and map
 
-//        this.mainTemplateReady = false;
-
         this.loader.totalClueCount = 0;
 
         this.makeControls(_code);
-        
-        //this.feature.setBackground( sIcon );
 
     }
 
     this.browse = function( _code) {
 
-        this.feature.set("IMAGE");
-
-        this.feature.setImageSource("IMAGE");
-
         this.fullyLoadControls();
 
-        this.loadMainForBrowsing();
+        FlowRouter.go("/newBrowse");
+        
     }
 
     this.makeControls = function(_code) {
@@ -156,6 +157,15 @@ Display = function() {
         }
     }
 
+    this.initMap = function() {
+
+        var _name = "MAP";
+
+        this.ctl[ _name ] = new ghMapCtl();        
+
+        this.ctl[ _name ].init();
+    }
+
     //*********************************************
     //      Data functions
     //*********************************************
@@ -190,15 +200,6 @@ Display = function() {
 
             this.TV.stopIdle();
 
-        }
-
-        if (game.user.mode == uBrowseCountry || game.user.mode == uBrowseMap ) {
-            
-            this.ctl["MAP"].enableButton();    
-
-            Meteor.defer( function() { display.redraw(); } );
-
-            return;
         }
 
         if (this.loader.totalClueCount == 0) {
@@ -277,6 +278,13 @@ Display = function() {
     //*********************************************
     //      Utility functions
     //*********************************************
+
+    this.updateContent = function() {
+
+        var _val = this.updateFlag.get();
+
+        this.updateFlag.set( !_val );        
+    }
 
     this.reset = function() {
 
@@ -374,7 +382,7 @@ Display = function() {
     }
 
     this.loadMainForBrowsing = function() {
-
+ 
 //        this.mainTemplateReady = false;
 
         for (i=0; i < this.ctlName.length; i++) {
@@ -433,6 +441,15 @@ Display = function() {
             if (this.feature.ctl) this.feature.ctl.suspend();
         }
 
+        if (game.user.mode == uBrowseCountry && this.ctl["VIDEO"] ) this.ctl["VIDEO"].suspend();
+
+        if ( game.user.mode == uHelp ) {
+
+            ytplayer.stopVideo();
+
+            Session.set("sYouTubeOn", false);
+        }
+
     }
 
     this.suspendBGSound = function() {
@@ -441,7 +458,7 @@ Display = function() {
 
         if (display.ctl["SOUND"].getState() == sPlaying) {
 
-c("display is suspending the bg sound")
+            c("display is suspending the bg sound")
 
             display.ctl["SOUND"].pause();
         }
@@ -451,7 +468,7 @@ c("display is suspending the bg sound")
 
           if (this.feature.on() ) {
 
-c("display is resuming the media, if necessary")
+            c("display is resuming the media, if necessary")
 
             if (this.feature.getName() == "VIDEO")  this.feature.ctl.play();
 
@@ -478,7 +495,7 @@ c("display is resuming the media, if necessary")
 
         if ( _name == "SOUND" || _name == "VIDEO") {
 
-c("showFeaturedContent is playing the media file")
+            c("showFeaturedContent is playing the media file")
             
             this.ctl[ _name ].play();
         }

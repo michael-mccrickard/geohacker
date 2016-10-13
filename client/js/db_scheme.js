@@ -1,5 +1,57 @@
 /*
 
+  /*User profile fields:
+
+  The default / initial values are in login.js.  
+
+  //hacking 
+  //see user.js, assignTicketAndTag.js, game.js ( .createGHUser() ) for details
+
+  a = assigns (object array -- assigns)
+  c = assign code (current mission)
+  h = atlas (object array -- tickets)
+
+  //badge  (all integers, most are arrays [gold, silver, bronze])
+  // see badge.js for details
+  ge = genius 
+  ex = expert
+  sp = speed
+  in = investigator
+  sc = scholar
+  ft = first time
+
+  //bio
+  //see bio.html and bio.js for details
+  st = user status  (active, virtual, etc.)
+  t = text
+  p = picture
+  pt = picture text
+  av = avatar or photo  //widely used in the code; bio, template_helpers, newNav, userDirectory
+  f = flag pic
+  cn = country name
+  cc = country code  //essentially read-only, created when user is first created
+                     //but reader has no way to edit this value (or cn's value, either)
+                     //so these two not included in updates currently
+  ag = agents in network (array of user ids)
+  t = title (no programmatic way to add or edit this, so not used in updates either) 
+
+  //lessons
+  lesson = array of lessonScore objects
+
+
+  //miscellaneous
+
+  sn: last seen (date object)
+  roles: array of roles (for users that actually work on or administrate the game)  
+        "admin", "editor" are currently the only roles
+
+
+  //??? 
+  s=  ???
+
+
+
+
 //country records
 
 {
@@ -29,6 +81,8 @@
     "yc": 0.5274212110481586,	//y position of country capsule (old method)
     "llon": 4.597815,			//x position of country label on continent map (longitude)
     "llat": 10.505739,			//y position of country label on continent map (latitude)
+    "ll_r": -45,                //rotation of country label on continent map
+    "ll_co": "yellow",          //color of country label on continent map
     "cpLon": 13.850708,			//x position of capsule on continent map (longitude)
     "cpLat": 0.687274			//y position of capsule on continent map (latitude)
 }

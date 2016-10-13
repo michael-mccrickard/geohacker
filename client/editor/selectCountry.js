@@ -203,6 +203,8 @@ Template.selectCountry.events = {
 
   	editor.hack.countryCode = this.c;  
 
+    editor.hack.index = Database.getIndexForCountryCode( editor.hack.countryCode);
+
   	nav.goAdmin("/editor");
   },
 

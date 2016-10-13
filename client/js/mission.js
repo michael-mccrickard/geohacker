@@ -166,14 +166,14 @@ Mission = function(_code) {
 
     this.level = mlContinent;
 
-    this.items = ["SY","YE","LK","KZ","KH","IL","TJ","JO","LA","KG"]; 
+    this.items = ["YE","KP","TW","SY","LK","KZ","KH","AZ","AE","TJ"]; 
 
     return;
   }
 
   if (this.code == "asia_4") {
 
-    this.name = "Asia by population (31 - 42)"
+    this.name = "Asia by population (31 - 40)"
 
     this.shortName = "Asia 4";
 
@@ -181,10 +181,26 @@ Mission = function(_code) {
 
     this.level = mlContinent;
 
-    this.items = ["TM","PS","LB","OM","KW","GE","MN","AM","QA","TL","BT","BN"]; 
+    this.items = ["IL","JO","LA","KG","TM","PS","LB","OM","KW","GE"]; 
 
     return;
   }
+
+  if (this.code == "asia_5") {
+
+    this.name = "Asia by population (41 - 47)"
+
+    this.shortName = "Asia 5";
+
+    this.mapCode = "asia";
+
+    this.level = mlContinent;
+
+    this.items = ["MN","AM","QA","TL","CY","BT","BN"]; 
+
+    return;
+  }
+
   
   //ten largest population (Europe)
 
@@ -232,14 +248,14 @@ Mission = function(_code) {
 
     this.level = mlContinent;
 
-    this.items = ["DK","FI","SK","NO","IE","HR","BA","MD","LT","AL"]; 
+    this.items = ["DK","FI","SK","NO","IE","HR","BA","LT","AL","MK"]; 
 
     return;
   }
 
   if (this.code == "europe_4") {
 
-    this.name = "Europe by population (31 - 39)"
+    this.name = "Europe by population (31 - 38)"
 
     this.shortName = "Europe 4";
 
@@ -247,26 +263,10 @@ Mission = function(_code) {
 
     this.level = mlContinent;
 
-    this.items = ["MK","SI","LV","XK","EE","ME","LU","MD","IS"]; 
+    this.items = ["SI","LV","XK","EE","ME","LU","MD","IS"]; 
 
     return;
   }
-
-/*  if (this.code == "europe_5") {
-
-    this.name = "Europe by population (41 - 50)"
-
-    this.shortName = "Europe 5";
-
-    this.mapCode = "europe";
-
-    this.level = mlContinent;
-
-    this.items = ["","","","","","","","","",""]; 
-
-    return;
-  }
-*/
 
   //ten largest population (AMERICAS)
 
@@ -291,6 +291,8 @@ Mission = function(_code) {
 
     this.shortName = "North America 1";
 
+    this.mapCode = "north_america";
+
     this.level = mlWorld;
 
     this.items = ["US","MX","CA","GT","CU","DO","HT","HN","SV","NI"]; 
@@ -308,7 +310,7 @@ Mission = function(_code) {
 
     this.level = mlContinent;
 
-    this.items = ["CR","PA","PR","JM","BS","BZ"]; 
+    this.items = ["CR","PA","PR","JM","BS","BZ","GL"]; 
 
     return;
   }
@@ -321,7 +323,9 @@ Mission = function(_code) {
 
     this.name = "Top Ten South America";
 
-    this.shortName = "South America 1"
+    this.shortName = "South America 1";
+
+    this.mapCode = "south_america";
 
     this.level = mlWorld;
 
@@ -347,11 +351,15 @@ Mission = function(_code) {
 
   //Top 7 largest population (OCEANIA)
 
-  if (this.code == "ttp_oceania") {
+  if (this.code == "ttp_oceania" || this.code == "oceania_1") {
 
     this.type = "introAndQuiz";
 
     this.name = "Top Seven Oceania";
+
+    this.mapCode = "oceania";
+
+    this.shortName = "Oceania 1";
 
     this.level = mlWorld;
 
@@ -424,6 +432,22 @@ Mission = function(_code) {
     if ( regions.indexOf( countries[i].r ) != -1) this.items.push( countries[i].c );
   }  
 
+}
+
+Mission.addThisLesson = function( _code, _pro ) {
+
+   var _len = LessonFactory[ _code ].length;
+
+   var _arr = [];
+
+  for (var i = 0; i < _len; i++) {
+
+    _arr.push(0.0);
+  }  
+
+  var _propName = "l_" + _code;
+
+  _pro[ _propName ] = _arr;
 }
 
 Mission.updateAll = function( _user ) {
@@ -517,6 +541,7 @@ Mission.updateAll = function( _user ) {
      } //end looping thru custom list
 
 } //end Mission.updateAll()
+
 
 
 

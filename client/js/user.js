@@ -44,20 +44,46 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.headline = new Headline( "welcomeAgent" );
 
-    this.browseCountry = function( _code ) {
+    this.lessonSequenceCode = new Blaze.ReactiveVar("");
 
-      if ( db.getDataFlagForCountry( _code) == false) {
+    this.returnRoute = "";  
 
-      	showMessage("NO DATA FOUND FOR THIS COUNTRY");
+    this.returnName = "";
 
-      	return;
-      }
+    this.browseCountry = function( _code, _returnRoute ) {
+
+      this.returnRoute = _returnRoute;
+
+      this.returnName = _returnRoute;
+
+      if(_returnRoute == "newBrowse") this.returnRoute = "browseWorldMap";
+
+      if (_returnRoute == "worldMap" || _returnRoute == "browseWorldMap" || _returnRoute == "newBrowse") this.returnName = "map";
+
+      if (_returnRoute == "congrats") this.returnName = "mission";     
+
+      if (_returnRoute == "lessonMap") this.returnName = "lesson";     
 
       this.setMode( uBrowseCountry );
 
       this.setGlobals( "browse" );
 
-      hack.initForBrowse( _code );
+      display.suspendMedia();
+
+		//if we're in lesson mode, uLearn, then the hack.countryCode
+		//will aready be set to _code (to create the learning capsule) but
+		//display will still have the previous countryCode (if any), so we
+		//need to re-init the display.  If the codes are the same, then
+		//we are probably just coming back from the browseMap
+
+      if (_code != display.countryCode) {
+
+      	hack.initForBrowse( _code);
+      }
+      else {
+
+      	FlowRouter.go("newBrowse");
+      }
       
     };
 
@@ -69,9 +95,9 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	//store the current mode if we're going to browse something
 
-    	if (_mode == uBrowseMap || _mode == uBrowseCountry) {
+    	if (_mode == uBrowseMap || _mode == uBrowseCountry || _mode == uHelp) {
 
-    		if (this.mode != uBrowseMap && this.mode != uBrowseCountry ) this.prevMode = this.mode;
+    		if (this.mode != uBrowseMap && this.mode != uBrowseCountry && this.mode != uHelp ) this.prevMode = this.mode;
     	}
     	
 
@@ -88,10 +114,29 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	if (_mode == uHack) {
 
+    		this.setGlobals("hack");
+
 	  		Meteor.defer( function() { $("#divHomeHackPic").css("border-color","gray") } );
 
 	  		this.template.set("missionListing");
     	}
+
+    	if (_mode == uLearn) {
+
+    		this.setGlobals("browse");
+
+	  		Meteor.defer( function() { $("#divHomeLearnPic").css("border-color","gray") } );
+
+	  		if (!game.lesson) {
+
+	  			game.lesson = new LessonFactory();
+
+	  			game.lesson.init();
+	  		}
+	  		
+	  		this.template.set("lessonMenu");
+    	}
+
 
       	if (_mode == uMessage) {
 
@@ -123,28 +168,55 @@ User = function( _name ) {  //name, scroll pos (for content editors)
      		game.logout();
      	}
 
-     	if (_mode == uBrowseMap) {
+     	if (_mode == uHelp) {
 
-     		this.setGlobals("browse");
-
-     		Control.playEffect( "mapButton.mp3" );
+     		FlowRouter.go("help");
      	}
-     	else {
 
-			Control.playEffect( "blink.mp3" );
-     	}
+		Control.playEffect( "blink.mp3" );
+
 
     }
 
     this.goBrowseMap = function() {
 
-    	this.setMode( uBrowseMap );
-
-    	if (!display.countryCode.length) display.init( this.profile.cc );
-
     	display.suspendMedia();
 
-    	display.feature.browseMap();
+    	if (game.user.mode == uBrowseCountry) {
+
+	      	var d = display.ctl["MAP"].browseWorldMap;
+
+	    	d.mapLevel = mlRegion;
+
+	    	d.drawLevel = mlRegion;
+
+	    	d.detailLevel = mlCountry;  		
+
+	    	d.selectedCountry.set( hack.countryCode );
+
+	    	d.selectedRegion = db.getRegionCodeForCountry( hack.countryCode );
+
+	    	d.selectedContinent = db.getContinentCodeForCountry( hack.countryCode );	    	
+    	}
+    	else {
+
+    		this.setGlobals("browse");
+
+    		display.browser.countryCode = "";  //reset this since we are going in fresh
+
+    		if (!display.ctl["MAP"]) display.ctl["MAP"] = new ghMapCtl( display );
+
+    		//display.ctl["MAP"].browseWorldMap.reset();   //can't do this until we disconnect browseMap from ghMapCtl
+    	}
+
+    	Control.playEffect( "mapButton.mp3" );
+
+    	//we don't call setMode for uBrowseMap, because we manage that feature differently
+    	//but we probably could now that we have configured things.
+    	//Mode is currently set to uBrowseMap in Template.newBrowseMap.rendered
+
+    	FlowRouter.go("/browseWorldMap");
+    	
     }
 
 //when this is called, do we know for sure the mission isn't complete?
@@ -218,17 +290,40 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     		if ( display.homeButtonDisabled() ) return;
 
 			display.suspendMedia();
+    	}
 
+
+    	if (FlowRouter.current().path == "/editor") {
+
+    		Control.stopEditMedia();
     	}
 
     	if (this.mode == uBrowseMap || this.mode == uBrowseCountry)  {
+
+    		game.playMusic();
+
+//this has become necessary after a hack where a video was shown???
+
+//Session.set("sYouTubeOn",false);
 
     		FlowRouter.go("/home")
 
     		return;
     	}
+
+    	if (this.mode == uHelp) {
+
+    		if (this.prevMode.length) {
+
+    			this.mode = this.prevMode
+    		}
+    		else {
+
+    			this.mode = uNone;
+    		}
+    	}
     		
-    	if (this.mode == uNone) {
+    	if (this.mode == uNone || this.mode == uIntro) {
 
     		this.setMode( uHack );
     	}
@@ -536,7 +631,9 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
  		if (_index != -1) return this.atlas[ _index ];
 
- 		showMessage( "No ticket found for country " + _code);
+//this is happening during browse while learning
+
+// 		showMessage( "No ticket found for country " + _code);
  	}
 
 	this.getTicketCount = function( _code ) {
@@ -645,7 +742,12 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		if (_ticket.count == 1) {
 
-			game.user.profile.ag.push( hack.getWelcomeAgent()._id );
+			var _id = hack.getWelcomeAgent()._id;
+
+			if ( game.user.profile.ag.indexOf(_id) == -1 ) { 
+
+				game.user.profile.ag.push( _id );
+			}
 		}
 
 

@@ -1,4 +1,7 @@
+.learnCountryElement {
 
+	cursor: pointer;
+}
 
 
 .transHomelandText {
@@ -34,8 +37,7 @@
 
    width: 400px;
 
-height: 200px;
-
+   height: 200px;
 
    opacity: 0;
 }
@@ -65,7 +67,7 @@ height: 200px;
 
 height: 128px;
 
-	    -webkit-align-self: flex-end;
+	-webkit-align-self: flex-end;
 	align-self: flex-end;
 
 }
@@ -73,14 +75,15 @@ height: 128px;
 .learnFlagImage {
 	margin-top: 8px;
 	width: 96px;
-height: 58px;
+	height: 58px;
 
-	    -webkit-align-self: flex-end;
+	-webkit-align-self: flex-end;
 	align-self: flex-end;
 }
 
 
 .learnCapitalText {
+	font-family: Arial;
 	font-size: 18px;
 	margin-top: 8px;
 	margin-left: 12px;

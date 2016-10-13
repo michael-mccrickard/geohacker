@@ -32,7 +32,7 @@ Template.atlas.events({
 
       var _code = e.currentTarget.id;
 
-      game.user.browseCountry( _code );
+      game.user.browseCountry( _code, "home" );
 
     },
 

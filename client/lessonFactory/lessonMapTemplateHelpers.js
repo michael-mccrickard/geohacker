@@ -21,8 +21,35 @@ Template.lessonMap.rendered = function () {
     }
 }
 
+var fullHeight = 900;
+
+
+function scaleMe( _val ) {
+
+   var _w = $(window).height();
+
+   _val = _val * (_w / fullHeight);
+
+   return _val + "px";
+
+}
+
 Template.lessonMap.helpers({
 
+  body1FontSize: function() {
+
+      return scaleMe(38);
+  },
+
+  body2FontSize: function() {
+
+      return scaleMe(144);
+  },
+
+  body3FontSize: function() {
+
+      return scaleMe(72);
+  },
 
   headerColor: function() {
 
@@ -36,7 +63,9 @@ Template.lessonMap.helpers({
 
   allVisited: function() {
 
-    if (game.lesson.quizState.get() == "decideNextStep") return false;
+    if (game.lesson.state.get() == "menu" || game.lesson.state.get() == "continentMenu" ) return false;
+
+    if (game.lesson.quiz.state.get() == "decideNextStep") return false;
 
     if ( game.lesson.visited.length() == game.lesson.items.length ) return true;
 
@@ -44,9 +73,34 @@ Template.lessonMap.helpers({
 
   },
 
+  lesson: function() {
+
+     return LessonSequence.makeMenuArray( game.user.lessonSequenceCode.get() );
+  },
+
   lessonShortName: function() {
 
     return game.lesson.mission.shortName;
+  },
+
+  nextLessonShortName: function() {
+
+    var _wm = game.lesson.worldMenu;
+
+     var _index = _wm.lessonIndex + 1;
+
+     var _mission = new Mission(  _wm.lessonGroup[ _index ] )
+
+     return ( _mission.shortName );
+  },
+
+  hasNextLesson: function() {
+
+    var _wm = game.lesson.worldMenu;
+
+    if (_wm.lessonIndex < _wm.lessonGroup.length - 1) return true;
+
+    return false;
   },
 
   countryListItem: function() {
@@ -70,7 +124,7 @@ Template.lessonMap.helpers({
 
   decideNextStep: function() {
 
-    if (game.lesson.quizState.get() == "decideNextStep") return true;
+    if (game.lesson.quiz.state.get() == "decideNextStep") return true;
 
     return false;
   },
@@ -89,7 +143,7 @@ Template.lessonMap.helpers({
 
   nextOrEndText: function() {
 
-      var _state = game.lesson.quizState.get();
+      var _state = game.lesson.quiz.state.get();
 
       if ( _state == "readyForNext") return "NEXT";
 
@@ -99,17 +153,17 @@ Template.lessonMap.helpers({
 
   quizInProgress: function() {
 
-    return game.lesson.quizInProgress.get();
+    return game.lesson.quiz.inProgress.get();
   },
 
   quizDisplayItem: function() {
 
-    return game.lesson.quizDisplayItem.get();
+    return game.lesson.quiz.displayItem.get();
   },
 
   quizReadyForNextOrEnd: function()  {
 
-    var _state = game.lesson.quizState.get();
+    var _state = game.lesson.quiz.state.get();
 
      if ( _state == "readyForNext" || _state == "quizEnd" || _state == "examEnd" ) return true;
 
@@ -141,7 +195,18 @@ Template.lessonMap.events = {
 
       Control.playEffect("new_feedback.mp3");
 
-      game.lesson.doQuiz();
+      game.lesson.quiz.start();
+  },
+
+  'click #btnNextLesson': function (evt, template) {
+
+      Control.playEffect("new_feedback.mp3");
+
+      var _wm = game.lesson.worldMenu;
+
+      _wm.lessonIndex++;
+
+     switchLesson( _wm.selectedContinent, _wm.lessonGroup[ _wm.lessonIndex ]);
   },
 
   'click #btnReview': function (evt, template) {
@@ -151,21 +216,26 @@ Template.lessonMap.events = {
 
   'click #btnRetakeQuiz': function (evt, template) {
 
-      game.lesson.retakeQuiz();
+      game.lesson.quiz.retake();
   },
 
   'click #btnNextOrEnd': function (evt, template) {
 
       Control.playEffect("new_feedback.mp3");
 
-      var _state = game.lesson.quizState.get();
+      var _state = game.lesson.quiz.state.get();
 
-      if ( _state == "readyForNext") game.lesson.doQuizQuestion();
+      if ( _state == "readyForNext") game.lesson.quiz.doQuestion();
 
-      if ( _state == "quizEnd") game.lesson.doQuiz();     
+      if ( _state == "quizEnd") game.lesson.quiz.start();     
 
-      if ( _state == "examEnd") game.lesson.finishExam();
+      if ( _state == "examEnd") game.lesson.quiz.finishExam();
   },
+
+    'click #btnReturnToMenu2': function (evt, template) {
+
+        game.user.goHome();
+    },
 }
 
 //*************************************************************************
@@ -177,13 +247,16 @@ Template.lessonMap.rendered = function () {
   
     stopSpinner();
 
-    if (!display) return;
+    if (!game.lesson) return;
 
     if (display.worldMapTemplateReady == false) {
 
       display.worldMapTemplateReady = true;
 
-      Meteor.setTimeout( function() { display.ctl["MAP"].lessonMap.doCurrentMap() }, 250 );
+
+      if (game.lesson.state.get() == "learn") Meteor.setTimeout( function() { display.ctl["MAP"].lessonMap.doCurrentMap() }, 250 );
+
+      if (game.lesson.state.get() == "resuming") Meteor.setTimeout( function() { resumeLesson(); }, 250 );
 
       Meteor.setTimeout( function() { display.ctl["MAP"].lessonFinishDraw() }, 251 );
 

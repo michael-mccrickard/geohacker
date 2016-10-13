@@ -26,7 +26,7 @@ LessonMap = function( _mapCtl ) {
 
     this.dp = null;
 
-    this.mm = this.mm || new LessonMapMaker();
+    if (!this.mm) this.mm = new LessonMapMaker();
 
     this.mapCtl = _mapCtl;
 
@@ -82,7 +82,7 @@ LessonMap = function( _mapCtl ) {
 
     }
 
-    this.doThisMap = function(_mapLevel, _drawLevel, _detailLevel, _continentID, _regionID) {
+    this.doThisMap = function(_mapLevel, _drawLevel, _detailLevel, _continentID, _regionID, _dontIdentify) {
 
         //reset this each time, b/c it disappears if we switch hack/display objects
 
@@ -104,7 +104,7 @@ LessonMap = function( _mapCtl ) {
         if (_regionID) this.selectedRegion = _regionID;
 
 
-        this.doMap(_mapLevel, _drawLevel, _detailLevel);
+        this.doMap(_mapLevel, _drawLevel, _detailLevel, _dontIdentify);
 
     }
 
@@ -124,7 +124,7 @@ LessonMap = function( _mapCtl ) {
 
     }
 
-    this.doMap = function(_mapLevel, _drawLevel, _detailLevel) {
+    this.doMap = function(_mapLevel, _drawLevel, _detailLevel, _dontIdentify) {
 
         var z1 = 1.0;
 
@@ -208,11 +208,7 @@ LessonMap = function( _mapCtl ) {
 
         }
 
-        var _dontIdentify = false;
-
-        if (game.lesson.quizInProgress.get() ) _dontIdentify = true;
-
-        this.dp.areas = this.mm.getJSONForMap(this.selectedContinent, this.selectedRegion, _mapLevel, _drawLevel, _detailLevel, z1, z2, z3, false);
+        this.dp.areas = this.mm.getJSONForMap(this.selectedContinent, this.selectedRegion, _mapLevel, _drawLevel, _detailLevel, z1, z2, z3);
 
         this.dp.images = [];
 
@@ -243,6 +239,18 @@ LessonMap = function( _mapCtl ) {
         this.map.areasSettings.balloonText = "[[customData]]";
 
         //set the ballon text (popup text) for each area (this will be continent, region or country)
+
+        if (_dontIdentify === undefined) {
+
+            if (game.lesson.quiz.inProgress.get() ) {
+
+                _dontIdentify = true;
+            }
+            else {
+                 _dontIdentify = false;               
+            }
+        }
+
         if ( _dontIdentify ) this.map.areasSettings.balloonText = "";
 
 
@@ -311,9 +319,11 @@ LessonMap = function( _mapCtl ) {
 
                     if (rec.llon !== undefined) {
 
-                        _x = this.map.longitudeToStageX( rec.llon);
+                        var loc = this.map.coordinatesToStageXY( rec.llon, rec.llat);
 
-                        _y = this.map.latitudeToStageY( rec.llat);
+                        _x = loc.x;
+
+                        _y = loc.y;
 
                     }
                     else {
@@ -362,63 +372,11 @@ LessonMap = function( _mapCtl ) {
             if (_level == mlCountry) _col = "black";       
         }
 
-        Meteor.defer( function() {display.ctl["MAP"].lessonMap.map.addLabel(_x, _y, _name.toUpperCase(), "", _fontSize, _col, _rot, _alpha, _bold); } );
+    
+        Meteor.defer( function() {game.lesson.lessonMap.map.addLabel(_x, _y, _name.toUpperCase(), "", _fontSize, _col, _rot, _alpha, _bold); } );
     }
 
-
-    //**********************************************************************************
-    //                      BACKUP THE MAP (move to previous level)
-    //**********************************************************************************
-
-    //Redraw the map using the previous level
-
-    this.backupMap = function() {
-
-        var level = this.mapCtl.level.get();
-
-
-        if (level == mlContinent) {
-
-            this.doMap("world", mlWorld);
-
-            this.map.validateData();
-
-            refreshMap();
-
-            this.labelMapObject();
-
-            return;
-        }
-
-        if (level == mlRegion) {
-
-            this.doMap( this.selectedContinent, mlContinent );
-
-            this.map.validateData();
-
-            refreshMap();
-
-            this.labelMapObject();
-
-            return;
-        }   
-
-        if (level == mlCountry) {
-
-            this.doMap(this.selectedRegion, mlRegion);
-
-            this.map.validateData();
-
-            refreshMap();
-
-            this.labelMapObject();
-
-            return;
-        }     
-
-    }
-
-}  //end browseWorldMap Object
+}  //end LessonMap Object
 
 
 //**********************************************************************************
@@ -445,33 +403,33 @@ function handleClick(_event) {
     var g = game.lesson;
 
     var level = game.lesson.mapLevel;
+    
+    if ( g.quiz.inProgress.get() == false ) return;
 
-if ( g.quizInProgress.get() == false ) return;
 
-
-    if (g.quiz == "quizFindRegionOfCountry") {
+    if (g.quiz.type == "quizFindRegionOfCountry") {
 
         _code = db.getRegionCodeForCountry(worldMap.mapObjectClicked);   //in database.js
 
-        if (_code == g.quizAnswer) {
+        if (_code == g.quiz.answer) {
 
-            g.doCorrectAnswer();
+            g.quiz.doCorrectAnswer();
         }
         else {
 
-            g.doIncorrectAnswer( worldMap.mapObjectClicked );
+            g.quiz.doIncorrectAnswer( worldMap.mapObjectClicked );
         }
     }
 
-    if (g.quiz == "quizFindCountryInRegion") {
+    if (g.quiz.type == "quizFindCountryInRegion") {
 
-        if (worldMap.mapObjectClicked == g.quizAnswer) {
+        if (worldMap.mapObjectClicked == g.quiz.answer) {
 
-            g.doCorrectAnswer();
+            g.quiz.doCorrectAnswer();
         }
         else {
 
-            g.doIncorrectAnswer( worldMap.mapObjectClicked );
+            g.quiz.doIncorrectAnswer( worldMap.mapObjectClicked );
         }
     }
 

@@ -15,6 +15,8 @@ Video = function() {
 
 	this.youTubeWaiting = new Blaze.ReactiveVar( false );  //are waiting on the YT player to load?
 
+	this.items = [];
+
 
 	this.init = function() {
 
@@ -27,7 +29,12 @@ Video = function() {
 
 		console.log("video.suspend() is pausing the video")
 		
-		this.pause();
+		this.setState( sPaused );
+
+		if (ytplayer) {
+
+			ytplayer.pauseVideo();
+		}
 
 		this.hide();
 		 
@@ -58,6 +65,14 @@ Video = function() {
 	  return pic;
 
 	}, //end getControlPic
+
+	  this.setItems = function() {
+
+	      	//screen out the ones used as primaries in the newBrowser
+
+	        this.items = this.collection.find( { cc: this.countryCode, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } } ).fetch();
+
+	  },
 
 	//Used to get the file to display in featured area.
 	//Usually this returns the content, but if animated gif is paused
@@ -108,23 +123,28 @@ Video = function() {
 
 		this.setState( sPaused );
 
-		if (this.isYouTube) {
-
-			var _file = this.items[ this.getIndex() ].u;
+		if (ytplayer) {
 
 			ytplayer.pauseVideo();
 		}
-		else {
-			display.feature.setImage("VIDEO");
+
+		if (game.user.mode == uBrowseCountry) {
+
+			return;
 		}
+
+		if (game.user.mode == uHack) display.feature.setImage("VIDEO");
+
 	}
 
 
-	this.play = function() {
+	this.play = function( _id ) {
 
 		this.setState( sPlaying );
 
 		var _file = this.items[ this.getIndex() ].u;
+
+		if (_id) _file = _id;
 
 		//First, is it a YT?
 
@@ -132,6 +152,12 @@ Video = function() {
 
 			this.playYouTube( _file);
 
+			if (game.user.mode == uBrowseCountry) {
+
+				display.browser.updateContent(); 
+
+				game.pauseMusic();
+			}
 			return;
 
 		}
@@ -144,51 +170,34 @@ Video = function() {
 
 		if (game.user.mode == uBrowseCountry) {
 
-			display.feature.load( "VIDEO" );  //the imagesLoaded callback will update the screen
+			display.browser.setVideoBG( _file );
+
+			//this is to reset any play/pause buttons on animated gifs
+
+			display.browser.updateContent();
 
 			return;
 		}	
 
-		//Not browse mode, not youtube
-
-		//display.feature.setImageSource("VIDEO");
-
-
 	},// end play
 
-	this.pause = function() {
-
-		//put control in pause mode 
-
-		this.setState( sPaused );
-
-		//how does display.feature get the big pause button displayed if file is GIF?
-
-		//We have to explicitly pause the YT file
-
-		if (this.isYouTube ) {
-
-		   	ytplayer.pauseVideo();
-		}
-
-	}, //end pauseMedia
-
-	this.playNewVideo = function() {
+	this.playNewVideo = function(_id) {
 
 	  if (this.isYouTube ) {
 
-	  	ytplayer.stopVideo();
+	  	if (ytplayer) ytplayer.stopVideo();
 
 	  //set the yt flag to false, so that playMedia
 	  //won't think we're resuming from a pause
 
-		//Session.set("sYouTubeOn", false);    
+		Session.set("sYouTubeOn", false);    
 
 	  }
 
-	  this.play();
+	  this.play( _id );
 
 	}, //end playNewVideo
+
 
 	this.playAnotherVideo = function(_val) {
 
@@ -200,12 +209,6 @@ Video = function() {
 	this.playYouTube = function( _file) {
 
 		this.setState( sPlaying );
-
-		console.log("video.playYouTube is setting sYouTubeOn to true")
-		
-		Session.set("sYouTubeOn", true);    
-
-		this.isYouTube = true;
 
 		//if the YT player doesn't exist, then create it
 		//and the onYouTubeIframeAPIReady() function will load the correct
@@ -227,14 +230,13 @@ Video = function() {
 		  return;
 		}
 
+		this.isYouTube = true;
 
 		if (_file == ytplayer.getVideoData()['video_id']) {
 
 			console.log("ytplayer resuming from pause")
 
 			ytplayer.playVideo();
-
-			return;
 
 		}
 		else {
@@ -248,6 +250,10 @@ Video = function() {
 		  ytplayer.loadVideoById( _file );
 
 		}
+
+		c("video.playYouTube is setting sYouTubeOn to true")
+
+		Session.set("sYouTubeOn", true); 
 
 	}//end playYouTube
 

@@ -110,6 +110,67 @@ Editor = function() {
 		this.arrCode[14] = "flg";
 	this.arrCodeExplain[14] = "Image.file = flag"; 
 
+	this.arrCodeText[15] = "Geography Now";
+		this.arrCode[15] = "gn";
+	this.arrCodeExplain[15] = "Geography Now video, if available"; 
+
+	this.arrCodeText[16] = "Seeker Daily";
+		this.arrCode[16] = "sd";
+	this.arrCodeExplain[16] = "Music video or live performance"; 
+
+	this.arrCodeText[17] = "Top Ten Archive";
+		this.arrCode[17] = "tt";
+	this.arrCodeExplain[17] = "Top Ten Archive video"; 
+
+	this.arrCodeText[18] = "Music";
+		this.arrCode[18] = "mu";
+	this.arrCodeExplain[18] = "Music video or live performance"; 
+
+	this.arrCodeText[19] = "Dance";
+		this.arrCode[19] = "da";
+	this.arrCodeExplain[19] = "Any dance performance from this country"; 
+
+	this.arrCodeText[20] = "Documentary";
+		this.arrCode[20] = "do";
+	this.arrCodeExplain[20] = "Any documentary about this country"; 
+
+	this.arrCodeText[21] = "Historical";
+		this.arrCode[21] = "hi";
+	this.arrCodeExplain[21] = "Any archival footage or historical video"; 
+
+	this.arrCodeText[22] = "Tourism";
+		this.arrCode[22] = "to";
+	this.arrCodeExplain[22] = "General tourism video"; 
+
+	this.arrCodeText[23] = "Lists";
+		this.arrCode[23] = "li";
+	this.arrCodeExplain[23] = "Lists other than named lists above; things you will love and hate about the country, etc."; 
+
+	this.arrCodeText[24] = "Other";
+		this.arrCode[24] = "ot";
+	this.arrCodeExplain[24] = "Videos that don't fit into the other categories"; 
+
+	this.arrCodeText[25] = "7 Facts";
+		this.arrCode[25] = "7f";
+	this.arrCodeExplain[25] = "Seven Facts video from youtube"; 
+
+	this.arrCodeText[26] = "8 Facts";
+		this.arrCode[26] = "8f";
+	this.arrCodeExplain[26] = "Eight Facts video from youtube"; 
+
+	this.arrCodeText[27] = "Victoria";
+		this.arrCode[27] = "vi";
+	this.arrCodeExplain[27] = "Victoria Flamel video from youtube (Victoria Judges)"; 
+
+	this.setVideoPos = function( _obj ) {
+
+		_obj.top = -16;
+
+		_obj.left = $(window).width()/2 - _obj.width/2;
+
+
+	}
+
 
 	this.getCodes = function( _coll ) {
 
@@ -123,7 +184,7 @@ Editor = function() {
 
 		if (_coll == cWeb) res = [10, 11, 12, 13];
 
-		if (_coll == cVideo) res = [];
+		if (_coll == cVideo) res = [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27];
 
 		if (_coll == cDebrief) res = [ 1, 2, 6, 7, 8, 10, 11, 12, 13, 14 ];
 
@@ -340,7 +401,7 @@ Tracker.autorun( function(comp) {
 
           console.log("editor data ready")
 
-			if (typeof editor  === 'undefined') return;
+			if (typeof editor === 'undefined') return;
 
       	  editor.dataReady = true;
 

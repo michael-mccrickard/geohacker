@@ -1,4 +1,13 @@
+FlowRouter.route('/newBrowse', {
 
+  name: "newBrowse",
+
+  action: function (params, queryParams) { 
+
+    BlazeLayout.render('layout', { content: "newBrowse" } ) 
+  },
+
+});
 
 
 //*********************************************
@@ -28,22 +37,31 @@ FlowRouter.route('/intro', {
 
     action: function (params, queryParams) { 
 
-      $('body').addClass('noscroll'); 
-
       BlazeLayout.render('layout', { content: "intro" } ) 
     },
 
 });
 
-FlowRouter.route('/introVideo', {
+FlowRouter.route('/help', {
+
+    name: "help",
 
     action: function (params, queryParams) { 
 
-      $('body').addClass('noscroll'); 
-
-      BlazeLayout.render('layout', { content: "introVideo" } ) 
+      BlazeLayout.render('layout', { content: "help" } ) 
     },
 
+});
+
+FlowRouter.route('/help2', {
+
+    name: "help2",
+
+    action: function (params, queryParams) { 
+
+      BlazeLayout.render('layout', { content: "help2" } )
+
+    }
 });
 
 FlowRouter.route('/learnCountry', {
@@ -81,18 +99,6 @@ FlowRouter.route('/missionSelect', {
 
 });
 
-
-FlowRouter.route('/help2', {
-
-    name: "help2",
-
-    action: function (params, queryParams) { 
-
-      BlazeLayout.render('layout', { content: "help2" } )
-
-    }
-});
-
 FlowRouter.route('/dataChecker', {
 
     name: "dataChecker",
@@ -110,6 +116,8 @@ FlowRouter.route('/dataChecker', {
 //*********************************************
 
 FlowRouter.route('/congrats', {
+
+    name: "congrats",
 
   action: function() {
 

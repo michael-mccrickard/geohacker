@@ -53,16 +53,6 @@ Template.main.helpers({
       return "featuredBackdrop.jpg";
     },
 
-    isBrowseMode: function() {
-
-      if (!game.user) return;
-
-      if (game.user.mode == uBrowseCountry) return true;
-
-      return false;
-
-    },
-
     opacityClass: function() {
 
       if (display.ctl[ this ].getState() <= sIcon) return "faded";
@@ -224,14 +214,7 @@ Template.main.events({
           Control.playEffect( display.locked_sound_file );
 
           return; 
-      }  
-
-      if (game.user.mode == uBrowseCountry) {
-
-          game.user.goBrowseMap();
-
-          return;
-      }   
+      }    
       
       if (display.feature.name.get() == "VIDEO") display.suspendMedia();
 
@@ -389,7 +372,7 @@ Template.main.events({
         hack.debrief.go();
 
         FlowRouter.go("/debrief");
-    }
+    },
 
 });
 

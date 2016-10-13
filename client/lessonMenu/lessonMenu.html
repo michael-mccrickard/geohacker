@@ -1,0 +1,40 @@
+	
+<template name="lessonMenu">
+
+	<div class="menuMessages" id="lessonMenuMessageBox">{{message}}</div>
+
+	{{#if showContinentMenu}} 
+
+		<div class="menuReturn" id="menuReturn" style="color:white;">
+
+			<img src="pixel_globe.png" width="60px" height="60px" class="btnReturnToMenu" />
+
+			<span class="btnReturnToMenu" id="menuReturnText" >RETURN TO MAIN MENU</span>
+
+		</div>	
+
+
+		{{#each lesson}}
+
+			<div class="divLessonMenuButtons centered">
+				<button type="button" class="btn btn-primary btn-lg btnGoLesson" data-continent="{{this.z}}" data-index={{@index}} id="{{this.c}}">
+
+					{{#if alreadyDone}}
+						<span class="lessonTickMark">&#9745;</span>
+					{{/if}}
+
+					{{this.n}}
+
+				</button>
+			</div>	
+
+		{{/each}}
+
+	{{/if}}
+
+
+
+	<div id="divLessonMenuMap"  style="position: absolute; top: 240px; left: 2%; width:{{mapWidth}}px; height:{{mapHeight}}px;">
+	</div> 
+
+</template>

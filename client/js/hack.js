@@ -1,4 +1,4 @@
- 
+
 
 /**************************************************************/
 /*              HACK OBJECT         
@@ -36,6 +36,8 @@ Hack = function() {
 
   this.auto = false;
 
+  this.index = -1;
+
    /********************************************/
   /*            FUNCTIONS        
   /*********************************************/
@@ -54,6 +56,10 @@ Hack = function() {
         this.debrief.set( this.debrief.index );
 
         game.user.assign.resetMap();
+
+        this.welcomeAgent = null;
+
+        this.welcomeAgentIsChief = false;
 
         this.mode = mReady;
 
@@ -94,6 +100,8 @@ Hack = function() {
         this.regionCode = db.getRegionCodeForCountry( _code );
 
         c( db.getCountryName( _code ) + ' was selected for browsing.');   
+
+        this.index = Database.getIndexForCountryCode( _code );
 
         this.subscribeToData( _code );
 
@@ -153,6 +161,8 @@ Hack = function() {
 
     this.subscribeToData = function( _code ) {
 
+        this.cancelSubs();
+
         Meteor.call("setCountry", _code );
 
         Hack.resetDataFlags();
@@ -161,22 +171,36 @@ Hack = function() {
         //                  SUBSCRIBE TO HACK DATA
         //****************************************************************
 
-        Meteor.subscribe("ghImage", function() { Session.set("sImageReady", true ) });
+        this.imageSub = Meteor.subscribe("ghImage", function() { Session.set("sImageReady", true ) });
 
-        Meteor.subscribe("ghSound", function() { Session.set("sSoundReady", true ) });
+        this.soundSub = Meteor.subscribe("ghSound", function() { Session.set("sSoundReady", true ) });
 
-        Meteor.subscribe("ghVideo", function() { Session.set("sVideoReady", true ) });
+        this.videoSub = Meteor.subscribe("ghVideo", function() { Session.set("sVideoReady", true ) });
 
-        Meteor.subscribe("ghWeb", function() { Session.set("sWebReady", true ) });
+        this.webSub = Meteor.subscribe("ghWeb", function() { Session.set("sWebReady", true ) });
 
 
-        Meteor.subscribe("ghText", function() { Session.set("sTextReady", true ) });
+       this.textSub =  Meteor.subscribe("ghText", function() { Session.set("sTextReady", true ) });
 
-        Meteor.subscribe("ghMap", function() { Session.set("sMapReady", true ) });
+        this.mapSub = Meteor.subscribe("ghMap", function() { Session.set("sMapReady", true ) });
 
-        Meteor.subscribe("ghDebrief", function() { Session.set("sDebriefReady", true ) });     
+       this.debriefSub =  Meteor.subscribe("ghDebrief", function() { Session.set("sDebriefReady", true ) });     
 
-        Meteor.subscribe("agentsInCountry", function() { Session.set( "sAgentsInCountryReady", true ) } );
+       this.agentsSub =  Meteor.subscribe("agentsInCountry", function() { Session.set( "sAgentsInCountryReady", true ) } );
+    }
+
+    this.cancelSubs = function() {
+
+      if (!this.imageSub) return;
+
+       this.imageSub.stop();
+       this.soundSub.stop();
+       this.videoSub.stop();
+       this.webSub.stop();
+       this.textSub.stop();
+       this.mapSub.stop();
+       this.debriefSub.stop();
+       this.agentsSub.stop();
     }
 
     this.autoHack = function() {
@@ -210,13 +234,14 @@ Hack = function() {
     this.startBrowsing = function() {
 
         display.init( this.countryCode );
-
+/*
         if (this.debrief == null) {
 
           this.debrief = new Debrief( this );
         }
 
         this.debrief.init( this.countryCode );
+*/
 
         var map = display.ctl["MAP"].browseWorldMap;
 
@@ -227,6 +252,8 @@ Hack = function() {
         map.selectedCountry.set( this.countryCode );
 
         display.ctl["MAP"].level.set( mlCountry );
+
+        display.browser.init( this.countryCode);
 
         display.browse(this.countryCode);
 
@@ -480,20 +507,20 @@ Hack = function() {
       //when we have the title field implemented on the user records,
       //we'll return the GIC for the country
 
-      this.welcomeAgent = null;
 
-      this.welcomeAgentIsChief = false;
+      if (!this.welcomeAgent) {
 
-      this.welcomeAgent = Meteor.users.findOne( { 'profile.cc': this.countryCode, '_id': { $ne: Database.getChiefID()[0]  } } );
-
-      if (this.welcomeAgent) {
-        
-        return this.welcomeAgent;
+        this.welcomeAgent = Meteor.users.findOne( { 'profile.cc': this.countryCode, '_id': { $ne: Database.getChiefID()[0]  } } );
       }
 
-      this.welcomeAgentIsChief = true;
+      if (!this.welcomeAgent) {
 
-      return Meteor.users.findOne( { _id: Database.getChiefID()[0] } );
+        this.welcomeAgentIsChief = true;
+
+        this.welcomeAgent = Meteor.users.findOne( { _id: Database.getChiefID()[0] } );
+      }
+
+      return this.welcomeAgent;
 
     }
 
@@ -535,12 +562,14 @@ Tracker.autorun( function(comp) {
 
           Hack.resetDataFlags();
 
-if (game.user.mode == uLearn) {
+          hack.index = Database.getIndexForCountryCode( hack.countryCode );
 
-   game.lesson.updateContent();
+          if (game.user.mode == uLearn) {
 
-  return;
-}
+             game.lesson.updateContent();
+
+            return;
+          }
 
           if (game.user.mode == uBrowseCountry) {
 

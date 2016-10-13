@@ -5,6 +5,49 @@ switchLesson = function(_continentID, _missionCode) {
 	Meteor.setTimeout( function() { doLesson(_continentID, _missionCode); }, 250 );
 }
 
+initiateResumeLesson = function() {
+
+	display.suspendMedia();
+
+    game.lesson.state.set("resuming");
+
+    game.user.mode = uLearn;
+
+    display.worldMapTemplateReady = false;
+
+    FlowRouter.go("/lessonMap");
+}
+
+resumeLesson = function() {
+
+	var g = game.lesson;
+
+	g.state.set("learn");
+
+	if (g.country.length) g.showCapsule( g.country );
+
+	g.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, g.continent, g.region);
+
+	doLesson9();
+}
+
+
+goLessonMenu = function() {
+
+	FlowRouter.go("/waiting");
+
+	if (!game.lesson) {
+
+		game.lesson = new LessonFactory();
+
+		game.lesson.init();
+	}
+
+	game.lesson.state.set( "menu" );
+
+	Meteor.setTimeout( function() { game.lesson.showMap(); }, 250 );
+}
+
 doNextLesson = function( _val) {
 
 	if (_val == 1) doLesson2();
@@ -19,13 +62,19 @@ doNextLesson = function( _val) {
 
 	//quiz
 
-	if (_val == 10) game.lesson.doQuizQuestion();
+	if (_val == 10) game.lesson.quiz.doQuestion();
 }
 
 
 doLesson = function(_continentID, _missionCode) {
 
-	game.lesson = new LessonFactory();
+
+	if (!game.lesson) {
+
+		game.lesson = new LessonFactory();
+	}
+
+	game.lesson.init();
 
 	game.user.mode = uLearn;
 
@@ -33,13 +82,19 @@ doLesson = function(_continentID, _missionCode) {
 
 	var g = game.lesson;
 
+	g.state.set( "learn" );
+
 	g.setTextColor( "yellow" );
 
-	g.quizInProgress.set( false );
+	g.quiz.inProgress.set( false );
 
 	g.index = -1;
 
 	g.continent = _continentID;
+
+g.lessonGroup = _continentID;
+
+	g.code = _missionCode;
 
 	g.name = db.getContinentRec( _continentID).n;
 
@@ -127,6 +182,8 @@ doLessonQuiz = function( _readyFlag ) {
 	//Meteor.setTimeout( function() { game.lesson.visited.set( game.lesson.items) }, 500);
 
 	Meteor.setTimeout( function() { game.lesson.revealList() }, 500);
+
+	Meteor.setTimeout( function() { doLesson9() }, 501);
 }
 
 

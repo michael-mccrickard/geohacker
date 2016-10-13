@@ -21,6 +21,6 @@ Template.newNav.helpers({
   	if (Session.get("sDisplayReady") == true) return true;
 
   	return false;
-  },
+  }
 
 })

@@ -17,6 +17,8 @@ gEditLearnCountry = false;
 
 gEditCapsulePos = false;
 
+gNavigateCountries = false;
+
 gEditElement = "div.transHomelandText";
 
 gArrCountry = [];
@@ -124,6 +126,8 @@ $(document).keydown(function(e) {
 
         if (gEditLearnCountry) posElementLeft(1); 
 
+        if (gNavigateCountries) hackAdjacentCountry( -1);
+
         break;
 
       case 38: //arrow key up
@@ -139,6 +143,8 @@ $(document).keydown(function(e) {
         if (gEditLabels || gEditCapsulePos) nudgeLabel( e.which );
 
         if (gEditLearnCountry) posElementLeft(-1); 
+
+        if (gNavigateCountries) hackAdjacentCountry( 1);
 
         break;
 
@@ -197,6 +203,18 @@ $(document).keydown(function(e) {
 
         break;
 
+      case 78: //n
+
+        toggleNavigateCountriesMode();
+
+        break;
+
+      case 81: //q
+
+        if (gEditCapsulePos) moveCapsuleToDefault();
+
+        break;
+
 	    case 83: //s
 
         if (gEditCapsulePos) updateCapsulePos();
@@ -240,6 +258,8 @@ function resetArrowKeyModes() {
 
   gEditLearnCountry = false;
 
+  gNavigateCountries = false;
+
 }
 
 //***************************************************************
@@ -281,6 +301,7 @@ stopGameEditor = function() {
 	gInstantMode = false;
 
 	gUserCountriesOnlyMode = true;
+
 }
 
 
@@ -349,6 +370,17 @@ function toggleEditLearnCountryMode() {
    if (gEditLearnCountry) showMessage( "Edit learn country mode on");
 
    if (!gEditLearnCountry) showMessage( "Edit learn country mode off");   
+}
+
+function toggleNavigateCountriesMode() {
+
+  if (!gNavigateCountries) resetArrowKeyModes();
+
+   gNavigateCountries = !gNavigateCountries;
+
+   if (gNavigateCountries) showMessage( "Navigate countries mode on");
+
+   if (!gNavigateCountries) showMessage( "Navigate countries mode off");   
 }
 
 //***************************************************************
@@ -444,6 +476,17 @@ function moveCapsule( _obj) {
   $(".divLearnCountry").offset( _obj );
 }
 
+function moveCapsuleToDefault() {
+
+
+    var _obj = {};
+
+    _obj.top = 200;
+
+    _obj.left = 200;
+
+    moveCapsule( _obj );
+}
 
 function moveLabel() {
 
@@ -668,6 +711,57 @@ function startCrop() {
 }
 
 //***************************************************************
+//            NAVIGATE COUNTRIES
+//***************************************************************
+
+function hackAdjacentCountry( _val ) {
+
+    if (hack.mode == mEdit)  {
+
+        hack.index += _val;
+
+        var _code = Database.getCountryCodeForIndex( hack.index );
+
+        editor.hack.countryCode = _code;  
+
+        FlowRouter.go("/waiting");
+
+        editor.dataReady = false;
+
+        Meteor.setTimeout( function() { editor.subscribeToData(); }, 100 );
+     
+    }
+
+    if (game.user.mode == uLearn) {
+
+        hack.index += _val;
+
+        var _code = Database.getCountryCodeForIndex( hack.index );
+
+        hack.countryCode = _code;  
+
+        game.lesson.showCountryAndCapsule( _code );
+
+      return;
+    }
+
+    if (game.user.mode == uBrowseCountry) {
+
+        hack.index += _val;
+
+        var _code = Database.getCountryCodeForIndex( hack.index );
+
+        hack.countryCode = _code;  
+
+        game.user.browseCountry( _code );
+
+      return;
+    }
+
+}
+
+
+//***************************************************************
 //            DATABASE UPDATES
 //***************************************************************
 
@@ -681,18 +775,15 @@ function updateCapsulePos() {
 
     var y = $(s).offset().top;
 
-
-      var _long = map.stageXToLongitude( x );
-
-      var _lat = map.stageYToLatitude( y );
+    var loc = map.stageXYToCoordinates(x, y);
 
     var rec = db.getCountryRec(game.lesson.country);
 
-    db.updateRecord2( cCountry, "cpLon", rec._id, _long);
+    db.updateRecord2( cCountry, "cpLon", rec._id, loc.longitude);
 
-    db.updateRecord2( cCountry, "cpLat", rec._id, _lat);
+    db.updateRecord2( cCountry, "cpLat", rec._id, loc.latitude);
 
-    showMessage(db.getCountryName( game.lesson.country ) + " capsule pos updated to " + _lat + ", " + _long);
+    showMessage(db.getCountryName( game.lesson.country ) + " capsule pos updated to lon:" + loc.longitude + ", lat: " + loc.latitude);
 
     return;
 
@@ -735,9 +826,15 @@ updateLabelPosition = function(_which) {
     var y = map.allLabels[0].y;
 
 
-      var _long = map.stageXToLongitude( x );
+      //var _long = map.stageXToLongitude( x );
 
-      var _lat = map.stageYToLatitude( y );
+      //var _lat = map.stageYToLatitude( y );
+
+      var loc = map.stageXYToCoordinates(x, y);
+
+      var _long = loc.longitude;
+
+      var _lat = loc.latitude;
 
     if (game.user.mode == uLearn) {
 

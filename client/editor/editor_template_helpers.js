@@ -2,6 +2,8 @@ Template.editor.rendered = function() {
 
   stopSpinner();
 
+  game.pauseMusic();
+
 setCodeExplainText();
 
 }
@@ -55,6 +57,10 @@ Template.editor.helpers({
   		if (control == cVideo) {
 
         editor.controlName.set("VIDEO"); 
+
+      //set this manually when editing
+
+      $(".featuredYouTubeVideo").css("position", "relative");
 
   			return db.ghVideo.find( { cc: ID });
   		}
@@ -209,7 +215,7 @@ Template.editor.helpers({
 
       var _type = editor.controlType.get();
 
-      if (_type == cVideo) s = "Codes are not currently used for " + editor.controlName.get() + " records.";
+      //if (_type == cVideo) s = "Codes are not currently used for " + editor.controlName.get() + " records.";
 
       if (_type == cWeb) s = "Codes are optional for " + editor.controlName.get() + " records.";
 
@@ -290,7 +296,7 @@ Template.editor.events = {
 
   'click #editSound' : function(evt, template) {
 
-    Control.stopEditVideo();
+    Control.stopEditMedia();
 
   	editor.controlType.set( cSound );
 
@@ -299,7 +305,7 @@ Template.editor.events = {
 
   'click #editText' : function(evt, template) {
 
-    Control.stopEditVideo();
+    Control.stopEditMedia();
 
     editor.controlType.set( cText );
 
@@ -308,7 +314,7 @@ Template.editor.events = {
 
   'click #editImage' : function(evt, template) {
 
-    Control.stopEditVideo();
+    Control.stopEditMedia();
 
     editor.controlType.set( cImage );
 
@@ -317,21 +323,21 @@ Template.editor.events = {
 
   'click #editVideo' : function(evt, template) {
 
-    Control.stopEditVideo();
+    Control.stopEditMedia();
 
     editor.controlType.set( cVideo );
   },
 
   'click #editWeb' : function(evt, template) {
 
-    Control.stopEditVideo();
+    Control.stopEditMedia();
 
     editor.controlType.set( cWeb );
   },
 
   'click #editDebrief' : function(evt, template) {
 
-    Control.stopEditVideo();
+    Control.stopEditMedia();
 
     editor.controlType.set( cDebrief );
   },
@@ -340,9 +346,6 @@ Template.editor.events = {
 
     nav.closeEditor();
 
-    //window.history.back();
-
-	  //FlowRouter.go("/selectCountry");
   },
 
   'click .dataRow' : function(evt, template) {
@@ -419,8 +422,6 @@ Template.editor.events = {
           editor.videoFile = $(sel).val();
       
       }
-
-c(evt.target.id);
 
       editor.doUpdateRecord(evt.target.id, editor.hack.countryCode);
 

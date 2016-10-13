@@ -2,201 +2,104 @@
 
 LessonFactory = function() {
 
+	//MENU OBJECT
 
-	display.ctl[ "MAP" ] = new ghMapCtl();
+	this.worldMenu = new WorldMenu(this);
 
-	this.mapCtl = display.ctl["MAP"];
+	this.init = function() {
 
-	this.lessonMap = this.mapCtl.lessonMap;
+		display.ctl[ "MAP" ] = new ghMapCtl();
 
-	this.mapCtl.init();
+		this.mapCtl = display.ctl["MAP"];
 
-	this.tl = new TimelineMax();
+		this.lessonMap = this.mapCtl.lessonMap;
 
-	//the temporary lesson/map levels and code
+		this.mapCtl.init();
 
-	this.mapLevel = "";
+		this.tl = new TimelineMax();
 
-	this.drawLevel = "";
+		//state = menu, continentMenu, learn or quiz
 
-	this.detailLevel = "";
+		this.state = new Blaze.ReactiveVar("none");
 
-	this.hack = new Hack();
+		//the temporary lesson/map levels and codes
 
-	this.code = "";
+		this.lessonGroup = "";
 
-	this.mission = null;
+		this.mapLevel = "";
 
-	this.items = [];  //Contrary to the normal policy of keepings all array names singular
-					  //this is just a source array that is never manipulated, so this is like
-					  //a reminder of it's non-scalar nature
+		this.drawLevel = "";
 
-	this.name = "";
+		this.detailLevel = "";
 
-	this.index = 0;  //index into the list of countries (items)
+		this.hack = new Hack();
 
-	this.content = new Blaze.ReactiveVar("");
+		this.code = "";
 
-	this.updateFlag = new Blaze.ReactiveVar( false );
+		this.mission = null;
 
-	this.country = "";
+		this.items = [];  //Contrary to the normal policy of keepings all array names singular
+						  //this is just a source array that is never manipulated, so this is like
+						  //a reminder of its non-scalar nature
 
-	this.continent = "";
+		this.name = "";
 
-	this.region = "";
+		this.content = new Blaze.ReactiveVar("");
 
-	this.pop = 0;  //population
+		this.updateFlag = new Blaze.ReactiveVar( false );
 
-	this.count = 0;  //country count
+		this.country = "";
 
-	this.rcount = 0;  //region count
+		this.continent = "";
 
-	this.visited = new ReactiveArray();  //for keeping track of which countries the user has clicked on
+		this.region = "";
 
-	this.note = "";  //any note needed to explain something basic abt the lesson ("We include Russia as part of Asia". e.g.)
+		this.pop = 0;  //population
 
-	//FORMAT PROPERTIES
+		this.count = 0;  //country count
 
-	this.messageColor = new Blaze.ReactiveVar( "yellow" );
+		this.rcount = 0;  //region count
 
-	this.headerColor = new Blaze.ReactiveVar( "yellow" );
+		this.visited = new ReactiveArray();  //for keeping track of which countries the user has clicked on
 
-	//QUIZ PROPERTIES
+		this.note = "";  //any note needed to explain something basic abt the lesson ("We include Russia as part of Asia". e.g.)
 
-	this.quizType = ["quizFindRegionOfCountry", "quizFindCountryInRegion"];
+		//QUIZ OBJECT
 
-	this.quiz = "";
+		this.quiz = new Quiz(this);
 
-	this.quizTypeIndex = -1;
 
-	this.quizItem = []; //the array of countries that provides the basis for the questions
-						//Sometimes the answer IS the element from quizItem, sometimes it is DERIVED from it
+		//FORMAT PROPERTIES
 
-	this.quizAnswer = ""; //Again, either the element from quizItem, or an answer derived from it
+		this.messageColor = new Blaze.ReactiveVar( "yellow" );
 
-	this.questionIndex = -1;
+		this.headerColor = new Blaze.ReactiveVar( "yellow" );
 
-	this.quizInProgress = new Blaze.ReactiveVar( false );
+	}
 
-	this.quizDisplayItem = new Blaze.ReactiveVar( "" );
 
-	this.quizState = new Blaze.ReactiveVar( "waiting" );  //waiting, readyForNext, quizEnd, examEnd, decideNextStep
-
-	this.quizCorrectCount = 0;
-
-	this.quizQuestionCount = 0;
-
-	//SOUNDS
-
-	this.rightSoundLimit = 4;
-
-	this.wrongSoundLimit = 5;
-
-	this.resultsLimit = 1;
-
-	this.newQuestionLimit = 3;
-
-	this.selectSoundLimit = 3;
-
-	this.buttonSoundLimit = 2;
 
 	//***************************************************************
-	//					SOUND FUNCTIONS
+	//					MISCELLANEOUS FUNCTIONS
 	//***************************************************************
 
-	this.getSoundFile = function( _type) {
+	this.showLessonMenu = function() {
 
-		var _s = '';
+		if (this.worldMenu.selectedContinent.length) {
 
-		if (_type == "right") _s = _type + "_" + (Database.getRandomValue( this.rightSoundLimit ) + 1) + ".mp3";
+			this.worldMenu.doThisMap(mlWorld, mlContinent, mlContinent, null, null);
 
-		if (_type == "wrong") _s = _type + "_" + (Database.getRandomValue( this.wrongSoundLimit ) + 1) + ".mp3";
+			this.worldMenu.showContinentMenu( this.worldMenu.selectedContinent );
 
-		if (_type == "results") _s = _type + "_" + (Database.getRandomValue( this.resultsLimit )  + 1) + ".mp3";
+			return;			
 
-		if (_type == "question") _s = _type + "_" + (Database.getRandomValue( this.newQuestionLimit ) + 1) + ".mp3";
-
-		if (_type == "select") _s = _type + "_" + (Database.getRandomValue( this.selectSoundLimit ) + 1) + ".mp3";
-
-		if (_type == "button") _s = _type + "_" + (Database.getRandomValue( this.buttonSoundLimit ) + 1) + ".mp3";
-c(_s);
-		return _s;
-	}
-
-	this.playSound = function( _type ) {
-
-		var _s = this.getSoundFile( _type);
-
-		Control.playEffect( _s );
-	}
-
-	this.playSound2 = function( _type ) {
-
-		var _s = this.getSoundFile( _type);
-
-		Control.playEffect2( _s );
-	}
-
-	this.playSound3 = function( _type ) {
-
-		var _s = this.getSoundFile( _type);
-
-		Control.playEffect3( _s );
-	}
-
-	//***************************************************************
-	//					QUIZ FUNCTIONS
-	//***************************************************************
-
-	this.retakeQuiz = function() {
-
-		this.quizTypeIndex = -1;
-
-		this.quizQuestionCount = 0;
-
-		this.quizCorrectCount = 0;
-
-		this.doQuiz();
-	}
-
-	this.doQuiz = function() {
-
-		this.hideCapsule();
-
-		this.quizTypeIndex++;
-
-		if ( this.quizTypeIndex == this.quizType.length ) {
-
-			this.quizState.set( "examEnd" );
-
-			this.postResults();
-
-			return;
 		}
 
-		this.quizInProgress.set( true );
+		this.state.set("menu");
 
-		//set the array using the mission.items
-
-		this.quizItem = this.items;
-
-		Database.shuffle( this.quizItem );
-
-		this.quizQuestionCount += this.quizItem.length;
-
-		this.hideTeachLayout();
-
-		this.showQuizItem();
-
-		this.quiz = this.quizType[ this.quizTypeIndex ];
-
-//this.quiz = "quizFindCountryInRegion";
-
-		this.questionIndex = -1;
-
-		this.doQuizQuestion();
-
+		this.worldMenu.doThisMap(mlWorld, mlWorld, mlContinent, null, null);
 	}
+
 
 	this.setTextColor = function( _which ) {
 
@@ -206,171 +109,6 @@ c(_s);
 
 
 	}
-
-	this.doQuizQuestion = function() {
-
-		this.setTextColor( "yellow" );
-
-		this.playSound("question");
-
-		this.hideCapsule();
-
-		this.quizState.set( "waiting" );
-
-		this.questionIndex++;
-
-		var _item = this.quizItem[ this.questionIndex ];
-
-		var rec = null;
-
-
-		//regions
-
-		if (this.quiz == "quizFindRegionOfCountry") {
-
-			this.setMessage("click the region");
-
-	        this.quizAnswer = db.getRegionCodeForCountry( _item ); 
-
-			this.setHeader("Which region is this country in?");
-
-			this.lessonMap.doThisMap(mlContinent, mlContinent, mlRegion, this.continent);
-
-			this.quizDisplayItem.set( db.getCountryName(  _item ) );			
-		}
-
-		if (this.quiz == "quizFindCountryInRegion") {
-
-			this.setMessage("click the country");
-
-	        this.quizAnswer = _item; 
-
-	        rec = db.getRegionRecForCountry( _item);
-
-			this.setHeader("Can you find this country in " + rec.n + "?");
-
-			this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, rec.c);
-
-			this.quizDisplayItem.set( db.getCountryName(  _item ) );			
-		}
-
-	}
-
-	this.doCorrectAnswer = function( _ID ) {
-
-		this.setTextColor( "lime" );
-
-		this.playSound3( "right" );
-
-		this.quizCorrectCount++;
-
-		var _item = this.quizItem[ this.questionIndex ];
-
-		this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, _item);
-
-		this.setHeader("CORRECT!");
-
-		if (this.quiz == "quizFindRegionOfCountry") {
-
-			this.setMessage( this.quizDisplayItem.get() + " is in " + db.getRegionRec( this.quizAnswer ).n );	
-		}
-
-		if (this.quiz == "quizFindCountryInRegion") {
-
-			this.setMessage( this.quizDisplayItem.get() + " is in " + db.getRegionRecForCountry( this.quizAnswer ).n );	
-		}
-
-		this.showCapsule( _item );
-
-		this.checkForQuizEnd();
-
-	}
-
-	this.doIncorrectAnswer = function( _ID )  {
-
-		this.setTextColor( "red" );
-
-		this.playSound3( "wrong" );
-
-		var _item = this.quizItem[ this.questionIndex ];
-
-		this.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.continent, _item);
-
-		if (this.quiz == "quizFindRegionOfCountry") {
-
-			this.setHeader("INCORRECT! YOU CLICKED " + db.getRegionRecForCountry( _ID ).n );
-
-			this.setMessage( this.quizDisplayItem.get() + " is in " + db.getRegionRec( this.quizAnswer ).n );	
-		}
-
-		if (this.quiz == "quizFindCountryInRegion") {
-
-			this.setHeader("INCORRECT! YOU CLICKED " +  db.getCountryName( _ID ) );
-
-			this.setMessage( this.quizDisplayItem.get() + " is in " + db.getRegionRecForCountry( this.quizAnswer ).n );	
-		}		
-
-		this.showCapsule( _item );
-
-		this.checkForQuizEnd();
-	}
-
-	this.checkForQuizEnd = function() {
-
-		if (this.questionIndex == this.quizItem.length - 1) {
-
-			this.quizState.set( "quizEnd" );
-
-			return;
-		}
-		else {
-
-			this.quizState.set( "readyForNext" );
-		}
-	}
-
-	this.postResults = function() {
-
-		Meteor.setTimeout( function() { game.lesson.playSound( "results" ); }, 1500 );
-
-		this.setTextColor( "yellow" );
-
-		this.setMessage("QUIZ COMPLETE");
-
-		this.setHeader("");
-
-		this.hideQuizItem();
-
-		this.showTeachLayout();
-
-		this.showBody("YOUR RESULTS:", this.quizCorrectCount + " out of " + this.quizQuestionCount, "CORRECT", 0.3)
-	}
-
-	this.finishExam = function() {
-
-		this.hideTeachLayout();
-
-		this.quizState.set("decideNextStep");
-	}
-
-
-
-	//***************************************************************
-	//					MISCELLANEOUS FUNCTIONS
-	//***************************************************************
-
-	this.hideQuizItem = function() {
-
-		$(".quizItem").css("display","none");
-	
-	}
-
-	this.showQuizItem = function() {
-
-		$(".quizItem").css("display","block");
-	
-	}
-
 
 	this.hideTeachLayout = function() {
 
@@ -730,6 +468,23 @@ c(_s);
 		$(".divLearnCountry").css("opacity", 0.0);
 	}
 
+	this.showCountryAndCapsule = function( _ID ) {
+
+		this.country = _ID;
+
+		var rec = db.getCountryRec( _ID );
+
+		this.region = rec.r;
+
+		//most of the time this isn't necessary, but for some editing features, we need to do this
+
+		this.lessonMap.selectedContinent = db.getContinentCodeForCountry( _ID );
+
+		this.lessonMap.doThisMap( mlContinent, mlRegion, mlCountry, this.lessonMap.selectedContinent, this.region, false);	
+
+		this.showCapsule( _ID );
+	}
+
 	this.showCapsule = function( _ID ) {
 
 		Control.playEffect2( "button_1.mp3" );
@@ -747,8 +502,6 @@ c(_s);
 		var rec = db.getCountryRec( _ID );
 
 		this.region = rec.r;
-
-		this.lessonMap.doThisMap( mlContinent, mlRegion, mlCountry, this.lessonMap.selectedContinent, this.region);	
 
 		var x = 0;
 
@@ -782,9 +535,11 @@ c(_s);
 
 		if (rec.cpLon !== undefined) {
 
-			x = this.lessonMap.map.longitudeToStageX( rec.cpLon );
+            var loc = map.coordinatesToStageXY( rec.cpLon, rec.cpLat);
 
-			y = this.lessonMap.map.latitudeToStageY( rec.cpLat );
+            x = loc.x;
+
+            y = loc.y;
 		}
 		else {
 
@@ -870,3 +625,43 @@ this.lessonMap.map.zoomDuration = 2;
 
 }  //END LESSONFACTORY()
 
+
+
+LessonFactory.updateLessons = function() {
+
+     //basic update for now; check for existence of lessonScore objects
+     //and add if they are not found
+
+     var _user = game.user;
+
+     if ( !_user.profile.lesson )  {
+
+     	_user.profile.lesson = [];
+     }
+
+
+     var _dirty = false;
+
+     var lp = new LessonPack();
+
+     for (var i = 0; i < lp.item.length; i++ ) {
+
+     	//is there an object with this id in the array?
+
+     	if ( findObjectWithID( lp.item[i], _user.profile.lesson ) == null ) {
+
+     		//then add it
+
+     		var ls = new LessonScore( lp.item[i] );
+
+     		_user.profile.lesson.push( ls );
+
+     		_dirty = true;
+     	}
+     }
+
+     if (_dirty) {
+
+     	db.updateUserLessons();
+     }
+}
