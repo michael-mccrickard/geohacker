@@ -128,6 +128,27 @@ Template.login.events({
             Session.set("sUserRegion", _code);
       },
 
+    'click #createGuest': function(event, template) {
+
+        $.ajax({
+
+          url: 'http://api.randomuser.me/?inc=gender,name,nat,picture,id,email',
+          
+          dataType: 'json',
+          
+          success: function(data) {
+
+            console.log(data);
+
+            doSpinner();
+
+            Meteor.setTimeout( function() { submitApplication(null, data.results[0]); }, 500 ); 
+
+          }
+        });
+      
+      },
+
     'submit #login-form' : function(e, t){
 
       e.preventDefault();
@@ -231,22 +252,111 @@ Template.login.events({
 
     'click #submitApplication' : function(e, t) {
 
-      e.preventDefault();
+         e.preventDefault();
+
+        submitApplication( t );
+
+    },
+
+    'click #updatePassword': function (e, t) { 
+
+        e.preventDefault();
+
+        var pw = t.find('#new-password').value;
+      
+        if ( isValidPassword(pw) ) {
+        
+          Accounts.resetPassword(Session.get('sResetPassword'), pw, function(err){
+        
+            if (err)
+        
+              customError(err.reason);
+        
+            else {
+        
+              Session.set('sResetPassword', null);
+            }
+        
+          });
+        }
+
+        return false; 
+    }
+  });
+
+
+// trim helper
+var trimInput = function(val) {
+
+  return val.replace(/^\s*|\s*$/g, "");
+
+}
+
+isValidPassword = function(val) {
+
+  return val.length >= 6 ? true : false; 
+}
+
+function validateEmail(email) {
+
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  
+    return re.test(email);
+}
+
+function submitApplication(_t, _obj) {
+
+  c("submitApp -- obj follows")
+c(_obj)
+
+      var email = "";
+
+      var name = "";
+
+      var password = "";
+
+      var _gender = "";
+
+      var _countryID = "";
 
       Session.set("sProcessingApplication", true);
 
-      var email = t.find('#registration-email').value
+      if ( _obj) {
 
-      if ( !validateEmail( email ) ) {
+        email = _obj.email;
 
-          customError("Registration", "YOU MUST ENTER AN EMAIL ADDRESS.")
+        name = _obj.name.first + " " + _obj.name.last;
 
-          return; 
+        password = _obj.id.name + _obj.id.value;
+
+        _gender = _obj.gender;
+
+        _countryID = _obj.nat;       
+
       }
+      else {
 
-      var name = t.find('#registration-name').value
-      
-      var password = t.find('#registration-password').value
+        var email = _t.find('#registration-email').value
+
+        if ( !validateEmail( email ) ) {
+
+            customError("Registration", "YOU MUST ENTER AN EMAIL ADDRESS.")
+
+            return; 
+        }
+
+        var name = _t.find('#registration-name').value
+        
+        var password = _t.find('#registration-password').value
+
+        var _gender = "female";
+
+        if ( $("#chkMale").prop("checked") ) _gender = "male";
+
+        if ( $("#chkFemale").prop("checked") ) _gender = "female";  
+
+        var _countryID = $( "#selectCountry option:selected" ).attr("id");       
+      }
 
       var _date = new Date().toLocaleString();
 
@@ -254,20 +364,8 @@ Template.login.events({
 
       _date = _date.substring(0, _index);
 
-      var _gender = "female";
-
-      if ( $("#chkMale").prop("checked") ) _gender = "male";
-
-      if ( $("#chkFemale").prop("checked") ) _gender = "female";  
-
-      var _countryID = $( "#selectCountry option:selected" ).attr("id");
-
-    //switch to the processing / intro template
-
-      FlowRouter.go("/intro");
 
       if ( isValidPassword( password ) ) {
-
             
             game.user = new User( name, "0", 0); //name, id, scroll pos (for content editors)
 
@@ -358,17 +456,41 @@ Template.login.events({
                 // Success. Account has been created and the user
                 // has logged in successfully. 
 
-                game.intro.startIntro();
-
                 console.log("account successfully created: " + email);
 
                 game.user.profile = Meteor.user().profile;
 
-                game.user.makeAvatar( _gender );
+                game.user._id =  Meteor.userId();
 
-                game.user.msg.userID = Meteor.user()._id;
+                //for the conversations object
+
+                game.user.msg.userID = Meteor.userId();
 
                 mission = null;
+
+
+                if (_obj) {
+
+                  game.user.isGuest = true;
+
+                  game.user.updateAvatar( _obj.picture.medium );
+
+                  game.user.photoReady.set( true );
+
+                  game.user.mode = uHelp;    
+
+                  stopSpinner();  
+
+                  FlowRouter.go("/help");
+
+                }
+                else {
+                  
+                  game.user.makeAvatar( _gender );
+
+                  FlowRouter.go("/intro");
+
+                }
 
               }
               
@@ -383,51 +505,4 @@ Template.login.events({
           passwordTooShortError();
 
         } //end if passwordOK else
-
-    },
-
-    'click #updatePassword': function (e, t) { 
-
-        e.preventDefault();
-
-        var pw = t.find('#new-password').value;
-      
-        if ( isValidPassword(pw) ) {
-        
-          Accounts.resetPassword(Session.get('sResetPassword'), pw, function(err){
-        
-            if (err)
-        
-              customError(err.reason);
-        
-            else {
-        
-              Session.set('sResetPassword', null);
-            }
-        
-          });
-        }
-
-        return false; 
-    }
-  });
-
-
-// trim helper
-var trimInput = function(val) {
-
-  return val.replace(/^\s*|\s*$/g, "");
-
-}
-
-isValidPassword = function(val) {
-
-  return val.length >= 6 ? true : false; 
-}
-
-function validateEmail(email) {
-
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  
-    return re.test(email);
 }

@@ -149,6 +149,8 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_s
 
 			_user.setAtlas( Meteor.user().profile.h );
 
+			_user._id = Meteor.userId();
+
 			_user.photoReady.set( true );
 
 		}
@@ -173,7 +175,9 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_s
 
 	this.logout = function() {
 
-			Meteor.logout( function( _err )  {
+		Meteor.logout( function( _err )  {
+
+				game.user.deleteMeIfGuest();
 
 				game.user = null;
 

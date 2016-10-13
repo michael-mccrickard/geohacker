@@ -34,6 +34,7 @@ Accounts.onLogin( function() {
 
 });
 
+
 //Debugging hacks
 
 gHackPreselect = "";
@@ -129,6 +130,10 @@ Session.set("isIOS", false);
 
 Meteor.startup(function() {
 
+
+  $(window).bind('beforeunload', function() {
+      game.user.deleteMeIfGuest();
+  });
 
   Session.set("gWindowHeight", $(window).height() );
 
