@@ -132,7 +132,7 @@ Template.login.events({
 
         $.ajax({
 
-          url: 'http://api.randomuser.me/?inc=gender,name,nat,picture,id,email',
+          url: 'http://api.randomuser.me/?inc=gender,name,nat,picture,id,email&noinfo',
           
           dataType: 'json',
           
@@ -332,7 +332,9 @@ c("getting data from obj for incognito user")
 
         name = _obj.name.first + " " + _obj.name.last;
 
-        password = _obj.id.name + _obj.id.value;
+        password = getRandomString() + getRandomString();
+
+c("password is " + password)
 
         _gender = _obj.gender;
 
@@ -507,6 +509,7 @@ c("about to go help route in submitApplication")
 
         else {
 
+c("password was not OK: " +  password)
           stopSpinner();
 
           passwordTooShortError();
