@@ -223,12 +223,7 @@ Template.login.events({
 
       if (game.user == null) {
 
-        c("creating game.user in goHack button")
-
         game.user = game.createGeohackerUser();
-
-        LessonFactory.updateLessons();
-
       }
 
       //Update the assigns with any newly-added or revised missions
@@ -312,7 +307,7 @@ function validateEmail(email) {
 function submitApplication(_t, _obj) {
 
   c("submitApp -- obj follows")
-if (_obj) c("incognito object is valid in submitApplication")
+c(_obj)
 
       var email = "";
 
@@ -327,7 +322,7 @@ if (_obj) c("incognito object is valid in submitApplication")
       Session.set("sProcessingApplication", true);
 
       if ( _obj) {
-c("getting data from obj for incognito user")
+
         email = _obj.email;
 
         name = _obj.name.first + " " + _obj.name.last;
@@ -371,7 +366,7 @@ c("getting data from obj for incognito user")
 
 
       if ( isValidPassword( password ) ) {
- c("password is valid")           
+            
             game.user = new User( name, "0", 0); //name, id, scroll pos (for content editors)
 
             game.user.createAssigns();
@@ -424,13 +419,11 @@ c("getting data from obj for incognito user")
             
             };  //end options
 
-c("about to call Accounts.createuser in submitApplication ")
+
             Accounts.createUser( options, function(err){
 
               if (err) {
-c("error in Accounts.createUser follows")
 
-c(err)
                 //switch back to the login / application template
 
                 Session.set("sApplicationAccepted", false);
@@ -487,7 +480,7 @@ c(err)
                   game.user.mode = uHelp;    
 
                   stopSpinner();  
-c("about to go help route in submitApplication")
+
                   FlowRouter.go("/help");
 
                 }
