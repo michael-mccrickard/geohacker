@@ -24,6 +24,8 @@ Help = function() {
           }
 
           Session.set("sYouTubeOn", true);
+
+          refreshWindow("help");
 		}
 	}
 	

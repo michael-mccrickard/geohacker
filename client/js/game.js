@@ -173,11 +173,22 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_s
 
 	}
 
+	this.closeOutGuest = function() {
+
+		if (this.user.isGuest) {
+
+			//if we decide to prevent creating the mixpanel analytics on guests
+			//then we could write an end time to our ghGuest record here (we are not creating it yet though)
+
+			this.user.deleteMeIfGuest();
+		}
+	}
+
 	this.logout = function() {
 
 		Meteor.logout( function( _err )  {
 
-				game.user.deleteMeIfGuest();
+				game.closeOutGuest();
 
 				game.user = null;
 

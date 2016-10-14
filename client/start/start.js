@@ -132,7 +132,7 @@ Meteor.startup(function() {
 
 
   $(window).bind('beforeunload', function() {
-      game.user.deleteMeIfGuest();
+      game.closeOutGuest();
   });
 
   Session.set("gWindowHeight", $(window).height() );

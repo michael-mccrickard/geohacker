@@ -142,7 +142,10 @@ Template.login.events({
 
             doSpinner();
 
-            Meteor.setTimeout( function() { submitApplication(null, data.results[0]); }, 500 ); 
+            //we could create a guest record here in the db (ghGuest) and stamp with time started
+            //but currently all of that info and more is going into mixpanel, which we may want to prevent
+
+            submitApplication(null, data.results[0]);
 
           }
         });

@@ -344,16 +344,26 @@ c("doCurrentMap");
                 if (this.mapCtl.getState() == sCountryOK) {
 
                     if (typeof rec.xl2 !== 'undefined') {
-
+c("country is labeled by xl2, yl2")
                         x = rec.xl2 * this.map.divRealWidth;
 
                         y = rec.yl2* this.map.divRealHeight;
                     }
                     else {  //no label pos data?  then just center it
 
-                        x = this.map.divRealWidth / 2;
+                        if (rec.llon !== undefined) {
+c("country is labeled by llon, llat")
+                            x = this.map.longitudeToX( rec.llon );
 
-                        y = this.map.divRealHeight / 2;    
+                            y = this.map.latitudeToY( rec.llat );
+                        }
+                        else {
+c("country is labeled by centering")
+                            x = this.map.divRealWidth / 2;
+
+                            y = this.map.divRealHeight / 2;   
+
+                        }
                   }                 
                 }
                 else {
@@ -383,6 +393,12 @@ c("doCurrentMap");
          if (level == mlCountry) {
 
             _col = getTextColorForBackground( db.getCountryRec( this.mapObjectClicked ).co );
+
+            //hard-coded exceptions, weird cases
+
+            var _arr = ["SB","FK","JM"]
+
+            if (_arr.indexOf( this.mapObjectClicked) != -1) _col = "white";
         }   
 
         if (typeof _x !== 'undefined') x = _x;
