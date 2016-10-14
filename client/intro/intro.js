@@ -30,6 +30,8 @@ Template.intro.rendered = function() {
 
 	game.intro.tl.to( _text, 0.5, { opacity: 1.0, ease:"Sine.easeOut", delay: 0.25} );
 
+	game.intro.startIntro();
+
 }
 
 
@@ -45,7 +47,7 @@ Intro = function() {
 
 	this.photoReady = false;
 
-	this.headline = new Headline("intro");
+	this.headline = new Headline("intro");		
 
 
 	this.startIntro = function() {
@@ -138,6 +140,9 @@ Intro = function() {
 
 		var _av = Meteor.user().profile.av;
 
+		if (game.user.isGuest) _av = game.user.profile.av;
+
+
 		tl.add( () => { $("#cameraCH").attr("src", _av) } );
 
 		var _top = 55 + 0.05 * $(window).height();
@@ -162,6 +167,7 @@ Intro = function() {
 
 		tl.add( () => {  game.user.photoReady.set( true ); } );
 
+
 		tl.add( () => {  game.intro.headline.setThisAndType("INITIALIZING TRAINING MODULE") } );		
 
 	 
@@ -178,7 +184,9 @@ Intro = function() {
 		tl.to( this.text, 1.0, { opacity: 0.0 }, "-=2" );	
 
 
-		tl.add( () => {  $(".introText").text("AT ANY TIME, CLICK YOUR PHOTO TO GO TO THE MENU.") } );
+		var _text = "AT ANY TIME, CLICK YOUR PHOTO TO GO TO THE MENU. ";
+
+		tl.add( () => {  $(".introText").text() } );
 
 		tl.add( () => {  $(".introText").css("top", "390px")  } );
 
@@ -201,7 +209,6 @@ Intro = function() {
 		tl.to( "#clickPhoto", 0.5, { opacity: 1.0, delay: 0.0 } );	
 
 		tl.to( "#introOK", 0.5, { opacity: 1.0, delay: 0.0 } );	
-
 
 	}
 

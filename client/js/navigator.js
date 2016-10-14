@@ -6,6 +6,13 @@ Navigator = function() {
 
 	this.editRoute = "";
 
+  this.goHome = function()  {
+
+      alert("You can also get to the Menu screen by clicking your photo in the upper-right corner.");
+
+      game.user.goHome();
+  }
+
 	this.goAdmin = function( _which ) {
 
 		if (_which == "/selectCountry" || _which == "/editor" || _which == "/dataChecker") {

@@ -55,6 +55,19 @@
     margin-top: 2.0vh;
 }
 
+.medButton {
+  font-family: geoFont;
+      font-size: 6.0vh;
+  background-color: #808080;
+  color: #FFFF33;
+    border-style: solid;
+    border-width: 10px;
+    border-radius: 10px;
+    border-color: #808080;
+    text-align: center;
+    margin-top: 2.0vh;
+}
+
 .jumbotron {
   background-color: black;
 }
