@@ -486,18 +486,7 @@ Hack = function() {
 
     this.setMessageID = function() {
 
-        var id = '#';
-
-        var num = parseInt( Math.random() * 10000 ) ;
-
-        for (var i = 1; i <= 4; i++) {
-
-            var charCode = Math.floor( Math.random() * ( 90 - 65 + 1) + 65);
-
-            id = id + String.fromCharCode(charCode);
-        }
-
-        id = id + num;
+        var id = '#' + getRandomString();
 
         this.messageID = id;
     }

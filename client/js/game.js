@@ -149,6 +149,8 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_s
 
 			_user.setAtlas( Meteor.user().profile.h );
 
+			_user._id = Meteor.userId();
+
 			_user.photoReady.set( true );
 
 		}
@@ -171,9 +173,22 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_s
 
 	}
 
+	this.closeOutGuest = function() {
+
+		if (this.user.isGuest) {
+
+			//if we decide to prevent creating the mixpanel analytics on guests
+			//then we could write an end time to our ghGuest record here (we are not creating it yet though)
+
+			this.user.deleteMeIfGuest();
+		}
+	}
+
 	this.logout = function() {
 
-			Meteor.logout( function( _err )  {
+		Meteor.logout( function( _err )  {
+
+				game.closeOutGuest();
 
 				game.user = null;
 

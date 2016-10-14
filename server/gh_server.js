@@ -77,7 +77,8 @@ Meteor.startup(
 
     ghUser = new Meteor.Collection("ghUser")
 
-    //ghUserFeaturedPic = new Meteor.Collection("ghUserFeaturedPic")
+    //ghGuest =  new Meteor.Collection("ghGuest")
+
 
     //editing collections
 
@@ -219,6 +220,7 @@ Meteor.startup(
     });
 
     Meteor.publish('userPresence', function() {
+      
       // Setup some filter to find the users your user
       // cares about. It's unlikely that you want to publish the 
       // presences of _all_ the users in the system.

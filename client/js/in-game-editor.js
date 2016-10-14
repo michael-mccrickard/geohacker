@@ -819,6 +819,8 @@ updateLabelPosition = function(_which) {
 
     var map = display.ctl["MAP"].worldMap.map
 
+    var mapObj = display.ctl["MAP"].worldMap;
+
     if (game.user.mode == uLearn) map = game.lesson.lessonMap.map;
 
     var x = map.allLabels[0].x;
@@ -848,7 +850,7 @@ updateLabelPosition = function(_which) {
 
           db.updateRecord2( cCountry, "llat", rec._id, _lat);
 
-          console.log("country " + "(" + _which + ") " + db.getCountryName( game.lesson.country ) + " label updated to " + _long + ", " + _lat);
+          console.log("country " + "(" + _which + ") " + db.getCountryName( game.lesson.country ) + " label updated to (long / lat method) " + _long + ", " + _lat);
 
           return;         
         }
@@ -886,11 +888,11 @@ updateLabelPosition = function(_which) {
       yName = "yl2";
     }
 
-    var selectedContinent = map.selectedContinent;
+    var selectedContinent = mapObj.selectedContinent;
 
-    var selectedRegion = map.selectedRegion;
+    var selectedRegion = mapObj.selectedRegion;
 
-    var selectedCountry = map.selectedCountry.get();
+    var selectedCountry = mapObj.selectedCountry.get();
 
     var _level = display.ctl["MAP"].level.get();
 
@@ -926,7 +928,7 @@ updateLabelPosition = function(_which) {
 
         db.updateRecord2( cCountry, yName, rec._id, y);
 
-        console.log("country " + "(" + _which + ") " + selectedCountry + " label updated to " + x + ", " + y);
+        console.log("country " + "(" + _which + ") " + selectedCountry + " label updated to (using old ratio method, xl2, yl2) " + x + ", " + y);
     }
     
 

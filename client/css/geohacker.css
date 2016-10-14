@@ -69,13 +69,11 @@ body {
 
 /******************************/
 
-/*
-.clearfix:after { content: "\00A0"; display: block; clear: both; visibility: hidden; line-height: 0; height: 0;}
-.clearfix{ display: inline-block;}
-html[xmlns] .clearfix { display: block;}
-* html .clearfix{ height: 1%;}
-.clearfix {display: block}
-*/
+.verticalLine {
+    border-right: thick solid #ff0000;
+    padding-right: 2%;
+    border-color: yellow;
+}
 
 .modalText {
     color: black; 
