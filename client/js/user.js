@@ -50,20 +50,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.returnName = "";
 
-    this.isGuest = false;
-
-    this._id = "";
-
-    this.deleteMeIfGuest = function() {
-
-    	if (this.isGuest) {
-
-    		Meteor.users.remove( { _id: this._id } );
-    	}
-
-    }
-
-
     this.browseCountry = function( _code, _returnRoute ) {
 
       this.returnRoute = _returnRoute;

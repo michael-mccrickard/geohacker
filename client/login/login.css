@@ -1,32 +1,4 @@
 
-.divLoginForm {
-
-	width: 48%;
-
-	float: left;
-}
-
-.divIncognito {
-
-	display: inline;
-
-	width: 48%;
-
-	float: right;
-}
-
-.incognitoList {
-
-	font-size: 3.0vh;
-
-	margin-top: 4%;
-}
-
-.btnIncognito {
-
-	margin-left: 2%;
-}
-
 .divLogin {
 
 	position: relative;
