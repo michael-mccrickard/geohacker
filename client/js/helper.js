@@ -25,8 +25,20 @@ Helper = function() {
 
 	this.CText2 = [".", "?", ".", ".", ".","?"];	
 
+	this.ZClue = 0;
+
+	this.RClue = 0;
+
+	this.CClue = 0;
 
 	this.init = function() {
+
+		this.ZClue = 0;
+
+		this.RClue = 0;
+
+		this.CClue = 0;
+
 
 		var _arr = Meteor.users.find( {_id: { $ne: Meteor.userId() }, "profile.ut": utGeohackerInChiefCountry } ).fetch();
 
@@ -61,6 +73,8 @@ Helper = function() {
 
 		if (_level == mlWorld || _level == mlNone)  {
 
+			this.ZClue = 1;
+
 			var _continent = hack.getContinentName();
 
 			var _len = this.ZText1.length;
@@ -73,6 +87,8 @@ Helper = function() {
 		}
 
 		if (_level == mlContinent)  {
+
+			this.RClue = 1;
 
 			var _region = hack.getRegionName();
 
@@ -87,6 +103,8 @@ Helper = function() {
 
 		if (_level == mlRegion)  {
 
+			this.CClue = 1;
+
 			var _country = hack.getCountryName();
 
 			var _len = this.CText1.length;
@@ -99,5 +117,10 @@ Helper = function() {
 			return;
 		}
 
+	}
+
+	this.getClueCount = function() {
+
+		return this.ZClue + this.RClue + this.CClue;
 	}
 }
