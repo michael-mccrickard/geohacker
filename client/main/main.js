@@ -1,5 +1,9 @@
 Session.set("sDateTime", false);
 
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip(); 
+});
+
 Template.main.helpers({
 
     TVisVideo: function() {
@@ -55,7 +59,25 @@ Template.main.helpers({
 
     imgHelperAgent: function() {
 
-        return Meteor.users.findOne( {_id: { $ne: Meteor.userId() }, "profile.ut": utGeohackerInChiefCountry } ).profile.av;
+        return display.helper.pic.get();
+
+    },
+
+    helperAgentName: function() {
+
+        return display.helper.name.get();
+
+    },
+
+    helperAgentText: function() {
+
+        return display.helper.text.get();
+
+    },
+
+    helperAgentTitle: function() {
+
+        return display.helper.title.get();
 
     },
 
@@ -250,6 +272,32 @@ Template.main.events({
       display.feature.ctl.setIndex( _index + 1);
 
       updateFeaturedContent();
+  },
+
+  'click #btnHelperAgent': function(e) {
+
+      e.preventDefault();
+
+      $('#btnHelperAgent').tooltip('destroy');
+
+      display.helper.setText();
+
+      Meteor.setTimeout( function() {
+
+        $("#btnHelperAgent").tooltip({ delay:0, placement:"left", trigger:"manual", title: display.helper.text.get() });
+
+        $('#btnHelperAgent').tooltip('show'); 
+
+      }, 200);
+
+  },
+
+  'mouseleave #btnHelperAgent': function(e) {
+
+      e.preventDefault();
+
+      $('#btnHelperAgent').tooltip('hide');
+
   },
 
 

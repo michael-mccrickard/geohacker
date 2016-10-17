@@ -112,7 +112,7 @@ c("newControl name is " + this.newControl.name)
 
 
 		//see if any buttons need enabling / disabling
-c("calling checkMain")
+
 		display.checkMainScreen();
 
 	},
@@ -141,10 +141,12 @@ c("calling checkMain")
 
 		var randomControl = null;
 
+		//Map clues discontinued Oct. 2016 -- user clicks helper agent for these now
+
 		//first see if we need to give the user a map clue;
 		//currently inserting these clues as #3, and #6 and #9
 		//under certain conditions
-
+/*
 		if (this.totalClueCount == 2 || this.totalClueCount == 5 || this. totalClueCount == 8) {
 
 			var state = display.ctl["MAP"].getState();
@@ -176,7 +178,7 @@ c("calling checkMain")
 			}
 
 		}
-
+*/
 		//this is the temporary array to determine which control to enable
 		
 		var tmp = [];

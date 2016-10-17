@@ -324,7 +324,9 @@ c("doCurrentMap");
                 }           
             } 
 
-            if (rec.rll_co !== undefined) _col = rec.rll_co; 
+_col = "yellow";
+
+            //if (rec.rll_co !== undefined) _col = rec.rll_co; 
         }
 
         if (level == mlCountry) {

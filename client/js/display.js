@@ -28,6 +28,8 @@ Display = function() {
 
     this.help = new Help();
 
+    this.helper = new Helper();
+
     //media files
 
     this.fb_sound_file = "msg.mp3";
@@ -99,6 +101,8 @@ Display = function() {
         //reset vars and re-do controls and map
 
         this.loader.totalClueCount = 0;
+
+        this.helper.init();
 
         this.makeControls(_code);
 

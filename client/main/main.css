@@ -134,9 +134,42 @@ img.featuredBackdrop {
 }
 
 .clsHelperAgent {
+    top: 38%;
+    z-index: 10;
+    position: absolute;
+    left: 87.75%; 
+    width: 9%;
+
+}
+
+  .clsHelperAgent + .tooltip > .tooltip-inner {
+      border: 0px;
+      font-size: 20px;
+  }
+
+.clsHelperAgentButton {
      border-radius: 8px;   
      border: 0px solid;
-    top: 38%;
+    cursor: pointer;
+    width: 100%;
+       
+}
+
+
+.clsHelperAgentName {
+    margin-top: 5px;
+    text-align: center;
+    font-family: Arial;
+    font-size: 14px;
+    color: white;
+}
+
+.clsHelperAgentTitle {
+    margin-top: 0px;
+    text-align: center;
+    font-family: Arial;
+    font-size: 12px;
+    color: yellow;
 }
 
 .clsScanButtonContent {

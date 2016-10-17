@@ -18,11 +18,15 @@ Weather = function() {
 
 		this.stop();
 
-		if (this.capitals.length == 0) this.capitals = db.ghText.find( { dt: "cap"} ).fetch();
+		if (this.capitals.length == 0) this.capitals = db.ghText.find( { dt: "cap" } ).fetch();  //weather can't find capital of Moldova
 
 		var _rec = Database.getRandomElement( this.capitals );
 
+c("weather.js randomly selected country " + db.getCountryName(_rec.cc) + " -- " + _rec.cc);
+
 		this.city = _rec.f;
+
+c("weather.js is trying to get the country name for capital city " + this.city);
 
 		this.country = db.getCountryName( _rec.cc );
 
@@ -39,11 +43,16 @@ Weather = function() {
 
 		 Meteor.call("getWeatherStringFor", _city , function(err, res) {
 
-		      if (err) console.log(err);
+		      if (err) {
+
+		      	console.log(err);
+
+		      	display.weather.start();
+
+		      	return;
+		      }
 
 		      display.weather.description.set( _city + ", " + _country + ": " + res.weather[0].description + " and " + Math.round( res.main.temp ) + "\u2109" );
-
-//console.log(display.weather.description.get() );
 
 			  display.status.setThisAndType( display.weather.description.get() );
 
