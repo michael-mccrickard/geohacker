@@ -187,6 +187,8 @@ BadgeList = function() {
 
 	this.generateList = function() {
 
+		var totalHackClues = display.loader.totalClueCount + display.helper.getClueCount();
+
 		this.arr = [];
 
 		this.arr.push( this.generateBadge( bHackComplete ) );
@@ -207,11 +209,11 @@ BadgeList = function() {
 
      	//genius
 
-    	if (display.loader.totalClueCount == 1) this.arr.push( this.generateBadge( bGenius, null, true) );
+    	if (totalHackClues == 1) this.arr.push( this.generateBadge( bGenius, null, true) );
 
      	//expert
 
-    	if (display.loader.totalClueCount == 2) this.arr.push( this.generateBadge( bExpert, null, true ) );
+    	if (totalHackClues == 2) this.arr.push( this.generateBadge( bExpert, null, true ) );
 
     	//speed
 
