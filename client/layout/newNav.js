@@ -21,6 +21,15 @@ Template.newNav.helpers({
   	if (Session.get("sDisplayReady") == true) return true;
 
   	return false;
+  },
+
+  isAdmin: function() {
+
+    if (Meteor.user() == null) return false;
+
+    if (Meteor.user().profile.st == usAdmin || Meteor.user().profile.st == usVirtual || Meteor.user().profile.st == usFake  ) return true;
+
+    return false;
   }
 
 })

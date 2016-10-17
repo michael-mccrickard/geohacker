@@ -13,7 +13,9 @@ Template.agent.rendered = function() {
 Meteor.subscribe("agentsInNetwork", function() { 
 
   stopSpinner();  
-  //arrS = Meteor.users.find( { _id: { $in: Meteor.user().profile.ag  } } ).fetch(); 
+  
+ // arrS = Meteor.users.find( { _id: { $in: Meteor.user().profile.ag  } } ).fetch(); 
+  
   //arrS.reverse();
   //nextAgent(); 
 
@@ -89,15 +91,12 @@ Template.agent.helpers({
 
 		var _arr = Meteor.users.find( { _id: { $in: Meteor.user().profile.ag  } } ).fetch();  
 
+//var _arr = Meteor.users.find().fetch();  
+
    _arr.reverse();  //see most recently added agents first
 
     return (_arr);
 
-/*
- Session.get("sUpdate");
-
- return arrA;
- */
 	},
 	
 	name: function() {
@@ -150,7 +149,8 @@ Template.miniAgent.helpers({
 
     if (!Meteor.user()) return Meteor.users.findOne( { _id: Database.getChiefID()[0] } ); 
 
-    //change this to be the most recent agent added or interacted with
+
+    //this could be the agent most recently added or interacted with
 
     return Meteor.users.findOne( { _id: { $in: Meteor.user().profile.ag  } } );
   },

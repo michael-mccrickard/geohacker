@@ -1,86 +1,138 @@
-//****************************************
-//   edit hacks
-//****************************************
-fix0 = function() {
 
 
-  var arr = Meteor.users.find({}).fetch();
+dofake = function() {
 
-      for (var i = 0; i < arr.length; i++) {
+  var _arr = db.ghC.find().fetch();
+
+      for (var i = 0; i < _arr.length; i++) {
 
 
-        if (arr[i].profile.st == usVirtual || arr[i].profile.st == usHonorary ) {
+        if ( !Meteor.users.findOne( { 'profile.cc': _arr[i].c } ) ) {
 
-            game.user.profile.ag.push( arr[i]._id );
-
-            Meteor.users.update( {_id: "SWjqzgXy9rGCYvpRF"}, { $set: { 'profile.ag': game.user.profile.ag } } ) ;
-        }
+          break;
+        } 
 
         
 
     }
+
+var fakeCountry = _arr[i].c;
+
+c("no agent in country " + _arr[i].n)
+
+        $.ajax({
+
+          url: 'http://api.randomuser.me/?inc=gender,name,nat,picture,id,email&noinfo',
+          
+          dataType: 'json',
+          
+          success: function(data) {
+
+            //console.log(data);
+
+            data.results[0].ut = utGeohackerInChiefCountry;
+
+            data.results[0].st = usFake;
+
+            data.results[0].nat = fakeCountry;
+
+
+            //we could create a guest record here in the db (ghGuest) and stamp with time started
+            //but currently all of that info and more is going into mixpanel, which we may want to prevent
+
+            submitApplication(null, data.results[0]);
+
+          }
+        });       
+
+
 }
 
+//****************************************
+//   edit hacks
+//****************************************
 
-fix1 = function() {
+
+fixFakes = function() {
 
 
   var arr = Meteor.users.find({}).fetch();
 
       for (var i = 0; i < arr.length; i++) {
 
+
+        if (arr[i].profile.st == usActive ) {
+
+          c("checking user " + i);
+
+          if ( arr[i].emails[0].address.indexOf("example.com") != -1) {
+
+                Meteor.users.update( {_id: arr[i]._id}, { $set: { 'profile.st': usFake } } ) ;
+          }
+
+            
+        }
+    }
+}
+
+//remove dupes
+/*
         var _arr = arr[0].profile.ag;
 
         var _arr2  = _arr.filter(function(item, pos) {
             
             return _arr.indexOf(item) == pos;
         })
-c("updating user " + i);
-        Meteor.users.update( {_id: arr[i]._id}, { $set: { 'profile.ag': _arr2 } } ) ;
+*/ 
 
+
+fix1 = function() {
+
+var _title = 0;
+
+  var arr = Meteor.users.find({}).fetch();
+
+      for (var i = 0; i < arr.length; i++) {
+
+       if ( arr[i].profile.st == usVirtual) {
+
+          c("updating user " + i);
+
+          Meteor.users.update( {_id: arr[i]._id}, { $set: { 'profile.ut': utGeohackerInChiefCountry  } } ) ;
+       }
     }
 }
 
 fix2 = function() {
 
-  var   arr = db.ghR.find( { z: "europe" }).fetch();
-  
-  //Now make an array of just the region codes for this mission
-
-  var regions = Database.makeSingleElementArray( arr, "c");
-
-  //And make an array of all the countries with data
-
-  var countries = db.ghC.find( {d: 1} ).fetch();
+  var _arr = db.ghC.find().fetch();
 
 
   //Now loop thru the countries and any of them that have a region code that's in our array get added
 
-  var _arr = [];
+c(_arr.length + " country recs found")
 
-  for (var i = 0; i < countries.length; i++) {
+  for (var i = 0; i < _arr.length; i++) {
 
-    if ( regions.indexOf( countries[i].r ) != -1) _arr.push( countries[i].c );
+
+
+    if ( !Meteor.users.findOne( { 'profile.ut': { $in: [utGeohackerInChiefCountry, utHonoraryGeohackerInChiefCountry]  }, 'profile.cc': _arr[i].c } ) ) {
+
+c("no gic in country " + _arr[i].n)
+
+         if ( Meteor.users.findOne( { 'profile.ut': utAgent, 'profile.cc': _arr[i].c } ) ) {
+
+              var _rec = Meteor.users.findOne( { 'profile.ut': utAgent, 'profile.cc': _arr[i].c } );
+
+c("promoting agent in country " + _arr[i].n)
+
+              Meteor.users.update( { _id: _rec._id  } , { $set: { 'profile.ut': utGeohackerInChiefCountry } } ) ;             
+         }
+    }
   }
-
-//var arrdb = Database.makeSingleElementArray( _arr, "c");
-
-c(_arr);
-
-c(_arr.length + " items in db")
+}
 
 /*
-
-        var _arr2  = _arr.filter(function(item, pos) {
-            
-            return _arr.indexOf(item) == pos;
-        })
-
-c(_arr2)
-c(_arr2.length)
-return;
-
-*/
 
 var _miss = new Mission("europe_1");
 
@@ -117,6 +169,8 @@ c(arr6.length + " items in missions")
   c(_arr2);
   c(_arr2.length + " duped items found")
 }
+
+*/
 
 tw = function(_city) {
 

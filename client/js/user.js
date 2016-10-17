@@ -36,6 +36,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.profile = {};
 
+    this.title = "";
+
     this.editMode = new Blaze.ReactiveVar( false );  //is the user editing the profile content?
 
     this.badgeLimit = 0;

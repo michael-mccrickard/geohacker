@@ -21,14 +21,14 @@
               <li class="divider"></li>
 
               <!--this is a admin only function-->
-              {{#if isInRole 'admin'}}
+              {{#if isAdmin}}
                   <li><a href="javascript:void(0);" onclick="nav.goAdmin('/userDirectory')">List all users</a></li>  
              
              {{/if}}
 
               {{#if displayIsReady}}
 
-                {{#if isInRole 'editor'}} 
+                {{#if isAdmin}} 
 
                   <li class="divider"></li>
 

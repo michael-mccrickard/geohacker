@@ -138,7 +138,7 @@ Template.login.events({
           
           success: function(data) {
 
-            console.log(data);
+            data.results[0].ut = utAgent;
 
             doSpinner();
 
@@ -218,9 +218,7 @@ Template.login.events({
     'click #goHack': function (e) { 
 
       e.preventDefault();
-//game.user.browseCountry( db.getRandomRec( db.ghC ).c );
 
-//return;
       //This is here b/c we were having instances where the onLogin event
       //was apparently not firing ...
 
@@ -312,10 +310,7 @@ function validateEmail(email) {
     return re.test(email);
 }
 
-function submitApplication(_t, _obj) {
-
-  c("submitApp -- obj follows")
-if (_obj) c("incognito object is valid in submitApplication")
+submitApplication = function(_t, _obj) {
 
       var email = "";
 
@@ -327,21 +322,27 @@ if (_obj) c("incognito object is valid in submitApplication")
 
       var _countryID = "";
 
+      var _ut = 0;
+
+      var _st = 0;
+
       Session.set("sProcessingApplication", true);
 
       if ( _obj) {
-c("getting data from obj for incognito user")
+
         email = _obj.email;
 
         name = _obj.name.first + " " + _obj.name.last;
 
         password = getRandomString() + getRandomString();
 
-c("password is " + password)
-
         _gender = _obj.gender;
 
-        _countryID = _obj.nat;       
+        _countryID = _obj.nat;      
+
+        _ut = _obj.ut; 
+
+        _st = _obj.st;
 
       }
       else {
@@ -365,7 +366,11 @@ c("password is " + password)
 
         if ( $("#chkFemale").prop("checked") ) _gender = "female";  
 
-        var _countryID = $( "#selectCountry option:selected" ).attr("id");       
+        var _countryID = $( "#selectCountry option:selected" ).attr("id");   
+
+        _ut = utAgent;    
+
+        _st = usActive;
       }
 
       var _date = new Date().toLocaleString();
@@ -376,19 +381,38 @@ c("password is " + password)
 
 
       if ( isValidPassword( password ) ) {
- c("password is valid")           
+      
             game.user = new User( name, "0", 0); //name, id, scroll pos (for content editors)
 
             game.user.createAssigns();
 
-            var _text = "Hello, I'm " + name + ".  I live in " + db.getCountryName( _countryID ) + ".";
+            var _text = "Agent, " + db.getCountryName( _countryID );
 
-            var _rec = db.getRandomCountryRec (db.ghC );
+            //var _text = "Geohacker Agent, " + db.getCountryName( _countryID );
 
-            var _pic = db.getCapitalPic( _rec.c );
+            var _pic = db.getCapitalPic( _countryID );
 
-            var _pt = db.getCapitalName( _rec.c ) + " is the capital of " + _rec.n + ".";
+            var _pt = db.getCapitalName( _countryID ) + " is the capital of " + db.getCountryName( _countryID ) + ".";
 
+            var _pro = Database.getBlankUserProfile();
+
+            _pro.createdAt = _date;
+
+            _pro.cc = _countryID;
+
+            _pro.cn = db.getCountryName( _countryID );
+
+            _pro.f = db.getFlagPicByCode( _countryID );
+
+            _pro.t = _text;
+
+            _pro.p = _pic;
+
+            _pro.pt = _pt;
+
+            _pro.st = _st;
+
+            _pro.ut = _ut;
 
             var options = {
 
@@ -401,41 +425,14 @@ c("password is " + password)
                 //profile is the portion that we can update for the logged-in user
                 //(without rules or server methods)
 
-                profile: {
-
-                    createdAt: _date,
-
-                    a: [],
-                    h: [],
-                    c: "",
-                    s: 0,
-                    av: "",
-                    cc: _countryID,
-                    cn: db.getCountryName( _countryID ),
-                    f: db.getFlagPicByCode( _countryID ),
-                    t: _text,
-                    p: _pic, 
-                    pt: _pt,
-                    ag: Database.getChiefID(),
-                    st: 2,
-                    ge: 0,
-                    ex: 0,
-                    sp: [0,0,0],
-                    sc: [0,0,0],
-                    in: [0,0,0],
-                    ft: [0,0,0,0,0],
-
-                },
+                profile: _pro
             
             };  //end options
 
-c("about to call Accounts.createuser in submitApplication ")
             Accounts.createUser( options, function(err){
 
               if (err) {
-c("error in Accounts.createUser follows")
 
-c(err)
                 //switch back to the login / application template
 
                 Session.set("sApplicationAccepted", false);
@@ -483,16 +480,19 @@ c(err)
 
                 if (_obj) {
 
-                  game.user.isGuest = true;
+
+
+                  //game.user.isGuest = true;
 
                   game.user.updateAvatar( _obj.picture.medium );
 
                   game.user.photoReady.set( true );
 
+
                   game.user.mode = uHelp;    
 
                   stopSpinner();  
-c("about to go help route in submitApplication")
+
                   FlowRouter.go("/help");
 
                 }
@@ -512,7 +512,7 @@ c("about to go help route in submitApplication")
 
         else {
 
-c("password was not OK: " +  password)
+
           stopSpinner();
 
           passwordTooShortError();

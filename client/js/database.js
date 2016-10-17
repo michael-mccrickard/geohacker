@@ -774,4 +774,33 @@ Database.getObjectIndexWithValue = function( _arr, _field, _val) {
       return -1;
 }
 
+Database.getBlankUserProfile = function() {
 
+    var _pro = {
+
+            createdAt: "",
+            a: [],
+            h: [],
+            c: "",
+            s: 0,
+            av: "",
+            cc: "",
+            cn: "",
+            f: "",
+            t: "",
+            p: "", 
+            pt: "",
+            ag: Database.getChiefID(),
+            st: 0,
+            ge: 0,
+            ex: 0,
+            sp: [0,0,0],
+            sc: [0,0,0],
+            in: [0,0,0],
+            ft: [0,0,0,0,0],
+            ut: 0
+
+        }
+
+    return _pro;
+}

@@ -53,6 +53,12 @@ Template.main.helpers({
       return "featuredBackdrop.jpg";
     },
 
+    imgHelperAgent: function() {
+
+        return Meteor.users.findOne( {_id: { $ne: Meteor.userId() }, "profile.ut": utGeohackerInChiefCountry } ).profile.av;
+
+    },
+
     opacityClass: function() {
 
       if (display.ctl[ this ].getState() <= sIcon) return "faded";

@@ -42,6 +42,14 @@ showMessage = function( _text ) {
         return;
     }
 
-    alert( _text);
+    var _status = game.user.profile.st;
 
+    if (_status == usTest || _status == usAdmin) {
+
+        alert( _text);
+    }
+    else {
+
+        c( _text );
+    }
 }

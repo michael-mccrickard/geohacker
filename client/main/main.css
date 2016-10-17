@@ -133,7 +133,9 @@ img.featuredBackdrop {
     top: 62px;
 }
 
-.clsDebriefButton {
+.clsHelperAgent {
+     border-radius: 8px;   
+     border: 0px solid;
     top: 38%;
 }
 

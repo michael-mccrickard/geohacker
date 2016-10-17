@@ -22,7 +22,7 @@
 
   //bio
   //see bio.html and bio.js for details
-  st = user status  (active, virtual, etc.)
+  st = user status  (integer -- usActive, usVirtual, etc.)
   t = text
   p = picture
   pt = picture text
@@ -33,7 +33,7 @@
                      //but reader has no way to edit this value (or cn's value, either)
                      //so these two not included in updates currently
   ag = agents in network (array of user ids)
-  t = title (no programmatic way to add or edit this, so not used in updates either) 
+  ut = user title--integer--utXXXXX constant, (no programmatic way to add or edit this, so not used in updates either) 
 
   //lessons
   lesson = array of lessonScore objects

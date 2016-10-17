@@ -1,4 +1,4 @@
-var allUsersFilter = [1,2,3,4,5,6,7,8];
+var allUsersFilter = [1,2,3,4,5,6,7,8,9];
 
 var userTypeLimit = allUsersFilter.length;
 
@@ -70,6 +70,15 @@ Template.userDirectory.helpers({
     return key ==  this.profile.st ? 'selected' : '';
   },
 
+  titleString: function(_val) {
+
+    var _title = arrUserTitle[ _val ];
+
+    if (_val == utGeohackerInChiefCountry || _val == utHonoraryGeohackerInChiefCountry) _title = _title + db.getCountryName( this.profile.cc );
+
+    return _title;
+  },
+
   presence: function() { 
 
     return Meteor.presences.findOne({userId: this._id});
@@ -96,7 +105,7 @@ Template.userDirectory.events = {
 
     //var _dir = Session.get("sUserSortDir");
 
- var _dir = userSortDir;
+    var _dir = userSortDir;
 
     if ( userSortBy == "profile.sn" ) userSortDir = _dir * -1;
 
@@ -112,17 +121,8 @@ Template.userDirectory.events = {
   },
 
   'click .sortByName': function(e) {
-/*
-    var _dir = Session.get("sUserSortDir");
 
-    if ( Session.get("sUserSortBy") == "username" ) Session.set("sUserSortDir", _dir * -1)
-
-    Session.set("sUserSortBy", "username")
-
-    userSort[ Session.get("sUserSortBy") ] = _dir;
-*/
-
- var _dir = userSortDir;
+    var _dir = userSortDir;
 
     if ( userSortBy == "username" ) userSortDir = _dir * -1;
 
