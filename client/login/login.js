@@ -32,7 +32,7 @@ var emailExistsError = function( _email ) {
     Session.set("sRegistrationPromptTextColor", "redText"); 
 }
 
-var customError = function(_which, _err) {
+customError = function(_which, _err) {
 
    if (_err) Session.set("s" + _which + "Prompt", _err.toUpperCase() );
 
@@ -480,9 +480,7 @@ submitApplication = function(_t, _obj) {
 
                 if (_obj) {
 
-
-
-                  //game.user.isGuest = true;
+                  game.user.isGuest = true;
 
                   game.user.updateAvatar( _obj.picture.medium );
 
