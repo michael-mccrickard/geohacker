@@ -140,6 +140,8 @@ Template.login.events({
 
             data.results[0].ut = utAgent;
 
+            data.results[0].st = usActive;
+
             doSpinner();
 
             //we could create a guest record here in the db (ghGuest) and stamp with time started
