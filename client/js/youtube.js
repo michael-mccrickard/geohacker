@@ -1,3 +1,10 @@
+YouTube = function()  {
+
+   this.on = false;
+
+   this.loaded = false;
+}
+
 Template.youtube.helpers({
 
   youTubeClass: function() {
