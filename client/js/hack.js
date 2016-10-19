@@ -233,7 +233,7 @@ Hack = function() {
 
     this.startBrowsing = function() {
 
-        display.initMap();
+        //display.initMap();  //doing this in start.js now
 
         var map = display.ctl["MAP"].browseWorldMap;
 
@@ -244,6 +244,8 @@ Hack = function() {
         map.selectedCountry.set( this.countryCode );
 
         display.ctl["MAP"].level.set( mlCountry );
+
+        //map.worldMap.zoomDone = true;  //if we're coming here from the map, there's still a handleZoomCompete call coming
 
         display.browser.init( this.countryCode);
 

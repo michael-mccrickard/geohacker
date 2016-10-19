@@ -276,7 +276,7 @@ c("youtube ready")
 
         case uHelp:
 
-              _file = display.help.video;
+              _file = display.help.video.file;
 
             break;
 

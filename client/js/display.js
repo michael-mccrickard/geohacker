@@ -167,9 +167,12 @@ Display = function() {
 
         var _name = "MAP";
 
-        this.ctl[ _name ] = new ghMapCtl();        
+        if (!this.ctl[ _name ]) {
 
-        this.ctl[ _name ].init();
+            this.ctl[_name] = new ghMapCtl();        
+
+            this.ctl[ _name ].init();
+        }
     }
 
     //*********************************************

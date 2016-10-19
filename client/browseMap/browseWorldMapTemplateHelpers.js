@@ -196,7 +196,7 @@ Template.browseWorldMap.rendered = function () {
 
     if (!display) return;
 
-    //this check is likely unnecessary, can user enter this map in any other mode?
+    //get ready to show the country on the map
 
     if (game.user.mode == uBrowseCountry) {
 

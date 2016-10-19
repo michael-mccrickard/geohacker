@@ -39,6 +39,8 @@ BrowseWorldMap = function( _mapCtl ) {
 
     //objects
 
+    this.map = null;
+
     this.dp = null;
 
     this.mm = this.mm || new BrowseMapMaker();
@@ -610,6 +612,8 @@ function handleClick(_event) {
 
         if (worldMap.selectedCountry.get() != worldMap.mapObjectClicked) {
 
+c("handleclick in browsemap is exiting b/c selected country has changed -- mlCountry level")
+
             worldMap.selectedCountry.set( worldMap.mapObjectClicked );
 
             //in ths case, we need zoomComplete to redraw and validate, so reset the level
@@ -628,6 +632,8 @@ function handleClick(_event) {
 
         if (worldMap.zoomOnlyOnClick) {
 
+c("handleclick in browsemap is exiting b/c zoomOnlyOnClick -- mlcountry level")
+
             worldMap.mapCtl.level.set(mlRegion); 
 
             worldMap.zoomOnlyOnClick = false;
@@ -635,7 +641,7 @@ function handleClick(_event) {
             return;
         }
 
-
+c("worldMap.mapObjectClicked just b4 browseCountry is " + worldMap.mapObjectClicked)
 
         game.user.browseCountry( worldMap.mapObjectClicked, "browseWorldMap" );
 
@@ -652,15 +658,23 @@ function handleZoomCompleted() {
 
     var _code;
 
-    if (worldMap.zoomDone == true)  return; 
+    if (worldMap.zoomDone == true)  {
+
+        c("handleZoomCompleted in browsemap is returning b/c zoomDone is true")
+
+        return; 
+    }
+    else {
+
+        c("zoomDone is false in browseMap.zoomCompleted")
+    }
 
     worldMap.zoomDone = true;
 
     
-    if (!worldMap.mapObjectClicked) return;
-
-    
     var level = worldMap.mapCtl.level.get();
+
+c("worldMap.mapObjectClicked in handleZoomCompleted is " + worldMap.mapObjectClicked)
 
     var _continentCode = db.getContinentCodeForCountry( worldMap.mapObjectClicked );
 
