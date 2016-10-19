@@ -113,7 +113,7 @@ Template.newBrowse.helpers({
 
       display.browser.updateFlag.get();
 
-  		return display.browser.videoCtl.items;
+  		return display.browser.items;  //records from ghVideo
   	},
 
   	videoName: function() {
@@ -133,19 +133,19 @@ Template.newBrowse.helpers({
 
    		display.browser.updateFlag.get(); 		
 
-  		if ( Control.isYouTubeURL(this.u) ) {
+  		if ( youtube.isFile(this.u) ) {
 
   			 return ("http://img.youtube.com/vi/" + this.u + "/default.jpg");
   		}
   		else {
 
-			   return display.browser.videoCtl.playControlPic;
+			   return Video.playControlPic;
 		  }
   	},
 
     youTubeWaiting: function() {
 
-      return display.ctl["VIDEO"].youTubeWaiting.get();
+      return youtube.waiting.get();
     },
 
   	primary: function() {
@@ -175,7 +175,7 @@ Template.newBrowse.helpers({
 
   		display.browser.updateFlag.get();
 
-  		var _count = display.browser.videoCtl.items.length;
+  		var _count = display.browser.items.length;
 
   		var _fullWidth = _count * (120 + 8);
 
@@ -272,11 +272,11 @@ Template.newBrowse.rendered = function() {
 
   if (hack.countryCode != display.browser.countryCode) {
 
-c("playing video b/c countryCodes don't match")
+    c("playing video b/c countryCodes don't match")
 
     display.browser.countryCode = hack.countryCode;
 
-    var _count = display.browser.videoCtl.items.length;
+    var _count = display.browser.items.length;
 
     display.browser.playVideoByIndex( Database.getRandomValue(_count) );    
 
@@ -284,15 +284,29 @@ c("playing video b/c countryCodes don't match")
 
   }
   else {
-c("not playing video b/c countryCodes do match")
-    if (ytplayer) {
-      
-      Session.set("sYouTubeOn", true);
+    
+    if (display.browser.video) {
 
-      game.pauseMusic();
+      if (display.browser.video.isYouTube) {
 
-      Meteor.setTimeout( function() {refreshWindow("newBrowse"); }, 250 );
+          c("browser not playing YT video b/c countryCodes do match")
 
+          youtube.show();
+
+          game.pauseMusic();
+
+          Meteor.setTimeout( function() {refreshWindow("newBrowse"); }, 250 );      
+      }
+      else {
+
+        c("browser resuming GIF video")
+
+         display.browser.resumeVideo();
+      }
+    }
+    else {
+
+      c("no browser.video found")
     }
   }
 

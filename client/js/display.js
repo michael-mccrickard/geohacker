@@ -46,6 +46,8 @@ Display = function() {
 
     //misc
 
+    this.videoParent = null;
+
     this.timerID = 0;
 
     this.mainTemplateReady = false;
@@ -107,7 +109,7 @@ Display = function() {
         this.makeControls(_code);
 
     }
-
+/*
     this.browse = function( _code) {
 
         this.fullyLoadControls();
@@ -115,7 +117,7 @@ Display = function() {
         FlowRouter.go("/newBrowse");
         
     }
-
+*/
     this.makeControls = function(_code) {
 
         //create the array of controls for this country
@@ -141,7 +143,7 @@ Display = function() {
 
                 if (_name == "SOUND") this.ctl[ _name ] = new Sound();        
 
-                if (_name == "VIDEO") this.ctl[ _name ] = new Video(); 
+                if (_name == "VIDEO") this.ctl[ _name ] = new VideoCtl(); 
 
                 if (_name == "MAP") this.ctl[ _name ] = new ghMapCtl();        
 
@@ -443,15 +445,18 @@ Display = function() {
             c("display.suspendMedia is suspending " + this.feature.getName() )
 
             if (this.feature.ctl) this.feature.ctl.suspend();
+
+            return;
         }
 
-        if (game.user.mode == uBrowseCountry && this.ctl["VIDEO"] ) this.ctl["VIDEO"].suspend();
+        if (this.videoParent) {
 
-        if ( game.user.mode == uHelp ) {
+            if (this.videoParent.video) {
 
-            ytplayer.stopVideo();
-
-            Session.set("sYouTubeOn", false);
+                this.videoParent.video.pause();
+            }
+            
+            youtube.hide();
         }
 
     }

@@ -32,8 +32,6 @@ Meme = function(_type, _name, _src, _videoID) {
 
   this.src = "";
 
-  this.videoID = "";
-
   if (_name) this.name = _name;
 
   if (_src) this.src = _src;

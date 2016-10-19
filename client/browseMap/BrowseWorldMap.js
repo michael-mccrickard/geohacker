@@ -636,6 +636,7 @@ function handleClick(_event) {
         }
 
 
+
         game.user.browseCountry( worldMap.mapObjectClicked, "browseWorldMap" );
 
     }
@@ -655,6 +656,10 @@ function handleZoomCompleted() {
 
     worldMap.zoomDone = true;
 
+    
+    if (!worldMap.mapObjectClicked) return;
+
+    
     var level = worldMap.mapCtl.level.get();
 
     var _continentCode = db.getContinentCodeForCountry( worldMap.mapObjectClicked );

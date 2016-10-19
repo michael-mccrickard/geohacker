@@ -1,3 +1,5 @@
+gHackPreselect = "SD";
+
 //****************************************************************
 //                 PRE-STARTUP
 //****************************************************************
@@ -151,6 +153,12 @@ Meteor.startup(function() {
 
   display = new Display();
 
+  youtube = new YouTube();
+
+  ytplayer = null;
+
+  youTubeLoaded = false;
+
   db.initCore();
 
   db.initControls();
@@ -161,9 +169,6 @@ Meteor.startup(function() {
 
   mission = null;
 
-  ytplayer = null;
-
-  youTubeLoaded = false;
 
   //****************************************************************
   //                  SUBSCRIBE TO CORE DATA

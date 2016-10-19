@@ -92,7 +92,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 		//need to re-init the display.  If the codes are the same, then
 		//we are probably just coming back from the browseMap
 
-      if (_code != display.countryCode) {
+      if (_code != display.browser.countryCode) {
 
       	hack.initForBrowse( _code);
       }

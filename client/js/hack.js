@@ -233,15 +233,7 @@ Hack = function() {
 
     this.startBrowsing = function() {
 
-        display.init( this.countryCode );
-/*
-        if (this.debrief == null) {
-
-          this.debrief = new Debrief( this );
-        }
-
-        this.debrief.init( this.countryCode );
-*/
+        display.initMap();
 
         var map = display.ctl["MAP"].browseWorldMap;
 
@@ -255,7 +247,9 @@ Hack = function() {
 
         display.browser.init( this.countryCode);
 
-        display.browse(this.countryCode);
+        //display.browse(this.countryCode);
+
+        FlowRouter.go("/newBrowse");
 
     }
 

@@ -199,7 +199,9 @@ Template.editor.helpers({
 
     youTubeClass: function() {
 
-      if ( Session.get("sYouTubeOn") ) return "inline";
+      //if ( Session.get("sYouTubeOn") ) return "inline";
+
+      if ( youtube.on.get() ) return "inline";
 
       return "invisible";
     },
