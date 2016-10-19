@@ -10,7 +10,7 @@ Video = function( _file, _parent ) {
 
 	display.videoParent = _parent;  //allows display.suspendMedia() to suspend play
 
-	this.state = sNone;  //only sPlaying or sPaused once we are accessed
+	this.state = new Blaze.ReactiveVar( sNone );  //only sPlaying or sPaused once we are accessed
 
 	if ( youtube.isFile( _file) ) {
 
@@ -29,6 +29,8 @@ Video = function( _file, _parent ) {
 
 
 	this.play = function() {
+
+		this.state.set( sPlaying );
 
 	 	if (this.isYouTube) {
 
@@ -55,6 +57,8 @@ Video = function( _file, _parent ) {
 	 }
 
 	 this.pause = function() {
+
+	 	this.state.set( sPaused );
 
 	 	if (this.isYouTube) youtube.pause();
 	 }

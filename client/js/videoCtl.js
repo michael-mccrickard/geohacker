@@ -2,18 +2,15 @@ VideoCtl = function() {
 
 	this.name = "VIDEO";
 
+	this.playControlPic = Video.playControlPic;
 
-	this.playControlPic = "play_icon.png";
-
-	this.pauseControlPic = "pause_icon.png";
+	this.pauseControlPic = Video.pauseControlPic;
 
 	this.iconPic = "video_icon2.png"; 
 
 	this.scanningPic = "anim_video.gif"
 
-	this.isYouTube = false;  //boolean, is the current video a YT?
-
-	this.youTubeWaiting = new Blaze.ReactiveVar( false );  //are waiting on the YT player to load?
+	this.video = null;
 
 	this.items = [];
 
@@ -29,12 +26,9 @@ VideoCtl = function() {
 
 		console.log("video.suspend() is pausing the video")
 		
+		this.video.pause();
+
 		this.setState( sPaused );
-
-		if (ytplayer) {
-
-			ytplayer.pauseVideo();
-		}
 
 		this.hide();
 		 
@@ -42,7 +36,7 @@ VideoCtl = function() {
 
 	this.hide = function() {
 
-		Session.set("sYouTubeOn", false);   
+		youtube.hide(); 
 	}
 
 	//return the pic that should be displayed in the small control box
@@ -88,10 +82,7 @@ VideoCtl = function() {
 
 		//We don't need to do anything special for a YT file
 
-		if (Control.isYouTubeURL(_file) == false) {
-
-			this.isYouTube = false;
-
+		if (youtube.isFile(_file) == false) {
 
 			//Non-YT file, so if we're paused, we just show the big play button
 
@@ -101,10 +92,6 @@ VideoCtl = function() {
 			}
 
 		}
-		else {
-
-			this.isYouTube = true;
-		}
 
 		return _file;
 	}
@@ -112,28 +99,20 @@ VideoCtl = function() {
 
     this.show = function() {
 
-    	if (!this.isYouTube) return;
+    	if (!this.video.isYouTube) return;
 
 		console.log("video.show() is turning on YT")
         
-        Session.set("sYouTubeOn", true);
+        youtube.show();
     }
 
 	this.pause = function(){
 
 		this.setState( sPaused );
 
-		if (ytplayer) {
+		this.video.pause();
 
-			ytplayer.pauseVideo();
-		}
-
-		if (game.user.mode == uBrowseCountry) {
-
-			return;
-		}
-
-		if (game.user.mode == uHack) display.feature.setImage("VIDEO");
+		display.feature.setImage("VIDEO");
 
 	}
 
@@ -148,36 +127,15 @@ VideoCtl = function() {
 
 		//First, is it a YT?
 
-		if (Control.isYouTubeURL(_file)) {
+		if (youtube.isFile(_file)) {
 
-			this.playYouTube( _file);
+			this.video.play();
 
-			if (game.user.mode == uBrowseCountry) {
-
-				display.browser.updateContent(); 
-
-				game.pauseMusic();
-			}
 			return;
 
 		}
 
-		//... not YouTube, so we have a gif type.
-
-		Session.set("sYouTubeOn", false);
-
-		this.isYouTube = false; 
-
-		if (game.user.mode == uBrowseCountry) {
-
-			display.browser.setVideoBG( _file );
-
-			//this is to reset any play/pause buttons on animated gifs
-
-			display.browser.updateContent();
-
-			return;
-		}	
+	
 
 	},// end play
 

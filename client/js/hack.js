@@ -233,8 +233,6 @@ Hack = function() {
 
     this.startBrowsing = function() {
 
-        //display.initMap();  //doing this in start.js now
-
         var map = display.ctl["MAP"].browseWorldMap;
 
         map.selectedContinent = this.continentCode;
@@ -245,11 +243,7 @@ Hack = function() {
 
         display.ctl["MAP"].level.set( mlCountry );
 
-        //map.worldMap.zoomDone = true;  //if we're coming here from the map, there's still a handleZoomCompete call coming
-
         display.browser.init( this.countryCode);
-
-        //display.browse(this.countryCode);
 
         FlowRouter.go("/newBrowse");
 
