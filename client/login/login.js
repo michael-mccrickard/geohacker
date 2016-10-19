@@ -130,6 +130,25 @@ Template.login.events({
 
     'click #createGuest': function(event, template) {
 
+        Meteor.call("createGuest", function(_err, _data){
+
+            c(_err);
+
+            c(_data);
+
+            _data.results[0].ut = utAgent;
+
+            _data.results[0].st = usActive;  
+
+              doSpinner();
+
+            //we could create a guest record here in the db (ghGuest) and stamp with time started
+            //but currently all of that info and more is going into mixpanel, which we may want to prevent
+
+            submitApplication(null, _data.results[0]);         
+        });
+
+/*
         $.ajax({
 
           url: 'http://api.randomuser.me/?inc=gender,name,nat,picture,id,email&noinfo',
@@ -142,15 +161,19 @@ Template.login.events({
 
             data.results[0].st = usActive;
 
-            doSpinner();
+            return data.results[0];
+
+            //doSpinner();
 
             //we could create a guest record here in the db (ghGuest) and stamp with time started
             //but currently all of that info and more is going into mixpanel, which we may want to prevent
 
-            submitApplication(null, data.results[0]);
+            //submitApplication(null, data.results[0]);
 
           }
         });
+*/
+
       
       },
 
@@ -519,3 +542,52 @@ submitApplication = function(_t, _obj) {
 
         } //end if passwordOK else
 }
+
+// Create the XHR object.
+function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // XHR for Chrome/Firefox/Opera/Safari.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // XDomainRequest for IE.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
+  }
+  return xhr;
+}
+
+// Helper method to parse the title tag from the response.
+function getTitle(text) {
+  return text.match('<title>(.*)?</title>')[1];
+}
+
+// Make the actual CORS request.
+function makeCorsRequest() {
+  // This is a sample server that supports CORS.
+  var url = 'http://api.randomuser.me/?inc=gender,name,nat,picture,id,email&noinfo';
+
+  var xhr = createCORSRequest('GET', url);
+  if (!xhr) {
+    alert('CORS not supported');
+    return;
+  }
+
+  // Response handlers.
+  xhr.onload = function() {
+    var text = xhr.responseText;
+    var title = getTitle(text);
+    alert('Response from CORS request to ' + url + ': ' + title);
+    alert(text);
+  };
+
+  xhr.onerror = function() {
+    alert('Woops, there was an error making the request.');
+  };
+
+  xhr.send();
+}
+
