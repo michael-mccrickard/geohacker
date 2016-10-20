@@ -16,6 +16,8 @@ VideoCtl = function() {
 
 	this.collection = db.ghVideo;
 
+	this.element = "img.featuredPic";
+
 
 	this.init = function() {
 
@@ -38,7 +40,7 @@ VideoCtl = function() {
 
 	this.hide = function() {
 
-		youtube.hide(); 
+		this.video.hide();
 	}
 
 	//return the pic that should be displayed in the small control box
@@ -86,11 +88,7 @@ VideoCtl = function() {
 
     this.show = function() {
 
-    	if (!this.video.isYouTube) return;
-
-		console.log("videoCtl.show() is showing youtube")
-        
-        youtube.show();
+    	this.video.show();
     }
 
 	this.pause = function(){
@@ -126,25 +124,8 @@ VideoCtl = function() {
 
 		this.video.play();
 
-	},// end play
+	}// end play
 
-	this.playNewVideo = function(_id) {
-
-youtube.hide();
-
-	  if (this.video) this.video.stop();
-
-	  this.play( _id );
-
-	} //end playNewVideo
-
-/*
-
-how to find the id for the current YT vid:
-
-
-
-*/
 
 }  //end Video constructor
 

@@ -473,24 +473,26 @@ Control.suspendAllMedia = function() {
 
   game.pauseMusic();
 
-  if (display.ctl["SOUND"]) {
+  if (display.ctl) {
 
     if (display.ctl["SOUND"].getState() > sLoaded) display.ctl["SOUND"].pause();
 
     if (display.ctl["VIDEO"].getState() > sLoaded) display.ctl["VIDEO"].pause();
   }
 
-  Session.set("sYouTubeOn", false);
+  youtube.stop();
+
+  youtube.hide();
 
 }
 
 Control.stopEditMedia = function() {
 
-  if (youTubeLoaded) {
+  if (youtube.loaded) {
 
-      ytplayer.stopVideo();
+     youtube.stop();
 
-      Session.set("sYouTubeOn", false);
+     youtube.hide();
   }
 
   Control.stopEffects();
@@ -507,31 +509,7 @@ Control.stopEditMedia = function() {
      console.log(err.reason);
   }
 }
-
-
-//************************************************************
-//            YOUTUBE PLAYER
-//************************************************************
-/*
-
-Control.isYouTubeURL = function(_s) {
-
-    //check for the file type designator and return false if found
-
-    if (!_s) return false;
-
-    if (_s.substr(_s.length - 4) == ".gif") return false;
-
-    return true;
- }
-
-Control.getNonYouTubeFile = function(_file) { 
-
-      return _file;
-}
-
-*/
-
+ 
 //*****************************************************************
 // CONTROL CHILD OBJECTS  (SOUND, VIDEO AND MAP IN SEPARATE FILES)
 //*****************************************************************

@@ -449,6 +449,15 @@ Display = function() {
         }
     }
 
+    /****************************************************************************
+    /  The statment below is no longer true, but we may re-enable that feature
+    /****************************************************************************
+    */
+
+    //once a sound control has started playing, we don't automatically kill it
+    //until we need to play another sound or a video with sound, so sometimes
+    //a stray sound is still playing
+
     this.suspendBGSound = function() {
 
         if (!display.ctl["SOUND"]) return;
@@ -478,9 +487,7 @@ Display = function() {
 
         if ( _name == "SOUND" || _name == "VIDEO") {
 
-            c("showFeaturedContent is playing the media file")
-            
-            this.ctl[ _name ].play();
+            this.suspendMedia();
         }
         
         this.feature.setImageSource( _name );

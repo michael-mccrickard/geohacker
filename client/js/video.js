@@ -70,6 +70,34 @@ Video = function( _file, _parent ) {
 	 	if (this.isYouTube) youtube.stop();
 	 }
 
+	 this.hide = function() {
+
+	 	if (this.isYouTube) {
+
+	 		youtube.hide()
+	 	}
+	 	else {
+
+			c("Hiding the GIF video with 'hidden' class on videoParent.element")
+
+	 		$(this.element).addClass("hidden");
+	 	}
+	 }
+
+	 this.show = function() {
+
+	 	if (this.isYouTube) {
+
+	 		youtube.show()
+	 	}
+	 	else {
+
+			c("showing the GIF video by removing the 'hidden' class on videoParent.element")
+
+	 		$(this.element).removeClass("hidden");
+	 	}
+	 }
+
 }
 
 Video.playControlPic = "play_icon.png";

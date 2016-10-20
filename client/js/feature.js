@@ -55,13 +55,14 @@ Feature = function() {
 
 			if (this.getName() == "VIDEO") {
 
+				this.ctl.setState( sPlaying );  //redundant for a YT vid, but not a GIF
+
 				if (this.ctl.video.isYouTube) {
 
 					this.ctl.play();
 
-					return;
+					return;					
 				}
-				
 			}
 
 			if (this.getName() == "SOUND") this.ctl.play();

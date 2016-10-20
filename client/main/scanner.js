@@ -314,21 +314,13 @@ Scanner = function() {
 
 		Control.playEffect( this.intercept_sound_file );
 
-		//set the reactive var so that the scanner template will react and show either text or an image 
+		//set the reactive var so that the scanner template will hide the center img
 
-//alert ( display.loader.newControl.name );
+		this.centerState.set("off");
 
-this.centerState.set("off");
-
-this.fadeOut();
-
-		display.suspendMedia();
+		this.fadeOut(650);
 
 		display.feature.show();
-
-		//properly size the image (if any) in the center
-
-		//Meteor.setTimeout( function() { display.scanner.drawCenter() }, 10 );
 
 		Meteor.setTimeout( function() { display.scanner.startIdle() }, 2000 );		
 	}
