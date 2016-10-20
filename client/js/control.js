@@ -241,18 +241,27 @@ Control = {
     return this.items[ this.getIndex() ].u;
   },
 
-  hasNextItem : function() {
+  doNavButtons : function() {
 
-    if (this.loadedCount  > this.getIndex() + 1) return true;
+    if (this.loadedCount > this.getIndex() + 1) {
 
-    return false;
-  },
+      $("img.navButton.navNext").removeClass("invisible");
+    }
+    else {
 
-  hasPrevItem : function() {
+       $("img.navButton.navNext").addClass("invisible");     
+    }
 
-    if (this.getIndex() > 0) return true;
 
-    return false;
+    if (this.getIndex() > 0) {
+
+      $("img.navButton.navPrev").removeClass("invisible");
+    }
+    else {
+
+       $("img.navButton.navPrev").addClass("invisible");     
+    }
+    
   },
   //********************************************
   //          General media functions
@@ -306,7 +315,11 @@ Control = {
 //            CONTROL  (static functions)
 //************************************************************
 
+Control.hideNavButtons = function() {
 
+  $("img.navButton.navNext").addClass("invisible");     
+  $("img.navButton.navPrev").addClass("invisible");     
+}
 
 
 Control.switchTo = function( _id ) {
@@ -403,10 +416,17 @@ Control.allLoadsAreEqual = function() {
 
       if (i == 0) _loadCount = _ctl.loadedCount;
 
-      if (_loadCount != _ctl.loadedCount) { c("Control is returning b/c a ctl loadCount is unequal to " + _loadCount); return false; }
+      if (_loadCount != _ctl.loadedCount) { 
+
+        c("Control is returning b/c a ctl loadCount is unequal to " + _loadCount); 
+
+        return false; 
+      }
 
     }
-c("Control reports that all loads were equal")
+    
+    c("Control reports that all loads were equal")
+    
     return true;
 }
 
@@ -609,6 +629,9 @@ Text = function() {
   }
 
   this.suspend = function() {
+
+
+    display.feature.hideText();
 
   }
 }

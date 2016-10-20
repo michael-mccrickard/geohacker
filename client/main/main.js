@@ -85,28 +85,6 @@ Template.main.helpers({
 
     },
 
-    navButtonPrevVisible: function() { 
-
-      if (display.feature.off() ) return "invisible"; 
-
-      if (!display.feature.ctl) return;
-
-      if (display.feature.ctl.hasPrevItem() ) return "";
-
-      return "invisible";
-    },
-
-    navButtonNextVisible: function() { 
-
-      if (display.feature.off() ) return "invisible"; 
-
-      if (!display.feature.ctl) return;
-
-      if (display.feature.ctl.hasNextItem() ) return "";
-
-      return "invisible";
-    },
-
     status: function() {
 
       if (!hack) return;
@@ -281,9 +259,13 @@ Template.main.events({
           return; 
       }
 
+      display.feature.hideText();
+
       display.feature.dim();
 
       Control.unhiliteAll();
+
+      Control.hideNavButtons();
 
       var mode = "rescan";
 
@@ -317,8 +299,6 @@ Template.main.events({
       
       e.preventDefault();
 
-      display.stopBlinking();
-
       Control.switchTo( e.currentTarget.id );
     },
 
@@ -351,12 +331,14 @@ Template.main.rendered = function () {
     stopSpinner();
 
 //???
+/*
     if (gEditLearnCountry) {
 
        FlowRouter.go("/learnCountry");
 
        return;
     }
+*/
 
     display.redraw();
 
@@ -368,9 +350,6 @@ Template.main.rendered = function () {
 
 
     if ( game.user.mode == uHack ) {
-
-
-      //MAP is the only control that has the scanner visible when it's featured
 
        if (display.feature.on() ) {
 

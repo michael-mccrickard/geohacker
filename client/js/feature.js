@@ -43,6 +43,8 @@ Feature = function() {
 
 		this.ctl.hilite();
 
+		this.ctl.doNavButtons();
+
 		if (this.getName() == "TEXT") {
 
 			this.showText();
@@ -77,9 +79,15 @@ Feature = function() {
 
 	this.showText = function() {
 
-		this.hide();
+		$("span.featuredText").text( this.getFile( "TEXT" ) );		
 
 		$("span.featuredText").removeClass("hidden");
+
+	}
+
+	this.hideText = function() {	
+
+		$("span.featuredText").addClass("hidden");
 
 	}
 

@@ -1,3 +1,6 @@
+
+//Debugging hacks
+
 gHackPreselect = "SD";
 
 //****************************************************************
@@ -35,11 +38,6 @@ Accounts.onLogin( function() {
   LessonFactory.updateLessons();
 
 });
-
-
-//Debugging hacks
-
-gHackPreselect = "";
 
 
 
@@ -154,8 +152,6 @@ Meteor.startup(function() {
   youtube = new YouTube();
 
   ytplayer = null;
-
-  youTubeLoaded = false;
 
   db.initCore();
 
