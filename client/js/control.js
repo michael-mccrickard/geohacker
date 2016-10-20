@@ -343,21 +343,17 @@ Control.switchTo = function( _id ) {
 
         display.feature.ctl.toggleMedia(); 
 
+        //the feature did not change, only the state of the control,
+        //so we're done here
+
+        return;
+
      }
 
-
-    display.scanner.fadeOut( 250 );
-
-c("'click control' is calling feature.set")
+  c("'click control' is calling feature.swich")
 
     display.feature.switch( id );
 
-    if ((id == "SOUND") || (id == "VIDEO")) {
-
-          console.log("'click control' is playing the media")
-
-          display.feature.ctl.play();
-      }
 
     if (id == "VIDEO") {
 

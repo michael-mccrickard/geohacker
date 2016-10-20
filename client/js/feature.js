@@ -32,6 +32,8 @@ Feature = function() {
 
 	this.show = function() {
 
+		this.hide();
+
 		if (this.getName() == "TEXT") {
 
 			this.showText();
@@ -39,6 +41,20 @@ Feature = function() {
 		else {
 
 			this.predraw();
+
+			if (this.getName() == "VIDEO") {
+
+				if (this.ctl.video.isYouTube) {
+
+					this.ctl.video.play();
+
+					return;
+				}
+				
+			}
+
+			if (this.getName() == "SOUND") this.ctl.play();
+
 
 			$("img.featuredPic").attr("src", this.getFile( this.getName() ) );
 
@@ -60,6 +76,10 @@ Feature = function() {
 
 	this.hide = function() {
 
+		youtube.hide();
+
+		display.ctl["SOUND"].pause();
+
 		$("img.featuredPic").addClass("hidden");
 
 		$("span.featuredText").addClass("hidden");		
@@ -79,6 +99,9 @@ Feature = function() {
 		this.file = this.getFile( _name);
 
 		if ( _name == "VIDEO") {
+
+			this.ctl.video = new Video( this.file, display.ctl["VIDEO"] );
+
 
 			if ( youtube.isFile( this.file ) ) {
 
@@ -230,8 +253,6 @@ Feature = function() {
 
 			console.log("feature.set is calling sound.activateState()")
 
-			this.ctl.activateState();
-
 			this.setImageSource("SOUND");
 		}
 
@@ -245,7 +266,7 @@ Feature = function() {
 
 		c("feature.set is calling this.draw()")
 		
-		this.show();
+		this.show();  //will also play the media file, if any
 
 	}
 
@@ -296,12 +317,8 @@ Feature = function() {
 
                 $("img.featuredPic").css("top",  myFrame.top);
 
-                //$("img.featuredPic").attr("src", _file );
-
             }
         }
-
-		//$("img.featuredPic").removeClass("hidden");
 	}
 
     this.dimension = function( _type, _obj, _src ) {
