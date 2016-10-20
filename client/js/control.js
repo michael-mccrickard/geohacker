@@ -233,6 +233,8 @@ Control = {
       return null;
     }
 
+    if (this.name == "TEXT") return this.getTextContent();
+
     return this.items[ this.getIndex() ].u;
   },
 
@@ -337,28 +339,18 @@ Control.switchTo = function( _id ) {
 
     if ((id == "SOUND" && _name == "SOUND") || (id == "VIDEO" && _name == "VIDEO")) {
         
-        c("'click control' is calling toggleMediaState")
+        c("'click control' is calling toggleMedia")
 
         display.feature.ctl.toggleMedia(); 
 
      }
 
-    //In the case of a video that is currently visible (_name == VIDEO),
-    //we have to suspend (hide and pause) it, but only if the incoming feature
-    //is not also video
-
-    if ((_name == "VIDEO" && id != "VIDEO") || _name == "SOUND") {
-
-      c("'click control' is calling suspendMedia b/c current feature is sound or video")
-     
-      //display.suspendMedia();
-    }
 
     display.scanner.fadeOut( 250 );
 
 c("'click control' is calling feature.set")
 
-    display.feature.set( id );
+    display.feature.switch( id );
 
     if ((id == "SOUND") || (id == "VIDEO")) {
 

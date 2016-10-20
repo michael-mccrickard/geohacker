@@ -8,10 +8,6 @@ Feature = function() {
 
 	this.ctl = null;
 
-	this.bgImageSrc = null;
-
-	this.bgFile = null;
-
 	this.iconPic = "geohacker_background.png";    
 
 	this.imageSrc = null;
@@ -36,22 +32,37 @@ Feature = function() {
 
 	this.show = function() {
 
-		//assume image or web for now
+		if (this.getName() == "TEXT") {
 
-		this.predraw();
+			this.showText();
+		}
+		else {
 
-		$("img.featuredPic").attr("src", this.getFile( this.getName() ) );
+			this.predraw();
 
-		$("img.featuredPic").css("opacity", "0");
+			$("img.featuredPic").attr("src", this.getFile( this.getName() ) );
 
-		$("img.featuredPic").removeClass("hidden");
+			$("img.featuredPic").css("opacity", "0");
 
-		$("img.featuredPic" ).velocity("fadeIn", { duration: 500, display: "auto" });
+			$("img.featuredPic").removeClass("hidden");
+
+			$("img.featuredPic" ).velocity("fadeIn", { duration: 500, display: "auto" });			
+		}
+	}
+
+	this.showText = function() {
+
+		this.hide();
+
+		$("span.featuredText").removeClass("hidden");
+
 	}
 
 	this.hide = function() {
 
 		$("img.featuredPic").addClass("hidden");
+
+		$("span.featuredText").addClass("hidden");		
 
 	}
 
@@ -168,8 +179,6 @@ Feature = function() {
 			this.source = display.ctl[ _name ].items[ _index ].s;
 		}
 
-		if (_name == "TEXT") return null;
-
 		if ( _name == "SOUND") {
 
 			 _file = display.ctl[ _name ].getFeaturedPic();
@@ -194,9 +203,9 @@ Feature = function() {
 	},
 
 
-	this.set = function( _name ) {
+	this.switch = function( _name ) {
 
-		c("feature.js: set() with " + _name)
+		c("feature.js: switch() with " + _name)
 
 		this.setName( _name );
 
@@ -236,7 +245,7 @@ Feature = function() {
 
 		c("feature.set is calling this.draw()")
 		
-		this.draw();
+		this.show();
 
 	}
 

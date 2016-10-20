@@ -11,19 +11,19 @@
 
 		{{> scanning}}
 
-		{{#if TextIsDisplayed}}
+		<!--{{#if TextIsDisplayed}}-->
 
-			<span class="featuredText {{featuredAreaFont}}">{{displayTextContent}}</span>			
+			<span class="featuredText {{featuredAreaFont}} hidden">{{displayTextContent}}</span>			
 		
-		{{else}}
+		<!--{{else}}-->
 
 			{{#if youTubeNotFeatured}} 
 
-				{{#if scannerNotLoaded}}
+				<!--{{#if scannerNotLoaded}}-->
 
 					<img class="featuredPic hidden"  src="" />
 
-				{{/if}}
+				<!--{{/if}}-->
 
 			{{else}}
 
@@ -31,7 +31,7 @@
 
 			{{/if}}
 
-		{{/if}}
+		<!--{{/if}}-->
 
 
 		{{#if youTubeWaiting}}

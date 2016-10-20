@@ -314,7 +314,7 @@ Display = function() {
 
         if (this.feature.on() ) {
 
-            this.feature.draw()
+            this.feature.show()
         }
     }
 

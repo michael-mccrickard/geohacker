@@ -127,15 +127,6 @@ Template.main.helpers({
       return hack.status;
     },
 
-    TextIsDisplayed: function() {
-
-        if (display.feature.getName() == "TEXT") return true;
-
-        if (display.feature.displayMessage.get() ) return true;
-
-        return false;
-    },
-
     featuredAreaFont: function() {
 
         if (display.feature.displayMessage.get() ) return "featuredMessageFont";
