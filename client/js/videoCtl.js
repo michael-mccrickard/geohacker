@@ -24,17 +24,17 @@ VideoCtl = function() {
 		this.state = new Blaze.ReactiveVar(0);
 	}
 
-	this.suspend = function() {
+	 this.suspend = function() {
 
-		console.log("video.suspend() is pausing the video")
-		
-		this.video.pause();
+	 	if (this.getState() == sPlaying) {
 
-		this.setState( sPaused );
+			c("videoctl is suspending the video")
 
-		this.hide();
-		 
-	}
+	 		this.pause();
+
+	 		this.hide()
+	 	}
+	 }
 
 	this.hide = function() {
 
@@ -62,13 +62,13 @@ VideoCtl = function() {
 
 	}, //end getControlPic
 
-	  this.setItems = function() {
+	this.setItems = function() {
 
-	      	//screen out the ones used as primaries in the newBrowser
+	  	//screen out the ones used as primaries in the newBrowser
 
-	        this.items = this.collection.find( { cc: this.countryCode, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } } ).fetch();
+	    this.items = this.collection.find( { cc: this.countryCode, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } } ).fetch();
 
-	  },
+	},
 
 	//Used to get the file to display in featured area.
 	//Usually this returns the content, but if animated gif is paused
@@ -110,7 +110,17 @@ VideoCtl = function() {
 
 		if (_id) _file = _id;
 
-c("new video in videoCtl with " + _file)
+		if (this.video) {
+
+			if (this.video.file == _file) {
+
+				this.video.play();
+
+				return;
+			}
+		}
+
+		c("new video in videoCtl with " + _file)
 
 		this.video = new Video(_file, this);
 
@@ -132,27 +142,9 @@ youtube.hide();
 
 how to find the id for the current YT vid:
 
-if (_file == ytplayer.getVideoData()['video_id'])
+
 
 */
-
-	this.switch = function() {
-
-
-
-		if (this.getState() == sPlaying) {
-c("pausing in vc.switch")
-			this.pause();
-
-			return;
-		}
-		if (this.getState() == sPaused || this.getState() == sLoaded) {
-c("plyaing in vc.switch")
-			this.play();
-		}
-	}
-
-
 
 }  //end Video constructor
 

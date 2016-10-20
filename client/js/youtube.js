@@ -28,6 +28,15 @@ YouTube = function()  {
 
       this.show();
 
+      var _currentFile = ytplayer.getVideoData()['video_id'];
+
+      if (_currentFile == _file) {
+
+        ytplayer.playVideo();
+
+        return;
+      }
+
       ytplayer.loadVideoById( _file ); 
    }
 

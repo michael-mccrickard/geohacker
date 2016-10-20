@@ -28,8 +28,11 @@ Control = {
     setState : function(_val) {
 
       this.state.set( _val );
+    },
 
-  },
+  featuredBackdrop : function() { return  "featuredBackdrop.jpg"; },
+
+  hilitedBackdrop : function() { return  "hilitedBackdrop.jpg"; },
 
 
   //*******************************************************************
@@ -278,16 +281,22 @@ Control = {
 
   },
 
-  suspend : function() {
+  hilite : function() {
 
+    this.unhiliteAll();
 
+    $("#ctlBG_" + this.name ).attr("src", this.hilitedBackdrop() );
   },
 
-  hilite: function() {
 
-    $("#ctlBG_" + this.name ).attr("src", "hilitedBackdrop.jpg");
-  }
+  unhiliteAll : function() {
 
+      $("#ctlBG_SOUND" ).attr("src", this.featuredBackdrop() );
+      $("#ctlBG_VIDEO" ).attr("src", this.featuredBackdrop() );
+      $("#ctlBG_TEXT" ).attr("src", this.featuredBackdrop()) ;
+      $("#ctlBG_WEB" ).attr("src", this.featuredBackdrop() );
+      $("#ctlBG_IMAGE" ).attr("src", this.featuredBackdrop() );
+  },
 
 }  //end Control constructor
 
@@ -296,14 +305,8 @@ Control = {
 //************************************************************
 //            CONTROL  (static functions)
 //************************************************************
-Control.unhiliteAll = function() {
 
-      $("#ctlBG_SOUND" ).attr("src", "featuredBackdrop.jpg");
-      $("#ctlBG_VIDEO" ).attr("src", "featuredBackdrop.jpg");
-      $("#ctlBG_TEXT" ).attr("src", "featuredBackdrop.jpg");
-      $("#ctlBG_WEB" ).attr("src", "featuredBackdrop.jpg");
-      $("#ctlBG_IMAGE" ).attr("src", "featuredBackdrop.jpg");
-}
+
 
 
 Control.switchTo = function( _id ) {
@@ -314,8 +317,6 @@ Control.switchTo = function( _id ) {
 
         return;
     }
-
-    Control.unhiliteAll();
 
     display.cue.set();
 
@@ -329,7 +330,6 @@ Control.switchTo = function( _id ) {
     }
 
     Control.playEffect( display.fb_sound_file );  
-
 
     //for the media controls, we are either clicking to toggle
     //the state (ctl is already active) 
@@ -350,7 +350,7 @@ Control.switchTo = function( _id ) {
 
      }
 
-  c("'click control' is calling feature.swich")
+  c("'click control' is calling feature.switch")
 
     display.feature.switch( id );
 
@@ -492,6 +492,7 @@ Control.stopEditMedia = function() {
 //************************************************************
 //            YOUTUBE PLAYER
 //************************************************************
+/*
 
 Control.isYouTubeURL = function(_s) {
 
@@ -509,7 +510,7 @@ Control.getNonYouTubeFile = function(_file) {
       return _file;
 }
 
-
+*/
 
 //*****************************************************************
 // CONTROL CHILD OBJECTS  (SOUND, VIDEO AND MAP IN SEPARATE FILES)
@@ -565,6 +566,10 @@ ghImageCtl = function() {
       this.items = Database.shuffle(this.items); 
     }
 
+    this.suspend = function() {
+
+    }
+
 }
 
 
@@ -582,6 +587,10 @@ Web = function() {
 
     this.state = new Blaze.ReactiveVar(0);
   }
+
+  this.suspend = function() {
+
+  }
 }
 
 Text = function() {
@@ -597,6 +606,10 @@ Text = function() {
     this.index = new Blaze.ReactiveVar(0);
 
     this.state = new Blaze.ReactiveVar(0);
+  }
+
+  this.suspend = function() {
+
   }
 }
 

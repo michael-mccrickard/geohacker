@@ -437,23 +437,16 @@ Display = function() {
 
         if (this.feature.on() ) {
 
-            c("display.suspendMedia is suspending " + this.feature.getName() )
+            var _name = this.feature.getName();
+
+            c("display.suspendMedia is suspending " + _name )
 
             if (this.feature.ctl) this.feature.ctl.suspend();
 
+            if ( _name == "VIDEO" || _name == "SOUND" ) game.pauseMusic();
+
             return;
         }
-
-        if (this.videoParent) {
-
-            if (this.videoParent.video) {
-
-                this.videoParent.video.pause();
-            }
-            
-            youtube.hide();
-        }
-
     }
 
     this.suspendBGSound = function() {
@@ -466,20 +459,6 @@ Display = function() {
 
             display.ctl["SOUND"].pause();
         }
-    }
-
-    this.resumeMedia = function() {
-
-          if (this.feature.on() ) {
-
-            c("display is resuming the media, if necessary")
-
-            if (this.feature.getName() == "VIDEO")  this.feature.ctl.play();
-
-            if (this.feature.getName() == "AUDIO")  this.feature.ctl.play();
-
-
-        }      
     }
 
 
@@ -516,7 +495,7 @@ Display = function() {
 
         for (i=0; i < this.ctlName.length; i++) {
 
-            if (this.ctlName[i] != "MAP") this.ctl[ this.ctlName[i] ].setState( _state );
+            this.ctl[ this.ctlName[i] ].setState( _state );
         }
 
         
@@ -533,24 +512,26 @@ Display = function() {
 
             var _name = this.ctlName[i];
 
-            if ( _name != "MAP") {
 
-                if (this.ctl[ _name ].loadedCount == 0) {
+            if (this.ctl[ _name ].loadedCount == 0) {
 
-                    this.ctl[ _name ].setState( sIcon );
+                this.ctl[ _name ].setState( sIcon );
+            }
+            else {
+
+                if (_name == "SOUND" || _name == "VIDEO") {
+ 
+                   this.ctl[ _name ].setState( sPaused );                       
                 }
                 else {
 
-                    if (_name == "SOUND" || _name == "VIDEO") {
+                    //loadCount > 1 and not a media type
 
-                        this.ctl[ _name ].setState( sPaused );                       
-                    }
-                    else {
-                        this.ctl[ _name ].setState( sLoaded );
-                    }
-                    
+                    this.ctl[ _name ].setState( sLoaded )
                 }
+                
             }
+
         }
     }
 

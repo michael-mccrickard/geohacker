@@ -1,4 +1,4 @@
-Session.set("sDateTime", false);
+
 
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); 
@@ -10,11 +10,6 @@ Template.main.helpers({
 
         return display.TV.videoOn.get();
         
-    },
-
-    getDateTime: function() {
-
-      return (Session.get("sDateTime"));
     },
 
     control: function() {
@@ -47,14 +42,6 @@ Template.main.helpers({
       return display.ctl[ this ].picFrame.height;
     },
 
-    //when a control is clicked, the background is hilited
-
-    controlBackdrop: function(_name) {
-
-      if (_name == display.feature.getName() ) return "hilitedBackdrop.jpg"
-
-      return "featuredBackdrop.jpg";
-    },
 
     imgHelperAgent: function() {
 
@@ -155,29 +142,7 @@ Template.main.helpers({
     youTubeWaiting: function() {
 
       return youtube.waiting.get();
-    },
-
-
-    scannerNotVisible: function() {
-
-      if ( display.scanner.visible.get() ) return false;
-
-      return true;    
-    },
-
-    scannerNotLoaded: function() {
-
-      if ( display.scanner.centerState.get() != "loaded" ) return true;
-
-      return false;    
-    },
-
-    youTubeNotFeatured: function() {
-
-      if (Session.get("sYouTubeOn") == true ) return false;
-
-      return true;
-    },
+    }
 
 });
 
@@ -234,7 +199,7 @@ Template.main.events({
       
       if (display.feature.name.get() == "VIDEO") display.suspendMedia();
 
-       if (display.feature.name.get() != "SOUND") game.playMusic();     
+      if (display.feature.name.get() != "SOUND") game.playMusic();     
 
       display.feature.set("MAP");
   
@@ -326,8 +291,6 @@ Template.main.events({
 
       display.suspendMedia();
 
-      display.suspendBGSound();
-
       game.playMusic();
 
       display.scanner.startScan( mode );
@@ -378,15 +341,6 @@ Template.main.events({
 function updateFeaturedContent() {
 
     var _name = display.feature.getName();
- 
-    if (game.user.mode == uBrowseCountry) {
-    
-c("updateFeaturedContent in main.js is calling feature.load")
-
-      display.feature.load( _name );  //the imagesLoaded callback will update the screen
-
-      return;
-    }
 
     display.showFeaturedContent( _name  );
 
@@ -396,14 +350,13 @@ Template.main.rendered = function () {
 
     stopSpinner();
 
+//???
     if (gEditLearnCountry) {
 
        FlowRouter.go("/learnCountry");
 
        return;
     }
-
-    if (!display) return;
 
     display.redraw();
 
@@ -419,11 +372,11 @@ Template.main.rendered = function () {
 
       //MAP is the only control that has the scanner visible when it's featured
 
-       if (display.feature.on() && display.feature.getName() != "MAP") {
+       if (display.feature.on() ) {
 
           display.scanner.hide();
 
-          display.feature.set( display.feature.getName() );
+          display.feature.switch( display.feature.getName() );
 
           //opportunity to play a specific video / gif in the little scanner TV here
 
@@ -434,7 +387,7 @@ Template.main.rendered = function () {
 
     if (hack.mode == mReady)  {
 
-      if ( display.feature.off() ||  display.feature.getName() == "MAP") {
+      if ( display.feature.off() ) {
 
         display.scanner.show();
 

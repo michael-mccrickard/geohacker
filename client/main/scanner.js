@@ -322,6 +322,7 @@ this.centerState.set("off");
 
 this.fadeOut();
 
+		display.suspendMedia();
 
 		display.feature.show();
 

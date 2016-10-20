@@ -69,6 +69,7 @@ Video = function( _file, _parent ) {
 
 	 	if (this.isYouTube) youtube.stop();
 	 }
+
 }
 
 Video.playControlPic = "play_icon.png";

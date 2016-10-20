@@ -10,6 +10,8 @@
 
 	this.soundPlayingPic = "vu_meter1.gif";
 
+    this.soundPausedPic = "vu_meter1_static.gif"
+
     this.playControlPic = "play_icon.png";
 
     this.pauseControlPic = "pause_icon.png";
@@ -43,6 +45,8 @@
 
 	this.play = function() {
 
+		if (this.getState() == sPaused) display.feature.changeImage( this.soundPlayingPic )
+
 		this.setState( sPlaying );
 
 		this.playMedia();
@@ -52,7 +56,7 @@
 	this.getFeaturedPic = function() {
 
 
-return this.soundPlayingPic;
+//return this.soundPlayingPic;
 
 		var pic = null;
 
@@ -74,6 +78,8 @@ return this.soundPlayingPic;
 		c("SOUND pausing")
 
 		this.setState( sPaused );
+
+		display.feature.changeImage( this.soundPausedPic );
 
 	    document.getElementById("soundPlayer").pause();
 

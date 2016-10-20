@@ -1,6 +1,6 @@
 Feature = function() {
 	
-	this.name = new Blaze.ReactiveVar("");
+	this.name = "";
 
 	this.isLoaded = new Blaze.ReactiveVar( false );
 
@@ -18,21 +18,30 @@ Feature = function() {
 
 	this.on = function() {
 
-		if (this.name.get().length > 0) return true;
+		if (this.name.length > 0) return true;
 	
 		return false;
 	},
 
 	this.off = function() {
 
-		if (this.name.get().length > 0) return false;
+		if (this.name.length > 0) return false;
 
 		return true;
 	},
 
-	this.show = function() {
+	//change the image only without any dimensioning or re-positioning
 
+	this.changeImage = function( _src ) {
+
+		$("img.featuredPic").attr("src", _src);
+	} 
+
+	this.show = function() {
+ 
 		this.hide();
+
+		this.ctl.hilite();
 
 		if (this.getName() == "TEXT") {
 
@@ -46,7 +55,7 @@ Feature = function() {
 
 				if (this.ctl.video.isYouTube) {
 
-					this.ctl.video.play();
+					this.ctl.play();
 
 					return;
 				}
@@ -75,10 +84,6 @@ Feature = function() {
 	}
 
 	this.hide = function() {
-
-		youtube.hide();
-
-		display.ctl["SOUND"].pause();
 
 		$("img.featuredPic").addClass("hidden");
 
@@ -216,17 +221,19 @@ Feature = function() {
 
 	this.getName = function() {
 
-		return this.name.get();
+		return this.name;
 	},
 
 
 	this.setName = function( _val ) {
 
-		this.name.set( _val );
+		this.name = _val;
 	},
 
 
 	this.switch = function( _name ) {
+
+		display.suspendMedia();
 
 		c("feature.js: switch() with " + _name)
 

@@ -11,25 +11,11 @@
 
 		{{> scanning}}
 
+		<span class="featuredText {{featuredAreaFont}} hidden">{{displayTextContent}}</span>
 
+		<img class="featuredPic hidden"  src="" />
 
-			<span class="featuredText {{featuredAreaFont}} hidden">{{displayTextContent}}</span>			
-		
-
-
-
-
-
-
-					<img class="featuredPic hidden"  src="" />
-
-
-				<!-- the YouTube API writes the youtube player into this div when appropriate -->
-
-
-
-
-
+		<!-- the YouTube API writes the youtube player into this div when appropriate -->
 
 		{{#if youTubeWaiting}}
 
@@ -47,7 +33,7 @@
 
 			<div  class="control" id="{{this}}">
 
-				<img class="stretch" id="ctlBG_{{this}}"  src="{{controlBackdrop this}}" />
+				<img class="stretch" id="ctlBG_{{this}}"  src="featuredBackdrop.jpg" />
 				
 				{{#if displayTextControlText}}
 					
