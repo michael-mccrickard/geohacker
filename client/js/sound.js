@@ -51,6 +51,9 @@
 
 	this.getFeaturedPic = function() {
 
+
+return this.soundPlayingPic;
+
 		var pic = null;
 
 		var _state = this.getState();

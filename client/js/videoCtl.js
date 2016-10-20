@@ -14,6 +14,8 @@ VideoCtl = function() {
 
 	this.items = [];
 
+	this.collection = db.ghVideo;
+
 
 	this.init = function() {
 
@@ -76,22 +78,7 @@ VideoCtl = function() {
 
 		var file = null;
 
-		var _state = this.getState();
-
 		var _file = this.items[ this.getIndex() ].u;
-
-		//We don't need to do anything special for a YT file
-
-		if (youtube.isFile(_file) == false) {
-
-			//Non-YT file, so if we're paused, we just show the big play button
-
-			if ( _state == sPaused ) {
-
-				_file = this.playControlPic;
-			}
-
-		}
 
 		return _file;
 	}
@@ -101,7 +88,7 @@ VideoCtl = function() {
 
     	if (!this.video.isYouTube) return;
 
-		console.log("video.show() is turning on YT")
+		console.log("videoCtl.show() is showing youtube")
         
         youtube.show();
     }
@@ -112,8 +99,6 @@ VideoCtl = function() {
 
 		this.video.pause();
 
-		display.feature.setImage("VIDEO");
-
 	}
 
 
@@ -121,101 +106,54 @@ VideoCtl = function() {
 
 		this.setState( sPlaying );
 
-		var _file = this.items[ this.getIndex() ].u;
+		var _file = this.getFile();
 
 		if (_id) _file = _id;
 
-		//First, is it a YT?
+c("new video in videoCtl with " + _file)
 
-		if (youtube.isFile(_file)) {
+		this.video = new Video(_file, this);
 
-			this.video.play();
-
-			return;
-
-		}
-
-	
+		this.video.play();
 
 	},// end play
 
 	this.playNewVideo = function(_id) {
 
-	  if (this.isYouTube ) {
+youtube.hide();
 
-	  	if (ytplayer) ytplayer.stopVideo();
-
-	  //set the yt flag to false, so that playMedia
-	  //won't think we're resuming from a pause
-
-		Session.set("sYouTubeOn", false);    
-
-	  }
+	  if (this.video) this.video.stop();
 
 	  this.play( _id );
 
-	}, //end playNewVideo
+	} //end playNewVideo
+
+/*
+
+how to find the id for the current YT vid:
+
+if (_file == ytplayer.getVideoData()['video_id'])
+
+*/
+
+	this.switch = function() {
 
 
-	this.playAnotherVideo = function(_val) {
 
-		this.index.set( this.index + _val);
+		if (this.getState() == sPlaying) {
+c("pausing in vc.switch")
+			this.pause();
 
-		this.play();
+			return;
+		}
+		if (this.getState() == sPaused || this.getState() == sLoaded) {
+c("plyaing in vc.switch")
+			this.play();
+		}
 	}
 
-	this.playYouTube = function( _file) {
-
-		this.setState( sPlaying );
-
-		//if the YT player doesn't exist, then create it
-		//and the onYouTubeIframeAPIReady() function will load the correct
-		//file for us 
-
-		if (youTubeLoaded == false) {
-		  
-		  console.log("ytplayer being created")
-
-		  display.feature.video = _file;  
-
-		  this.youTubeWaiting.set( true );
-		  
-		  //in this case, we let onYouTubeIframeAPIReady() load the correct file and play it
-		  //it will also set youTubeLoaded
-
-		  YT.load();
-
-		  return;
-		}
-
-		this.isYouTube = true;
-
-		if (_file == ytplayer.getVideoData()['video_id']) {
-
-			console.log("ytplayer resuming from pause")
-
-			ytplayer.playVideo();
-
-		}
-		else {
-
-		  //otherwise just load this next file into the player
-
-		  display.feature.video = _file;  
-
-		  console.log("video.js: ytplayer playing new video")        
-
-		  ytplayer.loadVideoById( _file );
-
-		}
-
-		c("video.playYouTube is setting sYouTubeOn to true")
-
-		Session.set("sYouTubeOn", true); 
-
-	}//end playYouTube
 
 
 }  //end Video constructor
 
-Video.prototype = Control;
+VideoCtl.prototype = Control;

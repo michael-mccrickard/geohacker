@@ -27,6 +27,8 @@ Video = function( _file, _parent ) {
 
 	if (this.parent === display.browser) this.element = "img.centerImg";
 
+	if (this.parent === display.ctl["VIDEO"]) this.element = "img.featuredPic";
+
 
 	this.play = function() {
 

@@ -253,36 +253,11 @@ Control = {
   //          General media functions
   //********************************************
 
-  toggleMediaState: function() {
+  toggleMedia: function() {
 
     if (this.getState() == sPaused) {
 
-        c("control.toggleMediaState is changing the media state to sPlay")
-
-        this.setState( sPlaying );
-
-        return;
-
-    }
-
-    if (this.getState() == sPlaying) {
-
-          c("control.toggleMediaState is changing the media state to sPause")
-
-          this.setState( sPaused );
-
-          return;
-    }
-
-  },
-
-  activateState : function() {
-
-c("control activateState() called on " + this.name + " and state is " + this.getState());
-
-    if (this.getState() == sPlaying) {
-
-        c("control.activateState is playing the media")
+        c("control.toggleMediaState is playing the media")
 
         this.play();
 
@@ -290,14 +265,14 @@ c("control activateState() called on " + this.name + " and state is " + this.get
 
     }
 
-    if (this.getState() == sPaused) {
+    if (this.getState() == sPlaying) {
 
-          c("control.activateState is pausing the media")
+          c("control.toggleMediaState is pausing the media")
 
           this.pause();
 
           return;
-    }    
+    }
 
   },
 
@@ -353,6 +328,7 @@ Control.switchTo = function( _id ) {
 
     Control.playEffect( display.fb_sound_file );  
 
+
     //for the media controls, we are either clicking to toggle
     //the state (ctl is already active) 
     //or we are clicking to make active and play
@@ -363,30 +339,19 @@ Control.switchTo = function( _id ) {
         
         c("'click control' is calling toggleMediaState")
 
-        display.feature.ctl.toggleMediaState(); 
+        display.feature.ctl.toggleMedia(); 
 
-     }
-     else {
-
-        if ((id == "SOUND") || (id == "VIDEO")) {
-
-          console.log("'click control' is setting media state to play")
-
-          display.suspendMedia();
-
-          display.ctl[ id ].setState( sPlaying ); 
-        }
      }
 
     //In the case of a video that is currently visible (_name == VIDEO),
     //we have to suspend (hide and pause) it, but only if the incoming feature
     //is not also video
 
-    if (_name == "VIDEO" && id != "VIDEO") {
+    if ((_name == "VIDEO" && id != "VIDEO") || _name == "SOUND") {
 
-      c("'click control' is calling suspendMedia b/c current feature is video")
+      c("'click control' is calling suspendMedia b/c current feature is sound or video")
      
-      display.suspendMedia();
+      //display.suspendMedia();
     }
 
     display.scanner.fadeOut( 250 );
@@ -394,6 +359,13 @@ Control.switchTo = function( _id ) {
 c("'click control' is calling feature.set")
 
     display.feature.set( id );
+
+    if ((id == "SOUND") || (id == "VIDEO")) {
+
+          console.log("'click control' is playing the media")
+
+          display.feature.ctl.play();
+      }
 
     if (id == "VIDEO") {
 

@@ -130,26 +130,25 @@ Template.login.events({
 
     'click #createGuest': function(event, template) {
 
-        $.ajax({
+        Meteor.call("createGuest", function(_err, _data){
 
-          url: 'http://api.randomuser.me/?inc=gender,name,nat,picture,id,email&noinfo',
-          
-          dataType: 'json',
-          
-          success: function(data) {
+            if (_err) {
 
-            data.results[0].ut = utAgent;
+              showMessage(_err);
 
-            data.results[0].st = usActive;
+              return;
+            }
 
-            doSpinner();
+            _data.results[0].ut = utAgent;
+
+            _data.results[0].st = usActive;  
+
+              doSpinner();
 
             //we could create a guest record here in the db (ghGuest) and stamp with time started
             //but currently all of that info and more is going into mixpanel, which we may want to prevent
 
-            submitApplication(null, data.results[0]);
-
-          }
+            submitApplication(null, _data.results[0]);         
         });
       
       },

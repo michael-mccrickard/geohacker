@@ -421,6 +421,19 @@ var self = null;
 
 Meteor.methods({
 
+  createGuest: function() {
+
+      // avoid blocking other method calls from the same client
+      this.unblock();
+
+      var apiUrl = 'http://api.randomuser.me/?inc=gender,name,nat,picture,id,email&noinfo';
+
+    // asynchronous call to the dedicated API calling function
+    var response = Meteor.wrapAsync(apiCall)(apiUrl);
+
+    return response;
+  },
+
   getWeatherStringFor: function (_city) {
 
     // avoid blocking other method calls from the same client

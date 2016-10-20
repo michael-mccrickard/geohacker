@@ -109,15 +109,7 @@ Display = function() {
         this.makeControls(_code);
 
     }
-/*
-    this.browse = function( _code) {
 
-        this.fullyLoadControls();
-
-        FlowRouter.go("/newBrowse");
-        
-    }
-*/
     this.makeControls = function(_code) {
 
         //create the array of controls for this country
@@ -514,7 +506,7 @@ Display = function() {
         
         this.feature.setImageSource( _name );
 
-        this.feature.draw();
+        this.feature.show();
 
     } 
 

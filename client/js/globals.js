@@ -270,7 +270,7 @@ c("youtube ready")
         
         case uHack:
 
-             _file = display.feature.video;
+             _file = display.ctl["VIDEO"].video.file;
  
             break;
 

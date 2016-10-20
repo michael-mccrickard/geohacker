@@ -78,8 +78,6 @@ Hack = function() {
         display.suspendBGSound();
 
         display.feature.clear();    
-        
-        display.reset();
 
         Control.playEffect("goMission.mp3");
 

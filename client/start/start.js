@@ -101,8 +101,6 @@ Session.set("isIOS", false);
 
   Session.set("sImagesReady", false); 
 
-  Session.set("sFeatureImageLoaded", false);    
-
   Session.set("sYouTubeOn", false);   
 
   Session.set("sDisplayReady", false); 

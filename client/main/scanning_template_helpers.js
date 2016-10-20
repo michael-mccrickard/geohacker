@@ -1,52 +1,10 @@
 
 
-
-Template.main.events({
-
-  'click .scanCenterImg': function(e) {
-
-      e.preventDefault();  
-
-      var _mode = display.scanner.mode;
-
-      var _state = display.scanner.centerState.get();
-
-
-    if (_state == "loaded") {
-
-        display.scanner.fadeOut( 250 );
-
-        display.feature.set( display.loadedControlName.get() );
-
-     }
-     else {
-
-        Control.playEffect( display.locked_sound_file );
-     }
-  },
-
-});
-
-
 Template.scanning.helpers({
 
     nationsCount: function() {
 
         return db.ghC.find( { d: 1 } ).fetch().length;
-
-    },
-
-    cursorForScanCenter: function() {
-
-      //var _mode = display.scanner.mode;
-
-      //if (_mode != "scan" && _mode != "rescan" && display.scanner.centerState != "idle") return "default";
-
-        var _state = display.scanner.centerState.get();
-
-        if (_state == "loaded") return "pointer";
-
-        return "default";
 
     },
 
@@ -62,8 +20,6 @@ Template.scanning.helpers({
     },
 
     getProgress: function() {
-
-        if (!display) return;
 
         var _state = display.scanner.centerState.get();
 
@@ -82,44 +38,14 @@ Template.scanning.helpers({
 
     getTotal: function() {
 
-        if (!display) return;
-
     	return display.scanner.totalTime.get();
     },
 
     getScannerCenterImage: function() {
 
-        if (!display) return;
-
-        var _default =  "3DGlobe.png"; //"geohacker_background2.png";
-
-        var _name = display.loadedControlName.get();
-
-        if ( _name.length ) return display.ctl[ _name ].getControlPic();
+        var _default = "3DGlobe.png"; 
 
         return _default;
-    },
-
-    TEXTisFeatured: function() {
-
-        if (!display) return;
-
-         var _name = display.loadedControlName.get();       
-
-        if ( _name == "TEXT") return true;
-
-        return false;
-    },
-
-    featuredText: function() {
-
-        if (!display) return;
-
-         var _name = display.loadedControlName.get();       
-
-        if ( _name == "TEXT") return display.ctl[ _name ].getTextContent();
-
-        return "";
     },
 
     centerText: function() {

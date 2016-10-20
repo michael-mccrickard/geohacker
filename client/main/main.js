@@ -12,7 +12,6 @@ Template.main.helpers({
         
     },
 
-
     getDateTime: function() {
 
       return (Session.get("sDateTime"));
@@ -132,8 +131,6 @@ Template.main.helpers({
 
         if (display.feature.getName() == "TEXT") return true;
 
-        //if (display.feature.getName() == "MAP") return true;
-
         if (display.feature.displayMessage.get() ) return true;
 
         return false;
@@ -166,7 +163,7 @@ Template.main.helpers({
 
     youTubeWaiting: function() {
 
-      return display.ctl["VIDEO"].youTubeWaiting.get();
+      return youtube.waiting.get();
     },
 
 
@@ -325,37 +322,7 @@ Template.main.events({
 
           Control.playEffect( display.locked_sound_file );
 
-          //display.TV.stopIdle();
-
           return; 
-      }
-
-      if (game.user.mode == uBrowseCountry) {
-
-        var s = "";
-
-        if (game.user.assign.pool.length == 0) {
-
-          s = "You have finished your current mission.  Please choose another from the " + game.user.name + " menu.";
-
-          alert( s );
-        }
-        
-        else {
-        
-          s = "Resume mission " + game.user.assign.name + "?";
-
-          var r = confirm( s );
-
-          if (r == true) {
-
-              hack.mode = mNone;
-
-              game.user.resumeMission();
-          }
-
-        }
-
       }
 
       display.feature.dim();
@@ -366,28 +333,14 @@ Template.main.events({
 
       if (display.loader.totalClueCount == 0) mode = "scan";
 
-      if (gInstantMode) {
+      display.suspendMedia();
 
-          display.suspendMedia();
+      display.suspendBGSound();
 
-          display.loader.go();
+      game.playMusic();
 
-          display.scanner.show();
+      display.scanner.startScan( mode );
 
-          display.scanner.stopScan();
-
-      }
-      else {
-
-        display.suspendMedia();
-
-        display.suspendBGSound();
-
-        game.playMusic();
-
-        display.scanner.startScan( mode );
-
-      }
 
     },
 
@@ -467,15 +420,7 @@ Template.main.rendered = function () {
 
     display.checkMainScreen();
 
-    display.weather.start();
-
-
-    if (game.user.mode == uBrowseCountry) {
-
-        display.scanner.hide();
-
-        return;
-    }
+    //display.weather.start();
 
 
     if ( game.user.mode == uHack ) {

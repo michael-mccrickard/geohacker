@@ -302,7 +302,7 @@ Scanner = function() {
 			this.ele[ i ].pause();			
 		}
 
-		display.loader.showLoadedControl();
+		display.loader.showLoadedControl();  //shows the appropriate pic in the control button
 
 		this.centerState.set("loaded");
 
@@ -314,11 +314,20 @@ Scanner = function() {
 
 		Control.playEffect( this.intercept_sound_file );
 
-		//set the reactive var to change the center image to the new control
+		//set the reactive var so that the scanner template will react and show either text or an image 
 
-		display.loadedControlName.set( display.loader.newControl.name );
+//alert ( display.loader.newControl.name );
 
-		Meteor.setTimeout( function() { display.scanner.drawCenter() }, 10 );
+this.centerState.set("off");
+
+this.fadeOut();
+
+
+		display.feature.show();
+
+		//properly size the image (if any) in the center
+
+		//Meteor.setTimeout( function() { display.scanner.drawCenter() }, 10 );
 
 		Meteor.setTimeout( function() { display.scanner.startIdle() }, 2000 );		
 	}
@@ -445,7 +454,9 @@ Scanner = function() {
 
 		if (_which == "scanner") {  
 
-			if (Session.get("sFeatureImageLoaded") == false)  return false;
+			//if (Session.get("sFeatureImageLoaded") == false)  return false;
+		
+			if ( !display.feature.isLoaded.get() ) return false;
 		}
 
 		return true;

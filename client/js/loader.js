@@ -49,14 +49,13 @@ NewLoader = function() {
 
 		display.cue.setAndShow();
 
+		display.feature.isLoaded.set( false );
+
 	    //if this control has a still image, load it into memory
 		//which will allow feature.dimension() to size it accurately
+		//this also sets the name and ctl for the feature
 
-	    display.feature.load( this.newControl.name );	
-
-
-		Session.set("sFeatureImageLoaded", false);  
-
+	    display.feature.preload( this.newControl.name );	
 
 
 	}
@@ -65,7 +64,7 @@ NewLoader = function() {
 
 		 //Have the control object dimension the small version of the picture
 
-c("newControl name is " + this.newControl.name)
+		c("in loader.showLoadedControl, newControl name is " + this.newControl.name)
 
 	    display.ctl[ this.newControl.name ].setControlPicSource();
 
@@ -82,25 +81,14 @@ c("newControl name is " + this.newControl.name)
 
 		display.dimensionControls();
 
-
 		//this.newControl was set by this.go() before the loading sequence began
-
-		if (this.newControl.name == "MAP") {
-
-			//MAP is a special case; it has it's own states which it manages
-
-			display.ctl["MAP"].autoFeatured = true;
-
-			display.feature.set( "MAP" );
-		}
-		else {
 			
-			this.newControl.setState ( sLoaded );
+		this.newControl.setState ( sLoaded );
 
-			this.newControl.setPicDimensions();
+		this.newControl.setPicDimensions();
 
-			this.newControl.hilite();
-		}
+		this.newControl.hilite();
+
 
 		//set the timer if we're on the first clue
 
@@ -109,7 +97,6 @@ c("newControl name is " + this.newControl.name)
 			game.hackStartTime = new Date().getTime();
 			
 		}
-
 
 		//see if any buttons need enabling / disabling
 
@@ -268,17 +255,17 @@ c("newControl name is " + this.newControl.name)
 
 //if we need to force a certain control for any reason, this is the place to do it
 
-/*
-if (this.totalClueCount == 0) randomControl = display.ctl["VIDEO"]; 
 
-if (this.totalClueCount == 1) randomControl = display.ctl["TEXT"];
+if (this.totalClueCount == 0) randomControl = display.ctl["IMAGE"]; 
 
-if (this.totalClueCount == 2) randomControl = display.ctl["WEB"];
+if (this.totalClueCount == 1) randomControl = display.ctl["WEB"];
 
-if (this.totalClueCount == 3) randomControl = display.ctl["SOUND"];
+if (this.totalClueCount == 2) randomControl = display.ctl["VIDEO"];
+
+if (this.totalClueCount == 3) randomControl = display.ctl["VIDEO"];
 
 if (this.totalClueCount == 4) randomControl = display.ctl["VIDEO"];
-*/
+
 		//Bump up the loadedCount on this control and return the name
 
 		if (randomControl) {
