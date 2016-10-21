@@ -318,9 +318,9 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     		game.playMusic();
 
-//this has become necessary after a hack where a video was shown???
+    		display.browser.video.stop();
 
-//Session.set("sYouTubeOn",false);
+    		display.browser.video.hide();
 
     		FlowRouter.go("/home")
 
