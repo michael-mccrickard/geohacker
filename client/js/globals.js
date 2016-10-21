@@ -282,7 +282,7 @@ c("youtube ready")
 
         case uEdit:
 
-              _file = editor.videoFile;
+              _file = editor.video.file;
 
             break;
 

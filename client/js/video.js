@@ -29,6 +29,8 @@ Video = function( _file, _parent ) {
 
 	if (this.parent === display.ctl["VIDEO"]) this.element = "img.featuredPic";
 
+	if (this.parent === editor) this.element = "img.bigPic";
+	
 
 	this.play = function() {
 

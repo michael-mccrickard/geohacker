@@ -49,12 +49,12 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_s
 	}
 
 	this.pauseMusic = function() {
-
+c("pausing music in game.js")
 		document.getElementById("musicPlayer").pause();		
 	}
 
 	this.playMusic = function() {
-
+c("playing music in game.js")
 		if (this.musicOn == false) return;
 
 		if (this.musicStarted == false) {

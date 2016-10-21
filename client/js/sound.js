@@ -115,6 +115,8 @@
 		//don't use the anthems
 
 		this.items = this.collection.find( { cc: this.countryCode, dt: { $ne: "ant" } } ).fetch();
+
+		this.fullCount = this.items.length;
 	},
 
 

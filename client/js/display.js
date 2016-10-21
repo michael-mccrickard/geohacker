@@ -164,6 +164,8 @@ Display = function() {
             this.ctl[_name] = new ghMapCtl();        
 
             this.ctl[ _name ].init();
+
+            
         }
     }
 

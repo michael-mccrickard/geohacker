@@ -17,6 +17,8 @@ Navigator = function() {
 
 		if (_which == "/selectCountry" || _which == "/editor" || _which == "/dataChecker") {
 
+      game.user.mode = uEdit;
+
 			this.editRoute = _which;
 
       this.addToAdminHistory( _which );
@@ -124,7 +126,7 @@ Navigator = function() {
 
         //returning to game, so switch the global objects
 
-        this.switchToGame();
+        this.switchToGame( _last);
     }
 
     doSpinner();
@@ -142,10 +144,6 @@ Navigator = function() {
   this.closeEditor = function() {
 
     Control.stopEditMedia();
-
-    //reset this manually after editing
-
-    $(".featuredYouTubeVideo").css("position", "absolute");
 
     game.playMusic();
 
@@ -216,19 +214,44 @@ Navigator = function() {
     }
 
 
-    this.switchToGame = function() {
+    this.switchToGame = function( _route) {
 
       editor.hack.mode = mNone;
 
       if (!game.user) return;
 
-      if (game.user.mode == uHack) {
+      if (_route == "/newBrowse") {
 
-        game.user.setGlobals("mission");
-      }
-      else {
+        game.user.mode = uBrowseCountry;
 
         game.user.setGlobals("browse");
+
+        return;
+
       }
+
+      if (_route == "/browseWorldMap") {
+
+        game.user.mode = uBrowseMap;
+        
+        game.user.setGlobals("browse");
+
+        return;
+      }
+
+      if (_route == "/main" || _route == "/worldMap" || _route == "/congrats") {
+
+        game.user.mode = uHack;
+
+        game.user.setGlobals("mission");
+
+        return;
+      
+      }
+
+      game.user.mode = uNone;
+
+      game.user.setGlobals("mission");
+
     }
 }

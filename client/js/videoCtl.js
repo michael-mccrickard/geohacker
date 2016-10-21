@@ -70,6 +70,8 @@ VideoCtl = function() {
 
 	    this.items = this.collection.find( { cc: this.countryCode, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } } ).fetch();
 
+	    this.fullCount = this.items.length;
+
 	},
 
 	//Used to get the file to display in featured area.

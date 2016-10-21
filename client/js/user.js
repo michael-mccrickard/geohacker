@@ -68,6 +68,10 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.browseCountry = function( _code, _returnRoute ) {
 
+     //the calling function passes _returnRoute as route to go back to 
+     //with the RETURN TO XXXX button on the browse screen, and _returnName
+     //(derived or set below) is the XXXX on that button
+
       this.returnRoute = _returnRoute;
 
       this.returnName = _returnRoute;
@@ -83,6 +87,10 @@ User = function( _name ) {  //name, scroll pos (for content editors)
       this.setMode( uBrowseCountry );
 
       this.setGlobals( "browse" );
+
+      //check for the map object
+
+      if ( !display.ctl["MAP"] ) display.initMap();
 
       display.suspendMedia();
 
@@ -305,7 +313,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     		if ( display.homeButtonDisabled() ) return;
 
-			display.suspendMedia();
+			Control.suspendAllMedia();
     	}
 
 
@@ -318,9 +326,12 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     		game.playMusic();
 
-    		display.browser.video.stop();
+    		if (display.browser.video) {
 
-    		display.browser.video.hide();
+	     		display.browser.video.stop();
+
+	    		display.browser.video.hide();   			
+    		}
 
     		FlowRouter.go("/home")
 

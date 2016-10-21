@@ -471,18 +471,21 @@ Control.stopEffects = function() {
 
 Control.suspendAllMedia = function() {
 
-  game.pauseMusic();
+  //game.pauseMusic();
 
-  if (display.ctl) {
+  if (display.ctl["SOUND"]) {
 
     if (display.ctl["SOUND"].getState() > sLoaded) display.ctl["SOUND"].pause();
 
     if (display.ctl["VIDEO"].getState() > sLoaded) display.ctl["VIDEO"].pause();
   }
+  
+  if (youtube.loaded) {
 
-  youtube.stop();
+      youtube.stop();
 
-  youtube.hide();
+      youtube.hide();
+  }
 
 }
 
@@ -539,6 +542,8 @@ ghImageCtl = function() {
 
         this.items = this.collection.find( { cc: this.countryCode, dt: { $ne: "cmp"} } ).fetch();        
       }
+
+      this.fullCount = this.items.length;
   }
 
   this.setCountry = function(_countryCode, _collection) {
@@ -546,8 +551,6 @@ ghImageCtl = function() {
       this.collection = _collection;
 
       this.countryCode = _countryCode;
-
-      this.fullCount = this.collection.find ( { cc: this.countryCode, dt: {$ne: "cmp"} } ).count();
 
       this.loadedCount = 0;
 

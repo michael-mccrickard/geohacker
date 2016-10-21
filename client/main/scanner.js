@@ -229,9 +229,17 @@ Scanner = function() {
 
 	this.fadeOut = function( _time ) {
 
-		if ( $(".scanScreen").css("opacity") == "1" ) $(".scanScreen" ).velocity("fadeOut", { duration: _time, display: "auto" });
+		if ( $(".scanScreen").css("opacity") == "1" ) {
 
-		this.hide();
+			$(".scanScreen" ).velocity("fadeOut", { 
+
+				duration: _time, 
+				display: "auto", 
+				complete: function() { display.scanner.hide();  },  
+			});
+		}
+
+		//this.hide();
 	}
 
 	this.highestScanTime = function() {
@@ -318,7 +326,7 @@ Scanner = function() {
 
 		this.centerState.set("off");
 
-		this.fadeOut(650);
+		this.fadeOut(300);
 
 		display.feature.show();
 

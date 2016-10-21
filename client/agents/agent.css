@@ -67,14 +67,12 @@ margin-left: 16px;
 .divAgentFlag {
 
 	width: 128px;
-	  cursor: pointer;
-
 }
 
 .agentFlag {
 	height: 64px;
 	width: 112px;
-
+	  cursor: pointer;
 }
 
 .divAgentText {

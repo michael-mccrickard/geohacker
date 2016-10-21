@@ -30,7 +30,7 @@ Editor = function() {
 
 	this.scroll = 0;
 
-  	this.videoFile = null;
+  	this.video = null;
 
   	this.soundUploader = new Slingshot.Upload("ghSound");
 
@@ -116,7 +116,7 @@ Editor = function() {
 
 	this.arrCodeText[16] = "Seeker Daily";
 		this.arrCode[16] = "sd";
-	this.arrCodeExplain[16] = "Music video or live performance"; 
+	this.arrCodeExplain[16] = "Discovery Network YouTube channel"; 
 
 	this.arrCodeText[17] = "Top Ten Archive";
 		this.arrCode[17] = "tt";
@@ -240,14 +240,6 @@ Editor = function() {
 
   		document.documentElement.scrollTop = document.body.scrollTop = this.scroll;
   	}
-
-
-	this.stopYouTube = function() {
-
-    	ytplayer.stopVideo();
-
-  		Session.set("sYouTubeOn", false);  
-	}
 
 
 	this.addThisRecord = function(_countryCode, _controlType, cb)  {

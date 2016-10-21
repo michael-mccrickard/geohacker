@@ -28,13 +28,16 @@ YouTube = function()  {
 
       this.show();
 
-      var _currentFile = ytplayer.getVideoData()['video_id'];
+      if ( ytplayer.getVideoData() )  {
 
-      if (_currentFile == _file) {
+        var _currentFile = ytplayer.getVideoData()['video_id'];
 
-        ytplayer.playVideo();
+        if (_currentFile == _file) {
 
-        return;
+          ytplayer.playVideo();
+
+          return;
+        }
       }
 
       ytplayer.loadVideoById( _file ); 

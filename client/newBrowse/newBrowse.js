@@ -136,8 +136,6 @@ Browser = function(  ) {
 
 		this.videoFrameID = _frameid;
 
-c("about to hilite frame id " + _frameid)
-
 		this.hiliteFrame( _frameid);
 
 		this.video = new Video( _videoid, display.browser );
@@ -166,13 +164,12 @@ c("about to hilite frame id " + _frameid)
 
 	this.returnToPrevious = function() {
 
-      	display.suspendMedia();	
+      	Control.suspendAllMedia();	
 
       	game.playMusic();
 
 		_route = game.user.returnRoute;
 
-c("route in returnToPrevious is " + _route)
 
 		if (_route == "lessonMap") {
 

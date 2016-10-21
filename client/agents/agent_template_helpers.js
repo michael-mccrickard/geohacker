@@ -200,7 +200,7 @@ Template.agent.events({
 
     },
 
-  'click .divAgentFlag': function(e) { 
+  'click img.agentFlag': function(e) { 
 
       e.preventDefault();  
 
