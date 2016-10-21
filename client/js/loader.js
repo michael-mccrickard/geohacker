@@ -255,7 +255,7 @@ NewLoader = function() {
 
 //if we need to force a certain control for any reason, this is the place to do it
 
-
+/*
 if (this.totalClueCount == 0) randomControl = display.ctl["VIDEO"]; 
 
 if (this.totalClueCount == 1) randomControl = display.ctl["VIDEO"];
@@ -265,7 +265,7 @@ if (this.totalClueCount == 2) randomControl = display.ctl["VIDEO"];
 if (this.totalClueCount == 3) randomControl = display.ctl["VIDEO"];
 
 if (this.totalClueCount == 4) randomControl = display.ctl["TEXT"];
-
+*/
 		//Bump up the loadedCount on this control and return the name
 
 		if (randomControl) {

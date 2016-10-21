@@ -1,7 +1,7 @@
 
 //Debugging hacks
 
-gHackPreselect = "SD";
+gHackPreselect = "";
 
 //****************************************************************
 //                 PRE-STARTUP
