@@ -1,3 +1,8 @@
+
+/*
+
+//Modify this to work for browseMap only
+
 ghMapCtl = function() {
 
 	this.name = "MAP";
@@ -448,4 +453,4 @@ return;
 
 }//end Map constructor
 
-ghMapCtl.prototype = Control;
+*/

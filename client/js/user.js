@@ -90,7 +90,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
       //check for the map object
 
-      if ( !display.ctl["MAP"] ) display.initMap();
+      //if ( !display.ctl["MAP"] ) display.initMap();
 
       display.suspendMedia();
 
@@ -208,7 +208,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	if (game.user.mode == uBrowseCountry) {
 
-	      	var d = display.ctl["MAP"].browseWorldMap;
+	      	var d = hackMap.browseWorldMap;
 
 	    	d.mapLevel = mlRegion;
 

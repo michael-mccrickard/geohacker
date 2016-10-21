@@ -153,6 +153,8 @@ transform-origin: 20% -535%;
 }
 
 .imgFlag {
+
+	cursor: pointer;
 /*
 	border: 4px solid;
     border-color: gray;

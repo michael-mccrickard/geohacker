@@ -30,8 +30,6 @@ Database = function() {
 
     this.ghWeb = new Meteor.Collection('ghWeb');
 
-    this.ghMap = new Meteor.Collection('alMap');
-
     this.ghDebrief = new Meteor.Collection('alDebrief');
 
     this.ghTag = new Meteor.Collection("ghTag");
@@ -369,14 +367,6 @@ this.saveScroll = function(_val) {
 
       return _code;
     }
-  }
-
-  this.getMapRecIndex = function(_which) {
-
-      for (var i = 0; i < display.ctl["MAP"].items.length; i++) {
-
-        if (display.ctl["MAP"].items[i].f == _which) return i;
-      }
   }
 
   this.getRegionRec = function(_code) {

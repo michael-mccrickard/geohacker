@@ -209,7 +209,7 @@ Hack = function() {
 
       if (game.hackStartTime == 0) game.hackStartTime = new Date().getTime();
 
-      var mapCtl = display.ctl["MAP"];
+      var mapCtl = hackMap;
 
       var map = mapCtl.worldMap;
 
@@ -223,9 +223,9 @@ Hack = function() {
 
       map.selectedCountry.set( this.countryCode );
 
-      display.ctl["MAP"].autoFeatured = false;
+      hackMap.autoFeatured = false;
 
-      display.feature.set("MAP");
+      hackMap.go();
 
     }
 

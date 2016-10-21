@@ -147,6 +147,8 @@ Meteor.startup(function() {
 
   hack = new Hack();
 
+  hackMap = new HackMap();
+
   display = new Display();
 
   youtube = new YouTube();
@@ -156,8 +158,6 @@ Meteor.startup(function() {
   db.initCore();
 
   db.initControls();
-
-  display.initMap();
 
   editor = null;
 

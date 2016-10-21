@@ -69,7 +69,7 @@ Display = function() {
     //all the possible controls\ names
     //Does the order for these still need to match the constants for these in constants.js?  For editing?
 
-    this.ctlName = ["MAP", "SOUND", "TEXT", "IMAGE", "VIDEO", "WEB"];  
+    this.ctlName = ["SOUND", "TEXT", "IMAGE", "VIDEO", "WEB"];  
 
     //the session var used by the main template
     
@@ -96,11 +96,7 @@ Display = function() {
 
         this.countryCode = _code;
 
-        //reset any session vars that need it
-
-        Session.set("sYouTubeOn", false);
-
-        //reset vars and re-do controls and map
+        //reset vars and re-do controls
 
         this.loader.totalClueCount = 0;
 
@@ -135,9 +131,7 @@ Display = function() {
 
                 if (_name == "SOUND") this.ctl[ _name ] = new Sound();        
 
-                if (_name == "VIDEO") this.ctl[ _name ] = new VideoCtl(); 
-
-                if (_name == "MAP") this.ctl[ _name ] = new ghMapCtl();        
+                if (_name == "VIDEO") this.ctl[ _name ] = new VideoCtl();      
 
             }
 
@@ -148,24 +142,8 @@ Display = function() {
 
             if (col) this.ctl[ _name ].setCountry(_code, col);
 
-            if ( _name == "MAP") continue;  //MAP manages it's own states
-
             this.ctl[ _name ].setState( sIcon );
 
-        }
-    }
-
-    this.initMap = function() {
-
-        var _name = "MAP";
-
-        if (!this.ctl[ _name ]) {
-
-            this.ctl[_name] = new ghMapCtl();        
-
-            this.ctl[ _name ].init();
-
-            
         }
     }
 
@@ -197,8 +175,6 @@ Display = function() {
 
         if (this.moreDataAvailable() == false) {
 
-            //$("img#scanButton").addClass('faded');
-
             $("img#scanButton").attr("src", "./tvScannerGray.png");
 
             this.TV.stopIdle();
@@ -207,11 +183,11 @@ Display = function() {
 
         if (this.loader.totalClueCount == 0) {
 
-            this.ctl["MAP"].disableButton();
+            hackMap.disableButton();
         }
         else {
 
-            this.ctl["MAP"].enableButton();            
+            hackMap.enableButton();            
         }
     },
 
@@ -226,20 +202,6 @@ Display = function() {
         this.arrow = "#scanArrow";
 
         this.blinkButton( this.blinkingButton, this.normalImage, "./tvScannerGreen.png", this.arrow, 750);
-
-    },
-
-    this.blinkMapButton = function() {
-
-        this.blinking = true;
-
-        this.blinkingButton = "img#mapButton";
-
-        this.normalImage = "./newGlobeIconYellow.png";
-
-        this.arrow = "#mapArrow";
-
-        this.blinkButton( this.blinkingButton, this.normalImage, "./newGlobeIconGreen.png", this.arrow, 750);
 
     },
 
@@ -392,8 +354,6 @@ Display = function() {
 
             var _name = this.ctlName[i];
 
-            if (_name == "MAP") continue;
-
             var ctl = this.ctl[ _name ];
 
             //assign the src value for the icon
@@ -479,8 +439,6 @@ Display = function() {
 
             var _name = this.ctlName[i];
 
-            if (_name == "MAP") continue;
-
             this.ctl[ _name ].setPicDimensions();
         }
     }
@@ -559,8 +517,6 @@ Display = function() {
             ctl.loadedCount = ctl.fullCount;
 
             ctl.setIndex( 0 );
-
-            if ( _name == "MAP") continue;  //nothing to load for the map
 
             if ( _name == "SOUND" || _name == "VIDEO") {
 

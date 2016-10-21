@@ -17,10 +17,6 @@ NewLoader = function() {
 
 		display.feature.clear();
 
-		//just in case the user skipped a MAP clue, turn off the blinking timer
-
-		display.ctl["MAP"].clearTimer();
-
 
 		if (mode != mReady) {
          
@@ -128,44 +124,6 @@ NewLoader = function() {
 
 		var randomControl = null;
 
-		//Map clues discontinued Oct. 2016 -- user clicks helper agent for these now
-
-		//first see if we need to give the user a map clue;
-		//currently inserting these clues as #3, and #6 and #9
-		//under certain conditions
-/*
-		if (this.totalClueCount == 2 || this.totalClueCount == 5 || this. totalClueCount == 8) {
-
-			var state = display.ctl["MAP"].getState();
-
-			if (state <= sIDContinent) {
-
-				this.totalClueCount++;
-
-				var _index = db.getMapRecIndex("continent");
-
-				display.ctl["MAP"].setIndex( _index );
-
-				display.ctl["MAP"].setState( sContinentFeatured );
-
-				return display.ctl["MAP"];
-			}
-
-			if (state <= sIDRegion  && (this.totalClueCount == 5 || this.totalClueCount == 8)) {
-
-				this.totalClueCount++;
-
-				var _index = db.getMapRecIndex("region");
-
-				display.ctl["MAP"].setIndex( _index );
-
-				display.ctl["MAP"].setState( sRegionFeatured );
-
-				return display.ctl["MAP"];
-			}
-
-		}
-*/
 		//this is the temporary array to determine which control to enable
 		
 		var tmp = [];

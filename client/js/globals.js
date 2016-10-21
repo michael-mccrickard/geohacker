@@ -210,9 +210,9 @@ refreshWindow = function(_which) {
 
     if (name == "worldMap") {
 
-        display.ctl["MAP"].worldMap.map.clearLabels();
+        hackMap.worldMap.map.clearLabels();
 
-        display.ctl["MAP"].finishDraw();
+        hackMap.finishDraw();
 
         return;
     }

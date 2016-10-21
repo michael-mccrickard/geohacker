@@ -247,10 +247,9 @@ c("doCurrentMap");
 
         };
 
-        if (_level == mlContinent) this.mapCtl.addContinentTags(this.map.dataProvider, 16, rec.c);
+        //if (_level == mlContinent) this.mapCtl.addContinentTags(this.map.dataProvider, 16, rec.c);
 
-        if (_level == mlRegion) this.mapCtl.addRegionTags( this.selectedRegion, this.map.dataProvider, 48, rec.c);
-
+        //if (_level == mlRegion) this.mapCtl.addRegionTags( this.selectedRegion, this.map.dataProvider, 48, rec.c);
 
 
         //lock out clicks on the map if we need to test the selection
@@ -407,7 +406,7 @@ c("country is labeled by centering")
 
         if (typeof _y !== 'undefined') y = _y;       
 
-        Meteor.defer( function() { display.ctl["MAP"].worldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
+        Meteor.defer( function() { hackMap.worldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
     }
 
 
@@ -764,12 +763,11 @@ c("doMapSuccess")
             loop: 2,
         });
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone2(); }, 750 );
+        Meteor.setTimeout( function() { hackMap.worldMap.hackDone2(); }, 750 );
     }
 
     this.hackDone2 = function() {
 
-c("hackDone2")
         //zoom the word HACKED in, pause, then continue zooming larger with a fade-out
 
         var container = $("#demo");
@@ -798,7 +796,7 @@ c("hackDone2")
           .to(element, duration, {autoAlpha:1, ease:SlowMo.ease.config(0.25, 0.9, true),  }, delay2);
 
 
-        tl.add( function() { display.ctl["MAP"].worldMap.hackDone3() }, 3.0 );
+        tl.add( function() { hackMap.worldMap.hackDone3() }, 3.0 );
 
     }
 
@@ -817,7 +815,7 @@ c("hackDone2")
 
     //Redraw the map at half size over on the left
 
-        display.ctl["MAP"].worldMap.map.clearLabels();
+        hackMap.worldMap.map.clearLabels();
 
 
         $("#divMap").velocity({
@@ -827,14 +825,14 @@ c("hackDone2")
         },{
             duration: 1000,
 
-            complete: function(elements) { display.ctl["MAP"].worldMap.hackDone4(); }
+            complete: function(elements) { hackMap.worldMap.hackDone4(); }
         });
     }
 
 
 
     this.hackDone4 = function() {
-c("hackDone4")
+
         this.animationDone = true;
 
         if (!this.mapLoaded) {
@@ -842,12 +840,12 @@ c("hackDone4")
             //we will have to wait for the map to finish loading, so set the
             //flag that indicates that we are ready and then return
 
-            display.ctl["MAP"].worldMap.animatonDone = true;
+            hackMap.worldMap.animatonDone = true;
 
             return;
         }
 
-        display.ctl["MAP"].worldMap.doMapStuff();      
+        hackMap.worldMap.doMapStuff();      
 
         //if we're editing the label position, then we pause here, otherwise just continue
 
@@ -909,7 +907,7 @@ c("hackDone4")
         });
 
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone5(); }, 2000 ); 
+        Meteor.setTimeout( function() { hackMap.worldMap.hackDone5(); }, 2000 ); 
     }
 
 
@@ -1008,7 +1006,7 @@ c("hackDone4")
 
             Meteor.setTimeout( function() { display.mapStatus.setThisAndType("AGENT " + hack.getWelcomeAgent().username.toUpperCase() + " IS ALREADY IN YOUR NETWORK"); }, 6500 );
 
-            display.ctl["MAP"].setStateOnly( sMapDone );
+            hackMap.setStateOnly( sMapDone );
 
         }
         else {
@@ -1028,7 +1026,7 @@ c("hackDone4")
 
         //delay this some more so that OK button does not appear before fade-in of agent profile?
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].setStateOnly( sMapDone ) }, 6501 );                
+        Meteor.setTimeout( function() { hackMap.setStateOnly( sMapDone ) }, 6501 );                
 
 
      } //END HACKDONE5
@@ -1253,7 +1251,7 @@ function handleZoomCompleted() {
 
         worldMap.labelMapObject();
 
-        worldMap.mapCtl.addCountryTags( worldMap.mapObjectClicked, worldMap.map.dataProvider, 96);
+        //worldMap.mapCtl.addCountryTags( worldMap.mapObjectClicked, worldMap.map.dataProvider, 96);
 
         worldMap.map.dataProvider.zoomLongitude = worldMap.map.zLongTemp;
 
@@ -1273,7 +1271,7 @@ function handleZoomCompleted() {
 }
 
 function refreshMap() {
-    Meteor.setTimeout( function() { display.ctl["MAP"].finishDraw(); }, 250);
+    Meteor.setTimeout( function() { hackMap.finishDraw(); }, 250);
 }
 
 

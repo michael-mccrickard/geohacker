@@ -175,11 +175,11 @@ Template.main.events({
           return; 
       }    
       
-      if (display.feature.name.get() == "VIDEO") display.suspendMedia();
+      if (display.feature.name == "VIDEO") display.suspendMedia();
 
-      if (display.feature.name.get() != "SOUND") game.playMusic();     
+      if (display.feature.name != "SOUND") game.playMusic();     
 
-      display.feature.set("MAP");
+      hackMap.go();
   
     },
 

@@ -70,24 +70,24 @@ Assign = function( _code, _mapCode, _hacked, _level, _name, _pool, _completions)
 
 		if (display == null) return;
 
-		display.ctl["MAP"].reset();
+		hackMap.reset();
 
-		display.ctl["MAP"].resetSelections();
+		hackMap.resetSelections();
 
-		display.ctl["MAP"].level.set( this.level );
+		hackMap.level.set( this.level );
 
 		if (this.level == mlContinent) {
 
-			display.ctl["MAP"].setContinent( this.mapCode );
+			hackMap.setContinent( this.mapCode );
 
-			display.ctl["MAP"].setState( sIDRegion );
+			hackMap.setState( sIDRegion );
 		}
 
 		if (this.level == mlRegion) {
 
-			display.ctl["MAP"].setRegion( this.code );		
+			hackMap.setRegion( this.code );		
 
-			display.ctl["MAP"].setState( sIDCountry );
+			hackMap.setState( sIDCountry );
 
 		}
 	}

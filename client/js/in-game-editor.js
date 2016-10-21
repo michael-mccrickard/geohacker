@@ -180,11 +180,11 @@ $(document).keydown(function(e) {
 
 	    	if (gEditLabels) {
 
-	    		var _state = display.ctl["MAP"].getState();
+	    		var _state = hackMap.getState();
 
-	    		if (_state == sTestCountry) display.ctl["MAP"].worldMap.doCorrectSequence();  //resume part 1 of the end-of-hack sequence
+	    		if (_state == sTestCountry) hackMap.worldMap.doCorrectSequence();  //resume part 1 of the end-of-hack sequence
 
-	    		if (_state == sCountryOK) display.ctl["MAP"].worldMap.hackDone4a();  //resume the part 2 of end-of-hack sequence
+	    		if (_state == sCountryOK) hackMap.worldMap.hackDone4a();  //resume the part 2 of end-of-hack sequence
 
 	    		 showMessage("resuming sequence");
 	    	}
@@ -389,7 +389,7 @@ function toggleNavigateCountriesMode() {
 
 function nudgeLabel(_code) {
 
-	var map = display.ctl["MAP"].worldMap.map;
+	var map = hackMap.worldMap.map;
 
   if (game.user.mode == uLearn) map = game.lesson.lessonMap.map;
 
@@ -490,7 +490,7 @@ function moveCapsuleToDefault() {
 
 function moveLabel() {
 
-	var map = display.ctl["MAP"].worldMap.map;
+	var map = hackMap.worldMap.map;
 
   if (game.user.mode == uLearn) map = game.lesson.lessonMap.map;
 
@@ -522,13 +522,13 @@ function moveLabel() {
         return;
     }
 
-    if ( display.ctl["MAP"].getState() == sCountryOK) {
+    if ( hackMap.getState() == sCountryOK) {
 
-        Meteor.defer( function() { display.ctl["MAP"].worldMap.labelMapObject( 14, "black", _x, _y ); } );
+        Meteor.defer( function() { hackMap.worldMap.labelMapObject( 14, "black", _x, _y ); } );
     }
     else {
 
-        Meteor.defer( function() { display.ctl["MAP"].worldMap.labelMapObject( 24, "black", _x, _y ); } );      
+        Meteor.defer( function() { hackMap.worldMap.labelMapObject( 24, "black", _x, _y ); } );      
     } 
 }
 
@@ -546,7 +546,7 @@ updateLabelRecord = function() {
 	//if the state is sCountryOK, then we are on the second labeling of the correct country
 	//(with the half-width map displayed to the left)
 
-    if ( display.ctl["MAP"].getState() == sCountryOK) {
+    if ( hackMap.getState() == sCountryOK) {
 
         Meteor.defer( function() { updateLabelPosition( 2 ); } );
     }
@@ -817,9 +817,9 @@ function updateLCValues()  {
 
 updateLabelPosition = function(_which) {
 
-    var map = display.ctl["MAP"].worldMap.map
+    var map = hackMap.worldMap.map
 
-    var mapObj = display.ctl["MAP"].worldMap;
+    var mapObj = hackMap.worldMap;
 
     if (game.user.mode == uLearn) map = game.lesson.lessonMap.map;
 
@@ -894,7 +894,7 @@ updateLabelPosition = function(_which) {
 
     var selectedCountry = mapObj.selectedCountry.get();
 
-    var _level = display.ctl["MAP"].level.get();
+    var _level = hackMap.level.get();
 
 //db.updateRecord2 = function (_type, field, ID, value) 
 

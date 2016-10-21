@@ -62,7 +62,7 @@ Helper = function() {
 
 	this.setText = function() {
 
-		var _level = display.ctl["MAP"].level.get();
+		var _level = hackMap.level.get();
 
 		if (display.loader.totalClueCount == 0)  {
 
