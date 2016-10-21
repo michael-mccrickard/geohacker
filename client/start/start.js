@@ -151,6 +151,8 @@ Meteor.startup(function() {
 
   browseMap = new BrowseMap();
 
+  lessonMap = new LessonMap();
+
   display = new Display();
 
   youtube = new YouTube();

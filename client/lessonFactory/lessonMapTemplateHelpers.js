@@ -1,25 +1,8 @@
 //*************************************************************************
 //              TEMPLATE HELPERS FOR LESSON MAP
 //*************************************************************************
-//*************************************************************************
-//              RENDERED CALLBACK
-//*************************************************************************
 
- 
-Template.lessonMap.rendered = function () {
-    
-    stopSpinner();
 
-    if (display.worldMapTemplateReady == false) {
-
-      display.worldMapTemplateReady = true;
-
-      Meteor.setTimeout( function() { display.ctl["MAP"].lessonMap.doCurrentMap( ) }, 250 );
-
-      Meteor.setTimeout( function() { display.ctl["MAP"].finishLessonDraw() }, 251 );
-
-    }
-}
 
 var fullHeight = 900;
 
@@ -254,11 +237,11 @@ Template.lessonMap.rendered = function () {
       display.worldMapTemplateReady = true;
 
 
-      if (game.lesson.state.get() == "learn") Meteor.setTimeout( function() { display.ctl["MAP"].lessonMap.doCurrentMap() }, 250 );
+      if (game.lesson.state.get() == "learn") Meteor.setTimeout( function() { lessonMap.worldMap.doCurrentMap() }, 250 );
 
       if (game.lesson.state.get() == "resuming") Meteor.setTimeout( function() { resumeLesson(); }, 250 );
 
-      Meteor.setTimeout( function() { display.ctl["MAP"].lessonFinishDraw() }, 251 );
+      Meteor.setTimeout( function() { lessonMap.finishDraw() }, 251 );
 
     }
 }

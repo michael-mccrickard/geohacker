@@ -176,7 +176,7 @@ Quiz = function( _lesson ) {
 
 			this.lesson.setHeader("Which region is this country in?");
 
-			this.lesson.lessonMap.doThisMap(mlContinent, mlContinent, mlRegion, this.lesson.continent, this.answer, false);
+			lessonMap.worldMap.doThisMap(mlContinent, mlContinent, mlRegion, this.lesson.continent, this.answer, false);
 
 			this.displayItem.set( db.getCountryName(  _item ) );			
 		}
@@ -191,7 +191,7 @@ Quiz = function( _lesson ) {
 
 			this.lesson.setHeader("Can you find this country in " + rec.n + "?");
 
-			this.lesson.lessonMap.doThisMap(mlRegion, mlRegion, mlCountry, this.lesson.continent, rec.c, true);
+			lessonMap.worldMap.doThisMap(mlRegion, mlRegion, mlCountry, this.lesson.continent, rec.c, true);
 
 			this.displayItem.set( db.getCountryName(  _item ) );			
 		}
@@ -217,14 +217,14 @@ Quiz = function( _lesson ) {
 
 		if (this.type == "quizFindRegionOfCountry") {
 
-			this.lesson.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.lesson.continent, _region, false);
+			lessonMap.worldMap.doThisMap(mlContinent, mlRegion, mlCountry, this.lesson.continent, _region, false);
 
 			this.lesson.setMessage( this.displayItem.get() + " is in " + db.getRegionRec( this.answer ).n );	
 		}
 
 		if (this.type == "quizFindCountryInRegion") {
 
-			this.lesson.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.lesson.continent, _region, false);
+			lessonMap.worldMap.doThisMap(mlContinent, mlRegion, mlCountry, this.lesson.continent, _region, false);
 
 			this.lesson.setMessage( this.displayItem.get() + " is in " + db.getRegionRecForCountry( this.answer ).n );	
 		}
@@ -246,7 +246,7 @@ Quiz = function( _lesson ) {
 
 		var _region = db.getRegionCodeForCountry( _item );		
 
-		this.lesson.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, this.lesson.continent, _region, false);
+		lessonMap.worldMap.doThisMap(mlContinent, mlRegion, mlCountry, this.lesson.continent, _region, false);
 
 		if (this.type == "quizFindRegionOfCountry") {
 

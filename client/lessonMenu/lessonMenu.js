@@ -173,9 +173,9 @@ function handleClick( _event ) {
 
 		var _continentID = db.getContinentCodeForCountry( _event.mapObject.id );
 
-var _ls = new LessonSequence( _continentID );
+        var _ls = new LessonSequence( _continentID );
 
-g.worldMenu.lessonGroup = _ls.item;
+        g.worldMenu.lessonGroup = _ls.item;
 
         g.worldMenu.showContinentMenu( _continentID );
 
