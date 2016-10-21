@@ -149,6 +149,8 @@ Meteor.startup(function() {
 
   hackMap = new HackMap();
 
+  browseMap = new BrowseMap();
+
   display = new Display();
 
   youtube = new YouTube();

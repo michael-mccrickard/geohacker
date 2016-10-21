@@ -88,9 +88,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
       this.setGlobals( "browse" );
 
-      //check for the map object
-
-      //if ( !display.ctl["MAP"] ) display.initMap();
 
       display.suspendMedia();
 
@@ -208,7 +205,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	if (game.user.mode == uBrowseCountry) {
 
-	      	var d = hackMap.browseWorldMap;
+	      	var d = browseMap.worldMap;
 
 	    	d.mapLevel = mlRegion;
 
@@ -228,9 +225,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     		display.browser.countryCode = "";  //reset this since we are going in fresh
 
-    		if (!display.ctl["MAP"]) display.ctl["MAP"] = new ghMapCtl( display );
-
-    		//display.ctl["MAP"].browseWorldMap.reset();   //can't do this until we disconnect browseMap from ghMapCtl
+    		browseMap.reset();   //can't do this until we disconnect browseMap from ghMapCtl
     	}
 
     	Control.playEffect( "mapButton.mp3" );

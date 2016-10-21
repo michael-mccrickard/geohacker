@@ -460,7 +460,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
         if (_y) y = _y;       
 
-        Meteor.defer( function() { display.ctl["MAP"].browseWorldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
+        Meteor.defer( function() { browseMap.worldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
     }
 
 
@@ -612,7 +612,7 @@ function handleClick(_event) {
 
         if (worldMap.selectedCountry.get() != worldMap.mapObjectClicked) {
 
-c("handleclick in browsemap is exiting b/c selected country has changed -- mlCountry level")
+        c("handleclick in browsemap is exiting b/c selected country has changed -- mlCountry level")
 
             worldMap.selectedCountry.set( worldMap.mapObjectClicked );
 
@@ -632,7 +632,7 @@ c("handleclick in browsemap is exiting b/c selected country has changed -- mlCou
 
         if (worldMap.zoomOnlyOnClick) {
 
-c("handleclick in browsemap is exiting b/c zoomOnlyOnClick -- mlcountry level")
+        c("handleclick in browsemap is exiting b/c zoomOnlyOnClick -- mlcountry level")
 
             worldMap.mapCtl.level.set(mlRegion); 
 
@@ -641,7 +641,7 @@ c("handleclick in browsemap is exiting b/c zoomOnlyOnClick -- mlcountry level")
             return;
         }
 
-c("worldMap.mapObjectClicked just b4 browseCountry is " + worldMap.mapObjectClicked)
+        c("worldMap.mapObjectClicked just b4 browseCountry is " + worldMap.mapObjectClicked)
 
         game.user.browseCountry( worldMap.mapObjectClicked, "browseWorldMap" );
 
@@ -674,7 +674,7 @@ function handleZoomCompleted() {
     
     var level = worldMap.mapCtl.level.get();
 
-c("worldMap.mapObjectClicked in handleZoomCompleted is " + worldMap.mapObjectClicked)
+    c("worldMap.mapObjectClicked in handleZoomCompleted is " + worldMap.mapObjectClicked)
 
     var _continentCode = db.getContinentCodeForCountry( worldMap.mapObjectClicked );
 
@@ -748,12 +748,12 @@ c("worldMap.mapObjectClicked in handleZoomCompleted is " + worldMap.mapObjectCli
 
 
 function refreshMap() {
-    Meteor.setTimeout( function() { display.ctl["MAP"].browseFinishDraw(); }, 250);
+    Meteor.setTimeout( function() { browseMap.finishDraw(); }, 250);
 }
 
 dbm = function() {
 
-  var ctl = display.ctl["MAP"];
+  var ctl = browseMap;
 
   var s = "map.level = " + ctl.level.get() + "\n\r";
 

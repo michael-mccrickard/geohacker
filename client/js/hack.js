@@ -231,7 +231,7 @@ Hack = function() {
 
     this.startBrowsing = function() {
 
-        var map = display.ctl["MAP"].browseWorldMap;
+        var map = browseMap.worldMap;
 
         map.selectedContinent = this.continentCode;
 
@@ -239,7 +239,7 @@ Hack = function() {
 
         map.selectedCountry.set( this.countryCode );
 
-        display.ctl["MAP"].level.set( mlCountry );
+        browseMap.level.set( mlCountry );
 
         display.browser.init( this.countryCode);
 
