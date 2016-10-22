@@ -24,8 +24,6 @@ Display = function() {
 
     this.browser = new Browser();
 
-    this.meme = new Meme();
-
     this.help = new Help();
 
     this.helper = new Helper();
@@ -346,30 +344,6 @@ Display = function() {
         });
     }
 
-    this.loadMainForBrowsing = function() {
- 
-//        this.mainTemplateReady = false;
-
-        for (i=0; i < this.ctlName.length; i++) {
-
-            var _name = this.ctlName[i];
-
-            var ctl = this.ctl[ _name ];
-
-            //assign the src value for the icon
-
-            if (_name != "TEXT") $("#p" +_name).attr("src", ctl.getControlPic() );
-        }
-
-        imagesLoaded( document.querySelector('#preloadMain'), function( instance ) {
-          
-          //now that the images are loaded, go to main and the template.rendered event
-          //will call this.drawMain()
-
-          FlowRouter.go("/main");
-
-        });
-    }
 
     this.closeOutMain = function() {
 

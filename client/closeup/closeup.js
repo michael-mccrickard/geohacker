@@ -221,7 +221,8 @@ function insertNewTagRecord(_dt, _text) {
       });
     }  
 
-        Meteor.setTimeout( function() { display.loadMainForBrowsing(); }, 600 );  
+alert("Formerly a call to loadMainForBrowsing was made here.")
+        //Meteor.setTimeout( function() { display.loadMainForBrowsing(); }, 600 );  
 
   });
 }
