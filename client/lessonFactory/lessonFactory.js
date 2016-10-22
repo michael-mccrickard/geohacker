@@ -145,7 +145,7 @@ LessonFactory = function() {
 
 	this.showMap = function() {
 
-		display.worldMapTemplateReady = false;
+		hacker.worldMapTemplateReady = false;
 
 		FlowRouter.go("/lessonMap");		
 	}

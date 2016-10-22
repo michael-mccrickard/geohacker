@@ -232,9 +232,9 @@ Template.lessonMap.rendered = function () {
 
     if (!game.lesson) return;
 
-    if (display.worldMapTemplateReady == false) {
+    if (hacker.worldMapTemplateReady == false) {
 
-      display.worldMapTemplateReady = true;
+      hacker.worldMapTemplateReady = true;
 
 
       if (game.lesson.state.get() == "learn") Meteor.setTimeout( function() { lessonMap.worldMap.doCurrentMap() }, 250 );

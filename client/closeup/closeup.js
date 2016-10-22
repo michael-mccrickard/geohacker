@@ -4,7 +4,7 @@ Template.closeup.rendered = function() {
 
   stopSpinner();
 
-  display.closeUp.draw();
+  hacker.closeUp.draw();
 }
 
 
@@ -39,9 +39,9 @@ Template.closeup.events = {
         return;
       } 
 
-//      display.mainTemplateReady = false;
+//      hacker.mainTemplateReady = false;
 
-      if (display.feature.getName() == "MAP") {
+      if (hacker.feature.getName() == "MAP") {
 
         FlowRouter.go("/debrief");
 
@@ -55,13 +55,13 @@ Template.closeup.events = {
 
       e.preventDefault();
 
-      if (display.closeUp.source == "0") {
+      if (hacker.closeUp.source == "0") {
 
         alert("Go to Unknown Source page here.")
       }
       else {
 
-        window.open(display.closeUp.source);
+        window.open(hacker.closeUp.source);
       }
     },
 
@@ -105,9 +105,9 @@ CloseUp = function() {
 
   this.draw = function() {
 
-      var img = display.feature.imageSrc;
+      var img = hacker.feature.imageSrc;
 
-      if (display.feature.getName() == "MAP") {
+      if (hacker.feature.getName() == "MAP") {
 
         var _filename = hack.getCountryMapURL();
 
@@ -165,7 +165,7 @@ CloseUp = function() {
       }
       else{
 
-        s = display.feature.source;
+        s = hacker.feature.source;
       }
 
       var s = null;
@@ -176,7 +176,7 @@ CloseUp = function() {
       }
       else{
 
-        s = display.feature.source;
+        s = hacker.feature.source;
       }
 
       this.source = s;
@@ -222,7 +222,7 @@ function insertNewTagRecord(_dt, _text) {
     }  
 
 alert("Formerly a call to loadMainForBrowsing was made here.")
-        //Meteor.setTimeout( function() { display.loadMainForBrowsing(); }, 600 );  
+        //Meteor.setTimeout( function() { hacker.loadMainForBrowsing(); }, 600 );  
 
   });
 }

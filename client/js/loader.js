@@ -15,12 +15,12 @@ NewLoader = function() {
 
 		//reset the feature object
 
-		display.feature.clear();
+		hacker.feature.clear();
 
 
 		if (mode != mReady) {
          
-          Control.playEffect( display.locked_sound_file );
+          Control.playEffect( hacker.locked_sound_file );
 		
 		  return;
 		}
@@ -37,21 +37,21 @@ NewLoader = function() {
 
 		hack.mode = mScanning;
 
-		display.setControls( sScanning );
+		hacker.setControls( sScanning );
 
-		Meteor.defer( function(){ display.dimensionControls(); });  //the aspect ratio is likely to be 
+		Meteor.defer( function(){ hacker.dimensionControls(); });  //the aspect ratio is likely to be 
 																	//different (loaded control pic vs. scan pic)
 
 
-		display.cue.setAndShow();
+		hacker.cue.setAndShow();
 
-		display.feature.isLoaded.set( false );
+		hacker.feature.isLoaded.set( false );
 
 	    //if this control has a still image, load it into memory
 		//which will allow feature.dimension() to size it accurately
 		//this also sets the name and ctl for the feature
 
-	    display.feature.preload( this.newControl.name );	
+	    hacker.feature.preload( this.newControl.name );	
 
 
 	}
@@ -62,20 +62,20 @@ NewLoader = function() {
 
 		c("in loader.showLoadedControl, newControl name is " + this.newControl.name)
 
-	    display.ctl[ this.newControl.name ].setControlPicSource();
+	    hacker.ctl[ this.newControl.name ].setControlPicSource();
 
 		hack.mode = mDataFound;
 
-		if (this.totalClueCount == 1) display.status.setAndShow();
+		if (this.totalClueCount == 1) hacker.status.setAndShow();
 
-		display.cue.setAndShow();
+		hacker.cue.setAndShow();
 
 
 		//here we set the unloaded controls to sIcon and the loaded ones back to sLoaded
 
-		display.resetControls();
+		hacker.resetControls();
 
-		display.dimensionControls();
+		hacker.dimensionControls();
 
 		//this.newControl was set by this.go() before the loading sequence began
 			
@@ -96,7 +96,7 @@ NewLoader = function() {
 
 		//see if any buttons need enabling / disabling
 
-		display.checkMainScreen();
+		hacker.checkMainScreen();
 
 	},
 
@@ -133,13 +133,13 @@ NewLoader = function() {
 		//if so, remove them.  Also, set the low var
 
 
-		while (i < display.ctlName.length) {
+		while (i < hacker.ctlName.length) {
 
-			var _name = display.ctlName[i];
+			var _name = hacker.ctlName[i];
 
-			var fullCount = display.ctl[_name].fullCount;
+			var fullCount = hacker.ctl[_name].fullCount;
 
-			var loadedCount = display.ctl[_name].loadedCount;
+			var loadedCount = hacker.ctl[_name].loadedCount;
 
 			//skip the map and any control that is fully loaded
 
@@ -163,7 +163,7 @@ NewLoader = function() {
 
 			//add control to the array
 	
-			tmp.push( display.ctl[ _name ] );
+			tmp.push( hacker.ctl[ _name ] );
 
 			i++;
 
@@ -214,15 +214,15 @@ NewLoader = function() {
 //if we need to force a certain control for any reason, this is the place to do it
 
 /*
-if (this.totalClueCount == 0) randomControl = display.ctl["VIDEO"]; 
+if (this.totalClueCount == 0) randomControl = hacker.ctl["VIDEO"]; 
 
-if (this.totalClueCount == 1) randomControl = display.ctl["VIDEO"];
+if (this.totalClueCount == 1) randomControl = hacker.ctl["VIDEO"];
 
-if (this.totalClueCount == 2) randomControl = display.ctl["VIDEO"];
+if (this.totalClueCount == 2) randomControl = hacker.ctl["VIDEO"];
 
-if (this.totalClueCount == 3) randomControl = display.ctl["VIDEO"];
+if (this.totalClueCount == 3) randomControl = hacker.ctl["VIDEO"];
 
-if (this.totalClueCount == 4) randomControl = display.ctl["TEXT"];
+if (this.totalClueCount == 4) randomControl = hacker.ctl["TEXT"];
 */
 		//Bump up the loadedCount on this control and return the name
 

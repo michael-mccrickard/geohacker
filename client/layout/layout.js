@@ -2,19 +2,19 @@ Template.layout.helpers({
 
   zoomInModalTitle: function() {
 
-      return display.meme.name;
+      return hacker.meme.name;
   },
 
   srcImgZoomInModal: function() {
 
-      display.updateFlag.get();
+      hacker.updateFlag.get();
 
-      return display.meme.src;
+      return hacker.meme.src;
   },
 
   zoomInModalText: function() {
 
-      return display.meme.text;
+      return hacker.meme.text;
   }
 
 })

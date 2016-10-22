@@ -187,7 +187,7 @@ BadgeList = function() {
 
 	this.generateList = function() {
 
-		var totalHackClues = display.loader.totalClueCount + display.helper.getClueCount();
+		var totalHackClues = hacker.loader.totalClueCount + hacker.helper.getClueCount();
 
 		this.arr = [];
 
@@ -225,11 +225,11 @@ BadgeList = function() {
 
     	//investigator
 
-    	if (display.loader.totalClueCount >= 9) this.arr.push( this.generateBadge( bInvestigator, vGold, true) );
+    	if (hacker.loader.totalClueCount >= 9) this.arr.push( this.generateBadge( bInvestigator, vGold, true) );
 
-    	if (display.loader.totalClueCount >= 6 && display.loader.totalClueCount < 9) this.arr.push( this.generateBadge( bInvestigator, vSilver, true ) );
+    	if (hacker.loader.totalClueCount >= 6 && hacker.loader.totalClueCount < 9) this.arr.push( this.generateBadge( bInvestigator, vSilver, true ) );
 
-    	if (display.loader.totalClueCount >= 3 && display.loader.totalClueCount < 6) this.arr.push( this.generateBadge( bInvestigator, vBronze, true ) );
+    	if (hacker.loader.totalClueCount >= 3 && hacker.loader.totalClueCount < 6) this.arr.push( this.generateBadge( bInvestigator, vBronze, true ) );
 
     	//scholar
 

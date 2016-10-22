@@ -22,7 +22,7 @@ Hack = function() {
 
   /********************************************/
   /*            MISC PROPS        
-  /*********************************************/
+  /********************************************/
 
   this.debrief = null;
 
@@ -44,7 +44,7 @@ Hack = function() {
 
     this.startNew = function() {
 
-        display.init(this.countryCode);
+        hacker.init(this.countryCode);
 
         if (this.debrief == null) {
 
@@ -65,7 +65,7 @@ Hack = function() {
 
         game.playMusic();
 
-        display.loadMain();
+        hacker.loadMain();
     };
 
 
@@ -73,11 +73,11 @@ Hack = function() {
 
         this.mode = mNone;
 
-        display.suspendMedia();
+        hacker.suspendMedia();
 
-        display.suspendBGSound();
+        hacker.suspendBGSound();
 
-        display.feature.clear();    
+        hacker.feature.clear();    
 
         Control.playEffect("goMission.mp3");
 
@@ -251,7 +251,7 @@ Hack = function() {
 
        var _file = this.getAnthemFile();
 
-       if (display.ctl["SOUND"].getState() == sPlaying ) display.ctl["SOUND"].pause();
+       if (hacker.ctl["SOUND"].getState() == sPlaying ) hacker.ctl["SOUND"].pause();
 
        Control.playEffect( _file );
     },
@@ -264,7 +264,7 @@ Hack = function() {
 
        if (hack.mode != mEdit) {
           
-          if (display.ctl["SOUND"].getState() == sPlaying ) display.ctl["SOUND"].pause();
+          if (hacker.ctl["SOUND"].getState() == sPlaying ) hacker.ctl["SOUND"].pause();
        }
 
        Control.playEffect( _file );

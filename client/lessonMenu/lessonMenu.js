@@ -291,6 +291,6 @@ Template.lessonMenu.rendered = function () {
 
     Meteor.setTimeout( function() { game.lesson.showLessonMenu(); }, 250 );
 
-    //Meteor.setTimeout( function() { display.ctl["MAP"].lessonFinishDraw() }, 251 );
+    //Meteor.setTimeout( function() { hacker.ctl["MAP"].lessonFinishDraw() }, 251 );
 
 }

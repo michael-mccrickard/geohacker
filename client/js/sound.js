@@ -45,7 +45,7 @@
 
 	this.play = function() {
 
-		if (this.getState() == sPaused) display.feature.changeImage( this.soundPlayingPic )
+		if (this.getState() == sPaused) hacker.feature.changeImage( this.soundPlayingPic )
 
 		this.setState( sPlaying );
 
@@ -79,7 +79,7 @@
 
 		this.setState( sPaused );
 
-		display.feature.changeImage( this.soundPausedPic );
+		hacker.feature.changeImage( this.soundPausedPic );
 
 	    document.getElementById("soundPlayer").pause();
 

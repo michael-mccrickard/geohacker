@@ -91,7 +91,7 @@ FlowRouter.route('/missionSelect', {
 
   action: function (params, queryParams) { 
 
-   if (display) display.closeOutMain();
+   hacker.closeOutMain();
 
    BlazeLayout.render('layout', { content: "missionSelect" } ) 
 
@@ -141,7 +141,7 @@ FlowRouter.route('/home', {
 
   action: function (params, queryParams) { 
 
-    display.closeOutMain();
+    hacker.closeOutMain();
 
     BlazeLayout.render('layout', { content: "home" } );
 
@@ -178,7 +178,7 @@ FlowRouter.route('/worldMap', {
 
   action: function (params, queryParams) { 
 
-  if (display) display.closeOutMain();
+  hacker.closeOutMain();
 
    BlazeLayout.render('layout', { content: "worldMap" } ) 
 
@@ -300,9 +300,9 @@ function checkForFeature() {
   //if there is no control featured, then don't jump to
   //a close-up view
 
-  if (display.feature.getName().length == 0) {
+  if (hacker.feature.getName().length == 0) {
 
-    Control.playEffect( display.locked_sound_file );
+    Control.playEffect( hacker.locked_sound_file );
 
     this.redirect("/main");
   }

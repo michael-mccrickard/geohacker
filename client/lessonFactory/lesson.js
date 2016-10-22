@@ -7,13 +7,13 @@ switchLesson = function(_continentID, _missionCode) {
 
 initiateResumeLesson = function() {
 
-	display.suspendMedia();
+	hacker.suspendMedia();
 
     game.lesson.state.set("resuming");
 
     game.user.mode = uLearn;
 
-    display.worldMapTemplateReady = false;
+    hacker.worldMapTemplateReady = false;
 
     FlowRouter.go("/lessonMap");
 }

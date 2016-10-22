@@ -759,7 +759,7 @@ dbm = function() {
 
   s = s + "map.state = " + ctl.getState("MAP") + "\n\r";
 
-  var map = display.ctl["MAP"].browseWorldMap;
+  var map = hacker.ctl["MAP"].browseWorldMap;
 
   s = s + "selectedContinent = " + map.selectedContinent + "\n\r";
 

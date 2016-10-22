@@ -198,7 +198,7 @@ function goBrowse( _id ) {
 
 	  if (game.lesson.quiz.inProgress.get() ) {
 
-  	  	  Control.playEffect( display.locked_sound_file );
+  	  	  Control.playEffect( hacker.locked_sound_file );
 
 	  	  game.lesson.setMessage("BROWSE COUNTRY NOT AVAILABLE DURING QUIZ");
 

@@ -99,8 +99,6 @@ Template.browseWorldMap.helpers({
 
   mapHeight: function() { 
 
-    if (!display) return;
-
     var h = Session.get("gWindowHeight") - display.menuHeight;
 
     return h * 0.98;

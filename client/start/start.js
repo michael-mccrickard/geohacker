@@ -143,6 +143,8 @@ Meteor.startup(function() {
 
   db = new Database();
 
+  display = new Display();
+
   nav = new Navigator();
 
   hack = new Hack();
@@ -153,7 +155,7 @@ Meteor.startup(function() {
 
   lessonMap = new LessonMap();
 
-  display = new Display();
+  hacker = new Hacker();
 
   youtube = new YouTube();
 

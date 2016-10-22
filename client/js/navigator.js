@@ -208,7 +208,7 @@ Navigator = function() {
 
       hack.mode = mEdit;
 
-      display.closeOutMain();
+      hacker.closeOutMain();
 
 
     }

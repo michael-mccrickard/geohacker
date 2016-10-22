@@ -130,9 +130,9 @@ Scanner = function() {
 
 		this.centerState.set("scan");
 
-		if ( display.feature.on() ) {
+		if ( hacker.feature.on() ) {
 
-			var _name = display.feature.getName();
+			var _name = hacker.feature.getName();
 
 			if (_name != "TEXT" && _name != "VIDEO"  && _name != "MAP") this.hideBG();
 		}
@@ -175,7 +175,7 @@ Scanner = function() {
 
 		this.startProgressMeter();
 
-		display.TV.set( TV.scan );
+		hacker.TV.set( TV.scan );
 
 		var soundTime = 4;
 
@@ -185,7 +185,7 @@ Scanner = function() {
 
 		this.playScanSound( soundTime );
 
-		display.loader.go();
+		hacker.loader.go();
 
 	}
 
@@ -235,7 +235,7 @@ Scanner = function() {
 
 				duration: _time, 
 				display: "auto", 
-				complete: function() { display.scanner.hide();  },  
+				complete: function() { hacker.scanner.hide();  },  
 			});
 		}
 
@@ -266,15 +266,15 @@ Scanner = function() {
 
 		this.ele[ _ID ].pause();
 
-		if (_ID == scTopLeft) Meteor.setTimeout( function() { display.scanner.nextIdleMessage( scTopLeft ) }, display.scanner.ele[ scTopLeft ].idlePauseTime[ display.scanner.ele[ scTopLeft ].index ] ) ; 	
+		if (_ID == scTopLeft) Meteor.setTimeout( function() { hacker.scanner.nextIdleMessage( scTopLeft ) }, hacker.scanner.ele[ scTopLeft ].idlePauseTime[ hacker.scanner.ele[ scTopLeft ].index ] ) ; 	
 
-		if (_ID == scTopRight) Meteor.setTimeout( function() { display.scanner.nextIdleMessage( scTopRight ) }, display.scanner.ele[ scTopRight ].idlePauseTime[ display.scanner.ele[ scTopRight ].index ] ) ; 
+		if (_ID == scTopRight) Meteor.setTimeout( function() { hacker.scanner.nextIdleMessage( scTopRight ) }, hacker.scanner.ele[ scTopRight ].idlePauseTime[ hacker.scanner.ele[ scTopRight ].index ] ) ; 
 
-		if (_ID == scBottomLeft) Meteor.setTimeout( function() { display.scanner.nextIdleMessage( scBottomLeft ) }, display.scanner.ele[ scBottomLeft ].idlePauseTime[ display.scanner.ele[ scBottomLeft ].index ] ) ; 	
+		if (_ID == scBottomLeft) Meteor.setTimeout( function() { hacker.scanner.nextIdleMessage( scBottomLeft ) }, hacker.scanner.ele[ scBottomLeft ].idlePauseTime[ hacker.scanner.ele[ scBottomLeft ].index ] ) ; 	
 
-		if (_ID == scBottomCenter) Meteor.setTimeout( function() { display.scanner.nextIdleMessage( scBottomCenter ) }, display.scanner.ele[ scBottomCenter ].idlePauseTime[ display.scanner.ele[ scBottomCenter ].index ] ) ; 
+		if (_ID == scBottomCenter) Meteor.setTimeout( function() { hacker.scanner.nextIdleMessage( scBottomCenter ) }, hacker.scanner.ele[ scBottomCenter ].idlePauseTime[ hacker.scanner.ele[ scBottomCenter ].index ] ) ; 
 
-		if (_ID == scBottomRight) Meteor.setTimeout( function() { display.scanner.nextIdleMessage( scBottomRight ) }, display.scanner.ele[ scBottomRight ].idlePauseTime[ display.scanner.ele[ scBottomRight ].index ] ) ; 
+		if (_ID == scBottomRight) Meteor.setTimeout( function() { hacker.scanner.nextIdleMessage( scBottomRight ) }, hacker.scanner.ele[ scBottomRight ].idlePauseTime[ hacker.scanner.ele[ scBottomRight ].index ] ) ; 
 	}
 
 	this.nextIdleMessage = function(_ID) {
@@ -310,7 +310,7 @@ Scanner = function() {
 			this.ele[ i ].pause();			
 		}
 
-		display.loader.showLoadedControl();  //shows the appropriate pic in the control button
+		hacker.loader.showLoadedControl();  //shows the appropriate pic in the control button
 
 		this.centerState.set("loaded");
 
@@ -318,7 +318,7 @@ Scanner = function() {
 
 		this.showBG();
 
-		if ( display.moreDataAvailable() ) display.TV.startIdle();
+		if ( hacker.moreDataAvailable() ) hacker.TV.startIdle();
 
 		Control.playEffect( this.intercept_sound_file );
 
@@ -328,9 +328,9 @@ Scanner = function() {
 
 		this.fadeOut(300);
 
-		display.feature.show();
+		hacker.feature.show();
 
-		Meteor.setTimeout( function() { display.scanner.startIdle() }, 2000 );		
+		Meteor.setTimeout( function() { hacker.scanner.startIdle() }, 2000 );		
 	}
 
 	this.startNetworkAnalyzer = function() {
@@ -339,7 +339,7 @@ Scanner = function() {
 
 		this.networkIntegrityOn = true;
 
-		Meteor.setTimeout( function() { display.scanner.networkAnalyzer() }, Database.getRandomFromRange(3000, 10000) );
+		Meteor.setTimeout( function() { hacker.scanner.networkAnalyzer() }, Database.getRandomFromRange(3000, 10000) );
 	}
 
 	this.networkAnalyzer = function() {
@@ -348,7 +348,7 @@ Scanner = function() {
 
 		this.networkIntegrity.set( _amt/10 );
 
-		Meteor.setTimeout( function() { display.scanner.networkAnalyzer() }, Database.getRandomFromRange(3000, 10000) );
+		Meteor.setTimeout( function() { hacker.scanner.networkAnalyzer() }, Database.getRandomFromRange(3000, 10000) );
 
 	}
 
@@ -382,7 +382,7 @@ Scanner = function() {
 
 		document.getElementById("streamAnalyzerID").innerHTML = _text;
 
-		Meteor.setTimeout( function() { display.scanner.streamAnalyzer(); }, delay);
+		Meteor.setTimeout( function() { hacker.scanner.streamAnalyzer(); }, delay);
 
 	}
 
@@ -403,16 +403,16 @@ Scanner = function() {
 
 		Meteor.setTimeout( function () {
 
-			display.scanner.advanceProgressMeter();
+			hacker.scanner.advanceProgressMeter();
  
-		}, display.scanner.progressInterval);
+		}, hacker.scanner.progressInterval);
 
-		Meteor.defer( function() { display.scanner.drawCenter() } );
+		Meteor.defer( function() { hacker.scanner.drawCenter() } );
 	}
 
 	this.advanceProgressMeter = function() {
 
-			var s = display.scanner;
+			var s = hacker.scanner;
 
 			var temp = s.progress.get();
 
@@ -430,9 +430,9 @@ Scanner = function() {
 
 			Meteor.setTimeout( function () {
 
-				display.scanner.advanceProgressMeter();
+				hacker.scanner.advanceProgressMeter();
 	 
-			}, display.scanner.progressInterval);
+			}, hacker.scanner.progressInterval);
 	}
 
 
@@ -457,7 +457,7 @@ Scanner = function() {
 
 			//if (Session.get("sFeatureImageLoaded") == false)  return false;
 		
-			if ( !display.feature.isLoaded.get() ) return false;
+			if ( !hacker.feature.isLoaded.get() ) return false;
 		}
 
 		return true;
@@ -481,7 +481,7 @@ Scanner = function() {
 
 		var spacer = vertSpacer * 2;
 
-		if (display.scanner.centerState.get() == "idle") spacer = -1 * vertSpacer*3
+		if (hacker.scanner.centerState.get() == "idle") spacer = -1 * vertSpacer*3
 
 	  	$("div.scanCenterText").css("top", $(".scanCenter").position().top + $(".scanCenterImg").outerHeight() + spacer + "px" ); 
 	}

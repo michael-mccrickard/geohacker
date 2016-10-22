@@ -6,11 +6,11 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	this.missionHack = new Hack();
 
-	this.missionDisplay = new Display();
+	this.missionHacker = new Hacker();
 
 	this.browseHack =  new Hack();
 
-	this.browseDisplay = new Display();
+	this.browseHacker = new Hacker();
 
 	this.msg = new Messaging();
 
@@ -89,12 +89,12 @@ User = function( _name ) {  //name, scroll pos (for content editors)
       this.setGlobals( "browse" );
 
 
-      display.suspendMedia();
+      hacker.suspendMedia();
 
 		//if we're in lesson mode, uLearn, then the hack.countryCode
 		//will aready be set to _code (to create the learning capsule) but
 		//display will still have the previous countryCode (if any), so we
-		//need to re-init the display.  If the codes are the same, then
+		//need to re-init the hacker.  If the codes are the same, then
 		//we are probably just coming back from the browseMap
 
       if (_code != display.browser.countryCode) {
@@ -201,7 +201,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.goBrowseMap = function() {
 
-    	display.suspendMedia();
+    	hacker.suspendMedia();
 
     	if (game.user.mode == uBrowseCountry) {
 
@@ -268,9 +268,9 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	hack.mode = mReady;
 
-    	if (display.feature.getName() == "MAP") {
+    	if (hacker.feature.getName() == "MAP") {
 
-	  		display.worldMapTemplateReady = false;
+	  		hacker.worldMapTemplateReady = false;
 
 	  		FlowRouter.go("/worldMap");
 
@@ -284,14 +284,10 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	if (_which == "mission") {
 
-    		display = this.missionDisplay;
-
   			hack = this.missionHack;
     	}
 
        	if (_which == "browse") {
-
-    		display = this.browseDisplay;
 
   			hack = this.browseHack;
     	} 	
@@ -299,17 +295,15 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.goHome = function() {
 
-    	if (display) {
 
-    		//The avatar button in the upper-left corner 
-    		//is what calls this function.
-    		//It might be faded b/c we're in the middle of some
-    		//sequence like hackDone.
+		//The avatar button in the upper-left corner 
+		//is what calls this function.
+		//It might be faded b/c we're in the middle of some
+		//sequence like hackDone.
 
-    		if ( display.homeButtonDisabled() ) return;
+		if ( display.homeButtonDisabled() ) return;
 
-			Control.suspendAllMedia();
-    	}
+		Control.suspendAllMedia();
 
 
     	if (FlowRouter.current().path == "/editor") {

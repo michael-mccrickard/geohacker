@@ -23,9 +23,9 @@ Template.worldMap.rendered = function () {
     
     stopSpinner();
 
-    if (display.worldMapTemplateReady == false) {
+    if (hacker.worldMapTemplateReady == false) {
 
-      display.worldMapTemplateReady = true;
+      hacker.worldMapTemplateReady = true;
 
       Meteor.setTimeout( function() { hackMap.worldMap.doCurrentMap() }, 250 );
 

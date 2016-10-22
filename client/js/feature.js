@@ -61,6 +61,8 @@ Feature = function() {
 
 				if (this.ctl.video.isYouTube) {
 
+					//in ctl check to see if already playing?
+
 					this.ctl.play();
 
 					return;					
@@ -71,8 +73,12 @@ Feature = function() {
 
 				game.pauseMusic();
 
+				//in ctl check to see if already playing?
+
 				this.ctl.play();
 			}
+
+			//check here to see if the file has actually changed?
 
 			$("img.featuredPic").attr("src", this.getFile( this.getName() ) );
 
@@ -114,13 +120,13 @@ Feature = function() {
 
 		console.log("_name in feature preload =" + _name)
 
-		this.ctl = display.ctl[ _name ];
+		this.ctl = hacker.ctl[ _name ];
 		
 		this.file = this.getFile( _name);
 
 		if ( _name == "VIDEO") {
 
-			this.ctl.video = new Video( this.file, display.ctl["VIDEO"] );
+			this.ctl.video = new Video( this.file, hacker.ctl["VIDEO"] );
 
 
 			if ( youtube.isFile( this.file ) ) {
@@ -147,11 +153,11 @@ Feature = function() {
     
           //now that the image is loaded ...
 
-          display.feature.imageSrc = Control.getImageFromFile( display.feature.file );
+          hacker.feature.imageSrc = Control.getImageFromFile( hacker.feature.file );
 
 		  console.log("in feature.preload(), feature imageSrc created from " + this.file);
  
-          display.feature.fileIsLoaded();
+          hacker.feature.fileIsLoaded();
 
         });
 	}
@@ -160,18 +166,18 @@ Feature = function() {
 
 		c("feature.fileIsLoaded()");
 
-		this.setName( display.loader.newControl.name );
+		this.setName( hacker.loader.newControl.name );
 
-		this.file = this.getFile( display.loader.newControl.name );
+		this.file = this.getFile( hacker.loader.newControl.name );
 
 
 		//if the scanner is still running, it's possible that it is still waiting on the image to load
 
-		if ( display.scanner.centerState == "scan" || display.scanner.centerState == "rescan") {
+		if ( hacker.scanner.centerState == "scan" || hacker.scanner.centerState == "rescan") {
 
 			//this returns true if the scanner has finished running all the way through (100% progress)
 
-			if (display.scanner.checkScan("feature") == true) {display.scanner.stopScan();}
+			if (hacker.scanner.checkScan("feature") == true) {hacker.scanner.stopScan();}
 		}
 
 		//if checkScan above returned false, then the scanner is still running, so we just
@@ -213,22 +219,22 @@ Feature = function() {
 
 		var _file = null;
 
-		var _index = display.ctl[ _name ].getIndex();
+		var _index = hacker.ctl[ _name ].getIndex();
 
 		//set the source property for the credit line in closeup view
 
-		if (display.ctl[ _name ].items[ _index ]) {
+		if (hacker.ctl[ _name ].items[ _index ]) {
 
-			this.source = display.ctl[ _name ].items[ _index ].s;
+			this.source = hacker.ctl[ _name ].items[ _index ].s;
 		}
 
 		if ( _name == "SOUND") {
 
-			 _file = display.ctl[ _name ].getFeaturedPic();
+			 _file = hacker.ctl[ _name ].getFeaturedPic();
 		}
 		else {
 
-			_file = display.ctl[ _name ].getFile();
+			_file = hacker.ctl[ _name ].getFile();
 		}
 
 		return _file;
@@ -248,7 +254,7 @@ Feature = function() {
 
 	this.switch = function( _name ) {
 
-		display.suspendMedia();
+		hacker.suspendMedia();
 
 		c("feature.js: switch() with " + _name)
 
@@ -257,7 +263,7 @@ Feature = function() {
 		console.log("feature is now set to " + _name);
 
 		
-		this.ctl = display.ctl[ _name ];
+		this.ctl = hacker.ctl[ _name ];
 
 		if (_name == "IMAGE" || _name == "WEB") {		
 
@@ -282,7 +288,7 @@ Feature = function() {
 
 			game.pauseMusic();
 	
-			display.suspendBGSound();  //in case a sound file is playing in bg
+			hacker.suspendBGSound();  //in case a sound file is playing in bg
 
 		}
 
@@ -294,7 +300,7 @@ Feature = function() {
 
 	this.refreshWindow = function() {
 
-		Meteor.setTimeout( function() { refreshWindow( "display.feature" ); }, 250 );
+		Meteor.setTimeout( function() { refreshWindow( "hacker.feature" ); }, 250 );
 	}
 
 	this.clear = function( _newControlName ) {

@@ -111,13 +111,13 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_s
 
 	this.soundControlDone = function() {
 
-		display.ctl["SOUND"].setState( sPaused );
+		hacker.ctl["SOUND"].setState( sPaused );
 
 		//if SOUND is the current ctl, then set it again to force a redraw of the feature area
 
-		if (display.feature.getName() == "SOUND") {
+		if (hacker.feature.getName() == "SOUND") {
 
-			display.feature.setImageSource( "SOUND" );
+			hacker.feature.setImageSource( "SOUND" );
 
 			//force the static GIF here
 

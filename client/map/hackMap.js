@@ -34,7 +34,7 @@ HackMap = function() {
 
         Meteor.defer( function() { Control.playEffect("mapButton.mp3"); });
 
-        display.worldMapTemplateReady = false;
+        hacker.worldMapTemplateReady = false;
 
         FlowRouter.go("/worldMap");
     }
@@ -88,12 +88,12 @@ HackMap = function() {
 
       Session.set("gMapStatus", s);
 
-      display.mapStatus.setAndType();
+      hacker.mapStatus.setAndType();
     }
 
     this.setMapStatus = function( _text ) {
 
-      display.mapStatus.setAndShow( _text );
+      hacker.mapStatus.setAndShow( _text );
 
     } 
 

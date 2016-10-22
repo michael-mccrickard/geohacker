@@ -12,7 +12,7 @@ Template.scanning.helpers({
 
         if (!display) return;
 
-        var _state = display.scanner.centerState.get();
+        var _state = hacker.scanner.centerState.get();
 
     	if ( _state == "scan" ) return true;
 
@@ -21,24 +21,24 @@ Template.scanning.helpers({
 
     getProgress: function() {
 
-        var _state = display.scanner.centerState.get();
+        var _state = hacker.scanner.centerState.get();
 
         if (_state != "scan" && _state != "rescan") return;
 
-    	if (display.scanner.progress.get() >= display.scanner.progressLimit ) {
+    	if (hacker.scanner.progress.get() >= hacker.scanner.progressLimit ) {
 
-            if (display.scanner.checkScan("scanner") == true) display.scanner.stopScan();
+            if (hacker.scanner.checkScan("scanner") == true) hacker.scanner.stopScan();
 
-    		return display.scanner.progressLimit - 1;
+    		return hacker.scanner.progressLimit - 1;
     	}
 
 
-    	return display.scanner.progress.get();
+    	return hacker.scanner.progress.get();
     },
 
     getTotal: function() {
 
-    	return display.scanner.totalTime.get();
+    	return hacker.scanner.totalTime.get();
     },
 
     getScannerCenterImage: function() {
@@ -52,20 +52,20 @@ Template.scanning.helpers({
 
         if (!display) return;
 
-        var _state = display.scanner.centerState.get();
+        var _state = hacker.scanner.centerState.get();
 
     	if (_state == "scan" || _state == "rescan") {
 
-    		var _percent = ( display.scanner.progress.get() / 360 ) * 100;
+    		var _percent = ( hacker.scanner.progress.get() / 360 ) * 100;
 
     		if (_percent >= 100.0) return "SCAN PROGRESS 100%";
 
     		return "SCAN PROGRESS " + _percent.toPrecision(2) + "%";
     	}
 
-        if ( display.scanner.centerState.get() == "loaded" ) {
+        if ( hacker.scanner.centerState.get() == "loaded" ) {
 
-            return display.loadedControlName.get() + " FILE";
+            return hacker.loadedControlName.get() + " FILE";
         }      
 
     	return "GEOHACKER V 1.0";
@@ -75,7 +75,7 @@ Template.scanning.helpers({
 
         if (!display) return;
 
-    	var _percent = display.scanner.networkIntegrity.get();
+    	var _percent = hacker.scanner.networkIntegrity.get();
 
     	return _percent.toString();
     }

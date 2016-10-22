@@ -78,9 +78,7 @@ isURL = function( _name ) {
 
 videoControl = function() {
 
-    if (display == null) return false;
-
-    if (!display.ctl["VIDEO"]) return false;
+    if (!hacker.ctl["VIDEO"]) return false;
 
     return true;
 }
@@ -171,16 +169,16 @@ refreshWindow = function(_which) {
 
     if (name == "browseWorldMap") {
 
-        display.ctl["MAP"].browseWorldMap.map.clearLabels();
+        hacker.ctl["MAP"].browseWorldMap.map.clearLabels();
 
-        display.ctl["MAP"].browseFinishDraw();
+        hacker.ctl["MAP"].browseFinishDraw();
 
         return;
     }
 
     if (name == "closeup") {
 
-        display.closeUp.draw();
+        hacker.closeUp.draw();
 
         return;
     }
@@ -203,7 +201,7 @@ refreshWindow = function(_which) {
 
     if (name == "main") {
 
-        display.redraw();
+        hacker.redraw();
 
         return;
     }
@@ -270,7 +268,7 @@ c("youtube ready")
         
         case uHack:
 
-             _file = display.ctl["VIDEO"].video.file;
+             _file = hacker.ctl["VIDEO"].video.file;
  
             break;
 
@@ -324,7 +322,7 @@ c("youtube ready")
 
         case uHack: 
 
-            display.feature.dimension( "video", myVideo, null );
+            hacker.feature.dimension( "video", myVideo, null );
             
             Video.setPos( myVideo );
 

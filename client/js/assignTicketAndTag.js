@@ -68,8 +68,6 @@ Assign = function( _code, _mapCode, _hacked, _level, _name, _pool, _completions)
 
 	this.resetMap = function() {
 
-		if (display == null) return;
-
 		hackMap.reset();
 
 		hackMap.resetSelections();

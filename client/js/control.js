@@ -324,37 +324,37 @@ Control.hideNavButtons = function() {
 
 Control.switchTo = function( _id ) {
 
-    if (display.scanner.mode == "scan" || display.scanner.mode == "rescan") {
+    if (hacker.scanner.mode == "scan" || hacker.scanner.mode == "rescan") {
 
-        Control.playEffect( display.locked_sound_file );
+        Control.playEffect( hacker.locked_sound_file );
 
         return;
     }
 
-    display.cue.set();
+    hacker.cue.set();
 
     var id = _id;
 
-    if ( display.ctl[ id ].getState() < sLoaded ) {
+    if ( hacker.ctl[ id ].getState() < sLoaded ) {
 
-        Control.playEffect( display.locked_sound_file );
+        Control.playEffect( hacker.locked_sound_file );
 
         return;
     }
 
-    Control.playEffect( display.fb_sound_file );  
+    Control.playEffect( hacker.fb_sound_file );  
 
     //for the media controls, we are either clicking to toggle
     //the state (ctl is already active) 
     //or we are clicking to make active and play
 
-    var _name = display.feature.getName();
+    var _name = hacker.feature.getName();
 
     if ((id == "SOUND" && _name == "SOUND") || (id == "VIDEO" && _name == "VIDEO")) {
         
         c("'click control' is calling toggleMedia")
 
-        display.feature.ctl.toggleMedia(); 
+        hacker.feature.ctl.toggleMedia(); 
 
         //the feature did not change, only the state of the control,
         //so we're done here
@@ -365,16 +365,16 @@ Control.switchTo = function( _id ) {
 
   c("'click control' is calling feature.switch")
 
-    display.feature.switch( id );
+    hacker.feature.switch( id );
 
 
     if (id == "VIDEO") {
 
-      display.cue.setAndShow();
+      hacker.cue.setAndShow();
     }
     else {
 
-      Meteor.setTimeout( function() { display.cue.type() }, 500);
+      Meteor.setTimeout( function() { hacker.cue.type() }, 500);
     }
 
 }
@@ -412,7 +412,7 @@ Control.allLoadsAreEqual = function() {
 
     for (i = 0; i < _arr.length; i++) {
 
-      var _ctl  = display.ctl[ _arr[i] ];
+      var _ctl  = hacker.ctl[ _arr[i] ];
 
       if (i == 0) _loadCount = _ctl.loadedCount;
 
@@ -473,11 +473,11 @@ Control.suspendAllMedia = function() {
 
   //game.pauseMusic();
 
-  if (display.ctl["SOUND"]) {
+  if (hacker.ctl["SOUND"]) {
 
-    if (display.ctl["SOUND"].getState() > sLoaded) display.ctl["SOUND"].pause();
+    if (hacker.ctl["SOUND"].getState() > sLoaded) hacker.ctl["SOUND"].pause();
 
-    if (display.ctl["VIDEO"].getState() > sLoaded) display.ctl["VIDEO"].pause();
+    if (hacker.ctl["VIDEO"].getState() > sLoaded) hacker.ctl["VIDEO"].pause();
   }
   
   if (youtube.loaded) {
@@ -612,7 +612,7 @@ Text = function() {
   this.suspend = function() {
 
 
-    display.feature.hideText();
+    hacker.feature.hideText();
 
   }
 }

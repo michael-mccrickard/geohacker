@@ -8,7 +8,7 @@ Video = function( _file, _parent ) {
 
 	this.parent = _parent;
 
-	display.videoParent = _parent;  //allows display.suspendMedia() to suspend play
+	display.videoParent = _parent;  //allows hacker.suspendMedia() to suspend play
 
 	this.state = new Blaze.ReactiveVar( sNone );  //only sPlaying or sPaused once we are accessed
 
@@ -27,7 +27,7 @@ Video = function( _file, _parent ) {
 
 	if (this.parent === display.browser) this.element = "img.centerImg";
 
-	if (this.parent === display.ctl["VIDEO"]) this.element = "img.featuredPic";
+	if (this.parent === hacker.ctl["VIDEO"]) this.element = "img.featuredPic";
 
 	if (this.parent === editor) this.element = "img.bigPic";
 	

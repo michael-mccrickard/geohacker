@@ -236,7 +236,7 @@ if (this.arr.length == 0 ) this.arr = db.ghDebrief.find( { cc: this.countryCode,
 
 		this.image = "";
 
-		if (this.code == "lng") this.image = display.soundPlayingPic;
+		if (this.code == "lng") this.image = hacker.soundPlayingPic;
 
 		if (this.code == "flg")  this.image = hack.getFlagPic();
 
@@ -361,7 +361,7 @@ Template.debrief.events = {
 
   		if (game.user.mode == uBrowseCountry) {
 
-  			display.feature.resetToPrevious();
+  			hacker.feature.resetToPrevious();
 
 			Meteor.setTimeout( function() { FlowRouter.go("/main") }, 100 ) ;
 

@@ -586,7 +586,7 @@ c("country is labeled by centering")
 
         //A sound file (from the sound control) might be playing in the bg
 
-        if (display.ctl["SOUND"].getState() == sPlaying) display.ctl["SOUND"].pause();
+        if (hacker.ctl["SOUND"].getState() == sPlaying) hacker.ctl["SOUND"].pause();
 
         display.disableHomeButton();
 
@@ -744,7 +744,7 @@ c("doMapSuccess")
 
         tl = new TimelineLite();
 
-        display.mapStatus.setAndShow(' ');
+        hacker.mapStatus.setAndShow(' ');
 
         //Falling letter effect (country's name at top of screen)
 
@@ -928,7 +928,7 @@ c("doMapSuccess")
 
         $("div#demo").css("display","none");
 
-        display.mapStatus.setThisAndType("INCOMING TRANSMISSION DETECTED");
+        hacker.mapStatus.setThisAndType("INCOMING TRANSMISSION DETECTED");
 
     //set the B roll to the avatar we want
 
@@ -1004,14 +1004,14 @@ c("doMapSuccess")
         if ( (_ticket.count == 1 && game.user.hasChiefInNetwork && hack.welcomeAgentIsChief) || _ticket.count > 1) {
 
 
-            Meteor.setTimeout( function() { display.mapStatus.setThisAndType("AGENT " + hack.getWelcomeAgent().username.toUpperCase() + " IS ALREADY IN YOUR NETWORK"); }, 6500 );
+            Meteor.setTimeout( function() { hacker.mapStatus.setThisAndType("AGENT " + hack.getWelcomeAgent().username.toUpperCase() + " IS ALREADY IN YOUR NETWORK"); }, 6500 );
 
             hackMap.setStateOnly( sMapDone );
 
         }
         else {
 */            
-            Meteor.setTimeout( function() { display.mapStatus.setThisAndType("NEW AGENT ADDED TO YOUR NETWORK"); }, 6500 );
+            Meteor.setTimeout( function() { hacker.mapStatus.setThisAndType("NEW AGENT ADDED TO YOUR NETWORK"); }, 6500 );
 
   //      }
 

@@ -8,7 +8,7 @@ Template.main.helpers({
 
     TVisVideo: function() {
 
-        return display.TV.videoOn.get();
+        return hacker.TV.videoOn.get();
         
     },
 
@@ -19,57 +19,57 @@ Template.main.helpers({
 
     controlPic: function() {
 
-        return display.ctl[ this ].getControlPic();
+        return hacker.ctl[ this ].getControlPic();
     },
 
     controlPicLeft: function() {
 
-      return display.ctl[ this ].picFrame.left;
+      return hacker.ctl[ this ].picFrame.left;
     },
 
     controlPicTop: function() {
 
-      return display.ctl[ this ].picFrame.top;
+      return hacker.ctl[ this ].picFrame.top;
     },
 
     controlPicWidth: function() {
 
-      return display.ctl[ this ].picFrame.width;
+      return hacker.ctl[ this ].picFrame.width;
     },
 
     controlPicHeight: function() {
 
-      return display.ctl[ this ].picFrame.height;
+      return hacker.ctl[ this ].picFrame.height;
     },
 
 
     imgHelperAgent: function() {
 
-        return display.helper.pic.get();
+        return hacker.helper.pic.get();
 
     },
 
     helperAgentName: function() {
 
-        return display.helper.name.get();
+        return hacker.helper.name.get();
 
     },
 
     helperAgentText: function() {
 
-        return display.helper.text.get();
+        return hacker.helper.text.get();
 
     },
 
     helperAgentTitle: function() {
 
-        return display.helper.title.get();
+        return hacker.helper.title.get();
 
     },
 
     opacityClass: function() {
 
-      if (display.ctl[ this ].getState() <= sIcon) return "faded";
+      if (hacker.ctl[ this ].getState() <= sIcon) return "faded";
 
       return "";
 
@@ -77,9 +77,9 @@ Template.main.helpers({
 
     opacityClassMap: function() {
 
-      var _s = display.ctl[ this ].getState();  //any state change to a control will trigger this?
+      var _s = hacker.ctl[ this ].getState();  //any state change to a control will trigger this?
 
-      if (display.loader.totalClueCount == 0) return "faded";
+      if (hacker.loader.totalClueCount == 0) return "faded";
 
       return "";
 
@@ -94,7 +94,7 @@ Template.main.helpers({
 
     featuredAreaFont: function() {
 
-        if (display.feature.displayMessage.get() ) return "featuredMessageFont";
+        if (hacker.feature.displayMessage.get() ) return "featuredMessageFont";
 
         return "featuredTextFont";
     },
@@ -102,17 +102,17 @@ Template.main.helpers({
 
     displayTextContent: function() {
 
-        if (display.feature.getName() == "TEXT") return display.ctl["TEXT"].getTextContent();       
+        if (hacker.feature.getName() == "TEXT") return hacker.ctl["TEXT"].getTextContent();       
     },
 
     textControlContent: function() { 
 
-        return display.ctl["TEXT"].getTextContent();   
+        return hacker.ctl["TEXT"].getTextContent();   
     },
 
     displayTextControlText: function() {
 
-        if (this == "TEXT" && display.ctl["TEXT"].getState() >= sLoaded) return true;
+        if (this == "TEXT" && hacker.ctl["TEXT"].getState() >= sLoaded) return true;
 
         return false;
     },
@@ -130,7 +130,7 @@ Template.main.events({
 
       e.preventDefault();  
 
-      if (display.loader.totalClueCount == 0) return;
+      if (hacker.loader.totalClueCount == 0) return;
 
       $("#mapButton").attr("src", "./newGlobeIconGreen.png");
 
@@ -148,7 +148,7 @@ Template.main.events({
 
       e.preventDefault();  
 
-      if ( display.moreDataAvailable() == false ) return; 
+      if ( hacker.moreDataAvailable() == false ) return; 
 
       $("#scanButton").attr("src", "./tvScannerGreen.png");
 
@@ -158,7 +158,7 @@ Template.main.events({
 
       e.preventDefault();  
 
-      if ( display.moreDataAvailable() == false ) return; 
+      if ( hacker.moreDataAvailable() == false ) return; 
 
       $("img#scanButton").attr("src", "./tvScannerYellow.png");
 
@@ -170,14 +170,14 @@ Template.main.events({
 
       if ( $("#mapButton").hasClass("faded") ) {
 
-          Control.playEffect( display.locked_sound_file );
+          Control.playEffect( hacker.locked_sound_file );
 
           return; 
       }    
       
-      if (display.feature.name == "VIDEO") display.suspendMedia();
+      if (hacker.feature.name == "VIDEO") hacker.suspendMedia();
 
-      if (display.feature.name != "SOUND") game.playMusic();     
+      if (hacker.feature.name != "SOUND") game.playMusic();     
 
       hackMap.go();
   
@@ -187,9 +187,9 @@ Template.main.events({
 
       e.preventDefault();
 
-      var _index = display.feature.ctl.getIndex();
+      var _index = hacker.feature.ctl.getIndex();
 
-      display.feature.ctl.setIndex( _index - 1);
+      hacker.feature.ctl.setIndex( _index - 1);
 
       updateFeaturedContent();
   },
@@ -198,9 +198,9 @@ Template.main.events({
 
       e.preventDefault();
 
-      var _index = display.feature.ctl.getIndex();
+      var _index = hacker.feature.ctl.getIndex();
 
-      display.feature.ctl.setIndex( _index + 1);
+      hacker.feature.ctl.setIndex( _index + 1);
 
       updateFeaturedContent();
   },
@@ -211,11 +211,11 @@ Template.main.events({
 
       $('#btnHelperAgent').tooltip('destroy');
 
-      display.helper.setText();
+      hacker.helper.setText();
 
       Meteor.setTimeout( function() {
 
-        $("#btnHelperAgent").tooltip({ delay:0, placement:"left", trigger:"manual", title: display.helper.text.get() });
+        $("#btnHelperAgent").tooltip({ delay:0, placement:"left", trigger:"manual", title: hacker.helper.text.get() });
 
         $('#btnHelperAgent').tooltip('show'); 
 
@@ -236,32 +236,30 @@ Template.main.events({
 
       e.preventDefault();
 
-      display.stopBlinking();
+      if (hacker.cue.state == sPlaying) {
 
-      if (display.cue.state == sPlaying) {
-
-          Control.playEffect( display.locked_sound_file );
+          Control.playEffect( hacker.locked_sound_file );
 
           return;
       }
 
-      if (display.scanner.mode == "scan" || display.scanner.mode == "rescan") {
+      if (hacker.scanner.mode == "scan" || hacker.scanner.mode == "rescan") {
 
-          Control.playEffect( display.locked_sound_file );
+          Control.playEffect( hacker.locked_sound_file );
 
           return;
       }
 
-      if ( display.moreDataAvailable() == false ) {
+      if ( hacker.moreDataAvailable() == false ) {
 
-          Control.playEffect( display.locked_sound_file );
+          Control.playEffect( hacker.locked_sound_file );
 
           return; 
       }
 
-      display.feature.hideText();
+      hacker.feature.hideText();
 
-      display.feature.dim();
+      hacker.feature.dim();
 
       Control.unhiliteAll();
 
@@ -269,20 +267,20 @@ Template.main.events({
 
       var mode = "rescan";
 
-      if (display.loader.totalClueCount == 0) mode = "scan";
+      if (hacker.loader.totalClueCount == 0) mode = "scan";
 
-      display.suspendMedia();
+      hacker.suspendMedia();
 
       game.playMusic();
 
-      display.scanner.startScan( mode );
+      hacker.scanner.startScan( mode );
 
 
     },
 
     'click img.featuredPic': function(e) {
 
-      var _name = display.feature.getName();
+      var _name = hacker.feature.getName();
 
       if (_name == "SOUND" || _name == "VIDEO") {
 
@@ -306,9 +304,9 @@ Template.main.events({
 
       e.preventDefault;
 
-      if (display.feature.name.get() == "VIDEO") display.suspendMedia();
+      if (hacker.feature.name.get() == "VIDEO") hacker.suspendMedia();
 
-        display.feature.clear();
+        hacker.feature.clear();
 
         hack.debrief.go();
 
@@ -320,9 +318,9 @@ Template.main.events({
 
 function updateFeaturedContent() {
 
-    var _name = display.feature.getName();
+    var _name = hacker.feature.getName();
 
-    display.showFeaturedContent( _name  );
+    hacker.showFeaturedContent( _name  );
 
 }
 
@@ -330,49 +328,39 @@ Template.main.rendered = function () {
 
     stopSpinner();
 
-//???
-/*
-    if (gEditLearnCountry) {
+    hacker.redraw();
 
-       FlowRouter.go("/learnCountry");
+    hacker.doHeadlines();
 
-       return;
-    }
-*/
+    hacker.checkMainScreen();
 
-    display.redraw();
-
-    display.doHeadlines();
-
-    display.checkMainScreen();
-
-    //display.weather.start();
+    //hacker.weather.start();
 
 
     if ( game.user.mode == uHack ) {
 
-       if (display.feature.on() ) {
+       if (hacker.feature.on() ) {
 
-          display.scanner.hide();
+          hacker.scanner.hide();
 
-          display.feature.switch( display.feature.getName() );
+          hacker.feature.switch( hacker.feature.getName() );
 
           //opportunity to play a specific video / gif in the little scanner TV here
 
-          //display.TV.playVideo( Database.getRandomFromRange(1,2) );             
+          //hacker.TV.playVideo( Database.getRandomFromRange(1,2) );             
 
         }       
     }
 
     if (hack.mode == mReady)  {
 
-      if ( display.feature.off() ) {
+      if ( hacker.feature.off() ) {
 
-        display.scanner.show();
+        hacker.scanner.show();
 
-        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 ); 
+        Meteor.setTimeout(function() { hacker.scanner.startIdle(); }, 502 ); 
 
-        display.TV.set( TV.scanPrompt );  
+        hacker.TV.set( TV.scanPrompt );  
    
       }
 

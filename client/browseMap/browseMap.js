@@ -26,7 +26,7 @@ BrowseMap = function() {
 
         Meteor.defer( function() { Control.playEffect("mapButton.mp3"); });
 
-        display.worldMapTemplateReady = false;
+        hacker.worldMapTemplateReady = false;
 
         FlowRouter.go("/browseWorldMap");
     }

@@ -149,7 +149,7 @@ Template.congrats.helpers({
 
   hackReport4: function() {
 
-      var s = display.loader.totalClueCount.toString();
+      var s = hacker.loader.totalClueCount.toString();
 
       return s.toUpperCase();
   },
