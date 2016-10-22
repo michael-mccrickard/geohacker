@@ -79,7 +79,7 @@ Hack = function() {
 
         hacker.feature.clear();    
 
-        Control.playEffect("goMission.mp3");
+        display.playEffect("goMission.mp3");
 
         this.init();
 
@@ -253,7 +253,7 @@ Hack = function() {
 
        if (hacker.ctl["SOUND"].getState() == sPlaying ) hacker.ctl["SOUND"].pause();
 
-       Control.playEffect( _file );
+       display.playEffect( _file );
     },
 
     this.playLanguageFile = function() {
@@ -267,7 +267,7 @@ Hack = function() {
           if (hacker.ctl["SOUND"].getState() == sPlaying ) hacker.ctl["SOUND"].pause();
        }
 
-       Control.playEffect( _file );
+       display.playEffect( _file );
     },
 
 

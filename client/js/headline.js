@@ -205,7 +205,7 @@ Headline = function( _type ) {
 
         if (hack.mode != mScanning) {
 
-            Control.playEffect2( this.typing_sound_file );
+            display.playEffect2( this.typing_sound_file );
         }
 
         $( _ele ).text("");       

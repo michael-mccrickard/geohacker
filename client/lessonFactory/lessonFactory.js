@@ -477,7 +477,7 @@ LessonFactory = function() {
 
 	this.showCapsule = function( _ID ) {
 
-		Control.playEffect2( "button_1.mp3" );
+		display.playEffect2( "button_1.mp3" );
 
 		this.pushID( _ID );
 

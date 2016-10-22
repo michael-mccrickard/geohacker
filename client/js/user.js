@@ -89,7 +89,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
       this.setGlobals( "browse" );
 
 
-      hacker.suspendMedia();
+      display.suspendAllMedia();
 
 		//if we're in lesson mode, uLearn, then the hack.countryCode
 		//will aready be set to _code (to create the learning capsule) but
@@ -194,7 +194,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
      		FlowRouter.go("help");
      	}
 
-		Control.playEffect( "blink.mp3" );
+		display.playEffect( "blink.mp3" );
 
 
     }
@@ -204,20 +204,20 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     	hacker.suspendMedia();
 
     	if (game.user.mode == uBrowseCountry) {
+c("mode in goBrowseMap is uBrowseCountry")
+	      	var b = browseMap.worldMap;
 
-	      	var d = browseMap.worldMap;
+	    	b.mapLevel = mlRegion;
 
-	    	d.mapLevel = mlRegion;
+	    	b.drawLevel = mlRegion;
 
-	    	d.drawLevel = mlRegion;
+	    	b.detailLevel = mlCountry;  		
 
-	    	d.detailLevel = mlCountry;  		
+	    	b.selectedCountry.set( hack.countryCode );
 
-	    	d.selectedCountry.set( hack.countryCode );
+	    	b.selectedRegion = db.getRegionCodeForCountry( hack.countryCode );
 
-	    	d.selectedRegion = db.getRegionCodeForCountry( hack.countryCode );
-
-	    	d.selectedContinent = db.getContinentCodeForCountry( hack.countryCode );	    	
+	    	b.selectedContinent = db.getContinentCodeForCountry( hack.countryCode );	    	
     	}
     	else {
 
@@ -225,13 +225,13 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     		display.browser.countryCode = "";  //reset this since we are going in fresh
 
-    		browseMap.reset();   //can't do this until we disconnect browseMap from ghMapCtl
+    		browseMap.reset();
     	}
 
-    	Control.playEffect( "mapButton.mp3" );
+    	display.playEffect( "mapButton.mp3" );
 
     	//we don't call setMode for uBrowseMap, because we manage that feature differently
-    	//but we probably could now that we have configured things.
+    	//but we probably could now that we have reconfigured things.
     	//Mode is currently set to uBrowseMap in Template.newBrowseMap.rendered
 
     	FlowRouter.go("/browseWorldMap");
@@ -303,7 +303,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		if ( display.homeButtonDisabled() ) return;
 
-		Control.suspendAllMedia();
+		display.suspendAllMedia();
 
 
     	if (FlowRouter.current().path == "/editor") {
@@ -315,14 +315,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     		game.playMusic();
 
-    		if (display.browser.video) {
-
-	     		display.browser.video.stop();
-
-	    		display.browser.video.hide();   			
-    		}
-
-    		FlowRouter.go("/home")
+    		this.returnFromBrowse();
 
     		return;
     	}
@@ -359,6 +352,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     	}
 
     	this.setMode( this.prevMode ); 
+
+    	FlowRouter.go("/home");
     }
 
     this.selectNewMission = function() {

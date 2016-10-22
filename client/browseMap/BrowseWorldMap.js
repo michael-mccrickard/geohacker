@@ -129,7 +129,7 @@ BrowseWorldMap = function( _mapCtl ) {
         }
 
         if (level == mlCountry) {  //this is just a replay of the map zooming in on the correct country (browse mode)
-
+c("level in doCurrentMap is country")
            this.doThisMap( mlRegion, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion);
 
            //set level to country, so that the label uses the correct coords
@@ -139,7 +139,7 @@ BrowseWorldMap = function( _mapCtl ) {
             var mapObject = null;
 
             if (this.selectedCountry.get().length) mapObject = this.map.getObjectById( this.selectedCountry.get() );
-
+c("mapObject in doCurrentMap follows")
             //prevent zoomCompleted from jumping us to the browse data screen
 
             this.zoomOnlyOnClick = true;
@@ -149,7 +149,7 @@ BrowseWorldMap = function( _mapCtl ) {
             this.zoomDone = false;
 
             if (mapObject) {
-
+c("clicking map object")
                 this.map.clickMapObject(mapObject);
         
             }
@@ -549,7 +549,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
 function handleClick(_event) {
 
-    Control.playEffect( worldMap.map_sound );
+    display.playEffect( worldMap.map_sound );
 
     //allow zoomComplete to set the new map level and redraw the map
     //when the zoom is complete

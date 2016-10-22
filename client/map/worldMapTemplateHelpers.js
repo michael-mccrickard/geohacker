@@ -239,7 +239,7 @@ Template.worldMap.events = {
 
     if (_state == sMapDone) return;
 
-    Control.playEffect("mapBackup.mp3");
+    display.playEffect("mapBackup.mp3");
 
     hackMap.backupMapToRegion();
   },
@@ -250,7 +250,7 @@ Template.worldMap.events = {
 
     if (_state == sMapDone) return;
 
-    Control.playEffect("mapBackup.mp3");
+    display.playEffect("mapBackup.mp3");
 
     hackMap.backupMapToContinent();
   },
@@ -261,21 +261,21 @@ Template.worldMap.events = {
 
     if (_state == sMapDone) return;
 
-    Control.playEffect("mapBackup.mp3");
+    display.playEffect("mapBackup.mp3");
 
     hackMap.backupMapToWorld();
   },
 
   'click #mapOK': function (evt, template) {
 
-      if (hackMap.getState() != sMapDone) Control.playEffect("new_feedback.mp3")
+      if (hackMap.getState() != sMapDone) display.playEffect("new_feedback.mp3")
 
       Meteor.setTimeout( function() { closeOutMap(); }, 100 );
   },
 
   'click #mapClose': function (evt, template) {
 
-      Control.playEffect("new_feedback.mp3")
+      display.playEffect("new_feedback.mp3")
 
       Meteor.setTimeout( function() { closeOutMap(); }, 100 );
   },
@@ -305,22 +305,7 @@ function closeOutMap() {
         FlowRouter.go("/debrief");
 
         return;
-    }
-
-    //If doScan (which calls the loader object) loads the map control (map clue), then clicking the map button
-    //essentially simulates a correct guess on the next area.  Thus we need to set the state of the map
-    //correctly for the user's next visit to the map
-
-    if (state == sContinentFeatured || state == sRegionFeatured ) {
-
-        if (state == sContinentFeatured) hackMap.setState( sIDRegion );
-
-        if (state == sRegionFeatured) hackMap.setState( sIDCountry );
-
-        FlowRouter.go("/main");
-
-        return;
-    }   
+    } 
 
     //if the user backed up after an identification or a map feature, then
     // we need to correct the map state

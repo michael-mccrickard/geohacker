@@ -18,10 +18,41 @@ Display = function() {
 
     this.menuHeight = 50;
 
-
-
     this.videoParent = null;
 
+
+    this.disableHomeButton = function() {
+
+        $("#navHomeButton").addClass("disabled");
+
+        $("#imgNavHomeButton").css("opacity", "0.35");
+    }
+
+    this.enableHomeButton = function() {
+
+        $("#navHomeButton").removeClass("disabled");
+
+        $("#imgNavHomeButton").css("opacity", "1.0");
+    }
+
+    this.getImageFromFile = function(_file) {
+
+      // Create new offscreen image to test
+
+      var theImage = new Image();
+
+      theImage.src = _file;
+
+      return theImage;
+    }
+
+
+    this.homeButtonDisabled = function() {
+
+        if ( $("#navHomeButton").hasClass("disabled") ) return true;
+
+        return false;
+    }
 
     this.scrollToBottom = function() {
 
@@ -33,24 +64,64 @@ Display = function() {
         document.documentElement.scrollTop = document.body.scrollTop = 0;
     }
 
-    this.enableHomeButton = function() {
+    this.suspendAllMedia = function() {
 
-        $("#navHomeButton").removeClass("disabled");
+      //game.pauseMusic();
 
-        $("#imgNavHomeButton").css("opacity", "1.0");
+      if (hacker.ctl["SOUND"]) {
+
+        if (hacker.ctl["SOUND"].getState() > sLoaded) hacker.ctl["SOUND"].pause();
+
+        if (hacker.ctl["VIDEO"].getState() > sLoaded) hacker.ctl["VIDEO"].pause();
+      }
+      
+      if (youtube.loaded) {
+
+          youtube.stop();
+
+          youtube.hide();
+      }
+
     }
 
-    this.disableHomeButton = function() {
+    this.playEffect = function(_file) {
 
-        $("#navHomeButton").addClass("disabled");
+      $("#effectsPlayer").attr("src", _file);
 
-        $("#imgNavHomeButton").css("opacity", "0.35");
+      document.getElementById("effectsPlayer").play();
     }
 
-    this.homeButtonDisabled = function() {
+    this.playEffect2 = function(_file) {
 
-        if ( $("#navHomeButton").hasClass("disabled") ) return true;
+      $("#effectsPlayer2").attr("src", _file);
 
-        return false;
+      document.getElementById("effectsPlayer2").play();
+    }
+
+    this.playEffect3 = function(_file) {
+
+      $("#effectsPlayer3").attr("src", _file);
+
+      document.getElementById("effectsPlayer3").play();
+    }
+
+    this.stopEffects = function() {
+
+      document.getElementById("effectsPlayer").pause();
+
+      document.getElementById("effectsPlayer2").pause();
+
+      document.getElementById("effectsPlayer3").pause();
+    }
+
+
+    this.unfocusMe = function(which) {
+
+      document.getElementById( which ).blur();
+    }
+
+    this.unfocusMyClass = function(which) {
+
+      document.getElementsByClassName( which ).blur();
     }
 }

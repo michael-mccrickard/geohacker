@@ -12,7 +12,7 @@ Template.missionListing.events = {
 
   		e.preventDefault();
 
-  		//Control.playEffect("goMission.mp3");
+  		//display.playEffect("goMission.mp3");
 
       	var id = e.currentTarget.id;
 

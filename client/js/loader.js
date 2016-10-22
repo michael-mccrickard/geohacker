@@ -20,7 +20,7 @@ NewLoader = function() {
 
 		if (mode != mReady) {
          
-          Control.playEffect( hacker.locked_sound_file );
+          display.playEffect( hacker.locked_sound_file );
 		
 		  return;
 		}

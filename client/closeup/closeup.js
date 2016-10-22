@@ -34,14 +34,12 @@ Template.closeup.events = {
 
         showMessage("Crop mode is on.  F6 to exit.");
 
-        Control.playEffect("locked.mp3");
+        display.playEffect("locked.mp3");
 
         return;
       } 
 
-//      hacker.mainTemplateReady = false;
-
-      if (hacker.feature.getName() == "MAP") {
+      if (hack.mode == mHackDone) {
 
         FlowRouter.go("/debrief");
 
@@ -105,13 +103,15 @@ CloseUp = function() {
 
   this.draw = function() {
 
+    //need an event handler in main.js to catch the click on the detailedMap and make the below feature=MAP scenario work
+
       var img = hacker.feature.imageSrc;
 
-      if (hacker.feature.getName() == "MAP") {
+      if (hack.mode == mHackDone) {
 
         var _filename = hack.getCountryMapURL();
 
-        img = Control.getImageFromFile( _filename );
+        img = display.getImageFromFile( _filename );
       }
 
       var fullScreenWidth = $(window).width();

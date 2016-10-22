@@ -169,21 +169,21 @@ Template.lessonMap.events = {
 
   'click #lessonMapClose': function (evt, template) {
 
-      Control.playEffect("new_feedback.mp3");
+      display.playEffect("new_feedback.mp3");
 
       FlowRouter.go("/main");
   },
 
   'click #btnQuiz': function (evt, template) {
 
-      Control.playEffect("new_feedback.mp3");
+      display.playEffect("new_feedback.mp3");
 
       game.lesson.quiz.start();
   },
 
   'click #btnNextLesson': function (evt, template) {
 
-      Control.playEffect("new_feedback.mp3");
+      display.playEffect("new_feedback.mp3");
 
       var _wm = game.lesson.worldMenu;
 
@@ -204,7 +204,7 @@ Template.lessonMap.events = {
 
   'click #btnNextOrEnd': function (evt, template) {
 
-      Control.playEffect("new_feedback.mp3");
+      display.playEffect("new_feedback.mp3");
 
       var _state = game.lesson.quiz.state.get();
 

@@ -182,12 +182,6 @@ c("doCurrentMap");
 
         var state = this.mapCtl.getState();
 
-        //For the case of an area being featured (from "intercepted" map data) they can only click OK or X to close.  We also lock down
-        //the map in this instance.
-
-       
-//Attempting to auto-advance the state to sTestCountry after featuring and enable map clicking without exiting and coming back
-// if (state == sContinentFeatured || state == sRegionFeatured) lockMap = true;
 
         //initialize the map object and basic map variables
 
@@ -634,7 +628,7 @@ c("doMapSuccess")
 
        if (_which == mlContinent) {
 
-            Control.playEffect(this.map_continent_success_sound);
+            display.playEffect(this.map_continent_success_sound);
 
             //sContinentFeatured indicates a map clue; go ahead and bump up the state to sIDRegion
 
@@ -644,7 +638,7 @@ c("doMapSuccess")
 
        if (_which == mlRegion) {
 
-            Control.playEffect(this.map_region_success_sound);
+            display.playEffect(this.map_region_success_sound);
 
             //sRegionFeatured indicates a map clue; go ahead and bump up the state to sIDCountry
 
@@ -660,7 +654,7 @@ c("doMapSuccess")
 
             game.hackTotalTime = (hackEndTime - game.hackStartTime) / 1000.0;
 
-            Control.playEffect(this.map_country_success_sound);
+            display.playEffect(this.map_country_success_sound);
 
             this.hackDone();
 
@@ -669,7 +663,7 @@ c("doMapSuccess")
 
     this.doMapFail = function() {
 
-        Control.playEffect(this.map_fail_sound);
+        display.playEffect(this.map_fail_sound);
         
     }
 
@@ -784,7 +778,7 @@ c("doMapSuccess")
 
         var duration = 1.5;
 
-        Meteor.setTimeout( function() { Control.playEffect2("trans3.mp3"); }, 1000 );
+        Meteor.setTimeout( function() { display.playEffect2("trans3.mp3"); }, 1000 );
 
         //set opacity and scale to 0 initially. We set z to 0.01 just to kick in 3D rendering in the browser which makes things render a bit more smoothly.
         tl.set(element, {autoAlpha: 0, scale: 0, z: 0.01});
@@ -804,7 +798,7 @@ c("doMapSuccess")
     
         this.mapFilename = hack.getCountryMapURL( hack.getCountryName() );
 
-        this.imgSrc = Control.getImageFromFile( this.mapFilename );
+        this.imgSrc = display.getImageFromFile( this.mapFilename );
 
         //these values get used below when we size the detailed map
 
@@ -855,7 +849,7 @@ c("doMapSuccess")
 
     this.hackDone4a = function() {
 
-        Control.playEffect( "new_debrief.mp3");   
+        display.playEffect( "new_debrief.mp3");   
 
         var imageWidth = 4;
         var imageHeight = 4;
@@ -946,7 +940,7 @@ c("doMapSuccess")
 
         var tl = new TimelineLite();
 
-        tl.add( () => { Control.playEffect3("incoming.mp3"); } );
+        tl.add( () => { display.playEffect3("incoming.mp3"); } );
 
         tl.to(imgAll, 1.5, { css:{ scaleX: 1, scaleY: 1 }, delay: 1 } );
 
@@ -1019,7 +1013,7 @@ c("doMapSuccess")
 
         var div = $(".divWelcomeAgent")  
 
-        Meteor.setTimeout( function() { Control.playEffect3("agentAdded.mp3") }, 8100); 
+        Meteor.setTimeout( function() { display.playEffect3("agentAdded.mp3") }, 8100); 
 
         tl.to(div, 0.1, { opacity: 1.0, delay: 0.1 } ); 
 
@@ -1060,7 +1054,7 @@ c("doMapSuccess")
 
 function handleClick(_event) {
 
-    Control.playEffect( worldMap.map_sound );
+    display.playEffect( worldMap.map_sound );
 
     worldMap.zoomDone = false;
 

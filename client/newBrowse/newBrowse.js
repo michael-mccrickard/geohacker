@@ -141,6 +141,8 @@ Browser = function(  ) {
 		this.video = new Video( _videoid, display.browser );
 
 		this.video.play();
+
+		if (this.video.isGIF) game.playMusic(); 
 	}
 
 	this.playVideoByIndex = function( _index ) {
@@ -164,7 +166,7 @@ Browser = function(  ) {
 
 	this.returnToPrevious = function() {
 
-      	Control.suspendAllMedia();	
+      	display.suspendAllMedia();	
 
       	game.playMusic();
 

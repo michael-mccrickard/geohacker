@@ -72,21 +72,21 @@ Quiz = function( _lesson ) {
 
 		var _s = this.getSoundFile( _type);
 
-		Control.playEffect( _s );
+		display.playEffect( _s );
 	}
 
 	this.playSound2 = function( _type ) {
 
 		var _s = this.getSoundFile( _type);
 
-		Control.playEffect2( _s );
+		display.playEffect2( _s );
 	}
 
 	this.playSound3 = function( _type ) {
 
 		var _s = this.getSoundFile( _type);
 
-		Control.playEffect3( _s );
+		display.playEffect3( _s );
 	}
 
 

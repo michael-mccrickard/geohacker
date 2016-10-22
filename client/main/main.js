@@ -170,7 +170,7 @@ Template.main.events({
 
       if ( $("#mapButton").hasClass("faded") ) {
 
-          Control.playEffect( hacker.locked_sound_file );
+          display.playEffect( hacker.locked_sound_file );
 
           return; 
       }    
@@ -238,21 +238,21 @@ Template.main.events({
 
       if (hacker.cue.state == sPlaying) {
 
-          Control.playEffect( hacker.locked_sound_file );
+          display.playEffect( hacker.locked_sound_file );
 
           return;
       }
 
       if (hacker.scanner.mode == "scan" || hacker.scanner.mode == "rescan") {
 
-          Control.playEffect( hacker.locked_sound_file );
+          display.playEffect( hacker.locked_sound_file );
 
           return;
       }
 
       if ( hacker.moreDataAvailable() == false ) {
 
-          Control.playEffect( hacker.locked_sound_file );
+          display.playEffect( hacker.locked_sound_file );
 
           return; 
       }
@@ -336,7 +336,7 @@ Template.main.rendered = function () {
 
     //hacker.weather.start();
 
-
+/*
     if ( game.user.mode == uHack ) {
 
        if (hacker.feature.on() ) {
@@ -351,6 +351,7 @@ Template.main.rendered = function () {
 
         }       
     }
+*/
 
     if (hack.mode == mReady)  {
 

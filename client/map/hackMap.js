@@ -32,7 +32,7 @@ HackMap = function() {
     //(this part is a little convoluted b/c we formerly immediately showed the featured content
     //when a control was featured by the loader (random selection) and we also handled the auto-featured map clues differently
 
-        Meteor.defer( function() { Control.playEffect("mapButton.mp3"); });
+        Meteor.defer( function() { display.playEffect("mapButton.mp3"); });
 
         hacker.worldMapTemplateReady = false;
 
@@ -215,7 +215,7 @@ HackMap = function() {
 
         imagesLoaded( document.querySelector('#preloadCountryMap'), function( instance ) {
 
-          hackMap.worldMap.imageSrc = Control.getImageFromFile( _name + "_map.jpg" );
+          hackMap.worldMap.imageSrc = display.getImageFromFile( _name + "_map.jpg" );
 
           hackMap.worldMap.mapLoaded = true;
 

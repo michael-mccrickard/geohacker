@@ -116,7 +116,7 @@ if (this.arr.length == 0 ) this.arr = db.ghDebrief.find( { cc: this.countryCode,
 
 		this.centerHeadline();
 
-		Control.playEffect3("agentMessage2.mp3");
+		display.playEffect3("agentMessage2.mp3");
 	}
 
 	this.draw = function() {
@@ -264,7 +264,7 @@ if (this.arr.length == 0 ) this.arr = db.ghDebrief.find( { cc: this.countryCode,
 
         imagesLoaded( document.querySelector('#preloadDebrief'), function( instance ) {
 
-        	hack.debrief.imageSrc = Control.getImageFromFile( hack.debrief.image );  
+        	hack.debrief.imageSrc = display.getImageFromFile( hack.debrief.image );  
 
         	if (hack.debrief.waitingNow) {
 
@@ -334,7 +334,7 @@ if (this.arr.length == 0 ) this.arr = db.ghDebrief.find( { cc: this.countryCode,
 		} 
 		else {
 
-			Control.playEffect( this.sound );
+			display.playEffect( this.sound );
 		}
 	}
 
@@ -357,7 +357,7 @@ Template.debrief.events = {
 
   		e.preventDefault();
 
-  		Control.playEffect("new_feedback.mp3");
+  		display.playEffect("new_feedback.mp3");
 
   		if (game.user.mode == uBrowseCountry) {
 
@@ -377,7 +377,7 @@ Template.debrief.events = {
 
  		var debrief = hack.debrief;
 
-  		//Control.playEffect("new_feedback.mp3");
+  		//display.playEffect("new_feedback.mp3");
 
   		debrief.index--;
 
@@ -393,7 +393,7 @@ Template.debrief.events = {
 
     	var debrief = hack.debrief;
 
-  		//Control.playEffect("new_feedback.mp3");
+  		//display.playEffect("new_feedback.mp3");
 
   		debrief.index++;
 

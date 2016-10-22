@@ -181,7 +181,7 @@ Scanner = function() {
 
 		if (this.mode == "rescan") soundTime = 2;
 
-		Control.playEffect2( "scanner.mp3" );
+		display.playEffect2( "scanner.mp3" );
 
 		this.playScanSound( soundTime );
 
@@ -221,7 +221,7 @@ Scanner = function() {
 
 		if ( $(".scanScreen").css("opacity") == "0" ) {
 			
-			Control.playEffect( this.fadeInSound );
+			display.playEffect( this.fadeInSound );
 
 			$(".scanScreen" ).velocity("fadeIn", { duration: _time });
 		}
@@ -259,7 +259,7 @@ Scanner = function() {
 
 		var s = "scan" + _duration + "_" + Database.getRandomFromRange(1,5) + ".mp3";
 
-		Control.playEffect( s );
+		display.playEffect( s );
 	}
 
 	this.pauseIdle = function( _ID) {
@@ -287,7 +287,7 @@ Scanner = function() {
 
 			var s = "idle" + "_" + Database.getRandomFromRange(1,5) + ".mp3";
 
-			Control.playEffect( s );
+			display.playEffect( s );
 
 			this.count = 0;
 		}
@@ -320,7 +320,7 @@ Scanner = function() {
 
 		if ( hacker.moreDataAvailable() ) hacker.TV.startIdle();
 
-		Control.playEffect( this.intercept_sound_file );
+		display.playEffect( this.intercept_sound_file );
 
 		//set the reactive var so that the scanner template will hide the center img
 

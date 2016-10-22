@@ -169,9 +169,9 @@ refreshWindow = function(_which) {
 
     if (name == "browseWorldMap") {
 
-        hacker.ctl["MAP"].browseWorldMap.map.clearLabels();
+        browseMap.worldMap.map.clearLabels();
 
-        hacker.ctl["MAP"].browseFinishDraw();
+        browseMap.finishDraw();
 
         return;
     }

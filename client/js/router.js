@@ -125,7 +125,7 @@ FlowRouter.route('/congrats', {
 
     game.pauseMusic();
 
-    Control.playEffect("congrats1.mp3")
+    display.playEffect("congrats1.mp3")
 
     BlazeLayout.render('layout', { content: "congrats" } );
 
@@ -302,7 +302,7 @@ function checkForFeature() {
 
   if (hacker.feature.getName().length == 0) {
 
-    Control.playEffect( hacker.locked_sound_file );
+    display.playEffect( hacker.locked_sound_file );
 
     this.redirect("/main");
   }

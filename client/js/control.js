@@ -126,7 +126,7 @@ Control = {
 
     var pic = this.items[ this.getIndex() ].u;
 
-    this.src = Control.getImageFromFile( pic );
+    this.src = display.getImageFromFile( pic );
 
   },
 
@@ -326,7 +326,7 @@ Control.switchTo = function( _id ) {
 
     if (hacker.scanner.mode == "scan" || hacker.scanner.mode == "rescan") {
 
-        Control.playEffect( hacker.locked_sound_file );
+        display.playEffect( hacker.locked_sound_file );
 
         return;
     }
@@ -337,12 +337,12 @@ Control.switchTo = function( _id ) {
 
     if ( hacker.ctl[ id ].getState() < sLoaded ) {
 
-        Control.playEffect( hacker.locked_sound_file );
+        display.playEffect( hacker.locked_sound_file );
 
         return;
     }
 
-    Control.playEffect( hacker.fb_sound_file );  
+    display.playEffect( hacker.fb_sound_file );  
 
     //for the media controls, we are either clicking to toggle
     //the state (ctl is already active) 
@@ -383,26 +383,7 @@ Control.switchTo = function( _id ) {
 //        UTILITIES
 //***********************************************************************
 
-Control.unfocusMe = function(which) {
 
-  document.getElementById( which ).blur();
-}
-
-Control.unfocusMyClass = function(which) {
-
-  document.getElementsByClassName( which ).blur();
-}
-
-Control.getImageFromFile = function(_file) {
-
-  // Create new offscreen image to test
-
-  var theImage = new Image();
-
-  theImage.src = _file;
-
-  return theImage;
-}
 
 Control.allLoadsAreEqual = function() {
 
@@ -430,88 +411,6 @@ Control.allLoadsAreEqual = function() {
     return true;
 }
 
-//***********************************************************************
-//        MEDIA
-//***********************************************************************
-
-Control.playEffect = function(_file) {
-
-  $("#effectsPlayer").attr("src", _file);
-
-  document.getElementById("effectsPlayer").play();
-}
-
-Control.playEffect2 = function(_file) {
-
-  $("#effectsPlayer2").attr("src", _file);
-
-  document.getElementById("effectsPlayer2").play();
-}
-
-Control.playEffect3 = function(_file) {
-
-  $("#effectsPlayer3").attr("src", _file);
-
-  document.getElementById("effectsPlayer3").play();
-}
-
-Control.stopSound = function(_which) {
-
-  document.getElementById( _which + "Player").pause();
-}
-
-Control.stopEffects = function() {
-
-  document.getElementById("effectsPlayer").pause();
-
-  document.getElementById("effectsPlayer2").pause();
-
-  document.getElementById("effectsPlayer3").pause();
-}
-
-Control.suspendAllMedia = function() {
-
-  //game.pauseMusic();
-
-  if (hacker.ctl["SOUND"]) {
-
-    if (hacker.ctl["SOUND"].getState() > sLoaded) hacker.ctl["SOUND"].pause();
-
-    if (hacker.ctl["VIDEO"].getState() > sLoaded) hacker.ctl["VIDEO"].pause();
-  }
-  
-  if (youtube.loaded) {
-
-      youtube.stop();
-
-      youtube.hide();
-  }
-
-}
-
-Control.stopEditMedia = function() {
-
-  if (youtube.loaded) {
-
-     youtube.stop();
-
-     youtube.hide();
-  }
-
-  Control.stopEffects();
-
-  try {
-
-    c("attempting to stop sound player in control.js")
-
-    document.getElementById("editorSoundPlayer").pause();
-
-  }
-  catch(err) {
-
-     console.log(err.reason);
-  }
-}
  
 //*****************************************************************
 // CONTROL CHILD OBJECTS  (SOUND, VIDEO AND MAP IN SEPARATE FILES)

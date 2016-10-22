@@ -111,7 +111,7 @@ Template.browseWorldMap.events = {
 
   'click #browseRegionIcon': function (evt, template) {
 
-    Control.playEffect("mapBackup.mp3");
+    display.playEffect("mapBackup.mp3");
 
     var d = browseMap.worldMap;
 
@@ -124,7 +124,7 @@ Template.browseWorldMap.events = {
 
   'click #browseContinentIcon': function (evt, template) {
 
-    Control.playEffect("mapBackup.mp3");
+    display.playEffect("mapBackup.mp3");
 
     var d = browseMap.worldMap;
 
@@ -137,7 +137,7 @@ Template.browseWorldMap.events = {
 
   'click #browseWorldIcon': function (evt, template) {
 
-    Control.playEffect("mapBackup.mp3");
+    display.playEffect("mapBackup.mp3");
 
     var d = browseMap.worldMap;
 
@@ -148,7 +148,7 @@ Template.browseWorldMap.events = {
 
   'click #browseMapClose': function (evt, template) {
 
-      Control.playEffect("new_feedback.mp3");
+      display.playEffect("new_feedback.mp3");
 
       //we are returning from a trip to the map (off the home screen)
 
@@ -166,7 +166,7 @@ Template.browseWorldMap.events = {
 
   'click .imgMapTag': function (evt, template) {
 
-      Control.playEffect("new_feedback.mp3");
+      display.playEffect("new_feedback.mp3");
 
       browseMap.worldMap.mapTagImage = evt.target.src;
   },
@@ -192,13 +192,12 @@ Template.browseWorldMap.rendered = function () {
   
     stopSpinner();
 
-    if (!display) return;
-
     //get ready to show the country on the map
 
     if (game.user.mode == uBrowseCountry) {
 
         browseMap.worldMap.mapLevel = mlCountry;
+
     }
 
     game.user.mode = uBrowseMap;

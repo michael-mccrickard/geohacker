@@ -207,7 +207,9 @@ Hacker = function() {
 
         if (this.feature.on() ) {
 
-            this.feature.show()
+            this.scanner.hide();
+
+            this.feature.show();
         }
     }
 

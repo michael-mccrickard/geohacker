@@ -205,6 +205,8 @@ Template.newBrowse.events({
 
     'click .imgFlag': function(event, template) {
 
+//game.user.browseCountry( "AU", "newBrowse" );
+
 		      game.user.browseCountry( db.getRandomRec( db.ghC ).c, "newBrowse" );
       },
 

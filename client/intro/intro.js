@@ -26,7 +26,7 @@ Template.intro.rendered = function() {
 
 	doSpinner();
 
-	Control.playEffect("processing.mp3");
+	display.playEffect("processing.mp3");
 
 	game.intro.tl.to( _text, 0.5, { opacity: 1.0, ease:"Sine.easeOut", delay: 0.25} );
 
@@ -69,7 +69,7 @@ Intro = function() {
 		tl.add( () => { $(".divIntro").css("height", _height + "px") } );
 
 
-		tl.add( () => { Control.playEffect("approved.mp3"); } );
+		tl.add( () => { display.playEffect("approved.mp3"); } );
 
 		tl.add( () => { $(".introText").text("*** approved ***") } );
 
@@ -87,7 +87,7 @@ Intro = function() {
 	    tl.to( this.pic, 0.5, { opacity: 1.0, ease:"Sine.easeOut", delay: 0.0 } );
 
 
-		tl.add( () => {  Control.playEffect( "flash.mp3") }  );
+		tl.add( () => {  display.playEffect( "flash.mp3") }  );
 
 		tl.add( () => {  $("#cameraCH").attr("src", "camera_crosshairs_invert.jpg") }  );	
 
@@ -100,7 +100,7 @@ Intro = function() {
 		tl.add( () => {  $(".introText").removeClass("greenText")  } );
 
 
-		tl.add( () => { Control.playEffect2("map_pulse.mp3"); } );
+		tl.add( () => { display.playEffect2("map_pulse.mp3"); } );
 
 
 		tl.add( () => {  $(".introText").text("Processing your photo...") } );
@@ -162,7 +162,7 @@ Intro = function() {
 		tl.add( () => { stopSpinner(); }  );
 
 
-		tl.add( () => { Control.playEffect("photoDone.mp3"); } );
+		tl.add( () => { display.playEffect("photoDone.mp3"); } );
 
 
 		tl.add( () => {  game.user.photoReady.set( true ); } );

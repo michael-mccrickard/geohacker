@@ -153,7 +153,7 @@ Feature = function() {
     
           //now that the image is loaded ...
 
-          hacker.feature.imageSrc = Control.getImageFromFile( hacker.feature.file );
+          hacker.feature.imageSrc = display.getImageFromFile( hacker.feature.file );
 
 		  console.log("in feature.preload(), feature imageSrc created from " + this.file);
  
@@ -205,7 +205,7 @@ Feature = function() {
 	
 		this.file = this.getFile( _name);
 
-		if (this.file) this.imageSrc = Control.getImageFromFile( this.file );
+		if (this.file) this.imageSrc = display.getImageFromFile( this.file );
 
 		console.log("in feature.setImageSource(), feature imageSrc created from " + this.file);
 	}
@@ -267,7 +267,7 @@ Feature = function() {
 
 		if (_name == "IMAGE" || _name == "WEB") {		
 
-			c("'click control' is calling setImageSource")
+			c("'feature.switch()' is calling setImageSource")
 
      		this.setImageSource( _name );  //this will set the imageSrc for the featured area
      	}
@@ -279,7 +279,7 @@ Feature = function() {
 
 			if (this.ctl.getState() == sLoaded) this.ctl.setState( sPlaying );
 
-			console.log("feature.set is calling sound.activateState()")
+			console.log("feature.set is calling setImageSource('SOUND')")
 
 			this.setImageSource("SOUND");
 		}
@@ -292,7 +292,7 @@ Feature = function() {
 
 		}
 
-		c("feature.set is calling this.draw()")
+		c("feature.set is calling this.show()")
 		
 		this.show();  //will also play the media file, if any
 

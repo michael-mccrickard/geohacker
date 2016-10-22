@@ -211,7 +211,7 @@ Template.congrats.events = {
 
       e.preventDefault();
 
-      Control.playEffect("startButton.mp3");
+      display.playEffect("startButton.mp3");
 
       mission = null;
 

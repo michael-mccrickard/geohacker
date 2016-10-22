@@ -389,7 +389,7 @@ function handleClick(_event) {
 
     var _code = "";
 
-    Control.playEffect( worldMap.map_sound );
+    display.playEffect( worldMap.map_sound );
 
     worldMap.mapObjectClicked = _event.mapObject.id;
 

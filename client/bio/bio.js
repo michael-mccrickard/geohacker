@@ -31,7 +31,7 @@ Bio = function() {
 
         imagesLoaded( document.querySelector('#preloadDebrief'), function( instance ) {
 
-        	game.user.bio.imageSrc = Control.getImageFromFile(game.user.bio.image );  
+        	game.user.bio.imageSrc = display.getImageFromFile(game.user.bio.image );  
 
         	game.user.bio.redraw();
 

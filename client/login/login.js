@@ -243,7 +243,7 @@ Template.login.events({
 
       //go to Continue / Select Mission screen
 
-      Control.playEffect2("startButton.mp3");
+      display.playEffect2("startButton.mp3");
 
       game.user.goHome();
 
@@ -440,9 +440,9 @@ submitApplication = function(_t, _obj) {
 
                 FlowRouter.go('/start');
 
-                Control.stopEffects();
+                display.stopEffects();
 
-                Control.playEffect2("fail.mp3");
+                display.playEffect2("fail.mp3");
                 
                 // log the error
 

@@ -24,7 +24,7 @@ BrowseMap = function() {
 
     this.go = function() {
 
-        Meteor.defer( function() { Control.playEffect("mapButton.mp3"); });
+        Meteor.defer( function() { display.playEffect("mapButton.mp3"); });
 
         hacker.worldMapTemplateReady = false;
 
@@ -85,7 +85,7 @@ BrowseMap = function() {
 
         //Otherwise if we're at country level then just leave the icons as is 
 
-        if (this.level.get() == mlCountry) return;
+        //if (this.level.get() == mlCountry) return;
         
 
         if (game.user.assign.level == mlRegion || this.level.get() >= mlRegion ) this.fadeInIcons("both");
@@ -151,10 +151,10 @@ BrowseMap = function() {
       this.level.set(mlWorld);
 
       this.state.set( sIDContinent );
+
+      this.resetSelections();
     }
 
-    //some functions that would normally just be in the worldMap object are in here (map.js)
-    //because that object is already huge
 
     this.resetSelections = function() {
 

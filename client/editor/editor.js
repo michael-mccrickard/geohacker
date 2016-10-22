@@ -376,6 +376,29 @@ Editor = function() {
 
 	}
 
+
+	this.stopEditMedia = function() {
+
+	  if (youtube.loaded) {
+
+	     youtube.stop();
+
+	     youtube.hide();
+	  }
+
+	  display.stopEffects();
+
+	  try {
+
+	    document.getElementById("editorSoundPlayer").pause();
+
+	  }
+	  catch(err) {
+
+	     console.log(err.reason);
+	  }
+}
+
 }
 
 Tracker.autorun( function(comp) {

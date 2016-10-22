@@ -25,7 +25,7 @@ LessonMap = function() {
 
     this.go = function() {
 
-        Meteor.defer( function() { Control.playEffect("mapButton.mp3"); });
+        Meteor.defer( function() { display.playEffect("mapButton.mp3"); });
 
         hacker.worldMapTemplateReady = false;
 

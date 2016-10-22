@@ -186,7 +186,7 @@ Navigator = function() {
 
     this.prepareEditor = function() {
 
-      Control.suspendAllMedia();
+      display.suspendAllMedia();
 
       if (editor == null) editor = new Editor();
 

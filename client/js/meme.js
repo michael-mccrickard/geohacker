@@ -58,7 +58,7 @@ Meme = function(_type, _name, _src, _videoID) {
     
           //now that the image is loaded ...
 
-          hacker.meme.imageSrc = Control.getImageFromFile( hacker.meme.src );
+          hacker.meme.imageSrc = display.getImageFromFile( hacker.meme.src );
 
 
           Meteor.setTimeout( function() { hacker.meme.dimensionImage( hacker.meme.frame ); }, 500);
