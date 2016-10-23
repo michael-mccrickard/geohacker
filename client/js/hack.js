@@ -57,6 +57,8 @@ Hack = function() {
 
         game.user.assign.resetMap();
 
+c("after assign.resetMap, hackMap.selectedContinent is " + hackMap.selectedContinent)
+
         this.welcomeAgent = null;
 
         this.welcomeAgentIsChief = false;
@@ -209,21 +211,17 @@ Hack = function() {
 
       if (game.hackStartTime == 0) game.hackStartTime = new Date().getTime();
 
-      var mapCtl = hackMap;
+      var map = hackMap.worldMap;
 
-      var map = mapCtl.worldMap;
+      hackMap.level.set( mlCountry );
 
-      mapCtl.level.set( mlCountry );
+      hackMap.setState( sMapDone );
 
-      mapCtl.setState( sMapDone );
+      hackMap.worldMap.selectedContinent = this.continentCode;
 
-      map.selectedContinent = this.continentCode;
+      hackMap.worldMap.selectedRegion = this.regionCode;
 
-      map.selectedRegion = this.regionCode;
-
-      map.selectedCountry.set( this.countryCode );
-
-      hackMap.autoFeatured = false;
+      hackMap.worldMap.selectedCountry.set( this.countryCode );
 
       hackMap.go();
 

@@ -308,7 +308,7 @@ c("mode in goBrowseMap is uBrowseCountry")
 
     	if (FlowRouter.current().path == "/editor") {
 
-    		Control.stopEditMedia();
+    		editor.stopEditMedia();
     	}
 
     	if (this.mode == uBrowseMap || this.mode == uBrowseCountry)  {
@@ -482,8 +482,6 @@ c("mode in goBrowseMap is uBrowseCountry")
 		mission.status = msInProgress;
 
 
-		//either it's a mission that's already in progress ...
-
 		for (var i = 0; i < this.assigns.length; i++)  {
 
 			//we check the code of each assign data object in the array ...
@@ -501,6 +499,8 @@ c("mode in goBrowseMap is uBrowseCountry")
 				//if we find it, we create the assign using our stored data
 
 				this.assign = new Assign(_assignData.code, _assignData.mapCode, _assignData.hacked, _assignData.level, _assignData.name, _assignData.pool, _assignData.completions);
+
+c("mapCode after creating assing is " + this.assign.mapCode)
 
 				return;
 			}
@@ -641,10 +641,6 @@ c("mode in goBrowseMap is uBrowseCountry")
  		var _index = this.findTicketIndex( _code );
 
  		if (_index != -1) return this.atlas[ _index ];
-
-//this is happening during browse while learning
-
-// 		showMessage( "No ticket found for country " + _code);
  	}
 
 	this.getTicketCount = function( _code ) {

@@ -298,7 +298,7 @@ Template.editor.events = {
 
   'click #editSound' : function(evt, template) {
 
-    Control.stopEditMedia();
+    editor.stopEditMedia();
 
   	editor.controlType.set( cSound );
 
@@ -307,7 +307,7 @@ Template.editor.events = {
 
   'click #editText' : function(evt, template) {
 
-    Control.stopEditMedia();
+    editor.stopEditMedia();
 
     editor.controlType.set( cText );
 
@@ -316,7 +316,7 @@ Template.editor.events = {
 
   'click #editImage' : function(evt, template) {
 
-    Control.stopEditMedia();
+    editor.stopEditMedia();
 
     editor.controlType.set( cImage );
 
@@ -325,21 +325,21 @@ Template.editor.events = {
 
   'click #editVideo' : function(evt, template) {
 
-    Control.stopEditMedia();
+    editor.stopEditMedia();
 
     editor.controlType.set( cVideo );
   },
 
   'click #editWeb' : function(evt, template) {
 
-    Control.stopEditMedia();
+    editor.stopEditMedia();
 
     editor.controlType.set( cWeb );
   },
 
   'click #editDebrief' : function(evt, template) {
 
-    Control.stopEditMedia();
+    editor.stopEditMedia();
 
     editor.controlType.set( cDebrief );
   },

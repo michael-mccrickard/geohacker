@@ -143,7 +143,7 @@ Navigator = function() {
 
   this.closeEditor = function() {
 
-    Control.stopEditMedia();
+    editor.stopEditMedia();
 
     game.playMusic();
 
