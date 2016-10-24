@@ -83,44 +83,7 @@ c("doCurrentMap");
         //reset this each time, b/c it disappears if switch hack/display objects
 
         worldMap = this;
-
-        //these featured states are the result of the loader selecting the MAP as the next clue
-        //which result in the user being shown the appropriate area as a clue ("map file")
-
-        if (this.mapCtl.getState() == sContinentFeatured) {
-
-            this.mapCtl.level.set( mlContinent );
-
-            this.selectedContinent = hack.continentCode;
-            
-            this.doMap( this.selectedContinent, mlContinent);
-
-            //reset the status here to get the status line to display
-
-            this.mapCtl.setState( sContinentFeatured);
-
-            this.doMapSuccess( mlContinent );
-
-            return;
-
-        }
-
-        if (this.mapCtl.getState() == sRegionFeatured) {
-
-            this.mapCtl.level.set( mlRegion );
-
-            this.selectedRegion = hack.regionCode;
-
-            this.doMap( this.selectedRegion, mlRegion);
-
-            //reset the status here to get the status line to display
-
-            this.mapCtl.setState( sRegionFeatured);
-
-            this.doMapSuccess( mlRegion );
-
-            return;
-        }       
+  
 
         //Otherwise the user just clicked on the map button to try and identify the appropriate country,
         //so we need to display the map at the appropriate level: world, continent, or region
@@ -290,9 +253,17 @@ c("doCurrentMap");
 
         if (level == mlContinent) {
 
+            //do any continents have label pos data?
+
             _code = db.getContinentCodeForCountry( this.mapObjectClicked ); 
 
-            rec = db.getContinentRec( _code );                           
+            rec = db.getContinentRec( _code ); 
+
+            x = this.map.divRealWidth / 2;
+
+            y = this.map.divRealHeight / 2;        
+
+_col = "yellow";                  
         }
 
         if (level == mlRegion) {
@@ -300,6 +271,12 @@ c("doCurrentMap");
             _code = db.getRegionCodeForCountry( this.mapObjectClicked );   
 
             rec = db.getRegionRec( _code );
+
+            x = this.map.divRealWidth / 2;
+
+            y = this.map.divRealHeight / 2;   
+
+            /*
 
             if (rec.llon !== undefined) {
 
@@ -316,7 +293,9 @@ c("doCurrentMap");
                     y = rec.yl3;
                 }           
             } 
+            */
 
+        
 _col = "yellow";
 
             //if (rec.rll_co !== undefined) _col = rec.rll_co; 
@@ -415,17 +394,6 @@ c("country is labeled by centering")
         var level = this.mapCtl.level.get();
 
         var state = this.mapCtl.getState();
-
-        //are they backing up after already identifying an area
-        //or after an area was featured?
-
-        if (state == sIDContinent || state == sIDRegion || state == sIDCountry) {
-
-            if (this.prevMapState == sIcon) {
-                
-                this.prevMapState = state;
-            }
-        }
 
 
         if (level == mlContinent) {
@@ -1055,6 +1023,8 @@ c("doMapSuccess")
 function handleClick(_event) {
 
     display.playEffect( worldMap.map_sound );
+
+    hacker.updateContent();  //foce the icons to update
 
     worldMap.zoomDone = false;
 

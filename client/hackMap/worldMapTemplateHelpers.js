@@ -14,6 +14,8 @@ var mapHeightFactor = 0.85;
 
 var bottomStripFactor = 49 / 670;
 
+var fadedOpacity = "0.75";
+
 //*************************************************************************
 //              RENDERED CALLBACK
 //*************************************************************************
@@ -47,6 +49,23 @@ Template.worldMap.rendered = function () {
 
 Template.worldMap.helpers({
 
+  worldIconOpacity: function() { 
+
+    hacker.updateFlag.get();
+
+    var map =  hackMap.worldMap;
+
+    if (game.user.assign.level == mlWorld) {
+
+      if (hackMap.worldMap.selectedContinent != hack.continentCode) {
+
+        return "1";
+      }
+    }
+
+    return fadedOpacity;
+  },
+
   countryIsHacked: function() {
 
     if (hackMap.getState() >= sCountryOK ) return true;
@@ -60,13 +79,6 @@ Template.worldMap.helpers({
 
     return "YOU HACKED MY COUNTRY!"
   },
-
-/*
-  welcomeTextLower: function() {
-
-    return "WELCOME TO GEOHACKER " + hack.getCountryName();
-  },
-*/
 
   continentName: function() { 
 
@@ -115,13 +127,31 @@ Template.worldMap.helpers({
 
   },
 
+  continentIconOpacity: function() { 
+
+    hacker.updateFlag.get();
+
+    var map = hackMap.worldMap;
+
+    if (map.selectedRegion == hack.regionCode) {
+
+      if (hackMap.level.get() == mlContinent || hackMap.level.get() == mlRegion ) {
+
+          return fadedOpacity;
+      }
+
+     }
+  
+    return "1";
+  },
+
   regionIcon: function()  { 
 
     var level = hackMap.level.get();
 
     var name = "";
 
-    var map =  hackMap.worldMap;
+    var map = hackMap.worldMap;
 
     if (map.selectedRegion.length) {
 
@@ -133,6 +163,23 @@ Template.worldMap.helpers({
        return game.user.assign.selectedRegion + "_icon.jpg";     
     }
 
+  },
+
+  regionIconOpacity: function() { 
+  
+    hacker.updateFlag.get();
+
+    var map = hackMap.worldMap;
+  
+    if (map.selectedRegion == hack.regionCode) {
+
+      if (hackMap.level.get() == mlRegion) {
+
+          return fadedOpacity;
+      }
+      
+    }
+    return "1";
   },
 
   labelYCorrection: function() {
@@ -237,18 +284,77 @@ Template.worldMap.events = {
     //it's problematic for the user to start backing the map up
     //before they have seen the full ending sequence
 
-    if (_state == sMapDone) return;
+    if (_state >= sCountryOK) return;
 
-    display.playEffect("mapBackup.mp3");
+    if (hackMap.level.get() == mlCountry) {
 
-    hackMap.backupMapToRegion();
+       if (hackMap.worldMap.selectedCountry != hack.countryCode) {
+
+          display.playEffect("mapBackup.mp3");
+
+          hackMap.backupMapToRegion();         
+       
+          display.playEffect("mapBackup.mp3");
+
+          return;
+       }
+    }
+
+
+    if (hackMap.worldMap.selectedRegion == hack.regionCode) {
+
+        if (hackMap.level.get() == mlRegion) {
+
+          hacker.mapStatus.setThisAndType("Stream is coming from " + db.getRegionName( hack.regionCode) );
+
+          return;
+        }
+    }
+    else {
+
+        hacker.mapStatus.setThisAndType("Stream is not coming from " + db.getRegionName( hackMap.worldMap.selectedRegion ) );
+
+        display.playEffect("mapBackup.mp3");
+
+        hackMap.backupMapToContinent();
+    }
+
   },
 
   'click #continentIcon': function (evt, template) {
 
     var _state = hackMap.getState();
 
-    if (_state == sMapDone) return;
+    if (_state >= sCountryOK) return;
+
+    if (hackMap.worldMap.selectedRegion == hack.regionCode) {
+
+        if (hackMap.level.get() == mlCountry && hackMap.worldMap.selectedCountry != hack.countryCode) {
+
+            display.playEffect("mapBackup.mp3");
+
+            hackMap.backupMapToRegion();
+
+            return;
+        }
+
+        hacker.mapStatus.setThisAndType("Stream is coming from " + db.getRegionName( hack.regionCode) );
+
+        return;
+    }
+    else {
+
+        if (hackMap.worldMap.selectedContinent != hack.continentCode) {
+
+            hacker.mapStatus.setThisAndType("Stream is not coming from " + db.getContinentName( hackMap.worldMap.selectedContinent ) );
+
+            hackMap.backupMapToWorld();
+
+            return;
+        }
+
+    }
+
 
     display.playEffect("mapBackup.mp3");
 
@@ -259,9 +365,16 @@ Template.worldMap.events = {
 
     var _state = hackMap.getState();
 
-    if (_state == sMapDone) return;
+    if (_state >= sCountryOK) return;
 
     display.playEffect("mapBackup.mp3");
+
+    if (hackMap.worldMap.selectedContinent == hack.continentCode) {
+
+      hacker.mapStatus.setThisAndType("Stream is coming from " + db.getContinentName( hack.continentCode ) );
+
+      return;
+    }
 
     hackMap.backupMapToWorld();
   },

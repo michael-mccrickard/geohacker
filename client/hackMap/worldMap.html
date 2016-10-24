@@ -3,17 +3,17 @@
 	<div style="position: absolute; top: 55px; width:10%;">
 
 		<div id="worldIcon">
-			<img class="topMapIcon" src="all_icon.png">
+			<img class="worldIcon topMapIcon" src="all_icon.png" style="opacity:{{worldIconOpacity}}">
 		</div>
 
 		<div id="continentIcon" class="mapLevel" >
-			<img class="mapIcon" id="mapIconContinent" src="{{continentIcon}}"> 
-			<div class="areaLabel" id="continentLabel">{{continentName}}</div>
+			<img class="continentIcon mapIcon" id="mapIconContinent" src="{{continentIcon}}" style="opacity:{{continentIconOpacity}};"> 
+			<div class="areaLabel" id="continentLabel" style="opacity:{{continentIconOpacity}}">{{continentName}}</div>
 		</div>
 
 		<div id="regionIcon" class="mapLevel">
-			<img class="mapIcon" id="mapIconRegion" src="{{regionIcon}}"> 
-			<span class="areaLabel" id="regionLabel" style="top: {{labelYCorrection}}">{{regionName}}</span>
+			<img class="regionIcon mapIcon" id="mapIconRegion" src="{{regionIcon}}" style="opacity:{{regionIconOpacity}};"> 
+			<span class="areaLabel" id="regionLabel" style="top: {{labelYCorrection}}; opacity:{{regionIconOpacity}}">{{regionName}}</span>
 		</div>
 
 	</div>
