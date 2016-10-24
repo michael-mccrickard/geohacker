@@ -6,11 +6,11 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	this.missionHack = new Hack();
 
-	this.missionDisplay = new Display();
+	this.missionHacker = new Hacker();
 
 	this.browseHack =  new Hack();
 
-	this.browseDisplay = new Display();
+	this.browseHacker = new Hacker();
 
 	this.msg = new Messaging();
 
@@ -68,6 +68,10 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.browseCountry = function( _code, _returnRoute ) {
 
+     //the calling function passes _returnRoute as route to go back to 
+     //with the RETURN TO XXXX button on the browse screen, and _returnName
+     //(derived or set below) is the XXXX on that button
+
       this.returnRoute = _returnRoute;
 
       this.returnName = _returnRoute;
@@ -84,15 +88,16 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
       this.setGlobals( "browse" );
 
-      display.suspendMedia();
+
+      display.suspendAllMedia();
 
 		//if we're in lesson mode, uLearn, then the hack.countryCode
 		//will aready be set to _code (to create the learning capsule) but
 		//display will still have the previous countryCode (if any), so we
-		//need to re-init the display.  If the codes are the same, then
+		//need to re-init the hacker.  If the codes are the same, then
 		//we are probably just coming back from the browseMap
 
-      if (_code != display.countryCode) {
+      if (_code != display.browser.countryCode) {
 
       	hack.initForBrowse( _code);
       }
@@ -189,30 +194,30 @@ User = function( _name ) {  //name, scroll pos (for content editors)
      		FlowRouter.go("help");
      	}
 
-		Control.playEffect( "blink.mp3" );
+		display.playEffect( "blink.mp3" );
 
 
     }
 
     this.goBrowseMap = function() {
 
-    	display.suspendMedia();
+    	hacker.suspendMedia();
 
     	if (game.user.mode == uBrowseCountry) {
 
-	      	var d = display.ctl["MAP"].browseWorldMap;
+	      	var b = browseMap.worldMap;
 
-	    	d.mapLevel = mlRegion;
+	    	b.mapLevel = mlRegion;
 
-	    	d.drawLevel = mlRegion;
+	    	b.drawLevel = mlRegion;
 
-	    	d.detailLevel = mlCountry;  		
+	    	b.detailLevel = mlCountry;  		
 
-	    	d.selectedCountry.set( hack.countryCode );
+	    	b.selectedCountry.set( hack.countryCode );
 
-	    	d.selectedRegion = db.getRegionCodeForCountry( hack.countryCode );
+	    	b.selectedRegion = db.getRegionCodeForCountry( hack.countryCode );
 
-	    	d.selectedContinent = db.getContinentCodeForCountry( hack.countryCode );	    	
+	    	b.selectedContinent = db.getContinentCodeForCountry( hack.countryCode );	    	
     	}
     	else {
 
@@ -220,15 +225,16 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     		display.browser.countryCode = "";  //reset this since we are going in fresh
 
-    		if (!display.ctl["MAP"]) display.ctl["MAP"] = new ghMapCtl( display );
+    		//it should be possible to just let the browseMap remember where you last explored
+    		//but at the moment, this can produce erratic map behavior when trying to drill down
 
-    		//display.ctl["MAP"].browseWorldMap.reset();   //can't do this until we disconnect browseMap from ghMapCtl
+    		browseMap.reset();
     	}
 
-    	Control.playEffect( "mapButton.mp3" );
+    	display.playEffect( "mapButton.mp3" );
 
     	//we don't call setMode for uBrowseMap, because we manage that feature differently
-    	//but we probably could now that we have configured things.
+    	//but we probably could now that we have reconfigured things.
     	//Mode is currently set to uBrowseMap in Template.newBrowseMap.rendered
 
     	FlowRouter.go("/browseWorldMap");
@@ -265,9 +271,9 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	hack.mode = mReady;
 
-    	if (display.feature.getName() == "MAP") {
+    	if (hacker.feature.getName() == "MAP") {
 
-	  		display.worldMapTemplateReady = false;
+	  		hacker.worldMapTemplateReady = false;
 
 	  		FlowRouter.go("/worldMap");
 
@@ -281,14 +287,10 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	if (_which == "mission") {
 
-    		display = this.missionDisplay;
-
   			hack = this.missionHack;
     	}
 
        	if (_which == "browse") {
-
-    		display = this.browseDisplay;
 
   			hack = this.browseHack;
     	} 	
@@ -296,33 +298,27 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.goHome = function() {
 
-    	if (display) {
 
-    		//The avatar button in the upper-left corner 
-    		//is what calls this function.
-    		//It might be faded b/c we're in the middle of some
-    		//sequence like hackDone.
+		//The avatar button in the upper-left corner 
+		//is what calls this function.
+		//It might be faded b/c we're in the middle of some
+		//sequence like hackDone.
 
-    		if ( display.homeButtonDisabled() ) return;
+		if ( display.homeButtonDisabled() ) return;
 
-			display.suspendMedia();
-    	}
+		display.suspendAllMedia();
 
 
     	if (FlowRouter.current().path == "/editor") {
 
-    		Control.stopEditMedia();
+    		editor.stopEditMedia();
     	}
 
     	if (this.mode == uBrowseMap || this.mode == uBrowseCountry)  {
 
     		game.playMusic();
 
-//this has become necessary after a hack where a video was shown???
-
-//Session.set("sYouTubeOn",false);
-
-    		FlowRouter.go("/home")
+    		this.returnFromBrowse();
 
     		return;
     	}
@@ -359,6 +355,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     	}
 
     	this.setMode( this.prevMode ); 
+
+    	FlowRouter.go("/home");
     }
 
     this.selectNewMission = function() {
@@ -487,8 +485,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 		mission.status = msInProgress;
 
 
-		//either it's a mission that's already in progress ...
-
 		for (var i = 0; i < this.assigns.length; i++)  {
 
 			//we check the code of each assign data object in the array ...
@@ -506,6 +502,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 				//if we find it, we create the assign using our stored data
 
 				this.assign = new Assign(_assignData.code, _assignData.mapCode, _assignData.hacked, _assignData.level, _assignData.name, _assignData.pool, _assignData.completions);
+
+
 
 				return;
 			}
@@ -646,10 +644,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
  		var _index = this.findTicketIndex( _code );
 
  		if (_index != -1) return this.atlas[ _index ];
-
-//this is happening during browse while learning
-
-// 		showMessage( "No ticket found for country " + _code);
  	}
 
 	this.getTicketCount = function( _code ) {

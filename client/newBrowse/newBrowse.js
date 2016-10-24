@@ -8,11 +8,17 @@ Browser = function(  ) {
 
 	this.index = 0;
 
-	this.video = "";
+	this.video = null;
 
-	this.videoFrameID = "";
+	this.videoIndex = new Blaze.ReactiveVar( -1 );
 
-	this.countryCode = "";  //we actually hack.countryCode throughout, but we keep a copy
+	this.primaryItems = [];  //memes, can be video or an image in this case
+
+	this.items = [];  //array of objects from ghVideo
+
+	this.videoFrameID = "";  //ID of the div element with the playing video
+
+	this.countryCode = "";  //we actually use hack.countryCode throughout, but we keep a copy
 							//in this.countryCode, so we can tell when the country has changed
 							//upon return from the browsemap (user could have simply viewed the map)
 
@@ -20,23 +26,16 @@ Browser = function(  ) {
 
 		if (!editor) editor = new Editor();
 		
-		this.primary = [];
-
-		this.code = _code;
-
-		this.videoCtl = display.ctl["VIDEO"];
-
-		this.video = null;
-
-		//this.video = this.videoCtl.getFile();
-
-		//make primaries
-
 		this.primaryItems = [];
+
+
+		//make primaries, first the map modal
 
 		var _obj = new Meme("modal", "Map", hack.getCountryMapURL() );
 
 		this.primaryItems.push( _obj );
+
+		//prepare to create the primary video memes
 
 		var items = [];
 
@@ -94,6 +93,10 @@ Browser = function(  ) {
 			this.primaryItems.push(_meme);
 		}
 
+		//finally the regular videos (non-primary)
+
+		this.items = db.ghVideo.find( { cc: hack.countryCode, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } } ).fetch();
+
 		this.updateContent();
 
 	}
@@ -116,32 +119,42 @@ Browser = function(  ) {
 		$("#" + _id).css("border-color","yellow");
 	}
 
-	this.playVideo = function( _videoid, _id ) {
+	this.playVideo = function( _videoid, _frameid ) {
+
+		//derive the index from the frameid
+
+		this.index = parseInt( _frameid.substr(1) );
+
 
 		//reset our plain bg if we are using YouTube
 		//(otherwise the src on the bg is an animated .gif file; this happens in video.js)
 
-		if ( Control.isYouTubeURL( _videoid) ) {
+		if ( youtube.isFile( _videoid) ) {
 
 			this.setVideoBG( this.videoBGFile );
 		}
 
-		this.video = _videoid;
+		this.videoFrameID = _frameid;
 
-		this.videoFrameID = _id;
+		this.hiliteFrame( _frameid);
 
-		this.hiliteFrame( _id);
+		this.video = new Video( _videoid, display.browser );
 
-		this.videoCtl.playNewVideo( _videoid );
+		this.video.play();
 
-
+		if (this.video.isGIF) game.playMusic(); 
 	}
 
 	this.playVideoByIndex = function( _index ) {
 
-		this.videoCtl.index.set( _index );
+		this.index = _index;
 
-		this.playVideo( this.videoCtl.items[_index].u,  "v" + _index);
+		this.playVideo( this.items[_index].u,  "v" + _index);
+	}
+
+	this.resumeVideo = function() {
+
+		this.playVideo( this.items[ this.index ].u,  "v" + this.index);
 	}
 
 	this.resetVideoBorders = function() {
@@ -153,13 +166,12 @@ Browser = function(  ) {
 
 	this.returnToPrevious = function() {
 
-      	display.suspendMedia();	
+      	display.suspendAllMedia();	
 
       	game.playMusic();
 
 		_route = game.user.returnRoute;
 
-c("route in returnToPrevious is " + _route)
 
 		if (_route == "lessonMap") {
 
@@ -194,23 +206,6 @@ c("route in returnToPrevious is " + _route)
 	this.setVideoBG = function( _file ) {
 
 		$(".centerImg").attr("src", _file);
-	}
-
-	this.setThumbForGIF = function(_index, _file) {
-
-		$("#video" + _index).attr("src", _file);
-	}
-
-	this.setVideoSize = function( _obj ) {
-
-		setVideoSize(_obj);
-	}
-
-	this.setCurrentThumbToPause = function() {
-
-		var _index = this.videoCtl.index.get();
-
-		this.setThumbForGIF( _index, this.videoCtl.pauseControlPic);
 	}
 
 	this.updateContent = function() {

@@ -41,7 +41,7 @@ Template.lessonMap.events = {
 
   'click .learnCountry': function (evt, template) {
 
-      Control.playEffect("new_feedback.mp3");
+      display.playEffect("new_feedback.mp3");
 
       FlowRouter.go("/main");
   },
@@ -198,7 +198,7 @@ function goBrowse( _id ) {
 
 	  if (game.lesson.quiz.inProgress.get() ) {
 
-  	  	  Control.playEffect( display.locked_sound_file );
+  	  	  display.playEffect( hacker.locked_sound_file );
 
 	  	  game.lesson.setMessage("BROWSE COUNTRY NOT AVAILABLE DURING QUIZ");
 

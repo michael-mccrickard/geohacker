@@ -8,29 +8,29 @@ Template.browseWorldMap.helpers({
   
   tag: function() {
 
-     return db.ghTag.find( { cc: display.ctl["MAP"].browseWorldMap.selectedCountry.get() });
+     return db.ghTag.find( { cc: browseMap.worldMap.selectedCountry.get() });
   },
 
   getDebriefType: function() {
 
-      return ( db.getDebriefType( this, display.ctl["MAP"].browseWorldMap.selectedCountry.get() ) );
+      return ( db.getDebriefType( this, browseMap.worldMap.selectedCountry.get() ) );
   },
 
   getText: function() {
 
-      return ( db.getTagText( this, display.ctl["MAP"].browseWorldMap.selectedCountry.get() ) );
+      return ( db.getTagText( this, browseMap.worldMap.selectedCountry.get() ) );
   },
 
   getTagURL: function() {
 
-      return ( db.getTagURL( this, display.ctl["MAP"].browseWorldMap.selectedCountry.get() ) );
+      return ( db.getTagURL( this, browseMap.worldMap.selectedCountry.get() ) );
   },
 
   continentName: function() { 
 
-    var updateFlag = display.ctl["MAP"].browseWorldMap.updateFlag.get();
+    var updateFlag = browseMap.worldMap.updateFlag.get();
 
-    var map =  display.ctl["MAP"].browseWorldMap;
+    var map =  browseMap.worldMap;
 
     if (map.selectedContinent.length) return db.getContinentName( map.selectedContinent );
 
@@ -38,18 +38,18 @@ Template.browseWorldMap.helpers({
 
   regionName: function() { 
 
-    var updateFlag = display.ctl["MAP"].browseWorldMap.updateFlag.get();
+    var updateFlag = browseMap.worldMap.updateFlag.get();
 
-    var map =  display.ctl["MAP"].browseWorldMap;
+    var map =  browseMap.worldMap;
 
     if (map.selectedRegion.length) return db.getRegionName( map.selectedRegion );
   },
 
   continentIcon: function() { 
 
-    var updateFlag = display.ctl["MAP"].browseWorldMap.updateFlag.get();
+    var updateFlag = browseMap.worldMap.updateFlag.get();
 
-    var map =  display.ctl["MAP"].browseWorldMap;
+    var map =  browseMap.worldMap;
 
     if (map.selectedContinent.length) {
 
@@ -59,9 +59,9 @@ Template.browseWorldMap.helpers({
 
   regionIcon: function()  { 
 
-    var updateFlag = display.ctl["MAP"].browseWorldMap.updateFlag.get();
+    var updateFlag = browseMap.worldMap.updateFlag.get();
 
-    var map =  display.ctl["MAP"].browseWorldMap;
+    var map =  browseMap.worldMap;
 
     if (map.selectedRegion.length) {
 
@@ -72,9 +72,9 @@ Template.browseWorldMap.helpers({
 
   labelYCorrection: function() {
 
-    var level = display.ctl["MAP"].browseWorldMap.updateFlag.get();
+    var level = browseMap.worldMap.updateFlag.get();
 
-    var map =  display.ctl["MAP"].browseWorldMap;
+    var map =  browseMap.worldMap;
 
     if (map.selectedRegion.length) {
 
@@ -99,8 +99,6 @@ Template.browseWorldMap.helpers({
 
   mapHeight: function() { 
 
-    if (!display) return;
-
     var h = Session.get("gWindowHeight") - display.menuHeight;
 
     return h * 0.98;
@@ -113,9 +111,9 @@ Template.browseWorldMap.events = {
 
   'click #browseRegionIcon': function (evt, template) {
 
-    Control.playEffect("mapBackup.mp3");
+    display.playEffect("mapBackup.mp3");
 
-    var d = display.ctl["MAP"].browseWorldMap;
+    var d = browseMap.worldMap;
 
     d.doClearButton(0);
 
@@ -126,9 +124,9 @@ Template.browseWorldMap.events = {
 
   'click #browseContinentIcon': function (evt, template) {
 
-    Control.playEffect("mapBackup.mp3");
+    display.playEffect("mapBackup.mp3");
 
-    var d = display.ctl["MAP"].browseWorldMap;
+    var d = browseMap.worldMap;
 
     d.doClearButton(0);
 
@@ -139,9 +137,9 @@ Template.browseWorldMap.events = {
 
   'click #browseWorldIcon': function (evt, template) {
 
-    Control.playEffect("mapBackup.mp3");
+    display.playEffect("mapBackup.mp3");
 
-    var d = display.ctl["MAP"].browseWorldMap;
+    var d = browseMap.worldMap;
 
     d.doClearButton(0);
 
@@ -150,7 +148,7 @@ Template.browseWorldMap.events = {
 
   'click #browseMapClose': function (evt, template) {
 
-      Control.playEffect("new_feedback.mp3");
+      display.playEffect("new_feedback.mp3");
 
       //we are returning from a trip to the map (off the home screen)
 
@@ -168,20 +166,20 @@ Template.browseWorldMap.events = {
 
   'click .imgMapTag': function (evt, template) {
 
-      Control.playEffect("new_feedback.mp3");
+      display.playEffect("new_feedback.mp3");
 
-      display.ctl["MAP"].browseWorldMap.mapTagImage = evt.target.src;
+      browseMap.worldMap.mapTagImage = evt.target.src;
   },
 
   'click #tagClear': function (evt, template) {
 
-      var _ticket = game.user.getTicket( display.ctl["MAP"].browseWorldMap.selectedCountry.get() );
+      var _ticket = game.user.getTicket( browseMap.worldMap.selectedCountry.get() );
 
       _ticket.tag.length = 0;
 
       db.updateUserHacks();
 
-      display.ctl["MAP"].browseWorldMap.doCurrentMap();
+      browseMap.worldMap.doCurrentMap();
   }
 }
 
@@ -194,20 +192,19 @@ Template.browseWorldMap.rendered = function () {
   
     stopSpinner();
 
-    if (!display) return;
-
-    //this check is likely unnecessary, can user enter this map in any other mode?
+    //get ready to show the country on the map
 
     if (game.user.mode == uBrowseCountry) {
 
-        display.ctl["MAP"].browseWorldMap.mapLevel = mlCountry;
+        browseMap.worldMap.mapLevel = mlCountry;
+
     }
 
     game.user.mode = uBrowseMap;
 
-    Meteor.setTimeout( function() { display.ctl["MAP"].browseWorldMap.doCurrentMap() }, 250 );
+    Meteor.setTimeout( function() { browseMap.worldMap.doCurrentMap() }, 250 );
 
-    Meteor.setTimeout( function() { display.ctl["MAP"].browseFinishDraw() }, 251 );
+    Meteor.setTimeout( function() { browseMap.finishDraw() }, 251 );
 
 
 }

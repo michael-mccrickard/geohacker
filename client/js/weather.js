@@ -30,7 +30,7 @@ c("weather.js is trying to get the country name for capital city " + this.city);
 
 		this.country = db.getCountryName( _rec.cc );
 
-		this.timerID = Meteor.setTimeout( function() { display.weather.get( display.weather.country, display.weather.city ); }, this.delay );
+		this.timerID = Meteor.setTimeout( function() { hacker.weather.get( hacker.weather.country, hacker.weather.city ); }, this.delay );
 
 	}
 
@@ -47,16 +47,16 @@ c("weather.js is trying to get the country name for capital city " + this.city);
 
 		      	console.log(err);
 
-		      	display.weather.start();
+		      	hacker.weather.start();
 
 		      	return;
 		      }
 
-		      display.weather.description.set( _city + ", " + _country + ": " + res.weather[0].description + " and " + Math.round( res.main.temp ) + "\u2109" );
+		      hacker.weather.description.set( _city + ", " + _country + ": " + res.weather[0].description + " and " + Math.round( res.main.temp ) + "\u2109" );
 
-			  display.status.setThisAndType( display.weather.description.get() );
+			  hacker.status.setThisAndType( hacker.weather.description.get() );
 
-		      display.weather.start();
+		      hacker.weather.start();
 		});
 	}
 }

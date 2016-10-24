@@ -1,3 +1,8 @@
+
+//Debugging hacks
+
+gHackPreselect = "";
+
 //****************************************************************
 //                 PRE-STARTUP
 //****************************************************************
@@ -33,11 +38,6 @@ Accounts.onLogin( function() {
   LessonFactory.updateLessons();
 
 });
-
-
-//Debugging hacks
-
-gHackPreselect = "";
 
 
 
@@ -99,8 +99,6 @@ Session.set("isIOS", false);
 
   Session.set("sImagesReady", false); 
 
-  Session.set("sFeatureImageLoaded", false);    
-
   Session.set("sYouTubeOn", false);   
 
   Session.set("sDisplayReady", false); 
@@ -145,25 +143,32 @@ Meteor.startup(function() {
 
   db = new Database();
 
+  display = new Display();
+
   nav = new Navigator();
 
   hack = new Hack();
 
-  display = new Display();
+  hackMap = new HackMap();
+
+  browseMap = new BrowseMap();
+
+  lessonMap = new LessonMap();
+
+  hacker = new Hacker();
+
+  youtube = new YouTube();
+
+  ytplayer = null;
 
   db.initCore();
 
   db.initControls();
 
-  display.initMap();
-
   editor = null;
 
   mission = null;
 
-  ytplayer = null;
-
-  youTubeLoaded = false;
 
   //****************************************************************
   //                  SUBSCRIBE TO CORE DATA

@@ -28,8 +28,11 @@ Control = {
     setState : function(_val) {
 
       this.state.set( _val );
+    },
 
-  },
+  featuredBackdrop : function() { return  "featuredBackdrop.jpg"; },
+
+  hilitedBackdrop : function() { return  "hilitedBackdrop.jpg"; },
 
 
   //*******************************************************************
@@ -123,7 +126,7 @@ Control = {
 
     var pic = this.items[ this.getIndex() ].u;
 
-    this.src = Control.getImageFromFile( pic );
+    this.src = display.getImageFromFile( pic );
 
   },
 
@@ -233,56 +236,42 @@ Control = {
       return null;
     }
 
+    if (this.name == "TEXT") return this.getTextContent();
+
     return this.items[ this.getIndex() ].u;
   },
 
-  hasNextItem : function() {
+  doNavButtons : function() {
 
-    if (this.loadedCount  > this.getIndex() + 1) return true;
+    if (this.loadedCount > this.getIndex() + 1) {
 
-    return false;
-  },
+      $("img.navButton.navNext").removeClass("invisible");
+    }
+    else {
 
-  hasPrevItem : function() {
+       $("img.navButton.navNext").addClass("invisible");     
+    }
 
-    if (this.getIndex() > 0) return true;
 
-    return false;
+    if (this.getIndex() > 0) {
+
+      $("img.navButton.navPrev").removeClass("invisible");
+    }
+    else {
+
+       $("img.navButton.navPrev").addClass("invisible");     
+    }
+    
   },
   //********************************************
   //          General media functions
   //********************************************
 
-  toggleMediaState: function() {
+  toggleMedia: function() {
 
     if (this.getState() == sPaused) {
 
-        c("control.toggleMediaState is changing the media state to sPlay")
-
-        this.setState( sPlaying );
-
-        return;
-
-    }
-
-    if (this.getState() == sPlaying) {
-
-          c("control.toggleMediaState is changing the media state to sPause")
-
-          this.setState( sPaused );
-
-          return;
-    }
-
-  },
-
-  activateState : function() {
-
-c("control activateState() called on " + this.name + " and state is " + this.getState());
-
-    if (this.getState() == sPlaying) {
-
-        c("control.activateState is playing the media")
+        c("control.toggleMediaState is playing the media")
 
         this.play();
 
@@ -290,27 +279,33 @@ c("control activateState() called on " + this.name + " and state is " + this.get
 
     }
 
-    if (this.getState() == sPaused) {
+    if (this.getState() == sPlaying) {
 
-          c("control.activateState is pausing the media")
+          c("control.toggleMediaState is pausing the media")
 
           this.pause();
 
           return;
-    }    
+    }
 
   },
 
-  suspend : function() {
+  hilite : function() {
 
+    this.unhiliteAll();
 
+    $("#ctlBG_" + this.name ).attr("src", this.hilitedBackdrop() );
   },
 
-  hilite: function() {
 
-    $("#ctlBG_" + this.name ).attr("src", "hilitedBackdrop.jpg");
-  }
+  unhiliteAll : function() {
 
+      $("#ctlBG_SOUND" ).attr("src", this.featuredBackdrop() );
+      $("#ctlBG_VIDEO" ).attr("src", this.featuredBackdrop() );
+      $("#ctlBG_TEXT" ).attr("src", this.featuredBackdrop()) ;
+      $("#ctlBG_WEB" ).attr("src", this.featuredBackdrop() );
+      $("#ctlBG_IMAGE" ).attr("src", this.featuredBackdrop() );
+  },
 
 }  //end Control constructor
 
@@ -319,89 +314,67 @@ c("control activateState() called on " + this.name + " and state is " + this.get
 //************************************************************
 //            CONTROL  (static functions)
 //************************************************************
-Control.unhiliteAll = function() {
 
-      $("#ctlBG_SOUND" ).attr("src", "featuredBackdrop.jpg");
-      $("#ctlBG_VIDEO" ).attr("src", "featuredBackdrop.jpg");
-      $("#ctlBG_TEXT" ).attr("src", "featuredBackdrop.jpg");
-      $("#ctlBG_WEB" ).attr("src", "featuredBackdrop.jpg");
-      $("#ctlBG_IMAGE" ).attr("src", "featuredBackdrop.jpg");
+Control.hideNavButtons = function() {
+
+  $("img.navButton.navNext").addClass("invisible");     
+  $("img.navButton.navPrev").addClass("invisible");     
 }
 
 
 Control.switchTo = function( _id ) {
 
-    if (display.scanner.mode == "scan" || display.scanner.mode == "rescan") {
+    if (hacker.scanner.mode == "scan" || hacker.scanner.mode == "rescan") {
 
-        Control.playEffect( display.locked_sound_file );
+        display.playEffect( hacker.locked_sound_file );
 
         return;
     }
 
-    Control.unhiliteAll();
-
-    display.cue.set();
+    hacker.cue.set();
 
     var id = _id;
 
-    if ( display.ctl[ id ].getState() < sLoaded ) {
+    if ( hacker.ctl[ id ].getState() < sLoaded ) {
 
-        Control.playEffect( display.locked_sound_file );
+        display.playEffect( hacker.locked_sound_file );
 
         return;
     }
 
-    Control.playEffect( display.fb_sound_file );  
+    display.playEffect( hacker.fb_sound_file );  
 
     //for the media controls, we are either clicking to toggle
     //the state (ctl is already active) 
     //or we are clicking to make active and play
 
-    var _name = display.feature.getName();
+    var _name = hacker.feature.getName();
 
     if ((id == "SOUND" && _name == "SOUND") || (id == "VIDEO" && _name == "VIDEO")) {
         
-        c("'click control' is calling toggleMediaState")
+        c("'click control' is calling toggleMedia")
 
-        display.feature.ctl.toggleMediaState(); 
+        hacker.feature.ctl.toggleMedia(); 
+
+        //the feature did not change, only the state of the control,
+        //so we're done here
+
+        return;
 
      }
-     else {
 
-        if ((id == "SOUND") || (id == "VIDEO")) {
+  c("'click control' is calling feature.switch")
 
-          console.log("'click control' is setting media state to play")
+    hacker.feature.switch( id );
 
-          display.suspendMedia();
-
-          display.ctl[ id ].setState( sPlaying ); 
-        }
-     }
-
-    //In the case of a video that is currently visible (_name == VIDEO),
-    //we have to suspend (hide and pause) it, but only if the incoming feature
-    //is not also video
-
-    if (_name == "VIDEO" && id != "VIDEO") {
-
-      c("'click control' is calling suspendMedia b/c current feature is video")
-     
-      display.suspendMedia();
-    }
-
-    display.scanner.fadeOut( 250 );
-
-c("'click control' is calling feature.set")
-
-    display.feature.set( id );
 
     if (id == "VIDEO") {
 
-      display.cue.setAndShow();
+      hacker.cue.setAndShow();
     }
     else {
 
-      Meteor.setTimeout( function() { display.cue.type() }, 500);
+      Meteor.setTimeout( function() { hacker.cue.type() }, 500);
     }
 
 }
@@ -410,26 +383,7 @@ c("'click control' is calling feature.set")
 //        UTILITIES
 //***********************************************************************
 
-Control.unfocusMe = function(which) {
 
-  document.getElementById( which ).blur();
-}
-
-Control.unfocusMyClass = function(which) {
-
-  document.getElementsByClassName( which ).blur();
-}
-
-Control.getImageFromFile = function(_file) {
-
-  // Create new offscreen image to test
-
-  var theImage = new Image();
-
-  theImage.src = _file;
-
-  return theImage;
-}
 
 Control.allLoadsAreEqual = function() {
 
@@ -439,118 +393,25 @@ Control.allLoadsAreEqual = function() {
 
     for (i = 0; i < _arr.length; i++) {
 
-      var _ctl  = display.ctl[ _arr[i] ];
+      var _ctl  = hacker.ctl[ _arr[i] ];
 
       if (i == 0) _loadCount = _ctl.loadedCount;
 
-      if (_loadCount != _ctl.loadedCount) { c("Control is returning b/c a ctl loadCount is unequal to " + _loadCount); return false; }
+      if (_loadCount != _ctl.loadedCount) { 
+
+        c("Control is returning b/c a ctl loadCount is unequal to " + _loadCount); 
+
+        return false; 
+      }
 
     }
-c("Control reports that all loads were equal")
+    
+    c("Control reports that all loads were equal")
+    
     return true;
 }
 
-//***********************************************************************
-//        MEDIA
-//***********************************************************************
-
-Control.playEffect = function(_file) {
-
-  $("#effectsPlayer").attr("src", _file);
-
-  document.getElementById("effectsPlayer").play();
-}
-
-Control.playEffect2 = function(_file) {
-
-  $("#effectsPlayer2").attr("src", _file);
-
-  document.getElementById("effectsPlayer2").play();
-}
-
-Control.playEffect3 = function(_file) {
-
-  $("#effectsPlayer3").attr("src", _file);
-
-  document.getElementById("effectsPlayer3").play();
-}
-
-Control.stopSound = function(_which) {
-
-  document.getElementById( _which + "Player").pause();
-}
-
-Control.stopEffects = function() {
-
-  document.getElementById("effectsPlayer").pause();
-
-  document.getElementById("effectsPlayer2").pause();
-
-  document.getElementById("effectsPlayer3").pause();
-}
-
-Control.suspendAllMedia = function() {
-
-  game.pauseMusic();
-
-  if (display.ctl["SOUND"]) {
-
-    if (display.ctl["SOUND"].getState() > sLoaded) display.ctl["SOUND"].pause();
-
-    if (display.ctl["VIDEO"].getState() > sLoaded) display.ctl["VIDEO"].pause();
-  }
-
-  Session.set("sYouTubeOn", false);
-
-}
-
-Control.stopEditMedia = function() {
-
-  if (youTubeLoaded) {
-
-      ytplayer.stopVideo();
-
-      Session.set("sYouTubeOn", false);
-  }
-
-  Control.stopEffects();
-
-  try {
-
-    c("attempting to stop sound player in control.js")
-
-    document.getElementById("editorSoundPlayer").pause();
-
-  }
-  catch(err) {
-
-     console.log(err.reason);
-  }
-}
-
-
-//************************************************************
-//            YOUTUBE PLAYER
-//************************************************************
-
-Control.isYouTubeURL = function(_s) {
-
-    //check for the file type designator and return false if found
-
-    if (!_s) return false;
-
-    if (_s.substr(_s.length - 4) == ".gif") return false;
-
-    return true;
- }
-
-Control.getNonYouTubeFile = function(_file) { 
-
-      return _file;
-}
-
-
-
+ 
 //*****************************************************************
 // CONTROL CHILD OBJECTS  (SOUND, VIDEO AND MAP IN SEPARATE FILES)
 //*****************************************************************
@@ -580,6 +441,8 @@ ghImageCtl = function() {
 
         this.items = this.collection.find( { cc: this.countryCode, dt: { $ne: "cmp"} } ).fetch();        
       }
+
+      this.fullCount = this.items.length;
   }
 
   this.setCountry = function(_countryCode, _collection) {
@@ -587,8 +450,6 @@ ghImageCtl = function() {
       this.collection = _collection;
 
       this.countryCode = _countryCode;
-
-      this.fullCount = this.collection.find ( { cc: this.countryCode, dt: {$ne: "cmp"} } ).count();
 
       this.loadedCount = 0;
 
@@ -603,6 +464,10 @@ ghImageCtl = function() {
       //process items here
 
       this.items = Database.shuffle(this.items); 
+    }
+
+    this.suspend = function() {
+
     }
 
 }
@@ -622,6 +487,10 @@ Web = function() {
 
     this.state = new Blaze.ReactiveVar(0);
   }
+
+  this.suspend = function() {
+
+  }
 }
 
 Text = function() {
@@ -637,6 +506,13 @@ Text = function() {
     this.index = new Blaze.ReactiveVar(0);
 
     this.state = new Blaze.ReactiveVar(0);
+  }
+
+  this.suspend = function() {
+
+
+    hacker.feature.hideText();
+
   }
 }
 

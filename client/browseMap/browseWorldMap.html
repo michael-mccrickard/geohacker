@@ -17,7 +17,7 @@
 
 	    ev.preventDefault();
 
-	    var map = display.ctl["MAP"].browseWorldMap.map;
+	    var map = hacker.ctl["MAP"].browseWorldMap.map;
 
 	    var x = 0;
 	    var y = 0;
@@ -59,7 +59,7 @@
         map.dataProvider.images.push(image);
         map.validateData();   
 
-        var _ticket = game.user.getTicket( display.ctl["MAP"].browseWorldMap.selectedCountry.get() );
+        var _ticket = game.user.getTicket( hacker.ctl["MAP"].browseWorldMap.selectedCountry.get() );
 
         _ticket.addTag(_long, _lat, _dt ); 
 

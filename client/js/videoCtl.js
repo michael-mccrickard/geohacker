@@ -14,6 +14,13 @@ VideoCtl = function() {
 
 	this.items = [];
 
+<<<<<<< HEAD
+=======
+	this.collection = db.ghVideo;
+
+	this.element = "img.featuredPic";
+
+>>>>>>> new-video-scheme
 
 	this.init = function() {
 
@@ -22,6 +29,7 @@ VideoCtl = function() {
 		this.state = new Blaze.ReactiveVar(0);
 	}
 
+<<<<<<< HEAD
 	this.suspend = function() {
 
 		console.log("video.suspend() is pausing the video")
@@ -37,6 +45,23 @@ VideoCtl = function() {
 	this.hide = function() {
 
 		youtube.hide(); 
+=======
+	 this.suspend = function() {
+
+	 	if (this.getState() == sPlaying) {
+
+			c("videoctl is suspending the video")
+
+	 		this.pause();
+
+	 		this.hide()
+	 	}
+	 }
+
+	this.hide = function() {
+
+		this.video.hide();
+>>>>>>> new-video-scheme
 	}
 
 	//return the pic that should be displayed in the small control box
@@ -60,6 +85,7 @@ VideoCtl = function() {
 
 	}, //end getControlPic
 
+<<<<<<< HEAD
 	  this.setItems = function() {
 
 	      	//screen out the ones used as primaries in the newBrowser
@@ -67,6 +93,17 @@ VideoCtl = function() {
 	        this.items = this.collection.find( { cc: this.countryCode, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } } ).fetch();
 
 	  },
+=======
+	this.setItems = function() {
+
+	  	//screen out the ones used as primaries in the newBrowser
+
+	    this.items = this.collection.find( { cc: this.countryCode, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } } ).fetch();
+
+	    this.fullCount = this.items.length;
+
+	},
+>>>>>>> new-video-scheme
 
 	//Used to get the file to display in featured area.
 	//Usually this returns the content, but if animated gif is paused
@@ -76,6 +113,7 @@ VideoCtl = function() {
 
 		var file = null;
 
+<<<<<<< HEAD
 		var _state = this.getState();
 
 		var _file = this.items[ this.getIndex() ].u;
@@ -93,17 +131,25 @@ VideoCtl = function() {
 
 		}
 
+=======
+		var _file = this.items[ this.getIndex() ].u;
+
+>>>>>>> new-video-scheme
 		return _file;
 	}
 
 
     this.show = function() {
 
+<<<<<<< HEAD
     	if (!this.video.isYouTube) return;
 
 		console.log("video.show() is turning on YT")
         
         youtube.show();
+=======
+    	this.video.show();
+>>>>>>> new-video-scheme
     }
 
 	this.pause = function(){
@@ -112,8 +158,11 @@ VideoCtl = function() {
 
 		this.video.pause();
 
+<<<<<<< HEAD
 		display.feature.setImage("VIDEO");
 
+=======
+>>>>>>> new-video-scheme
 	}
 
 
@@ -121,6 +170,7 @@ VideoCtl = function() {
 
 		this.setState( sPlaying );
 
+<<<<<<< HEAD
 		var _file = this.items[ this.getIndex() ].u;
 
 		if (_id) _file = _id;
@@ -214,8 +264,35 @@ VideoCtl = function() {
 		Session.set("sYouTubeOn", true); 
 
 	}//end playYouTube
+=======
+		var _file = this.getFile();
+
+		if (_id) _file = _id;
+
+		if (this.video) {
+
+			if (this.video.file == _file) {
+
+				this.video.play();
+
+				return;
+			}
+		}
+
+		c("new video in videoCtl with " + _file)
+
+		this.video = new Video(_file, this);
+
+		this.video.play();
+
+	}// end play
+>>>>>>> new-video-scheme
 
 
 }  //end Video constructor
 
+<<<<<<< HEAD
 Video.prototype = Control;
+=======
+VideoCtl.prototype = Control;
+>>>>>>> new-video-scheme

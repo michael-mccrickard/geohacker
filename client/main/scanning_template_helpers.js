@@ -1,33 +1,5 @@
 
 
-
-Template.main.events({
-
-  'click .scanCenterImg': function(e) {
-
-      e.preventDefault();  
-
-      var _mode = display.scanner.mode;
-
-      var _state = display.scanner.centerState.get();
-
-
-    if (_state == "loaded") {
-
-        display.scanner.fadeOut( 250 );
-
-        display.feature.set( display.loadedControlName.get() );
-
-     }
-     else {
-
-        Control.playEffect( display.locked_sound_file );
-     }
-  },
-
-});
-
-
 Template.scanning.helpers({
 
     nationsCount: function() {
@@ -36,25 +8,11 @@ Template.scanning.helpers({
 
     },
 
-    cursorForScanCenter: function() {
-
-      //var _mode = display.scanner.mode;
-
-      //if (_mode != "scan" && _mode != "rescan" && display.scanner.centerState != "idle") return "default";
-
-        var _state = display.scanner.centerState.get();
-
-        if (_state == "loaded") return "pointer";
-
-        return "default";
-
-    },
-
     scanningNow: function() {
 
         if (!display) return;
 
-        var _state = display.scanner.centerState.get();
+        var _state = hacker.scanner.centerState.get();
 
     	if ( _state == "scan" ) return true;
 
@@ -63,83 +21,51 @@ Template.scanning.helpers({
 
     getProgress: function() {
 
-        if (!display) return;
-
-        var _state = display.scanner.centerState.get();
+        var _state = hacker.scanner.centerState.get();
 
         if (_state != "scan" && _state != "rescan") return;
 
-    	if (display.scanner.progress.get() >= display.scanner.progressLimit ) {
+    	if (hacker.scanner.progress.get() >= hacker.scanner.progressLimit ) {
 
-            if (display.scanner.checkScan("scanner") == true) display.scanner.stopScan();
+            if (hacker.scanner.checkScan("scanner") == true) hacker.scanner.stopScan();
 
-    		return display.scanner.progressLimit - 1;
+    		return hacker.scanner.progressLimit - 1;
     	}
 
 
-    	return display.scanner.progress.get();
+    	return hacker.scanner.progress.get();
     },
 
     getTotal: function() {
 
-        if (!display) return;
-
-    	return display.scanner.totalTime.get();
+    	return hacker.scanner.totalTime.get();
     },
 
     getScannerCenterImage: function() {
 
-        if (!display) return;
-
-        var _default =  "3DGlobe.png"; //"geohacker_background2.png";
-
-        var _name = display.loadedControlName.get();
-
-        if ( _name.length ) return display.ctl[ _name ].getControlPic();
+        var _default = "3DGlobe.png"; 
 
         return _default;
-    },
-
-    TEXTisFeatured: function() {
-
-        if (!display) return;
-
-         var _name = display.loadedControlName.get();       
-
-        if ( _name == "TEXT") return true;
-
-        return false;
-    },
-
-    featuredText: function() {
-
-        if (!display) return;
-
-         var _name = display.loadedControlName.get();       
-
-        if ( _name == "TEXT") return display.ctl[ _name ].getTextContent();
-
-        return "";
     },
 
     centerText: function() {
 
         if (!display) return;
 
-        var _state = display.scanner.centerState.get();
+        var _state = hacker.scanner.centerState.get();
 
     	if (_state == "scan" || _state == "rescan") {
 
-    		var _percent = ( display.scanner.progress.get() / 360 ) * 100;
+    		var _percent = ( hacker.scanner.progress.get() / 360 ) * 100;
 
     		if (_percent >= 100.0) return "SCAN PROGRESS 100%";
 
     		return "SCAN PROGRESS " + _percent.toPrecision(2) + "%";
     	}
 
-        if ( display.scanner.centerState.get() == "loaded" ) {
+        if ( hacker.scanner.centerState.get() == "loaded" ) {
 
-            return display.loadedControlName.get() + " FILE";
+            return hacker.loadedControlName.get() + " FILE";
         }      
 
     	return "GEOHACKER V 1.0";
@@ -149,7 +75,7 @@ Template.scanning.helpers({
 
         if (!display) return;
 
-    	var _percent = display.scanner.networkIntegrity.get();
+    	var _percent = hacker.scanner.networkIntegrity.get();
 
     	return _percent.toString();
     }

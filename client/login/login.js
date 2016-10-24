@@ -131,6 +131,7 @@ Template.login.events({
     'click #createGuest': function(event, template) {
 
         Meteor.call("createGuest", function(_err, _data){
+<<<<<<< HEAD
 
             c(_err);
 
@@ -150,27 +151,38 @@ Template.login.events({
 
 /*
         $.ajax({
+=======
+>>>>>>> new-video-scheme
 
-          url: 'http://api.randomuser.me/?inc=gender,name,nat,picture,id,email&noinfo',
-          
-          dataType: 'json',
-          
-          success: function(data) {
+            if (_err) {
 
-            data.results[0].ut = utAgent;
+              showMessage(_err);
 
-            data.results[0].st = usActive;
+              return;
+            }
 
+            _data.results[0].ut = utAgent;
+
+            _data.results[0].st = usActive;  
+
+<<<<<<< HEAD
             return data.results[0];
 
             //doSpinner();
+=======
+              doSpinner();
+>>>>>>> new-video-scheme
 
             //we could create a guest record here in the db (ghGuest) and stamp with time started
             //but currently all of that info and more is going into mixpanel, which we may want to prevent
 
+<<<<<<< HEAD
             //submitApplication(null, data.results[0]);
 
           }
+=======
+            submitApplication(null, _data.results[0]);         
+>>>>>>> new-video-scheme
         });
 */
 
@@ -267,7 +279,7 @@ Template.login.events({
 
       //go to Continue / Select Mission screen
 
-      Control.playEffect2("startButton.mp3");
+      display.playEffect2("startButton.mp3");
 
       game.user.goHome();
 
@@ -464,9 +476,9 @@ submitApplication = function(_t, _obj) {
 
                 FlowRouter.go('/start');
 
-                Control.stopEffects();
+                display.stopEffects();
 
-                Control.playEffect2("fail.mp3");
+                display.playEffect2("fail.mp3");
                 
                 // log the error
 

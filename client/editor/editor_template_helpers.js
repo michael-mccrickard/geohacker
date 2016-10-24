@@ -58,9 +58,9 @@ Template.editor.helpers({
 
         editor.controlName.set("VIDEO"); 
 
-      //set this manually when editing
+      //set this manually when editing (now done with youtube template helper)
 
-      $(".featuredYouTubeVideo").css("position", "relative");
+      //$(".featuredYouTubeVideo").css("position", "relative");
 
   			return db.ghVideo.find( { cc: ID });
   		}
@@ -190,7 +190,7 @@ Template.editor.helpers({
 
     	var _type = editor.controlType.get();
 
-      if ( _type == cVideo && Control.isYouTubeURL(this.f)) return false;     
+      if ( _type == cVideo && youtube.isFile(this.f)) return false;     
 
     	if (_type == cImage || _type == cVideo || _type == cWeb) return true;
 
@@ -199,7 +199,9 @@ Template.editor.helpers({
 
     youTubeClass: function() {
 
-      if ( Session.get("sYouTubeOn") ) return "inline";
+      //if ( Session.get("sYouTubeOn") ) return "inline";
+
+      if ( youtube.on.get() ) return "inline";
 
       return "invisible";
     },
@@ -296,7 +298,7 @@ Template.editor.events = {
 
   'click #editSound' : function(evt, template) {
 
-    Control.stopEditMedia();
+    editor.stopEditMedia();
 
   	editor.controlType.set( cSound );
 
@@ -305,7 +307,7 @@ Template.editor.events = {
 
   'click #editText' : function(evt, template) {
 
-    Control.stopEditMedia();
+    editor.stopEditMedia();
 
     editor.controlType.set( cText );
 
@@ -314,7 +316,7 @@ Template.editor.events = {
 
   'click #editImage' : function(evt, template) {
 
-    Control.stopEditMedia();
+    editor.stopEditMedia();
 
     editor.controlType.set( cImage );
 
@@ -323,21 +325,21 @@ Template.editor.events = {
 
   'click #editVideo' : function(evt, template) {
 
-    Control.stopEditMedia();
+    editor.stopEditMedia();
 
     editor.controlType.set( cVideo );
   },
 
   'click #editWeb' : function(evt, template) {
 
-    Control.stopEditMedia();
+    editor.stopEditMedia();
 
     editor.controlType.set( cWeb );
   },
 
   'click #editDebrief' : function(evt, template) {
 
-    Control.stopEditMedia();
+    editor.stopEditMedia();
 
     editor.controlType.set( cDebrief );
   },
@@ -363,29 +365,11 @@ Template.editor.events = {
         
         if(!rec.u) return;
 
-        Session.set("sYouTubeOn", false);
+        youtube.hide();
 
-        editor.videoFile = rec.u;
+        editor.video = new Video( rec.u, editor);
 
-        if (Control.isYouTubeURL(rec.u)) {
-
-          if (youTubeLoaded == false) {
-            
-            c("calling YT.load() in editor")
-            
-            YT.load();
-          }
-          else {
-
-          c("loading YT vid by ID in editor")
-            
-            ytplayer.loadVideoById( rec.u );            
-          }
-
-         Session.set("sYouTubeOn", true);
-
-        }
-
+        editor.video.play();
      }
 
      if (editor.controlType.get() == cSound) {
@@ -419,7 +403,9 @@ Template.editor.events = {
       
           var sel = "#" + evt.target.id + ".f";
 
-          editor.videoFile = $(sel).val();
+          editor.video = new Video( $(sel).val(), editor);
+
+editor.video.play();
       
       }
 

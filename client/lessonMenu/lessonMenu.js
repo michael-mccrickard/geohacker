@@ -173,9 +173,9 @@ function handleClick( _event ) {
 
 		var _continentID = db.getContinentCodeForCountry( _event.mapObject.id );
 
-var _ls = new LessonSequence( _continentID );
+        var _ls = new LessonSequence( _continentID );
 
-g.worldMenu.lessonGroup = _ls.item;
+        g.worldMenu.lessonGroup = _ls.item;
 
         g.worldMenu.showContinentMenu( _continentID );
 
@@ -291,6 +291,6 @@ Template.lessonMenu.rendered = function () {
 
     Meteor.setTimeout( function() { game.lesson.showLessonMenu(); }, 250 );
 
-    //Meteor.setTimeout( function() { display.ctl["MAP"].lessonFinishDraw() }, 251 );
+    //Meteor.setTimeout( function() { hacker.ctl["MAP"].lessonFinishDraw() }, 251 );
 
 }

@@ -39,6 +39,8 @@ BrowseWorldMap = function( _mapCtl ) {
 
     //objects
 
+    this.map = null;
+
     this.dp = null;
 
     this.mm = this.mm || new BrowseMapMaker();
@@ -127,7 +129,7 @@ BrowseWorldMap = function( _mapCtl ) {
         }
 
         if (level == mlCountry) {  //this is just a replay of the map zooming in on the correct country (browse mode)
-
+c("level in doCurrentMap is country")
            this.doThisMap( mlRegion, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion);
 
            //set level to country, so that the label uses the correct coords
@@ -137,7 +139,7 @@ BrowseWorldMap = function( _mapCtl ) {
             var mapObject = null;
 
             if (this.selectedCountry.get().length) mapObject = this.map.getObjectById( this.selectedCountry.get() );
-
+c("mapObject in doCurrentMap follows")
             //prevent zoomCompleted from jumping us to the browse data screen
 
             this.zoomOnlyOnClick = true;
@@ -147,7 +149,7 @@ BrowseWorldMap = function( _mapCtl ) {
             this.zoomDone = false;
 
             if (mapObject) {
-
+c("clicking map object")
                 this.map.clickMapObject(mapObject);
         
             }
@@ -458,7 +460,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
         if (_y) y = _y;       
 
-        Meteor.defer( function() { display.ctl["MAP"].browseWorldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
+        Meteor.defer( function() { browseMap.worldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
     }
 
 
@@ -547,7 +549,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
 function handleClick(_event) {
 
-    Control.playEffect( worldMap.map_sound );
+    display.playEffect( worldMap.map_sound );
 
     //allow zoomComplete to set the new map level and redraw the map
     //when the zoom is complete
@@ -610,6 +612,8 @@ function handleClick(_event) {
 
         if (worldMap.selectedCountry.get() != worldMap.mapObjectClicked) {
 
+        c("handleclick in browsemap is exiting b/c selected country has changed -- mlCountry level")
+
             worldMap.selectedCountry.set( worldMap.mapObjectClicked );
 
             //in ths case, we need zoomComplete to redraw and validate, so reset the level
@@ -628,6 +632,8 @@ function handleClick(_event) {
 
         if (worldMap.zoomOnlyOnClick) {
 
+        c("handleclick in browsemap is exiting b/c zoomOnlyOnClick -- mlcountry level")
+
             worldMap.mapCtl.level.set(mlRegion); 
 
             worldMap.zoomOnlyOnClick = false;
@@ -635,6 +641,7 @@ function handleClick(_event) {
             return;
         }
 
+        c("worldMap.mapObjectClicked just b4 browseCountry is " + worldMap.mapObjectClicked)
 
         game.user.browseCountry( worldMap.mapObjectClicked, "browseWorldMap" );
 
@@ -651,11 +658,23 @@ function handleZoomCompleted() {
 
     var _code;
 
-    if (worldMap.zoomDone == true)  return; 
+    if (worldMap.zoomDone == true)  {
+
+        c("handleZoomCompleted in browsemap is returning b/c zoomDone is true")
+
+        return; 
+    }
+    else {
+
+        c("zoomDone is false in browseMap.zoomCompleted")
+    }
 
     worldMap.zoomDone = true;
 
+    
     var level = worldMap.mapCtl.level.get();
+
+    c("worldMap.mapObjectClicked in handleZoomCompleted is " + worldMap.mapObjectClicked)
 
     var _continentCode = db.getContinentCodeForCountry( worldMap.mapObjectClicked );
 
@@ -729,18 +748,18 @@ function handleZoomCompleted() {
 
 
 function refreshMap() {
-    Meteor.setTimeout( function() { display.ctl["MAP"].browseFinishDraw(); }, 250);
+    Meteor.setTimeout( function() { browseMap.finishDraw(); }, 250);
 }
 
 dbm = function() {
 
-  var ctl = display.ctl["MAP"];
+  var ctl = browseMap;
 
   var s = "map.level = " + ctl.level.get() + "\n\r";
 
   s = s + "map.state = " + ctl.getState("MAP") + "\n\r";
 
-  var map = display.ctl["MAP"].browseWorldMap;
+  var map = hacker.ctl["MAP"].browseWorldMap;
 
   s = s + "selectedContinent = " + map.selectedContinent + "\n\r";
 

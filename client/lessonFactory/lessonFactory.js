@@ -8,13 +8,9 @@ LessonFactory = function() {
 
 	this.init = function() {
 
-		display.ctl[ "MAP" ] = new ghMapCtl();
+		this.lessonMap = lessonMap;
 
-		this.mapCtl = display.ctl["MAP"];
-
-		this.lessonMap = this.mapCtl.lessonMap;
-
-		this.mapCtl.init();
+		this.lessonMap.init();
 
 		this.tl = new TimelineMax();
 
@@ -25,12 +21,6 @@ LessonFactory = function() {
 		//the temporary lesson/map levels and codes
 
 		this.lessonGroup = "";
-
-		this.mapLevel = "";
-
-		this.drawLevel = "";
-
-		this.detailLevel = "";
 
 		this.hack = new Hack();
 
@@ -155,7 +145,7 @@ LessonFactory = function() {
 
 	this.showMap = function() {
 
-		display.worldMapTemplateReady = false;
+		hacker.worldMapTemplateReady = false;
 
 		FlowRouter.go("/lessonMap");		
 	}
@@ -335,13 +325,13 @@ LessonFactory = function() {
 
 	this.clearLabels = function() {
 
-		this.lessonMap.map.clearLabels();
+		lessonMap.worldMap.map.clearLabels();
 	}
 
 
 	this.labelArea = function(_level, _code, _x, _y) {
 
-		this.lessonMap.map.clearLabels();
+		this.clearLabels();
 
 		this.level = _level;
 
@@ -351,7 +341,7 @@ LessonFactory = function() {
 
 		if (_level == mlCountry) this.country = _code;
 
-		this.lessonMap.labelMapObject( _level, _code, _x, _y);
+		lessonMap.worldMap.labelMapObject( _level, _code, _x, _y);
 	}
 
 	this.doLabelRegion = function( _regionID )  {
@@ -364,7 +354,7 @@ LessonFactory = function() {
 
 		 if (rec.rll_co !== undefined) _color = rec.rll_co;
 
-		this.lessonMap.labelMapObject( mlRegion, _regionID, 0, 0, 16, _color );
+		lessonMap.worldMap.labelMapObject( mlRegion, _regionID, 0, 0, 16, _color );
 	}
 
 	this.doLabelCountry = function( _countryID )  {
@@ -377,7 +367,7 @@ LessonFactory = function() {
 
 		 if (rec.ll_co !== undefined) _color = rec.ll_co;
 
-		this.lessonMap.labelMapObject( mlCountry, _countryID, 0, 0, 12, _color );
+		lessonMap.worldMap.labelMapObject( mlCountry, _countryID, 0, 0, 12, _color );
 	}
 
 	//***************************************************************
@@ -480,14 +470,14 @@ LessonFactory = function() {
 
 		this.lessonMap.selectedContinent = db.getContinentCodeForCountry( _ID );
 
-		this.lessonMap.doThisMap( mlContinent, mlRegion, mlCountry, this.lessonMap.selectedContinent, this.region, false);	
+		lessonMap.worldMap.doThisMap( mlContinent, mlRegion, mlCountry, lessonMap.worldMap.selectedContinent, this.region, false);	
 
 		this.showCapsule( _ID );
 	}
 
 	this.showCapsule = function( _ID ) {
 
-		Control.playEffect2( "button_1.mp3" );
+		display.playEffect2( "button_1.mp3" );
 
 		this.pushID( _ID );
 
@@ -509,9 +499,9 @@ LessonFactory = function() {
 
 		if (rec.llon !== undefined) {
 
-			x = this.lessonMap.map.longitudeToX( rec.llon );
+			x = lessonMap.worldMap.map.longitudeToX( rec.llon );
 
-			y = this.lessonMap.map.latitudeToY( rec.llat );
+			y = lessonMap.worldMap.map.latitudeToY( rec.llat );
 		}
 		else {
 
@@ -523,7 +513,7 @@ LessonFactory = function() {
 			}			
 		}
 
-		this.lessonMap.labelMapObject(mlCountry, _ID, x, y, 12, "black");
+		lessonMap.worldMap.labelMapObject(mlCountry, _ID, x, y, 12, "black");
 
 		x = 200;
 
@@ -531,7 +521,7 @@ LessonFactory = function() {
 
 		var s = ".divLearnCountry";
 
-		var map = this.lessonMap.map;
+		var map = lessonMap.worldMap.map;
 
 		if (rec.cpLon !== undefined) {
 
@@ -598,9 +588,9 @@ LessonFactory = function() {
 
 		this.region = _regionID;
 
-		this.lessonMap.selectedRegion = _regionID;
+		this.lessonMap.worldMap.selectedRegion = _regionID;
 
-		this.lessonMap.doCurrentMap();
+		this.lessonMap.worldMap.doCurrentMap();
 	},
 
 
@@ -618,9 +608,9 @@ if (rec.lz1) zoomLevel = rec.lz1;
 if (rec.lz2) zoomLatitude = rec.lz2;
 if (rec.lz3) zoomLongitude = rec.lz3;
 
-this.lessonMap.map.zoomDuration = 2;
+lessonMap.worldMap.map.zoomDuration = 2;
 
-		this.lessonMap.map.zoomToLongLat( zoomLevel, zoomLongitude, zoomLatitude);
+		lessonMap.worldMap.map.zoomToLongLat( zoomLevel, zoomLongitude, zoomLatitude);
 	}
 
 }  //END LESSONFACTORY()

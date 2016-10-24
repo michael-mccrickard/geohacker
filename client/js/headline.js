@@ -72,7 +72,7 @@ Headline = function( _type ) {
 
         if (hack.mode == mDataFound) {
 
-            if (display.loader.totalClueCount == 1) {
+            if (hacker.loader.totalClueCount == 1) {
 
                 this.text = "STREAM " + hack.messageID;
             }
@@ -92,7 +92,7 @@ Headline = function( _type ) {
 
         this.text = "";
 
-        if (hack.mode == mReady && display.loader.totalClueCount == 0) {
+        if (hack.mode == mReady && hacker.loader.totalClueCount == 0) {
 
             this.text = "CLICK THE SCAN BUTTON TO BEGIN HACKING ..." 
         
@@ -100,19 +100,19 @@ Headline = function( _type ) {
 
         if (hack.mode == mScanning) {
 
-            if (display.loader.totalClueCount == 1)  this.text = 'Scanning for foreign transmissions ...';  
+            if (hacker.loader.totalClueCount == 1)  this.text = 'Scanning for foreign transmissions ...';  
 
-            if (display.loader.totalClueCount > 1) this.text  = 'Scanning for additional messages linked to this strean ...';
+            if (hacker.loader.totalClueCount > 1) this.text  = 'Scanning for additional messages linked to this strean ...';
         }
 
         if (hack.mode == mDataFound) {
 
-            if (display.loader.totalClueCount == 1) {
+            if (hacker.loader.totalClueCount == 1) {
 
                 this.text = ('Stream ' + hack.messageID + ' intercepted');  
             }
 
-             if (display.loader.totalClueCount > 1) this.text = 'Additional data found linked to stream ' + hack.messageID;
+             if (hacker.loader.totalClueCount > 1) this.text = 'Additional data found linked to stream ' + hack.messageID;
         }
 
         if (hack.mode == mHackDone) {
@@ -120,7 +120,7 @@ Headline = function( _type ) {
             this.text = "Intercepted stream successfully hacked.";
         }
 
-        if (display.moreDataAvailable() == false) {
+        if (hacker.moreDataAvailable() == false) {
 
             this.text  = "Geo-locate the stream using the map ...";
         }
@@ -183,11 +183,11 @@ Headline = function( _type ) {
 
         var ele = this.ele;  
 
-        if (this.hType == "cue") Meteor.setTimeout(function () { display.cue.typeMessage( ele ); }, 500 );
+        if (this.hType == "cue") Meteor.setTimeout(function () { hacker.cue.typeMessage( ele ); }, 500 );
 
-        if (this.hType == "map") Meteor.setTimeout(function () { display.mapStatus.typeMessage( ele ); }, 500 );
+        if (this.hType == "map") Meteor.setTimeout(function () { hacker.mapStatus.typeMessage( ele ); }, 500 );
 
-        if (this.hType == "status") Meteor.setTimeout(function () { display.status.typeMessage( ele ); }, 500 );
+        if (this.hType == "status") Meteor.setTimeout(function () { hacker.status.typeMessage( ele ); }, 500 );
 
         if (this.hType == "welcomeAgent") Meteor.setTimeout(function () { game.user.headline.typeMessage( ele ); }, 500 );
 
@@ -205,7 +205,7 @@ Headline = function( _type ) {
 
         if (hack.mode != mScanning) {
 
-            Control.playEffect2( this.typing_sound_file );
+            display.playEffect2( this.typing_sound_file );
         }
 
         $( _ele ).text("");       
@@ -235,11 +235,11 @@ Headline = function( _type ) {
 
         $( _ele ).text(  _str + _char );
 
-        if (this.hType == "cue") Meteor.setTimeout( function() { display.cue.setChar( _ele ); }, 10);   
+        if (this.hType == "cue") Meteor.setTimeout( function() { hacker.cue.setChar( _ele ); }, 10);   
 
-        if (this.hType == "map") Meteor.setTimeout( function() { display.mapStatus.setChar( _ele ); }, 10);           
+        if (this.hType == "map") Meteor.setTimeout( function() { hacker.mapStatus.setChar( _ele ); }, 10);           
 
-        if (this.hType == "status") Meteor.setTimeout( function() { display.status.setChar( _ele ); }, 10);  
+        if (this.hType == "status") Meteor.setTimeout( function() { hacker.status.setChar( _ele ); }, 10);  
 
         if (this.hType == "welcomeAgent") Meteor.setTimeout(function () { game.user.headline.setChar( _ele ); }, 10 );     
 

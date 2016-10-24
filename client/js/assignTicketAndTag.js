@@ -68,26 +68,24 @@ Assign = function( _code, _mapCode, _hacked, _level, _name, _pool, _completions)
 
 	this.resetMap = function() {
 
-		if (display == null) return;
+		hackMap.reset();
 
-		display.ctl["MAP"].reset();
+		hackMap.resetSelections();
 
-		display.ctl["MAP"].resetSelections();
-
-		display.ctl["MAP"].level.set( this.level );
+		hackMap.level.set( this.level );
 
 		if (this.level == mlContinent) {
 
-			display.ctl["MAP"].setContinent( this.mapCode );
+			hackMap.setContinent( this.mapCode );
 
-			display.ctl["MAP"].setState( sIDRegion );
+			hackMap.setState( sIDRegion );
 		}
 
 		if (this.level == mlRegion) {
 
-			display.ctl["MAP"].setRegion( this.code );		
+			hackMap.setRegion( this.code );		
 
-			display.ctl["MAP"].setState( sIDCountry );
+			hackMap.setState( sIDCountry );
 
 		}
 	}

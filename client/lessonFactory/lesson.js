@@ -7,13 +7,13 @@ switchLesson = function(_continentID, _missionCode) {
 
 initiateResumeLesson = function() {
 
-	display.suspendMedia();
+	hacker.suspendMedia();
 
     game.lesson.state.set("resuming");
 
     game.user.mode = uLearn;
 
-    display.worldMapTemplateReady = false;
+    hacker.worldMapTemplateReady = false;
 
     FlowRouter.go("/lessonMap");
 }
@@ -98,7 +98,7 @@ g.lessonGroup = _continentID;
 
 	g.name = db.getContinentRec( _continentID).n;
 
-	g.lessonMap.selectedContinent = _continentID;
+	lessonMap.worldMap.selectedContinent = _continentID;
 
 	g.setMission( _missionCode );
 
@@ -112,11 +112,11 @@ g.lessonGroup = _continentID;
 
 	g.note = g.lnote;
 
-	g.mapLevel = mlWorld;
+	lessonMap.mapLevel = mlWorld;
 
-	g.drawLevel = mlWorld;
+	lessonMap.drawLevel = mlWorld;
 
-	g.detailLevel = mlContinent;
+	lessonMap.detailLevel = mlContinent;
 
 	g.showMap();
 
@@ -166,7 +166,7 @@ doLessonList = function() {
 
 	game.lesson.switchTo(".divTeachList");
 
-	Meteor.setTimeout( function() { game.lesson.lessonMap.doMap(mlContinent, mlContinent, mlCountry);}, 500);
+	Meteor.setTimeout( function() { lessonMap.worldMap.doMap(mlContinent, mlContinent, mlCountry);}, 500);
 
 	Meteor.setTimeout( function() { doLesson9(); }, 500);
 }
@@ -177,7 +177,7 @@ doLessonQuiz = function( _readyFlag ) {
 
 	game.lesson.switchTo(".divTeachList");
 
-	Meteor.setTimeout( function() { game.lesson.lessonMap.doMap(mlContinent, mlContinent, mlCountry);}, 500);
+	Meteor.setTimeout( function() { lessonMap.worldMap.doMap(mlContinent, mlContinent, mlCountry);}, 500);
 
 	//Meteor.setTimeout( function() { game.lesson.visited.set( game.lesson.items) }, 500);
 
@@ -219,7 +219,7 @@ doLesson4 = function() {
 
 doLesson4a = function() {
 
-	Meteor.setTimeout( function() { game.lesson.lessonMap.doThisMap( mlContinent, mlContinent, mlCountry, game.lesson.continent) }, 500 );
+	Meteor.setTimeout( function() { lessonMap.worldMap.doThisMap( mlContinent, mlContinent, mlCountry, game.lesson.continent) }, 500 );
 
 	Meteor.setTimeout( function() { doLesson5(); }, 501);	
 }
@@ -253,9 +253,7 @@ doLesson6 = function() {
 
 doLesson6a = function() {
 
-	var g = game.lesson;
-
-	g.lessonMap.doThisMap( mlContinent, mlContinent, mlRegion, g.continent);
+	lessonMap.worldMap.doThisMap( mlContinent, mlContinent, mlRegion, game.lesson.continent);
 
 	Meteor.setTimeout( function() { doLesson7(); }, 501);	
 }

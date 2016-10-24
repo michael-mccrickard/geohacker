@@ -10,6 +10,8 @@
 
 	this.soundPlayingPic = "vu_meter1.gif";
 
+    this.soundPausedPic = "vu_meter1_static.gif"
+
     this.playControlPic = "play_icon.png";
 
     this.pauseControlPic = "pause_icon.png";
@@ -43,6 +45,8 @@
 
 	this.play = function() {
 
+		if (this.getState() == sPaused) hacker.feature.changeImage( this.soundPlayingPic )
+
 		this.setState( sPlaying );
 
 		this.playMedia();
@@ -50,6 +54,9 @@
 	},
 
 	this.getFeaturedPic = function() {
+
+
+//return this.soundPlayingPic;
 
 		var pic = null;
 
@@ -71,6 +78,8 @@
 		c("SOUND pausing")
 
 		this.setState( sPaused );
+
+		hacker.feature.changeImage( this.soundPausedPic );
 
 	    document.getElementById("soundPlayer").pause();
 
@@ -106,6 +115,8 @@
 		//don't use the anthems
 
 		this.items = this.collection.find( { cc: this.countryCode, dt: { $ne: "ant" } } ).fetch();
+
+		this.fullCount = this.items.length;
 	},
 
 

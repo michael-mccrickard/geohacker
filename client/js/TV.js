@@ -53,7 +53,7 @@ TV = function() {
 
 			var _time = Database.getRandomFromRange( this.idleMinTime, this.idleMaxTime);
 
-			this.timerID = Meteor.setTimeout( function() { display.TV.set( TV.idle ); }, _time );		
+			this.timerID = Meteor.setTimeout( function() { hacker.TV.set( TV.idle ); }, _time );		
 		}	
 
 		$( this.elementID ).attr("src", _file);		
@@ -65,15 +65,15 @@ TV = function() {
 
 		this.videoOn.set ( true );
 
-		this.timerID = Meteor.setTimeout( function() { display.TV.playVideo2( _which ); }, 200 );
+		this.timerID = Meteor.setTimeout( function() { hacker.TV.playVideo2( _which ); }, 200 );
 
 	}
 
 	this.playVideo2 = function( _which ) {
 
-		$("#scannerVideo").attr("src", display.TV.videoClips[ _which ] );
+		$("#scannerVideo").attr("src", hacker.TV.videoClips[ _which ] );
 
-		$("#scannerVideo").on('ended', function() { display.TV.videoDone(); } );
+		$("#scannerVideo").on('ended', function() { hacker.TV.videoDone(); } );
 		
 		$("#scannerVideo").get(0).autoplay = true;
 
@@ -82,7 +82,7 @@ TV = function() {
 
 	this.videoDone = function() {	
 
-		display.TV.startIdle();
+		hacker.TV.startIdle();
 	}
 
 	this.startIdle = function() {

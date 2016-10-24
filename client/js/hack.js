@@ -22,7 +22,7 @@ Hack = function() {
 
   /********************************************/
   /*            MISC PROPS        
-  /*********************************************/
+  /********************************************/
 
   this.debrief = null;
 
@@ -44,7 +44,7 @@ Hack = function() {
 
     this.startNew = function() {
 
-        display.init(this.countryCode);
+        hacker.init(this.countryCode);
 
         if (this.debrief == null) {
 
@@ -65,7 +65,7 @@ Hack = function() {
 
         game.playMusic();
 
-        display.loadMain();
+        hacker.loadMain();
     };
 
 
@@ -73,15 +73,13 @@ Hack = function() {
 
         this.mode = mNone;
 
-        display.suspendMedia();
+        hacker.suspendMedia();
 
-        display.suspendBGSound();
+        hacker.suspendBGSound();
 
-        display.feature.clear();    
-        
-        display.reset();
+        hacker.feature.clear();    
 
-        Control.playEffect("goMission.mp3");
+        display.playEffect("goMission.mp3");
 
         this.init();
 
@@ -211,39 +209,25 @@ Hack = function() {
 
       if (game.hackStartTime == 0) game.hackStartTime = new Date().getTime();
 
-      var mapCtl = display.ctl["MAP"];
+      var map = hackMap.worldMap;
 
-      var map = mapCtl.worldMap;
+      hackMap.level.set( mlCountry );
 
-      mapCtl.level.set( mlCountry );
+      hackMap.setState( sMapDone );
 
-      mapCtl.setState( sMapDone );
+      hackMap.worldMap.selectedContinent = this.continentCode;
 
-      map.selectedContinent = this.continentCode;
+      hackMap.worldMap.selectedRegion = this.regionCode;
 
-      map.selectedRegion = this.regionCode;
+      hackMap.worldMap.selectedCountry.set( this.countryCode );
 
-      map.selectedCountry.set( this.countryCode );
-
-      display.ctl["MAP"].autoFeatured = false;
-
-      display.feature.set("MAP");
+      hackMap.go();
 
     }
 
     this.startBrowsing = function() {
 
-        display.init( this.countryCode );
-/*
-        if (this.debrief == null) {
-
-          this.debrief = new Debrief( this );
-        }
-
-        this.debrief.init( this.countryCode );
-*/
-
-        var map = display.ctl["MAP"].browseWorldMap;
+        var map = browseMap.worldMap;
 
         map.selectedContinent = this.continentCode;
 
@@ -251,11 +235,11 @@ Hack = function() {
 
         map.selectedCountry.set( this.countryCode );
 
-        display.ctl["MAP"].level.set( mlCountry );
+        browseMap.level.set( mlCountry );
 
         display.browser.init( this.countryCode);
 
-        display.browse(this.countryCode);
+        FlowRouter.go("/newBrowse");
 
     }
 
@@ -263,9 +247,9 @@ Hack = function() {
 
        var _file = this.getAnthemFile();
 
-       if (display.ctl["SOUND"].getState() == sPlaying ) display.ctl["SOUND"].pause();
+       if (hacker.ctl["SOUND"].getState() == sPlaying ) hacker.ctl["SOUND"].pause();
 
-       Control.playEffect( _file );
+       display.playEffect( _file );
     },
 
     this.playLanguageFile = function() {
@@ -276,10 +260,10 @@ Hack = function() {
 
        if (hack.mode != mEdit) {
           
-          if (display.ctl["SOUND"].getState() == sPlaying ) display.ctl["SOUND"].pause();
+          if (hacker.ctl["SOUND"].getState() == sPlaying ) hacker.ctl["SOUND"].pause();
        }
 
-       Control.playEffect( _file );
+       display.playEffect( _file );
     },
 
 

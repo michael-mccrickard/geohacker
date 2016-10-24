@@ -1,32 +1,19 @@
 Help = function() {
 
-	this.video = "";
+	this.video = null;
 
 	this.playVideo = function( _which ) {
 
- 		Session.set("sYouTubeOn", false);
+ 		youtube.hide();
 
-        this.video = this.getVideoID( _which );
+        this.videoid = this.getVideoID( _which );
 
-        if (Control.isYouTubeURL( this.video )) {
+        this.video = new Video( this.videoid, display.help);
 
-          if (youTubeLoaded == false) {
-            
-            c("calling YT.load() in Help.js")
-            
-            YT.load();
-          }
-          else {
+        this.video.play();
 
-          	c("loading YT vid by ID in Help.js")
-            
-            ytplayer.loadVideoById( this.video );            
-          }
-
-          Session.set("sYouTubeOn", true);
-
-          refreshWindow("help");
-		}
+        refreshWindow("help");
+	
 	}
 	
 

@@ -430,6 +430,12 @@ Meteor.methods({
 
   createGuest: function() {
 
+<<<<<<< HEAD
+=======
+      // avoid blocking other method calls from the same client
+      this.unblock();
+
+>>>>>>> new-video-scheme
       var apiUrl = 'http://api.randomuser.me/?inc=gender,name,nat,picture,id,email&noinfo';
 
     // asynchronous call to the dedicated API calling function

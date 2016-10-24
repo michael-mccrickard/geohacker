@@ -49,12 +49,16 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_s
 	}
 
 	this.pauseMusic = function() {
+		
+		c("pausing music in game.js")
 
 		document.getElementById("musicPlayer").pause();		
 	}
 
 	this.playMusic = function() {
 
+		c("playing music in game.js")
+		
 		if (this.musicOn == false) return;
 
 		if (this.musicStarted == false) {
@@ -107,15 +111,16 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_s
 
 	this.soundControlDone = function() {
 
-		display.ctl["SOUND"].setState( sPaused );
+		hacker.ctl["SOUND"].setState( sPaused );
 
 		//if SOUND is the current ctl, then set it again to force a redraw of the feature area
 
-		if (display.feature.getName() == "SOUND") {
+		if (hacker.feature.getName() == "SOUND") {
 
-			display.feature.setImageSource( "SOUND" );
+			hacker.feature.setImageSource( "SOUND" );
 
-			display.feature.set( "SOUND" );
+			//force the static GIF here
+
 		}
 
 		game.playMusic();

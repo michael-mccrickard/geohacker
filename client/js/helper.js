@@ -62,9 +62,9 @@ Helper = function() {
 
 	this.setText = function() {
 
-		var _level = display.ctl["MAP"].level.get();
+		var _level = hackMap.level.get();
 
-		if (display.loader.totalClueCount == 0)  {
+		if (hacker.loader.totalClueCount == 0)  {
 
 			this.text.set( "Click the SCAN button so we can get started.");
 

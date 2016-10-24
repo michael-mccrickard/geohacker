@@ -182,12 +182,6 @@ c("doCurrentMap");
 
         var state = this.mapCtl.getState();
 
-        //For the case of an area being featured (from "intercepted" map data) they can only click OK or X to close.  We also lock down
-        //the map in this instance.
-
-       
-//Attempting to auto-advance the state to sTestCountry after featuring and enable map clicking without exiting and coming back
-// if (state == sContinentFeatured || state == sRegionFeatured) lockMap = true;
 
         //initialize the map object and basic map variables
 
@@ -247,10 +241,9 @@ c("doCurrentMap");
 
         };
 
-        if (_level == mlContinent) this.mapCtl.addContinentTags(this.map.dataProvider, 16, rec.c);
+        //if (_level == mlContinent) this.mapCtl.addContinentTags(this.map.dataProvider, 16, rec.c);
 
-        if (_level == mlRegion) this.mapCtl.addRegionTags( this.selectedRegion, this.map.dataProvider, 48, rec.c);
-
+        //if (_level == mlRegion) this.mapCtl.addRegionTags( this.selectedRegion, this.map.dataProvider, 48, rec.c);
 
 
         //lock out clicks on the map if we need to test the selection
@@ -407,7 +400,7 @@ c("country is labeled by centering")
 
         if (typeof _y !== 'undefined') y = _y;       
 
-        Meteor.defer( function() { display.ctl["MAP"].worldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
+        Meteor.defer( function() { hackMap.worldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
     }
 
 
@@ -587,7 +580,7 @@ c("country is labeled by centering")
 
         //A sound file (from the sound control) might be playing in the bg
 
-        if (display.ctl["SOUND"].getState() == sPlaying) display.ctl["SOUND"].pause();
+        if (hacker.ctl["SOUND"].getState() == sPlaying) hacker.ctl["SOUND"].pause();
 
         display.disableHomeButton();
 
@@ -635,7 +628,7 @@ c("doMapSuccess")
 
        if (_which == mlContinent) {
 
-            Control.playEffect(this.map_continent_success_sound);
+            display.playEffect(this.map_continent_success_sound);
 
             //sContinentFeatured indicates a map clue; go ahead and bump up the state to sIDRegion
 
@@ -645,7 +638,7 @@ c("doMapSuccess")
 
        if (_which == mlRegion) {
 
-            Control.playEffect(this.map_region_success_sound);
+            display.playEffect(this.map_region_success_sound);
 
             //sRegionFeatured indicates a map clue; go ahead and bump up the state to sIDCountry
 
@@ -661,7 +654,7 @@ c("doMapSuccess")
 
             game.hackTotalTime = (hackEndTime - game.hackStartTime) / 1000.0;
 
-            Control.playEffect(this.map_country_success_sound);
+            display.playEffect(this.map_country_success_sound);
 
             this.hackDone();
 
@@ -670,7 +663,7 @@ c("doMapSuccess")
 
     this.doMapFail = function() {
 
-        Control.playEffect(this.map_fail_sound);
+        display.playEffect(this.map_fail_sound);
         
     }
 
@@ -745,7 +738,7 @@ c("doMapSuccess")
 
         tl = new TimelineLite();
 
-        display.mapStatus.setAndShow(' ');
+        hacker.mapStatus.setAndShow(' ');
 
         //Falling letter effect (country's name at top of screen)
 
@@ -764,12 +757,11 @@ c("doMapSuccess")
             loop: 2,
         });
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone2(); }, 750 );
+        Meteor.setTimeout( function() { hackMap.worldMap.hackDone2(); }, 750 );
     }
 
     this.hackDone2 = function() {
 
-c("hackDone2")
         //zoom the word HACKED in, pause, then continue zooming larger with a fade-out
 
         var container = $("#demo");
@@ -786,7 +778,7 @@ c("hackDone2")
 
         var duration = 1.5;
 
-        Meteor.setTimeout( function() { Control.playEffect2("trans3.mp3"); }, 1000 );
+        Meteor.setTimeout( function() { display.playEffect2("trans3.mp3"); }, 1000 );
 
         //set opacity and scale to 0 initially. We set z to 0.01 just to kick in 3D rendering in the browser which makes things render a bit more smoothly.
         tl.set(element, {autoAlpha: 0, scale: 0, z: 0.01});
@@ -798,7 +790,7 @@ c("hackDone2")
           .to(element, duration, {autoAlpha:1, ease:SlowMo.ease.config(0.25, 0.9, true),  }, delay2);
 
 
-        tl.add( function() { display.ctl["MAP"].worldMap.hackDone3() }, 3.0 );
+        tl.add( function() { hackMap.worldMap.hackDone3() }, 3.0 );
 
     }
 
@@ -806,7 +798,7 @@ c("hackDone2")
     
         this.mapFilename = hack.getCountryMapURL( hack.getCountryName() );
 
-        this.imgSrc = Control.getImageFromFile( this.mapFilename );
+        this.imgSrc = display.getImageFromFile( this.mapFilename );
 
         //these values get used below when we size the detailed map
 
@@ -817,7 +809,7 @@ c("hackDone2")
 
     //Redraw the map at half size over on the left
 
-        display.ctl["MAP"].worldMap.map.clearLabels();
+        hackMap.worldMap.map.clearLabels();
 
 
         $("#divMap").velocity({
@@ -827,14 +819,14 @@ c("hackDone2")
         },{
             duration: 1000,
 
-            complete: function(elements) { display.ctl["MAP"].worldMap.hackDone4(); }
+            complete: function(elements) { hackMap.worldMap.hackDone4(); }
         });
     }
 
 
 
     this.hackDone4 = function() {
-c("hackDone4")
+
         this.animationDone = true;
 
         if (!this.mapLoaded) {
@@ -842,12 +834,12 @@ c("hackDone4")
             //we will have to wait for the map to finish loading, so set the
             //flag that indicates that we are ready and then return
 
-            display.ctl["MAP"].worldMap.animatonDone = true;
+            hackMap.worldMap.animatonDone = true;
 
             return;
         }
 
-        display.ctl["MAP"].worldMap.doMapStuff();      
+        hackMap.worldMap.doMapStuff();      
 
         //if we're editing the label position, then we pause here, otherwise just continue
 
@@ -857,7 +849,7 @@ c("hackDone4")
 
     this.hackDone4a = function() {
 
-        Control.playEffect( "new_debrief.mp3");   
+        display.playEffect( "new_debrief.mp3");   
 
         var imageWidth = 4;
         var imageHeight = 4;
@@ -909,7 +901,7 @@ c("hackDone4")
         });
 
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.hackDone5(); }, 2000 ); 
+        Meteor.setTimeout( function() { hackMap.worldMap.hackDone5(); }, 2000 ); 
     }
 
 
@@ -930,7 +922,7 @@ c("hackDone4")
 
         $("div#demo").css("display","none");
 
-        display.mapStatus.setThisAndType("INCOMING TRANSMISSION DETECTED");
+        hacker.mapStatus.setThisAndType("INCOMING TRANSMISSION DETECTED");
 
     //set the B roll to the avatar we want
 
@@ -948,7 +940,7 @@ c("hackDone4")
 
         var tl = new TimelineLite();
 
-        tl.add( () => { Control.playEffect3("incoming.mp3"); } );
+        tl.add( () => { display.playEffect3("incoming.mp3"); } );
 
         tl.to(imgAll, 1.5, { css:{ scaleX: 1, scaleY: 1 }, delay: 1 } );
 
@@ -1006,14 +998,14 @@ c("hackDone4")
         if ( (_ticket.count == 1 && game.user.hasChiefInNetwork && hack.welcomeAgentIsChief) || _ticket.count > 1) {
 
 
-            Meteor.setTimeout( function() { display.mapStatus.setThisAndType("AGENT " + hack.getWelcomeAgent().username.toUpperCase() + " IS ALREADY IN YOUR NETWORK"); }, 6500 );
+            Meteor.setTimeout( function() { hacker.mapStatus.setThisAndType("AGENT " + hack.getWelcomeAgent().username.toUpperCase() + " IS ALREADY IN YOUR NETWORK"); }, 6500 );
 
-            display.ctl["MAP"].setStateOnly( sMapDone );
+            hackMap.setStateOnly( sMapDone );
 
         }
         else {
 */            
-            Meteor.setTimeout( function() { display.mapStatus.setThisAndType("NEW AGENT ADDED TO YOUR NETWORK"); }, 6500 );
+            Meteor.setTimeout( function() { hacker.mapStatus.setThisAndType("NEW AGENT ADDED TO YOUR NETWORK"); }, 6500 );
 
   //      }
 
@@ -1021,14 +1013,14 @@ c("hackDone4")
 
         var div = $(".divWelcomeAgent")  
 
-        Meteor.setTimeout( function() { Control.playEffect3("agentAdded.mp3") }, 8100); 
+        Meteor.setTimeout( function() { display.playEffect3("agentAdded.mp3") }, 8100); 
 
         tl.to(div, 0.1, { opacity: 1.0, delay: 0.1 } ); 
 
 
         //delay this some more so that OK button does not appear before fade-in of agent profile?
 
-        Meteor.setTimeout( function() { display.ctl["MAP"].setStateOnly( sMapDone ) }, 6501 );                
+        Meteor.setTimeout( function() { hackMap.setStateOnly( sMapDone ) }, 6501 );                
 
 
      } //END HACKDONE5
@@ -1062,7 +1054,7 @@ c("hackDone4")
 
 function handleClick(_event) {
 
-    Control.playEffect( worldMap.map_sound );
+    display.playEffect( worldMap.map_sound );
 
     worldMap.zoomDone = false;
 
@@ -1253,7 +1245,7 @@ function handleZoomCompleted() {
 
         worldMap.labelMapObject();
 
-        worldMap.mapCtl.addCountryTags( worldMap.mapObjectClicked, worldMap.map.dataProvider, 96);
+        //worldMap.mapCtl.addCountryTags( worldMap.mapObjectClicked, worldMap.map.dataProvider, 96);
 
         worldMap.map.dataProvider.zoomLongitude = worldMap.map.zLongTemp;
 
@@ -1273,7 +1265,7 @@ function handleZoomCompleted() {
 }
 
 function refreshMap() {
-    Meteor.setTimeout( function() { display.ctl["MAP"].finishDraw(); }, 250);
+    Meteor.setTimeout( function() { hackMap.finishDraw(); }, 250);
 }
 
 

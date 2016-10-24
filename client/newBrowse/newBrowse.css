@@ -12,7 +12,7 @@
 	top: 9%;
 }
 
-.returnToMapOrLesson {
+.returnToPrevMode {
     cursor: pointer;
     position: relative;
     top: 0px;
@@ -153,6 +153,8 @@ transform-origin: 20% -535%;
 }
 
 .imgFlag {
+
+	cursor: pointer;
 /*
 	border: 4px solid;
     border-color: gray;
@@ -202,7 +204,7 @@ transform-origin: 20% -535%;
 
 	position: absolute;
 
-	top: 24%;
+	top: 23%;
 
 	width: 100%;
 

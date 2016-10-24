@@ -11,46 +11,31 @@
 
 		{{> scanning}}
 
-		{{#if TextIsDisplayed}}
+		<span class="featuredText {{featuredAreaFont}} hidden">{{displayTextContent}}</span>
 
-			<span class="featuredText {{featuredAreaFont}}">{{displayTextContent}}</span>			
-		
-		{{else}}
+		<img class="featuredPic hidden"  src="" />
 
-			{{#if youTubeNotFeatured}} 
-
-				{{#if scannerNotLoaded}}
-
-					<img class="featuredPic hidden"  src="" />
-
-				{{/if}}
-
-			{{else}}
-
-				<!-- the YouTube API writes the youtube player into this div when appropriate -->
-
-			{{/if}}
-
-		{{/if}}
-
+		<!-- the YouTube API writes the youtube player into this div when appropriate -->
 
 		{{#if youTubeWaiting}}
 
 			<div class="displayWaiting">
+
 				{{> spinner}}
+			
 			</div>
 		
 		{{/if}}
 
-		<img class="navButton navPrev {{navButtonPrevVisible}}"  src="nav_prev2.png" />	
+		<img class="navButton navPrev invisible"  src="nav_prev2.png" />	
 
-		<img class="navButton navNext {{navButtonNextVisible}}"  src="nav_next2.png" />				
+		<img class="navButton navNext invisible"  src="nav_next2.png" />				
 
 		{{#each control}}
 
 			<div  class="control" id="{{this}}">
 
-				<img class="stretch" id="ctlBG_{{this}}"  src="{{controlBackdrop this}}" />
+				<img class="stretch" id="ctlBG_{{this}}"  src="featuredBackdrop.jpg" />
 				
 				{{#if displayTextControlText}}
 					

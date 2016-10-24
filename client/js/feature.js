@@ -1,20 +1,14 @@
 Feature = function() {
 	
-	this.name = new Blaze.ReactiveVar("");
+	this.name = "";
+
+	this.isLoaded = new Blaze.ReactiveVar( false );
 
 	this.displayMessage = new Blaze.ReactiveVar( false );
 
-	this.lastName = "";  //name of the last featured control
-
 	this.ctl = null;
 
-	this.bgImageSrc = null;
-
-	this.bgFile = null;
-
 	this.iconPic = "geohacker_background.png";    
-
-    this.scanningPic = "spinning_globe2.gif";
 
 	this.imageSrc = null;
 
@@ -22,85 +16,131 @@ Feature = function() {
 
     this.source = null;
 
-    this.video = null;
-
 	this.on = function() {
 
-		if (this.name.get().length > 0) return true;
+		if (this.name.length > 0) return true;
 	
 		return false;
 	},
 
 	this.off = function() {
 
-		if (this.name.get().length > 0) return false;
+		if (this.name.length > 0) return false;
 
 		return true;
 	},
 
-	this.browseMap = function() {
+	//change the image only without any dimensioning or re-positioning
 
-		this.clear();
+	this.changeImage = function( _src ) {
 
-		this.setName( "BROWSEMAP" );
+		$("img.featuredPic").attr("src", _src);
+	} 
 
-	    display.worldMapTemplateReady = false;
+	this.show = function() {
+ 
+		this.hide();
 
-	    if (hack.countryCode.length) display.ctl["MAP"].browseWorldMap.selectedCountry.set( hack.countryCode );
+		this.ctl.hilite();
 
-	    FlowRouter.go("/browseWorldMap");
-	},
+		this.ctl.doNavButtons();
 
-	this.fileIsLoaded = function() {
+		if (this.getName() == "TEXT") {
 
-		c("feature.fileIsLoaded()")
-
-		//if the scanner is still running, it's possible that it is still waiting on the image to load
-
-		if ( display.scanner.centerState == "scan" || display.scanner.centerState == "rescan") {
-
-			//this returns true if the scanner has finished running all the way through (100% progress)
-
-			if (display.scanner.checkScan("feature") == true) {display.scanner.stopScan();}
+			this.showText();
 		}
+		else {
 
+			this.predraw();
 
+			if (this.getName() == "VIDEO") {
 
-		//if checkScan above returned false, then the scanner is still running, so we just
-		//set this session var, so that the scanner knows the image is ready when it finishes
+				game.pauseMusic();
 
-		Meteor.defer( function() { Session.set("sFeatureImageLoaded", true); } );
-		
+				this.ctl.setState( sPlaying );  //redundant for a YT vid, but not a GIF
+
+				if (this.ctl.video.isYouTube) {
+
+					//in ctl check to see if already playing?
+
+					this.ctl.play();
+
+					return;					
+				}
+			}
+
+			if (this.getName() == "SOUND") {
+
+				game.pauseMusic();
+
+				//in ctl check to see if already playing?
+
+				this.ctl.play();
+			}
+
+			//check here to see if the file has actually changed?
+
+			$("img.featuredPic").attr("src", this.getFile( this.getName() ) );
+
+			$("img.featuredPic").css("opacity", "0");
+
+			$("img.featuredPic").removeClass("hidden");
+
+			$("img.featuredPic" ).velocity("fadeIn", { duration: 500, display: "auto" });			
+		}
+	}
+
+	this.showText = function() {
+
+		$("span.featuredText").text( this.getFile( "TEXT" ) );		
+
+		$("span.featuredText").removeClass("hidden");
+
+	}
+
+	this.hideText = function() {	
+
+		$("span.featuredText").addClass("hidden");
+
+	}
+
+	this.hide = function() {
+
+		$("img.featuredPic").addClass("hidden");
+
+		$("span.featuredText").addClass("hidden");		
+
 	}
 
 	//this one fires before the _name control has been
 	//set as the feature, so this.ctl will not refer
 	//to the _name control
 
-	this.load = function( _name ) {
+	this.preload = function( _name ) {
 
-		console.log("_name in feature load =" + _name)
+		console.log("_name in feature preload =" + _name)
+
+		this.ctl = hacker.ctl[ _name ];
 		
 		this.file = this.getFile( _name);
 
 		if ( _name == "VIDEO") {
 
-			if (display.ctl["VIDEO"].isYouTube ) {
+			this.ctl.video = new Video( this.file, hacker.ctl["VIDEO"] );
 
-				//if we're in hack mode, user will have to start the video themselves
-				//but in browse mode, we want it to go ahead and start playing
 
-				if (game.user.mode == uBrowseCountry) display.ctl["VIDEO"].play();
+			if ( youtube.isFile( this.file ) ) {
 
           		this.fileIsLoaded();
 
 				return;
-			}
+			}				
+
 		}
 
 		if (this.file == null) {
 
-			//either TEXT or MAP, so just call the function and return
+			//TEXT has no file, so just call the function and return
 
           	this.fileIsLoaded(); 
 
@@ -113,28 +153,46 @@ Feature = function() {
     
           //now that the image is loaded ...
 
-          display.feature.imageSrc = Control.getImageFromFile( display.feature.file );
+          hacker.feature.imageSrc = display.getImageFromFile( hacker.feature.file );
 
-		  console.log("in feature.load(), feature imageSrc created from " + display.feature.file);
+		  console.log("in feature.preload(), feature imageSrc created from " + this.file);
  
-          display.feature.fileIsLoaded();
+          hacker.feature.fileIsLoaded();
 
         });
 	}
 
-	this.setImage = function(_name) {
+	this.fileIsLoaded = function() {
 
-		this.setImageSource( _name );
-c("feature.setImage is calling this.draw")
-		this.draw();
+		c("feature.fileIsLoaded()");
+
+		this.setName( hacker.loader.newControl.name );
+
+		this.file = this.getFile( hacker.loader.newControl.name );
+
+
+		//if the scanner is still running, it's possible that it is still waiting on the image to load
+
+		if ( hacker.scanner.centerState == "scan" || hacker.scanner.centerState == "rescan") {
+
+			//this returns true if the scanner has finished running all the way through (100% progress)
+
+			if (hacker.scanner.checkScan("feature") == true) {hacker.scanner.stopScan();}
+		}
+
+		//if checkScan above returned false, then the scanner is still running, so we just
+		//set this session var, so that the scanner knows the image is ready when it finishes.
+
+		this.isLoaded.set( true );
 
 	}
+
 
 	this.setImageSource = function( _name) {
 
 		if ( _name == "VIDEO") {
 
-			if ( this.ctl.isYouTube )  {
+			if ( this.ctl.video.isYouTube )  {
 
 				console.log("feature.setImageSource returning b/c file is YT")
 
@@ -147,7 +205,7 @@ c("feature.setImage is calling this.draw")
 	
 		this.file = this.getFile( _name);
 
-		if (this.file) this.imageSrc = Control.getImageFromFile( this.file );
+		if (this.file) this.imageSrc = display.getImageFromFile( this.file );
 
 		console.log("in feature.setImageSource(), feature imageSrc created from " + this.file);
 	}
@@ -161,27 +219,22 @@ c("feature.setImage is calling this.draw")
 
 		var _file = null;
 
-		var _index = display.ctl[ _name ].getIndex();
-
-		if ( _name == "MAP") return null;
+		var _index = hacker.ctl[ _name ].getIndex();
 
 		//set the source property for the credit line in closeup view
 
-		if (display.ctl[ _name ].items[ _index ]) {
+		if (hacker.ctl[ _name ].items[ _index ]) {
 
-			this.source = display.ctl[ _name ].items[ _index ].s;
+			this.source = hacker.ctl[ _name ].items[ _index ].s;
 		}
-
-	
-		if (_name == "TEXT") return null;
 
 		if ( _name == "SOUND") {
 
-			 _file = display.ctl[ _name ].getFeaturedPic();
+			 _file = hacker.ctl[ _name ].getFeaturedPic();
 		}
 		else {
 
-			_file = display.ctl[ _name ].getFile();
+			_file = hacker.ctl[ _name ].getFile();
 		}
 
 		return _file;
@@ -189,114 +242,36 @@ c("feature.setImage is calling this.draw")
 
 	this.getName = function() {
 
-		return this.name.get();
+		return this.name;
 	},
 
-	this.resetToPrevious = function() {
-
-		var _name = this.name.get();
-
-		if (_name != "SOUND" && _name != "VIDEO") {
-
-			("feature.resetToPrevious is starting the music")
-
-			game.playMusic();
-		}
-
-		if (game.user.mode == uBrowseMap || game.user.mode == uBrowseCountry) {
-
-			this.setName( "" );
-
-			if (this.lastName.length == 0 || this.lastName == "BROWSEMAP" ) {
-
-				this.set( "IMAGE" );
-			}
-			else {
-
-				this.set( this.lastName );
-			}
-
-			return;
-		}
-
-
-		if (display.scanner.centerState.get() != "loaded") { 
-		
-			this.setName( this.lastName );
-		}
-		else {
-
-			display.scanner.show();
-		}
-	},
 
 	this.setName = function( _val ) {
 
-		this.name.set( _val );
+		this.name = _val;
 	},
 
-//this function can probably go bye bye
 
-	this.setBackground = function( _state) {
+	this.switch = function( _name ) {
 
-if ( this.off() ) return;
+		hacker.suspendMedia();
 
-		var pic = null;
-
-		if (_state == sScanning) {
-
-			pic = this.scanningPic;
-
-		}
-		else {
-			pic = this.iconPic;
-		}
-
-		this.bgImageSrc = Control.getImageFromFile( pic );
-
-		this.bgFile = pic;
-	},
-
-	this.set = function( _name ) {
-
-		c("feature.js: set() with " + _name)
-
-		$(".featuredPic").css("opacity", "1.0");
-
-		if (_name != "MAP") {
-
-			display.scanner.centerState.set("off");
-		}
-
-		this.clear();  //clear the current feature name, but stores it in case we return from the map
+		c("feature.js: switch() with " + _name)
 
 		this.setName( _name );
 
 		console.log("feature is now set to " + _name);
 
 		
-		//if (_name.length == 0) return;  //????
-		
-		this.ctl = display.ctl[ _name ];
+		this.ctl = hacker.ctl[ _name ];
 
 		if (_name == "IMAGE" || _name == "WEB") {		
 
-			c("'click control' is calling setImageSource")
+			c("'feature.switch()' is calling setImageSource")
 
      		this.setImageSource( _name );  //this will set the imageSrc for the featured area
      	}
 
-
-		if (_name == "MAP") {
-
-			//the big arrow will be blinking if the map is being "auto-featured" (as a clue)
-
-			display.stopBlinking();   
-
-			display.ctl["MAP"].draw();
-
-			return;
-		}
 
 		if (_name == "SOUND") {
 
@@ -304,9 +279,7 @@ if ( this.off() ) return;
 
 			if (this.ctl.getState() == sLoaded) this.ctl.setState( sPlaying );
 
-			console.log("feature.set is calling sound.activateState()")
-
-			this.ctl.activateState();
+			console.log("feature.set is calling setImageSource('SOUND')")
 
 			this.setImageSource("SOUND");
 		}
@@ -315,37 +288,22 @@ if ( this.off() ) return;
 
 			game.pauseMusic();
 	
-			display.suspendBGSound();  //in case a sound file is playing in bg
+			hacker.suspendBGSound();  //in case a sound file is playing in bg
 
-			if (this.ctl.getState() == sLoaded) this.ctl.setState( sPlaying );
-
-			//in case, we are returning from browse or the editor, etc.
-
-			c("feature.set() is setting sYouTubeOn to true");
-
-			Session.set("sYouTubeOn", true);
-
-			console.log("feature.set is calling video.activateState()")
-				
-			this.ctl.activateState();
 		}
 
-
-c("feature.set is calling this.draw()")
-		this.draw();
+		c("feature.set is calling this.show()")
+		
+		this.show();  //will also play the media file, if any
 
 	}
 
 	this.refreshWindow = function() {
 
-		Meteor.setTimeout( function() { refreshWindow( "display.feature" ); }, 250 );
+		Meteor.setTimeout( function() { refreshWindow( "hacker.feature" ); }, 250 );
 	}
 
 	this.clear = function( _newControlName ) {
-
-		if (this.getName().length) this.lastName = this.getName();
-
-c("feature.lastName is " + this.getName() );
 
 		this.setName( "" );
 
@@ -353,24 +311,17 @@ c("feature.lastName is " + this.getName() );
 
 	},
 
-	this.reset = function() {
+	this.predraw = function() {
 
-		this.lastName = this.getName();
-
-        this.setName( "" );
-	}
-
-	this.draw = function() {
-
-		Meteor.defer( function(){ display.feature.drawNow( display.feature.file, display.feature.imageSrc); });
+		this.dimensionNow( this.file, this.imageSrc);
 		
 	}
 
-	this.drawNow = function(_file, _src) {
+	this.dimensionNow = function(_file, _src) {
 
 		var _name = this.getName();
 
-        if (_name == "VIDEO"  && this.ctl.isYouTube ) {
+        if (_name == "VIDEO"  && this.ctl.video.isYouTube ) {
 
 			console.log("feature.drawNow is calling dimension(video)")
             
@@ -382,7 +333,7 @@ c("feature.lastName is " + this.getName() );
 
                 var myFrame = { width: 0, height: 0, top: 0, left: 0 };
 
-console.log("feature.drawNow is calling dimension(image type)")
+				console.log("feature.drawNow is calling dimension(image type)")
 
                 this.dimension("image", myFrame, _src);       
 
@@ -394,12 +345,8 @@ console.log("feature.drawNow is calling dimension(image type)")
 
                 $("img.featuredPic").css("top",  myFrame.top);
 
-                $("img.featuredPic").attr("src", _file );
-
             }
         }
-
-		$("img.featuredPic").removeClass("hidden");
 	}
 
     this.dimension = function( _type, _obj, _src ) {

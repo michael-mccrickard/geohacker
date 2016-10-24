@@ -99,6 +99,28 @@ Template.newBrowse.helpers({
 
     },
 
+    globePic: function() {
+
+      display.browser.updateFlag.get();
+
+      if (game.user.returnRoute == "congrats")  return "geohacker_logo.png";
+
+      if (game.user.returnRoute == "home")  return game.user.profile.av;
+
+      return "pixel_globe.png";
+    },
+
+    globeSize: function() {
+
+      display.browser.updateFlag.get();
+
+      if (game.user.returnRoute == "congrats")   return "48px";
+
+      if (game.user.returnRoute == "home")   return "48px";
+
+      return "60px";
+    },
+
      leaderImage: function() {
 
     	return hack.getLeaderPic();
@@ -113,7 +135,7 @@ Template.newBrowse.helpers({
 
       display.browser.updateFlag.get();
 
-  		return display.browser.videoCtl.items;
+  		return display.browser.items;  //records from ghVideo
   	},
 
   	videoName: function() {
@@ -133,19 +155,19 @@ Template.newBrowse.helpers({
 
    		display.browser.updateFlag.get(); 		
 
-  		if ( Control.isYouTubeURL(this.u) ) {
+  		if ( youtube.isFile(this.u) ) {
 
   			 return ("http://img.youtube.com/vi/" + this.u + "/default.jpg");
   		}
   		else {
 
-			   return display.browser.videoCtl.playControlPic;
+			   return Video.playControlPic;
 		  }
   	},
 
     youTubeWaiting: function() {
 
-      return display.ctl["VIDEO"].youTubeWaiting.get();
+      return youtube.waiting.get();
     },
 
   	primary: function() {
@@ -175,7 +197,7 @@ Template.newBrowse.helpers({
 
   		display.browser.updateFlag.get();
 
-  		var _count = display.browser.videoCtl.items.length;
+  		var _count = display.browser.items.length;
 
   		var _fullWidth = _count * (120 + 8);
 
@@ -205,6 +227,8 @@ Template.newBrowse.events({
 
     'click .imgFlag': function(event, template) {
 
+//game.user.browseCountry( "AU", "newBrowse" );
+
 		      game.user.browseCountry( db.getRandomRec( db.ghC ).c, "newBrowse" );
       },
 
@@ -233,9 +257,9 @@ Template.newBrowse.events({
     		
     		if ( _type == "modal" ) {
 
-    			display.meme = new Meme("modal", _name, _src);
+    			hacker.meme = new Meme("modal", _name, _src);
 
-    			display.meme.preloadImage();
+    			hacker.meme.preloadImage();
 
     			$('#zoomInModal').modal('show');
 
@@ -272,11 +296,11 @@ Template.newBrowse.rendered = function() {
 
   if (hack.countryCode != display.browser.countryCode) {
 
-c("playing video b/c countryCodes don't match")
+    c("playing video b/c countryCodes don't match")
 
     display.browser.countryCode = hack.countryCode;
 
-    var _count = display.browser.videoCtl.items.length;
+    var _count = display.browser.items.length;
 
     display.browser.playVideoByIndex( Database.getRandomValue(_count) );    
 
@@ -284,17 +308,33 @@ c("playing video b/c countryCodes don't match")
 
   }
   else {
-c("not playing video b/c countryCodes do match")
-    if (ytplayer) {
-      
-      Session.set("sYouTubeOn", true);
+    
+    if (display.browser.video) {
 
-      game.pauseMusic();
+      if (display.browser.video.isYouTube) {
 
-      Meteor.setTimeout( function() {refreshWindow("newBrowse"); }, 250 );
+          c("browser not playing YT video b/c countryCodes do match")
 
+          youtube.show();
+
+          game.pauseMusic();
+
+          Meteor.setTimeout( function() {refreshWindow("newBrowse"); }, 250 );      
+      }
+      else {
+
+        c("browser resuming GIF video")
+
+         display.browser.resumeVideo();
+      }
+    }
+    else {
+
+      c("no browser.video found")
     }
   }
+
+  display.browser.updateFlag.get();
 
 	stopSpinner();
 }

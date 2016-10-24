@@ -23,13 +23,13 @@ Template.worldMap.rendered = function () {
     
     stopSpinner();
 
-    if (display.worldMapTemplateReady == false) {
+    if (hacker.worldMapTemplateReady == false) {
 
-      display.worldMapTemplateReady = true;
+      hacker.worldMapTemplateReady = true;
 
-      Meteor.setTimeout( function() { display.ctl["MAP"].worldMap.doCurrentMap() }, 250 );
+      Meteor.setTimeout( function() { hackMap.worldMap.doCurrentMap() }, 250 );
 
-      Meteor.setTimeout( function() { display.ctl["MAP"].finishDraw() }, 251 );
+      Meteor.setTimeout( function() { hackMap.finishDraw() }, 251 );
 
     }
 
@@ -49,7 +49,7 @@ Template.worldMap.helpers({
 
   countryIsHacked: function() {
 
-    if (display.ctl["MAP"].getState() >= sCountryOK ) return true;
+    if (hackMap.getState() >= sCountryOK ) return true;
 
     return false;
   },
@@ -70,11 +70,11 @@ Template.worldMap.helpers({
 
   continentName: function() { 
 
-    var level = display.ctl["MAP"].level.get();
+    var level = hackMap.level.get();
 
     var name = "";
 
-    var map =  display.ctl["MAP"].worldMap;
+    var map =  hackMap.worldMap;
 
     if (map.selectedContinent.length) return db.getContinentName( map.selectedContinent );
 
@@ -84,11 +84,11 @@ Template.worldMap.helpers({
 
   regionName: function() { 
 
-    var level = display.ctl["MAP"].level.get();
+    var level = hackMap.level.get();
 
     var name = "";
 
-    var map =  display.ctl["MAP"].worldMap;
+    var map =  hackMap.worldMap;
 
     if (map.selectedRegion.length) return db.getRegionName( map.selectedRegion );
 
@@ -97,11 +97,11 @@ Template.worldMap.helpers({
 
   continentIcon: function() { 
 
-    var level = display.ctl["MAP"].level.get();
+    var level = hackMap.level.get();
 
     var name = "";
 
-    var map =  display.ctl["MAP"].worldMap;
+    var map =  hackMap.worldMap;
 
     if (map.selectedContinent.length) {
 
@@ -117,11 +117,11 @@ Template.worldMap.helpers({
 
   regionIcon: function()  { 
 
-    var level = display.ctl["MAP"].level.get();
+    var level = hackMap.level.get();
 
     var name = "";
 
-    var map =  display.ctl["MAP"].worldMap;
+    var map =  hackMap.worldMap;
 
     if (map.selectedRegion.length) {
 
@@ -137,9 +137,9 @@ Template.worldMap.helpers({
 
   labelYCorrection: function() {
 
-    var level = display.ctl["MAP"].level.get();
+    var level = hackMap.level.get();
 
-    var map =  display.ctl["MAP"].worldMap;
+    var map =  hackMap.worldMap;
 
     if (map.selectedRegion.length) {
 
@@ -172,7 +172,7 @@ Template.worldMap.helpers({
 
   mapMessageColor: function() {
 
-    var state = display.ctl["MAP"].getState();
+    var state = hackMap.getState();
 
     if (state == sContinentOK || state == sRegionOK || state == sCountryOK) return "greenText";
 
@@ -186,7 +186,7 @@ Template.worldMap.helpers({
 
     var hidingClass = "hidden";   
 
-    var state = display.ctl["MAP"].getState();
+    var state = hackMap.getState();
 
     if (_which == "ok") {
 
@@ -232,50 +232,50 @@ Template.worldMap.events = {
 
   'click #regionIcon': function (evt, template) {
 
-    var _state = display.ctl["MAP"].getState();
+    var _state = hackMap.getState();
 
     //it's problematic for the user to start backing the map up
     //before they have seen the full ending sequence
 
     if (_state == sMapDone) return;
 
-    Control.playEffect("mapBackup.mp3");
+    display.playEffect("mapBackup.mp3");
 
-    display.ctl["MAP"].backupMapToRegion();
+    hackMap.backupMapToRegion();
   },
 
   'click #continentIcon': function (evt, template) {
 
-    var _state = display.ctl["MAP"].getState();
+    var _state = hackMap.getState();
 
     if (_state == sMapDone) return;
 
-    Control.playEffect("mapBackup.mp3");
+    display.playEffect("mapBackup.mp3");
 
-    display.ctl["MAP"].backupMapToContinent();
+    hackMap.backupMapToContinent();
   },
 
   'click #worldIcon': function (evt, template) {
 
-    var _state = display.ctl["MAP"].getState();
+    var _state = hackMap.getState();
 
     if (_state == sMapDone) return;
 
-    Control.playEffect("mapBackup.mp3");
+    display.playEffect("mapBackup.mp3");
 
-    display.ctl["MAP"].backupMapToWorld();
+    hackMap.backupMapToWorld();
   },
 
   'click #mapOK': function (evt, template) {
 
-      if (display.ctl["MAP"].getState() != sMapDone) Control.playEffect("new_feedback.mp3")
+      if (hackMap.getState() != sMapDone) display.playEffect("new_feedback.mp3")
 
       Meteor.setTimeout( function() { closeOutMap(); }, 100 );
   },
 
   'click #mapClose': function (evt, template) {
 
-      Control.playEffect("new_feedback.mp3")
+      display.playEffect("new_feedback.mp3")
 
       Meteor.setTimeout( function() { closeOutMap(); }, 100 );
   },
@@ -294,51 +294,28 @@ Template.worldMap.events = {
 
 function closeOutMap() {
 
-    var state = display.ctl["MAP"].getState();
+    var state = hackMap.getState();
 
     //user guessed the country correctly, we're done ...
 
     if (state == sMapDone) {
-
-        display.feature.clear();
 
         hack.debrief.set( hack.debrief.index );
 
         FlowRouter.go("/debrief");
 
         return;
-    }
-
-    //If doScan (which calls the loader object) loads the map control (map clue), then clicking the map button
-    //essentially simulates a correct guess on the next area.  Thus we need to set the state of the map
-    //correctly for the user's next visit to the map
-
-    if (state == sContinentFeatured || state == sRegionFeatured ) {
-
-        if (state == sContinentFeatured) display.ctl["MAP"].setState( sIDRegion );
-
-        if (state == sRegionFeatured) display.ctl["MAP"].setState( sIDCountry );
-
-        display.feature.resetToPrevious();
-
-        FlowRouter.go("/main");
-
-        return;
-    }   
-
-    //We revert back to showing the previous feature (possibly the auto-featured map clue)
-
-    display.feature.resetToPrevious();
+    } 
 
     //if the user backed up after an identification or a map feature, then
     // we need to correct the map state
 
-    display.ctl["MAP"].worldMap.checkMapState();
+    hackMap.worldMap.checkMapState();
     
     //All other states call for some update to the state itself
     //and (usually) to the map level.  Then we return to the main screen ...
 
-    display.ctl["MAP"].worldMap.nextMapState();  
+    hackMap.worldMap.nextMapState();  
 
 }
 
@@ -346,11 +323,11 @@ function closeOutMap() {
 
 //map debug hacks
 
-//go = function() { display.ctl["MAP"].preloadCountryMap( hack.getCountryFilename().toLowerCase() );  showMessage("resuming sequence");}
+//go = function() { hackMap.preloadCountryMap( hack.getCountryFilename().toLowerCase() );  showMessage("resuming sequence");}
 
 updateLabel = function() {
 
-    var _state = display.ctl["MAP"].getState();
+    var _state = hackMap.getState();
 
     if ( _state == sMapDone) {
 
@@ -366,13 +343,13 @@ updateLabel = function() {
 
 dm = function() {
 
-  var ctl = display.ctl["MAP"];
+  var ctl = hackMap;
 
   var s = "map.level = " + ctl.level.get() + "\n\r";
 
   s = s + "map.state = " + ctl.getState("MAP") + "\n\r";
 
-  var map = display.ctl["MAP"].worldMap;
+  var map = hackMap.worldMap;
 
   s = s + "selectedContinent = " + map.selectedContinent + "\n\r";
 

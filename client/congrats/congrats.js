@@ -149,7 +149,7 @@ Template.congrats.helpers({
 
   hackReport4: function() {
 
-      var s = display.loader.totalClueCount.toString();
+      var s = hacker.loader.totalClueCount.toString();
 
       return s.toUpperCase();
   },
@@ -202,7 +202,7 @@ Template.congrats.events = {
 
       e.preventDefault();
 
-      game.user.goHome();
+      game.user.setMode( uBio );
 
     },
 
@@ -211,7 +211,7 @@ Template.congrats.events = {
 
       e.preventDefault();
 
-      Control.playEffect("startButton.mp3");
+      display.playEffect("startButton.mp3");
 
       mission = null;
 

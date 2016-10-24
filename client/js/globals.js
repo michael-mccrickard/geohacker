@@ -78,9 +78,7 @@ isURL = function( _name ) {
 
 videoControl = function() {
 
-    if (display == null) return false;
-
-    if (!display.ctl["VIDEO"]) return false;
+    if (!hacker.ctl["VIDEO"]) return false;
 
     return true;
 }
@@ -171,16 +169,16 @@ refreshWindow = function(_which) {
 
     if (name == "browseWorldMap") {
 
-        display.ctl["MAP"].browseWorldMap.map.clearLabels();
+        browseMap.worldMap.map.clearLabels();
 
-        display.ctl["MAP"].browseFinishDraw();
+        browseMap.finishDraw();
 
         return;
     }
 
     if (name == "closeup") {
 
-        display.closeUp.draw();
+        hacker.closeUp.draw();
 
         return;
     }
@@ -203,16 +201,16 @@ refreshWindow = function(_which) {
 
     if (name == "main") {
 
-        display.redraw();
+        hacker.redraw();
 
         return;
     }
 
     if (name == "worldMap") {
 
-        display.ctl["MAP"].worldMap.map.clearLabels();
+        hackMap.worldMap.map.clearLabels();
 
-        display.ctl["MAP"].finishDraw();
+        hackMap.finishDraw();
 
         return;
     }
@@ -223,9 +221,9 @@ refreshWindow = function(_which) {
 
         display.browser.draw( myVideo );
 
-        display.browser.setVideoSize( myVideo );
+        Video.setSize( myVideo );
 
-        setVideoPos( myVideo );
+        Video.setPos( myVideo );
 
         display.browser.updateContent();
     }
@@ -236,25 +234,13 @@ refreshWindow = function(_which) {
 
         display.help.drawVideo(myVideo);
 
-        setVideoPos(myVideo);
+        Video.setSize( myVideo );
 
-        setVideoSize(myVideo);
+        Video.setPos( myVideo );
     }
 }
 
-setVideoSize = function( _obj) {
 
-    $("iframe#ytplayer").css("height", _obj.height );
-
-     $("iframe#ytplayer").css("width", _obj.width );  
-}
-
-function setVideoPos(_obj) {
-
-    $(".featuredYouTubeVideo").css("top", _obj.top);
-
-    $(".featuredYouTubeVideo").css("left",  _obj.left);  
-}
 
 myVideo = null;
 
@@ -267,31 +253,34 @@ c("youtube ready")
 
     var _file = null;
 
-    youTubeLoaded = true;
+    youtube.loaded = true;
+
+    youtube.waiting.set(false);
+
 
     switch (game.user.mode) {
 
         case uBrowseCountry:
 
-            _file = display.browser.video;
+            _file = display.browser.video.file;
 
             break;
         
         case uHack:
 
-             _file = display.feature.video;
+             _file = hacker.ctl["VIDEO"].video.file;
  
             break;
 
         case uHelp:
 
-              _file = display.help.video;
+              _file = display.help.video.file;
 
             break;
 
         case uEdit:
 
-              _file = editor.videoFile;
+              _file = editor.video.file;
 
             break;
 
@@ -310,7 +299,7 @@ c("youtube ready")
 
             myVideo = { width: $(window).width(), height: $(window).height() * 9/16, left: 0, top: 70 };
 
-            setVideoPos( myVideo );
+            Video.setPos( myVideo );
 
             break;
         }
@@ -321,7 +310,7 @@ c("youtube ready")
 
             editor.setVideoPos( myVideo );
 
-            setVideoPos( myVideo );
+            Video.setPos( myVideo );
 
             break;
         
@@ -333,9 +322,9 @@ c("youtube ready")
 
         case uHack: 
 
-            display.feature.dimension( "video", myVideo, null );
+            hacker.feature.dimension( "video", myVideo, null );
             
-            setVideoPos( myVideo );
+            Video.setPos( myVideo );
 
             break;
 
@@ -343,7 +332,7 @@ c("youtube ready")
 
             display.help.drawVideo( myVideo );
             
-            setVideoPos( myVideo );
+            Video.setPos( myVideo );
 
             break;
 
@@ -370,19 +359,14 @@ c("youtube ready")
 
                 // Play video when player ready.
 
-               if ( videoControl() ) {
-
-                    display.ctl["VIDEO"].youTubeWaiting.set( false );
-                }
-
                 if (_file) event.target.playVideo();
 
                 if (game.user.mode == uBrowseCountry) {
 
-                    setVideoPos( myVideo );               
+                    Video.setPos( myVideo );               
                 }  
 
-                Session.set("sYouTubeOn", true);
+                youtube.show();
             },
 
             onStateChange: function (event) {
@@ -391,44 +375,29 @@ c("youtube ready")
 
                 if (event.data == YT.PlayerState.PLAYING) {
 
-                    if ( videoControl() ) {
+                      //redundant, except when we are coming here from a hack, or after a hack 
 
-                        display.ctl["VIDEO"].setState( sPlaying );
+                      if (game.user.mode == uBrowseCountry) {
 
-                          //redundant, except when we are coming here from a hack, or after a hack 
+                        c("yt player is pausing the music b/c video is playing in browse mode")
 
-                          if (game.user.mode == uBrowseCountry) {
+                          game.pauseMusic();
 
-                            c("yt player is pausing the music b/c video is playing in browse mode")
+                          refreshWindow("ytplayer");
+                      }
 
-                              game.pauseMusic();
-
-                              refreshWindow("ytplayer");
-
-                              Session.set("sYouTubeOn", true);
-                          }
-
-                          if (game.user.mode == uHelp) refreshWindow("ytplayer");
-                    }
-
-
+                      if (game.user.mode == uHelp) refreshWindow("ytplayer");
                 }
 
                 if (event.data == YT.PlayerState.PAUSED) {
 
-                    if ( videoControl() ) {
+                      if (game.user.mode == uBrowseCountry) {
 
-                        display.ctl["VIDEO"].setState( sPaused );
+                        c("yt player is playing the music b/c video is paused in browse mode")
 
-                          if (game.user.mode == uBrowseCountry) {
+                        game.playMusic();
+                      }
 
-                            c("yt player is playing the music b/c video is paused in browse mode")
-
-                            game.playMusic();
-                          }
-
-
-                    }
                 }
 
             }

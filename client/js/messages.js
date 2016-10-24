@@ -8,14 +8,14 @@ showMessage = function( _text ) {
 
     if (url == '/worldMap') {
 
-    	display.mapStatus.setAndShow( _text );
+    	hacker.mapStatus.setAndShow( _text );
 
     	return;
     }
     
     if (url == "/closeup") {
 
-        display.closeUp.setText(_text );
+        hacker.closeUp.setText(_text );
 
         return;
     }
@@ -30,7 +30,7 @@ showMessage = function( _text ) {
 
     if (url == "/main") {
 
-    	display.status.setAndShow( _text );
+    	hacker.status.setAndShow( _text );
 
     	return;
     }

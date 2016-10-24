@@ -44,15 +44,15 @@ Ele = function(_name, _ID, _type ) {
 
 		//queue up the pause command
 
-		if (this.ID == scTopLeft) Meteor.setTimeout( function() { display.scanner.pauseIdle( scTopLeft ) }, display.scanner.ele[ scTopLeft ].idlePlayTime[ display.scanner.ele[ scTopLeft ].index  ] ); 	
+		if (this.ID == scTopLeft) Meteor.setTimeout( function() { hacker.scanner.pauseIdle( scTopLeft ) }, hacker.scanner.ele[ scTopLeft ].idlePlayTime[ hacker.scanner.ele[ scTopLeft ].index  ] ); 	
 
-		if (this.ID == scTopRight) Meteor.setTimeout( function() { display.scanner.pauseIdle( scTopRight ) }, display.scanner.ele[ scTopRight ].idlePlayTime[ display.scanner.ele[ scTopRight ].index ] ); 	
+		if (this.ID == scTopRight) Meteor.setTimeout( function() { hacker.scanner.pauseIdle( scTopRight ) }, hacker.scanner.ele[ scTopRight ].idlePlayTime[ hacker.scanner.ele[ scTopRight ].index ] ); 	
 
-		if (this.ID == scBottomLeft) Meteor.setTimeout( function() { display.scanner.pauseIdle( scBottomLeft ) }, display.scanner.ele[ scBottomLeft ].idlePlayTime[ display.scanner.ele[ scBottomLeft ].index  ] ); 	
+		if (this.ID == scBottomLeft) Meteor.setTimeout( function() { hacker.scanner.pauseIdle( scBottomLeft ) }, hacker.scanner.ele[ scBottomLeft ].idlePlayTime[ hacker.scanner.ele[ scBottomLeft ].index  ] ); 	
 
-		if (this.ID == scBottomCenter) Meteor.setTimeout( function() { display.scanner.pauseIdle( scBottomCenter ) }, display.scanner.ele[ scBottomCenter ].idlePlayTime[ display.scanner.ele[ scBottomCenter ].index  ] ); 
+		if (this.ID == scBottomCenter) Meteor.setTimeout( function() { hacker.scanner.pauseIdle( scBottomCenter ) }, hacker.scanner.ele[ scBottomCenter ].idlePlayTime[ hacker.scanner.ele[ scBottomCenter ].index  ] ); 
 
-		if (this.ID == scBottomRight) Meteor.setTimeout( function() { display.scanner.pauseIdle( scBottomRight ) }, display.scanner.ele[ scBottomRight ].idlePlayTime[ display.scanner.ele[ scBottomRight ].index ] ); 	
+		if (this.ID == scBottomRight) Meteor.setTimeout( function() { hacker.scanner.pauseIdle( scBottomRight ) }, hacker.scanner.ele[ scBottomRight ].idlePlayTime[ hacker.scanner.ele[ scBottomRight ].index ] ); 	
 
 	}
 
@@ -101,15 +101,15 @@ Ele = function(_name, _ID, _type ) {
 
 		//queue up the pause command
 
-		if (this.ID == scTopLeft) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scTopLeft ) }, display.scanner.ele[ scTopLeft ].scanPlayTime[ display.scanner.ele[ scTopLeft ].index  ] ); 	
+		if (this.ID == scTopLeft) Meteor.setTimeout( function() { hacker.scanner.nextScanMessage( scTopLeft ) }, hacker.scanner.ele[ scTopLeft ].scanPlayTime[ hacker.scanner.ele[ scTopLeft ].index  ] ); 	
 
-		if (this.ID == scTopRight) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scTopRight ) }, display.scanner.ele[ scTopRight ].scanPlayTime[ display.scanner.ele[ scTopRight ].index ] ); 	
+		if (this.ID == scTopRight) Meteor.setTimeout( function() { hacker.scanner.nextScanMessage( scTopRight ) }, hacker.scanner.ele[ scTopRight ].scanPlayTime[ hacker.scanner.ele[ scTopRight ].index ] ); 	
 
-		if (this.ID == scBottomLeft) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scBottomLeft ) }, display.scanner.ele[ scBottomLeft ].scanPlayTime[ display.scanner.ele[ scBottomLeft ].index  ] ); 	
+		if (this.ID == scBottomLeft) Meteor.setTimeout( function() { hacker.scanner.nextScanMessage( scBottomLeft ) }, hacker.scanner.ele[ scBottomLeft ].scanPlayTime[ hacker.scanner.ele[ scBottomLeft ].index  ] ); 	
 
-		if (this.ID == scBottomCenter) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scBottomCenter ) }, display.scanner.ele[ scBottomCenter ].scanPlayTime[ display.scanner.ele[ scBottomCenter ].index  ] ); 
+		if (this.ID == scBottomCenter) Meteor.setTimeout( function() { hacker.scanner.nextScanMessage( scBottomCenter ) }, hacker.scanner.ele[ scBottomCenter ].scanPlayTime[ hacker.scanner.ele[ scBottomCenter ].index  ] ); 
 
-		if (this.ID == scBottomRight) Meteor.setTimeout( function() { display.scanner.nextScanMessage( scBottomRight ) }, display.scanner.ele[ scBottomRight ].scanPlayTime[ display.scanner.ele[ scBottomRight ].index ] ); 	
+		if (this.ID == scBottomRight) Meteor.setTimeout( function() { hacker.scanner.nextScanMessage( scBottomRight ) }, hacker.scanner.ele[ scBottomRight ].scanPlayTime[ hacker.scanner.ele[ scBottomRight ].index ] ); 	
 
 	}
 

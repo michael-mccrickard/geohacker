@@ -1,4 +1,4 @@
-Session.set("sDateTime", false);
+
 
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); 
@@ -8,14 +8,8 @@ Template.main.helpers({
 
     TVisVideo: function() {
 
-        return display.TV.videoOn.get();
+        return hacker.TV.videoOn.get();
         
-    },
-
-
-    getDateTime: function() {
-
-      return (Session.get("sDateTime"));
     },
 
     control: function() {
@@ -25,65 +19,57 @@ Template.main.helpers({
 
     controlPic: function() {
 
-        return display.ctl[ this ].getControlPic();
+        return hacker.ctl[ this ].getControlPic();
     },
 
     controlPicLeft: function() {
 
-      return display.ctl[ this ].picFrame.left;
+      return hacker.ctl[ this ].picFrame.left;
     },
 
     controlPicTop: function() {
 
-      return display.ctl[ this ].picFrame.top;
+      return hacker.ctl[ this ].picFrame.top;
     },
 
     controlPicWidth: function() {
 
-      return display.ctl[ this ].picFrame.width;
+      return hacker.ctl[ this ].picFrame.width;
     },
 
     controlPicHeight: function() {
 
-      return display.ctl[ this ].picFrame.height;
+      return hacker.ctl[ this ].picFrame.height;
     },
 
-    //when a control is clicked, the background is hilited
-
-    controlBackdrop: function(_name) {
-
-      if (_name == display.feature.getName() ) return "hilitedBackdrop.jpg"
-
-      return "featuredBackdrop.jpg";
-    },
 
     imgHelperAgent: function() {
 
-        return display.helper.pic.get();
+        return hacker.helper.pic.get();
 
     },
 
     helperAgentName: function() {
 
-        return display.helper.name.get();
+        return hacker.helper.name.get();
 
     },
 
     helperAgentText: function() {
 
-        return display.helper.text.get();
+        return hacker.helper.text.get();
 
     },
 
     helperAgentTitle: function() {
 
-        return display.helper.title.get();
+        return hacker.helper.title.get();
 
     },
 
     opacityClass: function() {
 
-      if (display.ctl[ this ].getState() <= sIcon) return "faded";
+      if (hacker.ctl[ this ].getState() <= sIcon) return "faded";
 
       return "";
 
@@ -91,34 +77,12 @@ Template.main.helpers({
 
     opacityClassMap: function() {
 
-      var _s = display.ctl[ this ].getState();  //any state change to a control will trigger this?
+      var _s = hacker.ctl[ this ].getState();  //any state change to a control will trigger this?
 
-      if (display.loader.totalClueCount == 0) return "faded";
+      if (hacker.loader.totalClueCount == 0) return "faded";
 
       return "";
 
-    },
-
-    navButtonPrevVisible: function() { 
-
-      if (display.feature.off() ) return "invisible"; 
-
-      if (!display.feature.ctl) return;
-
-      if (display.feature.ctl.hasPrevItem() ) return "";
-
-      return "invisible";
-    },
-
-    navButtonNextVisible: function() { 
-
-      if (display.feature.off() ) return "invisible"; 
-
-      if (!display.feature.ctl) return;
-
-      if (display.feature.ctl.hasNextItem() ) return "";
-
-      return "invisible";
     },
 
     status: function() {
@@ -128,20 +92,9 @@ Template.main.helpers({
       return hack.status;
     },
 
-    TextIsDisplayed: function() {
-
-        if (display.feature.getName() == "TEXT") return true;
-
-        //if (display.feature.getName() == "MAP") return true;
-
-        if (display.feature.displayMessage.get() ) return true;
-
-        return false;
-    },
-
     featuredAreaFont: function() {
 
-        if (display.feature.displayMessage.get() ) return "featuredMessageFont";
+        if (hacker.feature.displayMessage.get() ) return "featuredMessageFont";
 
         return "featuredTextFont";
     },
@@ -149,47 +102,25 @@ Template.main.helpers({
 
     displayTextContent: function() {
 
-        if (display.feature.getName() == "TEXT") return display.ctl["TEXT"].getTextContent();       
+        if (hacker.feature.getName() == "TEXT") return hacker.ctl["TEXT"].getTextContent();       
     },
 
     textControlContent: function() { 
 
-        return display.ctl["TEXT"].getTextContent();   
+        return hacker.ctl["TEXT"].getTextContent();   
     },
 
     displayTextControlText: function() {
 
-        if (this == "TEXT" && display.ctl["TEXT"].getState() >= sLoaded) return true;
+        if (this == "TEXT" && hacker.ctl["TEXT"].getState() >= sLoaded) return true;
 
         return false;
     },
 
     youTubeWaiting: function() {
 
-      return display.ctl["VIDEO"].youTubeWaiting.get();
-    },
-
-
-    scannerNotVisible: function() {
-
-      if ( display.scanner.visible.get() ) return false;
-
-      return true;    
-    },
-
-    scannerNotLoaded: function() {
-
-      if ( display.scanner.centerState.get() != "loaded" ) return true;
-
-      return false;    
-    },
-
-    youTubeNotFeatured: function() {
-
-      if (Session.get("sYouTubeOn") == true ) return false;
-
-      return true;
-    },
+      return youtube.waiting.get();
+    }
 
 });
 
@@ -199,7 +130,7 @@ Template.main.events({
 
       e.preventDefault();  
 
-      if (display.loader.totalClueCount == 0) return;
+      if (hacker.loader.totalClueCount == 0) return;
 
       $("#mapButton").attr("src", "./newGlobeIconGreen.png");
 
@@ -217,7 +148,7 @@ Template.main.events({
 
       e.preventDefault();  
 
-      if ( display.moreDataAvailable() == false ) return; 
+      if ( hacker.moreDataAvailable() == false ) return; 
 
       $("#scanButton").attr("src", "./tvScannerGreen.png");
 
@@ -227,7 +158,7 @@ Template.main.events({
 
       e.preventDefault();  
 
-      if ( display.moreDataAvailable() == false ) return; 
+      if ( hacker.moreDataAvailable() == false ) return; 
 
       $("img#scanButton").attr("src", "./tvScannerYellow.png");
 
@@ -239,16 +170,16 @@ Template.main.events({
 
       if ( $("#mapButton").hasClass("faded") ) {
 
-          Control.playEffect( display.locked_sound_file );
+          display.playEffect( hacker.locked_sound_file );
 
           return; 
       }    
       
-      if (display.feature.name.get() == "VIDEO") display.suspendMedia();
+      if (hacker.feature.name == "VIDEO") hacker.suspendMedia();
 
-       if (display.feature.name.get() != "SOUND") game.playMusic();     
+      if (hacker.feature.name != "SOUND") game.playMusic();     
 
-      display.feature.set("MAP");
+      hackMap.go();
   
     },
 
@@ -256,9 +187,9 @@ Template.main.events({
 
       e.preventDefault();
 
-      var _index = display.feature.ctl.getIndex();
+      var _index = hacker.feature.ctl.getIndex();
 
-      display.feature.ctl.setIndex( _index - 1);
+      hacker.feature.ctl.setIndex( _index - 1);
 
       updateFeaturedContent();
   },
@@ -267,9 +198,9 @@ Template.main.events({
 
       e.preventDefault();
 
-      var _index = display.feature.ctl.getIndex();
+      var _index = hacker.feature.ctl.getIndex();
 
-      display.feature.ctl.setIndex( _index + 1);
+      hacker.feature.ctl.setIndex( _index + 1);
 
       updateFeaturedContent();
   },
@@ -280,11 +211,11 @@ Template.main.events({
 
       $('#btnHelperAgent').tooltip('destroy');
 
-      display.helper.setText();
+      hacker.helper.setText();
 
       Meteor.setTimeout( function() {
 
-        $("#btnHelperAgent").tooltip({ delay:0, placement:"left", trigger:"manual", title: display.helper.text.get() });
+        $("#btnHelperAgent").tooltip({ delay:0, placement:"left", trigger:"manual", title: hacker.helper.text.get() });
 
         $('#btnHelperAgent').tooltip('show'); 
 
@@ -305,95 +236,51 @@ Template.main.events({
 
       e.preventDefault();
 
-      display.stopBlinking();
+      if (hacker.cue.state == sPlaying) {
 
-      if (display.cue.state == sPlaying) {
-
-          Control.playEffect( display.locked_sound_file );
+          display.playEffect( hacker.locked_sound_file );
 
           return;
       }
 
-      if (display.scanner.mode == "scan" || display.scanner.mode == "rescan") {
+      if (hacker.scanner.mode == "scan" || hacker.scanner.mode == "rescan") {
 
-          Control.playEffect( display.locked_sound_file );
+          display.playEffect( hacker.locked_sound_file );
 
           return;
       }
 
-      if ( display.moreDataAvailable() == false ) {
+      if ( hacker.moreDataAvailable() == false ) {
 
-          Control.playEffect( display.locked_sound_file );
-
-          //display.TV.stopIdle();
+          display.playEffect( hacker.locked_sound_file );
 
           return; 
       }
 
-      if (game.user.mode == uBrowseCountry) {
+      hacker.feature.hideText();
 
-        var s = "";
-
-        if (game.user.assign.pool.length == 0) {
-
-          s = "You have finished your current mission.  Please choose another from the " + game.user.name + " menu.";
-
-          alert( s );
-        }
-        
-        else {
-        
-          s = "Resume mission " + game.user.assign.name + "?";
-
-          var r = confirm( s );
-
-          if (r == true) {
-
-              hack.mode = mNone;
-
-              game.user.resumeMission();
-          }
-
-        }
-
-      }
-
-      display.feature.dim();
+      hacker.feature.dim();
 
       Control.unhiliteAll();
 
+      Control.hideNavButtons();
+
       var mode = "rescan";
 
-      if (display.loader.totalClueCount == 0) mode = "scan";
+      if (hacker.loader.totalClueCount == 0) mode = "scan";
 
-      if (gInstantMode) {
+      hacker.suspendMedia();
 
-          display.suspendMedia();
+      game.playMusic();
 
-          display.loader.go();
+      hacker.scanner.startScan( mode );
 
-          display.scanner.show();
-
-          display.scanner.stopScan();
-
-      }
-      else {
-
-        display.suspendMedia();
-
-        display.suspendBGSound();
-
-        game.playMusic();
-
-        display.scanner.startScan( mode );
-
-      }
 
     },
 
     'click img.featuredPic': function(e) {
 
-      var _name = display.feature.getName();
+      var _name = hacker.feature.getName();
 
       if (_name == "SOUND" || _name == "VIDEO") {
 
@@ -410,8 +297,6 @@ Template.main.events({
       
       e.preventDefault();
 
-      display.stopBlinking();
-
       Control.switchTo( e.currentTarget.id );
     },
 
@@ -419,9 +304,9 @@ Template.main.events({
 
       e.preventDefault;
 
-      if (display.feature.name.get() == "VIDEO") display.suspendMedia();
+      if (hacker.feature.name.get() == "VIDEO") hacker.suspendMedia();
 
-        display.feature.clear();
+        hacker.feature.clear();
 
         hack.debrief.go();
 
@@ -433,18 +318,9 @@ Template.main.events({
 
 function updateFeaturedContent() {
 
-    var _name = display.feature.getName();
- 
-    if (game.user.mode == uBrowseCountry) {
-    
-c("updateFeaturedContent in main.js is calling feature.load")
+    var _name = hacker.feature.getName();
 
-      display.feature.load( _name );  //the imagesLoaded callback will update the screen
-
-      return;
-    }
-
-    display.showFeaturedContent( _name  );
+    hacker.showFeaturedContent( _name  );
 
 }
 
@@ -452,59 +328,40 @@ Template.main.rendered = function () {
 
     stopSpinner();
 
-    if (gEditLearnCountry) {
+    hacker.redraw();
 
-       FlowRouter.go("/learnCountry");
+    hacker.doHeadlines();
 
-       return;
-    }
+    hacker.checkMainScreen();
 
-    if (!display) return;
+    //hacker.weather.start();
 
-    display.redraw();
-
-    display.doHeadlines();
-
-    display.checkMainScreen();
-
-    display.weather.start();
-
-
-    if (game.user.mode == uBrowseCountry) {
-
-        display.scanner.hide();
-
-        return;
-    }
-
-
+/*
     if ( game.user.mode == uHack ) {
 
+       if (hacker.feature.on() ) {
 
-      //MAP is the only control that has the scanner visible when it's featured
+          hacker.scanner.hide();
 
-       if (display.feature.on() && display.feature.getName() != "MAP") {
-
-          display.scanner.hide();
-
-          display.feature.set( display.feature.getName() );
+          hacker.feature.switch( hacker.feature.getName() );
 
           //opportunity to play a specific video / gif in the little scanner TV here
 
-          //display.TV.playVideo( Database.getRandomFromRange(1,2) );             
+          //hacker.TV.playVideo( Database.getRandomFromRange(1,2) );             
 
         }       
     }
+*/
 
     if (hack.mode == mReady)  {
 
-      if ( display.feature.off() ||  display.feature.getName() == "MAP") {
+      if ( hacker.feature.off() ) {
 
-        display.scanner.show();
+        hacker.scanner.show();
 
-        Meteor.setTimeout(function() { display.scanner.startIdle(); }, 502 ); 
+        Meteor.setTimeout(function() { hacker.scanner.startIdle(); }, 502 ); 
 
-        display.TV.set( TV.scanPrompt );  
+        hacker.TV.set( TV.scanPrompt );  
    
       }
 

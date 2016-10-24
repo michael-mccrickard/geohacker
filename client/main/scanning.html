@@ -23,7 +23,7 @@
 
 		<div class="scanCenter">
 
-				<div class="divScanCenterImg auto" style="cursor: {{cursorForScanCenter}};">
+				<div class="divScanCenterImg auto">
 
 					{{#if scanningNow}}
 						
@@ -33,19 +33,12 @@
 
 					{{else}}
 
-						{{#if TEXTisFeatured}}
-
-							<div class="scanCenterImg divScanFeaturedText controlText">{{featuredText}}</div>
-
-						{{else}}
-
-							<img class="scanCenterImg" src="{{getScannerCenterImage}}">	
-
-						{{/if}}
+						<img class="scanCenterImg" src="{{getScannerCenterImage}}">	
 					
 					{{/if}}
 				
 				</div>	
+				
 				<div class="scanFont2 scanCenterText yellowText" id="scanCenterTextID">{{centerText}}</div>
 		
 		</div>

@@ -4,7 +4,7 @@ Template.closeup.rendered = function() {
 
   stopSpinner();
 
-  display.closeUp.draw();
+  hacker.closeUp.draw();
 }
 
 
@@ -34,14 +34,12 @@ Template.closeup.events = {
 
         showMessage("Crop mode is on.  F6 to exit.");
 
-        Control.playEffect("locked.mp3");
+        display.playEffect("locked.mp3");
 
         return;
       } 
 
-//      display.mainTemplateReady = false;
-
-      if (display.feature.getName() == "MAP") {
+      if (hack.mode == mHackDone) {
 
         FlowRouter.go("/debrief");
 
@@ -55,13 +53,13 @@ Template.closeup.events = {
 
       e.preventDefault();
 
-      if (display.closeUp.source == "0") {
+      if (hacker.closeUp.source == "0") {
 
         alert("Go to Unknown Source page here.")
       }
       else {
 
-        window.open(display.closeUp.source);
+        window.open(hacker.closeUp.source);
       }
     },
 
@@ -105,13 +103,15 @@ CloseUp = function() {
 
   this.draw = function() {
 
-      var img = display.feature.imageSrc;
+    //need an event handler in main.js to catch the click on the detailedMap and make the below feature=MAP scenario work
 
-      if (display.feature.getName() == "MAP") {
+      var img = hacker.feature.imageSrc;
+
+      if (hack.mode == mHackDone) {
 
         var _filename = hack.getCountryMapURL();
 
-        img = Control.getImageFromFile( _filename );
+        img = display.getImageFromFile( _filename );
       }
 
       var fullScreenWidth = $(window).width();
@@ -165,7 +165,7 @@ CloseUp = function() {
       }
       else{
 
-        s = display.feature.source;
+        s = hacker.feature.source;
       }
 
       var s = null;
@@ -176,7 +176,7 @@ CloseUp = function() {
       }
       else{
 
-        s = display.feature.source;
+        s = hacker.feature.source;
       }
 
       this.source = s;
@@ -221,7 +221,8 @@ function insertNewTagRecord(_dt, _text) {
       });
     }  
 
-        Meteor.setTimeout( function() { display.loadMainForBrowsing(); }, 600 );  
+alert("Formerly a call to loadMainForBrowsing was made here.")
+        //Meteor.setTimeout( function() { hacker.loadMainForBrowsing(); }, 600 );  
 
   });
 }

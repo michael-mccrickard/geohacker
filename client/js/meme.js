@@ -6,12 +6,12 @@
   The types are:
 
   modal -- An image, with optional text and sound file, displayed in a modal window.  Any meme with this type is 
-  temporarily assigned to display.meme when displayed.
+  temporarily assigned to hacker.meme when displayed.
 
   video -- A youtube video to be shown on the browser screen
 
   classic -- still image with text, with an optional sound file.  These can also be temporarily assigned to
-  display.meme, if we need to show them in a modal window.
+  hacker.meme, if we need to show them in a modal window.
 
 ******************************************************************
 */
@@ -31,8 +31,6 @@ Meme = function(_type, _name, _src, _videoID) {
   this.name = "";
 
   this.src = "";
-
-  this.videoID = "";
 
   if (_name) this.name = _name;
 
@@ -60,12 +58,12 @@ Meme = function(_type, _name, _src, _videoID) {
     
           //now that the image is loaded ...
 
-          display.meme.imageSrc = Control.getImageFromFile( display.meme.src );
+          hacker.meme.imageSrc = display.getImageFromFile( hacker.meme.src );
 
 
-          Meteor.setTimeout( function() { display.meme.dimensionImage( display.meme.frame ); }, 500);
+          Meteor.setTimeout( function() { hacker.meme.dimensionImage( hacker.meme.frame ); }, 500);
 
-          Meteor.setTimeout( function() { display.meme.showModal(); }, 501);         
+          Meteor.setTimeout( function() { hacker.meme.showModal(); }, 501);         
 
         });
 	}
@@ -92,7 +90,7 @@ Meme = function(_type, _name, _src, _videoID) {
 
         var _height = fullHeight;
 
-		var _src = display.meme.imageSrc;
+		var _src = hacker.meme.imageSrc;
 
 		_width = (fullHeight / _src.height ) * _src.width; 
 
@@ -121,7 +119,7 @@ Meme = function(_type, _name, _src, _videoID) {
 
 	this.showModal = function() {
 
-		$(".imgZoomInModal").attr("src", display.meme.src);
+		$(".imgZoomInModal").attr("src", hacker.meme.src);
 
 		$(".imgZoomInModal").css("width", this.frame.width);
 
