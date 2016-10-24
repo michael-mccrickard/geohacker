@@ -204,7 +204,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     	hacker.suspendMedia();
 
     	if (game.user.mode == uBrowseCountry) {
-c("mode in goBrowseMap is uBrowseCountry")
+
 	      	var b = browseMap.worldMap;
 
 	    	b.mapLevel = mlRegion;
@@ -224,6 +224,9 @@ c("mode in goBrowseMap is uBrowseCountry")
     		this.setGlobals("browse");
 
     		display.browser.countryCode = "";  //reset this since we are going in fresh
+
+    		//it should be possible to just let the browseMap remember where you last explored
+    		//but at the moment, this can produce erratic map behavior when trying to drill down
 
     		browseMap.reset();
     	}
@@ -500,7 +503,7 @@ c("mode in goBrowseMap is uBrowseCountry")
 
 				this.assign = new Assign(_assignData.code, _assignData.mapCode, _assignData.hacked, _assignData.level, _assignData.name, _assignData.pool, _assignData.completions);
 
-c("mapCode after creating assing is " + this.assign.mapCode)
+
 
 				return;
 			}

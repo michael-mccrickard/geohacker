@@ -215,6 +215,33 @@ this.saveScroll = function(_val) {
 
       var rec = this.ghC.findOne( { c: _code } );
 
+      //Make sure this country didn't get deleted after the mission was created (Svalbard, e.g.)
+
+      if (!rec) {
+
+         //remove it
+
+c("db is removing record for " + _code + " in the current mission.")
+
+         var _index = _user.assign.pool.indexOf( _code );
+
+         _user.assign.pool.splice( _index, 1);
+
+         db.updateUserHacks();
+
+         if ( _user.assign.pool.length ) {
+
+            return ( this.getRandomCountryRecForUser( _user) );
+         }
+         else {
+
+            alert("A problem was found with the data for your mission.  Please restart the game to continue.");
+
+            return null;
+         }
+         
+      }
+
       return rec;
     }
 

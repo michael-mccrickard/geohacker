@@ -57,8 +57,6 @@ Hack = function() {
 
         game.user.assign.resetMap();
 
-c("after assign.resetMap, hackMap.selectedContinent is " + hackMap.selectedContinent)
-
         this.welcomeAgent = null;
 
         this.welcomeAgentIsChief = false;

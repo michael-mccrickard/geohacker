@@ -99,6 +99,28 @@ Template.newBrowse.helpers({
 
     },
 
+    globePic: function() {
+
+      display.browser.updateFlag.get();
+
+      if (game.user.returnRoute == "congrats")  return "geohacker_logo.png";
+
+      if (game.user.returnRoute == "home")  return game.user.profile.av;
+
+      return "pixel_globe.png";
+    },
+
+    globeSize: function() {
+
+      display.browser.updateFlag.get();
+
+      if (game.user.returnRoute == "congrats")   return "48px";
+
+      if (game.user.returnRoute == "home")   return "48px";
+
+      return "60px";
+    },
+
      leaderImage: function() {
 
     	return hack.getLeaderPic();
@@ -311,6 +333,8 @@ Template.newBrowse.rendered = function() {
       c("no browser.video found")
     }
   }
+
+  display.browser.updateFlag.get();
 
 	stopSpinner();
 }

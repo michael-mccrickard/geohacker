@@ -202,7 +202,7 @@ Template.congrats.events = {
 
       e.preventDefault();
 
-      game.user.goHome();
+      game.user.setMode( uBio );
 
     },
 

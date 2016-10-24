@@ -7,8 +7,6 @@ BrowseMap = function() {
 
 	 this.name = "browseMap"; 
 
-   this.state = new Blaze.ReactiveVar(0);
-
     //reactive level property:  mlWorld, mlContinent, mlRegion, mlCountry
 
     this.level = new Blaze.ReactiveVar( mlWorld );
@@ -29,16 +27,6 @@ BrowseMap = function() {
         hacker.worldMapTemplateReady = false;
 
         FlowRouter.go("/browseWorldMap");
-    }
-
-    this.getState = function() {
-
-      return this.state.get();
-    }
-
-    this.setState = function(_val) {
-
-      this.state.set( _val );
     }
 
     this.backupMap = function() {
@@ -150,9 +138,9 @@ BrowseMap = function() {
 
       this.level.set(mlWorld);
 
-      this.state.set( sIDContinent );
-
       this.resetSelections();
+
+      this.worldMap.reset();
     }
 
 

@@ -12,7 +12,7 @@
 	top: 9%;
 }
 
-.returnToMapOrLesson {
+.returnToPrevMode {
     cursor: pointer;
     position: relative;
     top: 0px;
