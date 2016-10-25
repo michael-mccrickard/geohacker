@@ -213,6 +213,18 @@ Hacker = function() {
         }
     }
 
+    this.redimension = function() {
+
+        this.dimensionControls();
+
+        if (this.feature.on) {
+
+            this.feature.redimension();
+
+            if (this.feature.getName() == "VIDEO") this.feature.video.show();
+        }
+    }
+
 
 
     //*********************************************

@@ -51,7 +51,7 @@ Feature = function() {
 		}
 		else {
 
-			this.predraw();
+			this.redimension();
 
 			if (this.getName() == "VIDEO") {
 
@@ -311,7 +311,7 @@ Feature = function() {
 
 	},
 
-	this.predraw = function() {
+	this.redimension = function() {
 
 		this.dimensionNow( this.file, this.imageSrc);
 		

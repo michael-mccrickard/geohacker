@@ -201,7 +201,7 @@ refreshWindow = function(_which) {
 
     if (name == "main") {
 
-        hacker.redraw();
+        hacker.redimension();
 
         return;
     }

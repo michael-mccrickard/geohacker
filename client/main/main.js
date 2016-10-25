@@ -335,23 +335,7 @@ Template.main.rendered = function () {
     hacker.checkMainScreen();
 
     //hacker.weather.start();
-
-/*
-    if ( game.user.mode == uHack ) {
-
-       if (hacker.feature.on() ) {
-
-          hacker.scanner.hide();
-
-          hacker.feature.switch( hacker.feature.getName() );
-
-          //opportunity to play a specific video / gif in the little scanner TV here
-
-          //hacker.TV.playVideo( Database.getRandomFromRange(1,2) );             
-
-        }       
-    }
-*/
+    
 
     if (hack.mode == mReady)  {
 
