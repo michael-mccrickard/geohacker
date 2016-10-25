@@ -109,6 +109,8 @@ Template.worldMap.helpers({
 
   continentIcon: function() { 
 
+    hacker.updateFlag.get();
+
     var level = hackMap.level.get();
 
     var name = "";
@@ -146,6 +148,8 @@ Template.worldMap.helpers({
   },
 
   regionIcon: function()  { 
+
+    hacker.updateFlag.get();
 
     var level = hackMap.level.get();
 
@@ -290,11 +294,9 @@ Template.worldMap.events = {
 
        if (hackMap.worldMap.selectedCountry != hack.countryCode) {
 
-          display.playEffect("mapBackup.mp3");
+          hackMap.playBackupSound();
 
           hackMap.backupMapToRegion();         
-       
-          display.playEffect("mapBackup.mp3");
 
           return;
        }
@@ -305,6 +307,8 @@ Template.worldMap.events = {
 
         if (hackMap.level.get() == mlRegion) {
 
+          hackMap.playDeniedSound();
+
           hacker.mapStatus.setThisAndType("Stream is coming from " + db.getRegionName( hack.regionCode) );
 
           return;
@@ -314,7 +318,7 @@ Template.worldMap.events = {
 
         hacker.mapStatus.setThisAndType("Stream is not coming from " + db.getRegionName( hackMap.worldMap.selectedRegion ) );
 
-        display.playEffect("mapBackup.mp3");
+        hackMap.playBackupSound();
 
         hackMap.backupMapToContinent();
     }
@@ -331,32 +335,33 @@ Template.worldMap.events = {
 
         if (hackMap.level.get() == mlCountry && hackMap.worldMap.selectedCountry != hack.countryCode) {
 
-            display.playEffect("mapBackup.mp3");
+            hackMap.playBackupSound();
 
             hackMap.backupMapToRegion();
 
             return;
         }
 
+        hackMap.playDeniedSound();
+
         hacker.mapStatus.setThisAndType("Stream is coming from " + db.getRegionName( hack.regionCode) );
 
         return;
     }
-    else {
 
-        if (hackMap.worldMap.selectedContinent != hack.continentCode) {
+    if (hackMap.worldMap.selectedContinent != hack.continentCode) {
 
-            hacker.mapStatus.setThisAndType("Stream is not coming from " + db.getContinentName( hackMap.worldMap.selectedContinent ) );
+        hacker.mapStatus.setThisAndType("Stream is not coming from " + db.getContinentName( hackMap.worldMap.selectedContinent ) );
 
-            hackMap.backupMapToWorld();
+        hackMap.playBackupSound();
 
-            return;
-        }
+        hackMap.backupMapToWorld();
 
+        return;
     }
 
 
-    display.playEffect("mapBackup.mp3");
+    hackMap.playBackupSound();
 
     hackMap.backupMapToContinent();
   },
@@ -367,14 +372,36 @@ Template.worldMap.events = {
 
     if (_state >= sCountryOK) return;
 
-    display.playEffect("mapBackup.mp3");
+    if (hackMap.worldMap.selectedRegion == hack.regionCode) {
+
+        if (hackMap.level.get() == mlCountry && hackMap.worldMap.selectedCountry != hack.countryCode) {
+
+            hackMap.playBackupSound();
+
+            hackMap.backupMapToRegion();
+
+            return;
+        }
+
+        hackMap.playDeniedSound();
+
+        hacker.mapStatus.setThisAndType("Stream is coming from " + db.getRegionName( hack.regionCode) );
+
+        return;
+    }
 
     if (hackMap.worldMap.selectedContinent == hack.continentCode) {
+
+      hackMap.playDeniedSound();
 
       hacker.mapStatus.setThisAndType("Stream is coming from " + db.getContinentName( hack.continentCode ) );
 
       return;
     }
+
+
+
+    hackMap.playBackupSound();
 
     hackMap.backupMapToWorld();
   },

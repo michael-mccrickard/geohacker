@@ -10,6 +10,10 @@ HackMap = function() {
 
     this.state = new Blaze.ReactiveVar(0);
 
+    this.deniedSound = "wrong_3.mp3";
+
+    this.backupSound = "mapBackup.mp3";
+
     this.getState = function() {
 
       return this.state.get();
@@ -113,6 +117,7 @@ HackMap = function() {
     this.backupMap = function() {
 
         this.worldMap.backupMap();
+
     }
 
     this.backupMapToRegion = function() {
@@ -175,20 +180,15 @@ HackMap = function() {
           this.fadeInIcons("continentOnly");
 
         }
+
     }
 
-    this.lessonFinishDraw = function() {
-
-      c( "map.lessonFinishDraw");
-
-      //position any additional elements here
-    }
 
     this.fadeInIcons = function(_which) {
 
       if ( $("#continentIcon").css("opacity") == "0" ) fadeIn( "continentIcon" );
 
-      if (_which == "both" && $("#regionIcon").css("opacity") == "0" ) Meteor.setTimeout( function() { fadeIn("regionIcon")}, 500);
+      if (_which == "both" /* && $("#regionIcon").css("opacity") == "0" */) Meteor.setTimeout( function() { fadeIn("regionIcon")}, 500);
 
     }
 
@@ -205,6 +205,17 @@ HackMap = function() {
     //********************************************************************
     //        MISCELLANEOUS
     //********************************************************************
+
+    this.playDeniedSound = function() {
+
+      display.playEffect2( this.deniedSound );
+    }
+
+    this.playBackupSound = function() {
+
+      display.playEffect( this.backupSound );
+    }
+
 
     //for the end-of-hack scenario when we flash the country and show a more detailed map of it
 

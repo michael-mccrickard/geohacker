@@ -247,58 +247,39 @@ c("doCurrentMap");
 
         var x, y;
 
+        var _align = "";
+
+        if (level == mlContinent) {
+
+            _code = db.getContinentCodeForCountry( this.mapObjectClicked ); 
+
+            rec = db.getContinentRec( _code );
+        }
+
+        if (level == mlRegion) {
+
+            _code = db.getRegionCodeForCountry( this.mapObjectClicked ); 
+
+            rec = db.getRegionRec( _code );
+        }
+
 
         //Look up in the db where to place the label 
         //(this is what all this code does except for the last line)
 
-        if (level == mlContinent) {
+        if (level == mlContinent || level == mlRegion) {
 
             //do any continents have label pos data?
 
-            _code = db.getContinentCodeForCountry( this.mapObjectClicked ); 
-
-            rec = db.getContinentRec( _code ); 
+             
 
             x = this.map.divRealWidth / 2;
 
             y = this.map.divRealHeight / 2;        
 
-_col = "yellow";                  
-        }
+            _col = "yellow";     
 
-        if (level == mlRegion) {
-
-            _code = db.getRegionCodeForCountry( this.mapObjectClicked );   
-
-            rec = db.getRegionRec( _code );
-
-            x = this.map.divRealWidth / 2;
-
-            y = this.map.divRealHeight / 2;   
-
-            /*
-
-            if (rec.llon !== undefined) {
-
-                x = this.map.longitudeToX( rec.llon );
-
-                y = this.map.latitudeToY( rec.llat );
-            }
-            else {
-
-                if (rec.xl3 !== undefined) {
-
-                    x = rec.xl3;
-
-                    y = rec.yl3;
-                }           
-            } 
-            */
-
-        
-_col = "yellow";
-
-            //if (rec.rll_co !== undefined) _col = rec.rll_co; 
+            _align = "middle";             
         }
 
         if (level == mlCountry) {
@@ -318,7 +299,7 @@ _col = "yellow";
                 if (this.mapCtl.getState() == sCountryOK) {
 
                     if (typeof rec.xl2 !== 'undefined') {
-c("country is labeled by xl2, yl2")
+
                         x = rec.xl2 * this.map.divRealWidth;
 
                         y = rec.yl2* this.map.divRealHeight;
@@ -326,13 +307,13 @@ c("country is labeled by xl2, yl2")
                     else {  //no label pos data?  then just center it
 
                         if (rec.llon !== undefined) {
-c("country is labeled by llon, llat")
+
                             x = this.map.longitudeToX( rec.llon );
 
                             y = this.map.latitudeToY( rec.llat );
                         }
                         else {
-c("country is labeled by centering")
+
                             x = this.map.divRealWidth / 2;
 
                             y = this.map.divRealHeight / 2;   
@@ -375,11 +356,11 @@ c("country is labeled by centering")
             if (_arr.indexOf( this.mapObjectClicked) != -1) _col = "white";
         }   
 
-        if (typeof _x !== 'undefined') x = _x;
+        if (_x) x = _x;
 
-        if (typeof _y !== 'undefined') y = _y;       
+        if (_y) y = _y;       
 
-        Meteor.defer( function() { hackMap.worldMap.map.addLabel(x, y, _name.toUpperCase(), "", _fontSize, _col); } );
+        Meteor.defer( function() { hackMap.worldMap.map.addLabel(x, y, _name.toUpperCase(), _align, _fontSize, _col); } );
     }
 
 
