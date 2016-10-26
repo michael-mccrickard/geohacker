@@ -6,8 +6,8 @@
 .divWelcomeAgent {
 
   position: absolute;
-  left: 19%;
-  top: 39%;
+  left: 25%;
+  top: 70%;
   opacity: 0;
   z-index: 1003;  
 }

@@ -35,7 +35,7 @@
 
 
 .divHomeButton {
-  width: 14%;
+  width: 12%;
   height: 150px;
   float: left;
   margin: 0.5%;
@@ -62,7 +62,7 @@
 .divHomeButtonClockOutText {
 
   font-family: geoFont;
-  font-size: 2.2vw;
+  font-size: 1.8vw;
   color: white;
   margin-top: -1%;
 
@@ -83,6 +83,8 @@
   margin-left: auto;
   margin-right: auto;
   margin-top: 2%;
+
+  width: 60%;
 
   height: 70%;
 }

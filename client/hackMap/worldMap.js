@@ -870,7 +870,7 @@ c("doMapSuccess")
         //remove the HACKED zooom-out element
 
         $("div#demo").css("display","none");
-
+/*
         hacker.mapStatus.setThisAndType("INCOMING TRANSMISSION DETECTED");
 
     //set the B roll to the avatar we want
@@ -902,6 +902,7 @@ c("doMapSuccess")
         //reveal the text ...
 
         var txtLower = $(".divTVTextLower");
+*/
 
         var strWelcome = "YOU HACKED MY COUNTRY!";
 
@@ -913,7 +914,7 @@ c("doMapSuccess")
 
             strWelcome2 = "KEEP UP THE GOOD WORK.";           
         }
-
+/*
         if (hack.welcomeAgentIsChief) {
 
             strWelcome = "YOU HACKED " + hack.getCountryName() + "!";
@@ -954,7 +955,7 @@ c("doMapSuccess")
         }
         else {
 */            
-            Meteor.setTimeout( function() { hacker.mapStatus.setThisAndType("NEW AGENT ADDED TO YOUR NETWORK"); }, 6500 );
+            Meteor.setTimeout( function() { hacker.mapStatus.setThisAndType("NEW AGENT ADDED TO YOUR NETWORK"); }, 100 );
 
   //      }
 
@@ -962,14 +963,14 @@ c("doMapSuccess")
 
         var div = $(".divWelcomeAgent")  
 
-        Meteor.setTimeout( function() { display.playEffect3("agentAdded.mp3") }, 8100); 
+        Meteor.setTimeout( function() { display.playEffect3("agentAdded.mp3") }, 100); 
 
-        tl.to(div, 0.1, { opacity: 1.0, delay: 0.1 } ); 
+        tl.to(div, 0.1, { opacity: 1.0, delay: 0.0 } ); 
 
 
         //delay this some more so that OK button does not appear before fade-in of agent profile?
 
-        Meteor.setTimeout( function() { hackMap.setStateOnly( sMapDone ) }, 6501 );                
+        Meteor.setTimeout( function() { hackMap.setStateOnly( sMapDone ) }, 100 );                
 
 
      } //END HACKDONE5

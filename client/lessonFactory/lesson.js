@@ -26,7 +26,7 @@ resumeLesson = function() {
 
 	if (g.country.length) g.showCapsule( g.country );
 
-	g.lessonMap.doThisMap(mlContinent, mlRegion, mlCountry, g.continent, g.region);
+	g.lessonMap.worldMap.doThisMap(mlContinent, mlRegion, mlCountry, g.continent, g.region);
 
 	doLesson9();
 }
