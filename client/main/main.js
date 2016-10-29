@@ -14,7 +14,7 @@ Template.main.helpers({
 
     control: function() {
 
-        return Session.get("sCtlName");  //the array of controls
+      return hacker.ctlName;
     },
 
     controlPic: function() {
@@ -334,7 +334,7 @@ Template.main.rendered = function () {
 
     hacker.checkMainScreen();
 
-    //hacker.weather.start();
+    hacker.weather.start();
     
 
     if (hack.mode == mReady)  {

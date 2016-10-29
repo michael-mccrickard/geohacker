@@ -60,15 +60,23 @@ Meme = function(_type, _name, _src, _videoID) {
 
           hacker.meme.imageSrc = display.getImageFromFile( hacker.meme.src );
 
-
           Meteor.setTimeout( function() { hacker.meme.dimensionImage( hacker.meme.frame ); }, 500);
 
-          Meteor.setTimeout( function() { hacker.meme.showModal(); }, 501);         
+          if (this.type == "modal") Meteor.setTimeout( function() { hacker.meme.showModal(); }, 501);     
+
+          
 
         });
 	}
 
-	this.dimensionImage = function( _obj ) {
+  this.dimensionImage = function( _obj ) {
+
+    if (this.type == "modal") this.dimensionModal( _obj );
+
+  }
+
+
+	this.dimensionModal = function( _obj ) {
 
 		//assuming the zoomInModal for now
 
@@ -90,9 +98,9 @@ Meme = function(_type, _name, _src, _videoID) {
 
         var _height = fullHeight;
 
-		var _src = hacker.meme.imageSrc;
+    		var _src = hacker.meme.imageSrc;
 
-		_width = (fullHeight / _src.height ) * _src.width; 
+    		_width = (fullHeight / _src.height ) * _src.width; 
 
 
         //Clamp the width if necessary and determine the position on the screen

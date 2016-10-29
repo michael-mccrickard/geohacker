@@ -3,10 +3,69 @@ Template.stats.rendered = function() {
     display.scrollToTop();
 
     stopSpinner();
+
 }
+
+Stats = function() {
+
+  this.template = new Blaze.ReactiveVar("me");
+
+  this.updateFlag = new Blaze.ReactiveVar(false);
+
+  this.topHackers = [];
+
+
+  this.getTopHackers = function() {
+
+    Meteor.call("getTopHackers", function(err, result) {
+
+      if (result) display.stats.topHackers = result;
+
+      display.stats.updateContent();
+
+    });
+  }
+
+  this.updateContent = function() {
+
+    var _val = this.updateFlag.get();
+
+    this.updateFlag.set( !_val );
+  }
+  
+}
+
+Template.alltime.onCreated(function () {
+
+  //this.subscribe("registeredUsers");
+
+  display.stats.getTopHackers();
+ 
+
+});
+
+Template.alltime.helpers({
+
+    agent: function() {
+
+      display.stats.updateFlag.get();
+
+      return display.stats.topHackers;
+    }
+
+});
 
 
 Template.stats.helpers({
+
+    statsContent: function() {
+
+      return display.stats.template.get();
+    }
+
+});
+
+Template.me.helpers({
 
     statsBadge: function() {
 
@@ -24,20 +83,32 @@ Template.stats.helpers({
 
     userHackCount: function() {
 
-    	return game.user.lifetimeHackCount();
+      return game.user.lifetimeHackCount();
     },
 
     userCountryCount: function() {
 
-    	return game.user.uniqueCountryCount();
+      return game.user.uniqueCountryCount();
     },
 
     userMissionCount: function() {
 
-    	return game.user.lifetimeMissionCount();
-    }
-
+      return game.user.lifetimeMissionCount();
+    },
 });
+
+Template.alltime.helpers({
+
+    statsBadge: function() {
+
+      var _obj = new BadgeList();
+
+      Session.set("sBadgeCount", _obj.length)
+
+      return ( _obj.generateStatsList() );
+    },
+});
+
 
 Template.stats.events({
 

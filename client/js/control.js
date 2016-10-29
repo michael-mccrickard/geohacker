@@ -389,7 +389,7 @@ Control.allLoadsAreEqual = function() {
 
   var _loadCount = 0;
 
-  var _arr = Session.get("sCtlName");
+  var _arr = hacker.ctlName;
 
     for (i = 0; i < _arr.length; i++) {
 

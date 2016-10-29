@@ -1,0 +1,69 @@
+/*stats.css */
+
+.divStats {
+
+  position: relative;
+
+  top: 0px;
+
+  left: 16px;
+}
+
+.compositeStatsBadge {
+  float: left;
+  width: 144px;
+  height: 170px;
+  margin-right: 24px;
+  position: relative;
+}
+
+.compositeStatsBadge .label {
+    position:absolute;
+    left: -4px;
+    top: -3px;
+    font-family: Arial;
+    font-style: bold;
+}
+
+.divBadgeStats {
+
+  margin-top: 32px;
+}
+
+.statsContainer {
+  position: relative;
+  top: -196px; 
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.imgAvatar {
+
+  width: 64px;
+
+  height: 64px;
+}
+
+th.statsColName {
+
+  width: 256px;
+}
+
+th.statsColData {
+
+  width: 96px;
+}
+
+.statsColumn {
+
+  font-family: Arial;
+}
+
+.divStatsTable {
+
+  position: relative;
+
+  top: -256px;
+
+  float: left;
+}

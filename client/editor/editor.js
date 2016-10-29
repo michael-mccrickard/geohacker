@@ -171,6 +171,7 @@ Editor = function() {
 
 	}
 
+	//which of the above codes are used with each type
 
 	this.getCodes = function( _coll ) {
 

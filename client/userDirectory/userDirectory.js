@@ -103,13 +103,9 @@ Template.userDirectory.events = {
 
   'click .sortByDate': function(e) {
 
-    //var _dir = Session.get("sUserSortDir");
-
     var _dir = userSortDir;
 
     if ( userSortBy == "profile.sn" ) userSortDir = _dir * -1;
-
-    //Session.set("sUserSortBy", '"profile.sn"')
 
     userSortBy = "profile.sn";
 
@@ -125,8 +121,6 @@ Template.userDirectory.events = {
     var _dir = userSortDir;
 
     if ( userSortBy == "username" ) userSortDir = _dir * -1;
-
-    //Session.set("sUserSortBy", '"profile.sn"')
 
     userSortBy = "username";
 
@@ -183,8 +177,6 @@ Template.userDirectory.events = {
 
         updateSort();
 
-        //Session.set("sArrUserFilter",  _tmpArr);  
-
         return;
 
     }
@@ -194,10 +186,7 @@ Template.userDirectory.events = {
 
     if (intID > 0 && selected) setModeButton(0, 0);  //i.e., if a specific type was selected, deselect the NONE button
 
-
-//intID++;  //the ID has to be incremented to work correctly (???)
-
-    var _arr = arrUserFilter; //Session.get("sArrUserFilter"); 
+    var _arr = arrUserFilter; 
 
     var _index = _arr.indexOf( intID )
 
@@ -211,7 +200,6 @@ Template.userDirectory.events = {
     }
 
 
-
     if ( _arr.indexOf( -1 ) != -1 && selected) {  // -1 in the array means onlineOnly mode
 
         onlineOnly = true;
@@ -220,8 +208,6 @@ Template.userDirectory.events = {
 
       onlineOnly = false;
     }
-
-    //Session.set("sArrUserFilter", _arr)
 
     arrUserFilter = _arr;
 

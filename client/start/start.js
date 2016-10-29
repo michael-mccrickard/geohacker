@@ -122,6 +122,9 @@ Session.set("isIOS", false);
 
   Session.set("sAgentsInCountryReady", false);
 
+  //
+ Session.set("sMusicReady", false ); 
+
 //****************************************************************
 //                  STARTUP
 //****************************************************************
@@ -191,13 +194,15 @@ Meteor.startup(function() {
 
   Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
 
-  Meteor.subscribe("allImages", function() { Session.set("sEditImageReady", true ) });  
+  //Meteor.subscribe("allImages", function() { Session.set("sEditImageReady", true ) });  
 
-  Meteor.subscribe("allWebs", function() { Session.set("sEditWebReady", true ) });  
+  //Meteor.subscribe("allWebs", function() { Session.set("sEditWebReady", true ) });
+
+  Meteor.subscribe("allMusic", function() { Session.set("sMusicReady", true ) });   
 
   Meteor.subscribe("chiefUser", function() { Session.set("sChiefUserReady", true ) });  
 
-  Meteor.subscribe("registeredUsers");  
+//  Meteor.subscribe("registeredUsers");  
 
   Tracker.autorun(function(){
       Meteor.subscribe("conversation");
@@ -230,14 +235,17 @@ Tracker.autorun( function(comp) {
       Session.get("sTReady") && 
       Session.get("sXReady") && 
       Session.get("sCapitalsReady") &&
-      Session.get("sChiefUserReady") 
-&& Session.get("sEditImageReady")
+      Session.get("sMusicReady") &&
+      Session.get("sChiefUserReady") //&& 
+      //Session.get("sEditImageReady")
        
   ) {
 
     Session.set("sWaitingOnCoreData", false);
   
     c("core data ready")
+
+    game.startMusic();
 
     return;
   }
@@ -296,8 +304,6 @@ Template.start.helpers({
 Template.start.rendered = function () {
 
   stopSpinner();
-
-  Meteor.setTimeout(function () { game.startMusic(); 2000 } );  
 
   game.setMusicPlayerListener();
 

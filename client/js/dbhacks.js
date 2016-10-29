@@ -1,3 +1,26 @@
+/*
+addfields = function() {
+
+
+  var arr = Meteor.users.find({}).fetch();
+
+      for (var i = 0; i < arr.length; i++) {
+
+
+        if (arr[i].profile.st == usActive ) {
+
+          c("checking user " + i);
+
+          if ( arr[i].emails[0].address.indexOf("example.com") != -1) {
+
+                Meteor.users.update( {_id: arr[i]._id}, { $set: { 'profile.st': usFake } } ) ;
+          }
+
+            
+        }
+    }
+}
+*/
 
 
 dofake = function() {

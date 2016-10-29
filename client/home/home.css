@@ -123,31 +123,3 @@
   margin-right: 2%;
 
 }
-
-.compositeStatsBadge {
-  float: left;
-  width: 144px;
-  height: 170px;
-  margin-right: 24px;
-  position: relative;
-}
-
-.compositeStatsBadge .label {
-    position:absolute;
-    left: -4px;
-    top: -3px;
-    font-family: Arial;
-    font-style: bold;
-}
-
-.divBadgeStats {
-
-  margin-top: 32px;
-}
-
-.statsContainer {
-
-  margin-top: 32px;
-  margin-right: auto;
-  margin-left: auto;
-}

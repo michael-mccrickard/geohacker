@@ -77,6 +77,8 @@ Meteor.startup(
 
     ghUser = new Meteor.Collection("ghUser")
 
+    ghMusic = new Meteor.Collection("ghMusic")
+
     //ghGuest =  new Meteor.Collection("ghGuest")
 
 
@@ -134,6 +136,8 @@ Meteor.startup(
 
       return Meteor.users.find( {} );
     });
+
+
 
   //area collections
 
@@ -229,6 +233,12 @@ Meteor.startup(
       var filter = { userId: { $exists: true }};
 
       return Presences.find(filter, { fields: { state: true, userId: true }});
+    });
+
+    //music
+
+    Meteor.publish("allMusic", function() {
+      return ghMusic.find( {} );
     });
 
     ghText.allow({
@@ -420,6 +430,12 @@ var _index = -1;
 var self = null;
 
 Meteor.methods({
+
+    getTopHackers: function() {
+
+      return Meteor.users.aggregate([ { $match:{ 'profile.st': usActive } }, { $project:  { username: 1, "profile.av": 1, numberOfHacks: { $size: "$profile.h" } } }, { $sort : { numberOfHacks: -1 } } ]);
+
+    },
 
   createGuest: function() {
 

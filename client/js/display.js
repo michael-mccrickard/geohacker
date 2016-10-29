@@ -14,6 +14,8 @@ Display = function() {
 
     this.help = new Help();
 
+    this.stats = new Stats();
+
     //layout constants
 
     this.menuHeight = 50;

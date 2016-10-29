@@ -48,16 +48,9 @@ Hacker = function() {
 
     //arrays
 
-    //to do: merge the functionality of these two arrays, if possible
-
-    //all the possible controls\ names
-    //Does the order for these still need to match the constants for these in constants.js?  For editing?
+    //all the controls used by the hacker
 
     this.ctlName = ["SOUND", "TEXT", "IMAGE", "VIDEO", "WEB"];  
-
-    //the session var used by the main template
-    
-    Session.set("sCtlName", ["SOUND", "TEXT", "IMAGE", "VIDEO", "WEB"]);
 
 
     this.ctl = [];  //the array of control objects

@@ -48,3 +48,5 @@ tmeasday:presence
 jagi:reactive-array
 jparker:gravatar
 shell-server@0.2.1
+meteorhacks:kadira
+meteorhacks:aggregate

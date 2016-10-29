@@ -16,6 +16,8 @@ Database = function() {
 
     this.ghC = new Meteor.Collection('alCountry');    //n = name, c = code, r = region code
 
+    this.ghMusic = new Meteor.Collection('ghMusic');
+
   }
 
   this.initControls = function() {
