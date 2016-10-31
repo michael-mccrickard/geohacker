@@ -14,12 +14,34 @@ Stats = function() {
 
   this.topHackers = [];
 
+  this.topBadges = [];
+
 
   this.getTopHackers = function() {
 
     Meteor.call("getTopHackers", function(err, result) {
 
-      if (result) display.stats.topHackers = result;
+      if (result) {
+
+        display.stats.topHackers = Database.removeIfFieldValueEquals( result, "numberOfHacks", 0) 
+
+
+      }
+
+      display.stats.updateContent();
+
+    });
+
+  }
+
+  this.getTopBadges = function() {
+
+    Meteor.call("getTopBadges", 0, function(err, result) {
+
+      if (result) {
+
+        display.stats.topBadges = result; 
+      }
 
       display.stats.updateContent();
 
@@ -41,16 +63,23 @@ Template.alltime.onCreated(function () {
 
   display.stats.getTopHackers();
  
-
+display.stats.getTopBadges();
 });
 
 Template.alltime.helpers({
 
-    agent: function() {
+    hackAgent: function() {
 
       display.stats.updateFlag.get();
 
       return display.stats.topHackers;
+    },
+
+    badgeAgent: function() {
+
+      display.stats.updateFlag.get();
+
+      return display.stats.topBadges;
     }
 
 });

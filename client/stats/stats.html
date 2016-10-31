@@ -43,7 +43,7 @@
 
 	{{#if Template.subscriptionsReady}}
 
-		<div class="divStatsTable"> 
+		<div class="divStatsTableLeft"> 
 
 			<h2 class="centered">HACKS</h2>
 
@@ -55,7 +55,7 @@
 				    <th class="statsColData statsColumn">HACKS</th> 
 				  </tr>
 
-			  	  {{#each agent}}
+			  	  {{#each hackAgent}}
 
 					  <tr class="dataRow statsColumn">
 					    
@@ -64,6 +64,36 @@
 					    <td><img class="imgAvatar" src="{{this.profile.av}}" /> </td> 
 
 					    <td>{{this.numberOfHacks}}</td>
+
+					  </tr>
+
+				  {{/each}}
+			
+			</table>	
+
+		</div>
+
+		<div class="divStatsTableRight"> 
+
+			<h2 class="centered">BADGES</h2>
+
+			<table class="dataTable" style="width: 40%;" border="4">
+
+				  <tr>
+				    <th class="statsColName statsColumn">NAME</th>
+				    <th class="statsColData statsColumn">AVATAR</th> 
+				    <th class="statsColData statsColumn">BADGES</th> 
+				  </tr>
+
+			  	  {{#each badgeAgent}}
+
+					  <tr class="dataRow statsColumn">
+					    
+					    <td>{{this.username}}</td>
+
+					    <td><img class="imgAvatar" src="{{this.profile.av}}" /> </td> 
+
+					    <td>{{this.totalBadges}}</td>
 
 					  </tr>
 
