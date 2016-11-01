@@ -448,6 +448,40 @@ var self = null;
 
 Meteor.methods({
 
+
+    writeActiveUsers: function() {
+
+      var fs = Npm.require('fs');
+
+      var p = "/Users/michaelmccrickard/Desktop/";
+
+      var s = "username,email\n";
+
+      var _count = 0;
+
+      var _arr = Meteor.users.find( { "profile.st": usActive } ).fetch();
+
+      for (var i = 0; i < _arr.length; i++) {
+
+         var _email = _arr[i].emails[0].address;
+
+         if ( _email.indexOf( "example.com") == -1) {
+
+          s = s + _arr[i].username + "," + _email + "\n";
+
+          console.log( "added user " + _arr[i].username );
+          _count++;
+        }
+
+      }
+
+      console.log( _count + " users added.");
+
+      fs.writeFileSync(p +"activeUsers.csv", s);
+
+    },
+
+
     getTopBadges: function(_days) {
 
     var d2 = new Date(0);

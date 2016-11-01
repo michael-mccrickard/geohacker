@@ -221,8 +221,11 @@ Template.main.events({
 
       }, 200);
 
+        Meteor.setTimeout( function() { hacker.hideAgentHint(); }, 5000);
+
   },
 
+/*
   'mouseleave #btnHelperAgent': function(e) {
 
       e.preventDefault();
@@ -230,7 +233,7 @@ Template.main.events({
       $('#btnHelperAgent').tooltip('hide');
 
   },
-
+*/
 
   'click #scanButton': function(e) {
 

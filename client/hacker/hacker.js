@@ -270,6 +270,11 @@ Hacker = function() {
         this.cue.setAndType();
     }
 
+    this.hideAgentHint = function() {
+
+        $('#btnHelperAgent').tooltip('hide');
+    }
+
     //*********************************************
     //      Control functions
     //*********************************************
