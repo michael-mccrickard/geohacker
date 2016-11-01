@@ -21,7 +21,7 @@ Stats = function() {
 
   this.getTopHackers = function() {
 
-    Meteor.call("getTopHackers", function(err, result) {
+    Meteor.call("getTopHackers", display.stats.dayOffset, function(err, result) {
 
       if (result) {
 
