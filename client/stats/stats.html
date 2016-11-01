@@ -5,15 +5,15 @@
 	  <!-- Nav tabs -->
 	  <ul class="nav nav-tabs" role="tablist">
 	    <li role="presentation" class="active"><a href="#me" aria-controls="me" role="tab" data-toggle="tab" id="me">ME</a></li>
-	    <li role="presentation"><a href="#recent" aria-controls="recent" role="tab" data-toggle="tab">RECENT</a></li>
-	    <li role="presentation"><a href="#alltime" aria-controls="alltime" role="tab" data-toggle="tab" id="alltime">ALL-TIME</a></li>
+	    <li role="presentation"><a href="#recent" aria-controls="recent" role="tab" data-toggle="tab"  id="allUsers" data-mode="recent">RECENT</a></li>
+	    <li role="presentation"><a href="#allUsers" aria-controls="allUsers" role="tab" data-toggle="tab" id="allUsers" data-mode="alltime">ALL-TIME</a></li>
 	  </ul>
 
 	  <!-- Tab panes -->
 	  <div class="tab-content">
 	    <div role="tabpanel" class="tab-pane active" id="me"></div>
-	    <div role="tabpanel" class="tab-pane" id="recent"></div>
-	    <div role="tabpanel" class="tab-pane" id="alltime"></div>
+	    <div role="tabpanel" class="tab-pane" id="allUsers"></div>
+	    <div role="tabpanel" class="tab-pane" id="allUsers"></div>
 	  </div>
 
 	</div>
@@ -28,7 +28,13 @@
 
 		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 
-				display.stats.template.set( e.target.id );
+				_mode = $(e.target).attr("data-mode");
+
+				if (_mode == "alltime") display.stats.dayOffset = 0;
+
+				if (_mode == "recent") display.stats.dayOffset = 3;
+
+				Meteor.defer( function() { display.stats.template.set( _mode ); } );
 
 			}
 		);
@@ -41,7 +47,21 @@
 
 <template name="alltime">
 
-	{{#if Template.subscriptionsReady}}
+	{{> hacksAndBadges}}
+
+</template>
+
+
+<template name="recent">
+
+	{{> hacksAndBadges}}
+
+</template>
+
+
+<template name="hacksAndBadges">
+
+{{#if Template.subscriptionsReady}}
 
 		<div class="divStatsTableLeft"> 
 
@@ -102,10 +122,9 @@
 			</table>	
 
 		</div>
-	{{/if}}
 
+{{/if}}
 </template>
-
 
 <template name="me">
 	
