@@ -3,8 +3,6 @@
 
 gHackPreselect = "";
 
-Meteor.subscribe("registeredUsers");  
-
 //****************************************************************
 //                 PRE-STARTUP
 //****************************************************************
@@ -204,7 +202,7 @@ Meteor.startup(function() {
 
   Meteor.subscribe("chiefUser", function() { Session.set("sChiefUserReady", true ) });  
 
-
+//  Meteor.subscribe("registeredUsers");  
 
   Tracker.autorun(function(){
       Meteor.subscribe("conversation");

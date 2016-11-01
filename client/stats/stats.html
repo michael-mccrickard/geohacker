@@ -5,15 +5,15 @@
 	  <!-- Nav tabs -->
 	  <ul class="nav nav-tabs" role="tablist">
 	    <li role="presentation" class="active"><a href="#me" aria-controls="me" role="tab" data-toggle="tab" id="me">ME</a></li>
-	    <li role="presentation"><a href="#recent" aria-controls="recent" role="tab" data-toggle="tab"  id="allUsers" data-mode="recent">RECENT</a></li>
-	    <li role="presentation"><a href="#allUsers" aria-controls="allUsers" role="tab" data-toggle="tab" id="allUsers" data-mode="alltime">ALL-TIME</a></li>
+	    <li role="presentation"><a href="#recent" aria-controls="recent" role="tab" data-toggle="tab">RECENT</a></li>
+	    <li role="presentation"><a href="#alltime" aria-controls="alltime" role="tab" data-toggle="tab" id="alltime">ALL-TIME</a></li>
 	  </ul>
 
 	  <!-- Tab panes -->
 	  <div class="tab-content">
 	    <div role="tabpanel" class="tab-pane active" id="me"></div>
-	    <div role="tabpanel" class="tab-pane" id="allUsers"></div>
-	    <div role="tabpanel" class="tab-pane" id="allUsers"></div>
+	    <div role="tabpanel" class="tab-pane" id="recent"></div>
+	    <div role="tabpanel" class="tab-pane" id="alltime"></div>
 	  </div>
 
 	</div>
@@ -28,13 +28,7 @@
 
 		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 
-				_mode = $(e.target).attr("data-mode");
-
-				if (_mode == "alltime") display.stats.dayOffset = 0;
-
-				if (_mode == "recent") display.stats.dayOffset = 3;
-
-				Meteor.defer( function() { display.stats.template.set( _mode ); } );
+				display.stats.template.set( e.target.id );
 
 			}
 		);
@@ -47,23 +41,9 @@
 
 <template name="alltime">
 
-	{{> hacksAndBadges}}
+	{{#if Template.subscriptionsReady}}
 
-</template>
-
-
-<template name="recent">
-
-	{{> hacksAndBadges}}
-
-</template>
-
-
-<template name="hacksAndBadges">
-
-{{#if Template.subscriptionsReady}}
-
-		<div class="divStatsTableLeft"> 
+		<div class="divStatsTable"> 
 
 			<h2 class="centered">HACKS</h2>
 
@@ -75,7 +55,7 @@
 				    <th class="statsColData statsColumn">HACKS</th> 
 				  </tr>
 
-			  	  {{#each hackAgent}}
+			  	  {{#each agent}}
 
 					  <tr class="dataRow statsColumn">
 					    
@@ -92,39 +72,10 @@
 			</table>	
 
 		</div>
+	{{/if}}
 
-		<div class="divStatsTableRight"> 
-
-			<h2 class="centered">BADGES</h2>
-
-			<table class="dataTable" style="width: 40%;" border="4">
-
-				  <tr>
-				    <th class="statsColName statsColumn">NAME</th>
-				    <th class="statsColData statsColumn">AVATAR</th> 
-				    <th class="statsColData statsColumn">BADGES</th> 
-				  </tr>
-
-			  	  {{#each badgeAgent}}
-
-					  <tr class="dataRow statsColumn">
-					    
-					    <td>{{this.username}}</td>
-
-					    <td><img class="imgAvatar" src="{{this.profile.av}}" /> </td> 
-
-					    <td>{{this.totalBadges}}</td>
-
-					  </tr>
-
-				  {{/each}}
-			
-			</table>	
-
-		</div>
-
-{{/if}}
 </template>
+
 
 <template name="me">
 	

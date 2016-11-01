@@ -1,26 +1,26 @@
-testagg = function(_days) {
+/*
+addfields = function() {
 
-    Meteor.call("getTopBadges", _days, function( _err, _res )  {
 
-      if (_err) c(_err);
+  var arr = Meteor.users.find({}).fetch();
 
-      if (_res) console.log(_res);
-    });
+      for (var i = 0; i < arr.length; i++) {
+
+
+        if (arr[i].profile.st == usActive ) {
+
+          c("checking user " + i);
+
+          if ( arr[i].emails[0].address.indexOf("example.com") != -1) {
+
+                Meteor.users.update( {_id: arr[i]._id}, { $set: { 'profile.st': usFake } } ) ;
+          }
+
+            
+        }
+    }
 }
-
-testdays = function(_days) {
-
-      var d = new Date();
-    var n = d.getTime();
-
-var _day = 60 * 60 * 24 * 1000;
-
-var _startDate = n - (_days * _day);
-
-var d2 = new Date(_startDate);
-
-  return Meteor.users.find( { "profile.sn": { $gt: d2 } } ).fetch()
-}
+*/
 
 
 dofake = function() {
@@ -70,30 +70,6 @@ c("no agent in country " + _arr[i].n)
 
 
 }
-
-/*
-addfields = function() {
-
-
-  var arr = Meteor.users.find({}).fetch();
-
-      for (var i = 0; i < arr.length; i++) {
-
-
-        if (arr[i].profile.st == usActive ) {
-
-          c("checking user " + i);
-
-          if ( arr[i].emails[0].address.indexOf("example.com") != -1) {
-
-                Meteor.users.update( {_id: arr[i]._id}, { $set: { 'profile.st': usFake } } ) ;
-          }
-
-            
-        }
-    }
-}
-*/
 
 //****************************************
 //   edit hacks

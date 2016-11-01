@@ -766,27 +766,6 @@ Database.shuffle = function(array) {
   return array;
 }
 
-Database.removeIfFieldValueEquals = function( _arr, _field, _val) {
-
-    var _obj = null;
-
-     for (var i = 0; i < _arr.length; i++) {
-
-          _obj = _arr[i];
-
-          if ( _obj[ _field ] == _val) {
-
-            _arr.splice( i, 1);   
-
-            i--;
-
-          }  
-
-      } 
-
-      return _arr;
-}
-
 
 Database.makeSingleElementArray = function( _arr, _field) {
 

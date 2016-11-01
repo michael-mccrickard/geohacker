@@ -59,20 +59,11 @@ th.statsColData {
   font-family: Arial;
 }
 
-.divStatsTableLeft {
+.divStatsTable {
 
   position: relative;
 
   top: -256px;
 
   float: left;
-}
-
-.divStatsTableRight {
-
-  position: relative;
-
-  top: -256px;
-
-  float: right;
 }
