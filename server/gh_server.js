@@ -417,9 +417,26 @@ function testAvatarURL(_key) {
     }
 }
 
+
+
 //*********************************************
 //      METHODS
 //*********************************************
+
+//assumes a positive integer and calcs BACKWARDS in time
+
+function getXDaysFromNow( _x ) {
+
+      var d = new Date();
+      var n = d.getTime();
+
+      var _day = 60 * 60 * 24 * 1000;
+
+      var _startDate = n - (_x * _day);
+
+      return new Date(_startDate); 
+
+}
 
 
 
@@ -437,14 +454,7 @@ Meteor.methods({
 
     if (_days) {
 
-      var d = new Date();
-      var n = d.getTime();
-
-      var _day = 60 * 60 * 24 * 1000;
-
-      var _startDate = n - (_days * _day);
-
-      var d2 = new Date(_startDate); 
+      d2 = getXDaysFromNow( _days );
     }
 
       return (Meteor.users.aggregate([
@@ -553,9 +563,22 @@ Meteor.methods({
 
 
 
-    getTopHackers: function() {
+    getTopHackers: function( _days ) {
 
-      return Meteor.users.aggregate([ { $match:{ 'profile.st': usActive } }, { $project:  { username: 1, "profile.av": 1, numberOfHacks: { $size: "$profile.h" } } }, { $sort : { numberOfHacks: -1 } } ]);
+    var d2 = new Date(0);
+
+    if (_days) {
+
+      d2 = getXDaysFromNow( _days );
+    }
+
+      return Meteor.users.aggregate([ 
+
+        { $match:{ 'profile.st': usActive, "profile.sn": { $gt: d2 } } }, 
+
+        { $project:  { username: 1, "profile.av": 1, numberOfHacks: { $size: "$profile.h" } } }, 
+
+        { $sort : { numberOfHacks: -1 } } ]);
 
     },
 
