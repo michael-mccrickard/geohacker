@@ -682,6 +682,11 @@ Database.getChiefID = function() {
 
 }
 
+Database.getChiefRec = function() {
+
+  return Meteor.users.findOne( { username: "Mac Sea" } );
+
+}
 
 Database.getIndexWithNValue = function(_val, _arr) {
 
