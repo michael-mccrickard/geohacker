@@ -14,12 +14,36 @@ Stats = function() {
 
   this.topHackers = [];
 
+  this.topBadges = [];
+
+  this.dayOffset = 0;
+
 
   this.getTopHackers = function() {
 
     Meteor.call("getTopHackers", function(err, result) {
 
-      if (result) display.stats.topHackers = result;
+      if (result) {
+
+        display.stats.topHackers = Database.removeIfFieldValueEquals( result, "numberOfHacks", 0) 
+
+
+      }
+
+      display.stats.updateContent();
+
+    });
+
+  }
+
+  this.getTopBadges = function() {
+
+    Meteor.call("getTopBadges", display.stats.dayOffset, function(err, result) {
+
+      if (result) {
+
+        display.stats.topBadges = result; 
+      }
 
       display.stats.updateContent();
 
@@ -35,22 +59,42 @@ Stats = function() {
   
 }
 
-Template.alltime.onCreated(function () {
 
-  //this.subscribe("registeredUsers");
+Template.hacksAndBadges.onCreated(function () {
 
-  display.stats.getTopHackers();
+  this.subscribe("registeredUsers");
+
+  var self = this;
+
+    self.subscribe('registeredUsers');
+
+  self.autorun( function() {
+
+      if (Template.instance().subscriptionsReady()) {
+
+        display.stats.getTopHackers();
  
+        display.stats.getTopBadges();
+
+      }
+  });
 
 });
 
-Template.alltime.helpers({
+Template.hacksAndBadges.helpers({
 
-    agent: function() {
+    hackAgent: function() {
 
       display.stats.updateFlag.get();
 
       return display.stats.topHackers;
+    },
+
+    badgeAgent: function() {
+
+      display.stats.updateFlag.get();
+
+      return display.stats.topBadges;
     }
 
 });
@@ -97,20 +141,8 @@ Template.me.helpers({
     },
 });
 
-Template.alltime.helpers({
 
-    statsBadge: function() {
-
-      var _obj = new BadgeList();
-
-      Session.set("sBadgeCount", _obj.length)
-
-      return ( _obj.generateStatsList() );
-    },
-});
-
-
-Template.stats.events({
+Template.me.events({
 
   'click something': function(e) {
 
