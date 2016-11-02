@@ -72,6 +72,15 @@ Video = function( _file, _parent ) {
 	 	if (this.isYouTube) youtube.stop();
 	 }
 
+	 this.suspend = function() {
+
+	 		this.pause()
+
+	 		this.hide();
+
+	 		this.state.set( sSuspended );
+	 }
+
 	 this.hide = function() {
 
 	 	if (this.isYouTube) {

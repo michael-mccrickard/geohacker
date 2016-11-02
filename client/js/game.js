@@ -21,6 +21,10 @@ Game = function() {
 
 	this.music = [];
 
+	this.gameSoundSuspended = false;
+
+	this.musicSuspended = false;
+
 	this.intro = new Intro();
 
 
@@ -60,6 +64,8 @@ Game = function() {
 
 	this.playMusic = function() {
 
+		if (this.gameSoundSuspended) return;
+
 		c("playing music in game.js")
 		
 		if (this.musicOn == false) return;
@@ -85,6 +91,8 @@ Game = function() {
 
 	this.startMusic = function() {
 
+		if (this.gameSoundSuspended) return;
+
 		this.musicStarted = false;
 
 		if (this.music.length == 0) {
@@ -104,7 +112,7 @@ Game = function() {
 
 		  Meteor.setTimeout(function() { 
 
-		    music = document.getElementById("musicPlayer");
+		    var music = document.getElementById("musicPlayer");
 
 		    music.addEventListener('ended', game.musicDone); 
 		  
@@ -137,6 +145,36 @@ Game = function() {
 		}
 
 		game.playMusic();
+	}
+
+	this.suspendGameSound = function() {
+
+		var music = document.getElementById("musicPlayer");
+
+		if (music.paused) {
+
+			this.musicSuspended = false;
+		}
+		else {
+
+			this.musicSuspended = true;
+
+			this.pauseMusic();
+		}
+
+		this.gameSoundSuspended = true;
+	}
+
+	this.resumeGameSound = function() {
+
+		this.gameSoundSuspended = false;
+
+		if (this.musicSuspended) {
+
+			this.musicSuspended = false;
+
+			this.playMusic();
+		}
 	}
 
 	/**************************************************************/

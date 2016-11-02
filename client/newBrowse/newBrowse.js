@@ -166,14 +166,14 @@ Browser = function(  ) {
 
 	this.returnToPrevious = function() {
 
-      	display.suspendAllMedia();	
-
       	game.playMusic();
 
 		_route = game.user.returnRoute;
 
 
 		if (_route == "lessonMap") {
+
+			display.suspendAllMedia();	
 
 			initiateResumeLesson();
 
@@ -182,6 +182,13 @@ Browser = function(  ) {
 
 		if (_route == "browseWorldMap") {
 
+		     if (this.video) {
+
+		     	//hide the video but let it keep playing in the bg while we're on the map
+
+		        this.video.hide();
+		     }
+
 			game.user.goBrowseMap();
 
 			return;
@@ -189,11 +196,15 @@ Browser = function(  ) {
 
 		if (_route == "home") {
 
+			display.suspendAllMedia();	
+
 			game.user.mode = game.user.prevMode;
 
 		}
 
 		if (_route == "congrats") {
+
+			display.suspendAllMedia();	
 
 			game.user.mode = uHack;
 		}

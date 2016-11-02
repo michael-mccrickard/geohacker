@@ -296,7 +296,7 @@ Hacker = function() {
     }
 
     /****************************************************************************
-    /  The statment below is no longer true, but we may re-enable that feature
+    /  Working to make the below statement true, 11/2/16
     /****************************************************************************
     */
 

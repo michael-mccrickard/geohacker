@@ -30,11 +30,11 @@ VideoCtl = function() {
 
 	 	if (this.getState() == sPlaying) {
 
-			c("videoctl is suspending the video")
-
 	 		this.pause();
 
-	 		this.hide()
+	 		this.setState( sSuspended );
+
+	 		this.hide();
 	 	}
 	 }
 

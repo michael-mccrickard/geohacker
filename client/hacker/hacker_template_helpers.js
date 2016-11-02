@@ -175,6 +175,8 @@ Template.main.events({
           return; 
       }    
       
+      //deliberately not suspending SOUND, let it play while the user goes to the map
+
       if (hacker.feature.name == "VIDEO") hacker.suspendMedia();
 
       if (hacker.feature.name != "SOUND") game.playMusic();     
