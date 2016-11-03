@@ -214,7 +214,7 @@ Hacker = function() {
 
             this.feature.redimension();
 
-            if (this.feature.getName() == "VIDEO") this.feature.ctl.show();
+            if (this.feature.getName() == "VIDEO") this.feature.video.show();
         }
     }
 
@@ -279,29 +279,24 @@ Hacker = function() {
     //      Control functions
     //*********************************************
 
-    this.pauseMedia = function() {
+    this.suspendMedia = function() {
 
         if (this.feature.on() ) {
 
             var _name = this.feature.getName();
 
-            if ( _name == "VIDEO" || _name == "SOUND" ) {
+            c("hacker.suspendMedia is suspending " + _name )
 
-                c("hacker is pausing " + _name )
+            if (this.feature.ctl) this.feature.ctl.suspend();
 
-                if (this.feature.ctl) this.feature.ctl.pause();
+            if ( _name == "VIDEO" || _name == "SOUND" ) game.pauseMusic();
 
-                if (this.feature.name == "VIDEO") this.feature.ctl.hide();
-
-                game.pauseMusic();
-            }
-            
             return;
         }
     }
 
     /****************************************************************************
-    /  Working to make the below statement true, 11/2/16
+    /  The statment below is no longer true, but we may re-enable that feature
     /****************************************************************************
     */
 
@@ -336,7 +331,7 @@ Hacker = function() {
 
         if ( _name == "SOUND" || _name == "VIDEO") {
 
-            this.pauseMedia();
+            this.suspendMedia();
         }
         
         this.feature.setImageSource( _name );

@@ -120,15 +120,13 @@
 	},
 
 
-	 this.suspend = function() {
+	this.suspend = function() {
 
-	 	if (this.getState() == sPlaying) {
+		if (this.getState() == sPlaying) {
 
-	 		this.pause();
-
-	 		this.setState( sSuspended );
-	 	}
-	 }
+			this.pause();
+		}
+	}
 }
 
 Sound.prototype = Control;

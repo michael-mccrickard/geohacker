@@ -57,22 +57,23 @@ Feature = function() {
 
 				game.pauseMusic();
 
-				//this could cause a video that paused before user left this screen
-				//to start playing again, but if the user was exploring, then the video
-				//is almost certainly the wrong one, so we have to play it here to get
-				//the right one loaded back in
+				this.ctl.setState( sPlaying );  //redundant for a YT vid, but not a GIF
 
-				this.ctl.play();	
+				if (this.ctl.video.isYouTube) {
 
-				//if it's a YT then we're done, but a GIF need to be dimensioned by the code below
+					//in ctl check to see if already playing?
 
-				if (this.ctl.video.isYouTube) return;
+					this.ctl.play();
 
+					return;					
+				}
 			}
 
 			if (this.getName() == "SOUND") {
 
 				game.pauseMusic();
+
+				//in ctl check to see if already playing?
 
 				this.ctl.play();
 			}
@@ -253,7 +254,7 @@ Feature = function() {
 
 	this.switch = function( _name ) {
 
-		hacker.pauseMedia();
+		hacker.suspendMedia();
 
 		c("feature.js: switch() with " + _name)
 

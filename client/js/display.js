@@ -68,34 +68,25 @@ Display = function() {
 
     this.suspendAllMedia = function() {
 
+      //game.pauseMusic();
+
       if (hacker.ctl["SOUND"]) {
 
-        if (hacker.ctl["SOUND"].getState() == sPlaying) hacker.ctl["SOUND"].suspend();
+        if (hacker.ctl["SOUND"].getState() > sLoaded) hacker.ctl["SOUND"].pause();
 
-        if (hacker.ctl["VIDEO"].getState() == sPaused) hacker.ctl["VIDEO"].hide();
-
-        if (hacker.ctl["VIDEO"].getState() == sPlaying) {
-
-c("display calling videoctl.suspend")
-
-          hacker.ctl["VIDEO"].suspend();
-
-        }
-
+        if (hacker.ctl["VIDEO"].getState() > sLoaded) hacker.ctl["VIDEO"].pause();
       }
       
-      if (display.browser.video) {
+      if (youtube.loaded) {
 
-         if (display.browser.video.isYouTube) display.browser.video.suspend();
+          youtube.stop();
+
+          youtube.hide();
       }
 
     }
 
-
-
     this.playEffect = function(_file) {
-
-    if (game.gameSoundSuspended) return;
 
       $("#effectsPlayer").attr("src", _file);
 
@@ -104,16 +95,12 @@ c("display calling videoctl.suspend")
 
     this.playEffect2 = function(_file) {
 
-    if (game.gameSoundSuspended) return;
-
       $("#effectsPlayer2").attr("src", _file);
 
       document.getElementById("effectsPlayer2").play();
     }
 
     this.playEffect3 = function(_file) {
-
-    if (game.gameSoundSuspended) return;
 
       $("#effectsPlayer3").attr("src", _file);
 

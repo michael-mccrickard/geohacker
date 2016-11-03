@@ -296,7 +296,7 @@ Template.newBrowse.rendered = function() {
 
   if (hack.countryCode != display.browser.countryCode) {
 
-    c("loading new video b/c countryCodes don't match")
+    c("playing video b/c countryCodes don't match")
 
     display.browser.countryCode = hack.countryCode;
 
@@ -313,9 +313,9 @@ Template.newBrowse.rendered = function() {
 
       if (display.browser.video.isYouTube) {
 
-          c("browser playing (not loading) YT video b/c countryCodes do match")
+          c("browser not playing YT video b/c countryCodes do match")
 
-          display.browser.video.play();
+          youtube.show();
 
           game.pauseMusic();
 

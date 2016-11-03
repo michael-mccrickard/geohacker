@@ -269,11 +269,6 @@ Control = {
 
   toggleMedia: function() {
 
-    if (this.name == "VIDEO") {
-
-      if (this.video.isGIF) return;  //can't toggle a GIF, can't be paused
-    }
-
     if (this.getState() == sPaused) {
 
         c("control.toggleMediaState is playing the media")
@@ -289,8 +284,6 @@ Control = {
           c("control.toggleMediaState is pausing the media")
 
           this.pause();
-
-          this.state.set( sPaused );  //no longer setting this in this.pause(), letting ytplayer sense and set this
 
           return;
     }

@@ -73,7 +73,7 @@ Hack = function() {
 
         this.mode = mNone;
 
-        hacker.pauseMedia();
+        hacker.suspendMedia();
 
         hacker.suspendBGSound();
 

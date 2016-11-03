@@ -30,18 +30,17 @@ VideoCtl = function() {
 
 	 	if (this.getState() == sPlaying) {
 
-c("video state is suspended, set by video ctl")
-	 		this.setState( sSuspended );
+			c("videoctl is suspending the video")
 
 	 		this.pause();
 
-	 		this.hide();
+	 		this.hide()
 	 	}
 	 }
 
 	this.hide = function() {
 
-		if (this.video) this.video.hide();
+		this.video.hide();
 	}
 
 	//return the pic that should be displayed in the small control box
@@ -96,11 +95,9 @@ c("video state is suspended, set by video ctl")
 
 	this.pause = function(){
 
-		//this.setState( sPaused );
+		this.setState( sPaused );
 
 		this.video.pause();
-
-		game.playMusic();
 
 	}
 
