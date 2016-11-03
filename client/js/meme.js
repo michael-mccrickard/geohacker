@@ -6,12 +6,12 @@
   The types are:
 
   modal -- An image, with optional text and sound file, displayed in a modal window.  Any meme with this type is 
-  temporarily assigned to hacker.meme when displayed.
+  temporarily assigned to display.meme when displayed.
 
   video -- A youtube video to be shown on the browser screen
 
   classic -- still image with text, with an optional sound file.  These can also be temporarily assigned to
-  hacker.meme, if we need to show them in a modal window.
+  display.meme, if we need to show them in a modal window.
 
 ******************************************************************
 */
@@ -47,22 +47,23 @@ Meme = function(_type, _name, _src, _videoID) {
 
 
 	this.preloadImage = function() {
-
+c("preload")
 		var _file = this.src;
 
 		//borrow the feature preload element
 
 		$("#pFEATURE3").attr("src", _file);
 
-        imagesLoaded( document.querySelector('#preloadFeature'), function( instance ) {
-    
+        imagesLoaded( document.querySelector('#pFEATURE3'), function( instance ) {
+  
+c("imageloaded")
           //now that the image is loaded ...
 
-          hacker.meme.imageSrc = display.getImageFromFile( hacker.meme.src );
+          display.meme.imageSrc = display.getImageFromFile( display.meme.src );
 
-          Meteor.setTimeout( function() { hacker.meme.dimensionImage( hacker.meme.frame ); }, 500);
+          Meteor.setTimeout( function() { display.meme.dimensionImage( display.meme.frame ); }, 500);
 
-          if (this.type == "modal") Meteor.setTimeout( function() { hacker.meme.showModal(); }, 501);     
+          if (display.meme.type == "modal") Meteor.setTimeout( function() { display.meme.showModal(); }, 501);     
 
           
 
@@ -70,14 +71,17 @@ Meme = function(_type, _name, _src, _videoID) {
 	}
 
   this.dimensionImage = function( _obj ) {
+c("dimensionImage")
+    if (this.type == "modal") {
 
-    if (this.type == "modal") this.dimensionModal( _obj );
+      this.dimensionModal( _obj );
+    }
 
   }
 
 
 	this.dimensionModal = function( _obj ) {
-
+c("dimensionModal")
 		//assuming the zoomInModal for now
 
         var fullScreenWidth = $(window).width();
@@ -98,7 +102,7 @@ Meme = function(_type, _name, _src, _videoID) {
 
         var _height = fullHeight;
 
-    		var _src = hacker.meme.imageSrc;
+    		var _src = display.meme.imageSrc;
 
     		_width = (fullHeight / _src.height ) * _src.width; 
 
@@ -126,14 +130,16 @@ Meme = function(_type, _name, _src, _videoID) {
 	}
 
 	this.showModal = function() {
+c("showModal")
+		$(".imgZoomInModal").attr("src", display.meme.src);
 
-		$(".imgZoomInModal").attr("src", hacker.meme.src);
+		$(".imgZoomInModal").css("width", display.meme.frame.width);
 
-		$(".imgZoomInModal").css("width", this.frame.width);
+		$(".imgZoomInModal").css("height", display.meme.frame.height);
 
-		$(".imgZoomInModal").css("height", this.frame.height);
+		$(".imgZoomInModal").css("left", display.meme.frame.left);		
 
-		$(".imgZoomInModal").css("left", this.frame.left);		
+    $('#zoomInModal').modal('show');
 	}
 
 }
