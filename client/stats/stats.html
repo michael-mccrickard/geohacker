@@ -65,11 +65,12 @@
 
 		<div class="divStatsTableLeft"> 
 
-			<h2 class="centered">HACKS</h2>
+			<h2 class="statsHacksTitle">HACKS</h2>
 
-			<table class="dataTable" style="width: 40%;" border="4">
+			<table class="statsDataTable" style="width: 40%;" border="4">
 
 				  <tr>
+				  	<th class="statsColData statsColumn"></th>
 				    <th class="statsColName statsColumn">NAME</th>
 				    <th class="statsColData statsColumn">AVATAR</th> 
 				    <th class="statsColData statsColumn">HACKS</th> 
@@ -78,12 +79,14 @@
 			  	  {{#each hackAgent}}
 
 					  <tr class="dataRow statsColumn">
+
+					  	<td class="squeeze">{{rank @index}}</td>
 					    
-					    <td>{{this.username}}</td>
+					    <td class="squeeze squeezeName">{{this.username}}</td>
 
-					    <td><img class="imgAvatar" src="{{this.profile.av}}" /> </td> 
+					    <td class="squeeze"><img class="imgAvatar" src="{{this.profile.av}}" /> </td> 
 
-					    <td>{{this.numberOfHacks}}</td>
+					    <td class="squeeze">{{this.numberOfHacks}}</td>
 
 					  </tr>
 
@@ -95,11 +98,12 @@
 
 		<div class="divStatsTableRight"> 
 
-			<h2 class="centered">BADGES</h2>
+			<h2 class="statsBadgesTitle">BADGES</h2>
 
-			<table class="dataTable" style="width: 40%;" border="4">
+			<table class="statsDataTable" style="width: 70%;" border="4">
 
 				  <tr>
+				  	<th class="statsColData statsColumn"></th>
 				    <th class="statsColName statsColumn">NAME</th>
 				    <th class="statsColData statsColumn">AVATAR</th> 
 				    <th class="statsColData statsColumn">BADGES</th> 
@@ -109,11 +113,13 @@
 
 					  <tr class="dataRow statsColumn">
 					    
-					    <td>{{this.username}}</td>
+					  	<td class="squeeze">{{rank @index}}</td>
 
-					    <td><img class="imgAvatar" src="{{this.profile.av}}" /> </td> 
+					    <td class="squeeze squeezeName">{{this.username}}</td>
 
-					    <td>{{this.totalBadges}}</td>
+					    <td class="squeeze"><img class="imgAvatar" src="{{this.profile.av}}" /> </td> 
+
+					    <td class="squeeze">{{this.totalBadges}}</td>
 
 					  </tr>
 

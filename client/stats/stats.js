@@ -95,6 +95,11 @@ Template.hacksAndBadges.helpers({
       display.stats.updateFlag.get();
 
       return display.stats.topBadges;
+    },
+
+    rank: function( _index) {
+
+      return (_index + 1)
     }
 
 });

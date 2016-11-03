@@ -44,35 +44,66 @@
   height: 64px;
 }
 
+.statsBadgesTitle {
+
+
+}
+
+.statsBadgesTitle {
+
+
+}
+
 th.statsColName {
 
-  width: 256px;
+
 }
 
 th.statsColData {
 
-  width: 96px;
+  width: 128px;
 }
 
 .statsColumn {
 
   font-family: Arial;
+
+}
+
+td.squeeze {
+
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+td.squeeze {
+
+  width: 10%;
+}
+
+td.squeeze.squeezeName {
+
+  width: 50%;
 }
 
 .divStatsTableLeft {
 
-  position: relative;
+  position: absolute;
 
-  top: -256px;
+  top: 296px;
 
-  float: left;
+  left: 39px;
+
 }
 
 .divStatsTableRight {
 
-  position: relative;
+  position: absolute;
 
-  top: -256px;
+  top: 296px;
 
-  float: right;
+  left: 700px;
+
 }
