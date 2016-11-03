@@ -362,10 +362,12 @@ c("youtube ready")
                 if (_file) event.target.playVideo();
 
                 if (game.user.mode == uBrowseCountry) {
-c("setting pos of browse video in onYouTubeIframeAPIReady")
+
                     Video.setPos( myVideo );               
                 }  
-c("showing yt in onYouTubeIframeAPIReady")
+                
+                c("showing yt in onYouTubeIframeAPIReady")
+                
                 youtube.show();
             },
 
@@ -374,31 +376,46 @@ c("showing yt in onYouTubeIframeAPIReady")
                 // Play video when player ready.
 
                 if (event.data == YT.PlayerState.PLAYING) {
-c("yt is now playing in onYouTubeIframeAPIReady")
+
+                        c("yt is now playing in onYouTubeIframeAPIReady")
                       //redundant, except when we are coming here from a hack, or after a hack 
 
-                      if (game.user.mode == uBrowseCountry) {
+                        c("yt player is pausing the music b/c video is playing")
 
-                        c("yt player is pausing the music b/c video is playing in browse mode")
+                        game.pauseMusic();
 
-                          game.pauseMusic();
 
-                          refreshWindow("ytplayer");
-                      }
+                        refreshWindow("ytplayer");
 
-                      if (game.user.mode == uHelp) refreshWindow("ytplayer");
+                        //we do this here to keep from showing the YT player change
+                        //size while it's visible (sometimes this is redundant)
 
-                      if ( !youtube.on.get() ) youtube.show();
+                        youtube.show();
+
                 }
 
                 if (event.data == YT.PlayerState.PAUSED) {
 
                       if (game.user.mode == uBrowseCountry) {
 
-                        c("yt player is playing the music b/c video is paused in browse mode")
-
-                        game.playMusic();
+                            if (display.browser.video.state.get(0) != sSuspended) display.browser.video.state.set( sPaused );
                       }
+
+                      if (game.user.mode == uHack) {
+
+c("video state in ytplayer event is " + hacker.ctl["VIDEO"].getState() )
+
+                            if (hacker.ctl["VIDEO"].getState() != sSuspended) {
+
+                                hacker.ctl["VIDEO"].setState( sPaused );
+c("ytplayer just set state to paused")
+                            }
+                      }
+                        
+                     c("yt player is playing the music b/c video is paused")
+
+                     game.playMusic();
+
 
                 }
 
@@ -409,6 +426,53 @@ c("yt is now playing in onYouTubeIframeAPIReady")
     });
 
 }; 
+
+
+
+focusLost = function() {
+
+c("focus lost")
+
+  //display.suspendAllMedia();
+
+  game.suspendGameSound();
+}
+
+focusGained = function() {
+
+c("focus gained")
+
+  var url = FlowRouter.current().path;
+
+/*
+  if (url == "/main") {
+
+    if (hacker.ctl["SOUND"]) {
+
+      if (hacker.ctl["SOUND"].getState() == sSuspended) hacker.ctl["SOUND"].play();
+
+      if (hacker.ctl["VIDEO"].getState() == sSuspended) hacker.ctl["VIDEO"].play();
+
+      if (hacker.ctl["VIDEO"].getState() == sPaused) {
+
+        if (hacker.feature.name = "VIDEO") hacker.ctl["VIDEO"].show();
+
+      }  
+    }      
+  }
+
+  if (url == "/newBrowse") {
+
+    if (display.browser.video) {
+
+       display.browser.video.play();
+    }      
+  }
+*/
+  game.resumeGameSound();
+
+}
+
 
 
 Meteor.Spinner.options = {

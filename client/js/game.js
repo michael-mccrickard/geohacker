@@ -151,6 +151,8 @@ Game = function() {
 
 		var music = document.getElementById("musicPlayer");
 
+		if (!music) return;
+
 		if (music.paused) {
 
 			this.musicSuspended = false;
@@ -169,9 +171,21 @@ Game = function() {
 
 		this.gameSoundSuspended = false;
 
+		if (!this.music) return;
+
 		if (this.musicSuspended) {
 
 			this.musicSuspended = false;
+
+			if (hacker.ctl["VIDEO"]) {
+
+				if (hacker.ctl["VIDEO"].getState() == sPlaying) return;
+			}
+
+			if (display.browser.video) {
+
+				if (display.browser.video.state.get() == sPlaying) return;
+			}
 
 			this.playMusic();
 		}

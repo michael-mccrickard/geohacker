@@ -201,7 +201,9 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.goBrowseMap = function() {
 
-    	hacker.suspendMedia();
+c("we formerly suspended hacker media here")
+
+    	//hacker.suspendMedia();
 
     	if (game.user.mode == uBrowseCountry) {
 
@@ -306,6 +308,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		if ( display.homeButtonDisabled() ) return;
 
+
 		display.suspendAllMedia();
 
 
@@ -315,8 +318,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     	}
 
     	if (this.mode == uBrowseMap || this.mode == uBrowseCountry)  {
-
-    		game.playMusic();
 
     		this.returnFromBrowse();
 
@@ -355,6 +356,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     	}
 
     	this.setMode( this.prevMode ); 
+
+    	game.playMusic();
 
     	FlowRouter.go("/home");
     }

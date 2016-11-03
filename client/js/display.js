@@ -72,7 +72,16 @@ Display = function() {
 
         if (hacker.ctl["SOUND"].getState() == sPlaying) hacker.ctl["SOUND"].suspend();
 
-        if (hacker.ctl["VIDEO"].getState() == sPlaying) hacker.ctl["VIDEO"].suspend();
+        if (hacker.ctl["VIDEO"].getState() == sPaused) hacker.ctl["VIDEO"].hide();
+
+        if (hacker.ctl["VIDEO"].getState() == sPlaying) {
+
+c("display calling videoctl.suspend")
+
+          hacker.ctl["VIDEO"].suspend();
+
+        }
+
       }
       
       if (display.browser.video) {
@@ -82,36 +91,7 @@ Display = function() {
 
     }
 
-    this.focusLost = function() {
 
-      if ( youtube.on.get() ) this.reshowYouTube = true;
-
-      this.suspendAllMedia();
-
-      game.suspendGameSound();
-    }
-
-    this.focusGained = function() {
-
-      if (this.reshowYouTube) {
-
-        this.reshowYouTube = false;
-
-        youtube.show();
-
-        c( 'in focus gained, state of video control is ' + hacker.ctl["VIDEO"].getState())
-      }
-
-      if (hacker.ctl["SOUND"]) {
-
-        if (hacker.ctl["SOUND"].getState() == sSuspended) hacker.ctl["SOUND"].play();
-
-        if (hacker.ctl["VIDEO"].getState() == sSuspended) hacker.ctl["VIDEO"].play();
-      }
-
-      game.resumeGameSound();
-
-    }
 
     this.playEffect = function(_file) {
 

@@ -177,7 +177,10 @@ Template.main.events({
       
       //deliberately not suspending SOUND, let it play while the user goes to the map
 
-      if (hacker.feature.name == "VIDEO") hacker.suspendMedia();
+      if (hacker.feature.name == "VIDEO") {
+c("calling display.suspendAllMedia")
+        display.suspendAllMedia();
+      }
 
       if (hacker.feature.name != "SOUND") game.playMusic();     
 
@@ -227,16 +230,6 @@ Template.main.events({
 
   },
 
-/*
-  'mouseleave #btnHelperAgent': function(e) {
-
-      e.preventDefault();
-
-      $('#btnHelperAgent').tooltip('hide');
-
-  },
-*/
-
   'click #scanButton': function(e) {
 
       e.preventDefault();
@@ -274,7 +267,7 @@ Template.main.events({
 
       if (hacker.loader.totalClueCount == 0) mode = "scan";
 
-      hacker.suspendMedia();
+      hacker.pauseMedia();
 
       game.playMusic();
 
@@ -303,19 +296,6 @@ Template.main.events({
       e.preventDefault();
 
       Control.switchTo( e.currentTarget.id );
-    },
-
-    'click #divMiniDebrief': function(e) {
-
-      e.preventDefault;
-
-      if (hacker.feature.name.get() == "VIDEO") hacker.suspendMedia();
-
-        hacker.feature.clear();
-
-        hack.debrief.go();
-
-        FlowRouter.go("/debrief");
     },
 
 });

@@ -166,14 +166,14 @@ Browser = function(  ) {
 
 	this.returnToPrevious = function() {
 
-      	game.playMusic();
-
 		_route = game.user.returnRoute;
 
 
 		if (_route == "lessonMap") {
 
-			display.suspendAllMedia();	
+			display.suspendAllMedia();
+
+			game.playMusic();	
 
 			initiateResumeLesson();
 
@@ -196,7 +196,9 @@ Browser = function(  ) {
 
 		if (_route == "home") {
 
-			display.suspendAllMedia();	
+			display.suspendAllMedia();
+
+			game.playMusic();	
 
 			game.user.mode = game.user.prevMode;
 

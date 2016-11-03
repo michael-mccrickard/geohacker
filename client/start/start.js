@@ -216,7 +216,34 @@ Meteor.startup(function() {
 
 //ps("HN")
 
-  FlowRouter.go("/start"); 
+
+//These are be used to pause the music
+//when the app loses focus
+/*
+window.addEventListener('blur', focusLost);
+
+window.addEventListener('pagehide', focusLost);
+
+document.addEventListener('webkitvisibilitychange', focusGained);
+
+document.addEventListener('visibilitychange', focusGained);
+
+
+
+$(window).blur(function(){
+    
+    focusLost();
+
+});
+
+$(window).focus(function(){
+  
+  focusGained();
+});
+*/
+
+
+FlowRouter.go("/start"); 
 
 
 
@@ -338,19 +365,9 @@ dofix = function() {
 
 
 //****************************************************************
-//          UNUSED
+//          WINDOW FOCUS
 //****************************************************************
 
-/*
 
-//These are be used to pause the music
-//when the app loses focus
 
-window.addEventListener('blur', pauseSound);
 
-window.addEventListener('pagehide', pauseSound);
-
-document.addEventListener('webkitvisibilitychange', pauseSound);
-
-document.addEventListener('visibilitychange', pauseSound);
-*/

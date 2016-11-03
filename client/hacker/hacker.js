@@ -214,7 +214,7 @@ Hacker = function() {
 
             this.feature.redimension();
 
-            if (this.feature.getName() == "VIDEO") this.feature.video.show();
+            if (this.feature.getName() == "VIDEO") this.feature.ctl.show();
         }
     }
 
@@ -279,18 +279,23 @@ Hacker = function() {
     //      Control functions
     //*********************************************
 
-    this.suspendMedia = function() {
+    this.pauseMedia = function() {
 
         if (this.feature.on() ) {
 
             var _name = this.feature.getName();
 
-            c("hacker.suspendMedia is suspending " + _name )
+            if ( _name == "VIDEO" || _name == "SOUND" ) {
 
-            if (this.feature.ctl) this.feature.ctl.suspend();
+                c("hacker is pausing " + _name )
 
-            if ( _name == "VIDEO" || _name == "SOUND" ) game.pauseMusic();
+                if (this.feature.ctl) this.feature.ctl.pause();
 
+                if (this.feature.name == "VIDEO") this.feature.ctl.hide();
+
+                game.pauseMusic();
+            }
+            
             return;
         }
     }
@@ -331,7 +336,7 @@ Hacker = function() {
 
         if ( _name == "SOUND" || _name == "VIDEO") {
 
-            this.suspendMedia();
+            this.pauseMedia();
         }
         
         this.feature.setImageSource( _name );

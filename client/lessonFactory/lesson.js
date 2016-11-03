@@ -7,7 +7,9 @@ switchLesson = function(_continentID, _missionCode) {
 
 initiateResumeLesson = function() {
 
-	hacker.suspendMedia();
+c("in initiateResumeLesson, we formerly suspended hacker media here")
+
+//	hacker.suspendMedia();
 
     game.lesson.state.set("resuming");
 
