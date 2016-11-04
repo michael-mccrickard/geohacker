@@ -47,7 +47,7 @@ Meme = function(_type, _name, _src, _videoID) {
 
 
 	this.preloadImage = function() {
-c("preload")
+
 		var _file = this.src;
 
 		//borrow the feature preload element
@@ -55,8 +55,7 @@ c("preload")
 		$("#pFEATURE3").attr("src", _file);
 
         imagesLoaded( document.querySelector('#pFEATURE3'), function( instance ) {
-  
-c("imageloaded")
+
           //now that the image is loaded ...
 
           display.meme.imageSrc = display.getImageFromFile( display.meme.src );
@@ -71,7 +70,7 @@ c("imageloaded")
 	}
 
   this.dimensionImage = function( _obj ) {
-c("dimensionImage")
+
     if (this.type == "modal") {
 
       this.dimensionModal( _obj );
@@ -81,7 +80,7 @@ c("dimensionImage")
 
 
 	this.dimensionModal = function( _obj ) {
-c("dimensionModal")
+
 		//assuming the zoomInModal for now
 
         var fullScreenWidth = $(window).width();
@@ -130,7 +129,7 @@ c("dimensionModal")
 	}
 
 	this.showModal = function() {
-c("showModal")
+
 		$(".imgZoomInModal").attr("src", display.meme.src);
 
 		$(".imgZoomInModal").css("width", display.meme.frame.width);

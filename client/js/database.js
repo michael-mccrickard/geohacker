@@ -364,7 +364,7 @@ c("db is removing record for " + _code + " in the current mission.")
     }
     else {
 
-      showMessage("No flag pic found for " + this.getCountryName( _codec ));
+      showMessage("No flag pic found for " + this.getCountryName( _code ));
 
       return _code;
     }

@@ -204,6 +204,8 @@ Template.congrats.events = {
 
       game.user.setMode( uBio );
 
+      game.user.goHome();
+
     },
 
 

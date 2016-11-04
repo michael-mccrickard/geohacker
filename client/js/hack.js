@@ -180,8 +180,6 @@ Hack = function() {
 
        this.textSub =  Meteor.subscribe("ghText", function() { Session.set("sTextReady", true ) });
 
-        this.mapSub = Meteor.subscribe("ghMap", function() { Session.set("sMapReady", true ) });
-
        this.debriefSub =  Meteor.subscribe("ghDebrief", function() { Session.set("sDebriefReady", true ) });     
 
        this.agentsSub =  Meteor.subscribe("agentsInCountry", function() { Session.set( "sAgentsInCountryReady", true ) } );
@@ -196,7 +194,6 @@ Hack = function() {
        this.videoSub.stop();
        this.webSub.stop();
        this.textSub.stop();
-       this.mapSub.stop();
        this.debriefSub.stop();
        this.agentsSub.stop();
     }
@@ -514,8 +511,6 @@ Hack.resetDataFlags = function() {
 
       Session.set("sDebriefReady", false );
 
-      Session.set("sMapReady", false );
-
 }
 
 Tracker.autorun( function(comp) {
@@ -526,7 +521,6 @@ Tracker.autorun( function(comp) {
       Session.get("sWebReady") && 
       Session.get("sSoundReady") && 
       Session.get("sDebriefReady") && 
-      Session.get("sMapReady") &&
       Session.get("sAgentsInCountryReady") 
 
       ) {

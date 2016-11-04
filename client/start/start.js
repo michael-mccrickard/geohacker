@@ -3,7 +3,7 @@
 
 gHackPreselect = "";
 
-Meteor.subscribe("registeredUsers");  
+//Meteor.subscribe("registeredUsers");  
 
 //****************************************************************
 //                 PRE-STARTUP
@@ -133,7 +133,6 @@ Session.set("isIOS", false);
 
 Meteor.startup(function() {
 
-
   $(window).bind('beforeunload', function() {
       game.closeOutGuest();
   });
@@ -188,13 +187,13 @@ Meteor.startup(function() {
 
   Meteor.subscribe("country", function() { Session.set("sCReady", true ) });
 
-  Meteor.subscribe("allFlags", function() { Session.set("sFReady", true ) })
+  //Meteor.subscribe("allFlags", function() { Session.set("sFReady", true ) })
 
-  Meteor.subscribe("ghTag", function() { Session.set("sTReady", true ) });  
+ // Meteor.subscribe("ghTag", function() { Session.set("sTReady", true ) });  
 
-  Meteor.subscribe("allTexts", function() { Session.set("sXReady", true ) });  
+//  Meteor.subscribe("allTexts", function() { Session.set("sXReady", true ) });  
 
-  Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
+  //Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
 
   //Meteor.subscribe("allImages", function() { Session.set("sEditImageReady", true ) });  
 
@@ -210,7 +209,7 @@ Meteor.startup(function() {
       Meteor.subscribe("conversation");
   });
 
-  Meteor.subscribe('userPresence');
+//  Meteor.subscribe('userPresence');
 
   //start screen
 
@@ -233,10 +232,10 @@ Tracker.autorun( function(comp) {
   if (Session.get("sZReady") && 
       Session.get("sRReady") && 
       Session.get("sCReady") && 
-      Session.get("sFReady") && 
-      Session.get("sTReady") && 
-      Session.get("sXReady") && 
-      Session.get("sCapitalsReady") &&
+    /*  Session.get("sFReady") &&   */
+  /*    Session.get("sTReady") &&   */ 
+   /*   Session.get("sXReady") &&  */
+   /*   Session.get("sCapitalsReady") &&  */
       Session.get("sMusicReady") &&
       Session.get("sChiefUserReady") //&& 
       //Session.get("sEditImageReady")

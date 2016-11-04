@@ -36,7 +36,7 @@ Template.userDirectory.helpers({
     if (userSortBy == "username") _users = Meteor.users.find( { 'profile.st': { $in: arrUserFilter } }, { sort:  userSort } ).fetch();
 
      if (userSortBy == "profile.sn") _users = Meteor.users.find( { 'profile.st': { $in: arrUserFilter } }, { sort:  { "profile.sn": userSortDir } } ).fetch();   
-
+/*
     if ( onlineOnly ) {  //online users only
 
         for (var i = 0; i < _users.length; i++) {
@@ -50,7 +50,9 @@ Template.userDirectory.helpers({
 
       return _users;
     }
+*/
 
+return _users;
   },
 
   isActive: function() {
@@ -78,12 +80,12 @@ Template.userDirectory.helpers({
 
     return _title;
   },
-
+/*
   presence: function() { 
 
     return Meteor.presences.findOne({userId: this._id});
   },
-
+*/
   lastSeen: function() {
 
     return this.profile.sn;

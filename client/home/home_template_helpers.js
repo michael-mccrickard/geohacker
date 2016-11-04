@@ -23,8 +23,6 @@ Template.home.events({
 
       e.preventDefault();  
 
-      Session.set("sProfiledUserID", Meteor.user()._id);
-
       game.user.setMode( uBio );
 
   },

@@ -69,7 +69,7 @@ Meteor.startup(
 
     ghDebrief = new Meteor.Collection('alDebrief');
 
-    ghMap = new Meteor.Collection('alMap');
+    //ghMap = new Meteor.Collection('alMap');
 
     ghText = new Meteor.Collection('alText');
 
@@ -176,11 +176,11 @@ Meteor.startup(
     }); 
 
     //map control -- generic clues, not specific to countries
-
+/*
     Meteor.publish("ghMap", function () {
       return ghMap.find( {} );
     });
-
+*/
     //"normal" controls
 
     //hack collections, single country
@@ -223,6 +223,7 @@ Meteor.startup(
       return Conversation.find({});
     });
 
+/*
     Meteor.publish('userPresence', function() {
       
       // Setup some filter to find the users your user
@@ -234,7 +235,7 @@ Meteor.startup(
 
       return Presences.find(filter, { fields: { state: true, userId: true }});
     });
-
+*/
     //music
 
     Meteor.publish("allMusic", function() {

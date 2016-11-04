@@ -59,25 +59,20 @@ Stats = function() {
   
 }
 
-
 Template.hacksAndBadges.onCreated(function () {
 
-  this.subscribe("registeredUsers");
-
-  var self = this;
-
-    self.subscribe('registeredUsers');
-
-  self.autorun( function() {
-
-      if (Template.instance().subscriptionsReady()) {
-
-        display.stats.getTopHackers();
+    display.stats.getTopHackers();
  
-        display.stats.getTopBadges();
+    display.stats.getTopBadges();
+ 
 
-      }
-  });
+});
+
+
+Template.stats.onCreated(function () {
+
+    this.subscribe("allFlags");  
+
 
 });
 

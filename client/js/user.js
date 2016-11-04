@@ -128,6 +128,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	  		Meteor.defer( function() { $(".imgHomeAvatar").css("border-color","gray") } );
 
+	  		Session.set("sProfiledUserID", Meteor.user()._id);
+
 	  		this.bio.load();
 
     		this.template.set("bio");
@@ -361,11 +363,43 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.selectNewMission = function() {
 
+    	display.suspendAllMedia();
+
     	this.setMode( uHack );
 
     	mission = null;
     	
     	FlowRouter.go("/home");   	
+    }
+
+    this.startNextHack = function() {
+
+    	display.suspendAllMedia();
+
+    	if (!game.user.assign) {
+
+    		alert("Choose a mission from the Mission Select screen.");
+
+    		game.user.setMode( uHack );
+
+    		game.user.goHome();
+
+    		return;
+    	}
+
+    	hack.startNext();
+    }
+
+    this.autoHack = function() {
+
+    	if (hack.mode == 0 || this.mode != uHack) {
+
+    		alert("You don't appear to be hacking right now.")
+
+    		return;
+    	}
+
+    	hack.autoHack();
     }
 
 	//need to check and see if we have a logged-in user before trying to make this call
