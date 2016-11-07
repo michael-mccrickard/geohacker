@@ -76,7 +76,7 @@ Template.editor.helpers({
 
         editor.controlName.set("DEBRIEF"); 
 
-  			return db.ghDebrief.find( { cc: ID });
+  			return db.ghMeme.find( { cc: ID });
   		}
 
     },

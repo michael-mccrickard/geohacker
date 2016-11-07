@@ -256,9 +256,9 @@ Template.newBrowse.events({
     		
     		if ( _type == "modal" ) {
 
-    			display.meme = new Meme("modal", _name, _src);
+    			display.unit = new Unit("modal", _name, _src);
 
-    			display.meme.preloadImage();
+    			display.unit.preloadImage();
 
     			//$('#zoomInModal').modal('show');
 

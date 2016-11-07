@@ -12,7 +12,7 @@ Browser = function(  ) {
 
 	this.videoIndex = new Blaze.ReactiveVar( -1 );
 
-	this.primaryItems = [];  //memes, can be video or an image in this case
+	this.primaryItems = [];  //units, can be video or an image in this case
 
 	this.items = [];  //array of objects from ghVideo
 
@@ -31,17 +31,17 @@ Browser = function(  ) {
 
 		//make primaries, first the map modal
 
-		var _obj = new Meme("modal", "Map", hack.getCountryMapURL() );
+		var _obj = new Unit("modal", "Map", hack.getCountryMapURL() );
 
 		this.primaryItems.push( _obj );
 
-		//prepare to create the primary video memes
+		//prepare to create the primary video units
 
 		var items = [];
 
 		_items = db.ghVideo.find( { cc: hack.countryCode, dt: { $in: ["gn","sd","tt"] } } ).fetch();
 
-		var _meme = null;
+		var _unit = null;
 
 
 		//named primary videos
@@ -58,9 +58,9 @@ Browser = function(  ) {
 
 				_obj = _items[ _index ];
 
-				_meme = new Meme("video", _arrName[i], "http://img.youtube.com/vi/" + _obj.u + "/default.jpg", _obj.u);
+				_unit = new Unit("video", _arrName[i], "http://img.youtube.com/vi/" + _obj.u + "/default.jpg", _obj.u);
 
-				this.primaryItems.push(_meme);
+				this.primaryItems.push(_unit);
 			}
 
 		}
@@ -69,7 +69,7 @@ Browser = function(  ) {
 
 		_items = db.ghVideo.find( { cc: hack.countryCode, s: { $in: ["p"] } } ).fetch();
 
-		var _meme = null;
+		var _unit = null;
 
 		var _name = "";
 
@@ -88,9 +88,9 @@ Browser = function(  ) {
 	  			_name = "Info";
 	  		}
 
-			_meme = new Meme("video", _name, "http://img.youtube.com/vi/" + _obj.u + "/default.jpg", _obj.u);
+			_unit = new Unit("video", _name, "http://img.youtube.com/vi/" + _obj.u + "/default.jpg", _obj.u);
 
-			this.primaryItems.push(_meme);
+			this.primaryItems.push(_unit);
 		}
 
 		//finally the regular videos (non-primary)
