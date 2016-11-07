@@ -142,14 +142,21 @@ Template.me.helpers({
 });
 
 
-Template.me.events({
+Template.hacksAndBadges.events({
 
-  'click something': function(e) {
+  'click .imgAvatar': function(e) {
 
       e.preventDefault();  
 
-      deselectAll();
+      Meteor.call( "setFeaturedUserID", e.currentTarget.id);
 
+      Session.set("sProfiledUserID", e.currentTarget.id);
+
+      Meteor.subscribe("featuredUser", function() { 
+
+          game.user.setMode( uBio ); 
+
+      }); 
 
   },
 

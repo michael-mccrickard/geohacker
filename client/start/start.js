@@ -82,6 +82,8 @@ Session.set("isIOS", false);
 
   Session.set("sCapitalsReady", false);  //all capital images (in case the user is new; one will go on their wall) 
 
+  Session.set("sCapitalsTextReady", false);  //all capital images (in case the user is new; one will go on their wall) 
+
 
   //editor
 
@@ -187,13 +189,15 @@ Meteor.startup(function() {
 
   Meteor.subscribe("country", function() { Session.set("sCReady", true ) });
 
-  //Meteor.subscribe("allFlags", function() { Session.set("sFReady", true ) })
+  Meteor.subscribe("allFlags", function() { Session.set("sFReady", true ) })
 
  // Meteor.subscribe("ghTag", function() { Session.set("sTReady", true ) });  
 
 //  Meteor.subscribe("allTexts", function() { Session.set("sXReady", true ) });  
 
-  //Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
+  Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
+
+  Meteor.subscribe("allCapitalsText", function() { Session.set("sCapitalsTextReady", true ) });  
 
   //Meteor.subscribe("allImages", function() { Session.set("sEditImageReady", true ) });  
 
@@ -232,10 +236,11 @@ Tracker.autorun( function(comp) {
   if (Session.get("sZReady") && 
       Session.get("sRReady") && 
       Session.get("sCReady") && 
-    /*  Session.get("sFReady") &&   */
+      Session.get("sFReady") &&   
   /*    Session.get("sTReady") &&   */ 
    /*   Session.get("sXReady") &&  */
-   /*   Session.get("sCapitalsReady") &&  */
+      Session.get("sCapitalsReady") &&  
+      Session.get("sCapitalsTextReady") && 
       Session.get("sMusicReady") &&
       Session.get("sChiefUserReady") //&& 
       //Session.get("sEditImageReady")

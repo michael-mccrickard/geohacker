@@ -128,8 +128,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	  		Meteor.defer( function() { $(".imgHomeAvatar").css("border-color","gray") } );
 
-	  		Session.set("sProfiledUserID", Meteor.user()._id);
-
 	  		this.bio.load();
 
     		this.template.set("bio");

@@ -103,6 +103,16 @@ function updateSort()  {
 
 Template.userDirectory.events = {
 
+  'click img.userDirectoryAvatar': function(e) {
+
+    Session.set("sProfiledUserID", $(e.target).attr("data-userID"));
+
+    FlowRouter.go("/home");
+
+    game.user.setMode( uBio );   
+
+  },
+
   'click .sortByDate': function(e) {
 
     var _dir = userSortDir;

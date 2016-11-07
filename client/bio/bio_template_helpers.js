@@ -3,9 +3,16 @@ Template.bio.rendered = function() {
   display.scrollToTop();
 }
 
+Template.bio.rendered = function() {
+
+  display.scrollToTop();
+}
+
 Template.bio.helpers({
 
     userEditMode: function() {
+
+      if (!game.user) return;
 
       return game.user.editMode.get();
     },
@@ -33,6 +40,8 @@ Template.bio.events({
   'click #editBio': function(e) {
 
       e.preventDefault();  
+
+      if (!game.user) return;
 
       game.user.editMode.set( true );
 
@@ -91,7 +100,7 @@ Template.bio.events({
 
    'change #featuredPicFileInput': function(event, template) {
 
-      game.deleteUserS3File( game.user.profile.p );
+      //game.deleteUserS3File( game.user.profile.p );
     
       var uploader = game.user.bio.userFeaturedPicUploader;
 
@@ -121,6 +130,8 @@ Template.bio.events({
 
 
 function endEditMode() {
+
+      if (!game.user) return;
 
     game.user.editMode.set( false );
 

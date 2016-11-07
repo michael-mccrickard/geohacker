@@ -242,7 +242,7 @@ Game = function() {
 
  		var rec = Meteor.users.findOne( { _id: _ID});
 
- 		if ( rec.profile.p.indexOf("ghUserFeaturedPic") != -1 ) this.deleteUserS3File( rec.profile.p );
+// 		if ( rec.profile.p.indexOf("ghUserFeaturedPic") != -1 ) this.deleteUserS3File( rec.profile.p );
 
  		this.deleteUserS3File( rec.profile.av );	
 

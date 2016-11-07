@@ -4,6 +4,8 @@
 
 var countryCode;
 
+var featuredUserID;
+
 //*********************************************
 //      EMAIL SETTINGS
 //*********************************************
@@ -131,13 +133,18 @@ Meteor.startup(
     });   
 
 
+
+
     //only for super-admin?
     Meteor.publish("registeredUsers", function () {
 
       return Meteor.users.find( {} );
     });
 
-
+    //featuredUser on the bio screen
+    Meteor.publish("featuredUser", function () {
+      return Meteor.users.find( { _id: featuredUserID } );
+    }); 
 
   //area collections
 
@@ -216,6 +223,9 @@ Meteor.startup(
     Meteor.publish("ghTag", function () {
       return ghTag.find();
     });
+
+
+
 
     //user messaging
 
@@ -449,6 +459,10 @@ var self = null;
 
 Meteor.methods({
 
+    setFeaturedUserID: function( _id ) {
+
+      featuredUserID = _id;
+    },
 
     writeActiveUsers: function() {
 
@@ -779,6 +793,7 @@ console.log(this.userId);
 
 testImages: function() {
 
+
 arrImages = ghImage.find({}).fetch();
 
 //c(arrImages.length = " files in db")
@@ -838,9 +853,10 @@ console.log( bad + " bad image links found")
 
     var URL = arrImages[ _index ].u;
 
+
     //doing a synchronous call, so unblock the server
 
-    //self.unblock();
+    //this.unblock();
 
 //console.log("trying URL: " + URL);
 
@@ -861,9 +877,11 @@ console.log( bad + " bad image links found")
 
        // var errorJson = JSON.parse(result.content);
         
-//var ind = URL.lastIndexOf("-");
+      //var ind = URL.lastIndexOf("-");
 
-        console.log(URL + " -- BAD");
+var _obj = arrImages[_index];
+
+        console.log(_obj.cc + " -- " + _obj.dt + " -- BAD");
 
         bad++;
 
