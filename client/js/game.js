@@ -19,12 +19,15 @@ Game = function() {
 
 	this.musicCount = 0;
 
+	this.music = [];
+
 	this.intro = new Intro();
 
 
 	//this.music = ["amber.mp3","yellow.mp3","agent_d_cooper.mp3", "geohackerAmbientSofter.mp3", "geohackerThemeSoftest.mp3"];
 
-this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_serenity.mp3","zen.mp3","amber.mp3","yellow.mp3","agent_d_cooper.mp3", "geohackerAmbientSofter.mp3", "geohackerThemeSoftest.mp3"];
+//this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_serenity.mp3","zen.mp3","amber.mp3","yellow.mp3","agent_d_cooper.mp3", "geohackerAmbientSofter.mp3", "geohackerThemeSoftest.mp3"];
+
 
 	this.showHelp = function() {
 
@@ -49,7 +52,7 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_s
 	}
 
 	this.pauseMusic = function() {
-		
+
 		c("pausing music in game.js")
 
 		document.getElementById("musicPlayer").pause();		
@@ -82,9 +85,19 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_s
 
 	this.startMusic = function() {
 
+		this.musicStarted = false;
+
+		if (this.music.length == 0) {
+
+			var _arr = db.ghMusic.find().fetch();
+
+			this.music = Database.makeSingleElementArray( _arr, "u");
+
+		}
+
 		this.musicOn = true;	
 
-		this.playMusic();
+		Meteor.setTimeout( function() { game.playMusic(); }, 2000 );
 	}
 
 	this.setMusicPlayerListener = function() {
@@ -229,7 +242,7 @@ this.music = ["spy_story.mp3","an_agent_alone.mp3","crystal_waters.mp3", "deep_s
 
  		var rec = Meteor.users.findOne( { _id: _ID});
 
- 		if ( rec.profile.p.indexOf("ghUserFeaturedPic") != -1 ) this.deleteUserS3File( rec.profile.p );
+// 		if ( rec.profile.p.indexOf("ghUserFeaturedPic") != -1 ) this.deleteUserS3File( rec.profile.p );
 
  		this.deleteUserS3File( rec.profile.av );	
 

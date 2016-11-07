@@ -3,6 +3,8 @@
 
 gHackPreselect = "";
 
+//Meteor.subscribe("registeredUsers");  
+
 //****************************************************************
 //                 PRE-STARTUP
 //****************************************************************
@@ -80,6 +82,8 @@ Session.set("isIOS", false);
 
   Session.set("sCapitalsReady", false);  //all capital images (in case the user is new; one will go on their wall) 
 
+  Session.set("sCapitalsTextReady", false);  //all capital images (in case the user is new; one will go on their wall) 
+
 
   //editor
 
@@ -122,12 +126,14 @@ Session.set("isIOS", false);
 
   Session.set("sAgentsInCountryReady", false);
 
+  //
+ Session.set("sMusicReady", false ); 
+
 //****************************************************************
 //                  STARTUP
 //****************************************************************
 
 Meteor.startup(function() {
-
 
   $(window).bind('beforeunload', function() {
       game.closeOutGuest();
@@ -185,25 +191,29 @@ Meteor.startup(function() {
 
   Meteor.subscribe("allFlags", function() { Session.set("sFReady", true ) })
 
-  Meteor.subscribe("ghTag", function() { Session.set("sTReady", true ) });  
+ // Meteor.subscribe("ghTag", function() { Session.set("sTReady", true ) });  
 
-  Meteor.subscribe("allTexts", function() { Session.set("sXReady", true ) });  
+//  Meteor.subscribe("allTexts", function() { Session.set("sXReady", true ) });  
 
   Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
 
-  Meteor.subscribe("allImages", function() { Session.set("sEditImageReady", true ) });  
+  Meteor.subscribe("allCapitalsText", function() { Session.set("sCapitalsTextReady", true ) });  
 
-  Meteor.subscribe("allWebs", function() { Session.set("sEditWebReady", true ) });  
+  //Meteor.subscribe("allImages", function() { Session.set("sEditImageReady", true ) });  
+
+  //Meteor.subscribe("allWebs", function() { Session.set("sEditWebReady", true ) });
+
+  Meteor.subscribe("allMusic", function() { Session.set("sMusicReady", true ) });   
 
   Meteor.subscribe("chiefUser", function() { Session.set("sChiefUserReady", true ) });  
 
-  Meteor.subscribe("registeredUsers");  
+
 
   Tracker.autorun(function(){
       Meteor.subscribe("conversation");
   });
 
-  Meteor.subscribe('userPresence');
+//  Meteor.subscribe('userPresence');
 
   //start screen
 
@@ -226,18 +236,22 @@ Tracker.autorun( function(comp) {
   if (Session.get("sZReady") && 
       Session.get("sRReady") && 
       Session.get("sCReady") && 
-      Session.get("sFReady") && 
-      Session.get("sTReady") && 
-      Session.get("sXReady") && 
-      Session.get("sCapitalsReady") &&
-      Session.get("sChiefUserReady") 
-&& Session.get("sEditImageReady")
+      Session.get("sFReady") &&   
+  /*    Session.get("sTReady") &&   */ 
+   /*   Session.get("sXReady") &&  */
+      Session.get("sCapitalsReady") &&  
+      Session.get("sCapitalsTextReady") && 
+      Session.get("sMusicReady") &&
+      Session.get("sChiefUserReady") //&& 
+      //Session.get("sEditImageReady")
        
   ) {
 
     Session.set("sWaitingOnCoreData", false);
   
     c("core data ready")
+
+    game.startMusic();
 
     return;
   }
@@ -297,8 +311,6 @@ Template.start.rendered = function () {
 
   stopSpinner();
 
-  Meteor.setTimeout(function () { game.startMusic(); 2000 } );  
-
   game.setMusicPlayerListener();
 
   if (game.user == null && Meteor.user() != null) {
@@ -320,7 +332,6 @@ Template.start.rendered = function () {
 //****************************************************************
 //          TESTING / DEBUGGING
 //****************************************************************
-//Template.start2.rendered = function () { hacked(); }
 
 dofix = function() {
 

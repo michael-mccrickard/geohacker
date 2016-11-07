@@ -1,0 +1,231 @@
+/* scanning.css  */
+
+/*  BG color on the scanner elements is #515368  */
+
+.scanScreen{
+	display : block;
+	position: absolute;
+	overflow: hidden;
+	top: 55px;
+	left: 2%;
+	width: 83.3%;
+	height: 63.75%;
+	z-index: 1000;
+	opacity: 0;
+}
+
+.scanBackdrop {
+	position: fixed;
+}
+
+.imgScanBackdrop {
+	opacity: 1.0;
+	z-index: 900;
+}
+
+.scanBG {
+  	border: 2px solid;
+  	border-color: #969696;
+  	border-radius: 2px;
+   	background-color: #2a2a3a;
+}
+
+
+.divScanFeaturedText {
+  	border: 2px solid;
+  	border-color: #969696;
+  	border-radius: 2px;
+   	background-color: #2a2a3a;
+   	padding: 4%;
+}
+
+.scanTopLeft {
+
+	position: fixed;
+	width: 40%;
+
+}
+
+.scanTopLeftImg {
+	position: fixed;
+	width: 2.5%;
+	margin-top: 0.5%;
+}
+
+.scanTopLeftText{
+	position: fixed;
+	font-size: 12px;
+	color: #04933e;
+	font-family: scannerFont;
+	display: inline-block;
+	margin-top: 1%;
+	white-space: pre;
+}
+
+.scanBottomLeft {
+	position: fixed;
+	width: 25%;
+}
+
+.scanLowerLeftText {
+	margin-left: 1%;
+	padding: 1%;	 
+}
+
+.scanLowerLeftImg {
+
+	padding: 1%;
+
+}
+
+.scanTopRight{
+	position: fixed;
+	left: 0px;
+	width: 40%;
+}
+
+.scanTopRightText{
+	font-size: 10px;
+	margin-right: 2.5%;
+	margin-top: 2%;
+	color: #ffef00;
+	float: right;
+	clear: none;
+}
+
+.scanTopRightImg {
+	float: right;
+	clear: none;
+}
+
+.divAnalyzeStream {
+	position: fixed;
+	overflow: hidden;
+		width: 19%;
+}
+
+.analyzeStreamText {
+	font-size: 10px;
+	color: #6d6e7b;
+	white-space: pre;
+	padding: 3%;
+	height: 50%;
+
+	overflow: hidden;
+
+}
+
+.analyzeStreamTextTitle {
+
+	color: #969696;
+}
+
+.scanCenter{
+	position: fixed;
+	width : 12%;
+}
+
+.divScanCenterImg {
+
+	width: 100%;
+}
+
+.scanCenterImg {
+	width: 100%;
+}
+
+.scanCenterText{
+	position: fixed;
+	font-size: 14px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.scanBottomText {
+	color: #969696;
+	font-size: 16px;
+	text-transform: uppercase;
+}
+
+.scanBottomCenter {
+	position: fixed;
+	width: 29%;
+}
+
+.scanBottomCenterImg {
+	width: 25%;
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 1.2%;
+}
+
+
+.scanBottomRight {
+	position: fixed;
+	width: 25%;
+	margin-right: 2.5%;
+	float: right;
+	clear: none;
+}
+
+.scanBottomRightText {
+	margin-right: 1.5%;
+	margin-top: 3%;
+	float: right;
+	clear: none;
+}
+
+.scanBottomRightImg {
+	float: right;
+	margin-left: 1.5%;
+	margin-top: 0.25%;
+	padding: 1%;
+	width: 10%;
+}
+
+.divScanGridGlobe {
+	position: fixed;
+	padding-top: 1.1%;
+	padding-bottom: 1.1%;
+	padding-right: 8%;
+	padding-left: 0.8%;
+}
+
+.imgScanGridGlobe {
+	position: fixed;
+	width: 5%;
+}
+
+.gridGlobeText {
+		color: #00993c;
+	font-size: 12px;
+}
+.gridGlobeTextLower {
+		color: #00993c;
+	margin-top: 2%;
+	font-size: 24px;
+}
+
+.divNormalGlobe {
+	padding: 0.5%;
+	position: fixed;
+  	border: 2px solid;
+  	border-color: #969696;
+  	border-radius: 2px;
+  	background-color: #2a2a3a;
+}
+
+.divImgNormalGlobe {
+	width: 21%;
+}
+
+.imgNormalGlobe {
+	width: 100%;
+}
+
+.normalGlobeText {
+	color: #4f8de2;
+	font-size: 10px;
+	padding-top: 1%;
+}

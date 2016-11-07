@@ -1,0 +1,111 @@
+/*stats.css */
+
+.divStats {
+
+  position: relative;
+
+  top: 0px;
+
+  left: 16px;
+}
+
+.compositeStatsBadge {
+  float: left;
+  width: 144px;
+  height: 170px;
+  margin-right: 24px;
+  position: relative;
+}
+
+.compositeStatsBadge .label {
+    position:absolute;
+    left: -4px;
+    top: -3px;
+    font-family: Arial;
+    font-style: bold;
+}
+
+.divBadgeStats {
+
+  margin-top: 32px;
+}
+
+.statsContainer {
+  position: relative;
+  top: -196px; 
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.imgAvatar {
+
+  width: 64px;
+
+  height: 64px;
+
+  cursor: pointer;
+}
+
+.statsBadgesTitle {
+
+
+}
+
+.statsBadgesTitle {
+
+
+}
+
+th.statsColName {
+
+
+}
+
+th.statsColData {
+
+  width: 128px;
+}
+
+.statsColumn {
+
+  font-family: Arial;
+
+}
+
+td.squeeze {
+
+    max-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+td.squeeze {
+
+  width: 10%;
+}
+
+td.squeeze.squeezeName {
+
+  width: 50%;
+}
+
+.divStatsTableLeft {
+
+  position: absolute;
+
+  top: 296px;
+
+  left: 39px;
+
+}
+
+.divStatsTableRight {
+
+  position: absolute;
+
+  top: 296px;
+
+  left: 700px;
+
+}

@@ -1,131 +1,137 @@
-/*
-******************************************************************
+/*********************************************
 
-              MEMES
-  Memes are used to display info to the user in the country browser.
-  The types are:
+	DATA TYPES  -- dt field in database  (which table in db uses this code; plus info about the data in the record)
 
-  modal -- An image, with optional text and sound file, displayed in a modal window.  Any meme with this type is 
-  temporarily assigned to hacker.meme when displayed.
+	These are also documented in editor.js in a more formal way, along with the video dt codes.
 
-  video -- A youtube video to be shown on the browser screen
+common -- used by all countries
 
-  classic -- still image with text, with an optional sound file.  These can also be temporarily assigned to
-  hacker.meme, if we need to show them in a modal window.
+	ant = anthem, nation anthem sound file (sound: file = sound file)
 
-******************************************************************
-*/
-
-// Constructor with four optional arguments; soundFile is added to the
-// object after creation, if desired, by the calling function
-
-Meme = function(_type, _name, _src, _videoID) {
+	ldr = leader name & pic (image and text and debrief;  text = leader name, debrief text = leader title)
 	
-  if (!_type) {
+	cap = capital name & pic (image and text and debrief; text = capital name, image = capital pic, debrief = code only)
 
-    _type = "unknown";
-  }
+	cmp -- normal map pic with name of country visible (image = pic file)
 
-  this.type = _type;
+	rmp -- redacted map pic with name of country obscured (image = pic file)
 
-  this.name = "";
-
-  this.src = "";
-
-  if (_name) this.name = _name;
-
-  if (_src) this.src = _src;
-
-  if (_videoID) this.videoID = _videoID;
+	map -- a map that naturally has no identifying country name on it, used as both cmp and rmp (image = pic file)
 
 
-  this.imageSrc = null;
+	//By convention, there is only one language sound file per country
+	//and it matches whatever lng_ record is found in the debrief records
 
-  this.frame = {width: 0, height: 0, top: 0, left: 0 }
+	lng = language (sound = sound file)
+	
+	//language name records (one per country)
 
-  this.soundFile = "";
+	lng_o = official language name (debrief text = name)
+	lng_om =  official language name, one of multiple official languages (debrief text = name)
+	lng_i = indigenous language name (debrief text = name)
 
+optional -- used by some countries
 
-	this.preloadImage = function() {
+	cus, cus[X] -- "custom" debrief (could be anything)/ (image or web) + debrief (image or web = pic file, debrief text = caption text)
 
-		var _file = this.src;
+	hqt, hqt[X] --  "headquarters" debrief / businesses headquartered in the country / (image or web) + debrief (image or web = pic file, debrief text = caption text)
 
-		//borrow the feature preload element
+	text & image pairs -- used by some countries as debriefs / text clues
+	When used as a debrief / text clue:  text = name of entity, debrief = explanatory text, image or web = relevant image
 
-		$("#pFEATURE3").attr("src", _file);
+		art -- artist (broadly speaking, could be writer, musician, actor, etc.)
 
-        imagesLoaded( document.querySelector('#preloadFeature'), function( instance ) {
-    
-          //now that the image is loaded ...
+		lan, lan[X] -- landmark
 
-          hacker.meme.imageSrc = display.getImageFromFile( hacker.meme.src );
+**********************************************/
 
+Meme = function( _rec )  {
 
-          Meteor.setTimeout( function() { hacker.meme.dimensionImage( hacker.meme.frame ); }, 500);
+	this.type = "";
 
-          Meteor.setTimeout( function() { hacker.meme.showModal(); }, 501);         
+	this.image = "";
 
-        });
+	this.text = "";
+
+	this.textClue = "";
+
+	this.rec = _rec;
+
+	if (_rec) {
+
+		this.rec = _rec;
+
 	}
 
-	this.dimensionImage = function( _obj ) {
+	this.init = function() {
 
-		//assuming the zoomInModal for now
+		this.code = this.rec.dt.substr(0,3);	
 
-        var fullScreenWidth = $(window).width();
+		this.setText();
 
-        var fullScreenHeight = $(window).height();
-
-        var fullBackdropWidth = fullScreenWidth * 0.7;
-
-        var maxWidth = fullScreenWidth * 0.9;
-
-        var fullHeight = fullScreenHeight * 0.8;
-
-        var leftMargin = fullScreenWidth * 0.02;
-
-        var menuHeight = 50;
-
-        var _width = 0;
-
-        var _height = fullHeight;
-
-		var _src = hacker.meme.imageSrc;
-
-		_width = (fullHeight / _src.height ) * _src.width; 
-
-
-        //Clamp the width if necessary and determine the position on the screen
-
-        if (_width > maxWidth) _width = maxWidth;
-
-        var _top = fullScreenHeight * 0.09;
-
-        var _left = leftMargin + (fullBackdropWidth/2) - (_width/2);
-
-        //if an _obj was passed, then populate it ...
-
-        if (_obj) {
-          
-          _obj.width = _width;
-
-          _obj.height = _height;
-
-          _obj.top = _top
-
-          _obj.left = _left
-        }		
+		this.setImage();
 	}
 
-	this.showModal = function() {
+	this.setImage = function() {
 
-		$(".imgZoomInModal").attr("src", hacker.meme.src);
+		this.image = "";
 
-		$(".imgZoomInModal").css("width", this.frame.width);
+		if (this.code == "lng") this.image = hacker.soundPlayingPic;
 
-		$(".imgZoomInModal").css("height", this.frame.height);
+		if (this.code == "flg")  this.image = hack.getFlagPic();
 
-		$(".imgZoomInModal").css("left", this.frame.left);		
+		if (this.code == "ldr")  this.image = hack.getLeaderPic();
+
+		if (this.code == "cap")  this.image = hack.getCapitalPic();
+
+		if (!this.image.length) this.image = hack.getCustomPic( this.rec.dt );		
+
+	} 
+
+	this.setText = function() {
+
+		this.text = "";
+
+		if (this.code == "cap") {
+
+			var capital = hack.getCapitalName();
+
+			this.text = capital + " is the capital of " + hack.getCountryName() + ".";
+		}
+
+		if (this.code == "ldr") {
+
+			var leaderName = hack.getLeaderName();
+
+			var leaderType = hack.getLeaderType();
+
+			this.text = leaderName + " is the " + leaderType + " of " + hack.getCountryName() + ".";
+		}
+
+		//the code is the first 3 letters of the field and dt is the full field
+
+		if (this.code  == "hqt") {
+
+			this.text = this.rec.t + " is headquartered in " + hack.getCountryName() + ".";
+		}
+
+		if (this.rec.dt  == "lng_i") {
+
+			this.text = this.rec.t + " is one of the indigenous languages of " + hack.getCountryName() + ".";
+		}
+
+		if (this.rec.dt  == "lng_o") {
+
+			this.text = this.rec.t + " is the official language of " + hack.getCountryName() + ".";
+		}
+
+		if (this.rec.dt  == "lng_om") {
+
+			this.text = this.rec.t + " is one of the official languages of " + hack.getCountryName() + ".";
+		}
+
+		if (!this.text.length) this.text = this.rec.t;
+
 	}
 
 }

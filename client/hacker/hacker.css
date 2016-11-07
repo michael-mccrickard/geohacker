@@ -1,0 +1,310 @@
+ /******************************/
+
+/*  MAIN SCREEN */
+
+/******************************/
+
+
+
+
+body.noscroll {
+
+    position: fixed; 
+    overflow-y: scroll;
+    width: 100%;
+}
+
+/*  full screen area */
+
+div.newWrapper {
+        margin-left: auto;
+        margin-right: auto;
+        width: 98%;
+        height: 98%;
+    }
+
+
+img.backdrop {
+
+    width: 100%;
+    height: 100%;
+}
+
+/*  featured area */
+
+div.displayWaiting {
+
+    position: absolute;
+
+    top: 38%;
+    left: 44%;
+
+}
+
+img.featuredBackdrop {
+
+    position: fixed;
+
+    top: 0px;
+    left: 0px;
+
+    left: 2%;
+    top: 6.5%;
+
+    width: 83.3%;
+    height: 63.8%;
+
+    z-index: 5;
+}
+
+.featuredPic {
+    position: absolute;
+    top: 6%;
+    z-index: 990;
+    cursor: pointer;
+}
+
+.featuredText {
+
+    position: absolute;
+
+    top: 15%;
+    left: 5%;
+
+    width: 75%;
+    color: white;  
+
+    z-index: 50;
+}
+
+.featuredTextFont {
+
+    font-size: 7.0vh; 
+
+    font-family: Arial;
+}
+
+.featuredMessageFont {
+
+    font-size: 4.0vh; 
+    font-family: geoFont;
+}
+
+.featuredYouTubeVideo {
+
+    top: 0px;
+    left: 0px;
+    z-index: 50;
+
+}
+
+.navButton {
+
+    position: absolute;
+    width: 4%;
+    top: 37%;  
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.navPrev {
+    
+    left: 2.63%;
+}
+
+.navNext {
+    left: 80.75%;
+}  
+
+
+
+/* map and scanner */
+
+.mainButton {
+    z-index: 10;
+    position: absolute;
+    left: 85.75%; 
+    width: 12.8%;
+    height: 20%;
+      cursor: pointer;
+}
+
+.clsMapButton {
+    top: 62px;
+}
+
+.clsHelperAgent {
+    top: 38%;
+    z-index: 10;
+    position: absolute;
+    left: 87.75%; 
+    width: 9%;
+
+}
+
+  .clsHelperAgent + .tooltip > .tooltip-inner {
+      border: 0px;
+      font-size: 20px;
+  }
+
+.clsHelperAgentButton {
+     border-radius: 8px;   
+     border: 0px solid;
+    cursor: pointer;
+    width: 100%;
+       
+}
+
+
+.clsHelperAgentName {
+    margin-top: 5px;
+    text-align: center;
+    font-family: Arial;
+    font-size: 14px;
+    color: white;
+}
+
+.clsHelperAgentTitle {
+    margin-top: 0px;
+    text-align: center;
+    font-family: Arial;
+    font-size: 12px;
+    color: yellow;
+}
+
+.clsScanButtonContent {
+
+
+    position: absolute;
+    left: 86.75%; 
+    width: 10%;
+    height: 12%;
+    cursor: pointer;
+    top: 77%;
+}
+
+.clsScanButtonVideoContent {
+
+
+    position: absolute;
+    left: 81.75%; 
+    width: 20%;
+    height: 12%;
+    cursor: pointer;
+    top: 77%;
+}
+
+.scanContentA {
+
+    z-index: 9;
+}
+
+.scanContentB {
+    z-index: 8;
+
+}
+
+.clsScanButton {
+        top: 71%;
+}
+
+.arrow {
+    z-index: 10;
+    position: absolute;
+    left: 89.25%; 
+    width: 6%;
+    height: 12%;
+}
+
+#scanArrow {
+    top: 62%;
+}
+
+#mapArrow {
+    top: 27%;
+}
+
+/* headline and footer */
+
+.divStatus {
+    position: absolute;
+    top: 2%;
+    z-index: 1050;
+    text-transform: uppercase;
+
+    font-size: 2.0vh;
+    font-family: Arial;
+    color: silver;
+}
+
+.divCue {
+    position: absolute;
+    top: 94.19%;
+    z-index: 15;
+    text-transform: uppercase;
+    pointer-events: none;
+    font-size: 2.5vh;
+}
+
+ /******************************/
+
+/*  CONTROLS */
+
+/******************************/
+
+div.control {
+
+    position: absolute;
+
+    top: 71.5%;
+
+    width: 15.8%;
+    height: 20.5%;
+
+      cursor: pointer;
+
+}
+
+#SOUND {
+    left: 2%;      
+}
+
+#TEXT {
+    left: 18.8%;      
+}
+
+#IMAGE {
+    left: 35.7%;      
+}
+
+#VIDEO {
+    left: 52.6%;      
+}
+
+#WEB {
+    left: 69.5%;      
+}
+
+.controlPic {
+    position: absolute;
+}
+
+.controlLabel {
+    position: relative;
+    text-align: center;
+    font-size: 3.0vh;
+    top: -20%;
+    pointer-events: none;
+}
+
+.controlText {
+
+    position: absolute;
+
+    top: 0.5%;
+    left: 5%;
+
+   font-family: Arial;
+    font-size: 3.0vh; 
+    color: white;  
+}

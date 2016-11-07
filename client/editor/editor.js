@@ -22,7 +22,8 @@ Editor = function() {
 
 	this.arrField = ["s"];
 
-	this.arrFieldText = ["f", "s", "dt"];	//this is the only one that still has the dt field, but this would be better if it used the data object update method
+	this.arrFieldText = ["f", "s", "dt"];	//this is the only one that still uses the "pass an array of field names to update" method 
+											//and it would be better if it used the data object update method
 
 	this.arrFieldDebrief = ["t"];
 
@@ -40,8 +41,6 @@ Editor = function() {
 
   	this.videoUploader = new Slingshot.Upload("ghVideo");
 
-  	Session.set("sYouTubeOn", false);
-
  	this.arrCodeText = [];
 
 	this.arrCode = [];
@@ -49,6 +48,8 @@ Editor = function() {
 	this.arrCodeExplain = [];
 
 	this.codeExplainText = new Blaze.ReactiveVar("0");
+
+	//image, text, sound, image/text pairs, text/sound pairs
 
 	this.arrCodeText[0] = "national anthem";
 	this.arrCode[0] = "ant";
@@ -109,6 +110,8 @@ Editor = function() {
 	this.arrCodeText[14] = "flag";
 		this.arrCode[14] = "flg";
 	this.arrCodeExplain[14] = "Image.file = flag"; 
+
+	//video codes
 
 	this.arrCodeText[15] = "Geography Now";
 		this.arrCode[15] = "gn";
@@ -171,6 +174,7 @@ Editor = function() {
 
 	}
 
+	//which of the above codes are used with each type
 
 	this.getCodes = function( _coll ) {
 

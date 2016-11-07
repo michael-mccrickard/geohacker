@@ -4,6 +4,8 @@
 
 var countryCode;
 
+var featuredUserID;
+
 //*********************************************
 //      EMAIL SETTINGS
 //*********************************************
@@ -67,15 +69,17 @@ Meteor.startup(
 
     ghWeb = new Meteor.Collection('ghWeb');
 
-    ghDebrief = new Meteor.Collection('alDebrief');
+    ghMeme = new Meteor.Collection('alDebrief');
 
-    ghMap = new Meteor.Collection('alMap');
+    //ghMap = new Meteor.Collection('alMap');
 
     ghText = new Meteor.Collection('alText');
 
     ghTag = new Meteor.Collection("ghTag");
 
     ghUser = new Meteor.Collection("ghUser")
+
+    ghMusic = new Meteor.Collection("ghMusic")
 
     //ghGuest =  new Meteor.Collection("ghGuest")
 
@@ -103,7 +107,7 @@ Meteor.startup(
     });
 
     Meteor.publish("allDebriefs", function() {
-      return ghDebrief.find( {} );
+      return ghMeme.find( {} );
       });
 
   //Meteor.users collection
@@ -129,11 +133,18 @@ Meteor.startup(
     });   
 
 
+
+
     //only for super-admin?
     Meteor.publish("registeredUsers", function () {
 
       return Meteor.users.find( {} );
     });
+
+    //featuredUser on the bio screen
+    Meteor.publish("featuredUser", function () {
+      return Meteor.users.find( { _id: featuredUserID } );
+    }); 
 
   //area collections
 
@@ -171,11 +182,6 @@ Meteor.startup(
       return ghText.find( { dt: "cap" } );
     }); 
 
-    //map control -- generic clues, not specific to countries
-
-    Meteor.publish("ghMap", function () {
-      return ghMap.find( {} );
-    });
 
     //"normal" controls
 
@@ -203,8 +209,8 @@ Meteor.startup(
 
     //debriefs
 
-    Meteor.publish("ghDebrief", function () {
-      return ghDebrief.find( { cc: countryCode });
+    Meteor.publish("ghMeme", function () {
+      return ghMeme.find( { cc: countryCode });
     });
 
     //map tags
@@ -213,12 +219,14 @@ Meteor.startup(
       return ghTag.find();
     });
 
+
     //user messaging
 
     Meteor.publish("conversation",function(){
       return Conversation.find({});
     });
 
+/*
     Meteor.publish('userPresence', function() {
       
       // Setup some filter to find the users your user
@@ -229,6 +237,12 @@ Meteor.startup(
       var filter = { userId: { $exists: true }};
 
       return Presences.find(filter, { fields: { state: true, userId: true }});
+    });
+*/
+    //music
+
+    Meteor.publish("allMusic", function() {
+      return ghMusic.find( {} );
     });
 
     ghText.allow({
@@ -356,8 +370,6 @@ function getCollectionForType(_type) {
 
     //data controls
 
-    if (_type == cMap) col = ghMap;
-
     if (_type == cSound) col = ghSound;
 
     if (_type == cImage) col = ghImage; 
@@ -368,7 +380,7 @@ function getCollectionForType(_type) {
 
     if (_type == cText) col = ghText;
 
-    if (_type == cDebrief) col = ghDebrief;
+    if (_type == cDebrief) col = ghMeme;
 
     return col;
   }
@@ -407,11 +419,25 @@ function testAvatarURL(_key) {
     }
 }
 
+//assumes a positive integer and calcs BACKWARDS in time
+
+function getXDaysFromNow( _x ) {
+
+      var d = new Date();
+      var n = d.getTime();
+
+      var _day = 60 * 60 * 24 * 1000;
+
+      var _startDate = n - (_x * _day);
+
+      return new Date(_startDate); 
+
+}
+
+
 //*********************************************
 //      METHODS
 //*********************************************
-
-
 
 var _index = -1;
 
@@ -427,6 +453,179 @@ guestResult = function(_err, _result) {
 }
 
 Meteor.methods({
+
+    setFeaturedUserID: function( _id ) {
+
+      featuredUserID = _id;
+    },
+
+    writeActiveUsers: function() {
+
+      var fs = Npm.require('fs');
+
+      var p = "/Users/michaelmccrickard/Desktop/";
+
+      var s = "username,email\n";
+
+      var _count = 0;
+
+      var _arr = Meteor.users.find( { "profile.st": usActive } ).fetch();
+
+      for (var i = 0; i < _arr.length; i++) {
+
+         var _email = _arr[i].emails[0].address;
+
+         if ( _email.indexOf( "example.com") == -1) {
+
+          s = s + _arr[i].username + "," + _email + "\n";
+
+          console.log( "added user " + _arr[i].username );
+          _count++;
+        }
+
+      }
+
+      console.log( _count + " users added.");
+
+      fs.writeFileSync(p +"activeUsers.csv", s);
+
+    },
+
+
+    getTopBadges: function(_days) {
+
+    var d2 = new Date(0);
+
+    if (_days) {
+
+      d2 = getXDaysFromNow( _days );
+    }
+
+      return (Meteor.users.aggregate([
+
+          {"$match": {"profile.st": usActive } },       
+
+          {
+              "$project": {
+
+              "_id": 1,
+              "username": 1,
+              "profile": 1
+            }
+          },
+
+          {"$unwind": "$profile.sp" },
+
+           { "$group": {
+
+                "_id": "$_id",
+
+                "username": { "$first": '$username' },
+
+                "profile": { "$first": '$profile' },
+
+                "totalSpeed": {"$sum" : "$profile.sp" }
+            }
+          },  
+
+
+          {"$unwind": "$profile.sc" },
+
+           { "$group": {
+
+                "_id": "$_id",
+
+                "username": { "$first": '$username' },
+
+                "profile": { "$first": '$profile' },
+
+                "totalSpeed": { "$first": '$totalSpeed' },
+
+                "totalScholar": {"$sum" : "$profile.sc" }        
+            }
+          },
+
+           {"$unwind": "$profile.in" },
+
+           { "$group": {
+
+                "_id": "$_id",
+
+                "username": { "$first": '$username' },
+
+                "profile": { "$first": '$profile' },
+
+                "totalSpeed": { "$first": '$totalSpeed' },
+
+                "totalScholar": { "$first": '$totalScholar' },         
+
+                "totalInvestigator":  {"$sum" : "$profile.in" }              
+            }
+          }, 
+
+           {"$unwind": "$profile.ft" },
+
+           { "$group": {
+
+                "_id": "$_id",
+
+                "username": { "$first": '$username' },
+
+                "profile": { "$first": '$profile' },
+
+                "totalSpeed": { "$first": '$totalSpeed' },
+
+                "totalScholar": { "$first": '$totalScholar' }, 
+
+                "totalInvestigator": { "$first": '$totalInvestigator' },             
+
+                "totalFirstTime":  {"$sum" : "$profile.ft" }              
+            }
+          },         
+
+          {"$match": { $or: [ { "totalSpeed": { $ne: 0 } }, { "totalScholar": { $ne: 0 } }, { "totalInvestigator": { $ne: 0 } }, { "totalFirstTime": { $ne: 0 } } ], "profile.sn": { $gt: d2 } } },
+
+          {
+              "$project": {
+
+              "_id": 1,
+
+              "profile.av": 1,
+              
+              "username": 1,
+
+              "totalBadges": {"$add" : ["$totalSpeed", "$totalScholar", "$totalInvestigator", "$totalFirstTime", "$profile.ge", "$profile.ex" ] }    
+            }
+          },
+
+          { "$sort": { "totalBadges": -1 } }
+
+        ])
+      );
+
+    },
+
+
+
+    getTopHackers: function( _days ) {
+
+    var d2 = new Date(0);
+
+    if (_days) {
+
+      d2 = getXDaysFromNow( _days );
+    }
+
+      return Meteor.users.aggregate([ 
+
+        { $match:{ 'profile.st': usActive, "profile.sn": { $gt: d2 } } }, 
+
+        { $project:  { username: 1, "profile.av": 1, numberOfHacks: { $size: "$profile.h" } } }, 
+
+        { $sort : { numberOfHacks: -1 } } ]);
+
+    },
+
 
   createGuest: function() {
 
@@ -592,6 +791,7 @@ console.log(this.userId);
 
 testImages: function() {
 
+
 arrImages = ghImage.find({}).fetch();
 
 //c(arrImages.length = " files in db")
@@ -651,9 +851,10 @@ console.log( bad + " bad image links found")
 
     var URL = arrImages[ _index ].u;
 
+
     //doing a synchronous call, so unblock the server
 
-    //self.unblock();
+    //this.unblock();
 
 //console.log("trying URL: " + URL);
 
@@ -674,9 +875,11 @@ console.log( bad + " bad image links found")
 
        // var errorJson = JSON.parse(result.content);
         
-//var ind = URL.lastIndexOf("-");
+      //var ind = URL.lastIndexOf("-");
 
-        console.log(URL + " -- BAD");
+var _obj = arrImages[_index];
+
+        console.log(_obj.cc + " -- " + _obj.dt + " -- BAD");
 
         bad++;
 

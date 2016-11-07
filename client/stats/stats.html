@@ -1,6 +1,140 @@
 <template name="stats">
 
-	<div class="container statsContainer whiteText">
+	<div class="divStats">
+
+	  <!-- Nav tabs -->
+	  <ul class="nav nav-tabs" role="tablist">
+		<li role="presentation" class="active"><a href="#me" aria-controls="me" role="tab" data-toggle="tab" data-mode="me" id="me">ME</a></li>
+	    <li role="presentation"><a href="#recent" aria-controls="recent" role="tab" data-toggle="tab"  id="allUsers" data-mode="recent">RECENT</a></li>
+	    <li role="presentation"><a href="#allUsers" aria-controls="allUsers" role="tab" data-toggle="tab" id="allUsers" data-mode="alltime">ALL-TIME</a></li>
+	  </ul>
+
+	  <!-- Tab panes -->
+	  <div class="tab-content">
+	    <div role="tabpanel" class="tab-pane active" id="me"></div>
+	    <div role="tabpanel" class="tab-pane" id="allUsers"></div>
+	    <div role="tabpanel" class="tab-pane" id="allUsers"></div>
+	  </div>
+
+	</div>
+
+	<div class="divHomeContent">
+
+		{{> Template.dynamic template=statsContent}}
+	
+	</div>
+
+	<script> 
+
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+
+				_mode = $(e.target).attr("data-mode");
+
+				if (_mode == "alltime") display.stats.dayOffset = 0;
+
+				if (_mode == "recent") display.stats.dayOffset = 5;
+
+				Meteor.defer( function() { display.stats.template.set( _mode ); } );
+
+			}
+		);
+
+
+	</script>
+	
+</template>
+
+
+<template name="alltime">
+
+	{{> hacksAndBadges}}
+
+</template>
+
+
+<template name="recent">
+
+	{{> hacksAndBadges}}
+
+</template>
+
+
+<template name="hacksAndBadges">
+
+{{#if Template.subscriptionsReady}}
+
+		<div class="divStatsTableLeft"> 
+
+			<h2 class="statsHacksTitle">HACKS</h2>
+
+			<table class="statsDataTable" style="width: 40%;" border="4">
+
+				  <tr>
+				  	<th class="statsColData statsColumn"></th>
+				    <th class="statsColName statsColumn">NAME</th>
+				    <th class="statsColData statsColumn">AVATAR</th> 
+				    <th class="statsColData statsColumn">HACKS</th> 
+				  </tr>
+
+			  	  {{#each hackAgent}}
+
+					  <tr class="dataRow statsColumn">
+
+					  	<td class="squeeze">{{rank @index}}</td>
+					    
+					    <td class="squeeze squeezeName">{{this.username}}</td>
+
+					    <td class="squeeze"><img class="imgAvatar" src="{{this.profile.av}}" id="{{this._id}}"/> </td> 
+
+					    <td class="squeeze">{{this.numberOfHacks}}</td>
+
+					  </tr>
+
+				  {{/each}}
+			
+			</table>	
+
+		</div>
+
+		<div class="divStatsTableRight"> 
+
+			<h2 class="statsBadgesTitle">BADGES</h2>
+
+			<table class="statsDataTable" style="width: 70%;" border="4">
+
+				  <tr>
+				  	<th class="statsColData statsColumn"></th>
+				    <th class="statsColName statsColumn">NAME</th>
+				    <th class="statsColData statsColumn">AVATAR</th> 
+				    <th class="statsColData statsColumn">BADGES</th> 
+				  </tr>
+
+			  	  {{#each badgeAgent}}
+
+					  <tr class="dataRow statsColumn">
+					    
+					  	<td class="squeeze">{{rank @index}}</td>
+
+					    <td class="squeeze squeezeName">{{this.username}}</td>
+
+					    <td class="squeeze"><img class="imgAvatar" src="{{this.profile.av}}"  id="{{this._id}}" /> </td> 
+
+					    <td class="squeeze">{{this.totalBadges}}</td>
+
+					  </tr>
+
+				  {{/each}}
+			
+			</table>	
+
+		</div>
+
+{{/if}}
+</template>
+
+<template name="me">
+	
+	<div class="statsContainer whiteText">
 
 		<h2><span class="yellowText">AGENT:</span> {{agentName}}</h2>
 
@@ -35,4 +169,5 @@
 		</div>
 
 	</div>
+
 </template>

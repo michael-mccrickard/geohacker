@@ -14,6 +14,10 @@ Display = function() {
 
     this.help = new Help();
 
+    this.stats = new Stats();
+
+    this.unit = new Unit();
+
     //layout constants
 
     this.menuHeight = 50;
@@ -36,7 +40,7 @@ Display = function() {
     }
 
     this.getImageFromFile = function(_file) {
-
+c('getImage')
       // Create new offscreen image to test
 
       var theImage = new Image();

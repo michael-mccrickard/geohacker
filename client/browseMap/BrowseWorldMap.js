@@ -9,13 +9,6 @@
 
 var worldMap = null;
 
-/*
-var areaTop = 0;
-var areaLeft = 0;
-var areaWidth = 0;
-var areaHeight = 0;
-*/
-
 BrowseWorldMap = function( _mapCtl ) {
 
     //selection vars    

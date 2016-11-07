@@ -36,7 +36,7 @@ Template.userDirectory.helpers({
     if (userSortBy == "username") _users = Meteor.users.find( { 'profile.st': { $in: arrUserFilter } }, { sort:  userSort } ).fetch();
 
      if (userSortBy == "profile.sn") _users = Meteor.users.find( { 'profile.st': { $in: arrUserFilter } }, { sort:  { "profile.sn": userSortDir } } ).fetch();   
-
+/*
     if ( onlineOnly ) {  //online users only
 
         for (var i = 0; i < _users.length; i++) {
@@ -50,7 +50,9 @@ Template.userDirectory.helpers({
 
       return _users;
     }
+*/
 
+return _users;
   },
 
   isActive: function() {
@@ -78,12 +80,12 @@ Template.userDirectory.helpers({
 
     return _title;
   },
-
+/*
   presence: function() { 
 
     return Meteor.presences.findOne({userId: this._id});
   },
-
+*/
   lastSeen: function() {
 
     return this.profile.sn;
@@ -101,15 +103,21 @@ function updateSort()  {
 
 Template.userDirectory.events = {
 
-  'click .sortByDate': function(e) {
+  'click img.userDirectoryAvatar': function(e) {
 
-    //var _dir = Session.get("sUserSortDir");
+    Session.set("sProfiledUserID", $(e.target).attr("data-userID"));
+
+    FlowRouter.go("/home");
+
+    game.user.setMode( uBio );   
+
+  },
+
+  'click .sortByDate': function(e) {
 
     var _dir = userSortDir;
 
     if ( userSortBy == "profile.sn" ) userSortDir = _dir * -1;
-
-    //Session.set("sUserSortBy", '"profile.sn"')
 
     userSortBy = "profile.sn";
 
@@ -125,8 +133,6 @@ Template.userDirectory.events = {
     var _dir = userSortDir;
 
     if ( userSortBy == "username" ) userSortDir = _dir * -1;
-
-    //Session.set("sUserSortBy", '"profile.sn"')
 
     userSortBy = "username";
 
@@ -183,8 +189,6 @@ Template.userDirectory.events = {
 
         updateSort();
 
-        //Session.set("sArrUserFilter",  _tmpArr);  
-
         return;
 
     }
@@ -194,10 +198,7 @@ Template.userDirectory.events = {
 
     if (intID > 0 && selected) setModeButton(0, 0);  //i.e., if a specific type was selected, deselect the NONE button
 
-
-//intID++;  //the ID has to be incremented to work correctly (???)
-
-    var _arr = arrUserFilter; //Session.get("sArrUserFilter"); 
+    var _arr = arrUserFilter; 
 
     var _index = _arr.indexOf( intID )
 
@@ -211,7 +212,6 @@ Template.userDirectory.events = {
     }
 
 
-
     if ( _arr.indexOf( -1 ) != -1 && selected) {  // -1 in the array means onlineOnly mode
 
         onlineOnly = true;
@@ -220,8 +220,6 @@ Template.userDirectory.events = {
 
       onlineOnly = false;
     }
-
-    //Session.set("sArrUserFilter", _arr)
 
     arrUserFilter = _arr;
 

@@ -253,15 +253,14 @@ Template.newBrowse.events({
     		var _videoid = $("#" + _id).data("videoid");
 
     		var _src = $("#" + _id).attr("src");
-
     		
     		if ( _type == "modal" ) {
 
-    			hacker.meme = new Meme("modal", _name, _src);
+    			display.unit = new Unit("modal", _name, _src);
 
-    			hacker.meme.preloadImage();
+    			display.unit.preloadImage();
 
-    			$('#zoomInModal').modal('show');
+    			//$('#zoomInModal').modal('show');
 
           display.browser.hiliteFrame( _id );
 

@@ -40,7 +40,7 @@ Bio = function() {
 
 	this.redraw = function() {
 
-	  Meteor.setTimeout( function() { game.user.bio.draw(); }, 100 );
+	  Meteor.setTimeout( function() { game.user.bio.draw(); }, 400 );
 
 	}
 

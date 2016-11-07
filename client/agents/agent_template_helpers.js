@@ -67,7 +67,12 @@ Template.bigAgent.helpers({
 
   agentStatus: function() {
 
-    return arrUserStatus[ this.profile.st - 1 ];
+      _status = this.profile.st;
+
+      if (_status == usFake) _status = usActive;
+
+      return arrUserStatus[ _status - 1 ];
+
   },
 
     hackCount: function() {
@@ -126,7 +131,11 @@ Template.agent.helpers({
 
     agentStatus: function() {
 
-      return arrUserStatus[ this.profile.st - 1 ];
+      _status = this.profile.st;
+
+      if (_status == usFake) _status = usActive;
+
+      return arrUserStatus[ _status - 1 ];
     },
 
     hackCount: function() {
@@ -177,7 +186,12 @@ Template.miniAgent.helpers({
 
     agentStatus: function() {
 
-      return arrUserStatus[ this.profile.st - 1 ];
+      _status = this.profile.st;
+
+      if (_status == usFake) _status = usActive;
+
+      return arrUserStatus[ _status - 1 ];
+
     },
 
     hackCount: function() {
@@ -223,6 +237,10 @@ showMessage("delete not implemented yet")
   'click .imgAgentContactButton': function(e) { 
 
       e.preventDefault();  
+
+showMessage("contact agent temporarily disabled")
+
+return;
 
       doSpinner();
 

@@ -1,0 +1,102 @@
+<template name="main">
+
+
+	<div class="newWrapper">
+
+		<img class="backdrop" src="screenBackdrop.jpg">
+
+		<div class="divStatus" id="headlineStatus">{{status}}</div>
+
+		<img class="featuredBackdrop" src="featuredBackdrop.jpg" />
+
+		{{> scanning}}
+
+		<span class="featuredText {{featuredAreaFont}} hidden">{{displayTextContent}}</span>
+
+		<img class="featuredPic hidden"  src="" />
+
+		<!-- the YouTube API writes the youtube player into this div when appropriate -->
+
+		{{#if youTubeWaiting}}
+
+			<div class="displayWaiting">
+
+				{{> spinner}}
+			
+			</div>
+		
+		{{/if}}
+
+		<img class="navButton navPrev invisible"  src="nav_prev2.png" />	
+
+		<img class="navButton navNext invisible"  src="nav_next2.png" />				
+
+		{{#each control}}
+
+			<div  class="control" id="{{this}}">
+
+				<img class="stretch" id="ctlBG_{{this}}"  src="featuredBackdrop.jpg" />
+				
+				{{#if displayTextControlText}}
+					
+					<span class="controlText">{{textControlContent}}</span>
+
+				{{else}}
+
+					<img class="controlPic  {{opacityClass}}" id="pic{{this}}" src="{{controlPic}}" />	
+
+				{{/if}}	
+
+				<div class="controlLabel whiteText {{opacityClass}}">{{this}}</div>		
+			</div>	
+		
+		{{/each}}
+	
+		<div><img class="mainButton clsMapButton" id="mapButton" src="./newGlobeIconYellow.png" /></div>
+
+
+		<div>
+
+			<div class="clsHelperAgent" id="btnHelperAgent">
+
+				<img class="clsHelperAgentButton" id="helperAgentButton" src="{{imgHelperAgent}}" />
+				
+				<div class="clsHelperAgentName">{{helperAgentName}}</div>
+
+				<div class="clsHelperAgentTitle">{{helperAgentTitle}}</div>
+
+			</div>
+
+		</div>
+
+		
+
+		<div><img class="arrow invisible" id="mapArrow" src="./up-arrow.png" /></div>
+
+		<div><img class="arrow invisible" id="scanArrow" src="./down-arrow.png" /></div>
+
+		<div><img class="mainButton clsScanButton" id="scanButton" src="./tvScannerYellow.png" /></div>
+
+
+		{{#if TVisVideo}}
+
+			<video class="clsScanButtonVideoContent" width="400" height="300" id="scannerVideo">
+			  <source src="" type="video/mp4" autoplay>
+			Your browser does not support the video tag.
+			</video>
+
+		{{else}}
+
+			<div><img class="clsScanButtonContent scanContentA" id="scanButtonContentA" src="" /></div>
+
+			<!--div><img class="clsScanButtonContent scanContentB" id="scanButtonContentB" src="static.gif" /></div-->
+
+		{{/if}}
+
+
+		<div class="divCue invisible"></div>
+
+	</div>
+
+
+</template>

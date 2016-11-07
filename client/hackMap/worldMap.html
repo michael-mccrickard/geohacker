@@ -1,0 +1,72 @@
+<template name="worldMap">
+
+	<div style="position: absolute; top: 55px; width:10%;">
+
+		<div id="worldIcon">
+			<img class="worldIcon topMapIcon" src="all_icon.png" style="opacity:{{worldIconOpacity}}">
+		</div>
+
+		<div id="continentIcon" class="mapLevel" >
+			<img class="continentIcon mapIcon" id="mapIconContinent" src="{{continentIcon}}" style="opacity:{{continentIconOpacity}};"> 
+			<div class="areaLabel" id="continentLabel" style="opacity:{{continentIconOpacity}}">{{continentName}}</div>
+		</div>
+
+		<div id="regionIcon" class="mapLevel">
+			<img class="regionIcon mapIcon" id="mapIconRegion" src="{{regionIcon}}" style="opacity:{{regionIconOpacity}};"> 
+			<span class="areaLabel" id="regionLabel" style="top: {{labelYCorrection}}; opacity:{{regionIconOpacity}}">{{regionName}}</span>
+		</div>
+
+	</div>
+
+<link href='http://fonts.googleapis.com/css?family=Asap:400,700' rel='stylesheet' type='text/css'>
+<h1 class="letterDropH1 droppingText">{{countryName}}</h1>
+<div id="demo"></div>
+
+	<div id="divMap"  style="position: absolute; top: 55px; left: 10%; width: {{mapWidth}}px; height: {{mapHeight}}px; border-radius: 7px; border: 4px solid; border-color: gray;">
+	</div>  
+
+
+	<div class="mapMessages {{mapMessageColor}}" id="mapMessageBox"></div>
+
+	<button class="btn btn-primary mapButton {{getClassFor 'ok'}}" id="mapOK">OK</button>
+
+	<button class="btn btn-default mapCloseButton {{getClassFor 'close'}}" id="mapClose">X</button>
+
+	{{#if showMapSpinner}}
+
+		{{> spinner}}
+
+	{{/if}}
+
+	<a href="/closeup"> <img id="mapImage" src="" style="position: absolute; border-radius: 7px; border: 4px solid; border-color: gray;"></a>
+
+	{{#if countryIsHacked}}
+
+		<div class="divTVAndText">
+
+			<div class="divTV">
+				<img class="tv tvScreen" src="tvScannerGreen.png" />
+
+				<img class="tv tvContent tvContentA" src="static.gif" />
+
+				<img class="tv tvContent tvContentB" src="static.gif" />
+
+			</div>
+				
+			<div class="divTVText divTVTextLower invisible">{{welcomeText}}</div>
+		</div>	
+
+		<div class="divWelcomeAgent">
+
+			{{> bigAgent}}
+
+		</div>
+
+	{{/if}}
+
+</template>
+
+
+
+
+ 

@@ -44,6 +44,8 @@ Helper = function() {
 
 		this.rec = Database.getRandomElement( _arr );
 
+		if (!this.rec) this.rec = Database.getChiefRec();
+
 		this.pic.set( this.rec.profile.av );
 
 		this.title.set( arrUserTitle[ this.rec.profile.ut ] + db.getCountryName( this.rec.profile.cc ) );

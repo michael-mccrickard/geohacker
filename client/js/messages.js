@@ -46,7 +46,10 @@ showMessage = function( _text ) {
 
     if (_status == usTest || _status == usAdmin) {
 
-        alert( _text);
+        //alert( _text);
+    
+
+        c( _text );
     }
     else {
 
