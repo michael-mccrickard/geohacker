@@ -67,7 +67,7 @@ Browser = function(  ) {
 
 		//Other primaries
 
-		_items = db.ghVideo.find( { cc: hack.countryCode, s: { $in: ["p"] } } ).fetch();
+		_items = db.ghVideo.find( { cc: hack.countryCode, s: "p" }  ).fetch();
 
 		var _unit = null;
 

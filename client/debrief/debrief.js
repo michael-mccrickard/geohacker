@@ -34,7 +34,7 @@ Debrief = function( _rec ) {
 
 	this.imageSrc = null;
 
-	this.meme = new Meme( _rec );
+	this.meme = new Meme( _rec, "debrief" );
 
 	this.meme.init();
 
@@ -148,7 +148,7 @@ Debrief = function( _rec ) {
 
 		var _rec = db.ghMeme.findOne( { cc: this.countryCode, dt: _type } );
 
-		this.meme = new Meme( _rec );
+		this.meme = new Meme( _rec, "debrief" );
 
 		this.meme.init();
 
