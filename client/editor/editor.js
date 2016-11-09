@@ -109,7 +109,7 @@ Editor = function() {
 
 	this.arrCodeText[14] = "flag";
 		this.arrCode[14] = "flg";
-	this.arrCodeExplain[14] = "Image.file = flag"; 
+	this.arrCodeExplain[14] = "Image.file = flag; (if used as Debrief) Meme.text=text for debrief"; 
 
 	//video codes
 

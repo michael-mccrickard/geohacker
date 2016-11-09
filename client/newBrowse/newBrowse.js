@@ -4,11 +4,15 @@ Browser = function(  ) {
 
 	this.updateFlag = new Blaze.ReactiveVar(false);
 
+	this.zoomMeme = new Blaze.ReactiveVar(false);
+
 	this.videoBGFile = "featuredBackdrop.jpg";
 
 	this.index = 0;
 
 	this.video = null;
+
+	this.featuredMeme = null;
 
 	this.videoIndex = new Blaze.ReactiveVar( -1 );
 
@@ -22,9 +26,27 @@ Browser = function(  ) {
 							//in this.countryCode, so we can tell when the country has changed
 							//upon return from the browsemap (user could have simply viewed the map)
 
+	this.arrMeme = [];
+
 	this.init = function( _code ) {
 
 		if (!editor) editor = new Editor();
+
+		this.arrMeme = [];
+
+		//get the array of memes for this country
+
+		var _arr = db.ghMeme.find( { cc: hack.countryCode, dt: { $nin: ["rmp", "map", "ant", "lng_i", "lng_o", "lng_om"] } } ).fetch();
+
+		for (var i = 0; i< _arr.length; i++) {
+
+			this.arrMeme.push( new Meme( _arr[i], "browse" ) );
+
+			this.arrMeme[i].init();
+		}
+
+		Database.shuffle( this.arrMeme );
+
 		
 		this.primaryItems = [];
 
@@ -111,6 +133,26 @@ Browser = function(  ) {
 
         _obj.left  = $(window).width() * .3467;		
 	}
+
+	this.getSidewallImage = function( _which ) {
+
+		return this.arrMeme[ _which ].image;
+	}
+
+	this.getSidewallText = function( _which ) {
+
+		return this.arrMeme[ _which ].text;		
+	}
+
+	this.getFeaturedMemeImage = function( ) {
+
+		return this.featuredMeme.image;
+	}
+
+	this.getFeaturedMemeText = function( ) {
+
+		return this.featuredMeme.text;		
+	}	
 
 	this.hiliteFrame = function( _id) {
 
@@ -206,6 +248,22 @@ Browser = function(  ) {
 	this.setVideoBG = function( _file ) {
 
 		$(".centerImg").attr("src", _file);
+	}
+
+	this.setFeatured = function( _val ) {
+
+		this.featuredMeme = this.arrMeme[ _val ];
+	}
+
+	this.showFeatured = function() {
+
+		this.zoomMeme.set(true);
+
+		this.video.stop();
+
+		this.video.hide();
+
+		this.featuredMeme.preloadImage();
 	}
 
 	this.updateContent = function() {

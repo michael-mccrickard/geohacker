@@ -66,16 +66,6 @@ Template.newBrowse.helpers({
 		return hack.getCountryName();
 	},
 
-    capitalImage: function() {
-
-    	return hack.getCapitalPic();
-  	},
-
-     capitalName: function() {
-
-    	return hack.getCapitalName();
-  	},
-
      flagImage: function() {
 
     	return hack.getFlagPic();
@@ -120,15 +110,33 @@ Template.newBrowse.helpers({
 
       return "60px";
     },
+    
+    leftImage: function() {
 
-     leaderImage: function() {
+      display.browser.updateFlag.get();
 
-    	return hack.getLeaderPic();
+      return display.browser.getSidewallImage(0);
+    },
+
+     leftText: function() {
+
+      display.browser.updateFlag.get();
+
+      return display.browser.getSidewallText(0);
+    },
+
+     rightImage: function() {
+
+      display.browser.updateFlag.get();
+
+    	return display.browser.getSidewallImage(1);
   	},
 
-     leaderName: function() {
+     rightText: function() {
 
-    	return hack.getLeaderName();
+      display.browser.updateFlag.get();
+
+    	return display.browser.getSidewallText(1);
   	},
 
   	video: function() {
@@ -224,6 +232,20 @@ Template.newBrowse.helpers({
  });
 
 Template.newBrowse.events({
+
+    'click img#browseLeftImage': function(e) {
+
+        display.browser.setFeatured(0); 
+        
+        display.browser.showFeatured();   
+    },
+
+    'click img#browseRightImage': function(e) {
+
+        display.browser.setFeatured(1); 
+        
+        display.browser.showFeatured();   
+    },
 
     'click .imgFlag': function(event, template) {
 

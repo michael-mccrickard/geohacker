@@ -1,6 +1,12 @@
 /*********************************************
 
-	DATA TYPES  -- dt field in database  (which table in db uses this code; plus info about the data in the record)
+*****MOVE THIS TO DB_SCHEMEL.JS AFTER MEMES ARE IMPLEMENTED*****************************
+
+	These data types are used across the database, in all the control tables except for ghWeb (sound, video, meme, image)
+
+	The data type field is called "dt" in the database.
+	  
+	Explanantions below: (which table in db uses this code; plus info about the data in the record)
 
 	These are also documented in editor.js in a more formal way, along with the video dt codes.
 
@@ -65,6 +71,8 @@ Meme = function( _rec, _type )  {
 
 	this.image = "";
 
+	this.imageSrc = null;
+
 	this.text = "";
 
 
@@ -104,6 +112,8 @@ Meme = function( _rec, _type )  {
 			var capital = hack.getCapitalName();
 
 			if ( _type == "debrief" ) this.text = capital + " is the capital of " + hack.getCountryName() + ".";
+
+			if ( _type == "browse" ) this.text = capital;
 		}
 
 		if (this.code == "ldr") {
@@ -113,13 +123,15 @@ Meme = function( _rec, _type )  {
 			var leaderType = hack.getLeaderType();
 
 			if ( _type == "debrief" ) this.text = leaderName + " is the " + leaderType + " of " + hack.getCountryName() + ".";
+
+			if ( _type == "browse" ) this.text = leaderType + " " + leaderName;			
 		}
 
 		//the code is the first 3 letters of the field and dt is the full field
 
 		if (this.code  == "hqt") {
 
-			if ( _type == "debrief" ) this.text = this.rec.t + " is headquartered in " + hack.getCountryName() + ".";
+			if ( _type == "debrief" || _type == "browse" ) this.text = this.rec.t + " is headquartered in " + hack.getCountryName() + ".";
 		}
 
 		if (this.rec.dt  == "lng_i") {
@@ -141,4 +153,62 @@ Meme = function( _rec, _type )  {
 
 	}
 
+	this.preloadImage = function() {
+
+		//borrow the debrief preload element
+
+		$("#preloadDebrief").attr("src", this.image );
+
+        imagesLoaded( document.querySelector('#preloadDebrief'), function( instance ) {
+
+        	display.browser.featuredMeme.imageSrc = display.getImageFromFile( display.browser.featuredMeme.image );  
+
+        	FlowRouter.go("/meme");
+
+        	//it takes a moment to create the off-screen image (for dimensioning)
+        	//in the call the getImageFromFile() above
+
+        	Meteor.setTimeout( function() { display.browser.featuredMeme.draw(); }, 200 );
+
+        });
+
+	}
+
+	this.draw = function( ) {
+
+		$("div.memeText").text( this.text );
+
+	    var fullScreenWidth = $(window).width();
+
+	    var fullScreenHeight = $(window).height();
+
+	    var maxWidth = fullScreenWidth;
+
+	    var fullHeight = fullScreenHeight * 0.85;
+
+	    var _width = (fullHeight / this.imageSrc.height ) * this.imageSrc.width; 
+
+	    if (_width > maxWidth) _width = maxWidth;
+
+	    var _left = (maxWidth/2) - (_width / 2 );
+
+		var container = "img.memePicFrame";
+
+		$( container ).css("left",  _left + "px" );  
+
+		$( container ).css("top", "65px");
+
+		$( container ).attr("height", fullHeight );
+
+		$( container ).attr("width", _width );  
+
+		$( container ).attr("src", this.image );
+		
+
+		var container = "div.memeText";
+
+		$( container ).css("width", _width );  
+		
+		$( container ).css("left", _left );  
+	}
 }

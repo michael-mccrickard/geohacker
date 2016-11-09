@@ -241,7 +241,10 @@ Hack = function() {
 
        var _file = this.getAnthemFile();
 
-       if (hacker.ctl["SOUND"].getState() == sPlaying ) hacker.ctl["SOUND"].pause();
+       if (hacker.ctl["SOUND"]) {
+
+          if (hacker.ctl["SOUND"].getState() == sPlaying ) hacker.ctl["SOUND"].pause();
+       }
 
        display.playEffect( _file );
     },

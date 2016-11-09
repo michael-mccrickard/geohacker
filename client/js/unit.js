@@ -5,12 +5,12 @@
   Units are used to display info to the user in the country browser.
   The types are:
 
-  modal -- An image, with optional text and sound file, displayed in a modal window.  Any meme with this type is 
+  modal -- An image, with optional text and sound file (text and sound not implemented), displayed in a modal window.  Any meme with this type is 
   temporarily assigned to display.unit when displayed.
 
   video -- A youtube video to be shown on the browser screen
 
-  classic -- still image with text, with an optional sound file.  These can also be temporarily assigned to
+  classic -- still image with text, with an optional sound file (not yet implemented).  These can also be temporarily assigned to
   display.unit, if we need to show them in a modal window.
 
 ******************************************************************
@@ -63,8 +63,6 @@ Unit = function(_type, _name, _src, _videoID) {
           Meteor.setTimeout( function() { display.unit.dimensionImage( display.unit.frame ); }, 500);
 
           if (display.unit.type == "modal") Meteor.setTimeout( function() { display.unit.showModal(); }, 501);     
-
-          
 
         });
 	}
