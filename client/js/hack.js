@@ -24,6 +24,8 @@ Hack = function() {
   /*            MISC PROPS        
   /********************************************/
 
+  this.debriefCollection = null;
+
   this.debrief = null;
 
   this.welcomeAgent = null;
@@ -46,14 +48,9 @@ Hack = function() {
 
         hacker.init(this.countryCode);
 
-        if (this.debrief == null) {
+        this.debriefCollection = new DebriefCollection( this.countryCode );
 
-          this.debrief = new Debrief( this );
-        }
-
-        this.debrief.init( this.countryCode );
-
-        this.debrief.set( this.debrief.index );
+        this.debrief = Database.getRandomElement( this.debriefCollection.items );
 
         game.user.assign.resetMap();
 
@@ -180,7 +177,7 @@ Hack = function() {
 
        this.textSub =  Meteor.subscribe("ghText", function() { Session.set("sTextReady", true ) });
 
-       this.debriefSub =  Meteor.subscribe("ghDebrief", function() { Session.set("sDebriefReady", true ) });     
+       this.debriefSub =  Meteor.subscribe("ghMeme", function() { Session.set("sDebriefReady", true ) });     
 
        this.agentsSub =  Meteor.subscribe("agentsInCountry", function() { Session.set( "sAgentsInCountryReady", true ) } );
     }
@@ -244,7 +241,10 @@ Hack = function() {
 
        var _file = this.getAnthemFile();
 
-       if (hacker.ctl["SOUND"].getState() == sPlaying ) hacker.ctl["SOUND"].pause();
+       if (hacker.ctl["SOUND"]) {
+
+          if (hacker.ctl["SOUND"].getState() == sPlaying ) hacker.ctl["SOUND"].pause();
+       }
 
        display.playEffect( _file );
     },
@@ -451,7 +451,7 @@ Hack = function() {
 
     this.getLeaderType = function() {
 
-      return db.ghDebrief.findOne( { cc: this.countryCode, dt: "ldr" } ).t;
+      return db.ghMeme.findOne( { cc: this.countryCode, dt: "ldr" } ).t;
     }
 
     this.getRegionName = function() {

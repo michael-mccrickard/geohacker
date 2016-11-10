@@ -32,7 +32,7 @@ Database = function() {
 
     this.ghWeb = new Meteor.Collection('ghWeb');
 
-    this.ghDebrief = new Meteor.Collection('alDebrief');
+    this.ghMeme = new Meteor.Collection('alDebrief');
 
     this.ghTag = new Meteor.Collection("ghTag");
 
@@ -498,7 +498,7 @@ c("db is removing record for " + _code + " in the current mission.")
 
     if (_type == cText) col = this.ghText;
 
-    if (_type == cDebrief) col = this.ghDebrief;
+    if (_type == cDebrief) col = this.ghMeme;
 
     return col;
   }
@@ -530,7 +530,7 @@ c("db is removing record for " + _code + " in the current mission.")
 
     if (_name == "TEXT") col = this.ghText;
 
-    if (_name == "DEBRIEF") col = this.ghDebrief;
+    if (_name == "DEBRIEF") col = this.ghMeme;
 
     return col;
   }

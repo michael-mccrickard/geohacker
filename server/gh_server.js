@@ -69,7 +69,7 @@ Meteor.startup(
 
     ghWeb = new Meteor.Collection('ghWeb');
 
-    ghDebrief = new Meteor.Collection('alDebrief');
+    ghMeme = new Meteor.Collection('alDebrief');
 
     //ghMap = new Meteor.Collection('alMap');
 
@@ -107,7 +107,7 @@ Meteor.startup(
     });
 
     Meteor.publish("allDebriefs", function() {
-      return ghDebrief.find( {} );
+      return ghMeme.find( {} );
       });
 
   //Meteor.users collection
@@ -182,12 +182,7 @@ Meteor.startup(
       return ghText.find( { dt: "cap" } );
     }); 
 
-    //map control -- generic clues, not specific to countries
-/*
-    Meteor.publish("ghMap", function () {
-      return ghMap.find( {} );
-    });
-*/
+
     //"normal" controls
 
     //hack collections, single country
@@ -214,8 +209,8 @@ Meteor.startup(
 
     //debriefs
 
-    Meteor.publish("ghDebrief", function () {
-      return ghDebrief.find( { cc: countryCode });
+    Meteor.publish("ghMeme", function () {
+      return ghMeme.find( { cc: countryCode });
     });
 
     //map tags
@@ -223,8 +218,6 @@ Meteor.startup(
     Meteor.publish("ghTag", function () {
       return ghTag.find();
     });
-
-
 
 
     //user messaging
@@ -377,8 +370,6 @@ function getCollectionForType(_type) {
 
     //data controls
 
-    if (_type == cMap) col = ghMap;
-
     if (_type == cSound) col = ghSound;
 
     if (_type == cImage) col = ghImage; 
@@ -389,7 +380,7 @@ function getCollectionForType(_type) {
 
     if (_type == cText) col = ghText;
 
-    if (_type == cDebrief) col = ghDebrief;
+    if (_type == cDebrief) col = ghMeme;
 
     return col;
   }
@@ -428,12 +419,6 @@ function testAvatarURL(_key) {
     }
 }
 
-
-
-//*********************************************
-//      METHODS
-//*********************************************
-
 //assumes a positive integer and calcs BACKWARDS in time
 
 function getXDaysFromNow( _x ) {
@@ -450,6 +435,9 @@ function getXDaysFromNow( _x ) {
 }
 
 
+//*********************************************
+//      METHODS
+//*********************************************
 
 var _index = -1;
 

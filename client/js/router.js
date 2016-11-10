@@ -73,13 +73,13 @@ FlowRouter.route('/learnCountry', {
 
 });
 
-FlowRouter.route('/start2', {
+FlowRouter.route('/meme', {
 
-  name: "start2",
+  name: "meme",
 
   action: function (params, queryParams) { 
 
-    BlazeLayout.render('layout', { content: "start2" } ) 
+    BlazeLayout.render('layout', { content: "meme" } ) 
   },
 
 });
