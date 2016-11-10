@@ -186,7 +186,7 @@ Intro = function() {
 
 		var _text = "AT ANY TIME, CLICK YOUR PHOTO TO GO TO THE MENU. ";
 
-		tl.add( () => {  $(".introText").text() } );
+		tl.add( () => {  $(".introText").text( _text) } );
 
 		tl.add( () => {  $(".introText").css("top", "390px")  } );
 
