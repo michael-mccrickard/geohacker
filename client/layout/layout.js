@@ -1,25 +1,20 @@
 Template.layout.helpers({
 
-  browserZoomMeme: function() {
-
-    return display.browser.zoomMeme.get();
-  },
-
   zoomInModalTitle: function() {
 
-      return hacker.unit.name;
+      return hacker.meme.name;
   },
 
   srcImgZoomInModal: function() {
 
       hacker.updateFlag.get();
 
-      return hacker.unit.src;
+      return hacker.meme.src;
   },
 
   zoomInModalText: function() {
 
-      return hacker.unit.text;
+      return hacker.meme.text;
   }
 
 })

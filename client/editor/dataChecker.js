@@ -95,7 +95,7 @@ Template.dataChecker.helpers({
 
       if (_which == "lngSound") res = db.ghSound.find( { cc: this.c, dt: "lng" } ).fetch().length;
 
-      if (_which == "lngDebrief") res = db.ghMeme.find( { cc: this.c, dt: { $in: ["lng_o","lng_om"] } } ).fetch().length;
+      if (_which == "lngDebrief") res = db.ghDebrief.find( { cc: this.c, dt: { $in: ["lng_o","lng_om"] } } ).fetch().length;
 
       if (_which == "antSound") res = db.ghSound.find( { cc: this.c, dt: "ant" } ).fetch().length;
 
@@ -110,7 +110,7 @@ Template.dataChecker.helpers({
 
       var res = 0;
 
-      if (_which == "debrief") res = db.ghMeme.find( { cc: this.c } ).fetch().length;
+      if (_which == "debrief") res = db.ghDebrief.find( { cc: this.c } ).fetch().length;
 
       if (_which == "image") res = db.ghImage.find( { cc: this.c } ).fetch().length;
 

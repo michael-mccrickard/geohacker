@@ -22,8 +22,7 @@ Editor = function() {
 
 	this.arrField = ["s"];
 
-	this.arrFieldText = ["f", "s", "dt"];	//this is the only one that still uses the "pass an array of field names to update" method 
-											//and it would be better if it used the data object update method
+	this.arrFieldText = ["f", "s", "dt"];	//this is the only one that still has the dt field, but this would be better if it used the data object update method
 
 	this.arrFieldDebrief = ["t"];
 
@@ -41,6 +40,8 @@ Editor = function() {
 
   	this.videoUploader = new Slingshot.Upload("ghVideo");
 
+  	Session.set("sYouTubeOn", false);
+
  	this.arrCodeText = [];
 
 	this.arrCode = [];
@@ -49,19 +50,17 @@ Editor = function() {
 
 	this.codeExplainText = new Blaze.ReactiveVar("0");
 
-	//image, text, sound, image/text pairs, text/sound pairs
-
 	this.arrCodeText[0] = "national anthem";
 	this.arrCode[0] = "ant";
 	this.arrCodeExplain[0] = "Sound file (.mp3) of this country's national anthem";
 
 	this.arrCodeText[1] = "leader";
 	this.arrCode[1] = "ldr";
-	this.arrCodeExplain[1] = "Text = Name of the country's leader; Image = photo of the country's leader; Meme.text = title of country's leader (President, e.g.);"
+	this.arrCodeExplain[1] = "Text = Name of the country's leader; Image = photo of the country's leader; Debrief.text = title of country's leader (President, e.g.);"
 
 	this.arrCodeText[2] = "capital";
 	this.arrCode[2] = "cap";
-	this.arrCodeExplain[2] = "Text = Name of the country's capital city; Image = photo of the country's capital city; Meme record needs code only.";
+	this.arrCodeExplain[2] = "Text = Name of the country's capital city; Image = photo of the country's capital city; Debrief record needs code only.";
 
 	this.arrCodeText[3] = "country map";
 		this.arrCode[3] = "cmp";
@@ -77,15 +76,15 @@ Editor = function() {
 
 	this.arrCodeText[6] = "official language (only one)";
 		this.arrCode[6] = "lng_o";
-	this.arrCodeExplain[6] = "Meme.text = name of this language";
+	this.arrCodeExplain[6] = "Debrief.text = name of this language";
 
 	this.arrCodeText[7] = "official language (1 of multiple languages)";
 		this.arrCode[7] = "lng_om";
-	this.arrCodeExplain[7] = "Meme.text = name of this language";
+	this.arrCodeExplain[7] = "Debrief.text = name of this language";
 
 	this.arrCodeText[8] = "indigenous language";
 		this.arrCode[8] = "lng_i";
-	this.arrCodeExplain[8] = "Meme.text = name of this language";
+	this.arrCodeExplain[8] = "Debrief.text = name of this language";
 
 	this.arrCodeText[9] = "language";
 		this.arrCode[9] = "lng";
@@ -93,25 +92,23 @@ Editor = function() {
 
 	this.arrCodeText[10] = "custom";
 		this.arrCode[10] = "cus";
-	this.arrCodeExplain[10] = "Custom message -- could be anything (fun fact, interesting photo, historical info, etc.).  Image.file = photo or other graphic;  Meme.text = text to accompany graphic";
+	this.arrCodeExplain[10] = "Custom message -- could be anything (fun fact, interesting photo, historical info, etc.).  Image.file = photo or other graphic;  Debrief.text = text to accompany graphic";
 
 	this.arrCodeText[11] = "headquarters";
 		this.arrCode[11] = "hqt";
-	this.arrCodeExplain[11] = "Any well-known business headquartered in this country. Image.file = photo or graphic; Meme.text = name of the business";
+	this.arrCodeExplain[11] = "Any well-known business headquartered in this country. Image.file = photo or graphic; Debrief.text = name of the business";
 
 	this.arrCodeText[12] = "landmark";
 		this.arrCode[12] = "lan";
-	this.arrCodeExplain[12] = "Any well-known natural or man-made landmark in this country. Image.file = photo or graphic; Meme.text = name of the landmark";
+	this.arrCodeExplain[12] = "Any well-known natural or man-made landmark in this country. Image.file = photo or graphic; Debrief.text = name of the landmark";
 
 	this.arrCodeText[13] = "artist";
 		this.arrCode[13] = "art";
-	this.arrCodeExplain[13] = "Any well-known artist based or born in this country (visual artist, writer, musician, etc). Image.file = photo or graphic; Meme.text = name of the artist";
+	this.arrCodeExplain[13] = "Any well-known artist based or born in this country (visual artist, writer, musician, etc). Image.file = photo or graphic; Debrief.text = name of the artist";
 
 	this.arrCodeText[14] = "flag";
 		this.arrCode[14] = "flg";
-	this.arrCodeExplain[14] = "Image.file = flag; (if used as Debrief) Meme.text=text for debrief"; 
-
-	//video codes
+	this.arrCodeExplain[14] = "Image.file = flag"; 
 
 	this.arrCodeText[15] = "Geography Now";
 		this.arrCode[15] = "gn";

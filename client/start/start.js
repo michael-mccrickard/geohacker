@@ -1,7 +1,7 @@
 
 //Debugging hacks
 
-gHackPreselect = "UY";
+gHackPreselect = "";
 
 //Meteor.subscribe("registeredUsers");  
 
@@ -332,6 +332,7 @@ Template.start.rendered = function () {
 //****************************************************************
 //          TESTING / DEBUGGING
 //****************************************************************
+//Template.start2.rendered = function () { hacked(); }
 
 dofix = function() {
 

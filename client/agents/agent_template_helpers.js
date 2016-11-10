@@ -238,10 +238,6 @@ showMessage("delete not implemented yet")
 
       e.preventDefault();  
 
-showMessage("contact agent temporarily disabled")
-
-return;
-
       doSpinner();
 
       game.user.msg.targetID.set( e.currentTarget.id );

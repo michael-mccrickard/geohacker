@@ -303,6 +303,19 @@ Template.main.events({
       Control.switchTo( e.currentTarget.id );
     },
 
+    'click #divMiniDebrief': function(e) {
+
+      e.preventDefault;
+
+      if (hacker.feature.name.get() == "VIDEO") hacker.suspendMedia();
+
+        hacker.feature.clear();
+
+        hack.debrief.go();
+
+        FlowRouter.go("/debrief");
+    },
+
 });
 
 

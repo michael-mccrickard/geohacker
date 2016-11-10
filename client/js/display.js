@@ -16,7 +16,7 @@ Display = function() {
 
     this.stats = new Stats();
 
-    this.unit = new Unit();
+    this.meme = new Meme();
 
     //layout constants
 

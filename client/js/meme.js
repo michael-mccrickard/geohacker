@@ -1,17 +1,17 @@
 /*
 ******************************************************************
 
-              UNIT
-  Units are used to display info to the user in the country browser.
+              MEMES
+  Memes are used to display info to the user in the country browser.
   The types are:
 
-  modal -- An image, with optional text and sound file (text and sound not implemented), displayed in a modal window.  Any meme with this type is 
-  temporarily assigned to display.unit when displayed.
+  modal -- An image, with optional text and sound file, displayed in a modal window.  Any meme with this type is 
+  temporarily assigned to display.meme when displayed.
 
   video -- A youtube video to be shown on the browser screen
 
-  classic -- still image with text, with an optional sound file (not yet implemented).  These can also be temporarily assigned to
-  display.unit, if we need to show them in a modal window.
+  classic -- still image with text, with an optional sound file.  These can also be temporarily assigned to
+  display.meme, if we need to show them in a modal window.
 
 ******************************************************************
 */
@@ -19,7 +19,7 @@
 // Constructor with four optional arguments; soundFile is added to the
 // object after creation, if desired, by the calling function
 
-Unit = function(_type, _name, _src, _videoID) {
+Meme = function(_type, _name, _src, _videoID) {
 	
   if (!_type) {
 
@@ -58,11 +58,13 @@ Unit = function(_type, _name, _src, _videoID) {
 
           //now that the image is loaded ...
 
-          display.unit.imageSrc = display.getImageFromFile( display.unit.src );
+          display.meme.imageSrc = display.getImageFromFile( display.meme.src );
 
-          Meteor.setTimeout( function() { display.unit.dimensionImage( display.unit.frame ); }, 500);
+          Meteor.setTimeout( function() { display.meme.dimensionImage( display.meme.frame ); }, 500);
 
-          if (display.unit.type == "modal") Meteor.setTimeout( function() { display.unit.showModal(); }, 501);     
+          if (display.meme.type == "modal") Meteor.setTimeout( function() { display.meme.showModal(); }, 501);     
+
+          
 
         });
 	}
@@ -99,7 +101,7 @@ Unit = function(_type, _name, _src, _videoID) {
 
         var _height = fullHeight;
 
-    		var _src = display.unit.imageSrc;
+    		var _src = display.meme.imageSrc;
 
     		_width = (fullHeight / _src.height ) * _src.width; 
 
@@ -128,13 +130,13 @@ Unit = function(_type, _name, _src, _videoID) {
 
 	this.showModal = function() {
 
-		$(".imgZoomInModal").attr("src", display.unit.src);
+		$(".imgZoomInModal").attr("src", display.meme.src);
 
-		$(".imgZoomInModal").css("width", display.unit.frame.width);
+		$(".imgZoomInModal").css("width", display.meme.frame.width);
 
-		$(".imgZoomInModal").css("height", display.unit.frame.height);
+		$(".imgZoomInModal").css("height", display.meme.frame.height);
 
-		$(".imgZoomInModal").css("left", display.unit.frame.left);		
+		$(".imgZoomInModal").css("left", display.meme.frame.left);		
 
     $('#zoomInModal').modal('show');
 	}

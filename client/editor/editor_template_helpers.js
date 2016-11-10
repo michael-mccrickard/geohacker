@@ -74,9 +74,9 @@ Template.editor.helpers({
 
   		if (control == cDebrief) {
 
-        editor.controlName.set("MEME"); 
+        editor.controlName.set("DEBRIEF"); 
 
-  			return db.ghMeme.find( { cc: ID });
+  			return db.ghDebrief.find( { cc: ID });
   		}
 
     },
@@ -103,32 +103,20 @@ Template.editor.helpers({
 
     getImage: function() {
 
-      var ID = editor.recordID.get();
+        var deb = new Debrief( editor.hack );
 
-      if (!ID) return null;
+        deb.initForEditor( this.dt );
 
-      var _rec = db.ghMeme.findOne(ID);
-
-      var _meme = new Meme( _rec, "debrief" );
-
-      _meme.init();
-
-      return _meme.image;    
+        return deb.image;    
     },
 
     getText: function() {
 
-      var ID = editor.recordID.get();
+        var deb = new Debrief( editor.hack );
 
-      if (!ID) return null;
+        deb.initForEditor( this.dt );
 
-      var _rec = db.ghMeme.findOne(ID);
-
-      var _meme = new Meme( _rec, "debrief" );
-
-      _meme.init();
-
-      return _meme.text;  
+        return deb.text;
     },
 
     getURLButtonText: function() {
@@ -259,6 +247,10 @@ Template.editor.helpers({
     },
 
     selectedValue: function(key, value) {
+
+//c("key=" + key + "  value =" + value)
+
+//c("key2=" + editor.arrCode[key] + "  value2 =" + value)
 
       return editor.arrCode[key] ==  value ? 'selected' : '';
 

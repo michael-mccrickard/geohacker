@@ -440,7 +440,9 @@ function closeOutMap() {
 
     if (state == sMapDone) {
 
-        hack.debrief.show();
+        hack.debrief.set( hack.debrief.index );
+
+        FlowRouter.go("/debrief");
 
         return;
     } 
