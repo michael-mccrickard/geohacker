@@ -4,15 +4,11 @@ Browser = function(  ) {
 
 	this.updateFlag = new Blaze.ReactiveVar(false);
 
-	this.zoomMeme = new Blaze.ReactiveVar(false);
-
 	this.videoBGFile = "featuredBackdrop.jpg";
 
 	this.index = 0;
 
 	this.video = null;
-
-	this.featuredMeme = null;
 
 	this.videoIndex = new Blaze.ReactiveVar( -1 );
 
@@ -26,7 +22,42 @@ Browser = function(  ) {
 							//in this.countryCode, so we can tell when the country has changed
 							//upon return from the browsemap (user could have simply viewed the map)
 
+	//meme related
+
+	this.featuredMeme = null;
+
+	this.textElement = "";
+
+	this.imageElement = "";
+
+	this.leftMeme = null;
+
+	this.leftTextElement = "div.divBrowseText.divLeftText";
+
+	this.leftImageElement = "img#browseLeftImage";
+	
+	this.rightMeme = null;
+
+	this.rightTextElement = "div.divBrowseText.divRightText";
+
+	this.rightImageElement = "img#browseRightImage";
+
+	this.memeIndex = -1;
+
 	this.arrMeme = [];
+
+	this.whichSide = "left";
+
+	this.memeDelay = 5000;
+
+	this.rotatingMemes = false;
+
+	this.suspendRotation = false;
+
+	this.memeToEdit = null;
+
+	this.defaultFontSize = "1.5vw";
+
 
 	this.init = function( _code ) {
 
@@ -47,11 +78,19 @@ Browser = function(  ) {
 
 		Database.shuffle( this.arrMeme );
 
-		
-		this.primaryItems = [];
+
+		this.leftMeme = this.arrMeme[0];
+
+		this.rightMeme = this.arrMeme[1];
+
+		this.textElement = this.leftTextElement;  //should match default whichSide above
+
+		this.imageElement = this.leftImageElement;  //should match default whichSide above
 
 
 		//make primaries, first the map modal
+		
+		this.primaryItems = [];
 
 		var _obj = new Unit("modal", "Map", hack.getCountryMapURL() );
 
@@ -119,6 +158,10 @@ Browser = function(  ) {
 
 		this.items = db.ghVideo.find( { cc: hack.countryCode, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } } ).fetch();
 
+		this.rotatingMemes = false;
+
+		this.startMemeRotation();
+
 		this.updateContent();
 
 	}
@@ -134,14 +177,177 @@ Browser = function(  ) {
         _obj.left  = $(window).width() * .3467;		
 	}
 
+	this.startMemeRotation = function() {
+
+		if (this.arrMeme.length <= 2) return;
+
+		if (this.rotatingMemes) return;
+
+		this.rotatingMemes = true;
+
+		this.memeIndex = 0;
+
+		var _id = this.setID();
+
+		Meteor.setTimeout( function() { display.browser.nextMeme( _id ); }, display.browser.memeDelay );
+
+	}
+
+	this.flipSide = function() {
+
+		if (this.whichSide == "left") {
+
+			this.whichSide = "right"
+		}
+		else {
+
+			this.whichSide = "left";
+		}
+
+		return this.whichSide;		
+	}
+
+	this.nextMeme = function( _id ) {
+
+		if (_id != this.ID ) return;
+
+		this.memeIndex++;
+
+		this.flipSide();
+
+		if (this.memeIndex == this.arrMeme.length) {
+
+			this.memeIndex = 0;
+
+			//change up the order, in case we are editing and trying to check a meme
+			//on both sides 
+
+			this.flipSide();
+		}
+		
+		if (this.whichSide == "left") {
+
+			this.leftMeme =  this.arrMeme[ this.memeIndex ];
+
+			this.textElement = this.leftTextElement;
+
+			this.imageElement = this.leftImageElement;	
+		}
+
+
+		if (this.whichSide == "right") {
+
+			this.rightMeme = this.arrMeme[ this.memeIndex ];
+
+			this.textElement = this.rightTextElement;
+
+			this.imageElement = this.rightImageElement;
+		}
+
+		this.fade( "out", this.textElement);
+
+		this.fade( "out", this.imageElement);	
+
+		Meteor.setTimeout( function() { display.browser.updateContent(); }, 600 );
+
+		Meteor.setTimeout( function() { 	
+
+			display.browser.fade( "in", display.browser.textElement);
+
+			display.browser.fade( "in", display.browser.imageElement);		
+
+		}, 700 );
+
+	 	var _id = this.setID();
+
+		if (!this.suspendRotation) Meteor.setTimeout( function() { display.browser.nextMeme( _id ); }, 700 + display.browser.memeDelay );
+	}
+
+	this.setID = function() {
+
+		var _id = hack.countryCode + getRandomString();
+
+		this.ID = _id;
+
+		return (_id);
+	}
+
+	this.fade = function( _which, _element ) {
+
+		var s = _element;
+
+		if (_which == "in") { TweenMax.to(s, 0.5, {opacity: 1, ease:Power1.easeIn } ); }
+
+		if (_which == "out") { TweenMax.to(s, 0.5, {opacity: 0, ease:Power1.easeIn } ); }
+	}
+
+	this.editSidewallFontSize = function(_val) {
+
+		var _fontSize = $( this.textElement ).css("font-size");
+
+		_fontSize = _fontSize.substr(0, _fontSize.length - 2);
+
+		_fontSize = parseFloat(_fontSize) + _val;
+
+		_fontSize = _fontSize + "px";
+
+		$( this.textElement ).css("font-size", _fontSize );
+
+	}
+
+	this.markNextSidewall = function() {
+
+		var _which = this.flipSide();
+
+		$( this.leftTextElement ).css("background-color","red");
+
+		$( this.rightTextElement ).css("background-color","red");
+
+		if (_which == "left") {
+
+			$( this.leftTextElement ).css("background-color","blue");
+
+			this.memeToEdit = this.leftMeme;
+
+			this.textElement = this.leftTextElement;f
+		}
+
+
+		if (_which == "right") {
+
+			$( this.rightElement ).css("background-color","blue");
+
+			this.memeToEdit = this.rightMeme;
+
+			this.textElement = this.rightTextElement;
+		}
+	}
+
+	this.updateMemeFontSize = function() {
+
+		var _val = $(this.textElement).css("font-size");
+
+		_val = _val.substr(0, _val.length - 2);
+
+		_val = parseFloat(_val) / $(window).width() * 100;
+
+  		db.updateRecord2( cMeme, "fs", this.memeToEdit.id, _val + "vw");
+
+  		showMessage("Font size updated for meme: " + _val + "vw");
+	}
+
 	this.getSidewallImage = function( _which ) {
 
-		return this.arrMeme[ _which ].image;
+		if (_which == "left") return this.leftMeme.image;
+
+		if (_which == "right") return this.rightMeme.image;
 	}
 
 	this.getSidewallText = function( _which ) {
 
-		return this.arrMeme[ _which ].text;		
+		if (_which == "left") return this.leftMeme.text;
+
+		if (_which == "right") return this.rightMeme.text;
 	}
 
 	this.getFeaturedMemeImage = function( ) {
@@ -160,6 +366,8 @@ Browser = function(  ) {
 
 		$("#" + _id).css("border-color","yellow");
 	}
+
+
 
 	this.playVideo = function( _videoid, _frameid ) {
 
@@ -256,8 +464,6 @@ Browser = function(  ) {
 	}
 
 	this.showFeatured = function() {
-
-		this.zoomMeme.set(true);
 
 		this.video.stop();
 

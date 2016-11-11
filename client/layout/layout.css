@@ -7,3 +7,24 @@
 
 	text-align: center;
 }
+
+div#universalMessageText {
+
+	color: white;
+
+	position: absolute;
+
+	text-align: center;
+
+	top: 8px;
+
+	z-index: 50000;
+
+	width: 100%;
+
+	font-size: 24px;
+
+	background-color: black;
+
+	text-transform: uppercase;
+}

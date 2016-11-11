@@ -1,6 +1,6 @@
 /*********************************************
 
-*****MOVE THIS TO DB_SCHEMEL.JS AFTER MEMES ARE IMPLEMENTED*****************************
+*****MOVE THIS TO DB_SCHEME.JS AFTER MEMES ARE IMPLEMENTED*****************************
 
 	These data types are used across the database, in all the control tables except for ghWeb (sound, video, meme, image)
 
@@ -63,11 +63,16 @@ Meme = function( _rec, _type )  {
 
 	this.rec = null;
 
+	this.id = "";
+
 	if (_rec) {
 
 		this.rec = _rec;
 
+		this.id = _rec._id
+
 	}
+
 
 	this.image = "";
 
@@ -149,8 +154,19 @@ Meme = function( _rec, _type )  {
 			if ( _type == "debrief" ) this.text = this.rec.t + " is one of the official languages of " + hack.getCountryName() + ".";
 		}
 
-		if (!this.text.length) this.text = this.rec.t;
+		if (!this.text.length) {
 
+			this.text = this.rec.t;
+
+			if ( _type == "browse" ) {
+
+				//use the clue version, if it exists
+
+				if (this.rec.tc) this.text = this.rec.tc;		
+
+			
+			}
+		}
 	}
 
 	this.preloadImage = function() {
@@ -211,4 +227,6 @@ Meme = function( _rec, _type )  {
 		
 		$( container ).css("left", _left );  
 	}
+
+
 }

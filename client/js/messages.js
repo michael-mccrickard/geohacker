@@ -3,7 +3,7 @@
 
 showMessage = function( _text ) {
 
-
+/*
     var url = FlowRouter.current().path;
 
     if (url == '/worldMap') {
@@ -43,16 +43,24 @@ showMessage = function( _text ) {
     }
 
     var _status = game.user.profile.st;
-
-    if (_status == usTest || _status == usAdmin) {
+*/
+   // if (_status == usTest || _status == usAdmin) {
 
         //alert( _text);
+
+        $("div#universalMessageText").removeClass("invisible");
     
+        $("div#universalMessageText").text( _text );
 
         c( _text );
+/*
     }
     else {
 
         c( _text );
     }
+*/
 }
+
+hideMessage = function() { $("div#universalMessageText").addClass("invisible"); }
+

@@ -5,7 +5,7 @@
 
 gEditLabels = false;
 
-gInstantMode = false;
+gInstantMode = false;  //no longer works, but we might bring it back
 
 gUserCountriesOnlyMode = true;
 
@@ -18,6 +18,8 @@ gEditLearnCountry = false;
 gEditCapsulePos = false;
 
 gNavigateCountries = false;
+
+gEditSidewallsMode = false;
 
 gEditElement = "div.transHomelandText";
 
@@ -70,6 +72,8 @@ $(document).keydown(function(e) {
 
         if (gEditLearnCountry) switchEditText();
 
+        if (gEditSidewallsMode) switchSideWalls();
+
         break;
 
       case 33: //pageup
@@ -104,7 +108,7 @@ $(document).keydown(function(e) {
 
       case 222: //single quote 
 
-        if (gEditLearnCountry) editTextColor(-1);
+        if (gEditLearnCountry) editTextColor(1);
 
         break;
 
@@ -128,6 +132,9 @@ $(document).keydown(function(e) {
 
         if (gNavigateCountries) hackAdjacentCountry( -1);
 
+        if (gEditSidewallsMode) display.browser.nextMeme();
+
+
         break;
 
       case 38: //arrow key up
@@ -135,6 +142,8 @@ $(document).keydown(function(e) {
         if (gEditLabels || gEditCapsulePos) nudgeLabel( e.which );
 
         if (gEditLearnCountry) editTextSize(1);
+
+        if (gEditSidewallsMode) display.browser.editSidewallFontSize(0.1)
 
         break;
 
@@ -146,6 +155,8 @@ $(document).keydown(function(e) {
 
         if (gNavigateCountries) hackAdjacentCountry( 1);
 
+        if (gEditSidewallsMode) display.browser.nextMeme();
+
         break;
 
 
@@ -154,6 +165,8 @@ $(document).keydown(function(e) {
         if (gEditLabels || gEditCapsulePos) nudgeLabel( e.which );
 
         if (gEditLearnCountry) editTextSize(-1);
+
+        if (gEditSidewallsMode) display.browser.editSidewallFontSize(-0.1)
 
         break;
 
@@ -193,7 +206,7 @@ $(document).keydown(function(e) {
 
 	    case 73: //i
 
-	    	toggleInstantMode();
+	    	//toggleInstantMode();  //not working anymore
 
 	    	break;
 
@@ -223,6 +236,8 @@ $(document).keydown(function(e) {
 
         if (gEditLearnCountry) updateLCValues();
 
+        if (gEditSidewallsMode) display.browser.updateMemeFontSize();
+
 	    	break;
 
 	    case 85:  //u
@@ -230,6 +245,12 @@ $(document).keydown(function(e) {
 	    	toggleUserCountriesOnlyMode(); 
 
 	    	break;
+
+      case 87:  //w
+
+        toggleEditSidewallsMode(); 
+
+        break;
 
       case 219:  //open bracket
 
@@ -272,6 +293,8 @@ toggleGameEditor = function() {
 
 	if (gGameEditor) {
 
+$("div#universalMessageText").removeClass("invisible");
+
 		startGameEditor();
 
 		showMessage( "Game editor on");
@@ -282,6 +305,8 @@ toggleGameEditor = function() {
 		stopGameEditor();        	
 
 		showMessage( "Game editor off");
+
+    Meteor.setTimeout( function() { $("div#universalMessageText").addClass("invisible"); }, 1000);
 	}
 };
     
@@ -352,6 +377,23 @@ function toggleUserCountriesOnlyMode() {
    if (!gUserCountriesOnlyMode) showMessage( "MAP SHOWS ALL COUNTRIES");  
 }
 
+function toggleEditSidewallsMode() {
+
+   gEditSidewallsMode = !gEditSidewallsMode;
+
+   if (gEditSidewallsMode) {
+
+      showMessage("EDITING SIDEWALLS ON");
+
+      display.browser.suspendRotation = true;
+
+      display.browser.markNextSidewall("left");
+
+   }
+
+   if (!gEditSidewallsMode) showMessage( "EDITING SIDEWALLS OFF");  
+}
+
 function toggleInstantMode() {
 
    gInstantMode = !gInstantMode;
@@ -381,6 +423,12 @@ function toggleNavigateCountriesMode() {
    if (gNavigateCountries) showMessage( "Navigate countries mode on");
 
    if (!gNavigateCountries) showMessage( "Navigate countries mode off");   
+}
+
+
+function switchSideWalls() {
+
+    display.browser.markNextSidewall();
 }
 
 //***************************************************************
@@ -478,7 +526,6 @@ function moveCapsule( _obj) {
 
 function moveCapsuleToDefault() {
 
-
     var _obj = {};
 
     _obj.top = 200;
@@ -564,34 +611,9 @@ updateLabelRecord = function() {
 
 var arrColor = ["white","black","red","orange","limegreen","mediumpurple","yellow","turquoise","teal","gold","green","slategray","brown"]
 
-/*
-function toggleEditLearnCountryMode() {
 
-   gEditLearnCountry = !gEditLearnCountry;
 
-   if (gEditLearnCountry) {
 
-     showMessage( "Edit Learn Country mode on");
-
-     db.ghC.find( { d: 1 }, {sort: {n: 1} } );
-
-     if (gArrCountry.length == 0) gArrCountry =  db.ghC.find( { d: 1 }, {sort: {n: 1} } ).fetch();
-
-     game.user.mode = uBrowseCountry;
-
-     game.user.setGlobals( "browse" );
-
-     hack.initForBrowse( gArrCountry[ gCountryIndex ].c );
-   }
-
-   if (!gEditLearnCountry) {
-
-      showMessage( "Edit Learn Country mode off");   
-
-      game.user.goHome();
-   }
-}
-*/
 
 function switchEditText() {
 
@@ -764,6 +786,8 @@ function hackAdjacentCountry( _val ) {
 //***************************************************************
 //            DATABASE UPDATES
 //***************************************************************
+
+
 
 function updateCapsulePos() {
 
@@ -938,6 +962,8 @@ updateLabelPosition = function(_which) {
 //***************************************************************
 //            UTILITIES
 //***************************************************************
+
+
 
 function deriveInt(_s) {
 

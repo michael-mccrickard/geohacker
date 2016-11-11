@@ -25,7 +25,7 @@ Editor = function() {
 	this.arrFieldText = ["f", "s", "dt"];	//this is the only one that still uses the "pass an array of field names to update" method 
 											//and it would be better if it used the data object update method
 
-	this.arrFieldDebrief = ["t"];
+	this.arrFieldDebrief = ["t","ta","tc"];
 
 	this.arrFieldCountry = ["n","c","r","co","d","ht"];  //name, code, region, color, dataFlag, homelandText
 

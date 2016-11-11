@@ -4,6 +4,9 @@ Template.stats.rendered = function() {
 
     stopSpinner();
 
+    display.stats.template.set( "me" )
+
+    display.stats.updateContent();   
 }
 
 Stats = function() {

@@ -1,10 +1,5 @@
 Template.layout.helpers({
 
-  browserZoomMeme: function() {
-
-    return display.browser.zoomMeme.get();
-  },
-
   zoomInModalTitle: function() {
 
       return hacker.unit.name;

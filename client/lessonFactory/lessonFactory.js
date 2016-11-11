@@ -470,7 +470,7 @@ LessonFactory = function() {
 
 		this.lessonMap.selectedContinent = db.getContinentCodeForCountry( _ID );
 
-		lessonMap.worldMap.doThisMap( mlContinent, mlRegion, mlCountry, lessonMap.worldMap.selectedContinent, this.region, false);	
+		lessonMap.worldMap.doThisMap( mlContinent, mlRegion, mlCountry, this.lessonMap.selectedContinent, this.region, false);	
 
 		this.showCapsule( _ID );
 	}

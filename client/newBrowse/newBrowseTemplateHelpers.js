@@ -115,29 +115,47 @@ Template.newBrowse.helpers({
 
       display.browser.updateFlag.get();
 
-      return display.browser.getSidewallImage(0);
+      return display.browser.getSidewallImage("left");
     },
 
      leftText: function() {
 
       display.browser.updateFlag.get();
 
-      return display.browser.getSidewallText(0);
+      return display.browser.getSidewallText("left");
     },
 
      rightImage: function() {
 
       display.browser.updateFlag.get();
 
-    	return display.browser.getSidewallImage(1);
+    	return display.browser.getSidewallImage("right");
   	},
 
      rightText: function() {
 
       display.browser.updateFlag.get();
 
-    	return display.browser.getSidewallText(1);
+    	return display.browser.getSidewallText("right");
   	},
+
+    memeLeftFontSize: function() {
+
+      display.browser.updateFlag.get();
+
+      if (display.browser.leftMeme.rec.fs) return display.browser.leftMeme.rec.fs
+
+      return display.browser.defaultFontSize;
+    },
+
+    memeRightFontSize: function() {
+
+      display.browser.updateFlag.get();
+
+      if (display.browser.rightMeme.rec.fs) return display.browser.rightMeme.rec.fs
+
+      return display.browser.defaultFontSize;
+    },
 
   	video: function() {
 

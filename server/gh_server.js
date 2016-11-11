@@ -382,6 +382,8 @@ function getCollectionForType(_type) {
 
     if (_type == cDebrief) col = ghMeme;
 
+if (_type == cMeme) col = ghMeme;
+
     return col;
   }
 

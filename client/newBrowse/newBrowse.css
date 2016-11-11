@@ -93,6 +93,8 @@
 
 	background: red;
 
+	z-index: 1001;
+
 }
 
 .divLeftText {
@@ -124,6 +126,8 @@ transform-origin: 20% -535%;
 	width: 43%; 
 
 	height: 66%;
+
+	z-index: 1000;
 }
 
 .imgLeft {
@@ -196,6 +200,8 @@ transform-origin: 20% -535%;
 
 
 	width: 100%;
+
+	z-index: 1000;
 }
 
 
@@ -211,11 +217,15 @@ transform-origin: 20% -535%;
 	height: 50%;
 
 	text-align: center;
+
+z-index: 1;
 }
 
 .centerImg {
 
 	width: 30%;
 height: 75%;
+
+z-index: 1;
 
 }
