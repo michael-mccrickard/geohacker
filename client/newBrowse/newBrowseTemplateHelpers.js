@@ -235,14 +235,14 @@ Template.newBrowse.events({
 
     'click img#browseLeftImage': function(e) {
 
-        display.browser.setFeatured(0); 
+        display.browser.featuredMeme = display.browser.leftMeme;
         
         display.browser.showFeatured();   
     },
 
     'click img#browseRightImage': function(e) {
 
-        display.browser.setFeatured(1); 
+        display.browser.featuredMeme = display.browser.rightMeme;
         
         display.browser.showFeatured();   
     },
@@ -354,6 +354,8 @@ Template.newBrowse.rendered = function() {
       c("no browser.video found")
     }
   }
+
+  display.browser.setFontSizesOnMemes();
 
   display.browser.updateFlag.get();
 

@@ -83,6 +83,8 @@ Browser = function(  ) {
 
 		this.rightMeme = this.arrMeme[1];
 
+		var _fontSize;
+
 		this.textElement = this.leftTextElement;  //should match default whichSide above
 
 		this.imageElement = this.leftImageElement;  //should match default whichSide above
@@ -185,7 +187,7 @@ Browser = function(  ) {
 
 		this.rotatingMemes = true;
 
-		this.memeIndex = 0;
+		this.memeIndex = 1;
 
 		var _id = this.setID();
 
@@ -234,6 +236,8 @@ Browser = function(  ) {
 			this.textElement = this.leftTextElement;
 
 			this.imageElement = this.leftImageElement;	
+
+			if ( $( this.textElement ).css("color") == "blue" ) this.memeToEdit = this.leftMeme;
 		}
 
 
@@ -244,6 +248,8 @@ Browser = function(  ) {
 			this.textElement = this.rightTextElement;
 
 			this.imageElement = this.rightImageElement;
+
+			if ( $( this.textElement ).css("color") == "blue" ) this.memeToEdit = this.rightMeme;
 		}
 
 		this.fade( "out", this.textElement);
@@ -327,11 +333,29 @@ Browser = function(  ) {
 
 		if (_which == "right") {
 
-			$( this.rightElement ).css("background-color","blue");
+			$( this.rightTextElement ).css("background-color","blue");
 
 			this.memeToEdit = this.rightMeme;
 
 			this.textElement = this.rightTextElement;
+		}
+	}
+
+	this.setFontSizesOnMemes = function() {
+
+		if ( this.leftMeme.rec.fs ) {
+
+c("setting left text fs to " + this.leftMeme.rec.fs)
+
+			$( this.leftTextElement ).css("font-size", this.leftMeme.rec.fs);
+		}
+
+
+		if ( this.rightMeme.rec.fs ) {
+
+c("setting right text fs to " + this.rightMeme.rec.fs)
+
+			$( this.rightTextElement ).css("font-size", this.rightMeme.rec.fs);
 		}
 	}
 
@@ -345,7 +369,11 @@ Browser = function(  ) {
 
   		db.updateRecord2( cMeme, "fs", this.memeToEdit.id, _val + "vw");
 
-  		showMessage("Font size updated for meme: " + _val + "vw");
+  		_val = _val.toString();
+
+  		_text = $(this.textElement).text();
+
+  		showMessage("Font size updated for meme: " + _text.substr(0,12) + " -- " + _val.substr(0,4) + "vw");
 	}
 
 	this.getSidewallImage = function( _which ) {

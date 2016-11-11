@@ -132,7 +132,7 @@ $(document).keydown(function(e) {
 
         if (gNavigateCountries) hackAdjacentCountry( -1);
 
-        if (gEditSidewallsMode) display.browser.nextMeme();
+        if (gEditSidewallsMode) display.browser.nextMeme( display.browser.ID);
 
 
         break;
@@ -155,8 +155,12 @@ $(document).keydown(function(e) {
 
         if (gNavigateCountries) hackAdjacentCountry( 1);
 
-        if (gEditSidewallsMode) display.browser.nextMeme();
+        if (gEditSidewallsMode) {
 
+          var _id = display.browser.setID();
+
+          display.browser.nextMeme( _id );
+        }
         break;
 
 
