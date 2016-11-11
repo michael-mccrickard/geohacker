@@ -211,6 +211,8 @@ Browser = function(  ) {
 
 		if (_id != this.ID ) return;
 
+		var _fontSize = this.defaultFontSize;
+
 		this.memeIndex++;
 
 		this.flipSide();
@@ -248,7 +250,11 @@ Browser = function(  ) {
 
 		this.fade( "out", this.imageElement);	
 
+		if ( this.arrMeme[ this.memeIndex ].rec.fs ) _fontSize = this.arrMeme[ this.memeIndex ].rec.fs;
+
 		Meteor.setTimeout( function() { display.browser.updateContent(); }, 600 );
+
+		Meteor.setTimeout( function() { display.browser.setFontSize( _fontSize ); }, 650 );
 
 		Meteor.setTimeout( function() { 	
 
@@ -262,6 +268,12 @@ Browser = function(  ) {
 
 		if (!this.suspendRotation) Meteor.setTimeout( function() { display.browser.nextMeme( _id ); }, 700 + display.browser.memeDelay );
 	}
+
+
+    this.setFontSize = function( _val ) {
+
+    	$( this.textElement ).css("font-size", _val);
+    },
 
 	this.setID = function() {
 
@@ -309,7 +321,7 @@ Browser = function(  ) {
 
 			this.memeToEdit = this.leftMeme;
 
-			this.textElement = this.leftTextElement;f
+			this.textElement = this.leftTextElement;
 		}
 
 
@@ -338,16 +350,16 @@ Browser = function(  ) {
 
 	this.getSidewallImage = function( _which ) {
 
-		if (_which == "left") return this.leftMeme.image;
+		if (_which == "left" && this.leftMeme) return this.leftMeme.image;
 
-		if (_which == "right") return this.rightMeme.image;
+		if (_which == "right" && this.rightMeme) return this.rightMeme.image;
 	}
 
 	this.getSidewallText = function( _which ) {
 
-		if (_which == "left") return this.leftMeme.text;
+		if (_which == "left" && this.leftMeme) return this.leftMeme.text;
 
-		if (_which == "right") return this.rightMeme.text;
+		if (_which == "right" && this.rightMeme) return this.rightMeme.text;
 	}
 
 	this.getFeaturedMemeImage = function( ) {

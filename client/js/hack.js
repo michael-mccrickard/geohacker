@@ -231,7 +231,11 @@ Hack = function() {
 
         browseMap.level.set( mlCountry );
 
-        display.browser.init( this.countryCode);
+        //display.browser.init( this.countryCode);
+
+        display.browser = new Browser();
+
+        display.browser.init( this.countryCode );
 
         FlowRouter.go("/newBrowse");
 

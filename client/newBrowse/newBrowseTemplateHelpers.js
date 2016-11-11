@@ -139,24 +139,6 @@ Template.newBrowse.helpers({
     	return display.browser.getSidewallText("right");
   	},
 
-    memeLeftFontSize: function() {
-
-      display.browser.updateFlag.get();
-
-      if (display.browser.leftMeme.rec.fs) return display.browser.leftMeme.rec.fs
-
-      return display.browser.defaultFontSize;
-    },
-
-    memeRightFontSize: function() {
-
-      display.browser.updateFlag.get();
-
-      if (display.browser.rightMeme.rec.fs) return display.browser.rightMeme.rec.fs
-
-      return display.browser.defaultFontSize;
-    },
-
   	video: function() {
 
       display.browser.updateFlag.get();
