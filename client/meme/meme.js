@@ -136,7 +136,7 @@ Meme = function( _rec, _type )  {
 
 		if (this.code  == "hqt") {
 
-			if ( _type == "debrief" || _type == "browse" ) this.text = this.rec.t + " is headquartered in " + hack.getCountryName() + ".";
+			if ( _type == "debrief") this.text = this.rec.t + " is headquartered in " + hack.getCountryName() + ".";
 		}
 
 		if (this.rec.dt  == "lng_i") {
@@ -169,7 +169,7 @@ Meme = function( _rec, _type )  {
 		}
 	}
 
-	this.preloadImage = function() {
+	this.preloadImageForFeature = function() {
 
 		//borrow the debrief preload element
 
@@ -184,13 +184,27 @@ Meme = function( _rec, _type )  {
         	//it takes a moment to create the off-screen image (for dimensioning)
         	//in the call the getImageFromFile() above
 
-        	Meteor.setTimeout( function() { display.browser.featuredMeme.draw(); }, 200 );
+        	Meteor.setTimeout( function() { display.browser.featuredMeme.drawFeatured(); }, 200 );
 
         });
 
 	}
 
-	this.draw = function( ) {
+	this.preloadImageForSidewall = function() {
+
+		//borrow the debrief preload element
+
+		$("#preloadDebrief").attr("src", this.image );
+
+        imagesLoaded( document.querySelector('#preloadDebrief'), function( instance ) {
+
+        	//anything we need to do here?
+
+        });
+
+	}
+
+	this.drawFeatured = function( ) {
 
 		$("div.memeText").text( this.text );
 

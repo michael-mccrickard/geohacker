@@ -53,6 +53,8 @@ showMessage = function( _text ) {
         $("div#universalMessageText").text( _text );
 
         c( _text );
+
+        Meteor.setTimeout( function() { $("div#universalMessageText").addClass("invisible"); }, 1000);
 /*
     }
     else {

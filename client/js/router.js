@@ -4,6 +4,8 @@ FlowRouter.route('/newBrowse', {
 
   action: function (params, queryParams) { 
 
+    $('body').addClass('noscroll'); 
+
     BlazeLayout.render('layout', { content: "newBrowse" } ) 
   },
 

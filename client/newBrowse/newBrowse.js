@@ -46,7 +46,7 @@ Browser = function(  ) {
 
 	this.arrMeme = [];
 
-	this.whichSide = "left";
+	this.whichSide = "right";
 
 	this.memeDelay = 5000;
 
@@ -209,6 +209,13 @@ Browser = function(  ) {
 		return this.whichSide;		
 	}
 
+	//make sure we are not re-showing the same meme with our index
+
+	this.fixIndex = function( _meme) {
+
+
+	}
+
 	this.nextMeme = function( _id ) {
 
 		if (_id != this.ID ) return;
@@ -223,13 +230,18 @@ Browser = function(  ) {
 
 			this.memeIndex = 0;
 
-			//change up the order, in case we are editing and trying to check a meme
-			//on both sides 
+			//change up the order, if we are editing 
 
-			this.flipSide();
+			if (gEditSidewallsMode && this.arrMeme.length != 3) this.flipSide();
 		}
 		
+c("index is " + this.memeIndex)
+
+c("this side is " + this.whichSide)
+
 		if (this.whichSide == "left") {
+
+			//this.fixIndex( this.leftMeme );
 
 			this.leftMeme =  this.arrMeme[ this.memeIndex ];
 
@@ -242,6 +254,8 @@ Browser = function(  ) {
 
 
 		if (this.whichSide == "right") {
+
+			//this.fixIndex( this.rightMeme );
 
 			this.rightMeme = this.arrMeme[ this.memeIndex ];
 
@@ -345,15 +359,11 @@ Browser = function(  ) {
 
 		if ( this.leftMeme.rec.fs ) {
 
-c("setting left text fs to " + this.leftMeme.rec.fs)
-
 			$( this.leftTextElement ).css("font-size", this.leftMeme.rec.fs);
 		}
 
 
 		if ( this.rightMeme.rec.fs ) {
-
-c("setting right text fs to " + this.rightMeme.rec.fs)
 
 			$( this.rightTextElement ).css("font-size", this.rightMeme.rec.fs);
 		}
@@ -509,7 +519,7 @@ c("setting right text fs to " + this.rightMeme.rec.fs)
 
 		this.video.hide();
 
-		this.featuredMeme.preloadImage();
+		this.featuredMeme.preloadImageForFeature();
 	}
 
 	this.updateContent = function() {

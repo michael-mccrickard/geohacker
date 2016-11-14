@@ -17,8 +17,6 @@ gEditLearnCountry = false;
 
 gEditCapsulePos = false;
 
-gNavigateCountries = false;
-
 gEditSidewallsMode = false;
 
 gEditElement = "div.transHomelandText";
@@ -52,8 +50,30 @@ $(document).keydown(function(e) {
 
 //only for the movie
 
-    //if (e.which == 32) doH();     
+    //if (e.which == 32) doH();    
 
+    if (Meteor.user().profile.st == usAdmin) {
+
+        if (hack.mode == mEdit || hack.mode == mBrowse) {
+
+           if (gEditLabels || gEditCapsulePos || gEditSidewallsMode || gEditLearnCountry) return;
+
+           switch(e.which) {
+
+            case 37: //left arraw
+
+              hackAdjacentCountry(-1);
+
+              break;
+
+            case 39: //right arrow
+
+              hackAdjacentCountry(1);
+
+              break;           
+           }
+        }
+    }
   }
 );
 
@@ -130,8 +150,6 @@ $(document).keydown(function(e) {
 
         if (gEditLearnCountry) posElementLeft(1); 
 
-        if (gNavigateCountries) hackAdjacentCountry( -1);
-
         if (gEditSidewallsMode) display.browser.nextMeme( display.browser.ID);
 
 
@@ -152,8 +170,6 @@ $(document).keydown(function(e) {
         if (gEditLabels || gEditCapsulePos) nudgeLabel( e.which );
 
         if (gEditLearnCountry) posElementLeft(-1); 
-
-        if (gNavigateCountries) hackAdjacentCountry( 1);
 
         if (gEditSidewallsMode) {
 
@@ -283,7 +299,7 @@ function resetArrowKeyModes() {
 
   gEditLearnCountry = false;
 
-  gNavigateCountries = false;
+  gEditSidewallsMode = false;
 
 }
 
@@ -416,17 +432,6 @@ function toggleEditLearnCountryMode() {
    if (gEditLearnCountry) showMessage( "Edit learn country mode on");
 
    if (!gEditLearnCountry) showMessage( "Edit learn country mode off");   
-}
-
-function toggleNavigateCountriesMode() {
-
-  if (!gNavigateCountries) resetArrowKeyModes();
-
-   gNavigateCountries = !gNavigateCountries;
-
-   if (gNavigateCountries) showMessage( "Navigate countries mode on");
-
-   if (!gNavigateCountries) showMessage( "Navigate countries mode off");   
 }
 
 

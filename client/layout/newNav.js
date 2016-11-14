@@ -29,7 +29,7 @@ Template.newNav.helpers({
 
     if (Meteor.user() == null) return false;
 
-    if (Meteor.user().profile.st == usAdmin || Meteor.user().profile.st == usVirtual || Meteor.user().profile.st == usFake  ) return true;
+    if (Meteor.user().profile.st == usAdmin) return true;
 
     return false;
   }

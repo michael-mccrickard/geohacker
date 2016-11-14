@@ -308,6 +308,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		display.suspendAllMedia();
 
+		if (display.browser) display.browser.suspendRotation = true;
+
 
     	if (FlowRouter.current().path == "/editor") {
 

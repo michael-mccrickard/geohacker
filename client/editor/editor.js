@@ -9,7 +9,7 @@ Editor = function() {
 
 	this.userDirectoryDataReady = false;
 
-	this.controlType = new Blaze.ReactiveVar( 0 );
+	this.controlType = new Blaze.ReactiveVar( cSound );
 
 	this.controlName = new Blaze.ReactiveVar( "" );
 
@@ -184,7 +184,7 @@ Editor = function() {
 
 		if (_coll == cText) res = [ 1, 2 ];
 
-		if (_coll == cImage) res = [ 1, 2, 3, 4, 5, 10, 11, 12, 14 ];
+		if (_coll == cImage) res = [ 1, 2, 3, 4, 5, 10, 11, 12, 13, 14 ];
 
 		if (_coll == cWeb) res = [10, 11, 12, 13];
 

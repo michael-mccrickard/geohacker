@@ -190,8 +190,6 @@ Navigator = function() {
 
       if (editor == null) editor = new Editor();
 
-      editor.controlType.set( cSound );
-
       //bring over the countryCode from the global hack (only necessary for the Edit this country ... menu option)
 
       if (hack) {
@@ -209,7 +207,6 @@ Navigator = function() {
       hack.mode = mEdit;
 
       hacker.closeOutMain();
-
 
     }
 
