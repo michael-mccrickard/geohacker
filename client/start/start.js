@@ -1,7 +1,7 @@
 
 //Debugging hacks
 
-gHackPreselect = "UY";
+gHackPreselect = "";
 
 //Meteor.subscribe("registeredUsers");  
 

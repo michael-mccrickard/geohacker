@@ -28,6 +28,16 @@ isInReactiveArray = function(_ele, _arr) {
     return false;
 }
 
+indexOfReactiveArray = function(_ele, _arr) {
+
+    for (var i = 0; i < _arr.length(); i++) {
+
+        if (_arr.get(i) == _ele) return i;
+    }
+
+    return -1;
+}
+
 findObjectWithID = function( _id, _arr) {
 
      for (var i = 0; i < _arr.length; i++) {

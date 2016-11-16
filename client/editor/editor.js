@@ -49,6 +49,15 @@ Editor = function() {
 
 	this.codeExplainText = new Blaze.ReactiveVar("0");
 
+	this.arrFreeCode = [ "art", "cus", "lan" ];
+
+	this.nextLan = new Blaze.ReactiveVar( 0 );
+
+	this.nextArt = new Blaze.ReactiveVar( 0 );
+
+	this.nextCus = new Blaze.ReactiveVar( 0 );
+
+
 	//image, text, sound, image/text pairs, text/sound pairs
 
 	this.arrCodeText[0] = "national anthem";
@@ -172,6 +181,35 @@ Editor = function() {
 		_obj.left = $(window).width()/2 - _obj.width/2;
 
 
+	}
+
+	this.setFreeTypeCounts = function() {
+
+
+
+		Meteor.call("getDataTypeCount", hack.countryCode, this.controlType.get(), "art", function(_err, _res) {
+
+			if (_err) console.log(+err);
+
+			if ( _res ) editor.nextArt.set( _res );
+
+		});
+
+		Meteor.call("getDataTypeCount", hack.countryCode, this.controlType.get(),  "lan", function(_err, _res) {
+
+			if (_err) console.log(+err);
+
+			if ( _res ) editor.nextLan.set( _res );
+
+		});
+
+		Meteor.call("getDataTypeCount", hack.countryCode, this.controlType.get(),  "cus", function(_err, _res) {
+
+			if (_err) console.log(+err);
+
+			if ( _res ) editor.nextCus.set( _res );
+
+		});
 	}
 
 	//which of the above codes are used with each type
@@ -316,7 +354,20 @@ Editor = function() {
 
 		var arr = editor.getCodes( editor.controlType.get() );
 
-		return this.arrCode[ arr[  val - 1 ]  ];
+		var _code = this.arrCode[ arr[  val - 1 ]  ];
+
+		if ( this.arrFreeCode.indexOf( _code ) != -1) {
+
+			val = $(sel).prop("value");
+
+			var _index = val.lastIndexOf("_");
+
+			var _num = val.substr( _index + 1);
+
+			return _code + _num;
+		}
+
+		return _code;
 	}
 
 	this.doUpdateRecord = function(_id, _countryCode) {
@@ -361,6 +412,8 @@ Editor = function() {
 					console.log(err);
 				}
 
+				editor.setFreeTypeCounts();
+
 			}); 
 		}
 
@@ -371,6 +424,10 @@ Editor = function() {
 			_dt = this.getDTValue( _id );
 
 			db.updateContentRecord(this.arrField, _dt, _type, _id, _countryCode);
+
+//need to change image to use the Meteor.call above, so that we do this in the callback
+
+Meteor.setTimeout( function() { editor.setFreeTypeCounts(); }, 1000);
 		}
 		
 		if (_type == cText) {

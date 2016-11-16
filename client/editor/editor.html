@@ -36,7 +36,7 @@
 
 						{{#each code}}
 
-							 <option>{{codeTextFor this}}</option>
+							 <option>{{codeTextForExplain this}}</option>
 							  	
 						{{/each}}
 			
@@ -44,7 +44,7 @@
 				</div>
 
 
-					 <span class="divCodeExplanation">{{codeExplain}}</span>
+				<span class="divCodeExplanation">{{codeExplain}}</span>
 			</p>
 
 		</div>
@@ -84,11 +84,13 @@
 
 						  		{{#each code}}
 
-							  		<option {{selectedValue this ../dt}}>{{codeTextFor this}}</option>
+							  		<option>{{codeTextForOption this}}</option>
 							  	
 							  	{{/each}}
 							
 							</select>
+
+							<span class="textDTValue" id="{{this._id}}">{{codeTextForValue this}}</span>
 						</td>
 
 						<td><button class="btn btn-danger deleteRecord" id="{{this._id}}" size="2">DEL</button></td>
@@ -158,11 +160,13 @@
 
 						  		{{#each code}}
 
-							  		<option {{selectedValue this ../dt}}>{{codeTextFor this}}</option>
+							  		<option>{{codeTextForOption this}}</option>
 							  	
 							  	{{/each}}
 							
 							</select>
+
+							<span class="textDTValue" id="{{this._id}}">{{codeTextForValue this}}</span>
 						</td>
 
 						<td><button class="btn btn-danger deleteRecord" id="{{this._id}}">DEL</button></td>

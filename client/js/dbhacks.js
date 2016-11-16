@@ -1,6 +1,42 @@
+fixCodes = function() {
+
+  var count = 0;
+
+  var _s = "";
+
+  var arr = db.ghMeme.find( {} ).fetch();
+
+  for (var i = 0; i < arr.length; i++) {
+
+      var ID = arr[i]._id;
+
+      var _baseCode = arr[i].dt.substring(0,3);
+
+      if ( editor.arrFreeCode.indexOf( _baseCode) != -1 ) {
+
+        var _val = _baseCode + "0";
+
+        db.ghMeme.update( {_id: ID }, { $set: { dt: _val }  } );          
+
+        count++;
+      }
+  }
+c(count + " meme recs updated.")
+}
+
 testagg = function(_days) {
 
     Meteor.call("getTopBadges", _days, function( _err, _res )  {
+
+      if (_err) c(_err);
+
+      if (_res) console.log(_res);
+    });
+}
+
+testDT = function(_cc, _fld) {
+
+    Meteor.call("testDT", _cc, _fld, function( _err, _res )  {
 
       if (_err) c(_err);
 

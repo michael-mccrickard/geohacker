@@ -1,10 +1,12 @@
 Template.editor.rendered = function() {
 
+  editor.setFreeTypeCounts();
+
   stopSpinner();
 
   game.pauseMusic();
 
-setCodeExplainText();
+  setCodeExplainText();
 
 }
 
@@ -236,7 +238,53 @@ Template.editor.helpers({
       return s;
     },
 
-    codeTextFor: function( _key) {
+    codeTextForOption: function( _index) {
+
+      var _code = editor.arrCode[ _index ];
+
+      if ( editor.arrFreeCode.indexOf( _code ) != -1) {
+
+          var _num =0;
+
+          var _baseCode = _code.substr(0,3);
+
+          if ( _baseCode == "cus") _num = editor.nextCus.get();
+
+          if ( _baseCode == "lan") _num = editor.nextLan.get();
+
+          if ( _baseCode == "art") _num = editor.nextArt.get();
+
+          return editor.arrCodeText[ _index ] + "_" + _num;
+      }
+
+        return editor.arrCodeText[ _index ];
+    }, 
+
+    codeTextForValue: function(_rec) {
+c(_rec)
+      var _code = _rec.dt;
+
+      var _baseCode = _code.substr(0,3);
+
+      var _index = -1;
+
+      if ( editor.arrFreeCode.indexOf( _baseCode ) != -1) {
+
+          var _num = 0;
+
+          if (_rec.dt.length >= 3) _num = parseInt( _code.substr(3) );
+
+          _index = editor.arrCode.indexOf( _baseCode );
+
+          return editor.arrCodeText[ _index ] + "_" + _num;
+      }
+
+      _index = editor.arrCode.indexOf( _code );
+
+      return editor.arrCodeText[ _index ];
+    },
+
+    codeTextForExplain: function(_key ) {
 
       return editor.arrCodeText[ _key ];
     },
@@ -328,6 +376,8 @@ Template.editor.events = {
 
     editor.controlType.set( cImage );
 
+    editor.setFreeTypeCounts();
+
     setCodeExplainText();
   },
 
@@ -350,6 +400,8 @@ Template.editor.events = {
     editor.stopEditMedia();
 
     editor.controlType.set( cDebrief );
+
+    editor.setFreeTypeCounts();
   },
 
   'click #closeEditor' : function(evt, template) {

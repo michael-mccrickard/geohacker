@@ -258,6 +258,19 @@ Meteor.startup(
       }
     });
 
+    ghMeme.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      }
+    });
+
     ghImage.allow({
 
       insert: function() {
@@ -448,6 +461,35 @@ var _index = -1;
 var self = null;
 
 Meteor.methods({
+
+    getDataTypeCount: function(_cc, _controlType,  _fld) {
+
+      var _col = getCollectionForType( _controlType );
+
+      return ( _col.aggregate([
+
+          { "$match": { "cc": _cc } },  
+
+          { "$project": { 
+
+            "id": 1,
+
+            "dt": { "$substr": ["$dt",0,3] } 
+          }},
+
+          { "$match": { "dt": _fld } },  
+
+          { "$group": {
+
+              "_id": "$_id"
+
+          }}     
+
+        ]).length 
+
+      );
+
+    },
 
     setFeaturedUserID: function( _id ) {
 
