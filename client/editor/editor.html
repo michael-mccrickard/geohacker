@@ -84,13 +84,14 @@
 
 						  		{{#each code}}
 
-							  		<option>{{codeTextForOption this}}</option>
+							  		<option {{selectedValue this ../dt}}>{{codeTextForOption this}}</option>
 							  	
 							  	{{/each}}
 							
 							</select>
 
-							<span class="textDTValue" id="{{this._id}}">{{codeTextForValue this}}</span>
+							<input type="text" class="textDTValue" id="{{this._id}}" value="{{codeTextForValue this}}">
+						
 						</td>
 
 						<td><button class="btn btn-danger deleteRecord" id="{{this._id}}" size="2">DEL</button></td>
@@ -160,13 +161,18 @@
 
 						  		{{#each code}}
 
-							  		<option>{{codeTextForOption this}}</option>
+							  		<option {{selectedValue this ../dt}}>{{codeTextForOption this}}</option>
 							  	
 							  	{{/each}}
 							
 							</select>
 
-							<span class="textDTValue" id="{{this._id}}">{{codeTextForValue this}}</span>
+							{{#if imageIsSelected}}
+
+								<input type="text" class="textDTValue" id="{{this._id}}" value="{{codeTextForValue this}}">
+
+							{{/if}}
+
 						</td>
 
 						<td><button class="btn btn-danger deleteRecord" id="{{this._id}}">DEL</button></td>

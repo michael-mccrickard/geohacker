@@ -83,7 +83,7 @@ Meme = function( _rec, _type )  {
 
 	this.init = function() {
 
-		this.code = this.rec.dt.substr(0,3);	
+		if (this.code) this.code = this.rec.dt.substr(0,3);	
 
 		this.setText();
 

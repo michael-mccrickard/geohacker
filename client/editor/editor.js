@@ -51,11 +51,7 @@ Editor = function() {
 
 	this.arrFreeCode = [ "art", "cus", "lan" ];
 
-	this.nextLan = new Blaze.ReactiveVar( 0 );
-
-	this.nextArt = new Blaze.ReactiveVar( 0 );
-
-	this.nextCus = new Blaze.ReactiveVar( 0 );
+	this.updateContentFlag = new Blaze.ReactiveVar( false );
 
 
 	//image, text, sound, image/text pairs, text/sound pairs
@@ -174,43 +170,7 @@ Editor = function() {
 		this.arrCode[27] = "vi";
 	this.arrCodeExplain[27] = "Victoria Flamel video from youtube (Victoria Judges)"; 
 
-	this.setVideoPos = function( _obj ) {
 
-		_obj.top = -16;
-
-		_obj.left = $(window).width()/2 - _obj.width/2;
-
-
-	}
-
-	this.setFreeTypeCounts = function() {
-
-
-
-		Meteor.call("getDataTypeCount", hack.countryCode, this.controlType.get(), "art", function(_err, _res) {
-
-			if (_err) console.log(+err);
-
-			if ( _res ) editor.nextArt.set( _res );
-
-		});
-
-		Meteor.call("getDataTypeCount", hack.countryCode, this.controlType.get(),  "lan", function(_err, _res) {
-
-			if (_err) console.log(+err);
-
-			if ( _res ) editor.nextLan.set( _res );
-
-		});
-
-		Meteor.call("getDataTypeCount", hack.countryCode, this.controlType.get(),  "cus", function(_err, _res) {
-
-			if (_err) console.log(+err);
-
-			if ( _res ) editor.nextCus.set( _res );
-
-		});
-	}
 
 	//which of the above codes are used with each type
 
@@ -342,7 +302,6 @@ Editor = function() {
 
 			if (err) console.log(err);
 
-
 		});
 	}
 
@@ -358,13 +317,11 @@ Editor = function() {
 
 		if ( this.arrFreeCode.indexOf( _code ) != -1) {
 
+			sel = "input#" + _id + ".textDTValue";
+
 			val = $(sel).prop("value");
-
-			var _index = val.lastIndexOf("_");
-
-			var _num = val.substr( _index + 1);
-
-			return _code + _num;
+							
+			return val;  
 		}
 
 		return _code;
@@ -412,8 +369,6 @@ Editor = function() {
 					console.log(err);
 				}
 
-				editor.setFreeTypeCounts();
-
 			}); 
 		}
 
@@ -425,9 +380,6 @@ Editor = function() {
 
 			db.updateContentRecord(this.arrField, _dt, _type, _id, _countryCode);
 
-//need to change image to use the Meteor.call above, so that we do this in the callback
-
-Meteor.setTimeout( function() { editor.setFreeTypeCounts(); }, 1000);
 		}
 		
 		if (_type == cText) {
@@ -458,7 +410,24 @@ Meteor.setTimeout( function() { editor.setFreeTypeCounts(); }, 1000);
 
 	     console.log(err.reason);
 	  }
-}
+	}
+
+	this.setVideoPos = function( _obj ) {
+
+		_obj.top = -16;
+
+		_obj.left = $(window).width()/2 - _obj.width/2;
+
+
+	}
+
+	this.updateContent = function() {
+
+		var _val = this.updateContentFlag.get();
+
+		this.updateContentFlag.set( !_val );
+
+	}
 
 }
 

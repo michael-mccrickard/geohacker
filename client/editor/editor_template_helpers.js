@@ -1,7 +1,5 @@
 Template.editor.rendered = function() {
 
-  editor.setFreeTypeCounts();
-
   stopSpinner();
 
   game.pauseMusic();
@@ -200,6 +198,26 @@ Template.editor.helpers({
     	return false;
     },
 
+    imageIsSelected: function() {
+
+      if ( editor.controlType.get() == cImage) return true;
+
+      return false;
+    },
+
+    isFreeType: function() {
+
+      editor.updateContentFlag.get();
+
+      var _val = this.dt;
+
+      if (!_val) return false;
+
+      if ( editor.arrFreeCode.indexOf( _val.substr(0,3) ) != -1) return true;
+
+      return false;
+    },
+
     otherIsSelected: function() {
 
     	var _type = editor.controlType.get();
@@ -240,44 +258,38 @@ Template.editor.helpers({
 
     codeTextForOption: function( _index) {
 
+/*
       var _code = editor.arrCode[ _index ];
+
 
       if ( editor.arrFreeCode.indexOf( _code ) != -1) {
 
           var _num =0;
 
-          var _baseCode = _code.substr(0,3);
-
-          if ( _baseCode == "cus") _num = editor.nextCus.get();
-
-          if ( _baseCode == "lan") _num = editor.nextLan.get();
-
-          if ( _baseCode == "art") _num = editor.nextArt.get();
+          var _baseCode = _code.substr(0,3)
 
           return editor.arrCodeText[ _index ] + "_" + _num;
       }
-
+*/
         return editor.arrCodeText[ _index ];
     }, 
 
     codeTextForValue: function(_rec) {
-c(_rec)
+
+      if (!_rec.dt) return "";
+
+      if (!_rec.dt.length) return "";
+
       var _code = _rec.dt;
 
       var _baseCode = _code.substr(0,3);
 
-      var _index = -1;
-
       if ( editor.arrFreeCode.indexOf( _baseCode ) != -1) {
 
-          var _num = 0;
-
-          if (_rec.dt.length >= 3) _num = parseInt( _code.substr(3) );
-
-          _index = editor.arrCode.indexOf( _baseCode );
-
-          return editor.arrCodeText[ _index ] + "_" + _num;
+          return _rec.dt;
       }
+
+      var _index = -1;
 
       _index = editor.arrCode.indexOf( _code );
 
@@ -307,6 +319,12 @@ c(_rec)
     },
 
     selectedValue: function(key, value) {
+
+      if (!value) return "";
+
+      var _baseCode = value.substr(0,3);
+
+      if ( editor.arrFreeCode.indexOf( _baseCode ) != -1) value = _baseCode;
 
       return editor.arrCode[key] ==  value ? 'selected' : '';
 
@@ -376,8 +394,6 @@ Template.editor.events = {
 
     editor.controlType.set( cImage );
 
-    editor.setFreeTypeCounts();
-
     setCodeExplainText();
   },
 
@@ -400,8 +416,6 @@ Template.editor.events = {
     editor.stopEditMedia();
 
     editor.controlType.set( cDebrief );
-
-    editor.setFreeTypeCounts();
   },
 
   'click #closeEditor' : function(evt, template) {
@@ -449,6 +463,24 @@ Template.editor.events = {
      }
 
      
+  },
+
+  'change .form-control.dt' : function( evt, template) {
+
+      var _id = evt.target.id;
+
+      var _code = evt.target.value.substr(0,3);
+c( _code)
+      if ( editor.arrFreeCode.indexOf( _code ) != -1) {
+
+          var sel = "input#" + _id + ".textDTValue";
+c(sel)
+          $( sel ).val( _code + "X" ); 
+
+          showMessage( "Change the X to a unique number for this type");
+
+          editor.updateContent();      
+      }
   },
 
   'click .deleteRecord' : function(evt, template) {
