@@ -22,11 +22,11 @@ Weather = function() {
 
 		var _rec = Database.getRandomElement( this.capitals );
 
-c("weather.js randomly selected country " + db.getCountryName(_rec.cc) + " -- " + _rec.cc);
+//c("weather.js randomly selected country " + db.getCountryName(_rec.cc) + " -- " + _rec.cc);
 
 		this.city = _rec.f;
 
-c("weather.js is trying to get the country name for capital city " + this.city);
+//c("weather.js is trying to get the country name for capital city " + this.city);
 
 		this.country = db.getCountryName( _rec.cc );
 

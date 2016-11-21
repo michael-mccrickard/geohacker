@@ -23,6 +23,22 @@
 
 		this.state = new Blaze.ReactiveVar(0);
 	}
+
+
+	this.setData = function( _item) {
+
+	  _item.setName( this.name );
+
+	  _item.imageFile = this.soundPlayingPic;
+
+	  _item.soundFile = this.items[ this.getIndex() ].u;
+
+	  _item.videoFile = null;
+
+	  _item.fileToLoad = this.soundPlayingPic;
+
+	  this.text = "";
+	}
     
 
     //This supplies the appropriate picture file for the control
@@ -45,7 +61,7 @@
 
 	this.play = function() {
 
-		if (this.getState() == sPaused) hacker.feature.changeImage( this.soundPlayingPic )
+		if (this.getState() == sPaused) hacker.feature.item.changeImage( this.soundPlayingPic )
 
 		this.setState( sPlaying );
 
@@ -53,25 +69,6 @@
 
 	},
 
-	this.getFeaturedPic = function() {
-
-
-//return this.soundPlayingPic;
-
-		var pic = null;
-
-		var _state = this.getState();
-
-		if ( _state == sPaused ) pic = this.playControlPic;
-
-		//getFeaturedPic is called for the newly selected (by newLoader.js) control,
-		//so if we're in the scanning state, we know that file is about to automatically play
-		//so we use the playing state picture
-
-		if ( _state == sPlaying || _state == sScanning )  pic = this.soundPlayingPic;
-
-		return pic;
-	}
 
 	this.pause = function() {
 
@@ -79,7 +76,7 @@
 
 		this.setState( sPaused );
 
-		hacker.feature.changeImage( this.soundPausedPic );
+		hacker.feature.item.changeImage( this.soundPausedPic );
 
 	    document.getElementById("soundPlayer").pause();
 
@@ -121,9 +118,9 @@
 
 
 	this.suspend = function() {
-
+c("sound suspend")
 		if (this.getState() == sPlaying) {
-
+c("calling pause()")
 			this.pause();
 		}
 	}

@@ -45,7 +45,7 @@ optional -- used by some countries
 	text & image pairs -- used by some countries as debriefs / text clues
 	When used as a debrief / text clue:  text = name of entity, meme text = explanatory text, image or web = relevant image
 
-		art -- artist (broadly speaking, could be writer, musician, actor, etc.)
+		art, art[X] -- artist (broadly speaking, could be writer, musician, actor, etc.)
 
 		lan, lan[X] -- landmark
 
@@ -80,10 +80,12 @@ Meme = function( _rec, _type )  {
 
 	this.text = "";
 
+	this.s = "";  //source, not used yet
+
 
 	this.init = function() {
 
-		if (this.code) this.code = this.rec.dt.substr(0,3);	
+		if (this.rec.dt) this.code = this.rec.dt.substr(0,3);	
 
 		this.setText();
 
@@ -112,13 +114,15 @@ Meme = function( _rec, _type )  {
 
 		var _type = this.type;
 
+		//if (!_type) _type = this.type;
+
 		if (this.code == "cap") {
 
 			var capital = hack.getCapitalName();
 
 			if ( _type == "debrief" ) this.text = capital + " is the capital of " + hack.getCountryName() + ".";
 
-			if ( _type == "browse" ) this.text = capital;
+			if ( _type == "browse"  || _type == "hacker" ) this.text = capital;
 		}
 
 		if (this.code == "ldr") {
@@ -129,7 +133,7 @@ Meme = function( _rec, _type )  {
 
 			if ( _type == "debrief" ) this.text = leaderName + " is the " + leaderType + " of " + hack.getCountryName() + ".";
 
-			if ( _type == "browse" ) this.text = leaderType + " " + leaderName;			
+			if ( _type == "browse" || _type == "hacker" ) this.text = leaderType + " " + leaderName;			
 		}
 
 		//the code is the first 3 letters of the field and dt is the full field
@@ -158,13 +162,18 @@ Meme = function( _rec, _type )  {
 
 			this.text = this.rec.t;
 
-			if ( _type == "browse" ) {
+			if ( _type == "browse" || _type == "hacker") {
 
 				//use the clue version, if it exists
 
 				if (this.rec.tc) this.text = this.rec.tc;		
 
-			
+			}
+
+			if ( _type == "helper") {
+
+				if (this.rec.ac) this.text = this.rec.ac;		
+
 			}
 		}
 	}
@@ -240,6 +249,60 @@ Meme = function( _rec, _type )  {
 		$( container ).css("width", _width );  
 		
 		$( container ).css("left", _left );  
+	}
+
+	this.dimensionForHack = function( ) {
+
+		this.imageSrc = hacker.feature.item.imageSrc;
+
+		$("div.memeText").text( this.text );
+
+	    var fullScreenWidth = $(window).width();
+
+	    var fullBackdropWidth = $("img.featuredBackdrop").width();
+
+	    var maxWidth = fullBackdropWidth;
+
+        var fullHeight = $("img.featuredBackdrop").height();
+
+	    var _width = (fullHeight / this.imageSrc.height ) * this.imageSrc.width; 
+
+	    if (_width > maxWidth) _width = maxWidth;
+
+	    var _left = (maxWidth/2) - (_width / 2 );
+
+		var container = "img.memePicFrame";
+
+		$( container ).css("left",  _left + "px" );  
+
+		$( container ).css("top", display.menuHeight + "px");
+
+		$( container ).attr("height", fullHeight );
+
+		$( container ).attr("width", _width );  
+
+		$( container ).attr("src", this.image );
+		
+
+		var container = "div.memeText";
+
+		$( container ).css("width", _width );  
+		
+		$( container ).css("left", _left );  
+
+
+		var _fontSize = "3.0vh";
+
+		if (this.rec.fs) _fontSize = this.rec.fs * 1.5;
+
+		$ ( container ).css("font-size", _fontSize);
+
+
+		var _height = $ ( container ).innerHeight();
+
+		var _top = fullHeight + display.menuHeight - _height;
+
+		$( container ).css("top", _top );  
 	}
 
 

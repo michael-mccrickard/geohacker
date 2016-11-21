@@ -500,6 +500,8 @@ c("db is removing record for " + _code + " in the current mission.")
 
     if (_type == cDebrief) col = this.ghMeme;
 
+    if (_type == cMeme) col = this.ghMeme;
+
     return col;
   }
 
@@ -531,6 +533,8 @@ c("db is removing record for " + _code + " in the current mission.")
     if (_name == "TEXT") col = this.ghText;
 
     if (_name == "DEBRIEF") col = this.ghMeme;
+
+    if (_name == "MEME") col = this.ghMeme;
 
     return col;
   }

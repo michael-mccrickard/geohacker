@@ -45,13 +45,12 @@ NewLoader = function() {
 
 		hacker.cue.setAndShow();
 
-		hacker.feature.isLoaded.set( false );
 
 	    //if this control has a still image, load it into memory
 		//which will allow feature.dimension() to size it accurately
 		//this also sets the name and ctl for the feature
 
-	    hacker.feature.preload( this.newControl.name );	
+	    hacker.feature.loadNextItem( this.newControl.name );	
 
 
 	}
@@ -213,16 +212,17 @@ NewLoader = function() {
 
 //if we need to force a certain control for any reason, this is the place to do it
 
+
 /*
-if (this.totalClueCount == 0) randomControl = hacker.ctl["VIDEO"]; 
+if (this.totalClueCount == 0) randomControl = hacker.ctl["WEB"]; 
 
-if (this.totalClueCount == 1) randomControl = hacker.ctl["VIDEO"];
+if (this.totalClueCount == 1) randomControl = hacker.ctl["WEB"];
 
-if (this.totalClueCount == 2) randomControl = hacker.ctl["VIDEO"];
+if (this.totalClueCount == 2) randomControl = hacker.ctl["SOUND"];
 
-if (this.totalClueCount == 3) randomControl = hacker.ctl["VIDEO"];
+if (this.totalClueCount == 3) randomControl = hacker.ctl["WEB"];
 
-if (this.totalClueCount == 4) randomControl = hacker.ctl["TEXT"];
+if (this.totalClueCount == 4) randomControl = hacker.ctl["VIDEO"];
 */
 		//Bump up the loadedCount on this control and return the name
 

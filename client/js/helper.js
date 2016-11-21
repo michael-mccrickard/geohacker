@@ -3,6 +3,8 @@
 
 Helper = function() {
 
+	this.name = "helper";
+
 	this.pic = new Blaze.ReactiveVar("");
 
 	this.rec = null;

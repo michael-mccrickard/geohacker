@@ -11,9 +11,16 @@
 
 		{{> scanning}}
 
-		<span class="featuredText {{featuredAreaFont}} hidden">{{displayTextContent}}</span>
 
-		<img class="featuredPic hidden"  src="" />
+		{{#if memeIsFeatured}}
+
+			{{> meme}}
+
+		{{else}}
+
+			<img class="featuredPic hidden"  src="" />
+
+		{{/if}}
 
 		<!-- the YouTube API writes the youtube player into this div when appropriate -->
 
@@ -37,17 +44,10 @@
 
 				<img class="stretch" id="ctlBG_{{this}}"  src="featuredBackdrop.jpg" />
 				
-				{{#if displayTextControlText}}
-					
-					<span class="controlText">{{textControlContent}}</span>
+				<img class="controlPic  {{opacityClass}}" id="pic{{this}}" src="{{controlPic}}" />	
 
-				{{else}}
+				<div class="controlLabel whiteText {{opacityClass}}">{{this}}</div>	
 
-					<img class="controlPic  {{opacityClass}}" id="pic{{this}}" src="{{controlPic}}" />	
-
-				{{/if}}	
-
-				<div class="controlLabel whiteText {{opacityClass}}">{{this}}</div>		
 			</div>	
 		
 		{{/each}}

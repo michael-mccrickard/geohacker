@@ -235,9 +235,6 @@ Browser = function(  ) {
 			if (gEditSidewallsMode && this.arrMeme.length != 3) this.flipSide();
 		}
 		
-c("index is " + this.memeIndex)
-
-c("this side is " + this.whichSide)
 
 		if (this.whichSide == "left") {
 

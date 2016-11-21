@@ -73,7 +73,7 @@ Hack = function() {
         hacker.suspendMedia();
 
         hacker.suspendBGSound();
-
+//Not really necessary, we create a new FeaturedItem every time?
         hacker.feature.clear();    
 
         display.playEffect("goMission.mp3");

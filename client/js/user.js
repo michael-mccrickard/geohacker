@@ -271,15 +271,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	hack.mode = mReady;
 
-    	if (hacker.feature.getName() == "MAP") {
-
-	  		hacker.worldMapTemplateReady = false;
-
-	  		FlowRouter.go("/worldMap");
-
-	  		return;
-    	}
-
   		FlowRouter.go("/main");
     }
 

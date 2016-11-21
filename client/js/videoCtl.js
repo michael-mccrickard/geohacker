@@ -26,6 +26,26 @@ VideoCtl = function() {
 		this.state = new Blaze.ReactiveVar(0);
 	}
 
+	this.setData = function( _item) {
+
+		_item.setName( this.name );
+
+		_item.imageFile = "";
+
+		_item.soundFile = "";
+
+		this.video = new Video( this.getFile(), this );
+
+		if ( this.video.isGIF ) {
+
+			_item.imageFile = this.video.file;
+
+			_item.fileToLoad = this.video.file;
+		}
+		
+		this.text = "";
+	}
+
 	 this.suspend = function() {
 
 	 	if (this.getState() == sPlaying) {

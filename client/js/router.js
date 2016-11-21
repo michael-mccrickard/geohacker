@@ -302,7 +302,7 @@ function checkForFeature() {
   //if there is no control featured, then don't jump to
   //a close-up view
 
-  if (hacker.feature.getName().length == 0) {
+  if (hacker.feature.item.getName().length == 0) {
 
     display.playEffect( hacker.locked_sound_file );
 

@@ -132,7 +132,7 @@ Scanner = function() {
 
 		if ( hacker.feature.on() ) {
 
-			var _name = hacker.feature.getName();
+			var _name = hacker.feature.item.getName();
 
 			if (_name != "TEXT" && _name != "VIDEO"  && _name != "MAP") this.hideBG();
 		}
@@ -328,7 +328,7 @@ Scanner = function() {
 
 		this.fadeOut(300);
 
-		hacker.feature.show();
+		hacker.feature.switchToNext();
 
 		Meteor.setTimeout( function() { hacker.scanner.startIdle() }, 2000 );		
 	}
@@ -457,7 +457,7 @@ Scanner = function() {
 
 			//if (Session.get("sFeatureImageLoaded") == false)  return false;
 		
-			if ( !hacker.feature.isLoaded.get() ) return false;
+			if ( !hacker.feature.nextItem.isLoaded.get() ) return false;
 		}
 
 		return true;

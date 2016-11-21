@@ -128,9 +128,9 @@ Game = function() {
 
 		//if SOUND is the current ctl, then set it again to force a redraw of the feature area
 
-		if (hacker.feature.getName() == "SOUND") {
+		if (hacker.feature.item.getName() == "SOUND") {
 
-			hacker.feature.setImageSource( "SOUND" );
+			hacker.feature.item.setImageSource( "SOUND" );
 
 			//force the static GIF here
 

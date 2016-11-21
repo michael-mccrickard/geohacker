@@ -30,6 +30,23 @@ Control = {
       this.state.set( _val );
     },
 
+    getItem : function() {
+
+      return this.items[ this.getIndex() ];
+    },
+
+    getFile : function() {
+
+      if ( ! this.items.length ) {
+
+        showMessage("Item collection for " + this.name + " is empty." );
+
+        return null;
+      }
+
+      return this.items[ this.getIndex() ].u;
+    },
+
   featuredBackdrop : function() { return  "featuredBackdrop.jpg"; },
 
   hilitedBackdrop : function() { return  "hilitedBackdrop.jpg"; },
@@ -47,18 +64,6 @@ Control = {
 
     if (_collection) {
 
-      //Just zero out the map clue counts, b/c these are inserted at 
-      //specific points under conditions by newLoader.js
-
-      if (this.name == "MAP") {
-
-        this.fullCount = 0;
-
-        this.loadedCount = 0;
-
-      }
-      else {
-
         if (this.name == "SOUND") {
 
           //don't count the anthems 
@@ -71,9 +76,8 @@ Control = {
         }
 
         this.loadedCount = 0;
-      }
-
     }
+
 
     this.items = [];
 
@@ -91,18 +95,12 @@ Control = {
 
   setItems: function() {
 
-    if (this.name == "MAP") {
+    this.items = this.collection.find( { cc: this.countryCode } ).fetch();
 
-      this.items = this.collection.find({}).fetch();  //this must be happening somewhere else and failing, b/c this should not be necessary
-    }
-    else {
-      this.items = this.collection.find( { cc: this.countryCode } ).fetch();
-    }
-    
   },
 
   //********************************************
-  //          Data functions
+  //   Control Button drawing / dimensioning
   //********************************************
 
   //the image for the control buttons
@@ -115,16 +113,35 @@ Control = {
 
     if (this.getState() == sScanning) pic = this.scanningPic;
 
-    if (pic == "") pic = this.items[ this.getIndex() ].u;
+    if (pic == "") {
+
+      if (this.name == "MEME") {
+
+          pic = this.meme.image;
+      }
+      else {
+
+        pic = this.items[ this.getIndex() ].u;
+      }
+    } 
 
     return pic;
   },
 
   setControlPicSource: function() {
 
-    if ( typeof this.items[ this.getIndex() ] === 'undefined') return;
+    if ( !this.items[ this.getIndex() ]) return;
 
-    var pic = this.items[ this.getIndex() ].u;
+    var pic = null;
+
+    if (this.name == "MEME") {
+
+      pic = this.meme.image;
+    }
+    else {
+
+      pic = this.items[ this.getIndex() ].u;
+    } 
 
     this.src = display.getImageFromFile( pic );
 
@@ -217,29 +234,16 @@ Control = {
     $(sel).css("top",  this.picFrame.top);
   },
 
-  getTextContent: function() {
+  hilite : function() {
 
-    return this.items[ this.getIndex() ].f;
+    Control.unhiliteAll();
+
+    $("#ctlBG_" + this.name ).attr("src", this.hilitedBackdrop() );
   },
 
-  setFeaturedContent : function() {
-
-    Session.set("gFeaturedPic", this.getContent());
-  },
-
-  getFile : function() {
-
-    if ( ! this.items.length ) {
-
-      showMessage("Item collection for " + this.name + " is empty." );
-
-      return null;
-    }
-
-    if (this.name == "TEXT") return this.getTextContent();
-
-    return this.items[ this.getIndex() ].u;
-  },
+  //********************************************
+  //          Nav button functions
+  //********************************************
 
   doNavButtons : function() {
 
@@ -264,7 +268,7 @@ Control = {
     
   },
   //********************************************
-  //          General media functions
+  //          Media functions
   //********************************************
 
   toggleMedia: function() {
@@ -290,23 +294,6 @@ Control = {
 
   },
 
-  hilite : function() {
-
-    this.unhiliteAll();
-
-    $("#ctlBG_" + this.name ).attr("src", this.hilitedBackdrop() );
-  },
-
-
-  unhiliteAll : function() {
-
-      $("#ctlBG_SOUND" ).attr("src", this.featuredBackdrop() );
-      $("#ctlBG_VIDEO" ).attr("src", this.featuredBackdrop() );
-      $("#ctlBG_TEXT" ).attr("src", this.featuredBackdrop()) ;
-      $("#ctlBG_WEB" ).attr("src", this.featuredBackdrop() );
-      $("#ctlBG_IMAGE" ).attr("src", this.featuredBackdrop() );
-  },
-
 }  //end Control constructor
 
 
@@ -314,13 +301,6 @@ Control = {
 //************************************************************
 //            CONTROL  (static functions)
 //************************************************************
-
-Control.hideNavButtons = function() {
-
-  $("img.navButton.navNext").addClass("invisible");     
-  $("img.navButton.navPrev").addClass("invisible");     
-}
-
 
 Control.switchTo = function( _id ) {
 
@@ -333,9 +313,9 @@ Control.switchTo = function( _id ) {
 
     hacker.cue.set();
 
-    var id = _id;
 
-    if ( hacker.ctl[ id ].getState() < sLoaded ) {
+
+    if ( hacker.ctl[ _id ].getState() < sLoaded ) {
 
         display.playEffect( hacker.locked_sound_file );
 
@@ -348,13 +328,13 @@ Control.switchTo = function( _id ) {
     //the state (ctl is already active) 
     //or we are clicking to make active and play
 
-    var _name = hacker.feature.getName();
+    var _name = hacker.feature.item.getName();
 
-    if ((id == "SOUND" && _name == "SOUND") || (id == "VIDEO" && _name == "VIDEO")) {
+    if ((_id == "SOUND" && _name == "SOUND") || (_id == "VIDEO" && _name == "VIDEO")) {
         
         c("'click control' is calling toggleMedia")
 
-        hacker.feature.ctl.toggleMedia(); 
+        hacker.feature.item.ctl.toggleMedia(); 
 
         //the feature did not change, only the state of the control,
         //so we're done here
@@ -365,10 +345,10 @@ Control.switchTo = function( _id ) {
 
   c("'click control' is calling feature.switch")
 
-    hacker.feature.switch( id );
+    hacker.feature.switchTo( _id );
 
 
-    if (id == "VIDEO") {
+    if (_id == "VIDEO") {
 
       hacker.cue.setAndShow();
     }
@@ -383,6 +363,21 @@ Control.switchTo = function( _id ) {
 //        UTILITIES
 //***********************************************************************
 
+Control.hideNavButtons = function() {
+
+  $("img.navButton.navNext").addClass("invisible");     
+  $("img.navButton.navPrev").addClass("invisible");     
+}
+
+
+Control.unhiliteAll = function() {
+
+      $("#ctlBG_SOUND" ).attr("src", this.featuredBackdrop() );
+      $("#ctlBG_VIDEO" ).attr("src", this.featuredBackdrop() );
+      $("#ctlBG_MEME" ).attr("src", this.featuredBackdrop()) ;
+      $("#ctlBG_WEB" ).attr("src", this.featuredBackdrop() );
+      $("#ctlBG_IMAGE" ).attr("src", this.featuredBackdrop() );
+  },
 
 
 Control.allLoadsAreEqual = function() {
@@ -413,7 +408,7 @@ Control.allLoadsAreEqual = function() {
 
  
 //*****************************************************************
-// CONTROL CHILD OBJECTS  (SOUND, VIDEO AND MAP IN SEPARATE FILES)
+// CONTROL CHILD OBJECTS  (SOUND, VIDEO IN SEPARATE FILES)
 //*****************************************************************
 
 ghImageCtl = function() {
@@ -443,6 +438,21 @@ ghImageCtl = function() {
       }
 
       this.fullCount = this.items.length;
+  }
+
+  this.setData = function( _item) {
+
+      _item.setName( this.name );
+
+      _item.imageFile = this.items[ this.getIndex() ].u;
+
+      _item.soundFile = "";
+
+      _item.videoFile = null;
+
+      _item.fileToLoad = _item.imageFile;
+
+      _item.text = "";
   }
 
   this.setCountry = function(_countryCode, _collection) {
@@ -491,33 +501,100 @@ Web = function() {
   this.suspend = function() {
 
   }
+  this.setData = function( _item) {
+
+      _item.imageFile = this.items[ this.getIndex() ].u;
+
+      _item.soundFile = "";
+
+      _item.videoFile = null;
+
+      _item.fileToLoad = _item.imageFile;
+
+      _item.text = "";
+  }
 }
 
-Text = function() {
+MemeCtl = function() {
 
-  this.name = "TEXT";
+  this.name = "MEME";
 
   this.iconPic = "text_icon2.png";   
 
   this.scanningPic = "anim_text.gif";
+
+  this.memeCollection = null;
+
+  this.meme = null;
 
   this.init = function() {
 
     this.index = new Blaze.ReactiveVar(0);
 
     this.state = new Blaze.ReactiveVar(0);
+
+  }
+
+  this.setData = function( _item) {
+
+      _item.setName( this.name );
+
+       this.setMeme();
+
+      _item.imageFile = this.meme.image;
+
+      _item.soundFile = "";
+
+      _item.videoFile = null;
+
+      _item.fileToLoad = _item.imageFile;
+
+      _item.text = this.meme.text;
+  }
+
+  this.setItems = function() {
+
+    this.memeCollection = new MemeCollection( "hacker" );
+
+    this.memeCollection.make( this.countryCode );
+
+    this.items = this.memeCollection.items;    
+
+    this.fullCount = this.items.length;
+  }
+
+  this.setMeme = function() {
+
+    this.meme = this.memeCollection.getItem();
+  }
+
+/*
+  this.getFile = function() {
+
+    return this.meme.image;
+  }
+*/
+
+  this.dimension = function() {
+
+      Meteor.setTimeout( function() {hacker.ctl["MEME"].meme.dimensionForHack(); }, 250);
+  }
+
+  this.show = function() {
+
+    hacker.memeIsFeatured.set(1); 
   }
 
   this.suspend = function() {
 
-
-    hacker.feature.hideText();
-
+    hacker.memeIsFeatured.set(0);
+  
   }
+
 }
 
 ghImageCtl.prototype = Control;
 
-Web.prototype = Control;
+MemeCtl.prototype = Control;
 
-Text.prototype = Control;
+Web.prototype = Control;

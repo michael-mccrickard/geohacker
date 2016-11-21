@@ -332,7 +332,7 @@ c("youtube ready")
 
         case uHack: 
 
-            hacker.feature.dimension( "video", myVideo, null );
+            hacker.feature.item.dimension( "video", myVideo, null );
             
             Video.setPos( myVideo );
 

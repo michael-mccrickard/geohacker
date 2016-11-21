@@ -6,6 +6,8 @@
 
 Hacker = function() {
 
+    this.name = "hacker";
+
     this.feature = new Feature();
 
     this.closeUp = new CloseUp();
@@ -23,6 +25,9 @@ Hacker = function() {
     this.weather = new Weather();
 
     this.helper = new Helper();
+
+    this.memeIsFeatured = new Blaze.ReactiveVar( false );
+
 
     //media files
 
@@ -50,7 +55,7 @@ Hacker = function() {
 
     //all the controls used by the hacker
 
-    this.ctlName = ["SOUND", "TEXT", "IMAGE", "VIDEO", "WEB"];  
+    this.ctlName = ["SOUND", "MEME", "IMAGE", "VIDEO", "WEB"];  
 
 
     this.ctl = [];  //the array of control objects
@@ -100,6 +105,8 @@ Hacker = function() {
                 if (_name == "IMAGE") this.ctl[ _name ] = new ghImageCtl();       
 
                 if (_name == "TEXT") this.ctl[ _name ] = new Text(); 
+
+                if (_name == "MEME") this.ctl[ _name ] = new MemeCtl(); 
 
                 if (_name == "SOUND") this.ctl[ _name ] = new Sound();        
 
@@ -202,7 +209,7 @@ Hacker = function() {
 
             this.scanner.hide();
 
-            this.feature.show();
+            this.feature.item.show();
         }
     }
 
@@ -210,11 +217,13 @@ Hacker = function() {
 
         this.dimensionControls();
 
-        if (this.feature.on) {
+        if ( this.feature.on() ) {
 
-            this.feature.redimension();
+            if (!this.feature.item) return;
 
-            if (this.feature.getName() == "VIDEO") this.feature.video.show();
+            this.feature.item.redimension();
+
+            if (this.feature.item.getName() == "VIDEO") this.feature.item.video.show();
         }
     }
 
@@ -283,11 +292,11 @@ Hacker = function() {
 
         if (this.feature.on() ) {
 
-            var _name = this.feature.getName();
+            var _name = this.feature.item.getName();
 
             c("hacker.suspendMedia is suspending " + _name )
 
-            if (this.feature.ctl) this.feature.ctl.suspend();
+            if (this.feature.item.ctl) this.feature.item.ctl.suspend();
 
             if ( _name == "VIDEO" || _name == "SOUND" ) game.pauseMusic();
 
@@ -327,18 +336,27 @@ Hacker = function() {
         }
     }
 
+/*
     this.showFeaturedContent = function(_name ) {
+
+
+this.feature.switchTo( _name );
+
+return;
 
         if ( _name == "SOUND" || _name == "VIDEO") {
 
             this.suspendMedia();
         }
-        
-        this.feature.setImageSource( _name );
 
-        this.feature.show();
+        if ( _name == "MEME") this.ctl["MEME"].setMeme();
+        
+        this.feature.item.setImageSource();
+
+        this.feature.item.show();
 
     } 
+*/
 
     this.setControls = function( _state) {
 

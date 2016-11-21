@@ -92,29 +92,9 @@ Template.main.helpers({
       return hack.status;
     },
 
-    featuredAreaFont: function() {
+    memeIsFeatured: function() {
 
-        if (hacker.feature.displayMessage.get() ) return "featuredMessageFont";
-
-        return "featuredTextFont";
-    },
-
-
-    displayTextContent: function() {
-
-        if (hacker.feature.getName() == "TEXT") return hacker.ctl["TEXT"].getTextContent();       
-    },
-
-    textControlContent: function() { 
-
-        return hacker.ctl["TEXT"].getTextContent();   
-    },
-
-    displayTextControlText: function() {
-
-        if (this == "TEXT" && hacker.ctl["TEXT"].getState() >= sLoaded) return true;
-
-        return false;
+      return hacker.memeIsFeatured.get();
     },
 
     youTubeWaiting: function() {
@@ -175,9 +155,9 @@ Template.main.events({
           return; 
       }    
       
-      if (hacker.feature.name == "VIDEO") hacker.suspendMedia();
+      if (hacker.feature.item.getName() == "VIDEO") hacker.suspendMedia();
 
-      if (hacker.feature.name != "SOUND") game.playMusic();     
+      if (hacker.feature.item.getName() != "SOUND") game.playMusic();     
 
       hackMap.go();
   
@@ -187,9 +167,9 @@ Template.main.events({
 
       e.preventDefault();
 
-      var _index = hacker.feature.ctl.getIndex();
+      var _index = hacker.feature.item.ctl.getIndex();
 
-      hacker.feature.ctl.setIndex( _index - 1);
+      hacker.feature.item.ctl.setIndex( _index - 1);
 
       updateFeaturedContent();
   },
@@ -198,9 +178,9 @@ Template.main.events({
 
       e.preventDefault();
 
-      var _index = hacker.feature.ctl.getIndex();
+      var _index = hacker.feature.item.ctl.getIndex();
 
-      hacker.feature.ctl.setIndex( _index + 1);
+      hacker.feature.item.ctl.setIndex( _index + 1);
 
       updateFeaturedContent();
   },
@@ -224,16 +204,6 @@ Template.main.events({
         Meteor.setTimeout( function() { hacker.hideAgentHint(); }, 5000);
 
   },
-
-/*
-  'mouseleave #btnHelperAgent': function(e) {
-
-      e.preventDefault();
-
-      $('#btnHelperAgent').tooltip('hide');
-
-  },
-*/
 
   'click #scanButton': function(e) {
 
@@ -260,9 +230,7 @@ Template.main.events({
           return; 
       }
 
-      hacker.feature.hideText();
-
-      hacker.feature.dim();
+      if (hacker.feature.item) hacker.feature.item.dim();
 
       Control.unhiliteAll();
 
@@ -283,7 +251,7 @@ Template.main.events({
 
     'click img.featuredPic': function(e) {
 
-      var _name = hacker.feature.getName();
+      var _name = hacker.feature.item.getName();
 
       if (_name == "SOUND" || _name == "VIDEO") {
 
@@ -308,10 +276,14 @@ Template.main.events({
 
 function updateFeaturedContent() {
 
-    var _name = hacker.feature.getName();
+    //the calling function has already changed the index on the currently featured
+    //control, so we just "switch" to that same control and that does the update
 
-    hacker.showFeaturedContent( _name  );
+    var _name = hacker.feature.item.getName();
 
+    hacker.feature.switchTo( _name )
+
+    return;
 }
 
 Template.main.rendered = function () {
