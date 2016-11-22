@@ -568,12 +568,6 @@ MemeCtl = function() {
     this.meme = this.memeCollection.getItem();
   }
 
-/*
-  this.getFile = function() {
-
-    return this.meme.image;
-  }
-*/
 
   this.dimension = function() {
 
@@ -582,13 +576,18 @@ MemeCtl = function() {
 
   this.show = function() {
 
-    hacker.memeIsFeatured.set(1); 
+    if (this.meme) this.meme.show();
+
+  }
+
+  this.hide = function() {
+
+    if (this.meme) this.meme.hide();
   }
 
   this.suspend = function() {
 
-    hacker.memeIsFeatured.set(0);
-  
+
   }
 
 }

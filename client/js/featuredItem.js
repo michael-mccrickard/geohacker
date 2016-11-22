@@ -16,6 +16,8 @@ FeaturedItem = function( ) {
 
 	this.text = "";
 
+	this.source = "UNKNOWN";  //for images or any other element that might have a URL (for credit purposes)
+
 	this.getName = function() {
 
 		return this.name.get();
@@ -100,6 +102,13 @@ FeaturedItem = function( ) {
 
 	this.dim = function( _time ) {
 
+		if (this.getName() == "MEME") {
+c("calling meme.dim()")
+			this.ctl.meme.dim();
+
+			return;
+		}
+
 		if ( $(".featuredPic").css("opacity") == "1" ) $(".featuredPic" ).velocity( { opacity: 0.3, duration: _time });
 	}
 
@@ -163,7 +172,7 @@ FeaturedItem = function( ) {
 
 			//this returns true if the scanner has finished running all the way through (100% progress)
 
-			if (hacker.scanner.checkScan("feature") == true) {hacker.scanner.stopScan();}
+			if (hacker.scanner.checkScan("feature") == true) { hacker.scanner.stopScan(); }
 		}
 
 		//if checkScan above returned false, then the scanner is still running, so we just

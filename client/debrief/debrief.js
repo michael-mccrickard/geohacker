@@ -2,7 +2,7 @@ Template.debrief.rendered = function () {
 
 	stopSpinner();
 
-  	if (hack.mode == mHackDone) Meteor.setTimeout( function() { hack.debrief.changeHeadline("CLICK ANYWHERE TO CONTINUE") }, 2000 );
+  	Meteor.setTimeout( function() { hack.debrief.changeHeadline("CLICK ANYWHERE TO CONTINUE") }, 2000 );
 
 }
 
@@ -96,6 +96,13 @@ Debrief = function( _rec ) {
 
 		$( container ).attr("src", this.meme.image );    	
 
+		$( container ).css("opacity", "0");
+
+		$( container ).removeClass("hidden");
+
+		$( container ).velocity("fadeIn", { duration: 500, display: "auto" });		
+
+
 		//headline
 
 		this.centerHeadline();
@@ -180,9 +187,9 @@ Debrief = function( _rec ) {
         	//it takes a moment to create the off-screen image (for dimensioning)
         	//in the call the getImageFromFile() above
 
-        	Meteor.setTimeout( function() { hack.debrief.draw(); }, 200 );
+        	Meteor.setTimeout( function() { hack.debrief.draw(); }, 500 );
 
-        	Meteor.setTimeout( function() { hack.debrief.checkAudio(); }, 200 );
+        	Meteor.setTimeout( function() { hack.debrief.checkAudio(); }, 501 );
 
         });
 

@@ -336,27 +336,6 @@ Hacker = function() {
         }
     }
 
-/*
-    this.showFeaturedContent = function(_name ) {
-
-
-this.feature.switchTo( _name );
-
-return;
-
-        if ( _name == "SOUND" || _name == "VIDEO") {
-
-            this.suspendMedia();
-        }
-
-        if ( _name == "MEME") this.ctl["MEME"].setMeme();
-        
-        this.feature.item.setImageSource();
-
-        this.feature.item.show();
-
-    } 
-*/
 
     this.setControls = function( _state) {
 

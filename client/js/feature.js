@@ -23,14 +23,6 @@ Feature = function() {
 		return false;
 	},
 
-	this.clear = function( _newControlName ) {
-
-		if (!this.item) return;
-
-		this.item = null;
-
-	},
-
 	this.refreshWindow = function() {
 
 		Meteor.setTimeout( function() { refreshWindow( "hacker.feature" ); }, 250 );
@@ -54,14 +46,16 @@ Feature = function() {
 
    this.switchToNext = function() {
 
+   		this.hideMeme();
+
    		this.item = this.nextItem;
 
    		this.item.show();
-
-   		hacker.updateContent();
    }
 
    this.switchTo = function( _name ) {
+
+   		this.hideMeme();
 
    		this.nextItem = new FeaturedItem();
 
@@ -119,6 +113,14 @@ Feature = function() {
 
 		Meteor.setTimeout( function() { hacker.feature.item.show(); }, 200 );  //will also play the media file, if any
 
+	}
+
+	this.hideMeme = function() {
+
+		if (this.item) {
+
+   			if (this.item.getName() == "MEME") this.item.ctl.hide();
+   		}
 	}
 
 } //end feature constructor

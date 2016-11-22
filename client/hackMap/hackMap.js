@@ -221,12 +221,16 @@ HackMap = function() {
 
     this.preloadCountryMap = function(_name) {
 
-        $("#imgCountryMap").attr("src", _name + "_map.jpg");   
+        var _rec = db.ghImage.find( { cc: hack.countryCode, dt: "cmp" } );
+
+        if ( !_rec) _rec = db.ghImage.find( { cc: hack.countryCode, dt: "map" } );
+
+        $("#imgCountryMap").attr("src", _rec.u);   
 
 
         imagesLoaded( document.querySelector('#preloadCountryMap'), function( instance ) {
 
-          hackMap.worldMap.imageSrc = display.getImageFromFile( _name + "_map.jpg" );
+          hackMap.worldMap.imageSrc = display.getImageFromFile( _rec.u );
 
           hackMap.worldMap.mapLoaded = true;
 

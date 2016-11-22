@@ -13,10 +13,6 @@ NewLoader = function() {
 
 		var mode = hack.mode;
 
-		//reset the feature object
-
-		hacker.feature.clear();
-
 
 		if (mode != mReady) {
          
@@ -41,10 +37,7 @@ NewLoader = function() {
 
 		Meteor.defer( function(){ hacker.dimensionControls(); });  //the aspect ratio is likely to be 
 																	//different (loaded control pic vs. scan pic)
-
-
 		hacker.cue.setAndShow();
-
 
 	    //if this control has a still image, load it into memory
 		//which will allow feature.dimension() to size it accurately

@@ -102,7 +102,8 @@
     "z3": "3.3",				 //zoom long
     "n2": "N",					 //???
     "n": "Northwestern Africa",	 //name
-    "lc": -5,					 //???
+    "lc": -5,					 //label correction (icons on hackMap / browseMap)
+    "rl_co": "black",   //region label color, optional, defaults to "yellow"
     "llon": -15.202173,			 //label position longitude (new method)
     "llat": 18.898455			 //label position latitude (new method)
 }

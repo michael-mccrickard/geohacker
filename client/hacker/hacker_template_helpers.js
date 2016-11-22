@@ -245,8 +245,7 @@ Template.main.events({
       game.playMusic();
 
       hacker.scanner.startScan( mode );
-
-
+      
     },
 
     'click img.featuredPic': function(e) {

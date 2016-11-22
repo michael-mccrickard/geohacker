@@ -105,7 +105,7 @@ CloseUp = function() {
 
     //need an event handler in main.js to catch the click on the detailedMap and make the below feature=MAP scenario work
 
-      var img = hacker.feature.imageSrc;
+      var img = hacker.feature.item.imageSrc;
 
       if (hack.mode == mHackDone) {
 
@@ -155,7 +155,7 @@ CloseUp = function() {
     	$( container ).attr("src", img.src );    	
 
       //source text
-      container = "h4#closeUpSource.sourceText";
+      //container = "h4#closeUpSource.sourceText";
 
       var s = null;
 
@@ -165,21 +165,12 @@ CloseUp = function() {
       }
       else{
 
-        s = hacker.feature.source;
-      }
-
-      var s = null;
-
-      if (hack.mode == mHackDone)  {
-
-        s = hack.getCountryMapSource();
-      }
-      else{
-
-        s = hacker.feature.source;
+        s = hacker.feature.item.source;
       }
 
       this.source = s;
+
+      if (!s) s = "UNKNOWN";
 
       if (s == "0") s = "Unknown";
 

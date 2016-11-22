@@ -271,13 +271,15 @@ c("doCurrentMap");
 
             //do any continents have label pos data?
 
-             
-
             x = this.map.divRealWidth / 2;
 
             y = this.map.divRealHeight / 2;        
 
-            _col = "yellow";     
+            _col = "yellow";    
+
+            //some region labels have specific colors
+
+            if (rec.rl_co) _col = rec.rl_co; 
 
             _align = "middle";             
         }
@@ -735,6 +737,7 @@ c("doMapSuccess")
 
         //the SlowMo ease is like an easeOutIn but it's configurable in terms of strength and how long the slope is linear. See http://www.greensock.com/v12/#slowmo and http://api.greensock.com/js/com/greensock/easing/SlowMo.html
         tl.to(element, duration, {scale:1.2,  ease:SlowMo.ease.config(0.25, 0.9) }, delay1)
+
           //notice the 3rd parameter of the SlowMo config is true in the following tween - that causes it to yoyo, meaning opacity (autoAlpha) will go up to 1 during the tween, and then back down to 0 at the end. 
           .to(element, duration, {autoAlpha:1, ease:SlowMo.ease.config(0.25, 0.9, true),  }, delay2);
 

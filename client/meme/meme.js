@@ -82,6 +82,12 @@ Meme = function( _rec, _type )  {
 
 	this.s = "";  //source, not used yet
 
+	this.element = "div.divMeme";
+
+	this.textElement = "div.memeText";
+
+	this.imageElement = "img.memePicFrame";
+
 
 	this.init = function() {
 
@@ -213,6 +219,30 @@ Meme = function( _rec, _type )  {
 
 	}
 
+	this.dim = function() {
+
+		if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).velocity( { opacity: 0.3, duration: 300 });
+
+		if ( $( this.textElement ).css("opacity") == "1" ) $("div.memeText" ).velocity( { opacity: 0.3, duration: 300 });
+
+	}
+
+	  this.show = function() {
+
+	      $( this.imageElement ).css("opacity", 1);
+
+	      $( this.textElement ).css("opacity", 1);
+
+	  }
+
+	  this.hide = function() {
+
+	      $( this.imageElement ).css("opacity", 0);
+
+	      $( this.textElement ).css("opacity", 0);
+	  }
+
+
 	this.drawFeatured = function( ) {
 
 		$("div.memeText").text( this.text );
@@ -249,6 +279,9 @@ Meme = function( _rec, _type )  {
 		$( container ).css("width", _width );  
 		
 		$( container ).css("left", _left );  
+
+
+		this.show();
 	}
 
 	this.dimensionForHack = function( ) {
@@ -303,6 +336,16 @@ Meme = function( _rec, _type )  {
 		var _top = fullHeight + display.menuHeight - _height;
 
 		$( container ).css("top", _top );  
+
+		hacker.ctl["MEME"].show();
+
+		container = "img.memePicFrame";
+
+		if ( $( container ).css("opacity") == 0 ) $( container ).velocity("fadeIn", { duration: 500, display: "auto" });	
+
+		container = "div.memeText";
+
+		if ( $( container ).css("opacity") == 0 ) $( container ).velocity("fadeIn", { duration: 500, display: "auto" });	
 	}
 
 

@@ -22,7 +22,7 @@
     background: red;
 
     color: white;
-    z-index: 1001;
+    z-index: 990;
 }
 
 .memePicFrame {
@@ -32,5 +32,5 @@
     left: 0px;
 
     border-radius: 7px;
-    z-index: 1000;
+    z-index: 989;
 }
