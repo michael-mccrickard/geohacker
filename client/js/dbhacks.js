@@ -4,24 +4,28 @@ fixCodes = function() {
 
   var _s = "";
 
-  var arr = db.ghMeme.find( {} ).fetch();
+  var arr = db.ghWeb.find( {} ).fetch();
 
   for (var i = 0; i < arr.length; i++) {
 
       var ID = arr[i]._id;
 
+      if ( !arr[i].dt ) continue;
+
       var _baseCode = arr[i].dt.substring(0,3);
 
       if ( editor.arrFreeCode.indexOf( _baseCode) != -1 ) {
 
-        var _val = _baseCode + "0";
+c("found a rec with a freeCode in web: " + arr[i].cc + " -- " + arr[i].dt )
 
-        db.ghMeme.update( {_id: ID }, { $set: { dt: _val }  } );          
+        //var _val = _baseCode + "0";
+
+        //db.ghMeme.update( {_id: ID }, { $set: { dt: _val }  } );          
 
         count++;
       }
   }
-c(count + " meme recs updated.")
+c(count + " web recs found.")
 }
 
 testagg = function(_days) {

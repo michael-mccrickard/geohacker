@@ -292,11 +292,15 @@ Meme = function( _rec, _type )  {
 
 	    var fullScreenWidth = $(window).width();
 
-	    var fullBackdropWidth = $("img.featuredBackdrop").width();
+	    var container = "img.featuredBackdrop";
+
+	    var fullBackdropWidth = $( container ).width();
 
 	    var maxWidth = fullBackdropWidth;
 
-        var fullHeight = $("img.featuredBackdrop").height();
+        var fullHeight = $(container).height();
+
+        var _top = $(container).position().top;
 
 	    var _width = (fullHeight / this.imageSrc.height ) * this.imageSrc.width; 
 
@@ -308,9 +312,9 @@ Meme = function( _rec, _type )  {
 
 		$( container ).css("left",  _left + "px" );  
 
-		$( container ).css("top", display.menuHeight + "px");
+		$( container ).css("top", _top + fullHeight * 0.03 + "px");
 
-		$( container ).attr("height", fullHeight );
+		$( container ).attr("height", fullHeight * 0.94 );
 
 		$( container ).attr("width", _width );  
 

@@ -198,9 +198,11 @@ Template.editor.helpers({
     	return false;
     },
 
-    imageIsSelected: function() {
+    imageOrWebIsSelected: function() {
 
-      if ( editor.controlType.get() == cImage) return true;
+      var _type = editor.controlType.get();
+
+      if ( _type == cImage || _type == cWeb ) return true;
 
       return false;
     },
