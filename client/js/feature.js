@@ -30,6 +30,11 @@ Feature = function() {
 		Meteor.setTimeout( function() { refreshWindow( "hacker.feature" ); }, 250 );
 	}
 
+	this.clear = function() {
+
+		this.item = null;
+	}
+
 
    /*****************************************************************
    /				LOADING

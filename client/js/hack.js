@@ -62,6 +62,8 @@ Hack = function() {
 
         game.playMusic();
 
+        hacker.feature.clear();
+
         hacker.loadMain();
     };
 
