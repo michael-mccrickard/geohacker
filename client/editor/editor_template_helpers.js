@@ -260,19 +260,6 @@ Template.editor.helpers({
 
     codeTextForOption: function( _index) {
 
-/*
-      var _code = editor.arrCode[ _index ];
-
-
-      if ( editor.arrFreeCode.indexOf( _code ) != -1) {
-
-          var _num =0;
-
-          var _baseCode = _code.substr(0,3)
-
-          return editor.arrCodeText[ _index ] + "_" + _num;
-      }
-*/
         return editor.arrCodeText[ _index ];
     }, 
 
@@ -472,11 +459,11 @@ Template.editor.events = {
       var _id = evt.target.id;
 
       var _code = evt.target.value.substr(0,3);
-c( _code)
+
       if ( editor.arrFreeCode.indexOf( _code ) != -1) {
 
           var sel = "input#" + _id + ".textDTValue";
-c(sel)
+
           $( sel ).val( _code + "X" ); 
 
           showMessage( "Change the X to a unique number for this type");

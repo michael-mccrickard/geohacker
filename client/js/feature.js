@@ -4,6 +4,8 @@ Feature = function() {
 
     this.nextItem = null;  //the specific control record that is being pre-loaded as the next feature
 
+    this.prevItem = null;
+
    /*****************************************************************
    /				BASIC METHODS
    /****************************************************************/
@@ -35,6 +37,8 @@ Feature = function() {
 
    this.loadNextItem = function( _name ) {
 
+   		if (this.item) this.prevItem = this.item;
+
    		this.nextItem = new FeaturedItem();
 
    		this.nextItem.preload( _name );
@@ -54,6 +58,8 @@ Feature = function() {
    }
 
    this.switchTo = function( _name ) {
+
+   		if (this.item) this.prevItem = this.item;		
 
    		this.hideMeme();
 

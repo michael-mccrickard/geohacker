@@ -120,8 +120,6 @@ Meme = function( _rec, _type )  {
 
 		var _type = this.type;
 
-		//if (!_type) _type = this.type;
-
 		if (this.code == "cap") {
 
 			var capital = hack.getCapitalName();
@@ -223,29 +221,48 @@ Meme = function( _rec, _type )  {
 
 		if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).velocity( { opacity: 0.3, duration: 300 });
 
-		if ( $( this.textElement ).css("opacity") == "1" ) $("div.memeText" ).velocity( { opacity: 0.3, duration: 300 });
+		$( this.textElement ).css("opacity", 0);
 
 	}
 
-	  this.show = function() {
+	this.fadeOut = function() {
 
-	      $( this.imageElement ).css("opacity", 1);
+		$( this.imageElement ).velocity( { opacity: 0.0, duration: 100 });
 
-	      $( this.textElement ).css("opacity", 1);
+		$( this.textElement ).velocity( { opacity: 0.0, duration: 100 });
 
-	  }
+	}
 
-	  this.hide = function() {
+	this.show = function() {
 
-	      $( this.imageElement ).css("opacity", 0);
+		container = "img.memePicFrame";
 
-	      $( this.textElement ).css("opacity", 0);
-	  }
+		if ( $( container ).css("opacity") == 0 ) $( container ).velocity("fadeIn", { duration: 500, display: "auto" });	
+
+		container = "div.memeText";
+
+		if (this.text) {
+
+			if ( $( container ).css("opacity") == 0 ) $( container ).velocity("fadeIn", { duration: 500, display: "auto" });	
+		}
+		else {
+
+			$( container ).css("opacity", 0);
+		}
+
+	}
+
+	this.hide = function() {
+
+		$( this.imageElement ).css("opacity", 0);
+
+		$( this.textElement ).css("opacity", 0);
+	}
 
 
 	this.drawFeatured = function( ) {
 
-		$("div.memeText").text( this.text );
+		if (this.text) $("div.memeText").text( this.text );
 
 	    var fullScreenWidth = $(window).width();
 
@@ -272,14 +289,19 @@ Meme = function( _rec, _type )  {
 		$( container ).attr("width", _width );  
 
 		$( container ).attr("src", this.image );
+
+		if (this.text) {
+
+			container = "div.memeText";
+
+			$( container ).css("width", _width );  
 		
+			$( container ).css("left", _left );  
+		}
+		else {
 
-		var container = "div.memeText";
-
-		$( container ).css("width", _width );  
-		
-		$( container ).css("left", _left );  
-
+			$( container ).css("opacity", 0);
+		}
 
 		this.show();
 	}
@@ -288,7 +310,7 @@ Meme = function( _rec, _type )  {
 
 		this.imageSrc = hacker.feature.item.imageSrc;
 
-		$("div.memeText").text( this.text );
+		if (this.text) $("div.memeText").text( this.text );
 
 	    var fullScreenWidth = $(window).width();
 
@@ -320,36 +342,30 @@ Meme = function( _rec, _type )  {
 
 		$( container ).attr("src", this.image );
 		
+		if (this.text) {
 
-		var container = "div.memeText";
+			container = "div.memeText";
 
-		$( container ).css("width", _width );  
-		
-		$( container ).css("left", _left );  
-
-
-		var _fontSize = "3.0vh";
-
-		if (this.rec.fs) _fontSize = this.rec.fs * 1.5;
-
-		$ ( container ).css("font-size", _fontSize);
+			$( container ).css("width", _width );  
+			
+			$( container ).css("left", _left );  
 
 
-		var _height = $ ( container ).innerHeight();
+			var _fontSize = "3.0vh";
 
-		var _top = fullHeight + display.menuHeight - _height;
+			if (this.rec.fs) _fontSize = this.rec.fs * 1.5;
 
-		$( container ).css("top", _top );  
+			$ ( container ).css("font-size", _fontSize);
 
-		hacker.ctl["MEME"].show();
 
-		container = "img.memePicFrame";
+			var _height = $ ( container ).innerHeight();
 
-		if ( $( container ).css("opacity") == 0 ) $( container ).velocity("fadeIn", { duration: 500, display: "auto" });	
+			var _top = fullHeight + display.menuHeight - _height;
 
-		container = "div.memeText";
+			$( container ).css("top", _top );  
 
-		if ( $( container ).css("opacity") == 0 ) $( container ).velocity("fadeIn", { duration: 500, display: "auto" });	
+		}
+
 	}
 
 

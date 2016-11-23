@@ -8,7 +8,7 @@ Template.meme.helpers({
   memeText: function()  {
 
       return display.browser.featuredMeme.text;
-    },
+  }
 
 });
 

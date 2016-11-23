@@ -117,7 +117,7 @@ Control = {
 
       if (this.name == "MEME") {
 
-          pic = this.meme.image;
+          pic = this.items[ this.getIndex() ].image;
       }
       else {
 
@@ -136,7 +136,7 @@ Control = {
 
     if (this.name == "MEME") {
 
-      pic = this.meme.image;
+      pic = this.items[ this.getIndex() ].image;
     }
     else {
 
@@ -575,6 +575,8 @@ MemeCtl = function() {
   }
 
   this.show = function() {
+
+    c("calling meme.show")
 
     if (this.meme) this.meme.show();
 

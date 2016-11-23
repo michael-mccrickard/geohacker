@@ -55,7 +55,7 @@ Hacker = function() {
 
     //all the controls used by the hacker
 
-    this.ctlName = ["SOUND", "MEME", "IMAGE", "VIDEO", "WEB"];  
+    this.ctlName = ["SOUND", "MEME", "VIDEO", "WEB"];  
 
 
     this.ctl = [];  //the array of control objects
@@ -223,7 +223,11 @@ Hacker = function() {
 
             this.feature.item.redimension();
 
-            if (this.feature.item.getName() == "VIDEO") this.feature.item.video.show();
+            if (this.feature.item.getName() == "VIDEO") {
+
+                if ( this.feature.item.video) this.feature.item.video.show();
+
+            }
         }
     }
 

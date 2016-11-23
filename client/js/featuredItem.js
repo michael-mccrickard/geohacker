@@ -79,7 +79,7 @@ FeaturedItem = function( ) {
 
 		if (this.getName() == "MEME") {
 
-			this.ctl.show();
+			Meteor.setTimeout( function() { hacker.feature.item.ctl.show(); }, 260 );
 
 			return;
 		}
@@ -92,18 +92,28 @@ FeaturedItem = function( ) {
 
 		$("img.featuredPic").removeClass("hidden");
 
-		$("img.featuredPic" ).velocity("fadeIn", { duration: 500, display: "auto" });			
+		$("img.featuredPic" ).velocity("fadeIn", { duration: 500, display: "auto" });	
+
 	}
 
 	this.hide = function() {
 
 		$("img.featuredPic").addClass("hidden");	
+
+		if (this.prevItem) {
+
+			if (this.prevItem.getName() == "MEME") {
+
+				this.prevItem.ctl.meme.fadeOut();
+			}			
+		}
+
 	}
 
 	this.dim = function( _time ) {
 
 		if (this.getName() == "MEME") {
-c("calling meme.dim()")
+
 			this.ctl.meme.dim();
 
 			return;

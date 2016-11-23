@@ -12,9 +12,13 @@ MemeCollection = function(  _parent ) {
 
 	this.parent = _parent;
 
+	var _rec = null;
+
 	this.make = function( _countryCode) {
 
 		var _exclude = [];
+
+		var _meme = null;
 
 		if (this.parent == "hacker") _exclude = this.arrNonClue;
 
@@ -26,12 +30,54 @@ MemeCollection = function(  _parent ) {
 
 	    for (var i = 0; i < _arr.length; i++) {
 
-	    	var _meme = new Meme( _arr[i], _parent );
+	    	_meme = new Meme( _arr[i], this.parent );
 
-			_meme.init( this.parent );  //s/b this.parent
+			_meme.init();  //s/b this.parent
 
-	    	this.items.push( _meme );  //only "hacker" for now, but could be "browser" or something else, later
+	    	this.items.push( _meme );  
 	    } 
+
+	    if (this.parent == "hacker")  {
+
+	    	//do we have a redacted map we can add as a meme?
+
+	    	_arr = db.ghImage.find( { cc: _countryCode, dt: "rmp"} ).fetch();
+
+	    	if (_arr.length) {
+
+	    		_arr[0].tc = "Country map (name obscured)";	    		
+
+	    		_meme = new Meme( _arr[0], this.parent );
+
+	    		_meme.init();
+
+	    		this.items.push( _meme );
+	    	}
+
+	    	//do we have any "flg" records in the meme table?
+
+	    	_arr = this.collection.find( { cc: _countryCode, dt: "flg" } ).fetch();
+
+	    	//if not, then add one without text
+
+	    	if (!_arr.length) {
+
+	    		var _obj = {};
+
+	    		_obj.u = hack.getFlagPic();
+
+	    		_obj._id = db.ghImage.find( { cc: _countryCode, dt: "flg"} )._id;
+
+	    		_obj.dt = "flg";
+
+	    		_meme = new Meme( _obj, this.parent);
+
+	    		_meme.init();
+
+	    		this.items.push( _meme );	    		
+	    	}
+
+	    }
 
 	    Database.shuffle( this.items );
 	}

@@ -207,16 +207,17 @@ NewLoader = function() {
 
 
 /*
-if (this.totalClueCount == 0) randomControl = hacker.ctl["WEB"]; 
+if (this.totalClueCount == 0) randomControl = hacker.ctl["MEME"]; 
 
-if (this.totalClueCount == 1) randomControl = hacker.ctl["WEB"];
+if (this.totalClueCount == 1) randomControl = hacker.ctl["MEME"];
 
-if (this.totalClueCount == 2) randomControl = hacker.ctl["SOUND"];
+if (this.totalClueCount == 2) randomControl = hacker.ctl["MEME"];
 
 if (this.totalClueCount == 3) randomControl = hacker.ctl["WEB"];
 
-if (this.totalClueCount == 4) randomControl = hacker.ctl["VIDEO"];
+if (this.totalClueCount == 4) randomControl = hacker.ctl["MEME"];
 */
+
 		//Bump up the loadedCount on this control and return the name
 
 		if (randomControl) {
