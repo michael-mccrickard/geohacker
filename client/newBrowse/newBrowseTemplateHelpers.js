@@ -235,16 +235,18 @@ Template.newBrowse.events({
 
     'click img#browseLeftImage': function(e) {
 
-        display.browser.featuredMeme = display.browser.leftMeme;
-        
-        display.browser.showFeatured();   
+        display.featuredMeme = display.browser.leftMeme;
+                
+        display.browser.showFeatured("/newBrowse");      
+
+
     },
 
     'click img#browseRightImage': function(e) {
 
-        display.browser.featuredMeme = display.browser.rightMeme;
-        
-        display.browser.showFeatured();   
+        display.featuredMeme = display.browser.rightMeme;
+                
+        display.browser.showFeatured("/newBrowse");       
     },
 
     'click .imgFlag': function(event, template) {

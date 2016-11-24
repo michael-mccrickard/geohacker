@@ -88,6 +88,8 @@ Meme = function( _rec, _type )  {
 
 	this.imageElement = "img.memePicFrame";
 
+	this.returnRoute = "";
+
 
 	this.init = function() {
 
@@ -182,7 +184,29 @@ Meme = function( _rec, _type )  {
 		}
 	}
 
-	this.preloadImageForFeature = function() {
+	this.preloadImageForFeature = function( _returnRoute) {
+
+		this.returnRoute = _returnRoute;
+
+		//borrow the debrief preload element
+
+$("#preloadDebrief").attr("src", this.image );
+
+imagesLoaded( document.querySelector('#preloadDebrief'), function( instance ) {
+
+	display.featuredMeme.imageSrc = display.getImageFromFile( display.featuredMeme.image );  
+
+	FlowRouter.go("/meme");
+
+	//it takes a moment to create the off-screen image (for dimensioning)
+	//in the call the getImageFromFile() above
+
+	Meteor.setTimeout( function() { display.featuredMeme.drawFeatured(); }, 200 );
+
+});
+
+return;
+
 
 		//borrow the debrief preload element
 

@@ -516,7 +516,7 @@ Browser = function(  ) {
 
 		this.video.hide();
 
-		this.featuredMeme.preloadImageForFeature();
+display.featuredMeme.preloadImageForFeature();
 	}
 
 	this.updateContent = function() {

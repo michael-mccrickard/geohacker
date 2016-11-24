@@ -259,7 +259,7 @@ div.control {
 
     top: 71.5%;
 
-    width: 15.8%;
+    width: 19.75%;
     height: 20.5%;
 
       cursor: pointer;
@@ -271,19 +271,15 @@ div.control {
 }
 
 #MEME {
-    left: 18.8%;      
-}
-
-#IMAGE {
-    left: 35.7%;      
+    left: 22.7%;      
 }
 
 #VIDEO {
-    left: 52.6%;      
+    left: 43.4%;      
 }
 
 #WEB {
-    left: 69.5%;      
+    left: 64.1%;      
 }
 
 .controlPic {
