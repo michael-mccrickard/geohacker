@@ -6,7 +6,7 @@ MemeCollection = function(  _parent ) {
 
 	this.collection = db.ghMeme;
 
-	this.arrNonHelpers = [ "lng", "lng_i","lng_o","lng_om", "hqt", "cap", "ldr"];
+	this.arrNonHelpers = [ "lng", "lng_i","lng_o","lng_om", "cap", "ldr"];
 
 	this.arrNonClue = [ "lng", "lng_i","lng_o","lng_om" ];
 
@@ -83,6 +83,7 @@ MemeCollection = function(  _parent ) {
 	}
 
 
+//probably will change all of this so that the calling function just remakes the collection, if need be
 
 	this.getItem = function(   ) {
 
@@ -124,3 +125,16 @@ MemeCollection = function(  _parent ) {
 
 	}
 }
+
+MemeCollection.getNext = function( _arr ) {
+
+	for (var i = 0; i < _arr.length; i++) {
+
+		if (_arr[i].used == false ) return _arr[i];
+
+	}
+
+	return null;
+}
+
+

@@ -90,6 +90,8 @@ Meme = function( _rec, _type )  {
 
 	this.returnRoute = "";
 
+	this.used = false;
+
 
 	this.init = function() {
 
@@ -147,6 +149,8 @@ Meme = function( _rec, _type )  {
 		if (this.code  == "hqt") {
 
 			if ( _type == "debrief") this.text = this.rec.t + " is headquartered in " + hack.getCountryName() + ".";
+
+			if ( _type == "helper") this.text = this.rec.t + " is headquartered in this country.";
 		}
 
 		if (this.rec.dt  == "lng_i") {
@@ -178,7 +182,7 @@ Meme = function( _rec, _type )  {
 
 			if ( _type == "helper") {
 
-				if (this.rec.ac) this.text = this.rec.ac;		
+				if (this.rec.ta) this.text = this.rec.ta;		
 
 			}
 		}
@@ -190,40 +194,20 @@ Meme = function( _rec, _type )  {
 
 		//borrow the debrief preload element
 
-$("#preloadDebrief").attr("src", this.image );
-
-imagesLoaded( document.querySelector('#preloadDebrief'), function( instance ) {
-
-	display.featuredMeme.imageSrc = display.getImageFromFile( display.featuredMeme.image );  
-
-	FlowRouter.go("/meme");
-
-	//it takes a moment to create the off-screen image (for dimensioning)
-	//in the call the getImageFromFile() above
-
-	Meteor.setTimeout( function() { display.featuredMeme.drawFeatured(); }, 200 );
-
-});
-
-return;
-
-
-		//borrow the debrief preload element
-
 		$("#preloadDebrief").attr("src", this.image );
 
-        imagesLoaded( document.querySelector('#preloadDebrief'), function( instance ) {
+		imagesLoaded( document.querySelector('#preloadDebrief'), function( instance ) {
 
-        	display.browser.featuredMeme.imageSrc = display.getImageFromFile( display.browser.featuredMeme.image );  
+			display.featuredMeme.imageSrc = display.getImageFromFile( display.featuredMeme.image );  
 
-        	FlowRouter.go("/meme");
+			FlowRouter.go("/meme");
 
-        	//it takes a moment to create the off-screen image (for dimensioning)
-        	//in the call the getImageFromFile() above
+			//it takes a moment to create the off-screen image (for dimensioning)
+			//in the call the getImageFromFile() above
 
-        	Meteor.setTimeout( function() { display.browser.featuredMeme.drawFeatured(); }, 200 );
+			Meteor.setTimeout( function() { display.featuredMeme.drawFeatured(); }, 200 );
 
-        });
+		});
 
 	}
 

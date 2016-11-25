@@ -24,7 +24,7 @@ Hack = function() {
   /*            MISC PROPS        
   /********************************************/
 
-  this.debriefCollection = null;
+this.debriefCollection = null;
 
   this.debrief = null;
 
@@ -46,11 +46,7 @@ Hack = function() {
 
     this.startNew = function() {
 
-        hacker.init(this.countryCode);
-
-        this.debriefCollection = new DebriefCollection( this.countryCode );
-
-        this.debrief = Database.getRandomElement( this.debriefCollection.items );
+        hacker.init( this.countryCode );
 
         game.user.assign.resetMap();
 

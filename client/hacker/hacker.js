@@ -26,6 +26,10 @@ Hacker = function() {
 
     this.helper = new Helper();
 
+    this.debrief = null;
+
+    this.debriefItems = [];
+
     this.memeIsFeatured = new Blaze.ReactiveVar( false );
 
 
@@ -81,6 +85,16 @@ Hacker = function() {
 
         this.makeControls(_code);
 
+        this.makeDebriefCollection( _code );
+    }
+
+    this.makeDebriefCollection = function( _code ) {
+
+        var _debriefCollection = new MemeCollection( "debrief" );
+
+        _debriefCollection.make( _code );
+
+        this.debriefItems = _debriefCollection.items;
     }
 
     this.makeControls = function(_code) {
@@ -307,6 +321,51 @@ Hacker = function() {
             return;
         }
     }
+
+    //*********************************************
+    //     Memes and Debriefs
+    //*********************************************
+
+
+    this.markMemeAsUsed = function( _code ) {
+
+        this.markCodeAsUsed( _code, this.helper.items );
+
+        this.markCodeAsUsed( _code, this.ctl["MEME"].items );
+    } 
+
+    this.markCodeAsUsed = function( _code, _arr) {
+
+        for ( var i = 0; i < _arr.length; i++) {
+
+            if ( _arr[i].code == _code ) {
+
+                _arr[i].used = true;
+
+                break;
+            }
+        }
+    }
+
+    this.setDebrief = function(){
+
+        var _meme = null;
+
+        if (this.debriefItems.length == 0) {
+
+            this.makeDebriefCollection( hack.countryCode );
+
+            _meme = this.debriefItems[0];
+        }
+        else {
+
+            _meme = MemeCollection.getNext( this.debriefItems );
+        }
+
+        this.debrief = new Debrief( _meme );
+    }
+
+
 
     /****************************************************************************
     /  The statment below is no longer true, but we may re-enable that feature

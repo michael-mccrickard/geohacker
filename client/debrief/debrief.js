@@ -2,7 +2,7 @@ Template.debrief.rendered = function () {
 
 	stopSpinner();
 
-  	Meteor.setTimeout( function() { hack.debrief.changeHeadline("CLICK ANYWHERE TO CONTINUE") }, 2000 );
+  	Meteor.setTimeout( function() { hacker.debrief.changeHeadline("CLICK ANYWHERE TO CONTINUE") }, 2000 );
 
 }
 
@@ -26,17 +26,11 @@ DebriefCollection = function( _countryCode ) {
 
 }
 
-Debrief = function( _rec ) {
+Debrief = function( _meme ) {
 
 	this.sound = "debrief.mp3";
 
-	this.meme = null;
-
-	this.imageSrc = null;
-
-	this.meme = new Meme( _rec, "debrief" );
-
-	this.meme.init();
+	this.meme = _meme;
 
 
 	this.show = function() {
@@ -61,7 +55,7 @@ Debrief = function( _rec ) {
 
 		$("#debriefText").text( this.meme.text );
 
-		 Meteor.defer( function() { hack.debrief.finishDraw(); } );
+		 Meteor.defer( function() { hacker.debrief.finishDraw(); } );
 	}
 
 	this.finishDraw = function( ) {
@@ -143,7 +137,7 @@ Debrief = function( _rec ) {
 
 		$("#debriefText").text( _text );
 
-		Meteor.defer( function() { hack.debrief.centerHeadline(); } );
+		Meteor.defer( function() { hacker.debrief.centerHeadline(); } );
 	}
 
 
@@ -166,12 +160,12 @@ Debrief = function( _rec ) {
 
 	this.getImageHeight = function() {
 
-		return this.imageSrc.height;
+		return this.meme.imageSrc.height;
 	}
 
 	this.getImageWidth = function() {
 
-		return this.imageSrc.width;
+		return this.meme.imageSrc.width;
 	}	
 
 	this.preloadImage = function() {
@@ -180,16 +174,16 @@ Debrief = function( _rec ) {
 
         imagesLoaded( document.querySelector('#preloadDebrief'), function( instance ) {
 
-        	hack.debrief.imageSrc = display.getImageFromFile( hack.debrief.meme.image );  
+        	hacker.debrief.meme.imageSrc = display.getImageFromFile( hacker.debrief.meme.image );  
 
         	FlowRouter.go("/debrief");
 
         	//it takes a moment to create the off-screen image (for dimensioning)
         	//in the call the getImageFromFile() above
 
-        	Meteor.setTimeout( function() { hack.debrief.draw(); }, 500 );
+        	Meteor.setTimeout( function() { hacker.debrief.draw(); }, 500 );
 
-        	Meteor.setTimeout( function() { hack.debrief.checkAudio(); }, 501 );
+        	Meteor.setTimeout( function() { hacker.debrief.checkAudio(); }, 501 );
 
         });
 

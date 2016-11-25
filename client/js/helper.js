@@ -33,6 +33,8 @@ Helper = function() {
 
 	this.CClue = 0;
 
+	this.items = [];
+
 	this.init = function() {
 
 		this.ZClue = 0;
@@ -41,6 +43,7 @@ Helper = function() {
 
 		this.CClue = 0;
 
+		//get a random GIC agent to be the helper		
 
 		var _arr = Meteor.users.find( {_id: { $ne: Meteor.userId() }, "profile.ut": utGeohackerInChiefCountry } ).fetch();
 
@@ -48,9 +51,13 @@ Helper = function() {
 
 		if (!this.rec) this.rec = Database.getChiefRec();
 
+		//set the helper's picture and title
+
 		this.pic.set( this.rec.profile.av );
 
 		this.title.set( arrUserTitle[ this.rec.profile.ut ] + db.getCountryName( this.rec.profile.cc ) );
+
+		//format the name
 
 		var _name = "";
 
@@ -62,6 +69,17 @@ Helper = function() {
 		}
 
 		this.name.set( _name );
+
+		//create meme collction
+
+		var _memeCollection = new MemeCollection( "helper" );
+
+		_memeCollection.make( hack.countryCode );
+
+		this.items = _memeCollection.items;
+
+		Database.shuffle( this.items );
+
 	} 
 
 	this.setText = function() {
@@ -107,16 +125,13 @@ Helper = function() {
 
 		if (_level == mlRegion)  {
 
-			this.CClue = 1;
+			this.CClue++;
 
-			var _country = hack.getCountryName();
+			var _meme = MemeCollection.getNext( this.items );
 
-			var _len = this.CText1.length;
+			this.text.set( _meme.text );
 
-			var _index = Database.getRandomValue(_len); 
-
-			this.text.set( this.CText1[_index] + _country + this.CText2[_index]);
-
+			hacker.markMemeAsUsed( _meme.code );
 
 			return;
 		}

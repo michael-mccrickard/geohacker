@@ -440,7 +440,9 @@ function closeOutMap() {
 
     if (state == sMapDone) {
 
-        hack.debrief.show();
+        hacker.setDebrief();
+
+        hacker.debrief.show();
 
         return;
     } 

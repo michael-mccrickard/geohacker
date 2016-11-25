@@ -23,7 +23,7 @@ showMessage = function( _text ) {
 
     if (url == '/debrief') {
 
-    	hack.debrief.setHeadline( _text );
+    	hacker.debrief.setHeadline( _text );
 
     	return;
     }

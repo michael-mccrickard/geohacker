@@ -23,6 +23,8 @@ NewLoader = function() {
 
 		this.newControl = this.loadRandomControl();
 
+		if ( this.newControl.name == "MEME" ) hacker.markMemeAsUsed( hacker.ctl["MEME"].getItem().code );
+
 		if (!this.newControl) {
 
 			console.log("No more controls to load in loader");
