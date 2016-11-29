@@ -168,3 +168,8 @@ th,td {
     margin-top: 1%;
     margin-left: 2.5%;
 }
+
+.editorNavNextButton {
+
+  float: right;
+}

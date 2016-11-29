@@ -23,9 +23,7 @@ Helper = function() {
 
 	this.RText2 = [".", ".", ".", ".", ", you think?","?"];	
 
-	this.CText1 = ["It's ", "Would you believe ", "My gut says ", "I'm confident it's ", "I want to say it's ", ""];
-
-	this.CText2 = [".", "?", ".", ".", ".","?"];	
+	this.CText1 = ["Do you think it's ", "Could it be ", "What about ", "Tough one.  ", "Possibly "];	
 
 	this.ZClue = 0;
 
@@ -35,6 +33,10 @@ Helper = function() {
 
 	this.items = [];
 
+	this.useRandomCountryClues = false;
+
+	this.countryPool = [];
+
 	this.init = function() {
 
 		this.ZClue = 0;
@@ -42,6 +44,11 @@ Helper = function() {
 		this.RClue = 0;
 
 		this.CClue = 0;
+
+		this.useRandomCountryClues = false;
+
+		this.countryPool = [];
+		
 
 		//get a random GIC agent to be the helper		
 
@@ -78,11 +85,31 @@ Helper = function() {
 
 		this.items = _memeCollection.items;
 
-		Database.shuffle( this.items );
+		if ( this.items.length ) {
+
+			Database.shuffle( this.items );
+		}
+		else {
+
+			this.useRandomCountryClues = true;
+
+			this.makeCountryPool();
+		}
 
 	} 
 
+	this.makeCountryPool = function() {
+
+		var _arr = db.ghC.find( { r: db.getRegionCodeForCountry( hack.countryCode ) } ).fetch();
+
+		this.countryPool = Database.makeSingleElementArray( _arr, "c");		
+	}
+
 	this.setText = function() {
+
+		var _len = 0;
+
+		var _index = -1;
 
 		var _level = hackMap.level.get();
 
@@ -99,9 +126,9 @@ Helper = function() {
 
 			var _continent = hack.getContinentName();
 
-			var _len = this.ZText1.length;
+			_len = this.ZText1.length;
 
-			var _index = Database.getRandomValue(_len); 
+			_index = Database.getRandomValue(_len); 
 
 			this.text.set( this.ZText1[_index] + _continent + this.ZText2[_index]);
 
@@ -114,9 +141,9 @@ Helper = function() {
 
 			var _region = hack.getRegionName();
 
-			var _len = this.RText1.length;
+			_len = this.RText1.length;
 
-			var _index = Database.getRandomValue(_len); 
+			_index = Database.getRandomValue(_len); 
 
 			this.text.set( this.RText1[_index] + _region + this.RText2[_index]);
 
@@ -127,13 +154,37 @@ Helper = function() {
 
 			this.CClue++;
 
-			var _meme = MemeCollection.getNext( this.items );
+			if (this.useRandomCountryClues)  {
 
-			this.text.set( _meme.text );
+				if ( !this.countryPool.length ) {
 
-			hacker.markMemeAsUsed( _meme.code );
+					this.makeCountryPool();
 
-			return;
+				}
+
+				var _name = db.getCountryName( this.countryPool[0] );
+
+				_len = this.CText1.length;
+
+				_index = Database.getRandomValue(_len); 
+
+				this.text.set( this.CText1[_index] + _name + "?");
+
+				//remove the item we just used
+
+				this.countryPool.shift();
+				
+			}
+			else {
+
+				var _meme = MemeCollection.getNext( this.items );
+
+				this.text.set( _meme.text );
+
+				hacker.markMemeAsUsed( _meme.code );
+
+				return;
+			}
 		}
 
 	}

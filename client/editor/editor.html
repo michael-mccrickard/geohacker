@@ -3,7 +3,7 @@
 <h3 class="centered editor"  style="margin-top: 52px;">Editing {{getThisCountryName}} ({{getThisCountryCode}}) -- {{getEditControlName}}</h3> 
 
 <span>
-	<button class="btn btn-success" id="addRecord" style="margin-left: 70px; margin-top: -10px;"><strong>+</strong></button> 
+	<!--button class="btn btn-success" id="addRecord" style="margin-left: 70px; margin-top: -10px;"><strong>+</strong></button--> 
 
 	<button class="btn btn-danger" id="testCountry" style="position: relative; left: 39%; margin-top: -10px;"><strong>TEST</strong></button> 
 
@@ -182,6 +182,17 @@
 
 				  {{/if}}
 
+				  <tr>
+
+				  	<td>
+				  		<button class="btn btn-success" id="addRecord"><strong>+</strong></button> 
+				  	</td>
+				  	<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				  </tr>
+
 			  </table>
 		</div>
 
@@ -234,6 +245,13 @@
 
 	    </div>  <!-- data display area -->
 
+	    <div class="editorNavButtons">
+
+		    <button type="button" class="btn btn-lg btn-primary" id="editorPrev">&lt;</button>
+
+		    <button type="button" class="btn btn-lg btn-primary editorNavNextButton" id="editorNext">&gt;</button>
+
+		</div>
 	</div>	<!-- container div -->
 
 

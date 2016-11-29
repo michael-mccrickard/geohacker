@@ -38,7 +38,7 @@ $(document).keydown(function(e) {
 //on a macbook you can't trap any of the function keys easily, so ...
 
  
-    if (e.which == 187) toggleGameEditor();  //equals sign
+   // if (e.which == 187) toggleGameEditor();  //equals sign
 
 //Cropping, if needed should be moved under the regular in-game editor setup
 
@@ -51,7 +51,7 @@ $(document).keydown(function(e) {
 //only for the movie
 
     //if (e.which == 32) doH();    
-
+/*
     if (Meteor.user().profile.st == usAdmin) {
 
         if (hack.mode == mEdit || hack.mode == mBrowse) {
@@ -74,7 +74,10 @@ $(document).keydown(function(e) {
            }
         }
     }
+
+    */
   }
+
 );
 
 //***************************************************************
@@ -741,55 +744,7 @@ function startCrop() {
 	});	
 }
 
-//***************************************************************
-//            NAVIGATE COUNTRIES
-//***************************************************************
 
-function hackAdjacentCountry( _val ) {
-
-    if (hack.mode == mEdit)  {
-
-        hack.index += _val;
-
-        var _code = Database.getCountryCodeForIndex( hack.index );
-
-        editor.hack.countryCode = _code;  
-
-        FlowRouter.go("/waiting");
-
-        editor.dataReady = false;
-
-        Meteor.setTimeout( function() { editor.subscribeToData(); }, 100 );
-     
-    }
-
-    if (game.user.mode == uLearn) {
-
-        hack.index += _val;
-
-        var _code = Database.getCountryCodeForIndex( hack.index );
-
-        hack.countryCode = _code;  
-
-        game.lesson.showCountryAndCapsule( _code );
-
-      return;
-    }
-
-    if (game.user.mode == uBrowseCountry) {
-
-        hack.index += _val;
-
-        var _code = Database.getCountryCodeForIndex( hack.index );
-
-        hack.countryCode = _code;  
-
-        game.user.browseCountry( _code );
-
-      return;
-    }
-
-}
 
 
 //***************************************************************

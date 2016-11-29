@@ -421,6 +421,56 @@ c("yt is now playing in onYouTubeIframeAPIReady")
 }; 
 
 
+//***************************************************************
+//            NAVIGATE COUNTRIES
+//***************************************************************
+
+hackAdjacentCountry = function( _val ) {
+
+    if (hack.mode == mEdit)  {
+
+        hack.index += _val;
+
+        var _code = Database.getCountryCodeForIndex( hack.index );
+
+        editor.hack.countryCode = _code;  
+
+        FlowRouter.go("/waiting");
+
+        editor.dataReady = false;
+
+        Meteor.setTimeout( function() { editor.subscribeToData(); }, 100 );
+     
+    }
+
+    if (game.user.mode == uLearn) {
+
+        hack.index += _val;
+
+        var _code = Database.getCountryCodeForIndex( hack.index );
+
+        hack.countryCode = _code;  
+
+        game.lesson.showCountryAndCapsule( _code );
+
+      return;
+    }
+
+    if (game.user.mode == uBrowseCountry) {
+
+        hack.index += _val;
+
+        var _code = Database.getCountryCodeForIndex( hack.index );
+
+        hack.countryCode = _code;  
+
+        game.user.browseCountry( _code );
+
+      return;
+    }
+
+}
+
 Meteor.Spinner.options = {
     lines: 13, // The number of lines to draw
     length: 10, // The length of each line

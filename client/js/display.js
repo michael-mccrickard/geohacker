@@ -130,4 +130,25 @@ this.unit = new Unit();
 
       document.getElementsByClassName( which ).blur();
     }
+
+    this.replaceNewline = function(input) {
+
+      var newline = String.fromCharCode(13, 10);
+
+      return this.replaceAll(input, '\\n', newline);
+    }
+
+    this.replaceAll = function (input, find, replace) {
+
+        var result = input;
+      
+        do {
+            var split = result.split(find);
+
+            result = split.join(replace);
+        
+        } while (split.length > 1);
+      
+        return result;
+    }
 }

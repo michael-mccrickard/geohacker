@@ -323,6 +323,20 @@ Template.editor.helpers({
 
 Template.editor.events = {
 
+  'click #editorNext' : function(e){
+
+      e.preventDefault();
+
+      hackAdjacentCountry(1);
+  },
+
+  'click #editorPrev' : function(e){
+
+      e.preventDefault();
+
+      hackAdjacentCountry(-1);
+  },
+
   'change #selectCodeExplain' : function(event){
 
     setCodeExplainText();

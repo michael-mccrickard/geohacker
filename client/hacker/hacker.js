@@ -332,6 +332,8 @@ Hacker = function() {
         this.markCodeAsUsed( _code, this.helper.items );
 
         this.markCodeAsUsed( _code, this.ctl["MEME"].items );
+
+        this.markCodeAsUsed( _code, this.debriefItems );
     } 
 
     this.markCodeAsUsed = function( _code, _arr) {
@@ -346,7 +348,7 @@ Hacker = function() {
             }
         }
     }
-
+ 
     this.setDebrief = function(){
 
         var _meme = null;
