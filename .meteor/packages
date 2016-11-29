@@ -13,7 +13,7 @@ twbs:bootstrap
 iamkevingreen:imagesloaded
 velocityjs:velocityjs
 accounts-base@1.2.14
-accounts-password@1.3.3
+accounts-password@1.3.1
 email@1.1.18
 meteorhacks:npm
 npm-container
@@ -41,7 +41,7 @@ infinitedg:gsap
 limemakers:three
 standard-minifier-css@1.3.2
 standard-minifier-js@1.2.1
-ecmascript@0.6.1
+ecmascript@0.5.9
 alanning:roles
 okgrow:analytics
 jagi:reactive-array
