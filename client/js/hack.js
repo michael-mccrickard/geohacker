@@ -189,6 +189,8 @@ this.debriefCollection = null;
        this.textSub.stop();
        this.debriefSub.stop();
        this.agentsSub.stop();
+
+       Meteor.call("setCountry","");
     }
 
     this.autoHack = function() {

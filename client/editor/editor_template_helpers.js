@@ -368,7 +368,11 @@ Template.editor.events = {
 
   'click #testCountry' : function(evt, template) {
 
-      game.user.browseCountry( editor.hack.countryCode );
+      doSpinner();
+
+      hack.cancelSubs();
+
+      Meteor.setTimeout( function() { game.user.browseCountry( editor.hack.countryCode ) }, 500 );
 
   }, 
 

@@ -461,6 +461,17 @@ Browser = function(  ) {
 		$(".imgPrimaryThumb").css("border-color","gray");
 	}
 
+	this.restart = function() {
+
+		display.suspendAllMedia();	
+
+		hack.cancelSubs();
+
+		FlowRouter.go("/waiting");
+
+		Meteor.setTimeout( function() { hack.initForBrowse( hack.countryCode); }, 500);
+	}
+
 	this.returnToPrevious = function() {
 
       	display.suspendAllMedia();	

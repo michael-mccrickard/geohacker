@@ -199,6 +199,10 @@ Navigator = function() {
         editor.hack.index = Database.getIndexForCountryCode( editor.hack.countryCode);
       }
 
+      //turn off game editor (may or may not be running)
+
+      if (gGameEditor) toggleGameEditor();
+
 
       //Switch the global to be the edit hack
 
