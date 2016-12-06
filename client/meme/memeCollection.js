@@ -14,7 +14,11 @@ MemeCollection = function(  _parent ) {
 
 	var _rec = null;
 
+	this.countryCode = "";
+
 	this.make = function( _countryCode) {
+
+		this.countryCode = _countryCode;
 
 		var _exclude = [];
 
@@ -82,59 +86,140 @@ MemeCollection = function(  _parent ) {
 	    Database.shuffle( this.items );
 	}
 
+	this.restoreItems = function() {
 
-//probably will change all of this so that the calling function just remakes the collection, if need be
-
-	this.getItem = function(   ) {
-
-		var _arr = this.items;
-
-		if ( !_arr.length) {
-
-			if (this.parent == "hacker") return null;
-
-			_arr = this.used;
-
-			Database.shuffle( _arr );
-		}
-
-
-		//For a helper clue, we always take the first item in the array,
-		//b/c we are moving each item to used[] as we use it
-
-		var i = 0;
-
-		//but for the hacker clues, we use the index on the control
-
-		if (this.parent == "hacker") i = hacker.ctl["MEME"].getIndex();
-
-		var _meme = _arr[ i ];
-
-		//we will recycle the helper clues, if need be
-
-		if (this.parent == "helper") {
-
-			_meme = _arr.unshift( i, 1);
-
-			_meme.setText();
-
-			this.used.push( _meme );			
-		}
-
-		return _meme;
-
+		this.make( this.countryCode );
 	}
 }
 
-MemeCollection.getNext = function( _arr ) {
+/*
+Each "user" of the MemeCollection has different needs, but a common goal of all users
+is to prevent needless repetition of memes, since the memes are shared between:
+
+	--meme hacker clues
+	--helper clues
+	--debriefs
+	
+*/
+
+MemeCollection.getNextUnusedItem = function( _arr ) {
 
 	for (var i = 0; i < _arr.length; i++) {
 
-		if (_arr[i].used == false ) return _arr[i];
+		if ( !_arr[i].usedByHacker &&  !_arr[i].usedByHelper  ) {
+
+			return _arr[i];
+		}
 
 	}
 
 	return null;
 }
 
+MemeCollection.getNextItemUnusedBy = function( _which, _arr ) {
+
+	var _meme = null;
+
+	var _flag = null;
+
+	if (_which == "hacker") _flag = "usedByHacker";
+
+	if (_which == "helper") _flag = "usedByHelper";	
+
+	for (var i = 0; i < _arr.length; i++) {
+
+		_meme = _arr[i];
+
+		if ( !_meme[ _flag ] ) {
+
+			return _arr[i];
+		}
+
+	}
+
+	return null;
+}
+
+MemeCollection.getDebriefItem = function( _arr ) {
+
+	var _item = null;
+
+	_item = MemeCollection.getNextUnusedItem( _arr );
+
+	if ( _item == null ) _item = Database.getRandomElement( _arr );
+
+	return _item;
+}
+
+
+MemeCollection.getNextHelperItem = function( _arr ) {
+
+	var _item = null;
+
+	_item = MemeCollection.getNextUnusedItem( _arr );
+
+	if ( _item == null ) {
+
+		_item = MemeCollection.getNextItemWhereFalse( "usedByHelper", _arr );
+	}
+
+	if ( _item ) MemeCollection.markMemeAsUsedBy(_item.code, "helper");
+
+	if ( _item == null ) _item = Database.getRandomElement( _arr );
+
+	return _item;
+}
+
+//only the loader calls this one (hacker meme clues), so if we ar
+
+MemeCollection.getNextHackerItem = function( _arr ) {
+
+	var _item = null;
+
+	_item = MemeCollection.getNextUnusedItem( _arr );
+
+	if ( _item == null ) {
+
+		_item = MemeCollection.getNextItemWhereFalse( "usedByHacker", _arr );
+	}
+		
+	if ( _item ) MemeCollection.markMemeAsUsedBy(_item.code, "hacker");
+	
+
+	if ( _item == null ) _item = Database.getRandomElement( _arr );
+
+	return _item;
+}
+
+MemeCollection.markMemeAsUsedBy = function( _code, _which ) {
+
+    MemeCollection.markCodeAsUsedBy( _code, _which, hacker.helper.items );
+
+    MemeCollection.markCodeAsUsedBy( _code, _which, hacker.ctl["MEME"].memeCollection.items );
+
+    MemeCollection.markCodeAsUsedBy( _code, _which, hacker.debriefItems );
+} 
+
+MemeCollection.markCodeAsUsedBy = function( _code, _which, _arr) {
+
+	var _flag = "";
+
+	if (_which == "hacker") _flag = "usedByHacker";
+
+	if (_which == "helper") _flag = "usedByHelper";	
+
+	var _meme = null;
+
+    for ( var i = 0; i < _arr.length; i++) {
+
+    	_meme = _arr[i];
+
+        if ( _meme.code == _code ) {
+
+            _meme[ _flag ] = true;
+
+            break;
+        }
+    }
+}
 

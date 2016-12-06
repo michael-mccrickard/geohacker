@@ -193,7 +193,7 @@ Debrief = function( _meme ) {
 
 	this.checkAudio = function() {
 
-		if (this.meme.code == "lng") {
+		if (this.meme.code.substr(0,3) == "lng") {
 
 			hack.playLanguageFile();	
 		} 

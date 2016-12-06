@@ -177,11 +177,9 @@ Helper = function() {
 			}
 			else {
 
-				var _meme = MemeCollection.getNext( this.items );
+				var _meme = MemeCollection.getNextHelperItem( this.items );
 
 				this.text.set( _meme.text );
-
-				hacker.markMemeAsUsed( _meme.code );
 
 				return;
 			}

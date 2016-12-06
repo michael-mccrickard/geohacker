@@ -4,11 +4,29 @@ BadgeList = function() {
 
 	this.hackCompletePic = "hackComplete.png";
 
-	this.speedText = ["UNDER 10 SECS", "UNDER 20 SECS", "UNDER 30 SECS"];
+	this.speedGold = 20;
 
-	this.scholarText = ["15 OR MORE MINS","8 OR MORE MINS","3 OR MORE MINS"];
+	this.speedSilver = 40;
 
-	this.investigatorText = ["9 OR MORE MESSAGES","6 OR MORE MESSAGES","3 OR MORE MESSAGES"];
+	this.speedBronze = 60;
+
+	this.speedText = ["UNDER " + this.speedGold + " SECS", "UNDER " + this.speedSilver + " SECS", "UNDER " + this.speedBronze + " SECS"];
+
+	this.scholarGold = 3;
+
+	this.scholarSilver = 2;
+
+	this.scholarBronze = 1;	
+
+	this.scholarText = [ this.scholarGold + " OR MORE MINS", this.scholarSilver + " OR MORE MINS", this.scholarBronze + " OR MORE MINS"];
+
+	this.investigatorGold = 5;
+
+	this.investigatorSilver = 4;
+
+	this.investigatorBronze = 3;
+
+	this.investigatorText = [this.investigatorGold + " OR MORE MESSAGES", this.investigatorSilver + " OR MORE MESSAGES", this.investigatorBronze + " OR MORE MESSAGES"];
 
 	this.speedPic = ["speedster_gold.png", "speedster_silver.png", "speedster_bronze.png"];
 
@@ -217,29 +235,29 @@ BadgeList = function() {
 
     	//speed
 
-    	if (game.hackTotalTime < 10.0) this.arr.push( this.generateBadge( bSpeed, vGold, true ) );
+    	if (game.hackTotalTime < parseFloat(this.speedGold)) this.arr.push( this.generateBadge( bSpeed, vGold, true ) );
 
-    	if (game.hackTotalTime >= 10.0 && game.hackTotalTime < 20.0) this.arr.push( this.generateBadge( bSpeed, vSilver, true ) );
+    	if (game.hackTotalTime >= parseFloat(this.speedGold) && game.hackTotalTime < parseFloat(this.speedSilver)) this.arr.push( this.generateBadge( bSpeed, vSilver, true ) );
 
-    	if (game.hackTotalTime >= 20.0 && game.hackTotalTime < 30.0) this.arr.push( this.generateBadge( bSpeed, vBronze, true ) );
+    	if (game.hackTotalTime >= parseFloat(this.speedSilver) && game.hackTotalTime < parseFloat(this.speedBronze)) this.arr.push( this.generateBadge( bSpeed, vBronze, true ) );
 
     	//investigator
 
-    	if (hacker.loader.totalClueCount >= 9) this.arr.push( this.generateBadge( bInvestigator, vGold, true) );
+    	if (hacker.loader.totalClueCount >= this.investigatorGold) this.arr.push( this.generateBadge( bInvestigator, vGold, true) );
 
-    	if (hacker.loader.totalClueCount >= 6 && hacker.loader.totalClueCount < 9) this.arr.push( this.generateBadge( bInvestigator, vSilver, true ) );
+    	if (hacker.loader.totalClueCount >= this.investigatorSilver && hacker.loader.totalClueCount < this.investigatorGold) this.arr.push( this.generateBadge( bInvestigator, vSilver, true ) );
 
-    	if (hacker.loader.totalClueCount >= 3 && hacker.loader.totalClueCount < 6) this.arr.push( this.generateBadge( bInvestigator, vBronze, true ) );
+    	if (hacker.loader.totalClueCount >= this.investigatorBronze && hacker.loader.totalClueCount < this.investigatorSilver) this.arr.push( this.generateBadge( bInvestigator, vBronze, true ) );
 
     	//scholar
 
     	var timeInMinutes = game.hackTotalTime / 60.0;
 
-    	if (timeInMinutes >= 15.0) this.arr.push( this.generateBadge( bScholar, vGold, true ) );
+    	if (timeInMinutes >= parseFloat(this.scholarGold)) this.arr.push( this.generateBadge( bScholar, vGold, true ) );
 
-    	if (timeInMinutes >= 8.0  && timeInMinutes < 15.0) this.arr.push( this.generateBadge( bScholar, vSilver, true ) );
+    	if (timeInMinutes >= parseFloat(this.scholarSilver)  && timeInMinutes < parseFloat(this.scholarGold)) this.arr.push( this.generateBadge( bScholar, vSilver, true ) );
 
-    	if (timeInMinutes >= 3.0  && timeInMinutes < 8.0) this.arr.push( this.generateBadge( bScholar, vBronze, true ) );
+    	if (timeInMinutes >= parseFloat(this.scholarBronze)  && timeInMinutes < parseFloat(this.scholarSilver)) this.arr.push( this.generateBadge( bScholar, vBronze, true ) );
 
 
 

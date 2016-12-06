@@ -11,6 +11,11 @@ Control = {
 
     getIndex : function() {
 
+      if ( this.name == "MEME") {
+
+          return this.sequence[ this.index.get() ];    
+      }
+
       return this.index.get();
     },
 
@@ -527,19 +532,49 @@ MemeCtl = function() {
 
   this.meme = null;
 
+  this.sequence = [];
+
+
   this.init = function() {
 
     this.index = new Blaze.ReactiveVar(0);
 
     this.state = new Blaze.ReactiveVar(0);
 
+    this.sequence = [];
+
   }
+
+  this.getRealIndex = function() {
+
+     return this.index.get();
+  }
+
+  this.getMemeIndex = function() {
+
+      for (var i = 0; i < this.memeCollection.items.length; i++)  {
+
+          if (this.meme.code == this.memeCollection.items[i].code)  return i;
+      }
+
+      return i;
+  }
+
+  this.addToSequence = function( _val ) {
+
+      this.sequence.push( _val );
+  }
+
 
   this.setData = function( _item) {
 
+       //redundant to set the meme, except when navigating between memes on hacker screen
+
+       this.meme = this.memeCollection.items[ this.getIndex() ];
+
       _item.setName( this.name );
 
-       this.setMeme();
+      // this.setMeme();  //already set in loader.js
 
       _item.imageFile = this.meme.image;
 
@@ -562,12 +597,6 @@ MemeCtl = function() {
 
     this.fullCount = this.items.length;
   }
-
-  this.setMeme = function() {
-
-    this.meme = this.memeCollection.getItem();
-  }
-
 
   this.dimension = function() {
 

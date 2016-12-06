@@ -23,8 +23,6 @@ NewLoader = function() {
 
 		this.newControl = this.loadRandomControl();
 
-		if ( this.newControl.name == "MEME" ) hacker.markMemeAsUsed( hacker.ctl["MEME"].getItem().code );
-
 		if (!this.newControl) {
 
 			console.log("No more controls to load in loader");
@@ -208,17 +206,17 @@ NewLoader = function() {
 //if we need to force a certain control for any reason, this is the place to do it
 
 
-/*
+
 if (this.totalClueCount == 0) randomControl = hacker.ctl["MEME"]; 
 
 if (this.totalClueCount == 1) randomControl = hacker.ctl["MEME"];
 
 if (this.totalClueCount == 2) randomControl = hacker.ctl["MEME"];
 
-if (this.totalClueCount == 3) randomControl = hacker.ctl["WEB"];
+if (this.totalClueCount == 3) randomControl = hacker.ctl["MEME"];
 
 if (this.totalClueCount == 4) randomControl = hacker.ctl["MEME"];
-*/
+
 
 		//Bump up the loadedCount on this control and return the name
 
@@ -228,11 +226,22 @@ if (this.totalClueCount == 4) randomControl = hacker.ctl["MEME"];
 			
 			randomControl.loadedCount = newCount;
 
+			if (randomControl.name == "MEME") {
+
+				var _meme = MemeCollection.getNextHackerItem( randomControl.memeCollection.items );
+
+				randomControl.meme = _meme;
+
+				randomControl.addToSequence( randomControl.getMemeIndex() );
+
+			}
+
 			randomControl.setIndex( randomControl.loadedCount - 1);
 
+
 //If we need to force a certain clue on a control, this is the place to do it
-//(Comment out the Database.shuffle() command in control.setItems() if you need to do this
-//	ghImageCtl overrides setItems, so comment it out there also to use images in a particular order)
+//(Comment out the Database.shuffle() command in control.setItems() if you need to do this.
+//	ghImageCtl overrides setItems, so comment it out there also, to use clues in a particular order)
 /*
 if (this.totalClueCount == 0) randomControl.setIndex( 8 );
 

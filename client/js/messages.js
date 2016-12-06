@@ -42,19 +42,25 @@ showMessage = function( _text ) {
         return;
     }
 
-    var _status = game.user.profile.st;
+
 */
    // if (_status == usTest || _status == usAdmin) {
 
         //alert( _text);
+    
+var _status = game.user.profile.st;
 
+        c( _text );
+
+if (_status == usTest || _status == usAdmin) {
+return;
         $("div#universalMessageText").removeClass("invisible");
     
         $("div#universalMessageText").text( _text );
 
-        c( _text );
-
         Meteor.setTimeout( function() { $("div#universalMessageText").addClass("invisible"); }, 1000);
+}
+
 /*
     }
     else {

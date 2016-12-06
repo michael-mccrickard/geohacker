@@ -169,6 +169,8 @@ Template.main.events({
 
       var _index = hacker.feature.item.ctl.getIndex();
 
+      if (hacker.feature.item.getName() == "MEME") _index = hacker.feature.item.ctl.getRealIndex();
+
       hacker.feature.item.ctl.setIndex( _index - 1);
 
       updateFeaturedContent();
@@ -179,6 +181,8 @@ Template.main.events({
       e.preventDefault();
 
       var _index = hacker.feature.item.ctl.getIndex();
+
+      if (hacker.feature.item.getName() == "MEME") _index = hacker.feature.item.ctl.getRealIndex();
 
       hacker.feature.item.ctl.setIndex( _index + 1);
 

@@ -90,12 +90,14 @@ Meme = function( _rec, _type )  {
 
 	this.returnRoute = "";
 
-	this.used = false;
+	this.usedByHacker = false;
+
+	this.usedByHelper = false;
 
 
 	this.init = function() {
 
-		if (this.rec.dt) this.code = this.rec.dt.substr(0,3);	
+		if (this.rec.dt) this.code = this.rec.dt;   //.substr(0,3);	
 
 		this.setText();
 
@@ -106,7 +108,7 @@ Meme = function( _rec, _type )  {
 
 		this.image = "";
 
-		if (this.code == "lng") this.image = hacker.soundPlayingPic;
+		if (this.code == "lng_o" || this.code == "lng_om" || this.code == "lng_i") this.image = hacker.soundPlayingPic;
 
 		if (this.code == "flg")  this.image = hack.getFlagPic();
 
@@ -153,17 +155,17 @@ Meme = function( _rec, _type )  {
 			if ( _type == "helper") this.text = this.rec.t + " is headquartered in this country.";
 		}
 
-		if (this.rec.dt  == "lng_i") {
+		if (this.code  == "lng_i") {
 
 			if ( _type == "debrief" ) this.text = this.rec.t + " is one of the indigenous languages of " + hack.getCountryName() + ".";
 		}
 
-		if (this.rec.dt  == "lng_o") {
+		if (this.code  == "lng_o") {
 
 			if ( _type == "debrief" ) this.text = this.rec.t + " is the official language of " + hack.getCountryName() + ".";
 		}
 
-		if (this.rec.dt  == "lng_om") {
+		if (this.code  == "lng_om") {
 
 			if ( _type == "debrief" ) this.text = this.rec.t + " is one of the official languages of " + hack.getCountryName() + ".";
 		}

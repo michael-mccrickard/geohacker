@@ -162,7 +162,7 @@ Browser = function(  ) {
 
 		this.rotatingMemes = false;
 
-		this.startMemeRotation();
+		if (!gEditSidewallsMode) this.startMemeRotation();
 
 		this.updateContent();
 
