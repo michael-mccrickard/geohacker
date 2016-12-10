@@ -109,9 +109,21 @@ FlowRouter.route('/dataChecker', {
 
       BlazeLayout.render('layout', { content: "dataChecker" } ) 
     },
+});  
 
+FlowRouter.route('/story', {
 
+    name: "story",
+
+    action: function (params, queryParams) { 
+
+      BlazeLayout.render('layout', { content: "story" } )
+
+    }
 });
+
+
+
 
 //*********************************************
 //      CONGRATS

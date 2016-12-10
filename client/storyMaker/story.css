@@ -1,0 +1,32 @@
+.divStoryChar {
+
+	position: absolute;
+
+	width: 25%;
+
+	top: 50%;
+}
+
+.storySpot {
+
+	width: 96px;
+}
+
+#storySpot1 {
+
+	left: 33%;
+}
+
+#storySpot2 {
+
+	left: 66%;
+}
+
+body {
+    background-color: yellow;
+}
+
+.storySpot + .tooltip > .tooltip-inner {
+  border: 0px;
+  font-size: 20px;
+}

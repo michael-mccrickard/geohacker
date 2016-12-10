@@ -205,7 +205,7 @@ NewLoader = function() {
 
 //if we need to force a certain control for any reason, this is the place to do it
 
-
+/*
 
 if (this.totalClueCount == 0) randomControl = hacker.ctl["MEME"]; 
 
@@ -216,6 +216,7 @@ if (this.totalClueCount == 2) randomControl = hacker.ctl["MEME"];
 if (this.totalClueCount == 3) randomControl = hacker.ctl["MEME"];
 
 if (this.totalClueCount == 4) randomControl = hacker.ctl["MEME"];
+*/
 
 
 		//Bump up the loadedCount on this control and return the name

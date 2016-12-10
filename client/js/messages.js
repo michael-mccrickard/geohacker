@@ -53,7 +53,9 @@ var _status = game.user.profile.st;
         c( _text );
 
 if (_status == usTest || _status == usAdmin) {
-return;
+
+    if (game.user.mode == uHack) return;
+
         $("div#universalMessageText").removeClass("invisible");
     
         $("div#universalMessageText").text( _text );

@@ -165,6 +165,10 @@ Meteor.startup(function() {
 
   youtube = new YouTube();
 
+  storyMaker = new StoryMaker();
+
+  story = null;   
+
   ytplayer = null;
 
   db.initCore();
