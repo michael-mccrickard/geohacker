@@ -275,4 +275,9 @@ Game = function() {
 
 	}
 
+	this.username = function() {
+
+		return this.user.name;
+	}
+
 }  //end game object

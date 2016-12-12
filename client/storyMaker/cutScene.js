@@ -2,22 +2,38 @@ CutScene = function( _name ) {
 	
 	this.name = _name;
 
-	this.play = function() {
+	this.index = -1;
 
-		if (this.name == "storyA_intro") {
+	this.play = function( _cue) {
+ 
+		this.cue = _cue;
 
-			await Meteor.sleep(2000);
+		this.playNext();
+	}
 
-			story.twain.say("Lemme write your name on it.");
+	this.playNext = function() {
 
-			await Meteor.sleep(5000);
+		this.index++;
 
-			story.twain.q();			
+		if (this.index == this.cue.length) return;
 
+		this.c = this.cue[ this.index ];
 
+		if ( this.c.substr(0,5) == "delay") {
+
+			this.val = parseInt( this.c.substr(6) );
+
+			Meteor.setTimeout( function() { story.cutScene.playNext(); }, this.val * story.speed );
 		}
+		else {
 
+			eval( this.c );
+
+			this.playNext();
+		}
 	}
 
 
 }
+
+

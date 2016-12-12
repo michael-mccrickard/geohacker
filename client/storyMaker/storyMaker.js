@@ -1,4 +1,11 @@
+testStory = function() {
 
+	FlowRouter.go("/waiting");  
+
+	storyMaker.load( "storyA" );
+}
+
+//------------------------------------------------
 
 StoryMaker = function() {
 
@@ -6,7 +13,7 @@ StoryMaker = function() {
 
 		Meteor.subscribe("registeredUsers", function() {
 
-            Meteor.setTimeout( function() { storyMaker.finishLoad( _name ); }, 100 );
+           storyMaker.finishLoad( _name );
 
             return;
         });
@@ -14,9 +21,7 @@ StoryMaker = function() {
 	
 	this.finishLoad = function( _name ) {
 
-		story = new Story( _name );
-
-		if (_name == "storyA") create_storyA();
+		if (_name == "storyA") story = new storyA();
 
 		if (story) FlowRouter.go("/story");  
 

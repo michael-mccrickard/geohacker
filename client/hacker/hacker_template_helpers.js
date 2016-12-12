@@ -1,8 +1,8 @@
 
-
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip(); 
 });
+
 
 Template.main.helpers({
 

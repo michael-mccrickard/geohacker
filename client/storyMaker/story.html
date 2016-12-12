@@ -1,17 +1,26 @@
 <template name="story">
 
+	<div class="divStory">
 
+		{{#each char}}
 
-	<div class="divStoryChar" id="storySpot1" >
-	  
-		<img class="storySpot" id="storyChar_{{storyCharShortName 1}}" src="{{storyCharPic 1}}" /> 
+			<div class="divStoryChar storySpot{{@index}}" id="" >
+			  
+				<img class="storyChar" src="{{storyCharPic @index}}" /> 
+
+			</div>
+
+		{{/each}}
+
+		{{#if exerciseMode}} 
+
+			<div class="divExerciseButton">
+
+				<p><button type="button" class="bigButton" id="continueStory">CLICK ME</button></p>
+			</div>
+
+		{{/if}}
 
 	</div>
-
-	<span class="divStoryChar" id="storySpot2">
-
-		<img class="storySpot"  id="storyChar_{{storyCharShortName 2}}"  src="{{storyCharPic 2}}" /> 
-
-	</span>
 
 </template>
