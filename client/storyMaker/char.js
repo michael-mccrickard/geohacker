@@ -2,13 +2,15 @@
 
 Char = {
 
-	init : function( _name, _shortName, _index ) {
+	init : function( _obj ) {
 
-		this.name = _name;
+		this.name = _obj.name;
 
-		this.shortName = _shortName;
+		this.index = _obj.index;
 
-		this.index = _index
+		this.top = _obj.top;
+
+		this.left = _obj.left;
 
 		this.placement = "top";
 
@@ -20,8 +22,29 @@ Char = {
 
 		this.spacer = 8;
 
-		this.element = "div.divStoryChar.storySpot" + this.index;
+		this.prevTop = 0;
 
+		this.prevLeft = 0;
+
+		this.element = "div#storyChar" + this.index + ".divStoryChar";
+
+		this.nameElement = "div#storyCharName" + this.index;
+
+		this.imageElement = "img#storyCharPic" + this.index + ".storyChar";
+
+	},
+
+	add : function() {
+
+		$(this.imageElement).attr("src", this.pic);
+
+		$(this.nameElement).text( this.name );		
+
+		$(this.element).css("width", this.size);
+
+		$(this.element).css("left", this.left);
+
+		$(this.element).css("top", this.top);		
 	},
 
 	contact : function() {
@@ -31,13 +54,27 @@ Char = {
 
 	moveToCorner: function(_dir) {
 
+		this.recordPos();
+
 		var _top = display.menuHeight + this.spacer;
 
 		var _left = this.spacer;
 
 		if (_dir == "ne") _left = $(window).width() - this.size - this.spacer;
 
-		$(this.element).css( {top: _top, left: _left, position:'absolute'} );
+		$(this.element).css( {top: _top, left: _left } );
+	},
+
+	moveToStart: function() {
+
+		$(this.element).css( {top: this.prevTop, left: this.prevLeft } );
+	},
+
+	recordPos : function() {
+
+		this.prevTop = $(this.element).offset().top;
+
+		this.prevLeft = $(this.element).offset().left;
 	},
 
 	q : function() {

@@ -220,6 +220,10 @@ Template.login.events({
 
       e.preventDefault();
 
+testStory();
+
+return;
+
       //This is here b/c we were having instances where the onLogin event
       //was apparently not firing ...
 

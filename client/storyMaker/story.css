@@ -11,7 +11,48 @@
 
 	position: absolute;
 
-	top: 50%;
+	z-index:  1000;
+
+	opacity: 1;
+}
+
+.divStoryOverlay {
+
+	position: absolute;
+
+	z-index:  1101;
+
+	opacity: 1;
+}
+
+.storyOverlay {
+
+	width: 30%;
+}
+
+.divStoryThing {
+
+	position: absolute;
+
+	z-index:  1100;
+
+	opacity: 1;
+}
+
+.storyThingContent {
+
+	position: absolute;
+
+}
+
+
+.storyBG {
+
+	width: 100%;
+
+	top: 55px;
+
+	opacity: 0;
 }
 
 .divExerciseButton {
@@ -30,14 +71,15 @@
 	width: 96px;
 }
 
-.storySpot0 {
+.storyCharName {
 
-	left: 33%;
-}
+	width: 100%;
 
-.storySpot1 {
+	text-align: center;
 
-	left: 66%;
+	font-family: Arial;
+
+	font-size: 10;
 }
 
 div.tooltip-inner {

@@ -2,14 +2,30 @@
 
 	<div class="divStory">
 
+		<img class="storyBG" />
+
 		{{#each char}}
 
-			<div class="divStoryChar storySpot{{@index}}" id="" >
+			<div class="divStoryChar" id="storyChar{{this}}" >
 			  
-				<img class="storyChar" src="{{storyCharPic @index}}" /> 
+				<img class="storyChar" id="storyCharPic{{this}}" src="" /> 
+				<div class="storyCharName" id="storyCharName{{this}}"></div>
 
 			</div>
 
+		{{/each}}
+
+
+		{{#each token}}
+
+			<div class="divStoryThing" id="storyThing{{this}}">
+			  
+				<img class="storyThingContent" id="storyThingContent{{this}}" src="" /> 
+
+				<img class="storyThing" id="storyThingPic{{this}}" src="" /> 
+
+			</div>		
+			
 		{{/each}}
 
 		{{#if exerciseMode}} 

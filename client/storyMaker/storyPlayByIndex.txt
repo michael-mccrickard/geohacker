@@ -1,0 +1,21 @@
+/*  in case we want to be able to do a playNextScene or playPreviousScene, etc.
+
+
+for play( _name, _index)
+		if ( _name ) this.setSceneIndex( _name );
+
+		if ( _index ) {
+
+			this.sceneIndex = _index;
+
+			_name = this.scenes[ _index ];
+		}
+
+...also need this one (plus playNextScene(), etc. to change the index and then play it)
+
+	this.setSceneIndex = function( _name ) {
+
+		this.sceneIndex = this.scenes.indexOf( _name );
+
+	}
+*/

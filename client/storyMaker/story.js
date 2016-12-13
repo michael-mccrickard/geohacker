@@ -8,14 +8,64 @@ $(document).ready(function(){
 
 Story = {
 
-	//numerous other properties are created / populated by create_Story[Name] function
+	_init : function() {
+
+		this.exerciseMode = new Blaze.ReactiveVar( false );
+
+		this.bgElement = "img.storyBG";
+
+		this.speed = 1.0;
+	},
 
 	start : function() {
 
 		//default response
 
-		this.playIntro();
-	}
+		var _scene = this.scenes[0];
+
+		this.play( _scene );
+	},
+
+	_play : function( _name ) {
+
+		this.sceneName = _name;
+
+		this.exerciseMode.set( false );
+
+		$(this.bgElement).attr( "src", this.background );		
+	},
+
+	fadeInBG : function() {
+
+		$(this.bgElement).velocity( "fadeIn", {duration: 1000} );
+	},
+
+	fadeOutBG : function() {
+
+		$(this.bgElement).velocity( "fadeOut", {duration: 1000} );
+	},
+
+	fadeInChars : function() {
+
+		for (var i = 0; i < this.chars.length; i++) {
+
+			$( this.chars[i].element ).velocity( "fadeIn", {duration: 1000} );
+		}
+	},
+
+
+	fadeInTokens : function() {
+
+		for (var i = 0; i < this.tokens.length; i++) {
+
+			$( this.tokens[i].element ).velocity( "fadeIn", {duration: 1000} );
+		}
+	},
+
+
+
+
+
 }
 
 Template.story.rendered = function() {
@@ -37,20 +87,18 @@ Template.story.helpers({
   	return story.exerciseMode.get();
   },
 
-  storyCharPic: function( _val) {
+  token: function() {
 
-//these will come from an array passed to story.go()
-
-    if (_val == 0) return story.twain.pic;
-
-    if (_val == 1) return story.bert.pic;
-  },
-
-  storyCharShortName : function( _val) {
-
-     if (_val == 0) return story.twain.shortName;
-
-     if (_val == 1) return story.bert.shortName;
+  	 return story.tokens;
   }
+
+});
+
+Template.story.events({
+
+    'click #continueStory': function(event, template) {
+
+          if (story.sceneName == "intro") story.play( "needAPasscode" );
+      },
 
 });
