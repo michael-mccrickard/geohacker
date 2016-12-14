@@ -18,6 +18,8 @@ Char = {
 
 		this.pic = this.rec.profile.av;	
 
+		this.ID = this.rec._id;
+
 		this.size = 96;
 
 		this.spacer = 8;
@@ -38,6 +40,8 @@ Char = {
 
 		$(this.imageElement).attr("src", this.pic);
 
+		$(this.imageElement).attr("data-mongoID", this.ID);
+
 		$(this.nameElement).text( this.name );		
 
 		$(this.element).css("width", this.size);
@@ -50,6 +54,16 @@ Char = {
 	contact : function() {
 
 		c("Hi, I'm " + this.name);
+	},
+
+	fadeIn: function() {
+
+		$( this.element ).velocity( "fadeIn", {duration: 1000} );
+	},
+
+	fadeOut: function() {
+
+		$( this.element ).velocity( "fadeOut", {duration: 1000} );
 	},
 
 	moveToCorner: function(_dir) {
@@ -95,7 +109,6 @@ Char = {
 
 		this.say( _text );
 	},
-
 
 	say : function( _text) {
 

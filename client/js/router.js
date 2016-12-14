@@ -101,6 +101,17 @@ FlowRouter.route('/missionSelect', {
 
 });
 
+FlowRouter.route('/story_messaging', {
+
+  name: "story_messaging",
+
+  action: function (params, queryParams) { 
+
+    BlazeLayout.render('layout', { content: "story_messaging" } ) 
+  },
+
+});
+
 FlowRouter.route('/dataChecker', {
 
     name: "dataChecker",
@@ -116,6 +127,8 @@ FlowRouter.route('/story', {
     name: "story",
 
     action: function (params, queryParams) { 
+
+      $('body').addClass('noscroll'); 
 
       BlazeLayout.render('layout', { content: "story" } )
 

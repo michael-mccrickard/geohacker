@@ -1,6 +1,6 @@
 //messaging.js
 
-Messaging = function() {
+StoryMessaging = function() {
 
 	if ( Meteor.user() ) this.userID = Meteor.user()._id;
 
@@ -10,6 +10,8 @@ Messaging = function() {
 
 	this.threadID = new Blaze.ReactiveVar( "");
 
+    this.conversation = new Meteor.Collection(null);
+
 	this.startThread = function() {
 
 		doSpinner();
@@ -18,7 +20,7 @@ Messaging = function() {
 
         this.thread = null;
 
-        this.thread = Conversation.findOne( {chatIds: {$all: [ this.targetID.get(), Meteor.userId() ] } } );
+        this.thread = this.conversation.findOne( {chatIds: {$all: [ this.targetID.get(), Meteor.userId() ] } } );
         
         if (this.thread) {
 
@@ -30,16 +32,17 @@ Messaging = function() {
         else{
         
             //no room exists
-            var _id = Conversation.insert( { chatIds: [ this.targetID.get(), Meteor.userId()], messages:[] } );
+            var _id = this.conversation.insert( { chatIds: [ this.targetID.get(), Meteor.userId()], messages:[] } );
 
             this.threadID.set( _id );
 
         }
 
-        game.user.setMode( uMessage);
+        //game.user.setMode( uMessage);
 
         stopSpinner();
 
 	}
+
 
 }

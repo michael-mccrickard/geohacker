@@ -1,15 +1,15 @@
-<template name="messaging">
+<template name="story_messaging">
 
 		{{#with messageTarget}}
 
-			<div class="divMessageTarget centered">
+			<div class="divStoryMessageTarget centered">
 				<img class= "imgAvatarMessageTargetMini agentItem rounded" id="{{this._id}}" src="{{this.profile.av}}" />
 				<div class="messageTargetLabel agentItem">{{this.username}}</div>
 			</div>
 		
 		{{/with}}
 
-	<div class="divMessageContainer">
+	<div class="divStoryMessageContainer">
 
 		{{#each message}}
 

@@ -24,10 +24,7 @@ Token = {
 
 		this.zIndex = 1100;
 
-		this.contentZIndex = 1101;
-
-
-		if (this.type == "thing") this.zIndex = 1100;
+		this.overlayZIndex = 1101;
 
 		if (this.type == "overlay") this.zIndex = this.overlayZIndex;
 
@@ -67,9 +64,21 @@ Token = {
 
 		$(this.contentElement).css("top", _obj.top);	
 
+		$(this.contentElement).css("z-index", this.zIndex);	
+
 		//$(this.contentElement).css("z-index", this.contentZIndex);	
 
 		if ( _obj.borderRadius) $(this.contentElement).css("border-radius", _obj.borderRadius);	
+	},
+
+	fadeIn: function() {
+
+		$( this.element ).velocity( "fadeIn", {duration: 1000} );
+	},
+
+	fadeOut: function() {
+
+		$( this.element ).velocity( "fadeOut", {duration: 1000} );
 	},
 
 	moveToCorner: function(_dir) {

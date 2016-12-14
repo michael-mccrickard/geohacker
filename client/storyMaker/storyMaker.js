@@ -11,6 +11,10 @@ StoryMaker = function() {
 
 	this.load = function( _name ) {
 
+		
+		if (!game.user.sms) game.user.sms = new StoryMessaging();
+
+
 		Meteor.subscribe("registeredUsers", function() {
 
            storyMaker.finishLoad( _name );
@@ -26,7 +30,5 @@ StoryMaker = function() {
 		if (story) FlowRouter.go("/story");  
 
 	}
-
-
 
 }

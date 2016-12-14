@@ -7,27 +7,39 @@
 	height: 100%;
 }
 
+.divStoryMessaging {
+
+	position: absolute;
+
+	top: 60px;
+
+	width: 100%;
+
+	z-index:  2000;		
+}
+
+.divChatBackdrop {
+
+	position: absolute;
+
+	top: 60px;
+
+	width: 100%;
+
+	height: 100%;
+
+	z-index:  1500;	
+
+	opacity: 0.75;		
+}
+
 .divStoryChar {
 
 	position: absolute;
 
 	z-index:  1000;
 
-	opacity: 1;
-}
-
-.divStoryOverlay {
-
-	position: absolute;
-
-	z-index:  1101;
-
-	opacity: 1;
-}
-
-.storyOverlay {
-
-	width: 30%;
+	opacity: 0;
 }
 
 .divStoryThing {
@@ -36,7 +48,7 @@
 
 	z-index:  1100;
 
-	opacity: 1;
+	opacity: 0;
 }
 
 .storyThingContent {

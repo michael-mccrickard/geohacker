@@ -8,7 +8,11 @@ storyA = function() {
 
 	this.bert = new storyA_bert(2);
 
+	this.charObjs = [this.bert, this.twain];
+
 	this.computer = new storyA_computer(1);
+
+	this.tokenObjs = [this.computer];
 
 	this.scenes = ["intro","needAPasscode"];
 
@@ -26,11 +30,13 @@ storyA = function() {
 
 						'story.fadeInBG()',
 						'delay.1000',
-						'story.computer.addContent( "bunnies" )',
+						'story.computer.addContent( "warning" )',
 						'story.computer.add()',
 						'story.twain.add()',
 						'story.bert.add()',
 						'story.fadeInChars()',  
+						'story.fadeInTokens()',
+/*
 						'delay.1000',
 						'story.twain.setDirection("right")', 
 						'story.bert.setDirection("left")',
@@ -51,14 +57,15 @@ storyA = function() {
 						'delay.1000',
 						'story.twain.say("I think Agent " + game.username() + " can help us.")',
 						'delay.1000',
-						'story.bert.say("We are counting on you, Agent " + game.username() + ".")',		
+						'story.bert.say("We are counting on you, Agent " + game.username() + ".")',	
+						'story.computer.fadeOut()',	
 						'story.fadeOutBG()',
 						'delay.1700',	
 						'story.doExercise(0)',
 						'delay.2000',
 						'story.twain.q()',
-						'story.bert.q()'							
-
+						'story.bert.q()',						
+*/
 					];				
 		}
 
@@ -68,12 +75,17 @@ storyA = function() {
 
 			this.cue  = [
 
+						'story.twain.q()',
+						'story.bert.q()',
 						'delay.500',
 						'story.fadeInBG()',
 						'story.twain.setDirection("right")',
 						'story.bert.setDirection("left")',
 						'story.twain.moveToStart()',
 						'story.bert.moveToStart()',
+						'story.computer.addContent( "bunnies" )',
+						'delay.25',
+						'story.computer.fadeIn()',
 						'delay.1000',
 						'story.twain.say("Hey, you knocked that out in no time.");',  
 						'delay.2000',
@@ -81,6 +93,8 @@ storyA = function() {
 						'story.bert.say("This is one sharp agent we got here, Mark.");', 													
 						'delay.3000',
 						'story.bert.q();',
+						'story.computer.addContent( "warning" )',
+						'delay.1000',
 						'story.twain.say("Hey, another error message!")',
 						'delay.2000',
 						'story.twain.q();',
@@ -114,7 +128,7 @@ storyA = function() {
 
 	this.doExercise = function(_val) {
 
-		this.exerciseMode.set( true );
+		this.mode.set( "exercise" );
 	}
 
 
@@ -173,8 +187,7 @@ function storyA_computer(_index) {
 		pic: "oldcomputer_hollow.png",
 		width: "30%",
 		top: "28%",
-		left: "46%",
-		type: "overlay",
+		left: "43%",
 		index: _index,
 		content: _content
 	}

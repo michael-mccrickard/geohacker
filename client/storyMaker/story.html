@@ -8,7 +8,7 @@
 
 			<div class="divStoryChar" id="storyChar{{this}}" >
 			  
-				<img class="storyChar" id="storyCharPic{{this}}" src="" /> 
+				<img class="storyChar" id="storyCharPic{{this}}" src="" data-mongoid=""/> 
 				<div class="storyCharName" id="storyCharName{{this}}"></div>
 
 			</div>
@@ -33,6 +33,21 @@
 			<div class="divExerciseButton">
 
 				<p><button type="button" class="bigButton" id="continueStory">CLICK ME</button></p>
+			</div>
+
+		{{/if}}
+
+		{{#if chatMode}} 
+
+			<div class="divChatBackdrop">
+
+				<img class="stretch" src="blackBackdrop.jpg" />
+			</div>
+
+			<div class="divStoryMessaging">
+				
+				{{> story_messaging}}
+
 			</div>
 
 		{{/if}}

@@ -1,16 +1,16 @@
 //messaging.js
-Template.messaging.rendered = function() {
+Template.story_messaging.rendered = function() {
 
 	stopSpinner();
 
 	display.scrollToBottom();
 }
 
-Template.messaging.helpers({
+Template.story_messaging.helpers({
 
 	messageTarget: function() {
 
-		return Meteor.users.findOne( { _id: game.user.msg.targetID.get() } );
+		return Meteor.users.findOne( { _id: game.user.sms.targetID.get() } );
 	},
 
 	av: function() {
@@ -25,7 +25,7 @@ Template.messaging.helpers({
 
 	message: function() {
 
-		return Conversation.findOne( { _id: game.user.msg.threadID.get() }).messages;
+		return Conversation.findOne( { _id: game.user.sms.threadID.get() }).messages;
 	},
 
 	isLoggedInUser: function() {
@@ -38,7 +38,7 @@ Template.messaging.helpers({
 
 
 
-Template.messaging.events({
+Template.story_messaging.events({
 
    'submit #message-form' : function(e, t){
 
@@ -50,7 +50,7 @@ Template.messaging.events({
     
 		if (_body !== '') {
 
-			Conversation.update( { "_id": game.user.msg.threadID.get() }, { $push: { messages: {
+			game.user.sms.conversation.update( { "_id": game.user.sms.threadID.get() }, { $push: { messages: {
 
 			     userID: Meteor.user()._id,
 

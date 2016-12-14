@@ -1,0 +1,23 @@
+.divStoryMessageTarget {
+
+	position: fixed;
+	width: 100%;
+	margin-right: auto;
+	margin-left: auto;
+	margin-top: -10px;
+	z-index: 1000;
+
+	height: 106px;
+	top: 65px;
+
+}
+
+.divStoryMessageContainer {
+
+	width: 35%;
+	margin-right: auto;
+	margin-left: auto;
+	position: relative;
+
+	top: -100px;
+}
