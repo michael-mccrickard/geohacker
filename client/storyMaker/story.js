@@ -2,7 +2,7 @@
 
 
 $(document).ready(function(){
-    $('.storySpot').tooltip(); 
+    $('.divStory').tooltip(); 
 });
 
 
@@ -15,24 +15,27 @@ Story = {
 		this.bgElement = "img.storyBG";
 
 		this.speed = 1.0;
+
 	},
 
 	start : function() {
 
 		//default response
 
-		var _scene = this.scenes[0];
-
-		this.play( _scene );
+		this.play( this.scene );
 	},
 
 	_play : function( _name ) {
 
-		this.sceneName = _name;
+		this.scene = _name;
 
-		this.mode.set( "none" );
+		this.mode.set( "scene" );
 
-		$(this.bgElement).attr( "src", this.background );		
+		$(this.bgElement).attr( "src", this.background );	
+
+		this.cutScene = new CutScene( _name );
+
+		this.cutScene.play( this.cue );		
 	},
 
 	fadeInBG : function() {
@@ -61,55 +64,19 @@ Story = {
 		}
 	},
 
+	showPrompt : function( _text) {
+
+        $("div#storyPromptText").removeClass("invisible");
+    
+        $("div#storyPromptText").text( _text );
+	},
+
+	hidePrompt : function() {
+
+		$("div#storyPromptText").addClass("invisible");	
+	}
+
+
 }
 
-Template.story.rendered = function() {
 
-	Meteor.setTimeout( function() { story.start(); }, 500 );
-}
-
-Template.story.helpers({
-
-  char: function() {
-
-  	 return story.chars;
-  },
-
-  exerciseMode: function() {
-
-  	if (story.mode.get() == "exercise") return true;
-
-  	return false;
-  },
-
-  chatMode: function() {
-
-  	if (story.mode.get() == "chat") return true;
-
-  	return false;
-  },
-
-  token: function() {
-
-  	 return story.tokens;
-  }
-
-});
-
-Template.story.events({
-
-    'click #continueStory': function(event, template) {
-
-          if (story.sceneName == "intro") story.play( "needAPasscode" );
-      },
-
-    'click .storyChar': function(event, template) {
-
-//need a check here to see if it's a good time to talk
-
-		game.user.sms.targetID.set( $("img#" + event.currentTarget.id).data().mongoid );
-
-		story.mode.set("chat");
-      },
-
-});

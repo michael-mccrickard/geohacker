@@ -25,7 +25,7 @@ Template.story_messaging.helpers({
 
 	message: function() {
 
-		return Conversation.findOne( { _id: game.user.sms.threadID.get() }).messages;
+		return game.user.sms.conversation.findOne( { _id: game.user.sms.threadID.get() }).messages;
 	},
 
 	isLoggedInUser: function() {
@@ -34,6 +34,13 @@ Template.story_messaging.helpers({
 
 		return false;
 	},
+
+	choice: function() {
+
+		game.user.sms.updateFlag.get();
+
+		return game.user.sms.choices;
+	}
 })
 
 
@@ -58,13 +65,21 @@ Template.story_messaging.events({
 			     
 			     createdAt: Date.now()
 
-				} } }, function() { display.scrollToBottom(); }
+				} } }, function() { display.scrollToBottom();  }
 			);
 		}
 
 		$('#editMessage').val( '' );
 
 	  return false;
-   }
+   },
+
+   'click div.divStoryMessageTarget' : function(e, t) {
+
+    		story.mode.set( "scene" );
+
+    		return;
+    }
+
 
 });

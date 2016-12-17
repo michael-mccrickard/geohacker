@@ -15,7 +15,7 @@
 
 			{{#if isLoggedInUser}}
 
-				<div class="divMessage rounded" style="float:left; clear: both;">
+				<div class="divStoryMessage rounded" style="float:left; clear: both;">
 				
 					<div>
 						<img class= "imgAgentAvatarMessageMini agentMessageItem rounded"  style="float:left;"  src="{{av}}" />
@@ -30,15 +30,15 @@
 
 			{{else}}
 
-				<div class="divMessage rounded" style="float:right; clear: both;">
+				<div class="divStoryMessage rounded" style="float:right;">
 				
 					<div class="divMessageBody">
 						{{this.text}}
-					</div>
 
-					<div>
-						<img class= "imgAgentAvatarMessageMini agentMessageItem rounded" style="float:right;" src="{{av}}" />
+						<span style="float:right;">
+							<img class= "imgAgentAvatarMessageMini agentMessageItem rounded"   src="{{av}}" />
 
+						</span>
 					</div>
 					
 				</div>	
@@ -47,7 +47,7 @@
 
 		{{/each}}
 
-		<div class="divMessageEntry frmMessageEntry rounded">
+		<div class="divStoryMessageEntry rounded">
 
 			{{#with currentUser}}
 
@@ -56,13 +56,15 @@
 					<div class="agentLabelMini agentNameMessaging agentItem">{{this.username}}</div>
 				</div>
 
-				<form id="message-form" action="action">
+				<div class="divMessageBody">
 
-					<input type="text" class="form-control inputMessageEntry agentItem" id="editMessage" size="50" placeholder="Enter message ..." />
+					{{#each choice}}
 
-					<input type="submit" style="position: absolute; left: -9999px; width: 1px; height: 1px;" tabindex="-1" />
-				</form>
-
+						<button class="btn btn-md btn-primary btnChatChoice" onclick="game.user.sms.processUserChoice( '{{this}}',{{@index}} )">{{this}}</button>
+				
+					{{/each}}
+				
+				</div>
 
 			{{/with}}		
 

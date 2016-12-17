@@ -1,8 +1,8 @@
 //char.js
 
-Char = {
+Char = function() {
 
-	init : function( _obj ) {
+	this.init = function( _obj ) {
 
 		this.name = _obj.name;
 
@@ -11,6 +11,8 @@ Char = {
 		this.top = _obj.top;
 
 		this.left = _obj.left;
+
+		this.shortName = _obj.shortName;
 
 		this.placement = "top";
 
@@ -34,93 +36,18 @@ Char = {
 
 		this.imageElement = "img#storyCharPic" + this.index + ".storyChar";
 
-	},
-
-	add : function() {
-
-		$(this.imageElement).attr("src", this.pic);
-
-		$(this.imageElement).attr("data-mongoID", this.ID);
-
-		$(this.nameElement).text( this.name );		
-
-		$(this.element).css("width", this.size);
-
-		$(this.element).css("left", this.left);
-
-		$(this.element).css("top", this.top);		
-	},
-
-	contact : function() {
-
-		c("Hi, I'm " + this.name);
-	},
-
-	fadeIn: function() {
-
-		$( this.element ).velocity( "fadeIn", {duration: 1000} );
-	},
-
-	fadeOut: function() {
-
-		$( this.element ).velocity( "fadeOut", {duration: 1000} );
-	},
-
-	moveToCorner: function(_dir) {
-
-		this.recordPos();
-
-		var _top = display.menuHeight + this.spacer;
-
-		var _left = this.spacer;
-
-		if (_dir == "ne") _left = $(window).width() - this.size - this.spacer;
-
-		$(this.element).css( {top: _top, left: _left } );
-	},
-
-	moveToStart: function() {
-
-		$(this.element).css( {top: this.prevTop, left: this.prevLeft } );
-	},
-
-	recordPos : function() {
-
-		this.prevTop = $(this.element).offset().top;
-
-		this.prevLeft = $(this.element).offset().left;
-	},
-
-	q : function() {
-
-		$( this.element ).tooltip('destroy');
-	},
-
-	sayLeft : function( _text ) {
-
-		this.placement = "left";
-
-		this.say( _text );
-	},
-
-	sayRight : function( _text ) {
-
-		this.placement = "right";
-
-		this.say( _text );
-	},
-
-	say : function( _text) {
-
-      $( this.element  ).tooltip({ delay:0, trigger:"manual",  title: _text, placement: this.placement });
-
-      $( this.element  ).tooltip('show'); 
-
-	},
-
-	setDirection : function( _which ) {
-
-		this.placement = _which;
 	}
 
+	this.add = function() {
+
+		this._add();
+
+		$(this.imageElement).attr("data-mongoid", this.ID);
+
+		$(this.imageElement).attr("data-shortName", this.shortName);		
+
+		$(this.nameElement).text( this.name );
+	}
 } 
+
+Char.prototype = new Entity();

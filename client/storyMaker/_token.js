@@ -1,8 +1,8 @@
 //token.js
 
-Token = {
+Token = function() {
 
-	init : function( _obj  ) {
+	this.init = function( _obj  ) {
 
 		this.name = _obj.name;
 
@@ -10,11 +10,14 @@ Token = {
 
 		this.pic = _obj.pic;	
 
-		this.width = _obj.width;
+		//width and left are a little tricky, you can use them if you don't plan to zoom the item
+		//or you can live with the position that they zoom themselves to
+
+		if (_obj.width) this.width = _obj.width;
 
 		this.top = _obj.top;
 
-		this.left = _obj.left;
+		if (_obj.left) this.left = _obj.left;
 
 		this.index = _obj.index;
 
@@ -22,12 +25,7 @@ Token = {
 
 		if ( _obj.content ) this.content = _obj.content;
 
-		this.zIndex = 1100;
-
-		this.overlayZIndex = 1101;
-
-		if (this.type == "overlay") this.zIndex = this.overlayZIndex;
-
+		this.zIndex = 1001;
 
 		this.element = "div#storyThing" + this.index + ".divStoryThing";
 
@@ -35,22 +33,14 @@ Token = {
 
 		this.contentElement = "img#storyThingContent" + this.index + ".storyThingContent";		
 
-	},
+	}
 
-	add : function() {
+	this.add = function() {
 
-		$(this.imageElement).attr("src", this.pic);
+		this._add();
+	}
 
-		$(this.imageElement).css("width", this.width);
-
-		$(this.element).css("left", this.left);
-
-		$(this.element).css("top", this.top);	
-
-		$(this.element).css("z-index", this.zIndex);				
-	},
-
-	addContent : function( _name ) {
+	this.addContent = function( _name ) {
 
 		var _obj = this.content[ _name ];
 
@@ -64,34 +54,11 @@ Token = {
 
 		$(this.contentElement).css("top", _obj.top);	
 
-		$(this.contentElement).css("z-index", this.zIndex);	
-
-		//$(this.contentElement).css("z-index", this.contentZIndex);	
+		$(this.contentElement).css("z-index", _obj.zIndex);	
 
 		if ( _obj.borderRadius) $(this.contentElement).css("border-radius", _obj.borderRadius);	
-	},
-
-	fadeIn: function() {
-
-		$( this.element ).velocity( "fadeIn", {duration: 1000} );
-	},
-
-	fadeOut: function() {
-
-		$( this.element ).velocity( "fadeOut", {duration: 1000} );
-	},
-
-	moveToCorner: function(_dir) {
-
-		this.recordPos();
-
-		var _top = display.menuHeight + this.spacer;
-
-		var _left = this.width;
-
-		if (_dir == "ne") _left = $(window).width() - this.size - this.width;
-
-		$(this.element).css( {top: _top, left: _left } );
-	},
+	}
 
 } 
+
+Token.prototype = new Entity();

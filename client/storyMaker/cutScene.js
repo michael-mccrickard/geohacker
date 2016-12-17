@@ -4,6 +4,8 @@ CutScene = function( _name ) {
 
 	this.index = -1;
 
+	this.c = "";
+
 	this.play = function( _cue) {
  
 		this.cue = _cue;
@@ -18,6 +20,13 @@ CutScene = function( _name ) {
 		if (this.index == this.cue.length) return;
 
 		this.c = this.cue[ this.index ];
+
+		if (this.c == "wait") {
+
+			story.showPrompt("Click anywhere to continue.")
+
+			return;
+		}
 
 		if ( this.c.substr(0,5) == "delay") {
 

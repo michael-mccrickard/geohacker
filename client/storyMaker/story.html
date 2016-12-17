@@ -1,5 +1,7 @@
 <template name="story">
 
+  	<div id="storyPromptText"></div>
+
 	<div class="divStory">
 
 		<img class="storyBG" />
@@ -8,7 +10,7 @@
 
 			<div class="divStoryChar" id="storyChar{{this}}" >
 			  
-				<img class="storyChar" id="storyCharPic{{this}}" src="" data-mongoid=""/> 
+				<img class="storyChar" id="storyCharPic{{this}}" src="" data-mongoid="" data-shortname="" /> 
 				<div class="storyCharName" id="storyCharName{{this}}"></div>
 
 			</div>
@@ -28,6 +30,16 @@
 			
 		{{/each}}
 
+			<div class="divStoryButtons">
+
+				{{#each storyButton}}	
+
+					<div class="storyButton2">
+						<img class="imgStoryButton stretch" src="featuredBackdrop.jpg" />
+					</div>
+				{{/each}}
+			</div>
+
 		{{#if exerciseMode}} 
 
 			<div class="divExerciseButton">
@@ -41,7 +53,7 @@
 
 			<div class="divChatBackdrop">
 
-				<img class="stretch" src="blackBackdrop.jpg" />
+				<img class="imgChatBackdrop" src="blackBackdrop.jpg" />
 			</div>
 
 			<div class="divStoryMessaging">

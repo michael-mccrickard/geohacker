@@ -1,3 +1,17 @@
+.divStoryMessage {
+    /*display: -webkit-flex;
+    display: flex;*/
+	font-family: Arial;
+	color: white;
+    background-color: #2B3856;
+    margin-bottom: 8px;
+    max-width: 75%;
+    min-width: 52%;
+    position: relative;
+    top: 280px;
+}
+
+
 .divStoryMessageTarget {
 
 	position: fixed;
@@ -6,9 +20,9 @@
 	margin-left: auto;
 	margin-top: -10px;
 	z-index: 1000;
-
+	background-color: black;
 	height: 106px;
-	top: 65px;
+	top: 60px;
 
 }
 
@@ -19,5 +33,29 @@
 	margin-left: auto;
 	position: relative;
 
-	top: -100px;
+	top: -175px;
 }
+
+.divStoryMessageEntry {
+
+    display: -webkit-flex;
+    display: flex;
+    background-color: #006400;
+    position: relative;
+    float: left;
+    top: 280px;
+    margin-bottom: 8px;
+        clear: both;
+    min-width: 52%;
+
+}
+
+.btnChatChoice {
+
+	font-family: Arial;
+
+	font-size: 16px;
+}
+
+
+
