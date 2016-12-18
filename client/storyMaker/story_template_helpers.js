@@ -34,6 +34,27 @@ Template.story.helpers({
     var _arr = [1,2,3,4,5]
 
     return _arr;
+  },
+
+  picForInventory: function( _val) {
+
+      if (_val == 1) return "storyMapButton3.png";
+
+            if (_val > 1) return "featuredBackdrop.jpg";
+  },
+
+  sceneMode: function() {
+
+      if (story.mode.get() == "scene") return true;
+
+      return false;
+  },
+
+  mapMode: function() {
+
+      if (story.mode.get() == "map") return true;
+
+      return false;
   }
 
 });
@@ -44,6 +65,12 @@ Template.story.events({
     'click #continueStory': function(event, template) {
 
           if (story.scene == "intro") story.play( "needAPasscode" );
+      },
+
+
+    'click img#imgStoryButton1': function(event, template) {
+
+          story.mode.set("map");
       },
 
     'click div.divChatBackdrop': function(event, template) {

@@ -11,7 +11,7 @@ StoryMaker = function() {
 
 	this.load = function( _name ) {
 
-		game.user.mode = mStory;
+		game.user.mode = uStory;
 
 		
 		if (!game.user.sms) game.user.sms = new StoryMessaging();
