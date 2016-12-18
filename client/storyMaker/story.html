@@ -6,39 +6,55 @@
 
 		<img class="storyBG" />
 
-		{{#each char}}
+		<div class="divStoryButtons">
 
-			<div class="divStoryChar" id="storyChar{{this}}" >
-			  
-				<img class="storyChar" id="storyCharPic{{this}}" src="" data-mongoid="" data-shortname="" /> 
-				<div class="storyCharName" id="storyCharName{{this}}"></div>
+			{{#each storyButton}}	
 
-			</div>
+				<div class="storyButton2">
+					<img class="imgStoryButton imgStoryButtonBG stretch" id="storyButton{{this}}" src="featuredBackdrop.jpg" />
 
-		{{/each}}
+					<img class="imgStoryButton imgStoryButtonContent" id="imgStoryButton{{this}}" src="{{picForInventory this}}" />	
+				</div>
+			{{/each}}
+		</div>
 
+		{{#if sceneMode}}
 
-		{{#each token}}
+			{{#each char}}
 
-			<div class="divStoryThing" id="storyThing{{this}}">
-			  
-				<img class="storyThingContent" id="storyThingContent{{this}}" src="" /> 
+					<div class="divStoryChar" id="storyChar{{this}}" >
+					  
+						<img class="storyChar" id="storyCharPic{{this}}" src="" data-mongoid="" data-shortname="" /> 
+						<div class="storyCharName" id="storyCharName{{this}}"></div>
 
-				<img class="storyThing" id="storyThingPic{{this}}" src="" /> 
-
-			</div>		
-			
-		{{/each}}
-
-			<div class="divStoryButtons">
-
-				{{#each storyButton}}	
-
-					<div class="storyButton2">
-						<img class="imgStoryButton stretch" src="featuredBackdrop.jpg" />
 					</div>
+
 				{{/each}}
+
+
+				{{#each token}}
+
+					<div class="divStoryThing" id="storyThing{{this}}">
+					  
+						<img class="storyThingContent" id="storyThingContent{{this}}" src="" /> 
+
+						<img class="storyThing" id="storyThingPic{{this}}" src="" /> 
+
+					</div>		
+					
+				{{/each}}
+
+		{{/if}}
+
+		{{#if mapMode}}
+
+			<div class="divStoryMap">
+
+				{{> browseWorldMap}}
+
 			</div>
+
+		{{/if}}
 
 		{{#if exerciseMode}} 
 
@@ -63,6 +79,8 @@
 			</div>
 
 		{{/if}}
+
+
 
 	</div>
 
