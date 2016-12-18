@@ -108,11 +108,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
       
     };
 
-    //not currently running mode uStory through this ... (just setting it directly)
-
     this.setMode = function(_mode) {
-
-    	// so this mode never even gets set??
 
     	if (_mode == uIntro) return;
 
@@ -226,8 +222,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     	else {
 
     		this.setGlobals("browse");
-
-    		this.setMode( uBrowseCountry );
 
     		display.browser.countryCode = "";  //reset this since we are going in fresh
 
