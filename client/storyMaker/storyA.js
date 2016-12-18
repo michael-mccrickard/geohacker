@@ -50,7 +50,6 @@ storyA = function() {
 			this.cue  = [
 
 						'story.fadeInBG()',
-/*
 						'delay.1000',
 						'story.computer.addContent( "warning" )',
 						'story.computer.add()',
@@ -89,7 +88,7 @@ storyA = function() {
 						'delay.2000',
 						'story.twain.q()',
 						'story.bert.q()',						
-*/
+
 					];				
 		}
 
