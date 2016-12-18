@@ -227,12 +227,16 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     		this.setGlobals("browse");
 
-    		this.setMode( uBrowseCountry );
+    		this.setMode( uBrowseMap );
+
+    		browseMap.mode.set("browse");
 
     		display.browser.countryCode = "";  //reset this since we are going in fresh
 
     		//it should be possible to just let the browseMap remember where you last explored
     		//but at the moment, this can produce erratic map behavior when trying to drill down
+
+    		game.user.setMode( uBrowseMap );
 
     		browseMap.reset();
     	}

@@ -7,6 +7,8 @@ BrowseMap = function() {
 
 	 this.name = "browseMap"; 
 
+   this.mode = new Blaze.ReactiveVar( "browse" );  //or "story"
+
     //reactive level property:  mlWorld, mlContinent, mlRegion, mlCountry
 
     this.level = new Blaze.ReactiveVar( mlWorld );
@@ -97,9 +99,13 @@ BrowseMap = function() {
 
     this.finishDraw = function() {
 
-        if ($("#browseDivMap").length == 0) return;
+        var _sel = "#browseDivMap";
 
-        var left = $("#browseDivMap").position().left + $("#browseDivMap").outerWidth() - $("#browseMapClose").outerWidth() - 5;
+        if (browseMap.mode.get() == "story") _sel = "#browseDivStoryMap";
+
+        if ($(_sel).length == 0) return;
+
+        var left = $(_sel).position().left + $(_sel).outerWidth() - $("#browseMapClose").outerWidth() - 5;
 
         $("#browseMapClose").css("left", left + "px");
 
