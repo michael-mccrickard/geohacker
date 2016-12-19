@@ -25,7 +25,11 @@ Template.story_messaging.helpers({
 
 	message: function() {
 
-		return game.user.sms.conversation.findOne( { _id: game.user.sms.threadID.get() }).messages;
+		var _rec = game.user.sms.conversation.findOne( { _id: game.user.sms.threadID.get() });
+
+		if (_rec) return _rec.messages;
+
+		return null;
 	},
 
 	isLoggedInUser: function() {

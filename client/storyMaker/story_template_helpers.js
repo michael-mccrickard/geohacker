@@ -1,6 +1,10 @@
 Template.story.rendered = function() {
 
-	Meteor.setTimeout( function() { story.play( story.scene ); }, 500 );
+	Meteor.setTimeout( function() { 
+
+    story.play( story.scene ); 
+
+  }, 500 );
 }
 
 Template.story.helpers({
@@ -8,6 +12,13 @@ Template.story.helpers({
   char: function() {
 
   	 return story.chars;
+  },
+
+  chatVisibilityClass: function() {
+
+    if (story.mode.get() == "chat") return "";
+
+     return "hidden";
   },
 
   exerciseMode: function() {
@@ -38,9 +49,11 @@ Template.story.helpers({
 
   picForInventory: function( _val) {
 
-      if (_val == 1) return "storyMapButton3.png";
+      if (_val == 1) return story.sceneButtonPic;
 
-            if (_val > 1) return "featuredBackdrop.jpg";
+      if (_val == 2) return "storyMapButton3.png";
+
+if (_val > 2) return "featuredBackdrop.jpg";
   },
 
   sceneMode: function() {
@@ -68,7 +81,22 @@ Template.story.events({
       },
 
 
+    //SCENE button
+
     'click img#imgStoryButton1': function(event, template) {
+
+          story.mode.set("scene");
+
+          story.showAll();
+      },
+
+    //MAP button
+
+    'click img#imgStoryButton2': function(event, template) {
+
+          story.hideAll();
+
+          story.silenceAll();
 
           browseMap.mode.set( "story" );
 
@@ -117,6 +145,7 @@ Template.story.events({
       		game.user.sms.startThread();
 
       		story.mode.set("chat");
+
       },
 
 });

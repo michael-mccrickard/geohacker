@@ -22,6 +22,10 @@ storyA = function() {
 
 	this.chars = [1,2];
 
+	this.buttons = [1,2,3,4,5];
+
+	this.sceneButtonPic = "storyA_scene.jpg";
+
 	this.flags = {};
 
 	this.flags["hasVisitedGuard"] = false;
@@ -50,17 +54,17 @@ storyA = function() {
 			this.cue  = [
 
 						'story.fadeInBG()',
-/*
+
 						'delay.1000',
 						'story.computer.addContent( "warning" )',
 						'story.computer.add()',
 						'story.computer.scaleMe(0.5);',
 			
-						'story.twain.add()',
-						'story.bert.add()',
-						'story.fadeInChars()',  
+					//	'story.twain.add()',
+					//	'story.bert.add()',
+					//	'story.fadeInChars()',  
 						'story.fadeInTokens()',
-
+/*
 						'delay.1000',
 						'story.twain.setDirection("right")', 
 						'story.bert.setDirection("left")',
@@ -85,10 +89,9 @@ storyA = function() {
 						'story.computer.fadeOut()',	
 						'story.fadeOutBG()',
 						'delay.1700',	
-						'story.doExercise(0)',
-						'delay.2000',
 						'story.twain.q()',
-						'story.bert.q()',						
+						'story.bert.q()',	
+						'story.doExercise(0)',
 */
 					];				
 		}
@@ -99,17 +102,11 @@ storyA = function() {
 
 			this.cue  = [
 
-
-						'story.twain.q()',
-						'story.bert.q()',
-						'delay.500',
 						'story.fadeInBG()',
-						'story.twain.setDirection("right")',
-						'story.bert.setDirection("left")',
+						'delay.1000',
 						'story.twain.moveToStart()',
 						'story.bert.moveToStart()',
-						'story.computer.addContent( "bunnies" )',
-						'delay.25',
+						'delay.250',
 						'story.computer.fadeIn()',
 						'delay.1000',
 						'story.twain.say("Hey, you knocked that out in no time.");',  
