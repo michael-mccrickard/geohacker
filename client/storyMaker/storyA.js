@@ -8,27 +8,19 @@ storyA = function() {
 
 	this.bert = new storyA_bert(2);
 
-	this.guard = new storyA_guard(3);
-
-	this.charObjs = [];  //this.bert, this.twain, this.guard
+	this.charObjs = [this.bert, this.twain];
 
 	this.computer = new storyA_computer(1);
 
-	this.passcode = new storyA_passcode(2);
+	this.tokenObjs = [this.computer];
 
-	this.tokenObjs = [];  //this.computer, this.passcode
+	this.scenes = ["intro","needAPasscode","visitGuard"];
 
-	this.scenes = ["intro","missionToMona","firstGuardVisit","secondGuardVisit","auxGuardVisit"];
+	this.scene = this.scenes[0];
 
-this.scene = this.scenes[0];
+	this.tokens = [1];
 
-	this.tokens = [1,2];
-
-	this.chars = [1,2,3];
-
-	this.buttons = [1,2,3,4,5];
-
-	this.sceneButtonPic = new Blaze.ReactiveVar("");
+	this.chars = [1,2];
 
 	this.flags = {};
 
@@ -53,16 +45,12 @@ this.scene = this.scenes[0];
 
 		if ( _name == "intro") {
 
-			this.resetScene();
-
-			this.sceneButtonPic.set("storyA_scene.jpg");
-
 			this.background = "starryBG.jpg";
 
 			this.cue  = [
 
 						'story.fadeInBG()',
-
+/*
 						'delay.1000',
 						'story.computer.addContent( "warning" )',
 						'story.computer.add()',
@@ -97,27 +85,31 @@ this.scene = this.scenes[0];
 						'story.computer.fadeOut()',	
 						'story.fadeOutBG()',
 						'delay.1700',	
-						'story.twain.q()',
-						'story.bert.q()',	
 						'story.doExercise(0)',
-
+						'delay.2000',
+						'story.twain.q()',
+						'story.bert.q()',						
+*/
 					];				
 		}
 
-		if ( _name == "missionToMona") {
-
-			this.sceneButtonPic.set("storyA_scene.jpg");
+		if ( _name == "needAPasscode") {
 
 			this.background = "starryBG.jpg";
 
 			this.cue  = [
 
+
+						'story.twain.q()',
+						'story.bert.q()',
+						'delay.500',
 						'story.fadeInBG()',
-						'delay.1000',
+						'story.twain.setDirection("right")',
+						'story.bert.setDirection("left")',
 						'story.twain.moveToStart()',
 						'story.bert.moveToStart()',
-						'delay.250',
 						'story.computer.addContent( "bunnies" )',
+						'delay.25',
 						'story.computer.fadeIn()',
 						'delay.1000',
 						'story.twain.say("Hey, you knocked that out in no time.");',  
@@ -167,35 +159,10 @@ this.scene = this.scenes[0];
 					];				
 		}
 
-		if ( _name == "firstGuardVisit") {
-
-			this.background = "louvre.jpg";
-
-			this.sceneButtonPic.set("storyA_louvre.jpg");
-
-			this.cue  = [
-
-						'story.fadeInBG()',
-						'delay.1000',
-						'story.guard.add()',
-						'story.guard.fadeIn()',
-						'delay.500',
-						'story.guard.say("Zzzzzzz ...")',
-						'story.prompt("Click the guard to talk to him.")'								
-					];				
-		}
-
 		//call the play method on the base object
 
 		this._play( _name );
 
-	}
-
-	this.resetScene = function() {
-
-		this.tokenObjs = [];
-
-		this.charObjs = [];
 	}
 
 	this.go = function( _countryID ) {
@@ -204,13 +171,7 @@ this.scene = this.scenes[0];
 
 			if ( !this.flags["hasVisitedGuard"]) {
 
-				if ( !this.flags["awareOfPasscode"]) {
 
-
-					this.play("firstGuardVisit")		
-					
-
-				}		
 			}
 		}
 
@@ -221,12 +182,7 @@ this.scene = this.scenes[0];
 		this.mode.set( "exercise" );
 	}
 
-	this.doChat = function( _sel, _shortName) {
-
-		this._chat(_sel, _shortName);
-
-		//simple association between scene name and chat object name,
-		//but this "blind" decision will have to be modified by story.flags ultimately
+	this.doChat = function() {
 
 		var _name = "storyA_chat_" + this.scene;
 
@@ -272,44 +228,6 @@ function storyA_bert(_index) {
 }
 
 storyA_bert.prototype = new Char();
-
-
-function storyA_guard(_index) {
-
-	var _obj = {
-
-		type: "guest",
-		name: "Museum Guard",
-		shortName: "guard",
-		pic: "museumGuard.jpg",
-		ID: "storyA_guard",
-		top: "47%",
-		left: "47%",
-		index: _index
-	}
-
-	this.init( _obj );
-
-}
-
-storyA_guard.prototype = new Char();
-
-function storyA_passcode(_index) {
-
-	var _obj = {
-
-		name: "passcode",
-		pic: "passcode_byzantine.jpg",
-		top: "15%",   
-		left: "85%",
-		index: _index,
-	}
-
-	this.init( _obj );
-
-}
-
-storyA_passcode.prototype = new Token();
 
 function storyA_computer(_index) {
 

@@ -1,12 +1,6 @@
 Template.story.rendered = function() {
 
-	Meteor.setTimeout( function() { 
-
-    story.draw();
-
-    story.play( story.scene ); 
-
-  }, 500 );
+	Meteor.setTimeout( function() { story.play( story.scene ); }, 500 );
 }
 
 Template.story.helpers({
@@ -14,13 +8,6 @@ Template.story.helpers({
   char: function() {
 
   	 return story.chars;
-  },
-
-  chatVisibilityClass: function() {
-
-    if (story.mode.get() == "chat") return "";
-
-     return "hidden";
   },
 
   exerciseMode: function() {
@@ -44,16 +31,16 @@ Template.story.helpers({
 
   storyButton: function() {
 
-    return story.buttons;
+    var _arr = [1,2,3,4,5]
+
+    return _arr;
   },
 
   picForInventory: function( _val) {
 
-      if (_val == 1) return story.sceneButtonPic.get();
+      if (_val == 1) return "storyMapButton3.png";
 
-      if (_val == 2) return "storyMapButton3.png";
-
-if (_val > 2) return Control.featuredBackdrop();
+            if (_val > 1) return "featuredBackdrop.jpg";
   },
 
   sceneMode: function() {
@@ -77,34 +64,11 @@ Template.story.events({
 
     'click #continueStory': function(event, template) {
 
-          if (story.scene == "intro") story.play( "missionToMona" );
+          if (story.scene == "intro") story.play( "needAPasscode" );
       },
 
-
-    //SCENE button
 
     'click img#imgStoryButton1': function(event, template) {
-
-          story.unhiliteAllButtons();
-
-          story.hiliteButton(1);
-
-          story.mode.set("scene");
-
-          story.showAll();
-      },
-
-    //MAP button
-
-    'click img#imgStoryButton2': function(event, template) {
-
-          story.unhiliteAllButtons();
-
-          story.hiliteButton(2);
-
-          story.hideAll();
-
-          story.silenceAll();
 
           browseMap.mode.set( "story" );
 
@@ -146,8 +110,13 @@ Template.story.events({
 
           var _shortName = $( _sel ).data().shortname;
           
-          story.doChat( _sel, _shortName);
+          story[ _shortName ].q();
 
+      		game.user.sms.targetID.set( $( _sel ).data().mongoid );
+
+      		game.user.sms.startThread();
+
+      		story.mode.set("chat");
       },
 
 });

@@ -6,31 +6,45 @@
 
 		<img class="storyBG" />
 
-		{{#each char}}
+		<div class="divStoryButtons">
 
-			<div class="divStoryChar" id="storyChar{{this}}" >
-			  
-				<img class="storyChar" id="storyCharPic{{this}}" src="" data-mongoid="" data-shortname="" /> 
-				<div class="storyCharName" id="storyCharName{{this}}"></div>
+			{{#each storyButton}}	
 
-			</div>
+				<div class="storyButton2">
+					<img class="imgStoryButton imgStoryButtonBG stretch" id="storyButton{{this}}" src="featuredBackdrop.jpg" />
 
-		{{/each}}
+					<img class="imgStoryButton imgStoryButtonContent" id="imgStoryButton{{this}}" src="{{picForInventory this}}" />	
+				</div>
+			{{/each}}
+		</div>
+
+		{{#if sceneMode}}
+
+			{{#each char}}
+
+					<div class="divStoryChar" id="storyChar{{this}}" >
+					  
+						<img class="storyChar" id="storyCharPic{{this}}" src="" data-mongoid="" data-shortname="" /> 
+						<div class="storyCharName" id="storyCharName{{this}}"></div>
+
+					</div>
+
+				{{/each}}
 
 
-		{{#each token}}
+				{{#each token}}
 
-			<div class="divStoryThing" id="storyThing{{this}}">
-			  
-				<img class="storyThingContent" id="storyThingContent{{this}}" src="" /> 
+					<div class="divStoryThing" id="storyThing{{this}}">
+					  
+						<img class="storyThingContent" id="storyThingContent{{this}}" src="" /> 
 
-				<img class="storyThing" id="storyThingPic{{this}}" src="" /> 
+						<img class="storyThing" id="storyThingPic{{this}}" src="" /> 
 
-			</div>		
-			
-		{{/each}}
+					</div>		
+					
+				{{/each}}
 
-
+		{{/if}}
 
 		{{#if mapMode}}
 
@@ -51,30 +65,20 @@
 
 		{{/if}}
 
+		{{#if chatMode}} 
 
-
-			<div class="divChatBackdrop {{chatVisibilityClass}}">
+			<div class="divChatBackdrop">
 
 				<img class="imgChatBackdrop" src="blackBackdrop.jpg" />
 			</div>
 
-			<div class="divStoryMessaging {{chatVisibilityClass}}">
+			<div class="divStoryMessaging">
 				
 				{{> story_messaging}}
 
 			</div>
 
-		<div class="divStoryButtons">
-
-			{{#each storyButton}}	
-
-				<div class="storyButton2">
-					<img class="imgStoryButton imgStoryButtonBG stretch" id="storyButton{{this}}" src="featuredBackdrop.jpg" />
-
-					<img class="imgStoryButton imgStoryButtonContent" id="imgStoryButton{{this}}" src="{{picForInventory this}}" />	
-				</div>
-			{{/each}}
-		</div>
+		{{/if}}
 
 
 

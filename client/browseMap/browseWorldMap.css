@@ -81,12 +81,11 @@ width: 100%;
 .browseStoryMapMessages {
     position: absolute;
     top: -55px;
-    width: 400%;
     z-index: 1050;
     text-transform: uppercase;
     pointer-events: none;
     font-family: Arial;
     font-size: 2.0vh;
-    left: 400%;
+    left: 38%;
 
 }

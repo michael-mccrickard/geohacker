@@ -17,11 +17,6 @@ Entity = function() {
 
 	},
 
-	this.hide = function() {
-
-		$(this.element).addClass("hidden");		
-	}
-
 	this.fadeIn = function() {
 
 		$( this.element ).velocity( "fadeIn", {duration: 1000} );
@@ -50,11 +45,6 @@ Entity = function() {
 		$(this.element).css( {top: this.prevTop, left: this.prevLeft } );
 	},
 
-	this.q = function() {
-
-		$( this.element ).tooltip('destroy');
-	},
-
 	this.recordPos = function() {
 
 		this.prevTop = $(this.element).offset().top;
@@ -62,12 +52,21 @@ Entity = function() {
 		this.prevLeft = $(this.element).offset().left;
 	},
 
-	this.say = function( _text) {
 
-      $( this.element  ).tooltip({ delay:0, trigger:"manual",  title: _text, placement: this.placement });
+	this.zoomMe =function( _amt ) {
 
-      $( this.element  ).tooltip('show'); 
+		TweenMax.to( this.element, 1.5, { scale: _amt } );
 
+	},
+
+	this.scaleMe = function( _amt )  {
+
+		TweenMax.to( this.element, 0.0, { scale: _amt } );		
+	},
+
+	this.q = function() {
+
+		$( this.element ).tooltip('destroy');
 	},
 
 	this.sayLeft = function( _text ) {
@@ -84,26 +83,16 @@ Entity = function() {
 		this.say( _text );
 	},
 
-	this.scaleMe = function( _amt )  {
+	this.say = function( _text) {
 
-		TweenMax.to( this.element, 0.0, { scale: _amt } );		
+      $( this.element  ).tooltip({ delay:0, trigger:"manual",  title: _text, placement: this.placement });
+
+      $( this.element  ).tooltip('show'); 
+
 	},
-
 
 	this.setDirection = function( _val ) {
 
 		this.placement = _val;
-	},
-
-	this.show = function() {
-
-		$(this.element).removeClass("hidden");		
 	}
-
-	this.zoomMe =function( _amt ) {
-
-		TweenMax.to( this.element, 1.5, { scale: _amt } );
-
-	}
-
 }
