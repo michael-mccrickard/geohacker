@@ -70,8 +70,6 @@ Template.story.events({
 
     'click img#imgStoryButton1': function(event, template) {
 
-          browseMap.mode.set( "story" );
-
           story.mode.set("map");
       },
 

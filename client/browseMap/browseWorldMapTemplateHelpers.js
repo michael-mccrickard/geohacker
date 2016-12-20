@@ -1,21 +1,14 @@
 //*************************************************************************
 //              TEMPLATE HELPERS FOR BROWSE WORLD MAP
 //*************************************************************************
+
+
+
 Template.browseWorldMap.helpers({
   
-  storyMode: function() {
+  tag: function() {
 
-    if (browseMap.mode.get() == "story") return true;
-
-    return false;
-  },
-
-  browseMode: function() {
-
-    if (browseMap.mode.get() == "browse") return true;
-
-    return false;
-
+     return db.ghTag.find( { cc: browseMap.worldMap.selectedCountry.get() });
   },
 
   getDebriefType: function() {
@@ -106,13 +99,9 @@ Template.browseWorldMap.helpers({
 
   mapHeight: function() { 
 
-    var _factor = 0.98;
+    var h = Session.get("gWindowHeight") - display.menuHeight;
 
-    if (browseMap.mode.get() == "story") _factor = 0.81;
-
-    var h = (Session.get("gWindowHeight") - display.menuHeight) * _factor;
-
-    return h;
+    return h * 0.98;
 
   }
 });
@@ -211,7 +200,7 @@ Template.browseWorldMap.rendered = function () {
 
     }
 
-//    game.user.mode = uBrowseMap;
+    game.user.mode = uBrowseMap;
 
     Meteor.setTimeout( function() { browseMap.worldMap.doCurrentMap() }, 250 );
 
