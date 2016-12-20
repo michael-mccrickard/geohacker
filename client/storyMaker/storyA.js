@@ -50,7 +50,7 @@ storyA = function() {
 			this.cue  = [
 
 						'story.fadeInBG()',
-/*
+
 						'delay.1000',
 						'story.computer.addContent( "warning" )',
 						'story.computer.add()',
@@ -89,7 +89,7 @@ storyA = function() {
 						'delay.2000',
 						'story.twain.q()',
 						'story.bert.q()',						
-*/
+
 					];				
 		}
 
@@ -98,8 +98,9 @@ storyA = function() {
 			this.background = "starryBG.jpg";
 
 			this.cue  = [
-
-
+						'story.twain.add()',
+						'story.bert.add()',
+						'story.fadeInChars()',  
 						'story.twain.q()',
 						'story.bert.q()',
 						'delay.500',
