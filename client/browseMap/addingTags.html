@@ -1,0 +1,97 @@
+<!--
+	<div id="browseDivMap"  ondrop="drop(event)" ondragover="allowDrop(event)" style="float: left; position: relative; top: 55px; width: {{mapWidth}}px; height: {{mapHeight}}px; border-radius: 7px; border: 4px solid; border-color: gray;">
+	</div>  
+<script>
+	function allowDrop(ev) {
+	    ev.preventDefault();
+	}
+
+	function drag(ev) {
+
+	    ev.dataTransfer.setData("text", ev.target.id);
+
+	    //ev.dataTransfer.setData("url", ev.target.src);
+	}
+
+	function drop(ev) {
+
+
+	    ev.preventDefault();
+
+	    var map = hacker.ctl["MAP"].browseWorldMap.map;
+
+	    var x = 0;
+	    var y = 0;
+
+		if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+		     
+			x = ev.layerX;
+			y = ev.layerY;
+		}
+		else {
+
+			x = ev.offsetX;
+			y = ev.offsetY;
+		}
+
+	    var _long = map.stageXToLongitude( x );
+
+	    var _lat = map.stageYToLatitude( y );
+
+		var image = new AmCharts.MapImage();
+
+		image.latitude = _lat;
+        image.longitude = _long;
+
+        image.width = 64;
+        image.height = 64;
+
+		var _id = ev.dataTransfer.getData("text");
+
+		var sel = "#" + _id;
+
+		var _dt = $(sel).attr("data-text");
+
+		image.balloonText = $(sel).attr("title");
+
+        image.imageURL = $(sel).attr("src");
+
+  
+        map.dataProvider.images.push(image);
+        map.validateData();   
+
+        var _ticket = game.user.getTicket( hacker.ctl["MAP"].browseWorldMap.selectedCountry.get() );
+
+        _ticket.addTag(_long, _lat, _dt ); 
+
+        db.updateUserHacks();
+	    
+
+	}
+</script>
+
+	<div class="mapTags" style="position: relative; top: 55px; width:8%;">
+
+		{{#each tag}}
+
+			<div>
+				<img class="imgMapTag"   draggable="true" ondragstart="drag(event)"  data-text="{{this.dt}}" id="{{this._id}}" src="{{getTagURL}}" title="{{getText}}">
+			</div>
+		
+		{{/each}}
+
+
+	</div>
+
+	<button class="btn btn-default mapCloseButton" id="browseMapClose">X</button>
+
+	<div class="tagClearButton">
+		<button class="btn btn-danger" id="tagClear">CLEAR</button>
+	</div>
+
+
+  tag: function() {
+
+     return db.ghTag.find( { cc: browseMap.worldMap.selectedCountry.get() });
+  },
+-->

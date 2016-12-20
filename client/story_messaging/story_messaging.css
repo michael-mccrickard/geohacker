@@ -1,24 +1,11 @@
-<<<<<<< HEAD
-.divStoryMessage {
-    /*display: -webkit-flex;
-    display: flex;*/
-=======
 .divStoryMessageUser {
->>>>>>> parent of 8c83b97... Partially abortive changes
+
 	font-family: Arial;
 	color: white;
     background-color: #2B3856;
     margin-bottom: 8px;
-<<<<<<< HEAD
-    max-width: 75%;
+    max-width: 72%;
     min-width: 52%;
-    position: relative;
-    top: 280px;
-}
-
-=======
-    max-width: 62%;
-    min-width: 42%;
 
     float: left:;
 }
@@ -28,59 +15,37 @@
 	color: white;
     background-color: #2B3856;
     margin-bottom: 8px;
-    max-width: 62%;
-    min-width: 42%;
->>>>>>> parent of 8c83b97... Partially abortive changes
+    max-width: 72%;
+    min-width: 52%;
 
-.divStoryMessageTarget {
-
-	position: fixed;
-	width: 100%;
-	margin-right: auto;
-	margin-left: auto;
-	margin-top: -10px;
-	z-index: 1000;
-	background-color: black;
-	height: 106px;
-	top: 60px;
-
+    float: right;
 }
 
+
 .divStoryMessageContainer {
-    position: relative;
+
 	width: 35%;
 	margin-right: auto;
 	margin-left: auto;
-	position: relative;
 
-	top: -175px;
 }
 
 .divStoryMessageEntry {
 
-    display: -webkit-flex;
+   display: -webkit-flex;
     display: flex;
     background-color: #006400;
     position: relative;
-<<<<<<< HEAD
-    float: left;
-    top: 280px;
-=======
-    max-width: 52%;
-    min-width: 42%;
-    margin-top: 2%;
->>>>>>> parent of 8c83b97... Partially abortive changes
-    margin-bottom: 8px;
-        clear: both;
+    max-width: 82%;
     min-width: 52%;
+    margin-top: 2%;
+    margin-bottom: 8px;
 
 }
 
-<<<<<<< HEAD
-=======
 .divStoryMessageTarget {
 
-	position: fixed;
+
 	width: 100%;
 	margin-right: auto;
 	margin-left: auto;
@@ -96,7 +61,6 @@
 
 
 
->>>>>>> parent of 8c83b97... Partially abortive changes
 .btnChatChoice {
 
 	font-family: Arial;

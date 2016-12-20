@@ -1,13 +1,13 @@
 <template name="story_messaging">
 
-		{{#with messageTarget}}
+	{{#with messageTarget}}
 
-			<div class="divStoryMessageTarget centered">
-				<img class= "imgAvatarMessageTargetMini agentItem rounded" id="{{this._id}}" src="{{this.profile.av}}" />
-				<div class="messageTargetLabel agentItem">{{this.username}}</div>
-			</div>
+		<div class="divStoryMessageTarget centered">
+			<img class= "imgAvatarMessageTargetMini agentItem rounded" id="{{this.ID}}" src="{{this.pic}}" />
+			<div class="messageTargetLabel agentItem">{{this.name}}</div>
+		</div>
 		
-		{{/with}}
+	{{/with}}
 
 	<div class="divStoryMessageContainer">
 
@@ -15,7 +15,7 @@
 
 			{{#if isLoggedInUser}}
 
-				<div class="divStoryMessage rounded" style="float:left; clear: both;">
+				<div class="divStoryMessageUser rounded">
 				
 					<div>
 						<img class= "imgAgentAvatarMessageMini agentMessageItem rounded"  style="float:left;"  src="{{av}}" />
@@ -30,13 +30,13 @@
 
 			{{else}}
 
-				<div class="divStoryMessage rounded" style="float:right;">
+				<div class="divStoryMessageNPC rounded">
 				
 					<div class="divMessageBody">
 						{{this.text}}
 
 						<span style="float:right;">
-							<img class= "imgAgentAvatarMessageMini agentMessageItem rounded"   src="{{av}}" />
+							<img class= "imgAgentAvatarMessageMini agentMessageItem rounded"   src="{{targetPic}}" />
 
 						</span>
 					</div>

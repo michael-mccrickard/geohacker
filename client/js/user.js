@@ -108,7 +108,11 @@ User = function( _name ) {  //name, scroll pos (for content editors)
       
     };
 
+    //not currently running mode uStory through this ... (just setting it directly)
+
     this.setMode = function(_mode) {
+
+    	// so this mode never even gets set??
 
     	if (_mode == uIntro) return;
 
@@ -223,10 +227,16 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     		this.setGlobals("browse");
 
+    		this.setMode( uBrowseMap );
+
+    		browseMap.mode.set("browse");
+
     		display.browser.countryCode = "";  //reset this since we are going in fresh
 
     		//it should be possible to just let the browseMap remember where you last explored
     		//but at the moment, this can produce erratic map behavior when trying to drill down
+
+    		game.user.setMode( uBrowseMap );
 
     		browseMap.reset();
     	}

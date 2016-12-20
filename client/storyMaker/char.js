@@ -18,9 +18,35 @@ Char = function() {
 
 		this.rec = Meteor.users.findOne( { username: this.name } );
 
-		this.pic = this.rec.profile.av;	
+		this.type = "agent";
 
-		this.ID = this.rec._id;
+		//for an agent in the database, you don't supply the pic file or the ID in the _obj param,
+		//but for a "guest star", you do
+
+
+		if (_obj.type) {
+
+			this.type = _obj.type;
+		}
+
+		if (_obj.pic) {
+
+			this.pic = _obj.pic;
+		}
+		else {
+
+			this.pic = this.rec.profile.av;	
+		}
+		
+		if (_obj.ID) {
+
+			this.ID = _obj.ID;
+		}
+		else {
+		
+			this.ID = this.rec._id;
+		}
+
 
 		this.size = 96;
 
@@ -41,6 +67,8 @@ Char = function() {
 	this.add = function() {
 
 		this._add();
+
+		story.charObjs.push( this );
 
 		$(this.imageElement).attr("data-mongoid", this.ID);
 

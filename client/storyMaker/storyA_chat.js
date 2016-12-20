@@ -14,7 +14,105 @@ storyA_chat_intro = [
 	}
 ];
 
-storyA_chat_needAPasscode = [
+
+storyA_chat_firstGuardVisit = [
+
+	{
+		"i": "h",
+		"n": "root",
+		"d": [{ "t": "Huh ... what?  Everything's under control!", "g":"excuseMe" }]
+	},
+
+	{
+		"i": "u",
+		"n": "excuseMe",
+		"d": [ { "t": "Excuse me, I need to get a painting from you.", "g": "painting?"}, { "t": "Bye", "g": "exit"}  ]  
+
+	},
+
+	{
+		"i": "h",
+		"n": "painting?",
+		"d": [{ "t": "Painting?  You can't be serious.  This is the world's greatest art museum, not a pawn shop.", "g":"needTheMonaLisa" }]
+	},
+
+	{
+		"i": "u",
+		"n": "needTheMonaLisa",
+		"d": [ { "t": "Actually, I need the Mona Lisa.  It's important.", "g": "monaLisa?"}, { "t": "Hand over the Mona Lisa this instant.", "g": "handItOver?"}, , { "t": "Bye", "g": "exit"}  ]  
+	},
+
+	{
+		"i": "h",
+		"n": "handItOver?",
+		"d": [{ "t": "Hand it over?  You want to get rough, huh?  Security!!", "g":"youAreSecurity" }]
+	},
+
+	{
+		"i": "u",
+		"n": "youAreSecurity",
+		"d": [ { "t": "You are the security.", "g": "monaLisa?"}, { "t": "Never mind, I'll leave.", "g": "exit"}  ]  
+	},
+
+	{
+		"i": "h",
+		"n": "monaLisa?",
+		"d": [{ "t": "Well, I know that, but I cannot help you.  I am holding the Mona Lisa for a special Geosquad Agent.", "g":"iAmGeosquad" }]
+	},	
+
+	{
+		"i": "u",
+		"n": "iAmGeosquad",
+		"d": [ { "t": "That's me.  I'm from Geosquad.", "g": "youHaveThePasscode?"}, { "t": "Oh, okay, sorry to bother you.", "g": "exit"}  ]  
+	},
+
+	{
+		"i": "h",
+		"n": "youHaveThePasscode?",
+		"d": [{ "t": "Oh, I see.  So you have the passcode?", "g":"passcode?" }]
+	},	
+	{
+		"i": "u",
+		"n": "passcode?",
+		"d": [ { "t": "No.", "g": "noPasscode"}, { "t": "Yes.", "g": "yesPasscode"}  ]
+	},
+	{
+		"i": "h",
+		"n": "noPasscode",
+		"d": [ { "t": "Well, you're out of luck, then.", "g": "howPasscode"} ]
+	},
+	{
+		"i": "u",
+		"n": "howPasscode",
+		"d": [ { "t": "How do I get the passcode?", "g": "vanGogh"}, { "t": "Oh, well. Thanks, anyway.", "g": "exit"}  ]
+	},
+
+	{
+		"i": "h",
+		"n": "vanGogh",
+		"d": [ { "t": "Just between you and me, I understand that a painter named Van Gogh has the passcode.  Good luck with that, though.  He's a little flakey.", "g": "thanks"} ]
+	},
+
+	{
+		"i": "u",
+		"n": "thanks",
+		"d": [ { "t": "Thank you, sir.  This was most helpful.", "g": "exit"}, { "t": "Where do I find him?", "g": "whereVanGogh"}  ] 
+	},
+
+	{
+		"i": "h",
+		"n": "whereVanGogh",
+		"d": [ { "t": "I thought you were a Geosquad agent!  Don't you have resources that help you with that stuff?  I would try his home country first.  Ask a senior agent, if you need to.", "g": "thanks2"} ] 
+	},
+
+	{
+		"i": "u",
+		"n": "thanks2",
+		"d": [ { "t": "OK.  Goodbye.", "g": "exit"}  ] 
+	}
+];
+
+storyA_chat_missionToMona = [
 
 	{
 		"i": "h",

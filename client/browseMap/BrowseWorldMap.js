@@ -97,6 +97,8 @@ BrowseWorldMap = function( _mapCtl ) {
 
             //this.mapCtl.level.set( mlContinent );
 
+c("level in doCurrentMap is world or none")
+
             this.mapLevel = mlWorld;
 
             this.drawLevel = mlWorld;
@@ -286,8 +288,9 @@ c("clicking map object")
         // handle the clicks on any map object
         this.map.addListener("clickMapObject", handleClick);
 
-        this.map.write("browseDivMap");
+        if (browseMap.mode.get() == "browse") this.map.write("browseDivMap");
 
+        if (browseMap.mode.get() == "story") this.map.write("browseDivStoryMap");
     }
 
 
@@ -636,8 +639,19 @@ function handleClick(_event) {
 
         c("worldMap.mapObjectClicked just b4 browseCountry is " + worldMap.mapObjectClicked)
 
-        game.user.browseCountry( worldMap.mapObjectClicked, "browseWorldMap" );
+        if (browseMap.mode.get() == "browse") {
 
+            game.user.browseCountry( worldMap.mapObjectClicked, "browseWorldMap" );
+
+            return;
+        }
+
+        if (browseMap.mode.get() == "story") {
+
+            story.go( worldMap.mapObjectClicked );
+
+            return;
+        }        
     }
 
 }

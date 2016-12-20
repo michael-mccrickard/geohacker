@@ -8,34 +8,27 @@ storyA = function() {
 
 	this.bert = new storyA_bert(2);
 
-	this.charObjs = [this.bert, this.twain];
+	this.guard = new storyA_guard(3);
+
+	this.charObjs = [];  //this.bert, this.twain, this.guard
 
 	this.computer = new storyA_computer(1);
 
-	this.tokenObjs = [this.computer];
-<<<<<<< HEAD
+	this.passcode = new storyA_passcode(2);
 
-	this.scenes = ["intro","needAPasscode","visitGuard"];
+	this.tokenObjs = [];  //this.computer, this.passcode
 
-	this.scene = this.scenes[0];
-=======
+	this.scenes = ["intro","missionToMona","firstGuardVisit","secondGuardVisit","auxGuardVisit"];
 
-	this.scenes = ["intro","needAPasscode","visitGuard"];
+this.scene = this.scenes[0];
 
-	this.scene = this.scenes[0];
+	this.tokens = [1,2];
 
-	this.tokens = [1];
+	this.chars = [1,2,3];
 
-	this.chars = [1,2];
->>>>>>> parent of 8c83b97... Partially abortive changes
+	this.buttons = [1,2,3,4,5];
 
-	this.tokens = [1];
-
-<<<<<<< HEAD
-	this.chars = [1,2];
-=======
-	this.sceneButtonPic = "storyA_scene.jpg";
->>>>>>> parent of 8c83b97... Partially abortive changes
+	this.sceneButtonPic = new Blaze.ReactiveVar("");
 
 	this.flags = {};
 
@@ -60,21 +53,26 @@ storyA = function() {
 
 		if ( _name == "intro") {
 
+			this.resetScene();
+
+			this.sceneButtonPic.set("storyA_scene.jpg");
+
 			this.background = "starryBG.jpg";
 
 			this.cue  = [
 
 						'story.fadeInBG()',
+
 						'delay.1000',
 						'story.computer.addContent( "warning" )',
 						'story.computer.add()',
 						'story.computer.scaleMe(0.5);',
 			
-					//	'story.twain.add()',
-					//	'story.bert.add()',
-					//	'story.fadeInChars()',  
+						'story.twain.add()',
+						'story.bert.add()',
+						'story.fadeInChars()',  
 						'story.fadeInTokens()',
-/*
+
 						'delay.1000',
 						'story.twain.setDirection("right")', 
 						'story.bert.setDirection("left")',
@@ -99,39 +97,27 @@ storyA = function() {
 						'story.computer.fadeOut()',	
 						'story.fadeOutBG()',
 						'delay.1700',	
-						'story.doExercise(0)',
-<<<<<<< HEAD
-						'delay.2000',
 						'story.twain.q()',
-						'story.bert.q()',						
+						'story.bert.q()',	
+						'story.doExercise(0)',
 
-=======
-*/
->>>>>>> parent of 8c83b97... Partially abortive changes
 					];				
 		}
 
-		if ( _name == "needAPasscode") {
+		if ( _name == "missionToMona") {
+
+			this.sceneButtonPic.set("storyA_scene.jpg");
 
 			this.background = "starryBG.jpg";
 
 			this.cue  = [
 
-
-						'story.twain.q()',
-						'story.bert.q()',
-						'delay.500',
 						'story.fadeInBG()',
-						'story.twain.setDirection("right")',
-						'story.bert.setDirection("left")',
+						'delay.1000',
 						'story.twain.moveToStart()',
 						'story.bert.moveToStart()',
-<<<<<<< HEAD
-						'story.computer.addContent( "bunnies" )',
-						'delay.25',
-=======
 						'delay.250',
->>>>>>> parent of 8c83b97... Partially abortive changes
+						'story.computer.addContent( "bunnies" )',
 						'story.computer.fadeIn()',
 						'delay.1000',
 						'story.twain.say("Hey, you knocked that out in no time.");',  
@@ -181,10 +167,35 @@ storyA = function() {
 					];				
 		}
 
+		if ( _name == "firstGuardVisit") {
+
+			this.background = "louvre.jpg";
+
+			this.sceneButtonPic.set("storyA_louvre.jpg");
+
+			this.cue  = [
+
+						'story.fadeInBG()',
+						'delay.1000',
+						'story.guard.add()',
+						'story.guard.fadeIn()',
+						'delay.500',
+						'story.guard.say("Zzzzzzz ...")',
+						'story.prompt("Click the guard to talk to him.")'								
+					];				
+		}
+
 		//call the play method on the base object
 
 		this._play( _name );
 
+	}
+
+	this.resetScene = function() {
+
+		this.tokenObjs = [];
+
+		this.charObjs = [];
 	}
 
 	this.go = function( _countryID ) {
@@ -193,7 +204,13 @@ storyA = function() {
 
 			if ( !this.flags["hasVisitedGuard"]) {
 
+				if ( !this.flags["awareOfPasscode"]) {
 
+
+					this.play("firstGuardVisit")		
+					
+
+				}		
 			}
 		}
 
@@ -204,7 +221,12 @@ storyA = function() {
 		this.mode.set( "exercise" );
 	}
 
-	this.doChat = function() {
+	this.doChat = function( _sel, _shortName) {
+
+		this._chat(_sel, _shortName);
+
+		//simple association between scene name and chat object name,
+		//but this "blind" decision will have to be modified by story.flags ultimately
 
 		var _name = "storyA_chat_" + this.scene;
 
@@ -250,6 +272,44 @@ function storyA_bert(_index) {
 }
 
 storyA_bert.prototype = new Char();
+
+
+function storyA_guard(_index) {
+
+	var _obj = {
+
+		type: "guest",
+		name: "Museum Guard",
+		shortName: "guard",
+		pic: "museumGuard.jpg",
+		ID: "storyA_guard",
+		top: "47%",
+		left: "47%",
+		index: _index
+	}
+
+	this.init( _obj );
+
+}
+
+storyA_guard.prototype = new Char();
+
+function storyA_passcode(_index) {
+
+	var _obj = {
+
+		name: "passcode",
+		pic: "passcode_byzantine.jpg",
+		top: "15%",   
+		left: "85%",
+		index: _index,
+	}
+
+	this.init( _obj );
+
+}
+
+storyA_passcode.prototype = new Token();
 
 function storyA_computer(_index) {
 

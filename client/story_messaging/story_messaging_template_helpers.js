@@ -10,7 +10,12 @@ Template.story_messaging.helpers({
 
 	messageTarget: function() {
 
-		return Meteor.users.findOne( { _id: game.user.sms.targetID.get() } );
+		return game.user.sms.targetObj;
+	},
+
+	targetPic: function() {
+
+		return game.user.sms.targetObj.pic;
 	},
 
 	av: function() {
@@ -25,7 +30,11 @@ Template.story_messaging.helpers({
 
 	message: function() {
 
-		return game.user.sms.conversation.findOne( { _id: game.user.sms.threadID.get() }).messages;
+		var _rec = game.user.sms.conversation.findOne( { _id: game.user.sms.threadID.get() });
+
+		if (_rec) return _rec.messages;
+
+		return null;
 	},
 
 	isLoggedInUser: function() {

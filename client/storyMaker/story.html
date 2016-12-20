@@ -30,15 +30,17 @@
 			
 		{{/each}}
 
-			<div class="divStoryButtons">
 
-				{{#each storyButton}}	
 
-					<div class="storyButton2">
-						<img class="imgStoryButton stretch" src="featuredBackdrop.jpg" />
-					</div>
-				{{/each}}
+		{{#if mapMode}}
+
+			<div class="divStoryMap">
+
+				{{> browseWorldMap}}
+
 			</div>
+
+		{{/if}}
 
 		{{#if exerciseMode}} 
 
@@ -49,20 +51,32 @@
 
 		{{/if}}
 
-		{{#if chatMode}} 
 
-			<div class="divChatBackdrop">
+
+			<div class="divChatBackdrop {{chatVisibilityClass}}">
 
 				<img class="imgChatBackdrop" src="blackBackdrop.jpg" />
 			</div>
 
-			<div class="divStoryMessaging">
+			<div class="divStoryMessaging {{chatVisibilityClass}}">
 				
 				{{> story_messaging}}
 
 			</div>
 
-		{{/if}}
+		<div class="divStoryButtons">
+
+			{{#each storyButton}}	
+
+				<div class="storyButton2">
+					<img class="imgStoryButton imgStoryButtonBG stretch" id="storyButton{{this}}" src="featuredBackdrop.jpg" />
+
+					<img class="imgStoryButton imgStoryButtonContent" id="imgStoryButton{{this}}" src="{{picForInventory this}}" />	
+				</div>
+			{{/each}}
+		</div>
+
+
 
 	</div>
 
