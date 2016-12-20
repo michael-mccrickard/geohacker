@@ -31,6 +31,24 @@ StoryMessaging = function() {
 
     this.dests = [];
 
+    this.targetObj = null;
+
+    this.createTarget = function( _char) {
+
+        this.targetID.set( _char.ID );
+
+        this.targetObj = {
+
+            name: _char.name,
+
+            ID: _char.ID,
+
+            shortName: _char.shortName,
+
+            pic: _char.pic
+        }
+    }
+
     this.createChatSource = function( _arr ) {
 
         var _obj = {};
@@ -58,10 +76,6 @@ StoryMessaging = function() {
 
 		doSpinner();
 
-
-
-		//this was set in the template helper?
-
         this.thread = null;
 
         this.thread = this.conversation.findOne( {chatIds: {$all: [ this.targetID.get(), Meteor.userId() ] } } );
@@ -83,10 +97,6 @@ StoryMessaging = function() {
             this.threadID.set( _id );
 
         }
-
-        //this will call startChat below with the correct source
-
-        story.doChat();
 
         stopSpinner();
 
@@ -114,7 +124,7 @@ StoryMessaging = function() {
 
     this.doHelperSpeech = function( _val ) {
 
-        this.text = this.source[ _val ].d[ 0 ].t;  //for helper speeches, we should only ever one item in this d array
+        this.text = this.source[ _val ].d[ 0 ].t;  //for helper speeches, we should only ever have one item in this d array
 
         this.dest = this.source[ _val ].d[ 0 ].g;
 
@@ -202,14 +212,6 @@ StoryMessaging = function() {
 
             }
         );   
-    }
-
-    this.userChoice = function( _index ) {
-
-     var _key = storyA_chat1
-
-//Database.getObjectIndexWithValue = function( _arr, _field, _val) 
-
     }
 
 }

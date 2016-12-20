@@ -38,6 +38,8 @@ Token = function() {
 	this.add = function() {
 
 		this._add();
+
+		story.tokenObjs.push( this );
 	}
 
 	this.addContent = function( _name ) {

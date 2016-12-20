@@ -639,8 +639,19 @@ function handleClick(_event) {
 
         c("worldMap.mapObjectClicked just b4 browseCountry is " + worldMap.mapObjectClicked)
 
-        game.user.browseCountry( worldMap.mapObjectClicked, "browseWorldMap" );
+        if (browseMap.mode.get() == "browse") {
 
+            game.user.browseCountry( worldMap.mapObjectClicked, "browseWorldMap" );
+
+            return;
+        }
+
+        if (browseMap.mode.get() == "story") {
+
+            story.go( worldMap.mapObjectClicked );
+
+            return;
+        }        
     }
 
 }

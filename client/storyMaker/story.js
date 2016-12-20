@@ -29,13 +29,24 @@ Story = {
 		this.play( this.scene );
 	},
 
-	draw : function() {
+	_chat : function( _sel, _shortName ) {
+
+        story.silenceAll();
+
+      	game.user.sms.createTarget( story[ _shortName ] );
+
+      	game.user.sms.startThread();
+
+      	story.mode.set("chat");
 
 	},
 
-	_play : function( _name ) {
+	draw : function() {
 
-		this.draw();
+		this.hiliteButton(1);
+	},
+
+	_play : function( _name ) {
 
 		this.scene = _name;
 
@@ -176,6 +187,30 @@ Story = {
         $("div#storyPromptText").removeClass("invisible");
     
         $("div#storyPromptText").text( _text );
+	},
+
+	prompt : function( _text) {
+
+		this.showPrompt( _text );
+	},
+
+	hiliteButton : function( _val ) {
+
+		var _sel = "img#storyButton" + _val + ".imgStoryButton.imgStoryButtonBG";
+
+		$( _sel ).attr("src", Control.hilitedBackdrop());
+		
+	},
+
+	unhiliteAllButtons : function( ) {
+
+		for (var i = 0; i < story.buttons.length; i++) {
+
+			var _sel = "img#storyButton" + i + ".imgStoryButton.imgStoryButtonBG";
+
+			$( _sel ).attr("src", Control.featuredBackdrop());
+		}
+		
 	},
 
 }

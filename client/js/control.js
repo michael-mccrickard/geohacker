@@ -380,7 +380,7 @@ Control.unhiliteAll = function() {
       $("#ctlBG_SOUND" ).attr("src", this.featuredBackdrop() );
       $("#ctlBG_VIDEO" ).attr("src", this.featuredBackdrop() );
       $("#ctlBG_MEME" ).attr("src", this.featuredBackdrop()) ;
-      $("#ctlBG_WEB" ).attr("src", this.featuredBackdrop() );
+      $("#ctlBG_WEB" ).attr("src", this.featuredBackdrop() );f
       $("#ctlBG_IMAGE" ).attr("src", this.featuredBackdrop() );
   },
 

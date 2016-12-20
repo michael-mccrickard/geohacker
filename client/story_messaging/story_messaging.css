@@ -1,10 +1,11 @@
 .divStoryMessageUser {
+
 	font-family: Arial;
 	color: white;
     background-color: #2B3856;
     margin-bottom: 8px;
-    max-width: 62%;
-    min-width: 42%;
+    max-width: 72%;
+    min-width: 52%;
 
     float: left:;
 }
@@ -14,15 +15,15 @@
 	color: white;
     background-color: #2B3856;
     margin-bottom: 8px;
-    max-width: 62%;
-    min-width: 42%;
+    max-width: 72%;
+    min-width: 52%;
 
     float: right;
 }
 
 
 .divStoryMessageContainer {
-    position: relative;
+
 	width: 35%;
 	margin-right: auto;
 	margin-left: auto;
@@ -31,12 +32,12 @@
 
 .divStoryMessageEntry {
 
-    display: -webkit-flex;
+   display: -webkit-flex;
     display: flex;
     background-color: #006400;
     position: relative;
-    max-width: 52%;
-    min-width: 42%;
+    max-width: 82%;
+    min-width: 52%;
     margin-top: 2%;
     margin-bottom: 8px;
 
@@ -44,7 +45,7 @@
 
 .divStoryMessageTarget {
 
-	position: fixed;
+
 	width: 100%;
 	margin-right: auto;
 	margin-left: auto;

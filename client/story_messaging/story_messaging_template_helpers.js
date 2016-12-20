@@ -10,7 +10,12 @@ Template.story_messaging.helpers({
 
 	messageTarget: function() {
 
-		return Meteor.users.findOne( { _id: game.user.sms.targetID.get() } );
+		return game.user.sms.targetObj;
+	},
+
+	targetPic: function() {
+
+		return game.user.sms.targetObj.pic;
 	},
 
 	av: function() {
