@@ -25,7 +25,16 @@ Story = {
 		this.play( this.scene );
 	},
 
+<<<<<<< HEAD
+=======
+	draw : function() {
+
+	},
+
+>>>>>>> parent of 8c83b97... Partially abortive changes
 	_play : function( _name ) {
+
+		this.draw();
 
 		this.scene = _name;
 
@@ -71,12 +80,15 @@ Story = {
         $("div#storyPromptText").text( _text );
 	},
 
+<<<<<<< HEAD
 	hidePrompt : function() {
 
 		$("div#storyPromptText").addClass("invisible");	
 	}
 
 
+=======
+>>>>>>> parent of 8c83b97... Partially abortive changes
 }
 
 

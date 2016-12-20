@@ -13,6 +13,12 @@ storyA = function() {
 	this.computer = new storyA_computer(1);
 
 	this.tokenObjs = [this.computer];
+<<<<<<< HEAD
+
+	this.scenes = ["intro","needAPasscode","visitGuard"];
+
+	this.scene = this.scenes[0];
+=======
 
 	this.scenes = ["intro","needAPasscode","visitGuard"];
 
@@ -21,6 +27,15 @@ storyA = function() {
 	this.tokens = [1];
 
 	this.chars = [1,2];
+>>>>>>> parent of 8c83b97... Partially abortive changes
+
+	this.tokens = [1];
+
+<<<<<<< HEAD
+	this.chars = [1,2];
+=======
+	this.sceneButtonPic = "storyA_scene.jpg";
+>>>>>>> parent of 8c83b97... Partially abortive changes
 
 	this.flags = {};
 
@@ -55,11 +70,11 @@ storyA = function() {
 						'story.computer.add()',
 						'story.computer.scaleMe(0.5);',
 			
-						'story.twain.add()',
-						'story.bert.add()',
-						'story.fadeInChars()',  
+					//	'story.twain.add()',
+					//	'story.bert.add()',
+					//	'story.fadeInChars()',  
 						'story.fadeInTokens()',
-
+/*
 						'delay.1000',
 						'story.twain.setDirection("right")', 
 						'story.bert.setDirection("left")',
@@ -85,10 +100,14 @@ storyA = function() {
 						'story.fadeOutBG()',
 						'delay.1700',	
 						'story.doExercise(0)',
+<<<<<<< HEAD
 						'delay.2000',
 						'story.twain.q()',
 						'story.bert.q()',						
 
+=======
+*/
+>>>>>>> parent of 8c83b97... Partially abortive changes
 					];				
 		}
 
@@ -107,8 +126,12 @@ storyA = function() {
 						'story.bert.setDirection("left")',
 						'story.twain.moveToStart()',
 						'story.bert.moveToStart()',
+<<<<<<< HEAD
 						'story.computer.addContent( "bunnies" )',
 						'delay.25',
+=======
+						'delay.250',
+>>>>>>> parent of 8c83b97... Partially abortive changes
 						'story.computer.fadeIn()',
 						'delay.1000',
 						'story.twain.say("Hey, you knocked that out in no time.");',  

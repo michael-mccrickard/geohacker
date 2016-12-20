@@ -1,6 +1,14 @@
 Template.story.rendered = function() {
 
+<<<<<<< HEAD
 	Meteor.setTimeout( function() { story.play( story.scene ); }, 500 );
+=======
+	Meteor.setTimeout( function() { 
+
+    story.play( story.scene ); 
+
+  }, 500 );
+>>>>>>> parent of 8c83b97... Partially abortive changes
 }
 
 Template.story.helpers({
@@ -32,8 +40,36 @@ Template.story.helpers({
   storyButton: function() {
 
     var _arr = [1,2,3,4,5]
+<<<<<<< HEAD
 
     return _arr;
+=======
+
+    return _arr;
+  },
+
+  picForInventory: function( _val) {
+
+      if (_val == 1) return story.sceneButtonPic;
+
+      if (_val == 2) return "storyMapButton3.png";
+
+if (_val > 2) return "featuredBackdrop.jpg";
+  },
+
+  sceneMode: function() {
+
+      if (story.mode.get() == "scene") return true;
+
+      return false;
+  },
+
+  mapMode: function() {
+
+      if (story.mode.get() == "map") return true;
+
+      return false;
+>>>>>>> parent of 8c83b97... Partially abortive changes
   }
 
 });
@@ -44,6 +80,32 @@ Template.story.events({
     'click #continueStory': function(event, template) {
 
           if (story.scene == "intro") story.play( "needAPasscode" );
+<<<<<<< HEAD
+=======
+      },
+
+
+    //SCENE button
+
+    'click img#imgStoryButton1': function(event, template) {
+
+          story.mode.set("scene");
+
+          story.showAll();
+      },
+
+    //MAP button
+
+    'click img#imgStoryButton2': function(event, template) {
+
+          story.hideAll();
+
+          story.silenceAll();
+
+          browseMap.mode.set( "story" );
+
+          story.mode.set("map");
+>>>>>>> parent of 8c83b97... Partially abortive changes
       },
 
     'click div.divChatBackdrop': function(event, template) {
@@ -86,6 +148,11 @@ Template.story.events({
       		game.user.sms.targetID.set( $( _sel ).data().mongoid );
 
       		game.user.sms.startThread();
+<<<<<<< HEAD
+=======
+
+      		story.mode.set("chat");
+>>>>>>> parent of 8c83b97... Partially abortive changes
 
       		story.mode.set("chat");
       },
