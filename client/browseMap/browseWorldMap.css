@@ -70,12 +70,11 @@ width: 100%;
 
 }
 
-#browseDivStoryMap {
+#browseDivStoryMap2 {
+  position: relative; 
+  left: 10%;
+  top: -40%;
 
-  position: absolute;
-  display: inline-block;
-  left: 35%;
-  top: 0px;
 }
 
 .browseStoryMapMessages {

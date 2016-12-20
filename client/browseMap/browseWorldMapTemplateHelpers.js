@@ -211,8 +211,6 @@ Template.browseWorldMap.rendered = function () {
 
     }
 
-//    game.user.mode = uBrowseMap;
-
     Meteor.setTimeout( function() { browseMap.worldMap.doCurrentMap() }, 250 );
 
     Meteor.setTimeout( function() { browseMap.finishDraw() }, 251 );

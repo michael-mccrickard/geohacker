@@ -101,8 +101,6 @@ BrowseMap = function() {
 
         var _sel = "#browseDivMap";
 
-        if (browseMap.mode.get() == "story") _sel = "#browseDivStoryMap";
-
         if ($(_sel).length == 0) return;
 
         var left = $(_sel).position().left + $(_sel).outerWidth() - $("#browseMapClose").outerWidth() - 5;

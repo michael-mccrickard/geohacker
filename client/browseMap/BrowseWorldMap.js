@@ -288,9 +288,8 @@ c("clicking map object")
         // handle the clicks on any map object
         this.map.addListener("clickMapObject", handleClick);
 
-        if (browseMap.mode.get() == "browse") this.map.write("browseDivMap");
+        this.map.write("browseDivMap");
 
-        if (browseMap.mode.get() == "story") this.map.write("browseDivStoryMap");
     }
 
 
@@ -545,11 +544,13 @@ c("clicking map object")
 
 function handleClick(_event) {
 
+c("handleClick in browseMap")
+
     display.playEffect( worldMap.map_sound );
 
     //allow zoomComplete to set the new map level and redraw the map
     //when the zoom is complete
-
+console.log(_event.mapObject);
     worldMap.zoomDone = false;
 
     worldMap.map.clearLabels();
@@ -590,6 +591,11 @@ function handleClick(_event) {
         this.drawLevel = mlRegion;
 
         this.detailLevel = mlCountry;
+
+
+
+c("level is mlContinent in handleclick")
+c("zoomDone = " + worldMap.zoomDone)
     }
 
     if (level == mlRegion) {
@@ -673,7 +679,7 @@ function handleZoomCompleted() {
     }
     else {
 
-        c("zoomDone is false in browseMap.zoomCompleted")
+        c("zoomDone is false in browseMap.handleZoomCompleted")
     }
 
     worldMap.zoomDone = true;

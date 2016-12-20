@@ -31,17 +31,6 @@
 		{{/each}}
 
 
-
-		{{#if mapMode}}
-
-			<div class="divStoryMap">
-
-				{{> browseWorldMap}}
-
-			</div>
-
-		{{/if}}
-
 		{{#if exerciseMode}} 
 
 			<div class="divExerciseButton">
@@ -76,8 +65,16 @@
 			{{/each}}
 		</div>
 
-
-
 	</div>
+
+		{{#if mapMode}}
+
+			<div>
+
+				{{> browseWorldMap}}
+
+			</div>
+
+		{{/if}}
 
 </template>

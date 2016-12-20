@@ -1,8 +1,8 @@
 <template name="browseWorldMap">
-
+<!--
 	{{#if storyMode}}
 
-		<div style="position: relative; float: left; width: 10%">
+		<div style="position: relative; top: 55px; float: left; width: 10%">
 
 			<div id="browseWorldIcon">
 				<img class="topStoryMapIcon" src="all_icon.png">
@@ -20,18 +20,16 @@
 
 		</div>
 
-
-		<div id="browseDivStoryMap"  style="width: {{mapWidth}}px; height: {{mapHeight}}px;">
-		</div>  
+		<div id="browseDivStoryMap"  style="float: left; position: relative; top: 55px; width: {{mapWidth}}px; height: {{mapHeight}}px; border-radius: 7px; border: 4px solid; border-color: gray;"> </div>
 
 
-		<!--div class="browseStoryMapMessages" id="browseMapMessageBox">TRAVEL TO A COUNTRY BY CLICKING ON THE MAP</div-->
+		<div class="browseStoryMapMessages" id="browseMapMessageBox">TRAVEL TO A COUNTRY BY CLICKING ON THE MAP</div>
 
 	{{/if}}
 
 
 	{{#if browseMode}}
-
+-->
 		<div style="position: relative; float: left; top: 55px; width:10%;">
 
 			<div id="browseWorldIcon">
@@ -57,7 +55,7 @@
 
 		<div class="browseMapMessages" id="browseMapMessageBox">PICK A COUNTRY TO EXPLORE</div>
 
-	{{/if}}
+<!--	{{/if}}  -->
 
 
 </template>

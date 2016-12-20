@@ -1,51 +1,20 @@
-.divStoryMessageUser {
-
+.divStoryMessage {
+    /*display: -webkit-flex;
+    display: flex;*/
 	font-family: Arial;
 	color: white;
     background-color: #2B3856;
     margin-bottom: 8px;
-    max-width: 72%;
+    max-width: 75%;
     min-width: 52%;
-
-    float: left:;
-}
-
-.divStoryMessageNPC {
-	font-family: Arial;
-	color: white;
-    background-color: #2B3856;
-    margin-bottom: 8px;
-    max-width: 72%;
-    min-width: 52%;
-
-    float: right;
-}
-
-
-.divStoryMessageContainer {
-
-	width: 35%;
-	margin-right: auto;
-	margin-left: auto;
-
-}
-
-.divStoryMessageEntry {
-
-   display: -webkit-flex;
-    display: flex;
-    background-color: #006400;
     position: relative;
-    max-width: 82%;
-    min-width: 52%;
-    margin-top: 2%;
-    margin-bottom: 8px;
-
+    top: 280px;
 }
+
 
 .divStoryMessageTarget {
 
-
+	position: fixed;
 	width: 100%;
 	margin-right: auto;
 	margin-left: auto;
@@ -57,9 +26,29 @@
 
 }
 
+.divStoryMessageContainer {
 
+	width: 35%;
+	margin-right: auto;
+	margin-left: auto;
+	position: relative;
 
+	top: -175px;
+}
 
+.divStoryMessageEntry {
+
+    display: -webkit-flex;
+    display: flex;
+    background-color: #006400;
+    position: relative;
+    float: left;
+    top: 280px;
+    margin-bottom: 8px;
+        clear: both;
+    min-width: 52%;
+
+}
 
 .btnChatChoice {
 
