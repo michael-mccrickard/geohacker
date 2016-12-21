@@ -8,10 +8,30 @@ Template.story_messaging.rendered = function() {
 
 Template.story_messaging.helpers({
 
-	messageTarget: function() {
+	messageTarget : function() {
 
-		return Meteor.users.findOne( { _id: game.user.sms.targetID.get() } );
+		var _ID = game.user.sms.targetID.get();
+
+		return game.user.sms.targetObj;
 	},
+
+	targetPic: function() {
+
+		var _ID = game.user.sms.targetID.get();
+
+		return game.user.sms.targetObj.pic;
+	},
+
+	targetID: function() {
+		if (!game.user.sms.targetObj) return;
+		return game.user.sms.targetObj.ID;
+	},
+
+	targetName: function() {
+		if (!game.user.sms.targetObj) return;
+		return game.user.sms.targetObj.name;
+	},
+
 
 	av: function() {
 

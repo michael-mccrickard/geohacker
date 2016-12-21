@@ -39,6 +39,8 @@ Story = {
 
       	story.mode.set("chat");
 
+      	Meteor.setTimeout( function() { display.animateScrollToBottom(); }, 300 );
+
 	},
 
 	draw : function() {

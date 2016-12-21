@@ -70,6 +70,15 @@ this.unit = new Unit();
         document.documentElement.scrollTop = document.body.scrollTop = 0;
     }
 
+
+    this.animateScrollToBottom = function() {
+
+      var curScroll = {x:getScrollX(), y:getScrollY()};
+
+      TweenLite.to(curScroll, 2, { y: $(document).height(), onUpdate:function() { window.scrollTo(curScroll.x, curScroll.y); }});
+    }
+
+
     this.suspendAllMedia = function() {
 
       //game.pauseMusic();
@@ -151,4 +160,13 @@ this.unit = new Unit();
       
         return result;
     }
+}
+
+
+function getScrollX() {
+  return (window.pageXOffset != null) ? window.pageXOffset : (document.documentElement.scrollLeft != null) ? document.documentElement.scrollLeft : document.body.scrollLeft;
+}
+//returns the current vertical scroll position
+function getScrollY() {
+  return (window.pageYOffset != null) ? window.pageYOffset : (document.documentElement.scrollTop != null) ? document.documentElement.scrollTop : document.body.scrollTop;
 }

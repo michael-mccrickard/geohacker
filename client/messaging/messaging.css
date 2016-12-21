@@ -22,8 +22,11 @@
 }
 
 .divMessageBody {
-
-	margin: 8px;
+position: relative;
+	left: 10px;
+	padding-right: 8px;
+margin-top: 8px;
+	margin-bottom: 8px;
 }
 
 .agentMessageItem  {
@@ -56,6 +59,8 @@
     margin-left: auto;
 }
 
+
+
 .imgAvatarMessageTargetMini {
 position: static;
 margin-top: 10px;
@@ -64,7 +69,12 @@ margin-top: 10px;
 	border: 2px solid;
 	border-color: #4AA02C;
 
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+
 }
+
 
 .divMessageEntry {
 
@@ -87,12 +97,34 @@ margin-top: 10px;
 	border: 1px solid;
 	border-color: black;
 	margin-top: 10px;
+
+    position: relative;
+    left: 4px;
+
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+
+.imgTargetAvatarMessageBody {
+
+    width: 32px;
+    height: 32px;
+	border: 1px solid;
+	border-color: black;
+	margin-top: 10px;
+
+	display: block;
+
+	margin-left: 8px;
 }
 
 .agentNameMessaging {
 
 	width: 100%;
 	text-align: center;
+
 	white-space: nowrap;
   	overflow: normal;
 

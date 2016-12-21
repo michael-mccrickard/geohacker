@@ -35,8 +35,6 @@ StoryMessaging = function() {
 
     this.createTarget = function( _char) {
 
-        this.targetID.set( _char.ID );
-
         this.targetObj = {
 
             name: _char.name,
@@ -47,6 +45,8 @@ StoryMessaging = function() {
 
             pic: _char.pic
         }
+
+        this.targetID.set( _char.ID );
     }
 
     this.createChatSource = function( _arr ) {
@@ -132,7 +132,6 @@ StoryMessaging = function() {
 
         this.dest = this.source[ _val ].d[ 0 ].g;
 
-
         this.addNPCMessage( this.text );
 
         this.doUserChoices( this.dest );
@@ -212,8 +211,12 @@ StoryMessaging = function() {
 
             } } }, function() { 
 
-                if ( $(window).height() < $(document).height() ) display.scrollToBottom();
+                if ( $(window).height() < $(document).height() ) {
 
+                    //$(body).removeClass("noscroll");
+
+                    display.animateScrollToBottom();
+                }
             }
         );   
     }

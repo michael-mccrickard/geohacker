@@ -3,10 +3,10 @@
 		{{#with messageTarget}}
 
 			<div class="divStoryMessageTarget centered">
-				<img class= "imgAvatarMessageTargetMini agentItem rounded" id="{{this._id}}" src="{{this.profile.av}}" />
-				<div class="messageTargetLabel agentItem">{{this.username}}</div>
+				<img class= "imgAvatarMessageTargetMini agentItem rounded" id="{{this.ID}}" src="{{this.pic}}" />
+				<div class="messageTargetLabel agentItem">{{this.name}}</div>
 			</div>
-		
+
 		{{/with}}
 
 	<div class="divStoryMessageContainer">
@@ -36,7 +36,7 @@
 						{{this.text}}
 
 						<span style="float:right;">
-							<img class= "imgAgentAvatarMessageMini agentMessageItem rounded"   src="{{av}}" />
+							<img class= "imgTargetAvatarMessageBody agentMessageItem rounded"   src="{{targetPic}}" />
 
 						</span>
 					</div>
@@ -51,7 +51,7 @@
 
 			{{#with currentUser}}
 
-				<div class="rounded">
+				<div class="divStoryMessageEntryPic rounded">
 					<img class= "imgAgentAvatarMessageMini agentItem rounded" id="{{this._id}}" src="{{this.profile.av}}" />
 					<div class="agentLabelMini agentNameMessaging agentItem">{{this.username}}</div>
 				</div>

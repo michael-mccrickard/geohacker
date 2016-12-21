@@ -20,12 +20,12 @@ storyA_chat_firstGuardVisit = [
 	{
 		"i": "h",
 		"n": "root",
-		"d": [{ "t": "Huh ... what?  Everything's under control!", "g":"excuseMe" }]
+		"d": [{ "t": "Huh ... what?  Everything's under control!", "g":"*" }]
 	},
 
 	{
 		"i": "u",
-		"n": "excuseMe",
+		"n": "*",
 		"d": [ { "t": "Excuse me, I need to get a painting from you.", "g": "painting?"}, { "t": "Bye", "g": "exit"}  ]  
 
 	},
@@ -39,7 +39,7 @@ storyA_chat_firstGuardVisit = [
 	{
 		"i": "u",
 		"n": "needTheMonaLisa",
-		"d": [ { "t": "Actually, I need the Mona Lisa.  It's important.", "g": "monaLisa?"}, { "t": "Hand over the Mona Lisa this instant.", "g": "handItOver?"}, , { "t": "Bye", "g": "exit"}  ]  
+		"d": [ { "t": "Actually, I need the Mona Lisa.  It is important.", "g": "monaLisa?"}, { "t": "The Mona Lisa, now!", "g": "handItOver?"}, { "t": "Bye", "g": "exit"}  ]  
 	},
 
 	{
@@ -51,7 +51,7 @@ storyA_chat_firstGuardVisit = [
 	{
 		"i": "u",
 		"n": "youAreSecurity",
-		"d": [ { "t": "You are the security.", "g": "monaLisa?"}, { "t": "Never mind, I'll leave.", "g": "exit"}  ]  
+		"d": [ { "t": "You are the security.", "g": "monaLisa?"}, { "t": "Never mind.", "g": "exit"}  ]  
 	},
 
 	{
@@ -63,7 +63,7 @@ storyA_chat_firstGuardVisit = [
 	{
 		"i": "u",
 		"n": "iAmGeosquad",
-		"d": [ { "t": "That's me.  I'm from Geosquad.", "g": "youHaveThePasscode?"}, { "t": "Oh, okay, sorry to bother you.", "g": "exit"}  ]  
+		"d": [ { "t": "That would be me.  I am from Geosquad.", "g": "youHaveThePasscode?"}, { "t": "Oh, okay, sorry to bother you.", "g": "exit"}  ]  
 	},
 
 	{
@@ -79,18 +79,22 @@ storyA_chat_firstGuardVisit = [
 	{
 		"i": "h",
 		"n": "noPasscode",
-		"d": [ { "t": "Well, you're out of luck, then.", "g": "howPasscode"} ]
+		"d": [ { "t": "Well, tough luck then.", "g": "howPasscode"} ]
 	},
 	{
 		"i": "u",
 		"n": "howPasscode",
 		"d": [ { "t": "How do I get the passcode?", "g": "vanGogh"}, { "t": "Oh, well. Thanks, anyway.", "g": "exit"}  ]
 	},
-
+	{
+		"i": "h",
+		"n": "yesPasscode",
+		"d": [ { "t": "I do not see any passcode, Monsieur.", "g": "howPasscode"} ]
+	},
 	{
 		"i": "h",
 		"n": "vanGogh",
-		"d": [ { "t": "Just between you and me, I understand that a painter named Van Gogh has the passcode.  Good luck with that, though.  He's a little flakey.", "g": "thanks"} ]
+		"d": [ { "t": "Just between you and me, I understand that a painter named Van Gogh has the passcode.  Good luck with that, though.  He is unusual.", "g": "thanks"} ]
 	},
 
 	{

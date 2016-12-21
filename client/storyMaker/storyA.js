@@ -20,7 +20,7 @@ storyA = function() {
 
 	this.scenes = ["intro","missionToMona","firstGuardVisit","secondGuardVisit","auxGuardVisit"];
 
-this.scene = this.scenes[0];
+this.scene = this.scenes[2];
 
 	this.tokens = [1,2];
 
@@ -46,6 +46,7 @@ this.scene = this.scenes[0];
 
 	this.flags["hasGivenPainting"] = false;
 
+	this.sceneButtonPic.set("storyA_scene.jpg");
 
 	this.play = function( _name ) {
 
@@ -54,8 +55,6 @@ this.scene = this.scenes[0];
 		if ( _name == "intro") {
 
 			this.resetScene();
-
-			this.sceneButtonPic.set("storyA_scene.jpg");
 
 			this.background = "starryBG.jpg";
 
@@ -105,8 +104,6 @@ this.scene = this.scenes[0];
 		}
 
 		if ( _name == "missionToMona") {
-
-			this.sceneButtonPic.set("storyA_scene.jpg");
 
 			this.background = "starryBG.jpg";
 
@@ -170,8 +167,6 @@ this.scene = this.scenes[0];
 		if ( _name == "firstGuardVisit") {
 
 			this.background = "louvre.jpg";
-
-			this.sceneButtonPic.set("storyA_louvre.jpg");
 
 			this.cue  = [
 

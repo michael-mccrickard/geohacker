@@ -49,9 +49,10 @@ Template.story.helpers({
 
   picForInventory: function( _val) {
 
-      if (_val == 1) return story.sceneButtonPic.get();
+      if (_val == 1) return "storyMapButton3.png";
 
-      if (_val == 2) return "storyMapButton3.png";
+
+      if (_val == 2) return story.sceneButtonPic.get();
 
 if (_val > 2) return Control.featuredBackdrop();
   },
@@ -81,22 +82,9 @@ Template.story.events({
       },
 
 
-    //SCENE button
-
-    'click img#imgStoryButton1': function(event, template) {
-
-          story.unhiliteAllButtons();
-
-          story.hiliteButton(1);
-
-          story.mode.set("scene");
-
-          story.showAll();
-      },
-
     //MAP button
 
-    'click img#imgStoryButton2': function(event, template) {
+    'click img#imgStoryButton1': function(event, template) {
 
           story.unhiliteAllButtons();
 
@@ -110,6 +98,23 @@ Template.story.events({
 
           story.mode.set("map");
       },
+
+
+
+    //SCENE button
+
+    'click img#imgStoryButton2': function(event, template) {
+
+          story.unhiliteAllButtons();
+
+          story.hiliteButton(1);
+
+          story.mode.set("scene");
+
+          story.showAll();
+      },
+
+
 
     'click div.divChatBackdrop': function(event, template) {
       
