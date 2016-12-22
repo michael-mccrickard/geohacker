@@ -18,6 +18,10 @@ StoryMessaging = function() {
 
     this.conversation = new Meteor.Collection(null);
 
+    this.source = {};
+
+    this.tempSource = [];
+
 
     //speech level properties
 
@@ -76,10 +80,6 @@ StoryMessaging = function() {
 
 		doSpinner();
 
-
-
-		//this was set in the template helper?
-
         this.thread = null;
 
         this.thread = this.conversation.findOne( {chatIds: {$all: [ this.targetID.get(), Meteor.userId() ] } } );
@@ -116,7 +116,7 @@ StoryMessaging = function() {
 
             if (this.lastSpeakerID == this.userID) {
 
-                this.doUserChoices("*");
+                this.createUserChoices("*");
 
                 return;
             }
@@ -128,20 +128,74 @@ StoryMessaging = function() {
 
     this.doHelperSpeech = function( _val ) {
 
-        this.text = this.source[ _val ].d[ 0 ].t;  //for helper speeches, we should only ever one item in this d array
+        //in some cases, there is no helper response, instead we just jump to the next user choice set
 
-        this.dest = this.source[ _val ].d[ 0 ].g;
+        //For instance, dialogues that have multiple branches off from the user's main choice set ("*"),
+        //once the dialogue reaches the end of a branch, the last user choice will be
+        //something like "OK" or "Thanks".  These choices will have the dest set to "*",
+        //The dest value is normally the helper's next speech, but since we are at the end
+        //of the branch, there is no helper response and  we immediately re-load the main set (*).
 
-        this.addNPCMessage( this.text );
+        //In other cases, we are simply branching back to an earlier set of choices
 
-        this.doUserChoices( this.dest );
+        //So the first thing to determine is whether or not there is an object with the key _val in the source
+
+        if ( this.source[ _val] ) {
+
+            //... and is this a helper speech?  If not, we're either playing a scene or just presenting the next user choice set
+
+            if (this.source[ _val].i == "h") {
+
+                this.text = this.source[ _val ].d[ 0 ].t;  //for helper speeches, we should only ever one item in this d array
+
+                this.dest = this.source[ _val ].d[ 0 ].g;
+
+                this.addNPCMessage( this.text );                   
+            }
+        }
+
+        //are we exiting and playing a scene here, instead of a normal helper response or more user choices?
+
+        if ( this.dest.substr(0,5) == "play@" ) {
+
+            var _tmp = this.dest.split("@");
+
+            story.play( _tmp[1] );
+
+            return;
+        }
+
+        this.createUserChoices( this.dest );
     }
 
-    this.doUserChoices = function( _val ) {
+    this.createUserChoices = function( _val ) {
 
         //get the string from object dest (the + 1 is a temporary stand-in)
 
         this.choices = [];
+
+        //are the choices in another chat source?
+
+        if ( _val.indexOf("@")  != -1 ) {
+
+            var _arr = _val.split("@");
+
+            var _newDest = _arr[0];
+
+            var _newChat = _arr[1];
+
+            //eval this so that js sees _newChat as an object, not a string
+
+            eval( "game.user.sms.tempSource = " + _newChat );
+
+            this.source = this.createChatSource( this.tempSource );
+
+            //assuming for now, the switch is always to a user choice set
+
+            this.createUserChoices( _newDest );
+
+            return;       
+        }
 
         this.tmp = this.source[ _val ].d;  //user objects should have at least two objs
 
@@ -162,13 +216,6 @@ StoryMessaging = function() {
         this.dest = this.dests[ _index ];
 
         this.addUserMessage( _text );
-
-        if (this.dest == "*") {
-
-            this.doUserChoices( this.dest );
-
-            return;
-        } 
 
         if (this.dest == "exit") {
 

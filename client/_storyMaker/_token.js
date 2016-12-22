@@ -27,6 +27,8 @@ Token = function() {
 
 		this.zIndex = 1001;
 
+		this.spacer = 16;
+
 		this.element = "div#storyThing" + this.index + ".divStoryThing";
 
 		this.imageElement = "img#storyThingPic" + this.index + ".storyThing";

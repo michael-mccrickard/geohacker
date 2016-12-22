@@ -14,6 +14,120 @@ storyA_chat_intro = [
 	}
 ];
 
+storyA_chat_vanGogh = [
+
+	{
+		"i": "h",
+		"n": "root",
+		"d": [{ "t": "Yes?", "g":"*" }]
+	},
+
+	{
+		"i": "u",
+		"n": "*",
+		"d": [ { "t": "Mr. Van Gogh, I am a Geosquad agent.  I need a passcode for the Mona Lisa.", "g": "needPasscode"}, { "t": "Bye.", "g": "exit"}  ]  
+
+	},
+
+	{
+		"i": "h",
+		"n": "needPasscode",
+		"d": [{ "t": "That dusty old thing?  Somebody wants that?", "g":"yesSomebody" }]
+	},
+
+	{
+		"i": "u",
+		"n": "yesSomebody",
+		"d": [ { "t": "Yes, but I am not sure who.  This is a special assignment.", "g": "special"}, { "t": "Never mind.", "g": "exit"}  ]  
+	},
+
+	{
+		"i": "h",
+		"n": "special",
+		"d": [{ "t": "Sounds like a foolish errand to me.  Where are you taking it?", "g":"where" }]
+	},
+
+	{
+		"i": "u",
+		"n": "where",
+		"d": [ { "t": "To Timbuktu.", "g": "tim"}, { "t": "Sorry to bother you.", "g": "exit"}  ]  
+	},
+
+	{
+		"i": "h",
+		"n": "tim",
+		"d": [{ "t": "Timbuktu? Ha!  It will really gather some dust there.", "g":"mayI" }]
+	},
+
+	{
+		"i": "u",
+		"n": "mayI",
+		"d": [ { "t": "May I get the passcode from you, sir?", "g": "OK"}, { "t": "Bye.", "g": "exit"}  ]  
+	},
+
+	{
+		"i": "h",
+		"n": "OK",
+		"d": [{ "t": "Yes, I suppose so.  I didn't paint it.  Always seemed a little overrated to me.", "g":"thanks" }]
+	},
+
+	{
+		"i": "u",
+		"n": "thanks",
+		"d": [ { "t": "Thanks.", "g": "play@userGetsPasscode"}  ]  
+	},
+]
+
+
+storyA_chat_missionInfo = [
+
+	{
+		"i": "h",
+		"n": "root",
+		"d": [{ "t": "Yes?", "g":"*" }]
+	},
+
+	{
+		"i": "u",
+		"n": "*",
+		"d": [ { "t": "What is my mission again?", "g": "mission"}, { "t": "Where can I find Van Gogh?", "g": "vanGogh"}, { "t": "Bye.", "g": "exit"}  ]  
+
+	},
+
+	{
+		"i": "h",
+		"n": "mission",
+		"d": [{ "t": "You need to take the Mona Lisa to Timbuktu.", "g":"*@storyA_chat_missionToMona" }]
+	},
+
+	{
+		"i": "h",
+		"n": "vanGogh",
+		"d": [{ "t": "Vincent Van Gogh was a famous Dutch painter. He's now a virtual Geohacker agent, like me.  Where do the Dutch live?", "g":"theDutchLive?" }]
+	},
+	{
+		"i": "u",
+		"n": "theDutchLive?",
+		"d": [ { "t": "Deutschland?", "g": "deutsch"}, { "t": "Holland?", "g": "holland"}, { "t": "The Netherlands?", "g": "nether"}, { "t": "Bye.", "g": "exit"}  ]  
+
+	},
+	{
+		"i": "h",
+		"n": "deutsch",
+		"d": [{ "t": "No, but you're close.", "g":"theDutchLive?" }]
+	},
+	{
+		"i": "h",
+		"n": "holland",
+		"d": [{ "t": "Right.  Today, the country is called The Netherlands. Look for him there.", "g":"*" }]
+	},
+	{
+		"i": "h",
+		"n": "nether",
+		"d": [{ "t": "Correct. Look for him there.", "g":"*" }]
+	},
+];
+
 
 storyA_chat_firstGuardVisit = [
 

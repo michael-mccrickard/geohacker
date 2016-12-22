@@ -50,8 +50,6 @@ Char = function() {
 
 		this.size = 96;
 
-		this.spacer = 8;
-
 		this.prevTop = 0;
 
 		this.prevLeft = 0;
@@ -63,6 +61,7 @@ Char = function() {
 		this.imageElement = "img#storyCharPic" + this.index + ".storyChar";
 
 	}
+
 
 	this.add = function() {
 

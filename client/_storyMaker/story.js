@@ -8,7 +8,9 @@ $(document).ready(function(){
 
 Story = {
 
-	_init : function() {
+	_init : function( _name ) {
+
+		this.name = _name;
 
 		this.mode = new Blaze.ReactiveVar( "none" );
 
@@ -26,18 +28,20 @@ Story = {
 
 		//default response
 
-		this.play( this.scene );
+		this.go( "base" );
 	},
 
 	_chat : function( _sel, _shortName ) {
 
-        story.silenceAll();
+        this.silenceAll();
+
+        this.hidePrompt();
 
       	game.user.sms.createTarget( story[ _shortName ] );
 
       	game.user.sms.startThread();
 
-      	story.mode.set("chat");
+      	this.mode.set("chat");
 
       	Meteor.setTimeout( function() { display.animateScrollToBottom(); }, 300 );
 
@@ -45,7 +49,9 @@ Story = {
 
 	draw : function() {
 
-		this.hiliteButton(1);
+//need to store which button is hilited (2 will be the default hilited button)
+
+		this.hiliteButton(2);
 	},
 
 	_play : function( _name ) {
@@ -54,9 +60,44 @@ Story = {
 
 		this.mode.set( "scene" );
 
-		$(this.bgElement).attr( "src", this.background );	
+		//Is the background currently showing?
 
-		this.cutScene = new CutScene( _name );
+		if ( $(this.bgElement).css("opacity") == 1) {
+
+			//do we need to change it?
+
+			if ( $(this.bgElement).attr("src") != this.background ) {
+
+				this.fadeOutChars();
+
+				this.fadeOutTokens();
+
+				this.fadeOutBG();
+
+				Meteor.setTimeout( function() { story.finishPlay(); }, 1100);
+
+				return;				
+			}
+		}
+
+		this.finishPlay();
+	},
+
+	finishPlay : function() {
+
+		this.resetScene();
+
+		$(this.bgElement).attr( "src", this.background );
+
+		this.fadeInBG();
+
+		Meteor.setTimeout( function() { story.playScene(); }, 1001);	
+
+	},
+
+	playScene : function() {
+
+		this.cutScene = new CutScene( this.scene );
 
 		this.cutScene.play( this.cue );		
 	},
@@ -73,33 +114,33 @@ Story = {
 
 	fadeInChars : function() {
 
-		for (var i = 0; i < this.charObjs.length; i++) {
+		for (var key in this.charObjs) {
 
-			this.charObjs[i].fadeIn();
+		    this.charObjs[ key ].fadeIn();	    
 		}
 	},
 
 	fadeInTokens : function() {
 
-		for (var i = 0; i < this.tokenObjs.length; i++) {
+		for (var key in this.tokenObjs) {
 
-			this.tokenObjs[i].fadeIn();
+		    this.tokenObjs[ key ].fadeIn();    
 		}
 	},
 
 	fadeOutChars : function() {
 
-		for (var i = 0; i < this.charObjs.length; i++) {
+		for (var key in this.charObjs) {
 
-			this.charObjs[i].fadeOut();
+		    this.charObjs[ key ].fadeOut();	    
 		}
 	},
 
 	fadeOutTokens : function() {
 
-		for (var i = 0; i < this.tokenObjs.length; i++) {
+		for (var key in this.tokenObjs) {
 
-			this.tokenObjs[i].fadeOut();
+		    this.tokenObjs[ key ].fadeOut();    
 		}
 	},
 
@@ -112,49 +153,59 @@ Story = {
 
 	hideChars : function() {
 
-		for (var i = 0; i < this.charObjs.length; i++) {
+		for (var key in this.charObjs) {
 
-			this.charObjs[i].hide();
+		    this.charObjs[ key ].hide();
+
+		    this.charObjs[ key ].q();		    
 		}
+	},
+
+
+	resetScene : function() {
+
+		this.tokenObjs = [];
+
+		this.charObjs = [];
 	},
 
 	showChars : function() {
 
-		for (var i = 0; i < this.charObjs.length; i++) {
+		for (var key in this.charObjs) {
 
-			this.charObjs[i].show();
+		    this.charObjs[ key ].show();	    
 		}
 	},
 
 	showTokens : function() {
 
-		for (var i = 0; i < this.tokenObjs.length; i++) {
+		for (var key in this.tokenObjs) {
 
-			this.tokenObjs[i].show();
+		    this.tokenObjs[ key ].show();    
 		}
 	},
 
 	hideTokens : function() {
 
-		for (var i = 0; i < this.tokenObjs.length; i++) {
+		for (var key in this.tokenObjs) {
 
-			this.tokenObjs[i].hide();
+		    this.tokenObjs[ key ].hide();    
 		}
 	},
 
 	silenceChars : function() {
 
-		for (var i = 0; i < this.charObjs.length; i++) {
+		for (var key in this.charObjs) {
 
-			this.charObjs[i].q();
+		    this.charObjs[ key ].q();	    
 		}
 	},
 
 	silenceTokens : function() {
 
-		for (var i = 0; i < this.tokenObjs.length; i++) {
+		for (var key in this.tokenObjs) {
 
-			this.tokenObjs[i].q();
+		    this.tokenObjs[ key ].q();    
 		}
 	},
 

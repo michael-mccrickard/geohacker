@@ -4,7 +4,7 @@ Template.story.rendered = function() {
 
     story.draw();
 
-    story.play( story.scene ); 
+    story.go( story.location ); 
 
   }, 500 );
 }
@@ -88,18 +88,16 @@ Template.story.events({
 
           story.unhiliteAllButtons();
 
-          story.hiliteButton(2);
+          story.hiliteButton(1);
 
           story.hideAll();
 
-          story.silenceAll();
+          story.hidePrompt();
 
           browseMap.mode.set( "story" );
 
-          story.mode.set("map");
+          Meteor.setTimeout( function() { story.mode.set("map"); }, 250 );
       },
-
-
 
     //SCENE button
 
@@ -107,14 +105,10 @@ Template.story.events({
 
           story.unhiliteAllButtons();
 
-          story.hiliteButton(1);
+          story.hiliteButton(2);
 
-          story.mode.set("scene");
-
-          story.showAll();
+          story.go("base");
       },
-
-
 
     'click div.divChatBackdrop': function(event, template) {
       

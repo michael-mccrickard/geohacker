@@ -1,4 +1,8 @@
 Entity = function() {
+
+	this.leftSpacer = 8;
+
+	this.rightSpacer = 24;
 	
 	this._add = function() {
 
@@ -12,7 +16,11 @@ Entity = function() {
 
 		$(this.element).css("top", this.top);	
 
-		$(this.element).css("z-index", this.zIndex);		
+		$(this.element).css("z-index", this.zIndex);	
+
+	/*	$(this.element).css("opacity", 0);  */  //do this when we reset the scene instead?
+
+		this.show();  //remove "hidden" class	
 
 
 	},
@@ -22,9 +30,13 @@ Entity = function() {
 		$(this.element).addClass("hidden");		
 	}
 
-	this.fadeIn = function() {
+	this.fadeIn = function(_val) {
 
-		$( this.element ).velocity( "fadeIn", {duration: 1000} );
+		var _duration = 1000;
+
+		if (_val) _durantion = _val;
+
+		if ( $(this.element).css("opacity") == 0 ) $( this.element ).velocity( "fadeIn", {_durantion: 1000} );
 	},
 
 	this.fadeOut = function() {
@@ -36,11 +48,14 @@ Entity = function() {
 
 		this.recordPos();
 
-		var _top = display.menuHeight + this.spacer;
+		var _top = display.menuHeight + this.leftSpacer;  //leftSpacer is the smaller of the two spacer values
 
-		var _left = this.spacer;
+		var _left = this.leftSpacer;
 
-		if (_dir == "ne") _left = $(window).width() - this.size - this.spacer;
+		if (_dir == "ne") {
+
+			_left = $(window).width() - this.size - this.rightSpacer;
+		}
 
 		$(this.element).css( {top: _top, left: _left } );
 	},
