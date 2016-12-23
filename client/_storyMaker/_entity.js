@@ -1,6 +1,6 @@
 Entity = function() {
 
-	this.leftSpacer = 8;
+	this.leftSpacer = 4;
 
 	this.rightSpacer = 24;
 	
@@ -8,15 +8,15 @@ Entity = function() {
 
 		$(this.imageElement).attr("src", this.pic);
 
-		//see note in init above about width and left
+		//see note in init (in char and token obj cconstructors) about width and left
 
 		if (this.width) $(this.imageElement).css("width", this.width);
 
 		if (this.left) $(this.element).css("left", this.left);
 
-		$(this.element).css("top", this.top);	
+		if (this.top) $(this.element).css("top", this.top);	
 
-		$(this.element).css("z-index", this.zIndex);	
+		if (this.zIndex) $(this.element).css("z-index", this.zIndex);	
 
 	/*	$(this.element).css("opacity", 0);  */  //do this when we reset the scene instead?
 
@@ -36,7 +36,7 @@ Entity = function() {
 
 		if (_val) _durantion = _val;
 
-		if ( $(this.element).css("opacity") == 0 ) $( this.element ).velocity( "fadeIn", {_durantion: 1000} );
+		if ( $(this.element).css("opacity") == 0 ) $( this.element ).velocity( "fadeIn", {_duration: 1000} );
 	},
 
 	this.fadeOut = function() {

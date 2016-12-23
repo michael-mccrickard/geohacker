@@ -22,13 +22,26 @@ Story = {
 
 		this.buttonStripHeightFactor = 0.135;
 
+		this.inv = new Inventory();
+
 	},
 
-	start : function() {
+	addInventoryItem : function( _name ) {
 
-		//default response
+		if ( this[ _name ].movable == false) return;
 
-		this.go( "base" );
+		var _item = new InventoryItem( this[ _name ] );
+
+		this.inv.add( _item );
+
+		this[ _name ].fadeOut(250);
+	},
+
+	removeInventoryItem : function( _name ) {
+
+		this.inv.remove( _name );
+
+		this[ _name ].fadeIn(250);		
 	},
 
 	_chat : function( _sel, _shortName ) {
@@ -47,11 +60,13 @@ Story = {
 
 	},
 
+
+
 	draw : function() {
 
 //need to store which button is hilited (2 will be the default hilited button)
 
-		this.hiliteButton(2);
+		//this.hiliteButton(2);
 	},
 
 	_play : function( _name ) {
@@ -257,7 +272,7 @@ Story = {
 
 	unhiliteAllButtons : function( ) {
 
-		for (var i = 0; i < story.buttons.length; i++) {
+		for (var i = 0; i < story.storyButtons.length; i++) {
 
 			var _sel = "img#storyButton" + i + ".imgStoryButton.imgStoryButtonBG";
 

@@ -44,18 +44,22 @@ Template.story.helpers({
 
   storyButton: function() {
 
-    return story.buttons;
+    return story.storyButtons;
   },
 
-  picForInventory: function( _val) {
+  inventoryButton: function() {
+
+    return story.inventoryButtons;
+  },
+
+  picForStoryButton: function( _val) {
 
       if (_val == 1) return "storyMapButton3.png";
 
 
       if (_val == 2) return story.sceneButtonPic.get();
-
-if (_val > 2) return Control.featuredBackdrop();
   },
+
 
   sceneMode: function() {
 
@@ -110,12 +114,34 @@ Template.story.events({
           story.go("base");
       },
 
+
+    'click .imgStoryInventoryButton': function(event, template) {
+
+          //story.unhiliteAllInventoryButtons();
+
+          //story.hiliteButton(2);
+
+        var _name = $(event.target).data("shortname");
+
+        story.removeInventoryItem( _name );
+      },
+
+
     'click div.divChatBackdrop': function(event, template) {
       
           story.mode.set("scene");
       },
 
     'click .divStoryThing': function(event, template) {
+
+        var _name = $(event.target).data("shortname");
+
+        if ( story[ _name].movable ) {
+
+            story.addInventoryItem( _name );
+
+            return;
+        }
 
        if (story.cutScene) {
 

@@ -152,6 +152,8 @@ StoryMessaging = function() {
 
                 this.addNPCMessage( this.text );                   
             }
+
+            this.checkExecute( this.source[ _val ] );  //we may need to set a flag or something
         }
 
         //are we exiting and playing a scene here, instead of a normal helper response or more user choices?
@@ -197,6 +199,8 @@ StoryMessaging = function() {
             return;       
         }
 
+        this.checkExecute( this.source[ _val ] );  //we may need to set a flag or something
+
         this.tmp = this.source[ _val ].d;  //user objects should have at least two objs
 
         this.dests = [];
@@ -225,6 +229,14 @@ StoryMessaging = function() {
         } 
 
         this.doHelperSpeech( this.dest );
+    }
+
+    this.checkExecute = function( _obj ) {
+
+        if ( _obj.x ) {
+
+            eval (_obj.x );
+        }
     }
 
     this.greetAgent = function() {

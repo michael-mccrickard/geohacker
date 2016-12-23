@@ -6,6 +6,13 @@ Token = function() {
 
 		this.name = _obj.name;
 
+		this.shortName = _obj.name;
+
+		if (_obj.shortName) {
+
+			this.shortName = _obj.shortName;
+		}
+
 		this.type = _obj.type;
 
 		this.pic = _obj.pic;	
@@ -25,6 +32,10 @@ Token = function() {
 
 		if ( _obj.content ) this.content = _obj.content;
 
+		this.movable = false;
+
+		if (_obj.movable) this.movable = _obj.movable;
+
 		this.zIndex = 1001;
 
 		this.spacer = 16;
@@ -42,6 +53,8 @@ Token = function() {
 		this._add();
 
 		story.tokenObjs.push( this );
+
+		$(this.imageElement).attr("data-shortname", this.shortName);	
 	}
 
 	this.addContent = function( _name ) {
@@ -60,8 +73,11 @@ Token = function() {
 
 		$(this.contentElement).css("z-index", _obj.zIndex);	
 
+		$(this.contentElement).attr("data-shortName", this.shortName);	
+
 		if ( _obj.borderRadius) $(this.contentElement).css("border-radius", _obj.borderRadius);	
 	}
+
 
 } 
 

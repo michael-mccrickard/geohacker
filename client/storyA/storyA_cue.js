@@ -160,6 +160,7 @@ storyA_cue = function( _name ) {
 			_cue  = [	
 						'story.hidePrompt()',
 						'story.passcode.add()',
+						'story.passcode.scaleMe(0.5);',
 						'story.van.add()',
 						'story.van.fadeIn(0)',  
 						'delay.500',

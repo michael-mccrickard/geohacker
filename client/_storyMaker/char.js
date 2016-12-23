@@ -10,7 +10,12 @@ Char = function() {
 
 		this.top = _obj.top;
 
-		this.left = _obj.left;
+		//width and left are a little tricky, you can use them if you don't plan to zoom the item
+		//or you can live with the position that they zoom themselves to
+
+		if (_obj.left) this.left = _obj.left;
+
+		if (_obj.width) this.width = _obj.width;
 
 		this.shortName = _obj.shortName;
 
@@ -71,7 +76,7 @@ Char = function() {
 
 		$(this.imageElement).attr("data-mongoid", this.ID);
 
-		$(this.imageElement).attr("data-shortName", this.shortName);		
+		$(this.imageElement).attr("data-shortname", this.shortName);		
 
 		$(this.nameElement).text( this.name );
 	}

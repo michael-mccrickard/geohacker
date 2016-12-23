@@ -14,23 +14,27 @@ storyA = function() {
 
 	this.van = new storyA_van(4);
 
-	this.charObjs = [];  //this.bert, this.twain, this.guard, this.van
+	this.charObjs = [];  //this array holds the chars for the current scene
 
 	this.computer = new storyA_computer(1);
 
 	this.passcode = new storyA_passcode(2);
 
-	this.tokenObjs = [];  //this.computer, this.passcode
+	this.mona = new storyA_mona(3);
+
+	this.tokenObjs = [];  //this array holds the tokens for the current scene
 
 	this.scenes = ["intro","missionToMona","firstGuardVisit","secondGuardVisit","auxGuardVisit","missionInfo"];
 
 	this.scene = "";
 
-	this.tokens = [1,2];
+	this.tokens = [1,2, 3];
 
 	this.chars = [1,2,3,4];
 
-	this.buttons = [1,2,3,4,5];
+	this.storyButtons = [1,2];
+
+	this.inventoryButtons = [1,2,3];
 
 	this.sceneButtonPic = new Blaze.ReactiveVar("");
 
@@ -118,7 +122,7 @@ this.flags["awareOfPasscode"] = true;
 
 			this.background = "vanGoghHouse.jpg";
 
-			if ( !this.flags["hasVisitedGuard"] || !this.flags["hasVisitedGuard"] ) {
+			if ( !this.flags["hasVisitedGuard"] || !this.flags["awareOfPasscode"] ) {
 
 				c("need to play a default NL scene here, with a GIC");
 
@@ -157,6 +161,9 @@ this.flags["awareOfPasscode"] = true;
 
 storyA.prototype = Story;
 
+//*****************************************************************************************
+//					CHARS
+//*****************************************************************************************
 
 function storyA_twain(_index) {
 
@@ -235,14 +242,38 @@ function storyA_van(_index) {
 storyA_van.prototype = new Char();
 
 
+
+//*****************************************************************************************
+//					TOKENS
+//*****************************************************************************************
+
+function storyA_mona(_index) {
+
+	var _obj = {
+
+		name: "Mona Lisa",
+		pic: "passcode_byzantine.png",
+		top: "26%",   
+		left: "5%",
+		movable: true,
+		index: _index,
+	}
+
+	this.init( _obj );
+
+}
+
+storyA_mona.prototype = new Token();
+
 function storyA_passcode(_index) {
 
 	var _obj = {
 
 		name: "passcode",
 		pic: "passcode_byzantine.png",
-		top: "15%",   
-		left: "27%",
+		top: "26%",   
+		left: "5%",
+		movable: true,
 		index: _index,
 	}
 

@@ -22,9 +22,9 @@
 
 			<div class="divStoryThing" id="storyThing{{this}}">
 			  
-				<img class="storyThingContent" id="storyThingContent{{this}}" src="" /> 
+				<img class="storyThingContent" id="storyThingContent{{this}}" src=""  data-shortname="" /> 
 
-				<img class="storyThing" id="storyThingPic{{this}}" src="" /> 
+				<img class="storyThing" id="storyThingPic{{this}}" src=""  data-shortname="" /> 
 
 			</div>		
 			
@@ -58,12 +58,22 @@
 
 			{{#each storyButton}}	
 
-				<div class="storyButton2">
+				<div class="storyButton">
 					<img class="imgStoryButton imgStoryButtonBG stretch" id="storyButton{{this}}" src="featuredBackdrop.jpg" />
 
-					<img class="imgStoryButton imgStoryButtonContent" id="imgStoryButton{{this}}" src="{{picForInventory this}}" />	
+					<img class="imgStoryButton imgStoryButtonContent" id="imgStoryButton{{this}}" src="{{picForStoryButton this}}" />	
 				</div>
 			{{/each}}
+
+			{{#each inventoryButton}}	
+
+				<div class="storyButton">
+					<img class="imgStoryInventoryButton imgStoryButtonBG stretch" id="storyButton{{this}}" src="featuredBackdrop.jpg" data-shortname="" />
+
+					<img class="imgStoryInventoryButton imgStoryButtonContent" id="imgStoryInventoryButton{{this}}" src="featuredBackdrop.jpg" data-shortname="" />	
+				</div>
+			{{/each}}
+
 		</div>
 
 	</div>

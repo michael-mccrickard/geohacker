@@ -147,6 +147,7 @@ storyA_chat_firstGuardVisit = [
 	{
 		"i": "h",
 		"n": "painting?",
+		"x": "story.flags['hasVisitedGuard'] = true",
 		"d": [{ "t": "Painting?  You can't be serious.  This is the world's greatest art museum, not a pawn shop.", "g":"needTheMonaLisa" }]
 	},
 
@@ -188,6 +189,7 @@ storyA_chat_firstGuardVisit = [
 	{
 		"i": "u",
 		"n": "passcode?",
+		"x": "story.flags['awareOfPasscode'] = true",
 		"d": [ { "t": "No.", "g": "noPasscode"}, { "t": "Yes.", "g": "yesPasscode"}  ]
 	},
 	{
