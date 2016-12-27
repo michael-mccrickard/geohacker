@@ -14,6 +14,8 @@ storyA = function() {
 
 	this.van = new storyA_van(4);
 
+	this.nelson = new storyA_nelson(5);
+
 	this.charObjs = [];  //this array holds the chars for the current scene
 
 	this.computer = new storyA_computer(1);
@@ -30,7 +32,7 @@ storyA = function() {
 
 	this.tokens = [1,2, 3];
 
-	this.chars = [1,2,3,4];
+	this.chars = [1,2,3,4,5];
 
 	this.storyButtons = [1,2];
 
@@ -73,6 +75,61 @@ this.flags["awareOfPasscode"] = true;
 
 	}
 
+	this.addInventoryItem = function( _name) {
+
+		if (_name == "passcode") {
+
+			this.flags["hasPasscode"] = true;
+		}
+
+		if (_name == "mona") {
+
+			this.flags["hasPainting"] = true;
+		}
+
+		this._addInventoryItem( _name );
+	}
+
+	this.removeInventoryItem = function( _name) {
+
+c("removing item " + _name + " from inv in storyA.js")
+
+		this._removeInventoryItem( _name );
+
+		if (_name == "passcode") {
+
+			if (this.scene == "secondGuardVisit") {
+
+				this.flags["hasGivenPasscode"] = true;
+
+				this.play( "guardGetsPasscode");
+
+				return;
+			}
+		}
+
+		if (_name == "mona") {
+
+			if (this.scene == "timbuktu") {
+
+				if ( this.flags["hasPainting"] ) {
+
+					this.play("nelsonGetsPainting");
+
+					return;
+				}
+
+				if ( this.flags["hasGivenPainting"] ) {
+
+					this.play("ending");
+
+					return;
+				}
+			}
+		}
+		
+	}	
+
 
 	this.go = function( _ID ) {
 
@@ -110,11 +167,16 @@ this.flags["awareOfPasscode"] = true;
 
 			if ( !this.flags["hasVisitedGuard"]) {
 
-				if ( !this.flags["awareOfPasscode"]) {
+					this.play("firstGuardVisit");
 
-					this.play("firstGuardVisit")		
-					
-				}		
+					return;		
+			}
+
+			if ( this.flags["hasPasscode"] ) {
+
+					this.play("secondGuardVisit");
+
+					return;						
 			}
 		}
 
@@ -132,12 +194,24 @@ this.flags["awareOfPasscode"] = true;
 			if ( !this.flags.hasVisitedVanGogh || !this.flags["hasGivenPasscode"]) {
 
 				this.play("vanGogh");
-			}
-			else {
 
-				c("need to play an auxiliary VG scene here");
+				return;
 			}
 		}
+
+		if ( _ID == "ML") {
+
+			this.background = "timbuktu_1.jpg";
+
+			if ( this.flags["hasPainting"]) {
+
+				this.play("nelsonGetsPainting");
+
+				return;
+			}
+		}
+
+		showMessage("Default scene:  " + _ID);
 
 	}
 
@@ -241,7 +315,25 @@ function storyA_van(_index) {
 
 storyA_van.prototype = new Char();
 
+function storyA_nelson(_index) {
 
+	var _obj = {
+
+		type: "guest",
+		name: "Nelson Mandela",
+		shortName: "nelson",
+		pic: "nelsonMandela.jpg",
+		ID: "storyA_nelson",
+		top: "37%",
+		left: "37%",
+		index: _index
+	}
+
+	this.init( _obj );
+
+}
+
+storyA_nelson.prototype = new Char();
 
 //*****************************************************************************************
 //					TOKENS
@@ -252,11 +344,12 @@ function storyA_mona(_index) {
 	var _obj = {
 
 		name: "Mona Lisa",
-		pic: "passcode_byzantine.png",
-		top: "26%",   
-		left: "5%",
+		shortName: "mona",
+		pic: "monaLisa.png",
+		top: "34%",   
+		left: "19%",
 		movable: true,
-		index: _index,
+		index: _index
 	}
 
 	this.init( _obj );
@@ -264,6 +357,7 @@ function storyA_mona(_index) {
 }
 
 storyA_mona.prototype = new Token();
+
 
 function storyA_passcode(_index) {
 

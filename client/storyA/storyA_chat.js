@@ -68,6 +68,7 @@ storyA_chat_vanGogh = [
 	{
 		"i": "h",
 		"n": "OK",
+		"x": "story.flags['hasVisitedVanGogh'] = true",
 		"d": [{ "t": "Yes, I suppose so.  I didn't paint it.  Always seemed a little overrated to me.", "g":"thanks" }]
 	},
 
@@ -297,4 +298,85 @@ storyA_chat_missionToMona = [
 		"n": "mali",
 		"d": [ { "t": "Mali is a country in Northwestern Africa.", "g": "*"}  ]  
 	},
+];
+
+
+storyA_chat_secondGuardVisit = [
+
+	{
+		"i": "h",
+		"n": "root",
+		"d": [{ "t": "Huh ... what? You again?  What do you want?", "g":"*" }]
+	},
+
+	{
+		"i": "u",
+		"n": "*",
+		"d": [ { "t": "Excuse me, I have the passcode now.", "g": "passcode?"}, { "t": "Bye", "g": "exit"}  ]  
+
+	},
+
+	{
+		"i": "h",
+		"n": "passcode?",
+		"d": [{ "t": "Passcode?  What's it for?", "g":"forThePainting" }]
+	},
+
+	{
+		"i": "u",
+		"n": "forThePainting",
+		"d": [ { "t": "For the Mona Lisa.  Remember?  I am the Geosquad agent.", "g": "ohRight"}, { "t": "Bye", "g": "exit"}  ]  
+	},
+
+	{
+		"i": "h",
+		"n": "ohRight",
+		"d": [{ "t": "Oh, right.  Geosquad, tedious business.  So important.  Let me see that passcode.", "g":"ok" }]
+	},
+
+	{
+		"i": "u",
+		"n": "ok",
+		"d": [ { "t": "OK.", "g": "exit"}, { "t": "Never mind.", "g": "exit"}  ]  
+	}
+];
+
+storyA_chat_nelsonGetsPainting = [
+
+	{
+		"i": "h",
+		"n": "root",
+		"d": [{ "t": "Huh ... what? You again?  What do you want?", "g":"*" }]
+	},
+
+	{
+		"i": "u",
+		"n": "*",
+		"d": [ { "t": "Excuse me, I have the passcode now.", "g": "passcode?"}, { "t": "Bye", "g": "exit"}  ]  
+
+	},
+
+	{
+		"i": "h",
+		"n": "passcode?",
+		"d": [{ "t": "Passcode?  What's it for?", "g":"forThePainting" }]
+	},
+
+	{
+		"i": "u",
+		"n": "forThePainting",
+		"d": [ { "t": "For the Mona Lisa.  Remember?  I am the Geosquad agent.", "g": "ohRight"}, { "t": "Bye", "g": "exit"}  ]  
+	},
+
+	{
+		"i": "h",
+		"n": "ohRight",
+		"d": [{ "t": "Oh, right.  Geosquad, tedious business.  So important.  Let me see that passcode.", "g":"ok" }]
+	},
+
+	{
+		"i": "u",
+		"n": "ok",
+		"d": [ { "t": "OK.", "g": "exit"}, { "t": "Never mind.", "g": "exit"}  ]  
+	}
 ];

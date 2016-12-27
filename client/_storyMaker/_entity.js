@@ -32,6 +32,8 @@ Entity = function() {
 
 	this.fadeIn = function(_val) {
 
+		this.show();
+
 		var _duration = 1000;
 
 		if (_val) _durantion = _val;

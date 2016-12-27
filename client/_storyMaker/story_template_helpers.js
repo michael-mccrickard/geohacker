@@ -96,6 +96,8 @@ Template.story.events({
 
           story.hideAll();
 
+          story.silenceAll();
+
           story.hidePrompt();
 
           browseMap.mode.set( "story" );
@@ -117,12 +119,12 @@ Template.story.events({
 
     'click .imgStoryInventoryButton': function(event, template) {
 
-          //story.unhiliteAllInventoryButtons();
-
-          //story.hiliteButton(2);
-
         var _name = $(event.target).data("shortname");
 
+c( $(event.target) );
+
+c(_name + " was clicked in inventory")
+        
         story.removeInventoryItem( _name );
       },
 
@@ -135,6 +137,8 @@ Template.story.events({
     'click .divStoryThing': function(event, template) {
 
         var _name = $(event.target).data("shortname");
+
+c(_name + " was clicked in scene")
 
         if ( story[ _name].movable ) {
 

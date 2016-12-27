@@ -26,7 +26,9 @@ Story = {
 
 	},
 
-	addInventoryItem : function( _name ) {
+	_addInventoryItem : function( _name ) {
+
+c("adding item " + _name + " to inv in story.js")
 
 		if ( this[ _name ].movable == false) return;
 
@@ -35,9 +37,12 @@ Story = {
 		this.inv.add( _item );
 
 		this[ _name ].fadeOut(250);
+
 	},
 
-	removeInventoryItem : function( _name ) {
+	_removeInventoryItem : function( _name ) {
+
+c("removing item " + _name + " from inv in story.js")
 
 		this.inv.remove( _name );
 
@@ -75,24 +80,20 @@ Story = {
 
 		this.mode.set( "scene" );
 
-		//Is the background currently showing?
 
-		if ( $(this.bgElement).css("opacity") == 1) {
+		//do we need to change the bg?
 
-			//do we need to change it?
+		if ( $(this.bgElement).attr("src") != this.background ) {
 
-			if ( $(this.bgElement).attr("src") != this.background ) {
+			this.fadeOutChars();
 
-				this.fadeOutChars();
+			this.fadeOutTokens();
 
-				this.fadeOutTokens();
+			this.fadeOutBG();
 
-				this.fadeOutBG();
+			Meteor.setTimeout( function() { story.finishPlay(); }, 1100);
 
-				Meteor.setTimeout( function() { story.finishPlay(); }, 1100);
-
-				return;				
-			}
+			return;				
 		}
 
 		this.finishPlay();
@@ -104,7 +105,7 @@ Story = {
 
 		$(this.bgElement).attr( "src", this.background );
 
-		this.fadeInBG();
+		if ( $(this.bgElement).css("opacity") == 0) this.fadeInBG();
 
 		Meteor.setTimeout( function() { story.playScene(); }, 1001);	
 

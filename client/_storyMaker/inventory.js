@@ -6,7 +6,9 @@ InventoryItem = function( _obj ) {
 
 	this.element2 = ".imgStoryInventoryButton.imgStoryButtonContent";
 	
-	this.name = _obj.name;
+	this.shortName = _obj.shortName;
+
+	this.pic = _obj.pic;
 
 	this.index = -1;
 
@@ -42,29 +44,38 @@ Inventory = function() {
 		return -1;
 	}
 
+	//the obj param here is an inventoryItem, a wrapper around a token object
+	//the name property of the inventoryItem object is the shortName of the token
+
 	this.add = function( _obj ) {
+
+c("adding item " + _obj.shortName + " to inv in inventory.js")
 
 		_obj.index = this.getNextSlot();
 
 		if (_obj.index == -1) {
 
-			console.log("Inventory is full.  Cannot put item " + _obj.name + " into Inventory.");
+			console.log("Inventory is full.  Cannot put item " + _obj.shortName + " into Inventory.");
 
 			return;
 		}
 
 		this.slot[ _obj.index ] = _obj;
 
-		var _pic = story[ _obj.name ].pic;
+		var _pic = _obj.pic;
 
 		$( _obj.getElement() ).attr("src", _pic);
 
-		$( _obj.getElement() ).attr("data-shortname", _obj.name);
+		$( _obj.getElement() ).attr("data-shortname", _obj.shortName);
 
 		story.hidePrompt();
 	}
 
+	//the obj param here is an inventoryItem, a wrapper around a token object
+
 	this.remove = function( _name ) {
+
+c("removing item " + _name + " from inv in inventory.js")
 
 		for (var i = this.firstSlot; i <= this.lastSlot; i++) {
 
@@ -72,7 +83,7 @@ Inventory = function() {
 
 			if ( _obj ) {
 
-					if (_obj.name == _name) {
+					if (_obj.shortName == _name) {
 
 					$( _obj.getElement() ).attr("src", this.emptySlotPic );
 

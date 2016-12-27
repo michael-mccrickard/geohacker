@@ -29,6 +29,7 @@ storyA_cue = function( _name ) {
 						'story.twain.q();',
 						'story.bert.say("Crazy!");',
 						'wait',
+						'story.hidePrompt()',
 						'story.bert.q();',
 						'story.twain.moveToCorner("nw");',
 						'story.bert.moveToCorner("ne");',
@@ -115,7 +116,7 @@ storyA_cue = function( _name ) {
 					];				
 		}
 
-		if ( _name == "firstGuardVisit") {
+		if ( _name == "firstGuardVisit" || _name == "secondGuardVisit") {
 
 			_cue  = [
 
@@ -167,6 +168,37 @@ storyA_cue = function( _name ) {
 						'story.van.say("OK, there you go.  Have fun in Mali!")',
 						'story.passcode.fadeIn()', 
 						'story.prompt("Click the passcode to take it.")'								
+					];				
+		}
+
+		if ( _name == "guardGetsPasscode") {
+
+			_cue  = [	
+						'story.hidePrompt()',
+						'story.guard.add()',
+						'story.passcode.add()',
+						'story.guard.say("OK.  Looks legitimate.")',
+						'delay.1000',
+						'story.guard.q()',
+						'delay.500',
+						'story.guard.say("Alright.  Carry on then.  Hope you know what you are doing.  Serious business, removing a masterpiece from the Louvre.")',
+						'story.mona.add()',
+						'story.mona.scaleMe(0.35)',
+						'story.mona.fadeIn()', 
+
+					];				
+		}
+
+		if ( _name == "nelsonGetsPainting") {
+
+			_cue  = [	
+						'story.hidePrompt()',
+						'story.nelson.add()',
+						'story.twain.add()',
+						'story.bert.add()',
+						'story.mona.add()',
+						'story.fadeInChars()'
+
 					];				
 		}
 
