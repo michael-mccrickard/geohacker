@@ -26,8 +26,6 @@ storyA = function() {
 
 	this.tokenObjs = [];  //this array holds the tokens for the current scene
 
-	this.scenes = ["intro","missionToMona","firstGuardVisit","secondGuardVisit","auxGuardVisit","missionInfo"];
-
 	this.scene = "";
 
 	this.tokens = [1,2, 3];
@@ -42,13 +40,11 @@ storyA = function() {
 
 	this.flags = {};
 
-this.flags["didExercise1"] = true;
+	this.flags["didExercise1"] = false;
 
-this.flags["hasQuest"] = true;	
+	this.flags["hasQuest"] = false;	
 
-this.flags["hasVisitedGuard"] = true;
-
-this.flags["awareOfPasscode"] = true;
+	this.flags["hasVisitedGuard"] = false;
 
 	this.flags["hasVisitedVanGogh"] = false;
 
@@ -92,8 +88,6 @@ this.flags["awareOfPasscode"] = true;
 
 	this.removeInventoryItem = function( _name) {
 
-c("removing item " + _name + " from inv in storyA.js")
-
 		this._removeInventoryItem( _name );
 
 		if (_name == "passcode") {
@@ -110,21 +104,13 @@ c("removing item " + _name + " from inv in storyA.js")
 
 		if (_name == "mona") {
 
-			if (this.scene == "timbuktu") {
+			if (this.scene == "nelsonGetsPainting") {
 
-				if ( this.flags["hasPainting"] ) {
+				this.flags["hasGivenPainting"] = true;
 
-					this.play("nelsonGetsPainting");
+				this.play("nelsonAndMark");
 
-					return;
-				}
-
-				if ( this.flags["hasGivenPainting"] ) {
-
-					this.play("ending");
-
-					return;
-				}
+				return;
 			}
 		}
 		
@@ -184,7 +170,7 @@ c("removing item " + _name + " from inv in storyA.js")
 
 			this.background = "vanGoghHouse.jpg";
 
-			if ( !this.flags["hasVisitedGuard"] || !this.flags["awareOfPasscode"] ) {
+			if ( !this.flags["hasVisitedGuard"]) {
 
 				c("need to play a default NL scene here, with a GIC");
 
@@ -325,7 +311,7 @@ function storyA_nelson(_index) {
 		pic: "nelsonMandela.jpg",
 		ID: "storyA_nelson",
 		top: "37%",
-		left: "37%",
+		left: "46%",
 		index: _index
 	}
 
@@ -346,8 +332,8 @@ function storyA_mona(_index) {
 		name: "Mona Lisa",
 		shortName: "mona",
 		pic: "monaLisa.png",
-		top: "34%",   
-		left: "19%",
+		top: "-10%",   
+		left: "3%",
 		movable: true,
 		index: _index
 	}

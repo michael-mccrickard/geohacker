@@ -111,7 +111,7 @@ StoryMessaging = function() {
         this.source = this.createChatSource( _arr );
 
         //who spoke last, if anybody?
-
+/*
         if (this.lastSpeakerID) {
 
             if (this.lastSpeakerID == this.userID) {
@@ -121,6 +121,7 @@ StoryMessaging = function() {
                 return;
             }
         }
+*/
 
         this.doHelperSpeech( "root" );
 

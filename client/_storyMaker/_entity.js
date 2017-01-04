@@ -18,6 +18,8 @@ Entity = function() {
 
 		if (this.zIndex) $(this.element).css("z-index", this.zIndex);	
 
+		$(this.element).attr("data-shortname", this.shortName);
+
 	/*	$(this.element).css("opacity", 0);  */  //do this when we reset the scene instead?
 
 		this.show();  //remove "hidden" class	

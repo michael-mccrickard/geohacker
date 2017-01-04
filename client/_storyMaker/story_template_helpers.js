@@ -119,11 +119,7 @@ Template.story.events({
 
     'click .imgStoryInventoryButton': function(event, template) {
 
-        var _name = $(event.target).data("shortname");
-
-c( $(event.target) );
-
-c(_name + " was clicked in inventory")
+        var _name = $(event.currentTarget).attr("data-shortname");
         
         story.removeInventoryItem( _name );
       },
@@ -136,9 +132,7 @@ c(_name + " was clicked in inventory")
 
     'click .divStoryThing': function(event, template) {
 
-        var _name = $(event.target).data("shortname");
-
-c(_name + " was clicked in scene")
+        var _name = $(event.currentTarget).attr("data-shortname");
 
         if ( story[ _name].movable ) {
 

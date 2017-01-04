@@ -260,8 +260,6 @@ storyA_chat_missionToMona = [
 		"d": [ { "t": "The Louvre?", "g": "louvre"}, { "t": "OK.", "g": "*"}  ]  
 
 	},
-
-
 	{
 		"i": "h",
 		"n": "louvre",
@@ -312,7 +310,7 @@ storyA_chat_secondGuardVisit = [
 	{
 		"i": "u",
 		"n": "*",
-		"d": [ { "t": "Excuse me, I have the passcode now.", "g": "passcode?"}, { "t": "Bye", "g": "exit"}  ]  
+		"d": [ { "t": "Excuse me, I have the passcode now.", "g": "passcode?"}, { "t": "Bye.", "g": "exit"}  ]  
 
 	},
 
@@ -325,7 +323,7 @@ storyA_chat_secondGuardVisit = [
 	{
 		"i": "u",
 		"n": "forThePainting",
-		"d": [ { "t": "For the Mona Lisa.  Remember?  I am the Geosquad agent.", "g": "ohRight"}, { "t": "Bye", "g": "exit"}  ]  
+		"d": [ { "t": "For the Mona Lisa.  Remember?  I am the Geosquad agent.", "g": "ohRight"}, { "t": "Bye.", "g": "exit"}  ]  
 	},
 
 	{
@@ -346,37 +344,37 @@ storyA_chat_nelsonGetsPainting = [
 	{
 		"i": "h",
 		"n": "root",
-		"d": [{ "t": "Huh ... what? You again?  What do you want?", "g":"*" }]
+		"d": [{ "t": "Do you have the painting with you?", "g":"*" }]
 	},
 
 	{
 		"i": "u",
 		"n": "*",
-		"d": [ { "t": "Excuse me, I have the passcode now.", "g": "passcode?"}, { "t": "Bye", "g": "exit"}  ]  
+		"d": [ { "t": "Yes.", "g": "yesPainting"}, { "t": "No.", "g": "noPainting"}, { "t": "Bye.", "g": "exit"}  ]  
 
 	},
 
 	{
 		"i": "h",
-		"n": "passcode?",
-		"d": [{ "t": "Passcode?  What's it for?", "g":"forThePainting" }]
-	},
-
-	{
-		"i": "u",
-		"n": "forThePainting",
-		"d": [ { "t": "For the Mona Lisa.  Remember?  I am the Geosquad agent.", "g": "ohRight"}, { "t": "Bye", "g": "exit"}  ]  
-	},
-
-	{
-		"i": "h",
-		"n": "ohRight",
-		"d": [{ "t": "Oh, right.  Geosquad, tedious business.  So important.  Let me see that passcode.", "g":"ok" }]
+		"n": "yesPainting",
+		"d": [{ "t": "I will take it now.", "g":"ok" }]
 	},
 
 	{
 		"i": "u",
 		"n": "ok",
+		"d": [ { "t": "OK.", "g": "exit"}, { "t": "Bye.", "g": "exit"}  ]  
+	},
+
+	{
+		"i": "h",
+		"n": "noPainting",
+		"d": [{ "t": "Please come back when you have the painting.  Ask one of your colleagues for help if you need it.", "g":"ok2" }]
+	},
+
+	{
+		"i": "u",
+		"n": "ok2",
 		"d": [ { "t": "OK.", "g": "exit"}, { "t": "Never mind.", "g": "exit"}  ]  
 	}
 ];

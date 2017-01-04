@@ -202,5 +202,49 @@ storyA_cue = function( _name ) {
 					];				
 		}
 
+		if ( _name == "nelsonAndMark") {
+
+			_cue  = [	
+						'story.hidePrompt()',
+						'story.nelson.add()',
+						'story.twain.add()',
+						'story.bert.add()',
+						'story.mona.add()',
+						'story.showAll()',
+						'story.twain.say("Special Agent Nelson Mandela!  What is the meaning of this?  YOU hijacked my computer?!?")',
+						'wait',
+						'story.silenceAll()',
+						'story.nelson.say("Forgive me, Agent Twain.  I have long wanted to meet you and Mr. Marley.  I was not sure you would come all the way to Africa to meet with me.")',
+						'wait',
+						'story.silenceAll()',
+						'story.bert.say("Why not just send us an email?")',
+						'wait',
+						'story.silenceAll()',
+						'story.nelson.say("I wanted to grab your attention. I have also been tasked with training incoming recruits, like Agent " + game.user.name + " here.")',
+						'wait',
+						'story.silenceAll()',
+						'story.twain.say("That was one heck of a training mission!")',
+						'wait',
+						'story.silenceAll()',
+						'story.nelson.say("Yes and your agent did quite well.")',
+						'wait',
+						'story.silenceAll()',
+						'story.bert.say("Well, this is our first time in Mali, so we do appreciate the free trip!")',
+						'wait',
+						'story.silenceAll()',
+						'story.nelson.say("We have much to talk about my friends.  But first, let us congratulate the new agent.")',
+						'wait',
+						'story.silenceAll()',
+						'story.bert.say("Congratulations, Agent " + game.user.name + "!")',
+						'wait',
+						'story.silenceAll()',
+						'story.twain.say("Well done, Agent " + game.user.name + "!")',
+						'wait',
+						'story.silenceAll()',
+						'story.nelson.say("Good work, Agent " + game.user.name + ".")',
+
+					];				
+		}
+
 		return _cue;
 }

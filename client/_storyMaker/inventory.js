@@ -5,6 +5,10 @@ InventoryItem = function( _obj ) {
 	this.element1 = "img#imgStoryInventoryButton";
 
 	this.element2 = ".imgStoryInventoryButton.imgStoryButtonContent";
+
+	this.parentElement1 = "div#storyThing";
+
+	this.parentElement2 = ".divStoryThing";
 	
 	this.shortName = _obj.shortName;
 
@@ -17,6 +21,10 @@ InventoryItem = function( _obj ) {
 		return this.element1 + this.index + this.element2;
 	}
 
+	this.getParentElement = function() {
+
+		return this.parentElement1 + this.index + this.parentElement2;
+	}
 }
 
 Inventory = function() {
@@ -55,7 +63,7 @@ c("adding item " + _obj.shortName + " to inv in inventory.js")
 
 		if (_obj.index == -1) {
 
-			console.log("Inventory is full.  Cannot put item " + _obj.shortName + " into Inventory.");
+			console.log("Inventory is full.  Cannot put item " + _obj.shortName + " into inventory.");
 
 			return;
 		}
@@ -67,6 +75,8 @@ c("adding item " + _obj.shortName + " to inv in inventory.js")
 		$( _obj.getElement() ).attr("src", _pic);
 
 		$( _obj.getElement() ).attr("data-shortname", _obj.shortName);
+
+		$( _obj.getParentElement() ).attr("data-shortname", _obj.shortName);
 
 		story.hidePrompt();
 	}
@@ -86,6 +96,10 @@ c("removing item " + _name + " from inv in inventory.js")
 					if (_obj.shortName == _name) {
 
 					$( _obj.getElement() ).attr("src", this.emptySlotPic );
+
+					$( _obj.getElement() ).attr("data-shortname", "");
+
+					$( _obj.getParentElement() ).attr("data-shortname", "");
 
 					this.slot[i] = null;
 
