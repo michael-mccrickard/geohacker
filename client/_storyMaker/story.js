@@ -8,15 +8,38 @@ $(document).ready(function(){
 
 Story = {
 
+//*********************************************************************************
+//
+//	BASIC FUNCTIONS CALLED BY STORY INSTANCES IN THEIR CORRESPONDING FUNCTIONS
+//  ( this.init() in a story instance object calls this._init() , e.g.)
+//
+//*********************************************************************************
+
 	_init : function( _name ) {
 
 		this.name = _name;
 
 		this.mode = new Blaze.ReactiveVar( "none" );
 
+		this.charObjs = [];  //this array holds the chars for the current scene
+
+		this.tokenObjs = [];  //this array holds the tokens for the current scene
+
+		this.location = "";  //the country we're in or other locale like "base"
+
+		this.scene = "";   //the name of the scene that is currently or about to play
+
+		this.flags = {};   //the boolean flags that track the user's progress in the mission
+
+ 		this.storyButtonBGElements = ["#storyButtonMap", "#storyButtonBase"];
+
+	this.inventoryButtons = [1,2,3];
+
 		this.bgElement = "img.storyBG";
 
 		this.buttonStripElement = "div.divStoryButtons";
+
+		this.sceneButtonPic = new Blaze.ReactiveVar("");
 
 		this.speed = 1.0;
 
@@ -24,11 +47,11 @@ Story = {
 
 		this.inv = new Inventory();
 
+ 		this.storyButton = "Base";
+
 	},
 
 	_addInventoryItem : function( _name ) {
-
-c("adding item " + _name + " to inv in story.js")
 
 		if ( this[ _name ].movable == false) return;
 
@@ -42,36 +65,9 @@ c("adding item " + _name + " to inv in story.js")
 
 	_removeInventoryItem : function( _name ) {
 
-c("removing item " + _name + " from inv in story.js")
-
 		this.inv.remove( _name );
 
 		this[ _name ].fadeIn(250);		
-	},
-
-	_chat : function( _sel, _shortName ) {
-
-        this.silenceAll();
-
-        this.hidePrompt();
-
-      	game.user.sms.createTarget( story[ _shortName ] );
-
-      	game.user.sms.startThread();
-
-      	this.mode.set("chat");
-
-      	Meteor.setTimeout( function() { display.animateScrollToBottom(); }, 300 );
-
-	},
-
-
-
-	draw : function() {
-
-//need to store which button is hilited (2 will be the default hilited button)
-
-		//this.hiliteButton(2);
 	},
 
 	_play : function( _name ) {
@@ -99,6 +95,13 @@ c("removing item " + _name + " from inv in story.js")
 		this.finishPlay();
 	},
 
+
+//*********************************************************************************
+//
+//				PLAYING SCENES
+//
+//*********************************************************************************
+
 	finishPlay : function() {
 
 		this.resetScene();
@@ -115,8 +118,125 @@ c("removing item " + _name + " from inv in story.js")
 
 		this.cutScene = new CutScene( this.scene );
 
-		this.cutScene.play( this.cue );		
+		this.cutScene.play( this.cue );		f
 	},
+
+	resetScene : function() {
+
+		this.tokenObjs = [];
+
+		this.charObjs = [];
+	},
+
+
+//*********************************************************************************
+//
+//				DEFAULT SCENE
+//
+//*********************************************************************************
+
+	addDefaultAgent : function( _countryID ) {
+
+		var _rec = hack.getWelcomeAgentFor( _countryID );
+
+		if (!_rec) {
+
+			showMessage( "No default agent found for country ID " + _countryID);
+
+			return;
+		}
+
+		this.da = new story_defaultAgent( _rec );
+	
+	},
+
+	playDefaultScene : function() {
+
+		this.background = db.getCapitalPic( this.location );
+
+		this.addDefaultAgent( this.location );
+
+		this.scene = "default"; 
+
+		this.cue = storyDefault_cue( this.scene );
+
+		this._play( this.scene );
+
+	},
+
+
+//*********************************************************************************
+//
+//				NAVIGATION
+//
+//*********************************************************************************
+
+	goBase : function() {
+
+          this.unhiliteAllButtons();
+
+          this.hiliteButton("Base");
+
+          this.go("base");
+	},
+
+	goMap : function() {
+
+		  this.unhiliteAllButtons();
+
+          this.hiliteButton('Map');
+
+          this.hideAll();
+
+          this.silenceAll();
+
+          this.hidePrompt();
+
+          browseMap.mode.set( "story" );
+
+          Meteor.setTimeout( function() { story.mode.set("map"); }, 250 );
+	},
+
+//*********************************************************************************
+//
+//				CHAT
+//
+//*********************************************************************************
+
+	doChat : function( _sel, _shortName ) {
+
+		var _name = this.name + "_chat_" + this.scene;
+
+
+		//we evaluate this so that js will see the string _name as an object
+
+		eval( "game.user.sms.startChat(" + _name + ")" );
+
+        this.silenceAll();
+
+        this.hidePrompt();
+
+      	game.user.sms.createTarget( story[ _shortName ] );
+
+      	game.user.sms.startThread();
+
+      	this.mode.set("chat");
+
+      	Meteor.setTimeout( function() { display.animateScrollToBottom(); }, 300 );
+
+	},
+
+//*********************************************************************************
+//
+//				DRAW THE SCREEN AND ELEMENTS
+//
+//*********************************************************************************
+
+	draw : function() {
+
+		this.hiliteButton( this.storyButton );
+	},
+
 
 	fadeInBG : function() {
 
@@ -175,14 +295,6 @@ c("removing item " + _name + " from inv in story.js")
 
 		    this.charObjs[ key ].q();		    
 		}
-	},
-
-
-	resetScene : function() {
-
-		this.tokenObjs = [];
-
-		this.charObjs = [];
 	},
 
 	showChars : function() {
@@ -263,19 +375,28 @@ c("removing item " + _name + " from inv in story.js")
 		this.showPrompt( _text );
 	},
 
-	hiliteButton : function( _val ) {
 
-		var _sel = "img#storyButton" + _val + ".imgStoryButton.imgStoryButtonBG";
+//*********************************************************************************
+//
+//				INTERFACE FUNCTIONS
+//
+//*********************************************************************************
+
+	hiliteButton : function( _name ) {
+
+		var _sel = "img#storyButton" + _name + ".imgStoryButton.imgStoryButtonBG";
 
 		$( _sel ).attr("src", Control.hilitedBackdrop());
+
+		this.storyButton = _name;
 		
 	},
 
 	unhiliteAllButtons : function( ) {
 
-		for (var i = 0; i < story.storyButtons.length; i++) {
+		for (var i = 0; i < story.storyButtonBGElements.length; i++) {
 
-			var _sel = "img#storyButton" + i + ".imgStoryButton.imgStoryButtonBG";
+			var _sel = this.storyButtonBGElements[i];
 
 			$( _sel ).attr("src", Control.featuredBackdrop());
 		}
@@ -284,4 +405,23 @@ c("removing item " + _name + " from inv in story.js")
 
 }
 
+//end of Story object
+
+story_defaultAgent = function( _rec ) {
+
+	var _obj = {
+
+		name: _rec.username,
+		shortName: "da",         //default agent
+		pic: _rec.profile.av,
+		ID: _rec._id,
+		top: "47%",
+		left: "47%",
+		index: 0
+	}
+
+	this.init( _obj );	
+}
+
+story_defaultAgent.prototype = new Char();
 

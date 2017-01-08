@@ -52,12 +52,9 @@ Template.story.helpers({
     return story.inventoryButtons;
   },
 
-  picForStoryButton: function( _val) {
+  picForBaseButton: function() {
 
-      if (_val == 1) return "storyMapButton3.png";
-
-
-      if (_val == 2) return story.sceneButtonPic.get();
+      return story.sceneButtonPic.get();
   },
 
 
@@ -86,36 +83,29 @@ Template.story.events({
       },
 
 
-    //MAP button
+    //Map button
 
-    'click img#imgStoryButton1': function(event, template) {
+    'click img#imgStoryButtonMap': function(event, template) {
 
-          story.unhiliteAllButtons();
-
-          story.hiliteButton(1);
-
-          story.hideAll();
-
-          story.silenceAll();
-
-          story.hidePrompt();
-
-          browseMap.mode.set( "story" );
-
-          Meteor.setTimeout( function() { story.mode.set("map"); }, 250 );
+         story.goMap();
       },
 
-    //SCENE button
+    'click img#storyButtonMap': function(event, template) {
 
-    'click img#imgStoryButton2': function(event, template) {
-
-          story.unhiliteAllButtons();
-
-          story.hiliteButton(2);
-
-          story.go("base");
+         story.goMap();
       },
 
+    //Base button
+
+    'click img#imgStoryButtonBase': function(event, template) {
+
+         story.goBase();
+      },
+
+    'click img#storyButtonBase': function(event, template) {
+
+         story.goBase();
+      },
 
     'click .imgStoryInventoryButton': function(event, template) {
 
@@ -163,7 +153,7 @@ Template.story.events({
 
     'click .storyChar': function(event, template) {
 
-//need a check here to see if it's a good time to talk
+//need a check here to see if it's a good time to talk?
 
           var _sel = "img#" + event.currentTarget.id;
 

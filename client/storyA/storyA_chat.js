@@ -378,3 +378,5 @@ storyA_chat_nelsonGetsPainting = [
 		"d": [ { "t": "OK.", "g": "exit"}, { "t": "Never mind.", "g": "exit"}  ]  
 	}
 ];
+
+storyA_chat_default = storyA_chat_missionInfo;

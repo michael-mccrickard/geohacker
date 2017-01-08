@@ -2,13 +2,20 @@
 
 storyA = function() {
 
+//*********************************************************************************
+//
+//				PROPERTIES
+//
+//*********************************************************************************
+
 	this._init("storyA");
 
 	this.location = "base";  //base, FR, ML, NL
+
 	
 	this.twain = new storyA_twain(1);
 
-	this.bert = new storyA_bert(2);
+	this.bob = new storyA_bob(2);
 
 	this.guard = new storyA_guard(3);
 
@@ -16,7 +23,6 @@ storyA = function() {
 
 	this.nelson = new storyA_nelson(5);
 
-	this.charObjs = [];  //this array holds the chars for the current scene
 
 	this.computer = new storyA_computer(1);
 
@@ -24,21 +30,11 @@ storyA = function() {
 
 	this.mona = new storyA_mona(3);
 
-	this.tokenObjs = [];  //this array holds the tokens for the current scene
-
-	this.scene = "";
 
 	this.tokens = [1,2, 3];
 
-	this.chars = [1,2,3,4,5];
+	this.chars = [0,1,2,3,4,5];
 
-	this.storyButtons = [1,2];
-
-	this.inventoryButtons = [1,2,3];
-
-	this.sceneButtonPic = new Blaze.ReactiveVar("");
-
-	this.flags = {};
 
 	this.flags["didExercise1"] = false;
 
@@ -56,7 +52,14 @@ storyA = function() {
 
 	this.flags["hasGivenPainting"] = false;
 
+
 	this.sceneButtonPic.set("storyA_scene.jpg");
+
+//*********************************************************************************
+//
+//				PLAYNG SCENES
+//
+//*********************************************************************************
 
 
 	this.play = function( _name ) {
@@ -70,6 +73,12 @@ storyA = function() {
 		this._play( _name );
 
 	}
+
+//*********************************************************************************
+//
+//				INVENTORY 
+//
+//*********************************************************************************
 
 	this.addInventoryItem = function( _name) {
 
@@ -116,6 +125,11 @@ storyA = function() {
 		
 	}	
 
+//*********************************************************************************
+//
+//				NAVIGATION 
+//
+//*********************************************************************************
 
 	this.go = function( _ID ) {
 
@@ -197,33 +211,31 @@ storyA = function() {
 			}
 		}
 
-		showMessage("Default scene:  " + _ID);
+		this.playDefaultScene( );
 
 	}
+
+//*********************************************************************************
+//
+//				EXERCISES 
+//
+//*********************************************************************************
 
 	this.doExercise = function(_val) {
 
 		this.mode.set( "exercise" );
 	}
 
-	this.doChat = function( _sel, _shortName) {
-
-		this._chat(_sel, _shortName);
-
-		var _name = this.name + "_chat_" + this.scene;
-
-		//we evaluate this so that js will see the string _name as an object
-
-		eval( "game.user.sms.startChat(" + _name + ")" );
-	}
 }
 
 
 storyA.prototype = Story;
 
-//*****************************************************************************************
-//					CHARS
-//*****************************************************************************************
+//*********************************************************************************
+//
+//				CHARACTERS 
+//
+//*********************************************************************************
 
 function storyA_twain(_index) {
 
@@ -243,22 +255,24 @@ function storyA_twain(_index) {
 storyA_twain.prototype = new Char();
 
 
-function storyA_bert(_index) {
+function storyA_bob(_index) {
 
 	var _obj = {
 
-		name: "Bert Williams",
-		shortName: "bert",
+		name: "Bob Marley",
+		shortName: "bob",
 		top: "50%",
 		left: "66%",
-		index: _index
+		index: _index,
+		pic: "bobMarley.jpg",
+		ID: "storyA_bob"
 	}
 
 	this.init( _obj );
 
 }
 
-storyA_bert.prototype = new Char();
+storyA_bob.prototype = new Char();
 
 
 function storyA_guard(_index) {
@@ -321,9 +335,11 @@ function storyA_nelson(_index) {
 
 storyA_nelson.prototype = new Char();
 
-//*****************************************************************************************
-//					TOKENS
-//*****************************************************************************************
+//*********************************************************************************
+//
+//				TOKENS 
+//
+//*********************************************************************************
 
 function storyA_mona(_index) {
 
@@ -331,9 +347,9 @@ function storyA_mona(_index) {
 
 		name: "Mona Lisa",
 		shortName: "mona",
-		pic: "monaLisa.png",
-		top: "-10%",   
-		left: "3%",
+		pic: "monaLisa.jpg",
+		top: "31%",   
+		left: "40%",
 		movable: true,
 		index: _index
 	}
@@ -403,9 +419,9 @@ function warning() {
 
 		name: "warning",
 		pic: "static_warning.gif",
-		width: "15%",
+		width: "18%",
 		height: "55%",
-		left: "43.22%",
+		left: "42%",
 		top: "8%",
 		borderRadius: "16px",
 		zIndex: 1000
@@ -422,9 +438,9 @@ function bunnies() {
 
 		name: "bunnies",
 		pic: "static5.gif",
-		width: "15%",
+		width: "18%",
 		height: "55%",
-		left: "43.22%",
+		left: "42%",
 		top: "8%",
 		borderRadius: "16px",
 		zIndex: 1000
@@ -439,7 +455,7 @@ function mona() {
 
 		name: "mona",
 		pic: "monaLisa.jpg",
-		width: "16%",
+		width: "18%",
 		height: "55%",
 		left: "42.22%",
 		top: "8%",
@@ -456,9 +472,9 @@ function tim() {
 
 		name: "tim",
 		pic: "timbuktu.jpg",
-		width: "15%",
+		width: "18.5%",
 		height: "55%",
-		left: "43.22%",
+		left: "41.22%",
 		top: "8%",
 		borderRadius: "16px",
 		zIndex: 1000

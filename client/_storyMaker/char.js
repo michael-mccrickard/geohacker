@@ -21,6 +21,8 @@ Char = function() {
 
 		this.placement = "top";
 
+		//this will return null for guest stars
+
 		this.rec = Meteor.users.findOne( { username: this.name } );
 
 		this.type = "agent";

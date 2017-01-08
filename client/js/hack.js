@@ -474,6 +474,11 @@ this.debriefCollection = null;
         this.messageID = id;
     }
 
+   this.getWelcomeAgentFor = function( _countryID ) {
+
+      return Meteor.users.findOne( { 'profile.cc': _countryID } );
+   }
+
    this.getWelcomeAgent = function() {
 
       //when we have the title field implemented on the user records,

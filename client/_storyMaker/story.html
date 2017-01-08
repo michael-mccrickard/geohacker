@@ -56,14 +56,17 @@
 
 		<div class="divStoryButtons">
 
-			{{#each storyButton}}	
+			<div class="storyButton">
+				<img class="imgStoryButton imgStoryButtonBG stretch" id="storyButtonMap" src="featuredBackdrop.jpg" />
 
-				<div class="storyButton">
-					<img class="imgStoryButton imgStoryButtonBG stretch" id="storyButton{{this}}" src="featuredBackdrop.jpg" />
+				<img class="imgStoryButton imgStoryButtonContent" id="imgStoryButtonMap" src="storyMapButton3.png" />	
+			</div>
 
-					<img class="imgStoryButton imgStoryButtonContent" id="imgStoryButton{{this}}" src="{{picForStoryButton this}}" />	
-				</div>
-			{{/each}}
+			<div class="storyButton">
+				<img class="imgStoryButton imgStoryButtonBG stretch" id="storyButtonBase" src="featuredBackdrop.jpg" />
+
+				<img class="imgStoryButton imgStoryButtonContent" id="imgStoryButtonBase" src={{picForBaseButton}} />	
+			</div>
 
 			{{#each inventoryButton}}	
 

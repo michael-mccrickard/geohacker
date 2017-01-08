@@ -48,6 +48,27 @@ Entity = function() {
 		$( this.element ).velocity( "fadeOut", {duration: 1000} );
 	},
 
+	this.coordinatesToOffsets = function( _obj ) {
+
+		var currX = $( this.element ).offset().left;
+
+		var currY = $( this.element ).offset().top;
+		
+		_obj.x = _obj.x - currX;
+
+		_obj.y = _obj.y - currY;
+
+	}
+
+	this.percentStringToNumber = function( _str ) {
+
+		_str = _str.substr(0, _str.length - 1);
+
+		var _val = parseFloat( _str ) / 100;
+
+		return _val;
+	}
+
 	this.moveToCorner = function(_dir) {
 
 		this.recordPos();
@@ -61,12 +82,17 @@ Entity = function() {
 			_left = $(window).width() - this.size - this.rightSpacer;
 		}
 
-		$(this.element).css( {top: _top, left: _left } );
+
+		var _obj = { x: _left, y: _top };
+
+		this.coordinatesToOffsets( _obj );
+
+		this.tween = TweenLite.to( this.element, 1.5, { x: _obj.x, y: _obj.y } );
 	},
 
 	this.moveToStart = function() {
 
-		$(this.element).css( {top: this.prevTop, left: this.prevLeft } );
+		this.tween = TweenLite.to( this.element, 1.5, { x: 0, y: 0 } );
 	},
 
 	this.q = function() {
