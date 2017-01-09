@@ -85,7 +85,7 @@ Session.set("isIOS", false);
   Session.set("sCapitalsTextReady", false);  //all capital images (in case the user is new; one will go on their wall) 
 
 
-  //editor
+  //country data editor
 
   Session.set("sEditImageReady", false );
 
@@ -98,6 +98,13 @@ Session.set("isIOS", false);
   Session.set("sEditWebReady", false );
 
   Session.set("sEditDebriefReady", false ); 
+
+
+  //story data editor
+
+  Session.set("sStoryReady", false );
+
+  Session.set("sLocationReady", false );
 
   //display-related
 

@@ -118,7 +118,7 @@ Story = {
 
 		this.cutScene = new CutScene( this.scene );
 
-		this.cutScene.play( this.cue );		f
+		this.cutScene.play( this.cue );
 	},
 
 	resetScene : function() {
@@ -205,13 +205,6 @@ Story = {
 
 	doChat : function( _sel, _shortName ) {
 
-		var _name = this.name + "_chat_" + this.scene;
-
-
-		//we evaluate this so that js will see the string _name as an object
-
-		eval( "game.user.sms.startChat(" + _name + ")" );
-
         this.silenceAll();
 
         this.hidePrompt();
@@ -219,6 +212,13 @@ Story = {
       	game.user.sms.createTarget( story[ _shortName ] );
 
       	game.user.sms.startThread();
+
+		var _name = this.name + "_chat_" + this.scene;
+
+
+		//we evaluate this so that js will see the string _name as an object
+
+		eval( "game.user.sms.startChat(" + _name + ")" );
 
       	this.mode.set("chat");
 

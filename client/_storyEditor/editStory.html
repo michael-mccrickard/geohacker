@@ -1,0 +1,62 @@
+<template name="editStory">
+
+	<div class="centered" style="margin-top: 50px;">
+
+		  <button type="button" class="btn btn-primary btn-lg editStoryModeButton" id="pickStory">STORY</button>
+		  <button type="button" class="btn btn-success  btn-lg editStoryModeButton" id="pickLocation">LOCATION</button>
+		  <button type="button" class="btn btn-danger  btn-lg editStoryModeButton" id="pickScene">SCENE</button>
+
+		  <button type="button" class="btn btn-warning  btn-lg editStoryModeButton" id="pickChar">CHAR</button>
+		  <button type="button" class="btn btn-info btn-lg editStoryModeButton" id="pickToken">TOKEN</button>
+		  <button type="button" class="btn btn-default btn-lg editStoryModeButton" id="pickFlag">FLAG</button>
+		
+	</div>
+
+	<div class="divEditStoryContent">
+
+		{{> Template.dynamic template=editStoryContent}}
+	
+	</div>
+
+</template>
+
+<template name="storyData">
+
+
+	<div class="container editor">
+
+			<table class="dataTable" border="2">
+
+				  <tr>
+
+				  	<th></th>
+
+				  	{{#each field}}
+
+				   		 <th>{{this}}</th>
+				   	
+				   	{{/each}}	 
+				  
+				  </tr>
+
+			  	{{#each dataRecord}}
+
+					  <tr class="dataRow">
+					    
+					    <td><button class="btn btn-success selectRecord" id="{{this.c}}" size="2">SEL</button></td>
+
+					    {{#each field}}
+
+					   		 <td><input type="text" class="t" id="" size="50" value="{{getValue this}}"></td> 
+					   	
+					   	{{/each}}
+
+					  </tr>
+
+				  {{/each}} 
+			
+			</table>
+
+	</div>
+
+</template>

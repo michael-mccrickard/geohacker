@@ -40,6 +40,13 @@ Database = function() {
 
   }
 
+  this.initStories = function() {
+
+    this.ghStory = new Meteor.Collection("ghStory");
+
+    this.ghLocation = new Meteor.Collection("ghLocation");
+  }
+
   //************************************************************
   //          USER FUNCTIONS
   //************************************************************

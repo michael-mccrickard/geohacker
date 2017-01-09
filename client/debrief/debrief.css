@@ -25,6 +25,14 @@
     font-size: 3.5vh;
 }
 
+.debriefText2 {
+    
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    color: black;
+}
+
 .debriefBox {
     
     position: absolute;

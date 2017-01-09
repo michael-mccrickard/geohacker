@@ -13,6 +13,13 @@ Template.debrief.events = {
 
 Template.debrief.helpers({
 
+    debriefFontsize: function() {
+
+      if (this.s) return this.s;
+
+      return "3.5vh";
+    },
+
     headline: function() {
 
     	if (game.user.mode == uBrowseCountry) {

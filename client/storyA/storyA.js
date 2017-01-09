@@ -68,9 +68,9 @@ storyA = function() {
 
 		this.cue = storyA_cue( _name );
 
-		//call the play method on the base object
+		//call the play method on the base object ( Story() )
 
-		this._play( _name );
+		this._play( _name ); 
 
 	}
 
@@ -84,12 +84,12 @@ storyA = function() {
 
 		if (_name == "passcode") {
 
-			this.flags["hasPasscode"] = true;
+			this.flags.hasPasscode = true;
 		}
 
 		if (_name == "mona") {
 
-			this.flags["hasPainting"] = true;
+			this.flags.hasPainting = true;
 		}
 
 		this._addInventoryItem( _name );
@@ -103,7 +103,7 @@ storyA = function() {
 
 			if (this.scene == "secondGuardVisit") {
 
-				this.flags["hasGivenPasscode"] = true;
+				this.flags.hasGivenPasscode = true;
 
 				this.play( "guardGetsPasscode");
 
@@ -115,7 +115,7 @@ storyA = function() {
 
 			if (this.scene == "nelsonGetsPainting") {
 
-				this.flags["hasGivenPainting"] = true;
+				this.flags.hasGivenPainting = true;
 
 				this.play("nelsonAndMark");
 
@@ -139,21 +139,21 @@ storyA = function() {
 
 			this.background = "starryBG.jpg";
 
-			if ( !this.flags["didExercise1"]) {
+			if ( !this.flags.didExercise1 ) {
 
 				this.play("intro");
 
 				return;
 			}
 
-			if ( !this.flags["hasQuest"]) {
+			if ( !this.flags.hasQuest) {
 
 				this.play("missionToMona");
 
 				return;
 			}
 
-			if ( !this.flags["hasVisitedGuard"] || !this.flags["awareOfPasscode"] ||  !this.flags["hasVisitedVanGogh"] ||  !this.flags["hasPasscode"] ||  !this.flags["hasPainting"] ||  !this.flags["hasGivenPainting"] ) {
+			if ( !this.flags.hasVisitedGuard || !this.flags.hasVisitedVanGogh ||  !this.flags.hasPasscode ||  !this.flags.hasPainting ||  !this.flags.hasGivenPainting ) {
 
 				this.play("missionInfo");
 
@@ -165,14 +165,14 @@ storyA = function() {
 
 			this.background = "louvre.jpg";
 
-			if ( !this.flags["hasVisitedGuard"]) {
+			if ( !this.flags.hasVisitedGuard ) {
 
 					this.play("firstGuardVisit");
 
 					return;		
 			}
 
-			if ( this.flags["hasPasscode"] ) {
+			if ( this.hasPasscode ) {
 
 					this.play("secondGuardVisit");
 
@@ -184,14 +184,14 @@ storyA = function() {
 
 			this.background = "vanGoghHouse.jpg";
 
-			if ( !this.flags["hasVisitedGuard"]) {
+			if ( !this.flags.hasVisitedGuard ) {
 
-				c("need to play a default NL scene here, with a GIC");
+				this.playDefaultScene( );
 
 				return;	
 			}
 
-			if ( !this.flags.hasVisitedVanGogh || !this.flags["hasGivenPasscode"]) {
+			if ( !this.flags.hasPasscode) {
 
 				this.play("vanGogh");
 
@@ -203,7 +203,7 @@ storyA = function() {
 
 			this.background = "timbuktu_1.jpg";
 
-			if ( this.flags["hasPainting"]) {
+			if ( this.flags.hasPainting ) {
 
 				this.play("nelsonGetsPainting");
 

@@ -71,8 +71,6 @@ Meteor.startup(
 
     ghMeme = new Meteor.Collection('alDebrief');
 
-    //ghMap = new Meteor.Collection('alMap');
-
     ghText = new Meteor.Collection('alText');
 
     ghTag = new Meteor.Collection("ghTag");
@@ -81,8 +79,11 @@ Meteor.startup(
 
     ghMusic = new Meteor.Collection("ghMusic")
 
-    //ghGuest =  new Meteor.Collection("ghGuest")
+    //story collections
 
+    ghStory =  new Meteor.Collection("ghStory")
+
+    ghLocation =  new Meteor.Collection("ghLocation")
 
     //editing collections
 
@@ -219,12 +220,21 @@ Meteor.startup(
       return ghTag.find();
     });
 
-
     //user messaging
 
     Meteor.publish("conversation",function(){
       return Conversation.find({});
     });
+
+    //stories
+
+     Meteor.publish("ghStory",function(){
+      return ghStory.find({});
+    }); 
+
+     Meteor.publish("ghLocation",function(){
+      return ghLocation.find({});
+    });   
 
 /*
     Meteor.publish('userPresence', function() {
@@ -243,6 +253,32 @@ Meteor.startup(
 
     Meteor.publish("allMusic", function() {
       return ghMusic.find( {} );
+    });
+
+    ghStory.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      }
+    });
+
+    ghLocation.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      }
     });
 
     ghText.allow({

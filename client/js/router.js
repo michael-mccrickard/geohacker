@@ -268,7 +268,7 @@ FlowRouter.route('/closeup', {
   });
 
 //*********************************************
-//      EDITOR
+//      EDITORS
 //*********************************************
 
 FlowRouter.route('/editor', {
@@ -285,6 +285,16 @@ FlowRouter.route('/selectCountry', {
   action: function (params, queryParams) { 
 
     BlazeLayout.render('layout', { content: "selectCountry" });
+
+  }
+
+});
+
+FlowRouter.route('/editStory', {
+
+  action: function (params, queryParams) { 
+
+    BlazeLayout.render('layout', { content: "editStory" });
 
   }
 
