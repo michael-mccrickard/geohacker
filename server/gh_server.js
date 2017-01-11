@@ -883,9 +883,16 @@ console.log(this.userId);
 
   },
 
-  initServer: function() {
+  addRecordWithDataObject: function(_type, _data) {
 
-    doInitServer();
+    var col = getCollectionForType(_type);
+
+    var rec = null;
+
+    rec = col.insert( _data );
+
+    return rec;
+
   },
 
   clearUsers: function() {

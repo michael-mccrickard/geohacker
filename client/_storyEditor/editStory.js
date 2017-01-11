@@ -127,7 +127,6 @@ StoryEditor = function() {
 			
   		}
 
-
 		Meteor.call("updateRecordOnServerWithDataObject", sed.collectionID.get(), _id, data, function(err, result) {
 
 			stopSpinner();
@@ -139,6 +138,39 @@ StoryEditor = function() {
 
 		}); 	
 
+	}
+
+	this.addRecord = function() {
+
+		var _type = this.collectionID.get();
+
+  		var data = {};
+
+		var fields = Object.keys( sed.collection.get().find().fetch()[0] );
+
+  		for (var i = 0; i < fields.length; i++) {
+
+			var _field = fields[i];
+
+			if ( _field == "_id") continue;
+
+			data[ _field ] = "";
+
+			if ( _type != cStory) {
+
+				if (_field == "c" && sed.code.get() ) data[ _field ] = sed.code.get();					
+			}
+
+  		}
+
+  		Meteor.call("addRecordWithDataObject", _type, data);
+
+
+	}
+
+	this.deleteRecord = function ( _id ) {
+
+		Meteor.call( "deleteRecord", _id, this.collectionID.get() );
 	}
 }
 

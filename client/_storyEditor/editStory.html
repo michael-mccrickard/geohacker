@@ -40,6 +40,8 @@
 
 				   	<th></th>  				  <!-- column for the SAVE button -->
 
+				   	<th></th>  				  <!-- column for the DELETE button -->
+
 				   	{{#if notStoryOrScene}}   <!-- column for the download button -->
 				   		
 				   		<th></th> 
@@ -74,6 +76,10 @@
 							</td>
 						
 						{{/if}}
+
+					  	<td>
+					  		<button class="btn btn-danger" id="deleteRecord"  onclick="sed.deleteRecord( '{{this._id}}' )"><strong>DEL</strong></button> 
+					  	</td>
 
 					  </tr>
 
