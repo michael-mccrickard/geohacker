@@ -2,7 +2,7 @@
 
 	<div class="centered" style="margin-top: 50px;">
 
-		  <button type="button" class="btn btn-primary btn-lg editStoryModeButton" id="pickStory">STORY</button>
+		  <button type="button" class="btn btn-primary btn-lg editStoryModeButton editStoryModeButtonSel" id="pickStory">STORY</button>
 		  <button type="button" class="btn btn-success  btn-lg editStoryModeButton" id="pickLocation">LOCATION</button>
 		  <button type="button" class="btn btn-danger  btn-lg editStoryModeButton" id="pickScene">SCENE</button>
 
@@ -30,32 +30,67 @@
 				  <tr>
 
 				  	<th></th>
-
+					
+				  	
 				  	{{#each field}}
 
 				   		 <th>{{this}}</th>
 				   	
-				   	{{/each}}	 
-				  
+				   	{{/each}}	
+
+				   	<th></th>  				  <!-- column for the SAVE button -->
+
+				   	{{#if notStoryOrScene}}   <!-- column for the download button -->
+				   		
+				   		<th></th> 
+				 	
+				 	{{/if}}
+
 				  </tr>
 
 			  	{{#each dataRecord}}
 
-					  <tr class="dataRow">
+					  <tr class="dataRow" id="{{this._id}}">
 					    
-					    <td><button class="btn btn-success selectRecord" id="{{this.c}}" size="2">SEL</button></td>
+					    <td>
+					    	<button class="btn btn-success selectRecord" id="{{this._id}}" data-n="{{this.n}}" data-c="{{this.c}}"  size="2">SEL</button>
+					    </td>
 
 					    {{#each field}}
 
-					   		 <td><input type="text" class="t" id="" size="50" value="{{getValue this}}"></td> 
+					   		 <td><input type="text" class="{{this}}" size="15" value="{{getValue this}}" id="{{getIDValue this}}"></td> 
 					   	
 					   	{{/each}}
+
+					  	<td>
+					  		<button class="btn btn-primary" id="saveRecord"  onclick="sed.updateRecord( '{{this._id}}' )"><strong>SAV</strong></button> 
+					  	</td>
+
+					   	
+					   	{{#if notStoryOrScene}}
+						
+						    <td>
+						    	<input type="file" id="I{{this._id}}">
+							</td>
+						
+						{{/if}}
 
 					  </tr>
 
 				  {{/each}} 
 			
+			  	<td>
+			  		<button class="btn btn-primary" id="addRecord"  onclick="sed.addRecord()"><strong>+</strong></button> 
+			  	</td>
+
 			</table>
+
+
+			<div class="bigPicFrame editFrame">
+
+				<img class="bigPic" id="editFeaturedControlPic" src="" /> 
+
+			</div>	
 
 	</div>
 

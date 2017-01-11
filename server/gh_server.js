@@ -85,6 +85,13 @@ Meteor.startup(
 
     ghLocation =  new Meteor.Collection("ghLocation")
 
+    ghScene =  new Meteor.Collection("ghScene")
+
+    ghChar =  new Meteor.Collection("ghChar")
+
+    ghToken =  new Meteor.Collection("ghToken")
+
+
     //editing collections
 
     Meteor.publish("allImages", function() {
@@ -236,6 +243,18 @@ Meteor.startup(
       return ghLocation.find({});
     });   
 
+     Meteor.publish("ghScene",function(){
+      return ghScene.find({});
+    });  
+
+     Meteor.publish("ghChar",function(){
+      return ghChar.find({});
+    });  
+
+     Meteor.publish("ghToken",function(){
+      return ghToken.find({});
+    });  
+
 /*
     Meteor.publish('userPresence', function() {
       
@@ -269,6 +288,45 @@ Meteor.startup(
     });
 
     ghLocation.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      }
+    });
+
+    ghScene.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      }
+    });
+
+    ghToken.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      }
+    });
+
+    ghChar.allow({
 
       insert: function() {
           return true;
@@ -431,7 +489,19 @@ function getCollectionForType(_type) {
 
     if (_type == cDebrief) col = ghMeme;
 
-if (_type == cMeme) col = ghMeme;
+    if (_type == cMeme) col = ghMeme;
+
+    if (_type == cStory) col = ghStory;
+
+    if (_type == cLocation) col = ghLocation;
+
+    if (_type == cScene) col = ghScene;
+
+    if (_type == cToken) col = ghToken;
+
+    if (_type == cChar) col = ghChar;
+
+  //  if (_type == cFlag) col = ghFlag;
 
     return col;
   }
@@ -853,6 +923,14 @@ console.log(this.userId);
   updateRecordOnServerWithDataObject: function (_type, ID, data) {
 
       var col = getCollectionForType( _type );
+
+console.log(_type);
+
+console.log( col.find().fetch().length )
+
+console.log(ID)
+
+console.log(data)
 
       var res = col.update( {_id: ID }, { $set: data  }); 
 

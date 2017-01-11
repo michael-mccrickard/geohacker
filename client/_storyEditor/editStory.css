@@ -2,3 +2,15 @@
 	
 	margin: 16px;
 }
+
+.editStoryModeButtonSel {
+	
+	font-size: 24px;
+}
+
+.fakeButton2 {
+    border: 1px solid #cccccc;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
+}

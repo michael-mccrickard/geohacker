@@ -45,6 +45,12 @@ Database = function() {
     this.ghStory = new Meteor.Collection("ghStory");
 
     this.ghLocation = new Meteor.Collection("ghLocation");
+
+    this.ghScene = new Meteor.Collection("ghScene");
+
+    this.ghChar = new Meteor.Collection("ghChar");
+
+    this.ghToken = new Meteor.Collection("ghToken");
   }
 
   //************************************************************

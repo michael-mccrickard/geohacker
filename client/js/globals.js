@@ -14,6 +14,13 @@ getRandomString = function() {
     return (id + num);
 }
 
+getFirstWord = function( _str ) {
+
+    var _arr = _str.split(" ");
+
+    return (_arr[0]);
+}
+
 //************************************************************
 //    Array functions
 //************************************************************

@@ -106,6 +106,12 @@ Session.set("isIOS", false);
 
   Session.set("sLocationReady", false );
 
+  Session.set("sSceneReady", false );
+
+  Session.set("sCharReady", false );
+
+  Session.set("sTokenReady", false );
+
   //display-related
 
   Session.set("sImagesReady", false); 
