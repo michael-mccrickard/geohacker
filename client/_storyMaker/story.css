@@ -41,7 +41,7 @@ div.storyButton {
 
   	margin-top: 0.5%;
 
-    width: 18%;
+  	/* width for these is set in story.draw()  */
     
     height: 88%;
   	

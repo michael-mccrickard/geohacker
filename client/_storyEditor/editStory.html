@@ -1,5 +1,13 @@
 <template name="editStory">
 
+	<div class="topButtonStrip">
+		<img class= "topButton" id="startStoryEdit" src="edit_icon.png" />
+
+		<button type="button" class="btn btn-danger topButton2" id="runStory">RUN</button>
+	</div>
+
+	
+
 	<div class="centered" style="margin-top: 50px;">
 
 		  <button type="button" class="btn btn-primary btn-lg editStoryModeButton editStoryModeButtonSel" id="pickStory">STORY</button>
@@ -7,7 +15,12 @@
 		  <button type="button" class="btn btn-danger  btn-lg editStoryModeButton" id="pickScene">SCENE</button>
 
 		  <button type="button" class="btn btn-warning  btn-lg editStoryModeButton" id="pickChar">CHAR</button>
-		  <button type="button" class="btn btn-info btn-lg editStoryModeButton" id="pickToken">TOKEN</button>
+		  <button type="button" class="btn btn-info  btn-lg editStoryModeButton" id="pickAgent">AGENT</button>
+		  <button type="button" class="btn btn-primary btn-lg editStoryModeButton" id="pickToken">TOKEN</button>
+
+		  <button type="button" class="btn btn-success btn-lg editStoryModeButton" id="pickCue">CUE</button>
+		  <button type="button" class="btn btn-danger btn-lg editStoryModeButton" id="pickChat">CHAT</button>
+
 		  <button type="button" class="btn btn-default btn-lg editStoryModeButton" id="pickFlag">FLAG</button>
 		
 	</div>

@@ -1,13 +1,3 @@
-testStoryEditor = function() {
-
-	FlowRouter.go("/waiting");
-
-	db.initStories();
-
-	sed = new StoryEditor();
-
-	sed.init();
-}
 
 
 StoryEditor = function() {
@@ -30,28 +20,53 @@ StoryEditor = function() {
 
 	this.uploader = new Slingshot.Upload("ghStoryPic");
 
+	this.story = null;
+
+//*********************************************************************************
+//
+//				INIT
+//
+//*********************************************************************************
+
 	this.init = function() {
 
-		Meteor.subscribe("ghStory", function() { Session.set("sStoryReady", true ) });
+		Meteor.subscribe("allStories", function() { Session.set("sAllStoriesReady", true ) });
 
-		Meteor.subscribe("ghLocation", function() { Session.set("sLocationReady", true ) });
+		Meteor.subscribe("allLocations", function() { Session.set("sAllLocationsReady", true ) });
 
-		Meteor.subscribe("ghScene", function() { Session.set("sSceneReady", true ) });
+		Meteor.subscribe("allScenes", function() { Session.set("sAllScenesReady", true ) });
 
-		Meteor.subscribe("ghChar", function() { Session.set("sCharReady", true ) });
+		Meteor.subscribe("allChars", function() { Session.set("sAllCharsReady", true ) });
 
-		Meteor.subscribe("ghToken", function() { Session.set("sTokenReady", true ) });
+		Meteor.subscribe("allTokens", function() { Session.set("sAllTokensReady", true ) });
 
+		Meteor.subscribe("allStoryAgents", function() { Session.set("sAllStoryAgentsReady", true ) });
+
+		Meteor.subscribe("allStoryFlags", function() { Session.set("sAllStoryFlagsReady", true ) });
 
 		this.findSelector.set( {} );
 
 		this.collection.set( db.ghStory );
 	}
 
-	this.setFindSelector = function() {
+//*********************************************************************************
+//
+//				STORY TESTING
+//
+//*********************************************************************************
 
-		if ( sed.code.get().length ) sed.findSelector.set( { c: sed.code.get() } );   
+	this.loadStory = function() {
+
+
 	}
+
+
+//*********************************************************************************
+//
+//				INTERFACE FUNCTIONS
+//
+//*********************************************************************************
+
 
 	this.selectTableButton = function() {
 
@@ -86,6 +101,17 @@ StoryEditor = function() {
 
 			this.collectionID.set( 0 );
 		}
+	}
+
+//*********************************************************************************
+//
+//				DATABASE FUNCTIONS
+//
+//*********************************************************************************
+
+	this.setFindSelector = function() {
+
+		if ( sed.code.get().length ) sed.findSelector.set( { c: sed.code.get() } );   
 	}
 
 	this.updateURLForNewRecord = function( _url, ID ) {
@@ -180,23 +206,27 @@ StoryEditor = function() {
 
 Tracker.autorun( function(comp) {
 
-  if ( Session.get("sStoryReady") &&  
+  if ( Session.get("sAllStoriesReady") &&  
 
-  		Session.get("sLocationReady")  && 
+  		Session.get("sAllLocationsReady")  && 
 
-   		Session.get("sSceneReady")  && 
+   		Session.get("sAllScenesReady")  && 
 
-  		Session.get("sCharReady")  && 
+  		Session.get("sAllCharsReady")  && 
 
-   		Session.get("sTokenReady")
+   		Session.get("sAllTokensReady") &&
+
+   		Session.get("sAllStoryAgentsReady") &&
+
+   		Session.get("sAllStoryFlagsReady")
 
       ) {
 
-  	console.log("story data ready")
+  	console.log("edit story data ready")
 
   	FlowRouter.go("/editStory");
   } 
 
-  console.log("story data not ready")
+  console.log("edit story data not ready")
 
 });  

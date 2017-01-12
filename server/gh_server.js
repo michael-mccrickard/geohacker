@@ -6,6 +6,7 @@ var countryCode;
 
 var featuredUserID;
 
+
 //*********************************************
 //      EMAIL SETTINGS
 //*********************************************
@@ -91,8 +92,11 @@ Meteor.startup(
 
     ghToken =  new Meteor.Collection("ghToken")
 
+    ghStoryAgent =  new Meteor.Collection("ghStoryAgent")
 
-    //editing collections
+    ghStoryFlag = new Meteor.Collection("ghStoryFlag")
+
+    //country editing collections
 
     Meteor.publish("allImages", function() {
       return ghImage.find( {} );
@@ -233,45 +237,113 @@ Meteor.startup(
       return Conversation.find({});
     });
 
-    //stories
+    //editing stories
 
-     Meteor.publish("ghStory",function(){
+     Meteor.publish("allStories",function(){
       return ghStory.find({});
     }); 
 
-     Meteor.publish("ghLocation",function(){
+     Meteor.publish("allLocations",function(){
       return ghLocation.find({});
     });   
 
-     Meteor.publish("ghScene",function(){
+     Meteor.publish("allScenes",function(){
       return ghScene.find({});
     });  
 
-     Meteor.publish("ghChar",function(){
+     Meteor.publish("allChars",function(){
       return ghChar.find({});
     });  
 
-     Meteor.publish("ghToken",function(){
+     Meteor.publish("allTokens",function(){
       return ghToken.find({});
     });  
 
-/*
-    Meteor.publish('userPresence', function() {
-      
-      // Setup some filter to find the users your user
-      // cares about. It's unlikely that you want to publish the 
-      // presences of _all_ the users in the system.
+    Meteor.publish("allStoryAgents",function(){
+      return ghStoryAgent.find({});
+    });  
 
-      // If for example we wanted to publish only logged in users we could apply:
-      var filter = { userId: { $exists: true }};
+     Meteor.publish("allStoryFlags",function(){
+      return ghStoryFlag.find({});
+    });  
 
-      return Presences.find(filter, { fields: { state: true, userId: true }});
-    });
-*/
+    //stories
+
+     Meteor.publish("storyAssets_Story",function( storyCode ){
+      return ghStory.find({ c: storyCode });
+    }); 
+
+     Meteor.publish("storyAssets_Location",function( storyCode ){
+      return ghLocation.find({ c: storyCode });
+    });   
+
+     Meteor.publish("storyAssets_Scene",function( storyCode ){
+      return ghScene.find({ c: storyCode });
+    });  
+
+     Meteor.publish("storyAssets_Char",function( storyCode ){
+      return ghChar.find({ c: storyCode });
+    });  
+
+     Meteor.publish("storyAssets_Token",function( storyCode ){
+      return ghToken.find({ c: storyCode });
+    });  
+     
+    Meteor.publish("storyAssets_StoryAgent",function( storyCode ){
+      return ghStoryAgent.find({ c: storyCode });
+    });  
+
+    Meteor.publish("storyAssets_StoryAgentRecord",function( _storyAgentIDs ){
+      return Meteor.users.find( { _id: { $in: _storyAgentIDs } } );
+    }); 
+
+    Meteor.publish("storyAssets_StoryFlag",function( storyCode ){
+      return ghStoryFlag.find({ c: storyCode });
+    });  
+    
     //music
 
     Meteor.publish("allMusic", function() {
       return ghMusic.find( {} );
+    });
+
+    ghStoryAgent.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      }
+    });
+
+    ghStoryFlag.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      }
+    });
+
+    ghStory.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      }
     });
 
     ghStory.allow({
@@ -501,7 +573,14 @@ function getCollectionForType(_type) {
 
     if (_type == cChar) col = ghChar;
 
-  //  if (_type == cFlag) col = ghFlag;
+    if (_type == cStoryFlag) col = ghStoryFlag;
+
+    if (_type == cStoryAgent) col = ghStoryAgent;
+
+    if (_type == cCue) col = ghCue;
+
+    if (_type == cChat) col = ghChat;
+
 
     return col;
   }

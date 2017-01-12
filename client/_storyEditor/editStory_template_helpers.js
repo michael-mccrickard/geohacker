@@ -40,11 +40,40 @@ Template.editStory.events = {
     sed.setMode( "Char", db.ghChar, cChar )
   },
 
+  'click #pickAgent' : function(e){
+
+    e.preventDefault();
+
+    sed.setMode( "Token", db.ghStoryAgent, cStoryAgent )
+  },
+
   'click #pickToken' : function(e){
 
     e.preventDefault();
 
     sed.setMode( "Token", db.ghToken, cToken )
+  },
+/*
+  'click #pickCue' : function(e){
+
+    e.preventDefault();
+
+    sed.setMode( "Cue", db.ghCue, cCue )
+  },
+
+  'click #pickChat' : function(e){
+
+    e.preventDefault();
+
+    sed.setMode( "Chat", db.ghChat, cChat )
+  },
+*/
+
+  'click #pickFlag' : function(e){
+
+    e.preventDefault();
+
+    sed.setMode( "Flag", db.ghStoryFlag, cStoryFlag )
   },
 
   'click .selectRecord' : function(e){

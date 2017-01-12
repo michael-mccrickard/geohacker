@@ -8,52 +8,53 @@ storyA = function() {
 //
 //*********************************************************************************
 
-	this._init("storyA");
+	this.init = function() {
 
-	this.location = "base";  //base, FR, ML, NL
+		this.location = "base";  //base, FR, ML, NL
 
-	
-	this.twain = new storyA_twain(1);
+		
+		this.twain = new storyA_twain(1);
 
-	this.bob = new storyA_bob(2);
+		this.bob = new storyA_bob(2);
 
-	this.guard = new storyA_guard(3);
+		this.guard = new storyA_guard(3);
 
-	this.van = new storyA_van(4);
+		this.van = new storyA_van(4);
 
-	this.nelson = new storyA_nelson(5);
-
-
-	this.computer = new storyA_computer(1);
-
-	this.passcode = new storyA_passcode(2);
-
-	this.mona = new storyA_mona(3);
+		this.nelson = new storyA_nelson(5);
 
 
-	this.tokens = [1,2, 3];
+		this.computer = new storyA_computer(1);
 
-	this.chars = [0,1,2,3,4,5];
+		this.passcode = new storyA_passcode(2);
 
-
-	this.flags["didExercise1"] = false;
-
-	this.flags["hasQuest"] = false;	
-
-	this.flags["hasVisitedGuard"] = false;
-
-	this.flags["hasVisitedVanGogh"] = false;
-
-	this.flags["hasPasscode"] = false;
-
-	this.flags["hasGivenPasscode"] = false;
-
-	this.flags["hasPainting"] = false;
-
-	this.flags["hasGivenPainting"] = false;
+		this.mona = new storyA_mona(3);
 
 
-	this.sceneButtonPic.set("storyA_scene.jpg");
+		this.tokens = [1,2, 3];
+
+		this.chars = [0,1,2,3,4,5];
+
+
+		this.flags["didExercise1"] = false;
+
+		this.flags["hasQuest"] = false;	
+
+		this.flags["hasVisitedGuard"] = false;
+
+		this.flags["hasVisitedVanGogh"] = false;
+
+		this.flags["hasPasscode"] = false;
+
+		this.flags["hasGivenPasscode"] = false;
+
+		this.flags["hasPainting"] = false;
+
+		this.flags["hasGivenPainting"] = false;
+
+
+		this.sceneButtonPic.set("storyA_scene.jpg");
+	}
 
 //*********************************************************************************
 //

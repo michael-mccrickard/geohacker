@@ -102,6 +102,23 @@ Session.set("isIOS", false);
 
   //story data editor
 
+  Session.set("sAllStoriesReady", false );
+
+  Session.set("sAllLocationsReady", false );
+
+  Session.set("sAllScenesReady", false );
+
+  Session.set("sAllCharsReady", false );
+
+  Session.set("sAllTokensReady", false );
+
+  Session.set("sAllStoryAgentsReady", false );
+
+  Session.set("sAllStoryFlagsReady", false );
+
+
+  //playing stories
+
   Session.set("sStoryReady", false );
 
   Session.set("sLocationReady", false );
@@ -112,6 +129,13 @@ Session.set("isIOS", false);
 
   Session.set("sTokenReady", false );
 
+  Session.set("sStoryAgentReady", false );
+
+  Session.set("sStoryAgentRecordReady", false );
+
+  Session.set("sStoryFlagReady", false );
+
+  
   //display-related
 
   Session.set("sImagesReady", false); 
@@ -120,6 +144,7 @@ Session.set("isIOS", false);
 
   Session.set("sDisplayReady", false); 
 
+  
   //user's home area
 
   Session.set("sUserContinent","");
@@ -133,13 +158,15 @@ Session.set("isIOS", false);
   Session.set("sUserMessageTargetID","");
 
   //agents
+  
   Session.set("sChiefUserReady", false);
 
   Session.set("sAgentsInNetworkReady", false);
 
   Session.set("sAgentsInCountryReady", false);
 
-  //
+ //music
+
  Session.set("sMusicReady", false ); 
 
 //****************************************************************
@@ -177,8 +204,6 @@ Meteor.startup(function() {
   hacker = new Hacker();
 
   youtube = new YouTube();
-
-  storyMaker = new StoryMaker();
 
   story = null;   
 

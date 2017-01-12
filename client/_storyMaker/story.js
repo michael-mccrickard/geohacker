@@ -5,6 +5,7 @@ $(document).ready(function(){
     $('.divStory').tooltip(); 
 });
 
+storyCode = "";
 
 Story = {
 
@@ -15,9 +16,15 @@ Story = {
 //
 //*********************************************************************************
 
-	_init : function( _name ) {
+	_init : function( _code ) {
 
-		this.name = _name;
+		this.code = _code;
+
+		//storyCode = _code;  //need to store in a global since the story object doesn't exist just yet
+
+		this.name = "story" + _code;
+
+		if (!game.user.sms) game.user.sms = new StoryMessaging();
 
 		this.mode = new Blaze.ReactiveVar( "none" );
 
@@ -33,7 +40,7 @@ Story = {
 
  		this.storyButtonBGElements = ["#storyButtonMap", "#storyButtonBase"];
 
-	this.inventoryButtons = [1,2,3];
+		this.inventoryButtons = [];
 
 		this.bgElement = "img.storyBG";
 
@@ -48,6 +55,36 @@ Story = {
 		this.inv = new Inventory();
 
  		this.storyButton = "Base";
+
+ 		//subscribe to all the relevant story data in the db
+
+		Meteor.subscribe("storyAssets_StoryAgent", _code, function() { Session.set("sStoryAgentReady", true ) });
+
+	},
+
+	finishSubscriptions : function( ) {
+
+		var _arr = Database.makeSingleElementArray( db.ghStoryAgent.find().fetch(), "uid" );
+
+		Meteor.subscribe("storyAssets_StoryAgentRecord", _arr, function() { Session.set("sStoryAgentRecordReady", true ) });
+
+ 		Meteor.subscribe("storyAssets_Story", story.code, function() { Session.set("sStoryReady", true ) });
+
+		Meteor.subscribe("storyAssets_Location", story.code, function() { Session.set("sLocationReady", true ) });
+
+		Meteor.subscribe("storyAssets_Scene", story.code, function() { Session.set("sSceneReady", true ) });
+
+		Meteor.subscribe("storyAssets_Char", story.code, function() { Session.set("sCharReady", true ) });
+
+		Meteor.subscribe("storyAssets_Token", story.code, function() { Session.set("sTokenReady", true ) });
+
+		Meteor.subscribe("storyAssets_StoryFlag", story.code, function() { Session.set("sStoryFlagReady", true ) });
+
+
+
+//need to do this with value from the db, story record (in autoRun?)
+
+this.makeInventoryArray(5);
 
 	},
 
@@ -234,6 +271,10 @@ Story = {
 
 	draw : function() {
 
+		var _width = 90.0 / parseFloat( this.inventoryButtons.length + 2 );  //plus two for the MAP and BASE buttons
+
+		$(".storyButton").css("width", _width + "%");
+
 		this.hiliteButton( this.storyButton );
 	},
 
@@ -382,6 +423,14 @@ Story = {
 //
 //*********************************************************************************
 
+	makeInventoryArray : function( _num ) {
+
+		for (var i = 1;  i <= _num; i++) {
+
+			this.inventoryButtons.push(i);
+		}
+	},
+
 	hiliteButton : function( _name ) {
 
 		var _sel = "img#storyButton" + _name + ".imgStoryButton.imgStoryButtonBG";
@@ -425,3 +474,49 @@ story_defaultAgent = function( _rec ) {
 
 story_defaultAgent.prototype = new Char();
 
+Tracker.autorun( function(comp) {
+
+  if ( Session.get("sStoryAgentReady")
+
+      ) {
+
+  	console.log("story agent data ready")
+
+  	story.finishSubscriptions( );
+  } 
+
+  console.log("story agent data not ready")
+
+});  
+
+
+Tracker.autorun( function(comp) {
+
+  if ( Session.get("sStoryReady") &&  
+
+  		Session.get("sLocationReady")  && 
+
+   		Session.get("sSceneReady")  && 
+
+  		Session.get("sCharReady")  && 
+
+   		Session.get("sTokenReady") &&
+
+   		Session.get("sStoryAgentRecordReady") &&
+
+   		Session.get("sStoryFlagReady")
+
+      ) {
+
+  	console.log("story data ready")
+
+console.log( Meteor.users.find().fetch() )
+
+  	story.init();
+
+  	FlowRouter.go("/story");
+  } 
+
+  console.log("story data not ready")
+
+});  

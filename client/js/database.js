@@ -4,6 +4,8 @@ Database = function() {
 
   var res = null;
 
+  this.storiesInitialized = false;
+
   //************************************************************
   //          COLLECTIONS
   //************************************************************
@@ -42,6 +44,8 @@ Database = function() {
 
   this.initStories = function() {
 
+    this.storiesInitialized = true;
+
     this.ghStory = new Meteor.Collection("ghStory");
 
     this.ghLocation = new Meteor.Collection("ghLocation");
@@ -51,6 +55,10 @@ Database = function() {
     this.ghChar = new Meteor.Collection("ghChar");
 
     this.ghToken = new Meteor.Collection("ghToken");
+
+    this.ghStoryAgent = new Meteor.Collection("ghStoryAgent");
+
+    this.ghStoryFlag = new Meteor.Collection("ghStoryFlag");
   }
 
   //************************************************************

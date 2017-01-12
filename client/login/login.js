@@ -222,7 +222,7 @@ Template.login.events({
 
 testStoryEditor();
 
-//testStory();
+//testStory("A");
 
 return;
 
