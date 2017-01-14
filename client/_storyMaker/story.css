@@ -126,7 +126,7 @@ div.storyButton {
 
 	opacity: 0;
 
-	width: 100%;
+/*	width: 100%; */
 
 	text-align: center;
 }
@@ -200,7 +200,7 @@ div#storyPromptText {
 
 	top: 16px;
 
-	z-index: 50000;
+	z-index: 1050;
 
 	width: 75%;
 

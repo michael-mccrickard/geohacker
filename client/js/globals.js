@@ -130,6 +130,22 @@ whichBrowser = function(){
 //     Formatting functions
 //************************************************************
 
+capitalizeAllWords = function( _str ) {
+
+    var _arr = _str.split(" ");
+
+    var _res = "";
+
+    for (var i = 0; i < _arr.length; i++) {
+
+        if (i==0) _res = _res + capitalizeFirstLetter( _arr[i] );
+
+        if (i==1) _res = _res + " " + capitalizeFirstLetter( _arr[i] );
+    }
+
+    return _res;
+}
+
 capitalizeFirstLetter = function(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }

@@ -13,23 +13,23 @@ storyA = function() {
 		this.location = "base";  //base, FR, ML, NL
 
 		
-		this.twain = new storyA_twain(1);
+		//this.twain = new storyA_twain(1);
 
-		this.bob = new storyA_bob(2);
+		//this.bob = new storyA_bob(1);
 
-		this.guard = new storyA_guard(3);
+		/*this.guard = new storyA_guard(3);
 
 		this.van = new storyA_van(4);
 
 		this.nelson = new storyA_nelson(5);
 
 
-		this.computer = new storyA_computer(1);
+		this.computer = new storyA_computer(3);
 
 		this.passcode = new storyA_passcode(2);
 
-		this.mona = new storyA_mona(3);
-
+		this.mona = new storyA_mona(1);
+*/
 
 		this.tokens = [1,2, 3];
 
@@ -136,6 +136,8 @@ storyA = function() {
 
 		this.location = _ID;
 
+c("loc is " + _ID)
+
 		if (_ID == "base") {
 
 			this.background = "starryBG.jpg";
@@ -173,7 +175,7 @@ storyA = function() {
 					return;		
 			}
 
-			if ( this.hasPasscode ) {
+			if ( this.flags.hasPasscode ) {
 
 					this.play("secondGuardVisit");
 
@@ -238,6 +240,7 @@ storyA.prototype = Story;
 //
 //*********************************************************************************
 
+/*
 function storyA_twain(_index) {
 
 	var _obj = {
@@ -254,6 +257,7 @@ function storyA_twain(_index) {
 }
 
 storyA_twain.prototype = new Char();
+
 
 
 function storyA_bob(_index) {
@@ -380,6 +384,7 @@ function storyA_passcode(_index) {
 
 storyA_passcode.prototype = new Token();
 
+
 function storyA_computer(_index) {
 
 	var _content = {};
@@ -388,7 +393,7 @@ function storyA_computer(_index) {
 
 	_content["warning"] = warning();
 
-	_content["mona"] = mona();
+	_content["mona_content"] = mona_content();
 
 	_content["tim"] = tim();
 
@@ -398,15 +403,16 @@ function storyA_computer(_index) {
 
 	var _obj = {
 
-		name: "computer",
-		type: "overlay",
-		pic: "oldcomputer_hollow.png",
-		top: "28%",   
+		n: "computer",
+		p: "oldcomputer_hollow.png",
+		top: "28%", 
+		l: "33%",
+		t: "o",  
 		index: _index,
 		content: _content
 	}
 
-	this.init( _obj );
+	this.init( _obj, _index );
 
 }
 
@@ -420,9 +426,9 @@ function warning() {
 
 		name: "warning",
 		pic: "static_warning.gif",
-		width: "18%",
+		width: "54%",
 		height: "55%",
-		left: "42%",
+		left: "25%",
 		top: "8%",
 		borderRadius: "16px",
 		zIndex: 1000
@@ -439,9 +445,9 @@ function bunnies() {
 
 		name: "bunnies",
 		pic: "static5.gif",
-		width: "18%",
+		width: "54%",
 		height: "55%",
-		left: "42%",
+		left: "25%",
 		top: "8%",
 		borderRadius: "16px",
 		zIndex: 1000
@@ -450,15 +456,15 @@ function bunnies() {
 	return _obj;
 }
 
-function mona() {
+function mona_content() {
 
 	var _obj = {
 
 		name: "mona",
 		pic: "monaLisa.jpg",
-		width: "18%",
+		width: "54%",
 		height: "55%",
-		left: "42.22%",
+		left: "25%",
 		top: "8%",
 		borderRadius: "16px",
 		zIndex: 1000
@@ -473,9 +479,9 @@ function tim() {
 
 		name: "tim",
 		pic: "timbuktu.jpg",
-		width: "18.5%",
+		width: "54%",
 		height: "55%",
-		left: "41.22%",
+		left: "25.5%",
 		top: "8%",
 		borderRadius: "16px",
 		zIndex: 1000
@@ -483,3 +489,5 @@ function tim() {
 
 	return _obj;
 }
+
+*/

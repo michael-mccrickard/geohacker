@@ -80,11 +80,15 @@ Story = {
 
 		Meteor.subscribe("storyAssets_StoryFlag", story.code, function() { Session.set("sStoryFlagReady", true ) });
 
-
-
 //need to do this with value from the db, story record (in autoRun?)
 
-this.makeInventoryArray(5);
+if (!this.inventoryButtons.length) this.makeInventoryArray(3);
+
+		this.createChars();
+
+		this.createTokens( "c" );  //content (sub-tokens)
+
+		this.createTokens( "n" );  //normal
 
 	},
 
@@ -132,6 +136,103 @@ this.makeInventoryArray(5);
 		this.finishPlay();
 	},
 
+//*********************************************************************************
+//
+//				CREATE ENTITIES FROM DATA
+//
+//*********************************************************************************
+
+	createChars : function() {
+
+		var _arr = db.ghChar.find().fetch();
+
+		//We start this array at 1, b/c we want the array index to correspond
+		//to the desired Char index.  We don't use zero b/c that is reserved for the default agent
+
+		for (var i = 1; i <= _arr.length; i++) {
+
+			//we have to decrement the index, so that we access zeroth element
+			//up to the last one
+
+			var _obj = _arr[i - 1];
+c("obj in createChars follows")
+c( _obj)
+			_name = _obj.sn;
+
+			//story.twain = new Char(1);
+
+			var _str = "story." + _name + " = new Char()";
+
+			eval( _str );
+
+			//story.twain.init( _obj );
+
+			_str = "story." + _name + ".init( _obj, " + i + " )";
+
+			eval(  _str );		
+		}	
+	},
+
+	createTokens : function( _type ) {
+
+		var _arr = db.ghToken.find( { t: _type } ).fetch();
+
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			var _obj = _arr[i];
+
+			_name = _obj.sn;
+
+			//story.computer = new Token(1);
+
+			var _str = "story." + _name + " = new Token()";
+c(_str)
+			eval( _str );
+
+			//story.computer.init( _obj, _index );
+
+			var _index = 0;
+
+			//the index on the normal tokens is one plus the array index
+			//(we don't use zero for consistency with the Chars)
+
+			if (_type == "n") _index = i + 1;
+
+			_str = "story." + _name + ".init( _obj, " + _index + " )";
+c(_str)
+			eval(  _str );	
+
+			if (_type == "n") {
+
+				var _arrC = db.ghToken.find( { o: _name } ).fetch();
+
+				if (_arrC.length) {
+
+					//story.computer.content = {};
+
+					_str = "story." + _name + ".content = {};"
+
+c(_str)
+					eval( _str );
+
+					//this array is treated normally
+
+					for (var i = 0; i < _arrC.length; i++) {	
+						
+						//story.computer.content["bunnies"] = story.bunnies;
+
+						_str = "story." + _name + ".content['" + _arrC[i].sn + "'] = story." + _arrC[i].sn + ";"
+c(_str)
+						eval( _str)
+					}				
+				}
+			}	
+		}	
+	},
+
+
+
 
 //*********************************************************************************
 //
@@ -174,17 +275,21 @@ this.makeInventoryArray(5);
 
 	addDefaultAgent : function( _countryID ) {
 
-		var _rec = hack.getWelcomeAgentFor( _countryID );
+		Meteor.subscribe("agentsInThisCountry", _countryID, function() { 
 
-		if (!_rec) {
+			var _rec =  Meteor.users.findOne( { 'profile.cc': _countryID } ); 
 
-			showMessage( "No default agent found for country ID " + _countryID);
+c(_rec)
 
-			return;
-		}
+			story.da = new story_defaultAgent( _rec );
 
-		this.da = new story_defaultAgent( _rec );
-	
+			story.scene = "default"; 
+
+			story.cue = storyDefault_cue( story.scene );
+
+			story._play( story.scene );
+		 
+		 });	
 	},
 
 	playDefaultScene : function() {
@@ -192,12 +297,6 @@ this.makeInventoryArray(5);
 		this.background = db.getCapitalPic( this.location );
 
 		this.addDefaultAgent( this.location );
-
-		this.scene = "default"; 
-
-		this.cue = storyDefault_cue( this.scene );
-
-		this._play( this.scene );
 
 	},
 
@@ -460,16 +559,16 @@ story_defaultAgent = function( _rec ) {
 
 	var _obj = {
 
-		name: _rec.username,
-		shortName: "da",         //default agent
-		pic: _rec.profile.av,
-		ID: _rec._id,
+		n: capitalizeAllWords( _rec.username ),
+		sn: "da",         //default agent
+		t: "a",        //type is "agent" (user in db)
 		top: "47%",
-		left: "47%",
-		index: 0
+		l: "47%",
+		p: _rec.profile.av,
+		t: "g"               //process this agent like a guest
 	}
 
-	this.init( _obj );	
+	this.init( _obj, 0 );	//default agent is always index zero
 }
 
 story_defaultAgent.prototype = new Char();
@@ -509,8 +608,6 @@ Tracker.autorun( function(comp) {
       ) {
 
   	console.log("story data ready")
-
-console.log( Meteor.users.find().fetch() )
 
   	story.init();
 

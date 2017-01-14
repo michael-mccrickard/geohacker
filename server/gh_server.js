@@ -144,6 +144,10 @@ Meteor.startup(
       return Meteor.users.find( { 'profile.cc': countryCode } );
     });   
 
+     Meteor.publish("agentsInThisCountry", function (_countryID) {
+
+      return Meteor.users.find( { 'profile.cc': _countryID } );
+    });   
 
 
 
@@ -155,6 +159,7 @@ Meteor.startup(
 
     //featuredUser on the bio screen
     Meteor.publish("featuredUser", function () {
+
       return Meteor.users.find( { _id: featuredUserID } );
     }); 
 
@@ -294,7 +299,7 @@ Meteor.startup(
     });  
 
     Meteor.publish("storyAssets_StoryAgentRecord",function( _storyAgentIDs ){
-      return Meteor.users.find( { _id: { $in: _storyAgentIDs } } );
+      return Meteor.users.find( { _id: { $in: _storyAgentIDs } }, { "_id": 1, "username": 1, "profile.av": 1 } );
     }); 
 
     Meteor.publish("storyAssets_StoryFlag",function( storyCode ){
@@ -1009,14 +1014,6 @@ console.log(this.userId);
   updateRecordOnServerWithDataObject: function (_type, ID, data) {
 
       var col = getCollectionForType( _type );
-
-console.log(_type);
-
-console.log( col.find().fetch().length )
-
-console.log(ID)
-
-console.log(data)
 
       var res = col.update( {_id: ID }, { $set: data  }); 
 

@@ -26,7 +26,6 @@
              
              {{/if}}
 
-              <!--{{#if displayIsReady}}-->
 
                 {{#if isAdmin}} 
 
@@ -37,9 +36,12 @@
                   <li><a href="javascript:void(0);" onclick="display.browser.restart()">Restart this browse</a></li> 
                   <li><a href="javascript:void(0);" onclick="nav.goAdmin('/dataChecker')">Check country data</a></li> 
                
-                 {{/if}} 
+              <li class="divider"></li>
 
-              <!--{{/if}}-->
+                   <li><a href="javascript:void(0);" onclick="testStoryEditor()">Story editor</a></li> 
+                   <li><a href="javascript:void(0);" onclick="testStory('A')">Test story</a></li>               
+
+                 {{/if}} 
 
             </ul>
           </li>

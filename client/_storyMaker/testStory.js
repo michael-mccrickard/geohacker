@@ -1,8 +1,8 @@
 testStory = function( _code) {
 
-	FlowRouter.go("/waiting");  
-
 	game.user.mode = uStory;
+
+	FlowRouter.go("/waiting");  
 
 	if ( !db.storiesInitialized ) db.initStories();
 
@@ -15,6 +15,8 @@ testStory = function( _code) {
 
 
 testStoryEditor = function() {
+
+	game.user.mode = uEditStory;
 
 	FlowRouter.go("/waiting");
 

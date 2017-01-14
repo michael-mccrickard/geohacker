@@ -92,7 +92,7 @@ storyA_cue = function( _name ) {
 						'delay.1000',
 						'story.computer.zoomMe(1)',
 						'delay.1500',
-						'story.computer.addContent("mona")',						
+						'story.computer.addContent("mona_content")',						
 						'delay.1000',
 						'story.computer.say("Get the Mona Lisa and take it to Timbuktu.")',
 						'story.flags["hasQuest"] = true',
@@ -184,7 +184,7 @@ storyA_cue = function( _name ) {
 						'delay.500',
 						'story.guard.say("Alright.  Carry on then.  Hope you know what you are doing.  Serious business, removing a masterpiece from the Louvre.")',
 						'story.mona.add()',
-					/*	'story.mona.scaleMe(0.35)',   */
+						'story.mona.scaleMe(0.35)',   
 						'story.mona.fadeIn()', 
 
 					];				

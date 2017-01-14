@@ -294,6 +294,8 @@ FlowRouter.route('/editStory', {
 
   action: function (params, queryParams) { 
 
+    $('body').removeClass('noscroll'); 
+
     BlazeLayout.render('layout', { content: "editStory" });
 
   }

@@ -220,9 +220,9 @@ Template.login.events({
 
       e.preventDefault();
 
-testStoryEditor();
+//testStoryEditor();
 
-//testStory("A");
+testStory("A");
 
 return;
 

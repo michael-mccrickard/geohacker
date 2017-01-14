@@ -1,59 +1,52 @@
 //char.js
-
 Char = function() {
 
-	this.init = function( _obj ) {
+	this.init = function( _obj, _index ) {
 
-		this.name = _obj.name;
+		this.name = _obj.n;
 
-		this.index = _obj.index;
+		this.index = _index;
 
 		this.top = _obj.top;
 
-		//width and left are a little tricky, you can use them if you don't plan to zoom the item
-		//or you can live with the position that they zoom themselves to
-
-		if (_obj.left) this.left = _obj.left;
+		this.left = _obj.l;
 
 		if (_obj.width) this.width = _obj.width;
 
-		this.shortName = _obj.shortName;
+		this.shortName = _obj.sn;
 
 		this.placement = "top";
 
-		//this will return null for guest stars
 
-		this.rec = Meteor.users.findOne( { username: this.name } );
+		if (_obj.t) {   //type
 
-		this.type = "agent";
+			if (_obj.t == "a") this.type = "agent";  
+
+			if (_obj.t == "g") this.type = "guest";  
+		}
 
 		//for an agent in the database, you don't supply the pic file or the ID in the _obj param,
-		//but for a "guest star", you do
-
-
-		if (_obj.type) {
-
-			this.type = _obj.type;
-		}
-
-		if (_obj.pic) {
-
-			this.pic = _obj.pic;
-		}
-		else {
-
-			this.pic = this.rec.profile.av;	
-		}
+		//but for a "guest star", you do.  Also, we create the ID on the fly for guests.
 		
-		if (_obj.ID) {
+		if ( this.type == "guest" ) {
 
-			this.ID = _obj.ID;
+			this.ID = story.name + "_" + this.shortName;
+
+			this.pic = _obj.p;			
 		}
-		else {
+
+		if ( this.type == "agent" ) {
 		
-			this.ID = this.rec._id;
-		}
+			this.ID = _obj._id;
 
+			//the object we were passed was just the record in the ghChar table,
+			//we have to get the user record for the picture file
+
+			var _rec = Meteor.users.findOne( { username: this.name } );
+
+			this.pic = _rec.profile.av;
+			
+		}
 
 		this.size = 96;
 
@@ -85,3 +78,4 @@ Char = function() {
 } 
 
 Char.prototype = new Entity();
+
