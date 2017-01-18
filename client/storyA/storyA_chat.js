@@ -1,3 +1,43 @@
+
+arrSource = [];
+
+addChat = function() {
+
+	var _scenes = [ "intro", "missionToMona", "firstGuardVisit", "secondGuardVisit", "missionInfo", "vanGogh", "nelsonGetsPainting"];
+
+	for (var i = 0; i < _scenes.length; i++ ) {
+
+		var _shortName = _scenes[i];
+
+		var _fullName = "storyA_chat_" + _shortName;
+
+		arrSource = [];
+
+		eval ( "arrSource = " + _fullName);
+
+		for (var k = 0; k < arrSource.length; k++) {
+
+			var _src = arrSource[k];
+
+			var _obj = {};
+
+			_obj.c = "A";
+
+			_obj.s = _shortName;   //scene
+
+			_obj.i = _src.i;
+
+			_obj.n = _src.n;				
+
+			_obj.d = _src.d;
+
+
+			db.ghChat.insert( _obj );  
+
+		} 
+	}	     
+}
+
 storyA_chat_intro = [
 
 	{

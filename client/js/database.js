@@ -59,6 +59,10 @@ Database = function() {
     this.ghStoryAgent = new Meteor.Collection("ghStoryAgent");
 
     this.ghStoryFlag = new Meteor.Collection("ghStoryFlag");
+
+    this.ghCue = new Meteor.Collection("ghCue");
+
+    this.ghChat = new Meteor.Collection("ghChat");
   }
 
   //************************************************************

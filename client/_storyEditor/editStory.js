@@ -44,6 +44,10 @@ StoryEditor = function() {
 
 		Meteor.subscribe("allStoryFlags", function() { Session.set("sAllStoryFlagsReady", true ) });
 
+		Meteor.subscribe("allCues", function() { Session.set("sAllChats", true ) });
+
+		Meteor.subscribe("allChats", function() { Session.set("sAllCues", true ) });
+
 		this.findSelector.set( {} );
 
 		this.collection.set( db.ghStory );
@@ -218,7 +222,11 @@ Tracker.autorun( function(comp) {
 
    		Session.get("sAllStoryAgentsReady") &&
 
-   		Session.get("sAllStoryFlagsReady")
+   		Session.get("sAllStoryFlagsReady") &&
+
+   		Session.get("sAllCues") &&
+
+   		Session.get("sAllChats")
 
       ) {
 

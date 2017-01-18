@@ -126,14 +126,14 @@ div.storyButton {
 
 	opacity: 0;
 
-/*	width: 100%; */
-
 	text-align: center;
 }
 
 .storyThingContent {
 
 	position: absolute;
+
+	border-radius: 16px;
 
 }
 

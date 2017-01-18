@@ -25,12 +25,14 @@ Char = function() {
 			if (_obj.t == "g") this.type = "guest";  
 		}
 
-		//for an agent in the database, you don't supply the pic file or the ID in the _obj param,
+		if (_obj.ID) this.ID = _obj.ID;
+
+		//for an agent in the database, you don't supply the pic file in the _obj param b/c you don't know it,
 		//but for a "guest star", you do.  Also, we create the ID on the fly for guests.
 		
 		if ( this.type == "guest" ) {
 
-			this.ID = story.name + "_" + this.shortName;
+			if (this.index != 0) this.ID = story.name + "_" + this.shortName;  //the default agent (index 0) already has an ID
 
 			this.pic = _obj.p;			
 		}

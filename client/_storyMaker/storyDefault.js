@@ -16,3 +16,19 @@ storyDefault_cue = function( _name ) {
 	return _cue;			
 
 }
+
+storyDefault_chat_preintro = [
+
+	{
+		"i": "h",
+		"n": "root",
+		"d": [ { "t": "Agent, you need to report to your base to get your mission!", "g":"*" } ]
+	},
+
+	{
+		"i": "u",
+		"n": "*",
+		"d": [ { "t": "Bye.", "g": "exit"}  ]  
+
+	}
+];

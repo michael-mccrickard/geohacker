@@ -12,12 +12,12 @@ storyA = function() {
 
 		this.location = "base";  //base, FR, ML, NL
 
-		
-		//this.twain = new storyA_twain(1);
+	/*	
+		this.twain = new storyA_twain(1);
 
-		//this.bob = new storyA_bob(1);
+		this.bob = new storyA_bob(1);
 
-		/*this.guard = new storyA_guard(3);
+		this.guard = new storyA_guard(3);
 
 		this.van = new storyA_van(4);
 
@@ -31,10 +31,11 @@ storyA = function() {
 		this.mona = new storyA_mona(1);
 */
 
-		this.tokens = [1,2, 3];
+	//	this.tokens = [1,2, 3];
 
-		this.chars = [0,1,2,3,4,5];
+	//	this.chars = [0,1,2,3,4,5];
 
+//hasQuest is the one mandatory flag
 
 		this.flags["didExercise1"] = false;
 
@@ -58,21 +59,17 @@ storyA = function() {
 
 //*********************************************************************************
 //
-//				PLAYNG SCENES
+//				DEFAULT SCENE 
 //
 //*********************************************************************************
 
+	this.getDefaultChat = function() {
 
-	this.play = function( _name ) {
+		if (!this.flags.hasQuest) return "storyDefault_chat_preintro";
 
-		this.scene = _name; 
+		if (!this.flags.hasVisitedGuard) return "storyA_chat_missionToMona";
 
-		this.cue = storyA_cue( _name );
-
-		//call the play method on the base object ( Story() )
-
-		this._play( _name ); 
-
+		return "storyA_chat_missionInfo";
 	}
 
 //*********************************************************************************

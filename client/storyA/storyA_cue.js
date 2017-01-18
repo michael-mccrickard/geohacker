@@ -1,3 +1,22 @@
+addCue = function() {
+
+	var _scenes = [ "intro", "missionToMona", "firstGuardVisit", "secondGuardVisit", "missionInfo", "vanGogh", "userGetsPasscode", "guardGetsPasscode", "nelsonGetsPainting", "nelsonAndMark"]
+
+	for (var i = 0; i < _scenes.length; i++ ) {
+
+		var _obj = {};
+
+		_obj.c = "A";
+
+		_obj.n = _scenes[i];
+
+		_obj.d = storyA_cue( _obj.n );
+
+		db.ghCue.insert( _obj );  
+	}	     
+}
+
+
 storyA_cue = function( _name ) {
 
 	var _cue = [];

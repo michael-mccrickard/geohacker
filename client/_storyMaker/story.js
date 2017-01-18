@@ -80,9 +80,15 @@ Story = {
 
 		Meteor.subscribe("storyAssets_StoryFlag", story.code, function() { Session.set("sStoryFlagReady", true ) });
 
+		Meteor.subscribe("storyAssets_Cue", story.code, function() { Session.set("sCueReady", true ) });
+
+		Meteor.subscribe("storyAssets_Chat", story.code, function() { Session.set("sChatReady", true ) });
+
 //need to do this with value from the db, story record (in autoRun?)
 
 if (!this.inventoryButtons.length) this.makeInventoryArray(3);
+
+		this.setEntityArrays();
 
 		this.createChars();
 
@@ -111,36 +117,34 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		this[ _name ].fadeIn(250);		
 	},
 
-	_play : function( _name ) {
-
-		this.scene = _name;
-
-		this.mode.set( "scene" );
-
-
-		//do we need to change the bg?
-
-		if ( $(this.bgElement).attr("src") != this.background ) {
-
-			this.fadeOutChars();
-
-			this.fadeOutTokens();
-
-			this.fadeOutBG();
-
-			Meteor.setTimeout( function() { story.finishPlay(); }, 1100);
-
-			return;				
-		}
-
-		this.finishPlay();
-	},
-
 //*********************************************************************************
 //
 //				CREATE ENTITIES FROM DATA
 //
 //*********************************************************************************
+
+	setEntityArrays : function() {
+
+		var _tokenCount = db.ghToken.find( { t: "n" } ).fetch().length;
+
+		this.tokens = this.makeArray(_tokenCount);
+
+		var _charCount = db.ghChar.find().fetch().length;
+
+		this.chars = this.makeArray(_charCount);
+	},
+
+	makeArray : function( _val ) {
+
+		var _arr = [];
+
+		for (var i = 0; i < _val; i++ ) {
+
+			_arr.push(i);
+		}
+
+		return _arr;
+	},
 
 	createChars : function() {
 
@@ -155,8 +159,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 			//up to the last one
 
 			var _obj = _arr[i - 1];
-c("obj in createChars follows")
-c( _obj)
+
 			_name = _obj.sn;
 
 			//story.twain = new Char(1);
@@ -187,7 +190,7 @@ c( _obj)
 			//story.computer = new Token(1);
 
 			var _str = "story." + _name + " = new Token()";
-c(_str)
+
 			eval( _str );
 
 			//story.computer.init( _obj, _index );
@@ -200,8 +203,12 @@ c(_str)
 			if (_type == "n") _index = i + 1;
 
 			_str = "story." + _name + ".init( _obj, " + _index + " )";
-c(_str)
+
 			eval(  _str );	
+
+
+			//if this is a "normal" token, then we check to see if there are any content
+			//tokens to be added to it's content property (all the content tokens were created first)
 
 			if (_type == "n") {
 
@@ -213,22 +220,24 @@ c(_str)
 
 					_str = "story." + _name + ".content = {};"
 
-c(_str)
+
 					eval( _str );
 
 					//this array is treated normally
 
-					for (var i = 0; i < _arrC.length; i++) {	
+					for (var j = 0; j < _arrC.length; j++) {	
 						
 						//story.computer.content["bunnies"] = story.bunnies;
 
-						_str = "story." + _name + ".content['" + _arrC[i].sn + "'] = story." + _arrC[i].sn + ";"
-c(_str)
+						_str = "story." + _name + ".content['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
+
 						eval( _str)
 					}				
-				}
-			}	
-		}	
+				} //end if array of content tokens is non-empty
+
+			}  //end if normal	
+
+		} //end for loop thru records	
 	},
 
 
@@ -250,6 +259,41 @@ c(_str)
 
 		Meteor.setTimeout( function() { story.playScene(); }, 1001);	
 
+	},
+
+
+	play : function( _name ) {
+
+		//the default scene already set story.cue in the calling function
+
+		if ( _name != "default" ) {
+
+			this.scene = _name; 
+
+			eval( "story.cue = " + story.name + "_cue( '" + _name + "' )" );
+	 
+			this.scene = _name;			
+		}
+
+		this.mode.set( "scene" );
+
+
+		//do we need to change the bg?
+
+		if ( $(this.bgElement).attr("src") != this.background ) {
+
+			this.fadeOutChars();
+
+			this.fadeOutTokens();
+
+			this.fadeOutBG();
+
+			Meteor.setTimeout( function() { story.finishPlay(); }, 1100);
+
+			return;				
+		}
+
+		this.finishPlay();
 	},
 
 	playScene : function() {
@@ -279,15 +323,13 @@ c(_str)
 
 			var _rec =  Meteor.users.findOne( { 'profile.cc': _countryID } ); 
 
-c(_rec)
-
 			story.da = new story_defaultAgent( _rec );
 
 			story.scene = "default"; 
 
 			story.cue = storyDefault_cue( story.scene );
 
-			story._play( story.scene );
+			story.play( story.scene );
 		 
 		 });	
 	},
@@ -351,6 +393,13 @@ c(_rec)
 
 		var _name = this.name + "_chat_" + this.scene;
 
+		//For a default chat, we have to check with the story instance
+		//to get the correct chat to play
+
+		if ( this.scene == "default") {
+
+			_name = this.getDefaultChat();
+		}
 
 		//we evaluate this so that js will see the string _name as an object
 
@@ -561,11 +610,11 @@ story_defaultAgent = function( _rec ) {
 
 		n: capitalizeAllWords( _rec.username ),
 		sn: "da",         //default agent
-		t: "a",        //type is "agent" (user in db)
 		top: "47%",
 		l: "47%",
 		p: _rec.profile.av,
-		t: "g"               //process this agent like a guest
+		t: "g",               //process this agent like a guest
+		ID: story.name + "_" + getRandomString()
 	}
 
 	this.init( _obj, 0 );	//default agent is always index zero
@@ -603,7 +652,11 @@ Tracker.autorun( function(comp) {
 
    		Session.get("sStoryAgentRecordReady") &&
 
-   		Session.get("sStoryFlagReady")
+   		Session.get("sStoryFlagReady") &&
+
+   		Session.get("sCueReady") &&
+
+   		Session.get("sChatReady")
 
       ) {
 

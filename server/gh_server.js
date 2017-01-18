@@ -96,6 +96,10 @@ Meteor.startup(
 
     ghStoryFlag = new Meteor.Collection("ghStoryFlag")
 
+    ghCue = new Meteor.Collection("ghCue")
+
+    ghChat = new Meteor.Collection("ghChat")
+
     //country editing collections
 
     Meteor.publish("allImages", function() {
@@ -272,6 +276,14 @@ Meteor.startup(
       return ghStoryFlag.find({});
     });  
 
+     Meteor.publish("allCues",function(){
+      return ghCue.find({});
+    });  
+
+     Meteor.publish("allChats",function(){
+      return ghChat.find({});
+    });  
+
     //stories
 
      Meteor.publish("storyAssets_Story",function( storyCode ){
@@ -305,11 +317,45 @@ Meteor.startup(
     Meteor.publish("storyAssets_StoryFlag",function( storyCode ){
       return ghStoryFlag.find({ c: storyCode });
     });  
-    
+   
+    Meteor.publish("storyAssets_Cue",function( storyCode ){
+      return ghCue.find({ c: storyCode });
+    });  
+
+    Meteor.publish("storyAssets_Chat",function( storyCode ){
+      return ghChat.find({ c: storyCode });
+    });  
+
     //music
 
     Meteor.publish("allMusic", function() {
       return ghMusic.find( {} );
+    });
+
+    ghCue.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      }
+    });
+
+    ghChat.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      }
     });
 
     ghStoryAgent.allow({

@@ -53,7 +53,7 @@ Template.editStory.events = {
 
     sed.setMode( "Token", db.ghToken, cToken )
   },
-/*
+
   'click #pickCue' : function(e){
 
     e.preventDefault();
@@ -67,7 +67,7 @@ Template.editStory.events = {
 
     sed.setMode( "Chat", db.ghChat, cChat )
   },
-*/
+
 
   'click #pickFlag' : function(e){
 

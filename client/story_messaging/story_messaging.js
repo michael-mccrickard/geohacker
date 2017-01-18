@@ -110,19 +110,6 @@ StoryMessaging = function() {
 
         this.source = this.createChatSource( _arr );
 
-        //who spoke last, if anybody?
-/*
-        if (this.lastSpeakerID) {
-
-            if (this.lastSpeakerID == this.userID) {
-
-                this.createUserChoices("*");
-
-                return;
-            }
-        }
-*/
-
         this.doHelperSpeech( "root" );
 
     }
@@ -273,20 +260,10 @@ StoryMessaging = function() {
 
                 if ( $(window).height() < $(document).height() ) {
 
-                    //$(body).removeClass("noscroll");
-
                     display.animateScrollToBottom();
                 }
             }
         );   
-    }
-
-    this.userChoice = function( _index ) {
-
-     var _key = storyA_chat1
-
-//Database.getObjectIndexWithValue = function( _arr, _field, _val) 
-
     }
 
 }
