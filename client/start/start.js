@@ -211,7 +211,7 @@ Meteor.startup(function() {
 
   youtube = new YouTube();
 
-  story = null;   
+  story = new Story();   
 
   ytplayer = null;
 

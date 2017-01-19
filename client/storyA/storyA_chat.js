@@ -31,6 +31,7 @@ addChat = function() {
 
 			_obj.d = _src.d;
 
+			if (_src.x) _obj.x = _src.x;
 
 			db.ghChat.insert( _obj );  
 
@@ -108,7 +109,7 @@ storyA_chat_vanGogh = [
 	{
 		"i": "h",
 		"n": "OK",
-		"x": "story.flags['hasVisitedVanGogh'] = true",
+		"x": "story.flags.hasVisitedVanGogh = true",
 		"d": [{ "t": "Yes, I suppose so.  I didn't paint it.  Always seemed a little overrated to me.", "g":"thanks" }]
 	},
 
@@ -188,7 +189,7 @@ storyA_chat_firstGuardVisit = [
 	{
 		"i": "h",
 		"n": "painting?",
-		"x": "story.flags['hasVisitedGuard'] = true",
+		"x": "story.flags.hasVisitedGuard = true",
 		"d": [{ "t": "Painting?  You can't be serious.  This is the world's greatest art museum, not a pawn shop.", "g":"needTheMonaLisa" }]
 	},
 
@@ -230,7 +231,7 @@ storyA_chat_firstGuardVisit = [
 	{
 		"i": "u",
 		"n": "passcode?",
-		"x": "story.flags['awareOfPasscode'] = true",
+		"x": "story.flags.awareOfPasscode = true",
 		"d": [ { "t": "No.", "g": "noPasscode"}, { "t": "Yes.", "g": "yesPasscode"}  ]
 	},
 	{

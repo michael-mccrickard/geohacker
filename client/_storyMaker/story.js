@@ -5,9 +5,9 @@ $(document).ready(function(){
     $('.divStory').tooltip(); 
 });
 
-storyCode = "";
 
-Story = {
+
+Story =  function() {
 
 //*********************************************************************************
 //
@@ -16,7 +16,7 @@ Story = {
 //
 //*********************************************************************************
 
-	_init : function( _code ) {
+	this._init = function( _code ) {
 
 		this.code = _code;
 
@@ -60,7 +60,7 @@ Story = {
 
 	},
 
-	finishSubscriptions : function( ) {
+	this.finishSubscriptions = function( ) {
 
 		//create the array of agent IDs, so that we can get their user records (for their pics)
 
@@ -98,13 +98,15 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 		this.createTokens( "n" );  //normal
 
+		this.createFlags();
+
 		this.cueSource = db.ghCue.find().fetch();
 
 		this.chatSource = db.ghChat.find().fetch();		//we will have to filter out the recs we need, for each chat
 
 	},
 
-	_addInventoryItem : function( _name ) {
+	this._addInventoryItem = function( _name ) {
 
 		if ( this[ _name ].movable == false) return;
 
@@ -116,7 +118,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 	},
 
-	_removeInventoryItem : function( _name ) {
+	this._removeInventoryItem = function( _name ) {
 
 		this.inv.remove( _name );
 
@@ -132,7 +134,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 	//when we make the arrays, we have to add one to the count (allows for the default char and default token)
 	//Default token not used yet, not sure what it would be
 	
-	setEntityArrays : function() {
+	this.setEntityArrays = function() {
 
 		var _tokenCount = db.ghToken.find( { t: "n" } ).fetch().length;
 
@@ -143,7 +145,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		this.chars = this.makeArray(_charCount + 1);
 	},
 
-	makeArray : function( _val ) {
+	this.makeArray = function( _val ) {
 
 		var _arr = [];
 
@@ -155,7 +157,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		return _arr;
 	},
 
-	createChars : function() {
+	this.createChars = function() {
 
 		var _arr = db.ghChar.find().fetch();
 
@@ -185,7 +187,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		}	
 	},
 
-	createTokens : function( _type ) {
+	this.createTokens = function( _type ) {
 
 		var _arr = db.ghToken.find( { t: _type } ).fetch();
 
@@ -250,7 +252,15 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 	},
 
 
+	this.createFlags = function() {
 
+		var _arr = db.ghStoryFlag.find().fetch();
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			this.flags[ _arr[i].n ] = false;
+		}
+	}
 
 //*********************************************************************************
 //
@@ -258,7 +268,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 //
 //*********************************************************************************
 
-	finishPlay : function() {
+	this.finishPlay = function() {
 
 		this.resetScene();
 
@@ -271,7 +281,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 	},
 
 
-	play : function( _name ) {
+	this.play = function( _name ) {
 
 		//the default scene already set story.cue in the calling function
 
@@ -307,14 +317,14 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		this.finishPlay();
 	},
 
-	playScene : function() {
+	this.playScene = function() {
 
 		this.cutScene = new CutScene( this.scene );
 
 		this.cutScene.play( this.cue );
 	},
 
-	resetScene : function() {
+	this.resetScene = function() {
 
 		this.tokenObjs = [];
 
@@ -328,7 +338,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 //
 //*********************************************************************************
 
-	addDefaultAgent : function( _countryID ) {
+	this.addDefaultAgent = function( _countryID ) {
 
 		Meteor.subscribe("agentsInThisCountry", _countryID, function() { 
 
@@ -345,7 +355,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		 });	
 	},
 
-	playDefaultScene : function() {
+	this.playDefaultScene = function() {
 
 		this.background = db.getCapitalPic( this.location );
 
@@ -360,7 +370,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 //
 //*********************************************************************************
 
-	goBase : function() {
+	this.goBase = function() {
 
           this.unhiliteAllButtons();
 
@@ -369,7 +379,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
           this.go("base");
 	},
 
-	goMap : function() {
+	this.goMap = function() {
 
 		  this.unhiliteAllButtons();
 
@@ -392,7 +402,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 //
 //*********************************************************************************
 
-	doChat : function( _sel, _shortName ) {
+	this.doChat = function( _sel, _shortName ) {
 
         this.silenceAll();
 
@@ -432,7 +442,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 //
 //*********************************************************************************
 
-	draw : function() {
+	this.draw = function() {
 
 		var _width = 90.0 / parseFloat( this.inventoryButtons.length + 2 );  //plus two for the MAP and BASE buttons
 
@@ -442,17 +452,17 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 	},
 
 
-	fadeInBG : function() {
+	this.fadeInBG = function() {
 
 		$(this.bgElement).velocity( "fadeIn", {duration: 1000} );
 	},
 
-	fadeOutBG : function() {
+	this.fadeOutBG = function() {
 
 		$(this.bgElement).velocity( "fadeOut", {duration: 1000} );
 	},
 
-	fadeInChars : function() {
+	this.fadeInChars = function() {
 
 		for (var key in this.charObjs) {
 
@@ -460,7 +470,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		}
 	},
 
-	fadeInTokens : function() {
+	this.fadeInTokens = function() {
 
 		for (var key in this.tokenObjs) {
 
@@ -468,7 +478,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		}
 	},
 
-	fadeOutChars : function() {
+	this.fadeOutChars = function() {
 
 		for (var key in this.charObjs) {
 
@@ -476,7 +486,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		}
 	},
 
-	fadeOutTokens : function() {
+	this.fadeOutTokens = function() {
 
 		for (var key in this.tokenObjs) {
 
@@ -484,14 +494,14 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		}
 	},
 
-	fadeOutAll: function() {
+	this.fadeOutAll = function() {
 
 		this.fadeOutChars();
 
 		this.fadeOutTokens();
 	},
 
-	hideChars : function() {
+	this.hideChars = function() {
 
 		for (var key in this.charObjs) {
 
@@ -501,7 +511,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		}
 	},
 
-	showChars : function() {
+	this.showChars = function() {
 
 		for (var key in this.charObjs) {
 
@@ -509,7 +519,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		}
 	},
 
-	showTokens : function() {
+	this.showTokens = function() {
 
 		for (var key in this.tokenObjs) {
 
@@ -517,7 +527,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		}
 	},
 
-	hideTokens : function() {
+	this.hideTokens = function() {
 
 		for (var key in this.tokenObjs) {
 
@@ -525,7 +535,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		}
 	},
 
-	silenceChars : function() {
+	this.silenceChars = function() {
 
 		for (var key in this.charObjs) {
 
@@ -533,7 +543,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		}
 	},
 
-	silenceTokens : function() {
+	this.silenceTokens = function() {
 
 		for (var key in this.tokenObjs) {
 
@@ -541,40 +551,40 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		}
 	},
 
-	hideAll : function() {
+	this.hideAll = function() {
 
 		this.hideChars();
 
 		this.hideTokens();
 	},
 
-	showAll : function() {
+	this.showAll = function() {
 
 		this.showChars();
 
 		this.showTokens();
 	},
 
-	silenceAll : function() {
+	this.silenceAll = function() {
 
 		this.silenceChars();
 
 		this.silenceTokens();
 	},
 
-	hidePrompt : function() {
+	this.hidePrompt = function() {
 
 		$("div#storyPromptText").addClass("invisible");	
 	},
 
-	showPrompt : function( _text) {
+	this.showPrompt = function( _text) {
 
         $("div#storyPromptText").removeClass("invisible");
     
         $("div#storyPromptText").text( _text );
 	},
 
-	prompt : function( _text) {
+	this.prompt = function( _text) {
 
 		this.showPrompt( _text );
 	},
@@ -586,7 +596,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 //
 //*********************************************************************************
 
-	makeInventoryArray : function( _num ) {
+	this.makeInventoryArray = function( _num ) {
 
 		for (var i = 1;  i <= _num; i++) {
 
@@ -594,7 +604,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		}
 	},
 
-	hiliteButton : function( _name ) {
+	this.hiliteButton = function( _name ) {
 
 		var _sel = "img#storyButton" + _name + ".imgStoryButton.imgStoryButtonBG";
 
@@ -604,7 +614,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		
 	},
 
-	unhiliteAllButtons : function( ) {
+	this.unhiliteAllButtons = function( ) {
 
 		for (var i = 0; i < story.storyButtonBGElements.length; i++) {
 
@@ -613,7 +623,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 			$( _sel ).attr("src", Control.featuredBackdrop());
 		}
 		
-	},
+	}
 
 }
 
