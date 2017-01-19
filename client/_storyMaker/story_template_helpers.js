@@ -137,6 +137,22 @@ Template.story.events({
        }
       },
 
+    'click .storyThing': function(event, template) {
+
+       if (story.cutScene) {
+
+        if (story.cutScene.c == "wait") story.cutScene.playNext();
+       }
+      },
+
+    'click .storyThingContent': function(event, template) {
+
+       if (story.cutScene) {
+
+        if (story.cutScene.c == "wait") story.cutScene.playNext();
+       }
+      },
+
      'click img.storyBG': function(e, t) {
      	
        if (story.cutScene) {

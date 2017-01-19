@@ -20,8 +20,6 @@ Story = {
 
 		this.code = _code;
 
-		//storyCode = _code;  //need to store in a global since the story object doesn't exist just yet
-
 		this.name = "story" + _code;
 
 		if (!game.user.sms) game.user.sms = new StoryMessaging();
@@ -96,6 +94,10 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 		this.createTokens( "n" );  //normal
 
+		this.cueSource = db.ghCue.find().fetch();
+
+		this.chatSource = db.gChat.find().fetch();		
+
 	},
 
 	_addInventoryItem : function( _name ) {
@@ -123,15 +125,18 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 //
 //*********************************************************************************
 
+	//when we make the arrays, we have to add one to the count (allows for the default char and default token)
+	//Default token not used yet, not sure what it would be
+	
 	setEntityArrays : function() {
 
 		var _tokenCount = db.ghToken.find( { t: "n" } ).fetch().length;
 
-		this.tokens = this.makeArray(_tokenCount);
+		this.tokens = this.makeArray(_tokenCount + 1);
 
 		var _charCount = db.ghChar.find().fetch().length;
 
-		this.chars = this.makeArray(_charCount);
+		this.chars = this.makeArray(_charCount + 1);
 	},
 
 	makeArray : function( _val ) {
@@ -270,9 +275,11 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 			this.scene = _name; 
 
-			eval( "story.cue = " + story.name + "_cue( '" + _name + "' )" );
+			//eval( "story.cue = " + story.name + "_cue( '" + _name + "' )" );
+
+			var _index = Database.getObjectIndexWithValue( this.cueSource, "n", this.scene);
 	 
-			this.scene = _name;			
+			this.cue = this.cueSource[_index].d;	
 		}
 
 		this.mode.set( "scene" );

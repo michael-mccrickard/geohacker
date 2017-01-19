@@ -16,7 +16,7 @@ addCue = function() {
 	}	     
 }
 
-
+/*
 storyA_cue = function( _name ) {
 
 	var _cue = [];
@@ -268,3 +268,5 @@ storyA_cue = function( _name ) {
 
 		return _cue;
 }
+
+*/

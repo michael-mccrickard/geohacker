@@ -76,9 +76,6 @@ Database = function() {
     Meteor.call("clearUsers");
   }
 
-
-
-
   this.updateUserHacks = function() {
 
       Meteor.users.update( { _id: Meteor.user()._id }, { $set: { 
