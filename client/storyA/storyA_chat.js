@@ -1,4 +1,4 @@
-
+/*
 arrSource = [];
 
 addChat = function() {
@@ -420,3 +420,4 @@ storyA_chat_nelsonGetsPainting = [
 ];
 
 storyA_chat_default = storyA_chat_missionInfo;
+*/

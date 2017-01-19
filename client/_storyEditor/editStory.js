@@ -20,6 +20,10 @@ StoryEditor = function() {
 
 	this.uploader = new Slingshot.Upload("ghStoryPic");
 
+	this.tempStoryAgentName = "";
+
+	this.tempStoryAgentRecordID = "";
+
 	this.story = null;
 
 //*********************************************************************************
@@ -137,6 +141,43 @@ StoryEditor = function() {
 
 	this.updateRecord = function(_id) {
 
+		if (this.collectionID.get() == cStoryAgent)  {
+
+			var _sel = "input#" + _id + ".n";
+
+			var _agentName = $(_sel).val();
+
+			if (!_agentName) {
+
+				showMessage("No agent name found in field n for a story agent.");
+
+				return;
+			}		
+
+			this.tempStoryAgentName = _agentName;
+
+			this.tempStoryAgentRecordID = _id;
+
+			Meteor.subscribe("tempAgent", _agentName, function() { 
+
+				var _uid = Meteor.users.findOne( { username: sed.tempStoryAgentName } )._id;
+c(_uid)
+				var _sel = "input#" + _id + ".uid";
+
+				$( _sel ).val( _uid );
+
+				sed.updateRecord2( sed.tempStoryAgentRecordID );
+
+			 });
+		}
+		else {
+
+			this.updateRecord2( _id );
+		}
+	}
+
+	this.updateRecord2 = function( _id ) {
+
 		doSpinner();
 
   		var data = {};
@@ -152,6 +193,7 @@ StoryEditor = function() {
 			var sel = "";
 
 			sel = "input#" + _id + "." + _field;
+
 
 			data[ _field ] = $(sel).val(); 					
 			

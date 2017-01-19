@@ -284,6 +284,13 @@ Meteor.startup(
       return ghChat.find({});
     });  
 
+     Meteor.publish("tempAgent",function( _name){
+
+      return Meteor.users.find( { username: _name }, { "_id": 1, "username": 1 } );
+
+    });  
+
+
     //stories
 
      Meteor.publish("storyAssets_Story",function( storyCode ){

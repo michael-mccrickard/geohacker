@@ -54,7 +54,7 @@ Story = {
 
  		this.storyButton = "Base";
 
- 		//subscribe to all the relevant story data in the db
+ 		//first subscribe to the records that supply any actual agent IDs (agents in the db) that we need for the story
 
 		Meteor.subscribe("storyAssets_StoryAgent", _code, function() { Session.set("sStoryAgentReady", true ) });
 
@@ -62,7 +62,11 @@ Story = {
 
 	finishSubscriptions : function( ) {
 
+		//create the array of agent IDs, so that we can get their user records (for their pics)
+
 		var _arr = Database.makeSingleElementArray( db.ghStoryAgent.find().fetch(), "uid" );
+
+		//this sub will return the user records for the IDs found in _arr
 
 		Meteor.subscribe("storyAssets_StoryAgentRecord", _arr, function() { Session.set("sStoryAgentRecordReady", true ) });
 
@@ -96,7 +100,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 		this.cueSource = db.ghCue.find().fetch();
 
-		this.chatSource = db.gChat.find().fetch();		
+		this.chatSource = db.ghChat.find().fetch();		//we will have to filter out the recs we need, for each chat
 
 	},
 
@@ -410,7 +414,11 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 		//we evaluate this so that js will see the string _name as an object
 
-		eval( "game.user.sms.startChat(" + _name + ")" );
+	//	eval( "game.user.sms.startChat(" + _name + ")" );
+
+		this.chatSource = db.ghChat.find( { s: this.scene } ).fetch();
+
+		game.user.sms.startChat( this.chatSource );
 
       	this.mode.set("chat");
 
