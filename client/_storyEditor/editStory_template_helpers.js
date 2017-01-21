@@ -8,7 +8,7 @@ Template.editStory.events = {
 
     $("#pickStory").text( "STORY" );
 
-    sed.setMode("Story", db.ghStory, cStory);
+    sed.setCollection("Story", db.ghStory, cStory);
 
     //for story mode, we show all stories in the db
 
@@ -23,49 +23,49 @@ Template.editStory.events = {
 
     e.preventDefault();
 
-    sed.setMode( "Location", db.ghLocation, cLocation )
+    sed.setCollection( "Location", db.ghLocation, cLocation )
   },
 
   'click #pickScene' : function(e){
 
     e.preventDefault();
 
-    sed.setMode( "Scene", db.ghScene, cScene )
+    sed.setCollection( "Scene", db.ghScene, cScene )
   },
 
   'click #pickChar' : function(e){
 
     e.preventDefault();
 
-    sed.setMode( "Char", db.ghChar, cChar )
+    sed.setCollection( "Char", db.ghChar, cChar )
   },
 
   'click #pickAgent' : function(e){
 
     e.preventDefault();
 
-    sed.setMode( "Token", db.ghStoryAgent, cStoryAgent )
+    sed.setCollection( "Token", db.ghStoryAgent, cStoryAgent )
   },
 
   'click #pickToken' : function(e){
 
     e.preventDefault();
 
-    sed.setMode( "Token", db.ghToken, cToken )
+    sed.setCollection( "Token", db.ghToken, cToken )
   },
 
   'click #pickCue' : function(e){
 
     e.preventDefault();
 
-    sed.setMode( "Cue", db.ghCue, cCue )
+    sed.setCollection( "Cue", db.ghCue, cCue )
   },
 
   'click #pickChat' : function(e){
 
     e.preventDefault();
 
-    sed.setMode( "Chat", db.ghChat, cChat )
+    sed.setCollection( "Chat", db.ghChat, cChat )
   },
 
 
@@ -73,14 +73,33 @@ Template.editStory.events = {
 
     e.preventDefault();
 
-    sed.setMode( "Flag", db.ghStoryFlag, cStoryFlag )
+    sed.setCollection( "Flag", db.ghStoryFlag, cStoryFlag )
   },
 
   'click .selectRecord' : function(e){
 
      e.preventDefault();
+
+c("id of record follows")
+
+c(e.currentTarget.id)
+
+     sed.recordID.set( e.currentTarget.id );
 	
-	 sed.code.set( $( "button#" + e.currentTarget.id + ".btn").data("c") );
+	   sed.code.set( $( "button#" + e.currentTarget.id + ".btn").data("c") );
+
+
+   if ( sed.table.get() == "Cue") {
+
+        var _scene = $( "input#" + e.currentTarget.id + ".n" ).val();
+
+        sed.makeLocalCollection( _scene );
+
+        sed.mode.set( "local" );
+
+        return;
+   }
+
 
 	  if ( sed.table.get() == "Story") {
 
@@ -141,6 +160,27 @@ Template.editStory.events = {
      
   },
 
+  'click #returnToServer' : function(e){
+
+    e.preventDefault();
+
+    sed.saveAllLocalRecords();
+
+    sed.saveLocalCollectionToRecord();
+
+    sed.mode.set("server");
+  },
+
+
+  'click #saveAll' : function(e){
+
+    e.preventDefault();
+
+    sed.saveAllLocalRecords();
+
+    //sed.saveLocalCollectionToRecord();
+  },
+
 }
 
 
@@ -150,7 +190,19 @@ Template.editStory.helpers({
 
     return sed.template.get();
   },
+  serverMode: function() {
 
+    if (sed.mode.get() == "server" ) return true;
+
+    return false;
+  },
+
+  localMode: function() {
+
+    if (sed.mode.get() == "local" ) return true;
+
+    return false;
+  },
 
 });
 
@@ -195,5 +247,29 @@ Template.storyData.helpers({
 		}
 
 		return true;
-	}
+	},
+
+  serverMode: function() {
+
+    if (sed.mode.get() == "server" ) return true;
+
+    return false;
+  },
+
+  localMode: function() {
+
+    if (sed.mode.get() == "local" ) return true;
+
+    return false;
+  },
+
+  localRecord: function() {
+
+     return sed.arrCollection.find( {}, { sort: {q: 1} } );
+  },
+
+  recordID: function() {
+
+    return sed.recordID.get();
+  }
 });

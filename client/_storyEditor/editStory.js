@@ -6,6 +6,8 @@ StoryEditor = function() {
 
 	this.code = new Blaze.ReactiveVar("");
 
+	this.mode = new Blaze.ReactiveVar("server");
+
 	this.collection = new Blaze.ReactiveVar(null);
 
 	this.collectionID = new Blaze.ReactiveVar( cStory );
@@ -16,6 +18,8 @@ StoryEditor = function() {
 
 	this.recordID = new Blaze.ReactiveVar("");
 
+	this.arrCollection = null;
+
 	this.tableList = ["Story","Location","Scene","Char","Token","Flag"];
 
 	this.uploader = new Slingshot.Upload("ghStoryPic");
@@ -25,6 +29,10 @@ StoryEditor = function() {
 	this.tempStoryAgentRecordID = "";
 
 	this.story = null;
+
+	//these are specifically for the array of commands in ghCue
+
+	this.localFields = ["q", "d"];
 
 //*********************************************************************************
 //
@@ -91,7 +99,7 @@ StoryEditor = function() {
 		}
 	}
 
-	this.setMode = function( _name, _collection, _collectionID) {
+	this.setCollection = function( _name, _collection, _collectionID) {
 
 	    this.table.set( _name );
 
@@ -113,7 +121,7 @@ StoryEditor = function() {
 
 //*********************************************************************************
 //
-//				DATABASE FUNCTIONS
+//				DATABASE FUNCTIONS -- SERVER
 //
 //*********************************************************************************
 
@@ -161,7 +169,7 @@ StoryEditor = function() {
 			Meteor.subscribe("tempAgent", _agentName, function() { 
 
 				var _uid = Meteor.users.findOne( { username: sed.tempStoryAgentName } )._id;
-c(_uid)
+
 				var _sel = "input#" + _id + ".uid";
 
 				$( _sel ).val( _uid );
@@ -212,6 +220,7 @@ c(_uid)
 
 	}
 
+
 	this.addRecord = function() {
 
 		var _type = this.collectionID.get();
@@ -244,6 +253,148 @@ c(_uid)
 
 		Meteor.call( "deleteRecord", _id, this.collectionID.get() );
 	}
+
+
+//*********************************************************************************
+//
+//				DATABASE FUNCTIONS -- LOCAL
+//
+//*********************************************************************************
+
+	this.makeLocalCollection = function( _scene ) {
+
+		if (this.collectionID.get() == cCue)  {
+
+			this.arrCollection = new Meteor.Collection();
+
+			var _arr = db.ghCue.findOne( { c: this.code.get(), n: _scene } ).d;
+
+			for (var i = 0; i < _arr.length; i++) {
+
+				var _index = (i + 1) * 100;
+
+				this.arrCollection.insert( { q: parseInt(_index), d: _arr[i] } )
+			}
+		}
+	}
+
+
+	this.updateLocalRecord = function(_ID) {
+
+		doSpinner();
+
+  		var data = {};
+
+		var fields = Object.keys( this.arrCollection.find().fetch()[0] );
+
+  		for (var i = 0; i < fields.length; i++) {
+
+			var _field = fields[i];
+
+			if ( _field == "_id") continue;
+ 
+			var sel = "";
+
+			sel = "input#" + _ID + "." + _field;
+
+			data[ _field ] = $(sel).val(); 		
+
+			if ( _field == "q") data[_field] = parseInt( $(sel).val() );			
+			
+  		}
+
+  		this.arrCollection.update( { _id: _ID }, { $set: data  } );
+
+  		stopSpinner();
+	
+	}
+
+	this.saveAllLocalRecords = function() {
+
+		//create an array of the records in arrLocalCollection
+
+		var _arr = this.arrCollection.find( {} ).fetch();
+
+		for (var i= 0; i < _arr.length; i++) {
+
+			this.updateLocalRecord( _arr[i]._id );
+
+		}
+
+	}
+
+	this.deleteLocalRecord = function(_ID) {
+
+  		this.arrCollection.remove( { _id: _ID } );
+	
+	}
+
+	this.addLocalRecord = function ( _id ) {
+
+		//get the highest number in the q field
+
+		var _arr = this.arrCollection.find( {}, { sort: { q: -1 } } ).fetch();
+
+		//we start by assuming that the recordset is empty
+
+		var _q = 100;
+
+		//Our only local collection so far is the array of commands in ghCue
+		//and localFields has the fieldnames for it
+
+		var fields = this.localFields;
+
+		//If we have already existing records, we need to increment the highest q value
+		//that we got above.  We also can just use the fields already defined in one of the records.
+		//Doing it this way makes this portion work for any future localCollections we might need
+		//but we would still need to have an appropriate set of localFields defined (for the empty recordset case)
+
+		if ( _arr.length) {
+
+			_q = _arr[0].q + 100;
+
+			fields = Object.keys( this.arrCollection.find().fetch()[0] );
+		}
+			
+  		var data = {};
+
+  		for (var i = 0; i < fields.length; i++) {
+
+			var _field = fields[i];
+
+			if ( _field == "_id") continue;
+
+			data[ _field ] = "";
+
+			if ( _field == "q") data[ _field ] = parseInt(_q);
+  		}
+
+  		this.arrCollection.insert( data );
+
+	}
+
+	this.saveLocalCollectionToRecord = function() {
+
+		//create an array of the records in arrLocalCollection
+
+		var _arrSource = this.arrCollection.find( {}, { sort: { q: 1 }  } ).fetch();
+
+		var _arrResult = [];
+
+		for (var i= 0; i < _arrSource.length; i++) {
+
+			_arrResult.push( _arrSource[i].d )
+
+		}
+
+c("arrresult follows")
+c( _arrResult )
+
+		//create temporary object from the field values and update record with it
+
+		sed.collection.get().update( { _id: sed.recordID.get() }, { $set: { d: _arrResult} } );
+	}
+
 }
 
 

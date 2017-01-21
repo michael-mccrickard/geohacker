@@ -6,24 +6,38 @@
 		<button type="button" class="btn btn-danger topButton2" id="runStory">RUN</button>
 	</div>
 
-	
+	{{#if localMode}}
 
-	<div class="centered" style="margin-top: 50px;">
+		<div class="centered" style="margin-top: 50px;">
 
-		  <button type="button" class="btn btn-primary btn-lg editStoryModeButton editStoryModeButtonSel" id="pickStory">STORY</button>
-		  <button type="button" class="btn btn-success  btn-lg editStoryModeButton" id="pickLocation">LOCATION</button>
-		  <button type="button" class="btn btn-danger  btn-lg editStoryModeButton" id="pickScene">SCENE</button>
+			  <button type="button" class="btn btn-danger  btn-lg editStoryModeButton" id="returnToServer">RETURN</button>
+			  <button type="button" class="btn btn-success  btn-lg editStoryModeButton" id="saveAll">SAVE ALL</button>
 
-		  <button type="button" class="btn btn-warning  btn-lg editStoryModeButton" id="pickChar">CHAR</button>
-		  <button type="button" class="btn btn-info  btn-lg editStoryModeButton" id="pickAgent">AGENT</button>
-		  <button type="button" class="btn btn-primary btn-lg editStoryModeButton" id="pickToken">TOKEN</button>
+		</div>
 
-		  <button type="button" class="btn btn-success btn-lg editStoryModeButton" id="pickCue">CUE</button>
-		  <button type="button" class="btn btn-danger btn-lg editStoryModeButton" id="pickChat">CHAT</button>
+	{{/if}}
 
-		  <button type="button" class="btn btn-default btn-lg editStoryModeButton" id="pickFlag">FLAG</button>
-		
-	</div>
+
+	{{#if serverMode}}
+
+		<div class="centered" style="margin-top: 50px;">
+
+			  <button type="button" class="btn btn-primary btn-lg editStoryModeButton editStoryModeButtonSel" id="pickStory">STORY</button>
+			  <button type="button" class="btn btn-success  btn-lg editStoryModeButton" id="pickLocation">LOCATION</button>
+			  <button type="button" class="btn btn-danger  btn-lg editStoryModeButton" id="pickScene">SCENE</button>
+
+			  <button type="button" class="btn btn-warning  btn-lg editStoryModeButton" id="pickChar">CHAR</button>
+			  <button type="button" class="btn btn-info  btn-lg editStoryModeButton" id="pickAgent">AGENT</button>
+			  <button type="button" class="btn btn-primary btn-lg editStoryModeButton" id="pickToken">TOKEN</button>
+
+			  <button type="button" class="btn btn-success btn-lg editStoryModeButton" id="pickCue">CUE</button>
+			  <button type="button" class="btn btn-danger btn-lg editStoryModeButton" id="pickChat">CHAT</button>
+
+			  <button type="button" class="btn btn-default btn-lg editStoryModeButton" id="pickFlag">FLAG</button>
+			
+		</div>
+
+	{{/if}}
 
 	<div class="divEditStoryContent">
 
@@ -34,6 +48,61 @@
 </template>
 
 <template name="storyData">
+
+	{{#if localMode}}
+
+	<div class="container editor">
+
+			<table class="dataTable" id="localDataTable" border="2">
+
+				  <tr>
+
+				  	<th>Order</th>
+				  	<th>Command</th>
+				  	<th></th>
+				  	<th></th>
+				  
+				  </tr>
+
+			  	{{#each localRecord}}
+
+					  <tr class="localDataRow">
+					    
+					    <td>
+
+					    	<td><input type="text" class="q"  size="5" value="{{ this.q }}" id="{{this._id}}"></td> 
+					    	
+					    </td>
+
+					    <td>
+					    	<td><input type="text" class="d"  size = "95" value="{{ this.d }}" id="{{this._id}}"></td> 
+
+					    </td>
+
+					    <td>
+					  		<button class="btn btn-danger" id="deleteLocalRecord"  onclick="sed.deleteLocalRecord( '{{this._id}}' )"><strong>DEL</strong></button> 
+					    </td>
+
+					    <td>
+					  		<button class="btn btn-primary" id="saveLocalRecord"  onclick="sed.updateLocalRecord( '{{this._id}}' )"><strong>SAV</strong></button> 
+					    </td>
+
+					  </tr>
+
+				  {{/each}} 
+
+			  	<td>
+			  		<button class="btn btn-primary" id="addLocalRecord"  onclick="sed.addLocalRecord()"><strong>+</strong></button> 
+			  	</td>
+
+			</table>
+
+
+	</div>		
+
+	{{/if}}
+
+	{{#if serverMode}}
 
 
 	<div class="container editor">
@@ -73,8 +142,8 @@
 
 					    {{#each field}}
 
-					   		 <td><input type="text" class="{{this}}" size="15" value="{{getValue this}}" id="{{getIDValue this}}"></td> 
-					   	
+					   		<td><input type="text" class="{{this}}" size="15" value="{{getValue this}}" id="{{getIDValue this}}"></td> 
+
 					   	{{/each}}
 
 					  	<td>
@@ -112,5 +181,7 @@
 			</div>	
 
 	</div>
+
+	{{/if}}
 
 </template>

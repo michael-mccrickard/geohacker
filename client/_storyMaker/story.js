@@ -655,6 +655,8 @@ Tracker.autorun( function(comp) {
 
   	console.log("story agent data ready")
 
+     if (typeof story == 'undefined') return;
+
   	story.finishSubscriptions( );
   } 
 
@@ -686,6 +688,8 @@ Tracker.autorun( function(comp) {
       ) {
 
   	console.log("story data ready")
+
+     if (typeof story == 'undefined') return;
 
   	story.init();
 

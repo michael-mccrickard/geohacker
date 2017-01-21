@@ -12,27 +12,6 @@ storyA = function() {
 
 		this.location = "base";  //base, FR, ML, NL
 
-
-
-//hasQuest is the one mandatory flag
-/*
-		this.flags["didExercise1"] = false;
-
-		this.flags["hasQuest"] = false;	
-
-		this.flags["hasVisitedGuard"] = false;
-
-		this.flags["hasVisitedVanGogh"] = false;
-
-		this.flags["hasPasscode"] = false;
-
-		this.flags["hasGivenPasscode"] = false;
-
-		this.flags["hasPainting"] = false;
-
-		this.flags["hasGivenPainting"] = false;
-*/
-
 		this.sceneButtonPic.set("storyA_scene.jpg");
 	}
 
