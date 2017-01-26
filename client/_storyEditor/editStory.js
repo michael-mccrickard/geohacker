@@ -131,7 +131,18 @@ StoryEditor = function() {
 
 	this.setFindSelector = function() {
 
-		if ( sed.code.get().length ) sed.findSelector.set( { c: sed.code.get() } );   
+		if ( sed.code.get().length ) {
+
+			if (this.table.get() == "Chat") {
+
+				sed.findSelector.set( { c: sed.code.get(), n: "root" } );  
+
+				return; 
+
+			}
+
+			sed.findSelector.set( { c: sed.code.get() } );   
+		}
 	}
 
 	this.updateURLForNewRecord = function( _url, ID ) {

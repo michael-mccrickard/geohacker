@@ -98,7 +98,7 @@ Template.editStory.events = {
 
     if ( sed.table.get() == "Chat") {
 
-        smed.set( e.currentTarget.id );
+        smed.init( e.currentTarget.id );
 
         Meteor.setTimeout( function() { FlowRouter.go("/editChat"); }, 500 );
     }
@@ -219,6 +219,11 @@ Template.storyData.helpers({
 	dataRecord : function() {
 
 		if (sed.code.get().length) {
+
+      if (sed.table.get() == "Chat") {
+
+        return sed.collection.get().find( sed.findSelector.get(), {sort: { s: 1 } } );
+      }
 
 			return sed.collection.get().find( sed.findSelector.get() );
 		}

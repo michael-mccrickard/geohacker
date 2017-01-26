@@ -46,10 +46,14 @@
 
 					</div>
 
-					<div class="divAddChatResponseBtn">
+					{{#if isUser}}
+						
+						<div class="divAddChatResponseBtn">
 
-						<button class="btn btn-danger btnAddChatResponse" id=""><strong>+</strong></button> 
-					</div>
+							<button class="btn btn-danger btnAddChatResponse" id=""><strong>+</strong></button> 
+						</div>
+
+					{{/if}}
 			</div>
 
 	 
@@ -64,7 +68,7 @@
 
 						<input type="text" class="inputChatEdit inputTextEdit" size="45" value="{{this.t}}" id="textEdit">
 
-						<button class="btn btn-success btnEditResponseDest" id=""><strong>&gt;&nbsp;&nbsp;{{this.g}}</strong></button> 
+						<button class="btn btn-success btnEditResponseDest" data-relation="{{relation}}" id="{{responseID @index}}" onclick="smed.editResponse('{{this.g}}','{{relation}}')"><strong>&gt;&nbsp;&nbsp;{{this.g}}</strong></button> 
 					</div>
 
 				{{/each}}
