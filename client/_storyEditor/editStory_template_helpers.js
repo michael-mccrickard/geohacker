@@ -80,10 +80,6 @@ Template.editStory.events = {
 
      e.preventDefault();
 
-c("id of record follows")
-
-c(e.currentTarget.id)
-
      sed.recordID.set( e.currentTarget.id );
 	
 	   sed.code.set( $( "button#" + e.currentTarget.id + ".btn").data("c") );
@@ -99,6 +95,13 @@ c(e.currentTarget.id)
 
         return;
    }
+
+    if ( sed.table.get() == "Chat") {
+
+        smed.set( e.currentTarget.id );
+
+        Meteor.setTimeout( function() { FlowRouter.go("/editChat"); }, 500 );
+    }
 
 
 	  if ( sed.table.get() == "Story") {

@@ -42,6 +42,10 @@ StoryEditor = function() {
 
 	this.init = function() {
 
+		//init the global messaging editor
+
+		smed = new StoryMessagingEditor();
+
 		Meteor.subscribe("allStories", function() { Session.set("sAllStoriesReady", true ) });
 
 		Meteor.subscribe("allLocations", function() { Session.set("sAllLocationsReady", true ) });
@@ -386,9 +390,6 @@ StoryEditor = function() {
 			_arrResult.push( _arrSource[i].d )
 
 		}
-
-c("arrresult follows")
-c( _arrResult )
 
 		//create temporary object from the field values and update record with it
 

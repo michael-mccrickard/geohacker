@@ -215,13 +215,20 @@ Meteor.startup(function() {
 
   ytplayer = null;
 
-  db.initCore();
+  mission = null;
 
-  db.initControls();
+  //editors
 
   editor = null;
 
-  mission = null;
+  sed = null;   //story editor
+
+  smed = null;  //story messaging editor
+
+
+  db.initCore();
+
+  db.initControls();
 
 
   //****************************************************************

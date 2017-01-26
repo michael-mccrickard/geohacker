@@ -1,0 +1,156 @@
+.divEditHelperResponse {
+
+	position: relative;
+
+	left: -15%;
+
+	width: 40%;
+
+	top: 75px;
+
+	float: right;
+}
+
+.divEditAgentResponse {
+	
+	position: relative;
+	top: 75px;
+	left: 1%;
+
+	width: 40%;
+}
+
+
+.chatEditContainer {	
+	display: flex;
+
+	background-color: gray;
+
+	border-radius: 12px;
+
+	color: black;
+}
+
+.divChatHeadline {
+	font-family: Arial;
+	color: white; 
+	position: relative; 
+	top: 55px;
+	width: 100%;
+	text-align: center;
+}
+
+.chatEditColumn {
+	
+	border-radius: 12px;
+
+	font-family: Arial;
+
+}
+
+
+.chatLeftColumn {
+
+	flex-basis: 7%;
+
+	margin-right: 1%;
+
+}
+
+.divChatUserPic {
+
+	margin-left: 5%;
+
+	margin-top: 4%;
+
+	margin-bottom: 10%;
+
+}
+
+.divAddChatResponseBtn {
+		margin-left: 10%;
+
+}
+
+.imgChatUserPic  {
+
+	width: 95%;
+
+	border-radius: 8px;
+
+}
+
+.btnAddChatResponse  {
+
+	font-family: Arial;
+
+	font-size: 24px;
+
+}
+
+.chatCenterColumn {
+
+	flex-basis: 85%;
+
+}
+
+.chatRightColumn {
+	flex-basis: 7%;
+	margin: 1%;
+}
+
+.inputChatEdit{
+
+	margin-left: 1%;
+	margin-top: 1%;
+}
+
+.lblChatEdit {
+	margin-left: 1%;
+	color: white;
+
+}
+
+.inputTextEdit {
+	font-size: 18px;
+
+}
+
+.btnEditResponseDest {
+	margin-left: 1%;
+		margin-top: 2%;
+}
+
+.divBtnSaveChat {
+
+	margin-left: 10%;
+		margin-top: 10%;
+}
+
+.divBtnDeleteChat {
+
+	margin-left: 10%;
+		margin-top: 35%;
+}
+
+.divBtnConfigureChat {
+
+	margin-left: 10%;
+		margin-top: 45%;
+}
+
+.divChatExecuteEdit {
+
+	margin-top: 8%;
+}
+
+.lblChatExecuteEdit {
+	margin-right: 1%;
+
+	color: white;
+}
+
+.inputChatExecuteEdit {
+
+		margin-bottom: 1%;
+}

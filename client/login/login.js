@@ -216,13 +216,23 @@ Template.login.events({
 
     },
 
+//*************************************************************************************************************
+//
+//                  CHANGE WHAT THE BIG START BUTTON DOES HERE
+//  
+//
+//*************************************************************************************************************
+
+
     'click #goHack': function (e) { 
 
       e.preventDefault();
 
-//testStoryEditor();
+testStoryEditor();
 
-testStory("A");
+//testStory("A");
+
+//FlowRouter.go("/editChat");
 
 return;
 

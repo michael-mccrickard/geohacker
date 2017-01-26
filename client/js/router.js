@@ -302,6 +302,18 @@ FlowRouter.route('/editStory', {
 
 });
 
+FlowRouter.route('/editChat', {
+
+  action: function (params, queryParams) { 
+
+    $('body').removeClass('noscroll'); 
+
+    BlazeLayout.render('layout', { content: "story_messaging_editor" });
+
+  }
+
+});
+
 //*********************************************
 //      WAITING
 //*********************************************

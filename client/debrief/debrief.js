@@ -103,7 +103,7 @@ Debrief = function( _meme ) {
 
 		//footer
 
-		container = "h3.geoFont.debriefText";
+		container = "h3#debriefText.geoFont";
 
 		_width = $( container ).width();
 

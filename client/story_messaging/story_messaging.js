@@ -8,8 +8,6 @@ StoryMessaging = function() {
 
 	this.targetID = new Blaze.ReactiveVar( 0 );
 
-    this.lastSpeakerID = "";
-
 	this.thread = null;
 
 	this.threadID = new Blaze.ReactiveVar( "");
@@ -189,7 +187,7 @@ StoryMessaging = function() {
 
         this.checkExecute( this.source[ _val ] );  //we may need to set a flag or something
 
-        this.tmp = this.source[ _val ].d;  //user objects should have at least two objs
+        this.tmp = this.source[ _val ].d;  //user arrays should have at least two objs
 
         this.dests = [];
 
@@ -245,8 +243,6 @@ StoryMessaging = function() {
     }
 
     this.addMessage = function( _speakerID, _body ) {
-
-        this.lastSpeakerID = _speakerID;
 
         game.user.sms.conversation.update( { "_id": game.user.sms.threadID.get() }, { $push: { messages: {
 

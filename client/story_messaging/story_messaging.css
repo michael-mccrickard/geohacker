@@ -3,12 +3,22 @@
     display: flex;*/
 	font-family: Arial;
 	color: white;
-    background-color: #2B3856;
+
     margin-bottom: 8px;
     max-width: 75%;
     min-width: 52%;
     position: relative;
     top: 280px;
+}
+
+.storyMessageHelper {
+
+    background-color: #2B3856;
+}
+
+.storyMessageUser {
+
+	 background-color: #006400;
 }
 
 

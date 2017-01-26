@@ -1,0 +1,101 @@
+<template name="story_messaging_editor">
+
+	<div class="divChatHeadline">
+
+		<h1>Edit {{chatName}}</h1>
+	</div>
+
+	<div class="divEditHelperResponse">
+
+		{{> story_messaging_element}}	
+	</div>
+
+	<!--div class="divEditAgentResponse">
+
+		{{> story_messaging_element}}	
+	</div-->
+
+
+</template>
+
+
+<template name="story_messaging_element">
+
+	{{#each chatRecord}}
+
+		<div class="chatEditContainer">
+
+			<div class="chatEditColumn chatLeftColumn">
+
+					<div class="divChatUserPic">
+
+						<img class="imgChatUserPic" src="{{chatUserPic}}" />
+
+					</div>
+
+					<div class="divAddChatResponseBtn">
+
+						<button class="btn btn-danger btnAddChatResponse" id=""><strong>+</strong></button> 
+					</div>
+			</div>
+
+	 
+			<div class="chatEditColumn chatCenterColumn">
+
+				<label class="lblChatEdit" for="nameEdit">{{chatElementType}}</label><input type="text" class="inputChatEdit" size="55" value="{{this.n}}" id="nameEdit">
+
+				{{#each response}}
+				
+					<div>
+						<hr>	
+
+						<input type="text" class="inputChatEdit inputTextEdit" size="45" value="{{this.t}}" id="textEdit">
+
+						<button class="btn btn-success btnEditResponseDest" id=""><strong>&gt;&nbsp;&nbsp;{{this.g}}</strong></button> 
+					</div>
+
+				{{/each}}
+
+				{{#if hasExecuteField}}
+				
+					<div class="divChatExecuteEdit">
+
+						<label class="lblChatExecuteEdit" for="executeEdit">Execute:</label><input type="text" class="inputChatExecuteEdit" size="55" value="enter command here" id="executeEdit">
+
+					</div>
+				{{/if}}
+
+			</div>
+
+
+			<div class="chatEditColumn chatRightColumn">
+
+
+
+				<div class="divBtnSaveChat">
+
+					<button type="button" class="btn btn-default btn-md ">
+		          		<span class="glyphicon glyphicon-ok"></span>
+	        		</button>
+	        	</div>
+
+	 			<div class="divBtnDeleteChat">
+
+					<button type="button" class="btn btn-default btn-md ">
+		          		<span class="glyphicon glyphicon-trash"></span>
+	        		</button>
+	        	</div>
+
+	 			<div class="divBtnConfigureChat">
+
+					<button type="button" class="btn btn-default btn-md ">
+		          		<span class="glyphicon glyphicon-cog"></span>
+	        		</button>
+	        	</div>
+			</div>
+
+		</div>  <!-- close container div (flexbox) -->
+
+	{{/each}}
+
+</template>

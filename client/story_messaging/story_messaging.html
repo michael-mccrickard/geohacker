@@ -15,7 +15,7 @@
 
 			{{#if isLoggedInUser}}
 
-				<div class="divStoryMessage rounded" style="float:left; clear: both;">
+				<div class="divStoryMessage storyMessageUser rounded" style="float:left; clear: both;">
 				
 					<div>
 						<img class= "imgAgentAvatarMessageMini agentMessageItem rounded"  style="float:left;"  src="{{av}}" />
@@ -30,7 +30,7 @@
 
 			{{else}}
 
-				<div class="divStoryMessage rounded" style="float:right;">
+				<div class="divStoryMessage storyMessageHelper rounded" style="float:right;">
 				
 					<div class="divMessageBody">
 						{{this.text}}
