@@ -48,7 +48,7 @@ StoryMessagingEditor = function() {
 
 		if (_name == "exit") {
 
-			this.closeElement(  _sourceRelation );
+			this.closeParentAndChild();
 
 			return;
 		}
@@ -62,15 +62,38 @@ StoryMessagingEditor = function() {
 			return;
 		}
 
+		//returning to the origin set for the user?
+
+		if (_name == "*" && _sourceRelation == "child") {
+
+			//just wipe current parent and child, and put the origin set back at the top
+
+			this.closeParentAndChild();
+
+			this.grandRecordID.set( _rec._id );
+
+			return;
+		}
+
 		if ( _sourceRelation == "grand" ) this.parentRecordID.set ( _rec._id );
 
 		if ( _sourceRelation == "parent" ) this.childRecordID.set ( _rec._id );
+
+		if ( _sourceRelation == "child" ) {
+
+			this.grandRecordID.set( this.parentRecordID.get() );
+
+			this.parentRecordID.set( this.childRecordID.get() );
+
+			this.childRecordID.set ( _rec._id );
+	
+		}
 	}
 
-	this.closeElement = function( _rel ) {
+	this.closeParentAndChild = function( _rel ) {
 
-		this.childRecordID.set ( "" );
+		this.parentRecordID.set ( "" );
 
-		if ( _rel == "parent" ) this.parentRecordID.set ( "" );
+	    this.childRecordID.set ( "" );
 	}
 }
