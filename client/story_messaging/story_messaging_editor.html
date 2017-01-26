@@ -69,6 +69,11 @@
 						<input type="text" class="inputChatEdit inputTextEdit" size="45" value="{{this.t}}" id="{{responseIDFromParent @index}}">
 
 						<button class="btn btn-success btnEditResponseDest" id="{{destinationIDFromParent @index}}" onclick="smed.editResponse('{{this.g}}','{{relationFromParent}}')"><strong>&gt;&nbsp;&nbsp;{{this.g}}</strong></button> 
+
+						<button type="button" class="btn btn-default btn-md " onclick="smed.deleteResponse('{{this.g}}','{{relationFromParent}}')">
+		          			<span class="glyphicon glyphicon-trash"></span>
+	        			</button>
+
 					</div>
 
 				{{/each}}
@@ -91,13 +96,6 @@
 
 					<button type="button" class="btn btn-default btn-md" id="{{this._id}}" onclick="smed.saveRecord('{{this.relation}}')">
 		          		<span class="glyphicon glyphicon-ok"></span>
-	        		</button>
-	        	</div>
-
-	 			<div class="divBtnDeleteChat">
-
-					<button type="button" class="btn btn-default btn-md ">
-		          		<span class="glyphicon glyphicon-trash"></span>
 	        		</button>
 	        	</div>
 

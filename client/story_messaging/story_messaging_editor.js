@@ -97,6 +97,38 @@ StoryMessagingEditor = function() {
 	    this.childRecordID.set ( "" );
 	}
 
+	this.deleteResponse = function( _dest, _rel) {
+
+		_dest = this.fixDestination( _dest );
+
+		var _recordID = this.getRecordID( _rel );
+
+		var _rec = db.ghChat.findOne( { _id: _recordID } );
+
+		var _arr = _rec.d;
+
+		var _newData = [];
+
+		var _obj = null;
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			_obj = _arr[i];
+
+			if ( _obj.g != _dest) _newData.push( _obj );
+		}				
+
+		db.ghChat.update( { _id: _recordID }, { $set: { d: _newData } } );
+
+	}
+
+	this.fixDestination = function( _dest ) {
+
+		_dest.substr(3);  //lop off the ">  "
+
+		return _dest;
+	}
+
 	this.getRecordID = function( _rel ) {
 
 		if (_rel == "grand") return this.grandRecordID.get();
@@ -126,7 +158,7 @@ StoryMessagingEditor = function() {
 
 			var _dest = $( _ID ).text();
 
-			_dest = _dest.substr(3);  //lop off the ">  "
+			_dest = this.fixDestination( _dest );
 
 			var _obj = {};
 
@@ -136,24 +168,26 @@ StoryMessagingEditor = function() {
 
 			_data.push( _obj );
 
-			//get the name from the field
-
-			_ID = "#name_" + _recordID;
-
-			var _name = $( _ID ).val();
-
-			//if there's an execute value, get it
-
-			var _execute = "";
-
-			_ID = "#execute_" + _recordID;			
-
-			if ( $( _ID).length ) {
-
-				_execute = $( _ID).val();
-			}
 		}
 
+		//get the name from the field
+
+		_ID = "#name_" + _recordID;
+
+		var _name = $( _ID ).val();
+
+		//if there's an execute value, get it
+
+		var _execute = "";
+
+		_ID = "#execute_" + _recordID;			
+
+		if ( $( _ID).length ) {
+
+			_execute = $( _ID).val();
+		}
+
+		//assemble the update object
 
 		var _updateObj = {};
 
@@ -163,7 +197,6 @@ StoryMessagingEditor = function() {
 
 		if (_execute) _updateObj.x = _execute;
 
-c( _updateObj)
 
 		db.ghChat.update( { _id: _recordID }, { $set: _updateObj } );
 	}
