@@ -1,5 +1,4 @@
 
-showExecuteField = new Blaze.ReactiveVar( false );
 
 //Template.story_messaging_element.events = {}
 
@@ -50,23 +49,6 @@ Template.story_messaging_editor.helpers({
 
 Template.story_messaging_element.helpers({
 
-	chatUserPic : function() {
-
-		if (this.i == "u") return game.user.profile.av;
-
-		if (this.i == "h") return smed.helperPic;		
-	},
-
-	response: function() {
-
-  		return this.d;
-	},
-
-	hasExecuteField: function() {
-
-		if (this.x) return true
-	},
-
 	chatElementType: function() {
 
 		if (this.i == "u") return "Response set:";
@@ -74,9 +56,41 @@ Template.story_messaging_element.helpers({
 		if (this.i == "h") return "Helper speech:";		
 	},
 
-	relation: function() {
+	chatUserPic : function() {
 
-		return Template.parentData(1).relation;
+		if (this.i == "u") return game.user.profile.av;
+
+		if (this.i == "h") return smed.helperPic;		
+	},
+
+	destinationIDFromParent: function( _index ) {
+
+		return ( "destination_" + Template.parentData(1)._id + "_" + _index );
+	},
+
+
+	elementColor: function() {
+
+		if (this.i == "u") return "blue";
+
+		if (this.i == "h") return "red"; 
+	},
+
+	executeID: function( _index ) {
+
+		return ( "execute_" + this._id);
+	},	
+
+	executeValue: function() {
+
+		if (!this.x.length) return "enter command here";
+
+		return this.x;
+	},
+
+	hasExecuteField: function() {
+
+		if (this.x) return true;
 	},
 
 	isUser: function() {
@@ -86,9 +100,26 @@ Template.story_messaging_element.helpers({
 		return false; 
 	},
 
-	responseID: function( _index ) {
 
-		return ( Template.parentData(1)._id + "_" + _index );
-	}
+	nameID: function() {
+
+		return "name_" + this._id;
+	},
+
+	relationFromParent: function() {
+
+		return Template.parentData(1).relation;
+	},
+
+	response: function() {
+
+  		return this.d;
+	},
+
+	responseIDFromParent: function( _index ) {
+
+		return ( "response_" + Template.parentData(1)._id + "_" + _index );
+	},
+
 
 });

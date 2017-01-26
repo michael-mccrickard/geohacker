@@ -36,7 +36,7 @@
 
 <!--	{{#with chatRecord}}  -->
 
-		<div class="chatEditContainer">
+		<div class="chatEditContainer" style="background-color: {{elementColor}}">
 
 			<div class="chatEditColumn chatLeftColumn">
 
@@ -59,16 +59,16 @@
 	 
 			<div class="chatEditColumn chatCenterColumn">
 
-				<label class="lblChatEdit" for="nameEdit">{{chatElementType}}</label><input type="text" class="inputChatEdit" size="55" value="{{this.n}}" id="nameEdit">
+				<label class="lblChatEdit" for="nameEdit">{{chatElementType}}</label><input type="text" class="inputChatEdit" size="55" value="{{this.n}}" id="{{nameID}}">
 
 				{{#each response}}
 				
 					<div>
 						<hr>	
 
-						<input type="text" class="inputChatEdit inputTextEdit" size="45" value="{{this.t}}" id="textEdit">
+						<input type="text" class="inputChatEdit inputTextEdit" size="45" value="{{this.t}}" id="{{responseIDFromParent @index}}">
 
-						<button class="btn btn-success btnEditResponseDest" data-relation="{{relation}}" id="{{responseID @index}}" onclick="smed.editResponse('{{this.g}}','{{relation}}')"><strong>&gt;&nbsp;&nbsp;{{this.g}}</strong></button> 
+						<button class="btn btn-success btnEditResponseDest" id="{{destinationIDFromParent @index}}" onclick="smed.editResponse('{{this.g}}','{{relationFromParent}}')"><strong>&gt;&nbsp;&nbsp;{{this.g}}</strong></button> 
 					</div>
 
 				{{/each}}
@@ -77,7 +77,7 @@
 				
 					<div class="divChatExecuteEdit">
 
-						<label class="lblChatExecuteEdit" for="executeEdit">Execute:</label><input type="text" class="inputChatExecuteEdit" size="55" value="enter command here" id="executeEdit">
+						<label class="lblChatExecuteEdit" for="executeEdit">Execute:</label><input type="text" class="inputChatExecuteEdit" size="55" value="{{executeValue}}" id="{{executeID}}">
 
 					</div>
 				{{/if}}
@@ -87,11 +87,9 @@
 
 			<div class="chatEditColumn chatRightColumn">
 
-
-
 				<div class="divBtnSaveChat">
 
-					<button type="button" class="btn btn-default btn-md ">
+					<button type="button" class="btn btn-default btn-md" id="{{this._id}}" onclick="smed.saveRecord('{{this.relation}}')">
 		          		<span class="glyphicon glyphicon-ok"></span>
 	        		</button>
 	        	</div>
