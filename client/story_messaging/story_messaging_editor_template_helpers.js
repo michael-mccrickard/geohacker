@@ -8,8 +8,25 @@ Template.story_messaging_editor.helpers({
 		return smed.chatName;
 	},
 
+	childRecord: function() {
+
+return db.ghChat.findOne( { s: smed.chatName, n: "painting?" } );
+	},
+
+
+	parentRecord: function() {
+
+		return db.ghChat.findOne( { s: smed.chatName, n: "*" } );
+	},
+
+	grandRecord: function() {
+
+		return db.ghChat.findOne( { s: smed.chatName, n: "root" } );
+	}
 });
 
+
+var _index = -1;
 
 Template.story_messaging_element.helpers({
 
@@ -38,8 +55,4 @@ Template.story_messaging_element.helpers({
 	},
 
 
-	chatRecord: function() {
-
-		return db.ghChat.find( { s: smed.chatName } ).fetch();
-	}
 });

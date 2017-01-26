@@ -1,20 +1,29 @@
-.divEditHelperResponse {
+.divEditResponseChild {
 
 	position: relative;
 
-	left: -15%;
+	left: -5%;
 
 	width: 40%;
 
-	top: 75px;
+	top: 53%;
 
 	float: right;
 }
 
-.divEditAgentResponse {
+.divEditResponseGrand {
 	
 	position: relative;
-	top: 75px;
+	top: 10%;
+	left: 1%;
+
+	width: 40%;
+}
+
+.divEditResponseParent {
+	
+	position: relative;
+	top: 20%;
 	left: 1%;
 
 	width: 40%;
@@ -29,6 +38,8 @@
 	border-radius: 12px;
 
 	color: black;
+
+	margin-bottom: 16px;
 }
 
 .divChatHeadline {

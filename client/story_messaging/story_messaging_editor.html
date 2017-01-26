@@ -5,23 +5,36 @@
 		<h1>Edit {{chatName}}</h1>
 	</div>
 
-	<div class="divEditHelperResponse">
+	<div class="divEditResponseChild">
 
-		{{> story_messaging_element}}	
+		{{#with childRecord}}
+
+			{{> story_messaging_element}}
+
+		{{/with}}	
 	</div>
 
-	<!--div class="divEditAgentResponse">
+	<div class="divEditResponseGrand">
+		{{#with grandRecord}}
 
-		{{> story_messaging_element}}	
-	</div-->
+			{{> story_messaging_element}}
 
+		{{/with}}
+	</div>
 
+	<div class="divEditResponseParent">
+		{{#with parentRecord}}
+
+			{{> story_messaging_element}}
+
+		{{/with}}	
+	</div>
 </template>
 
 
 <template name="story_messaging_element">
 
-	{{#each chatRecord}}
+<!--	{{#with chatRecord}}  -->
 
 		<div class="chatEditContainer">
 
@@ -96,6 +109,6 @@
 
 		</div>  <!-- close container div (flexbox) -->
 
-	{{/each}}
+<!--	{{/with}}  -->
 
 </template>
