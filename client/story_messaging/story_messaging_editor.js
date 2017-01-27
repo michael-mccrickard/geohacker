@@ -22,6 +22,14 @@ StoryMessagingEditor = function() {
 
 	this.chatName = "";
 
+	this.configureMode = new Blaze.ReactiveVar(false);
+
+	this.configureRelation = new Blaze.ReactiveVar("");
+
+	this.responseToDelete = "";
+
+	this.relationOfDelete = "";
+
 
 	this.init = function( _chatRecordID )  {
 
@@ -97,14 +105,38 @@ StoryMessagingEditor = function() {
 	    this.childRecordID.set ( "" );
 	}
 
+	this.abortDelete = function() {
+
+		this.responseToDelete = "";
+
+		this.relationOfDelete = "";		
+	}
+
 	this.deleteResponse = function( _dest, _rel) {
 
-		_dest = this.fixDestination( _dest );
+		this.responseToDelete = _dest;
+
+		this.relationOfDelete = _rel;
+
+		$("h4#chatEditWarningHeader").text("Warning!")
+
+		$("p#chatEditWarningMessage").text("Are you sure you want to delete response for destination: '" + _dest + "' ?");
+
+		$("#chatEditWarningModal").modal();
+	}
+
+	this.finishDelete = function() {
+
+		var _dest = this.responseToDelete;
+
+		var _rel = this.relationOfDelete;
+
+c("delete this dest val " + _dest)
 
 		var _recordID = this.getRecordID( _rel );
 
 		var _rec = db.ghChat.findOne( { _id: _recordID } );
-
+c(_rec)
 		var _arr = _rec.d;
 
 		var _newData = [];
@@ -114,19 +146,34 @@ StoryMessagingEditor = function() {
 		for (var i = 0; i < _arr.length; i++) {
 
 			_obj = _arr[i];
-
+c(_obj)
 			if ( _obj.g != _dest) _newData.push( _obj );
 		}				
-
+c(_newData)
 		db.ghChat.update( { _id: _recordID }, { $set: { d: _newData } } );
+
+	}
+
+	this.enableConfigureMode = function( _rel ) {
+
+		this.configureRelation.set( _rel );
+
+		this.configureMode.set(true);	
+	}
+
+	this.endConfigureMode = function(){
+
+		this.configureRelation.set( "" );
+
+		this.configureMode.set(false);	
 
 	}
 
 	this.fixDestination = function( _dest ) {
 
-		_dest.substr(3);  //lop off the ">  "
+		var _res = _dest.substr(3);  //lop off the ">  "
 
-		return _dest;
+		return _res;
 	}
 
 	this.getRecordID = function( _rel ) {
@@ -148,17 +195,38 @@ StoryMessagingEditor = function() {
 
 		for (var i = 0; i < _len; i++) {
 
+			var _dest = "";
+
 			//create the response objects array
+
+			//first the response text itself 
 
 			var _ID = "#response_" + _recordID + "_" + i;
 
 			var _response = $( _ID ).val();
 
-			_ID = "#destination_" + _recordID + "_" + i;
+			//is the 'edit destination' field in the DOM?
 
-			var _dest = $( _ID ).text();
+			_ID = "#editDestination_" + _recordID + "_" + i;
 
-			_dest = this.fixDestination( _dest );
+			if ( $( _ID).length ) {
+
+				_dest = $( _ID).val();
+
+			}
+			else {
+
+				//... then no edit dest field found, so get the value from the button
+
+				_ID = "#destination_" + _recordID + "_" + i;
+
+				_dest = $( _ID ).text();
+
+				_dest = this.fixDestination( _dest );
+
+			}
+
+			//put the values into a blank object
 
 			var _obj = {};
 
@@ -199,6 +267,8 @@ StoryMessagingEditor = function() {
 
 
 		db.ghChat.update( { _id: _recordID }, { $set: _updateObj } );
+
+		this.endConfigureMode();
 	}
 }
 

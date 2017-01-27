@@ -56,6 +56,7 @@ Template.story_messaging_element.helpers({
 		if (this.i == "h") return "Helper speech:";		
 	},
 
+
 	chatUserPic : function() {
 
 		if (this.i == "u") return game.user.profile.av;
@@ -63,9 +64,29 @@ Template.story_messaging_element.helpers({
 		if (this.i == "h") return smed.helperPic;		
 	},
 
+	configureMode : function() {
+
+		if (smed.configureMode.get() && this.relation == smed.configureRelation.get() ) return true;
+
+		return false;
+	},
+
+	configureModeFromParent: function() {
+
+		if ( Template.parentData(1).relation == smed.configureRelation.get() && smed.configureMode.get() ) return true;
+
+		return false;
+	},
+
 	destinationIDFromParent: function( _index ) {
 
 		return ( "destination_" + Template.parentData(1)._id + "_" + _index );
+	},
+
+
+	editDestinationIDFromParent: function( _index ) {
+
+		return ( "editDestination_" + Template.parentData(1)._id + "_" + _index );
 	},
 
 
@@ -83,7 +104,7 @@ Template.story_messaging_element.helpers({
 
 	executeValue: function() {
 
-		if (!this.x.length) return "enter command here";
+		if (!this.x) return "";
 
 		return this.x;
 	},
@@ -92,14 +113,6 @@ Template.story_messaging_element.helpers({
 
 		if (this.x) return true;
 	},
-
-	isUser: function() {
-
-		if (this.i == "u") return true;
-
-		return false; 
-	},
-
 
 	nameID: function() {
 
@@ -121,5 +134,11 @@ Template.story_messaging_element.helpers({
 		return ( "response_" + Template.parentData(1)._id + "_" + _index );
 	},
 
+	showAddButton: function() {
+
+		if (this.i == "u" || this.d.length == 0) return true;
+
+		return false; 
+	},
 
 });

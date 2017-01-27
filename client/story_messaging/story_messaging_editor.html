@@ -29,12 +29,32 @@
 
 		{{/with}}	
 	</div>
+
+  <!-- Modal -->
+	  <div class="modal fade warningModal" id="chatEditWarningModal" role="dialog">
+	    <div class="modal-dialog">
+	    
+	      <!-- Modal content-->
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title" id="chatEditWarningHeader"></h4>
+	        </div>
+	        <div class="modal-body">
+	          <p id="chatEditWarningMessage"></p>
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default" data-dismiss="modal" onclick="smed.abortDelete()">Cancel</button>
+	          <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="smed.finishDelete()">Delete</button>
+	        </div>
+	      </div>
+	      
+	    </div>
+	  </div>
 </template>
 
 
 <template name="story_messaging_element">
-
-<!--	{{#with chatRecord}}  -->
 
 		<div class="chatEditContainer" style="background-color: {{elementColor}}">
 
@@ -46,7 +66,7 @@
 
 					</div>
 
-					{{#if isUser}}
+					{{#if showAddButton}}
 						
 						<div class="divAddChatResponseBtn">
 
@@ -70,6 +90,15 @@
 
 						<button class="btn btn-success btnEditResponseDest" id="{{destinationIDFromParent @index}}" onclick="smed.editResponse('{{this.g}}','{{relationFromParent}}')"><strong>&gt;&nbsp;&nbsp;{{this.g}}</strong></button> 
 
+						{{#if configureModeFromParent}}
+							
+							<div> 
+								<span style="color:white"><strong>&gt;&nbsp;&nbsp;</strong></span>
+								<input type="text" class="inputEditDestination inputTextEdit" size="45" value="{{this.g}}" id="{{editDestinationIDFromParent @index}}">
+							</div>
+
+						{{/if}}
+
 						<button type="button" class="btn btn-default btn-md " onclick="smed.deleteResponse('{{this.g}}','{{relationFromParent}}')">
 		          			<span class="glyphicon glyphicon-trash"></span>
 	        			</button>
@@ -78,7 +107,7 @@
 
 				{{/each}}
 
-				{{#if hasExecuteField}}
+				{{#if configureMode}}
 				
 					<div class="divChatExecuteEdit">
 
@@ -101,7 +130,7 @@
 
 	 			<div class="divBtnConfigureChat">
 
-					<button type="button" class="btn btn-default btn-md ">
+					<button type="button" class="btn btn-default btn-md " onclick="smed.enableConfigureMode('{{this.relation}}')">
 		          		<span class="glyphicon glyphicon-cog"></span>
 	        		</button>
 	        	</div>
@@ -109,6 +138,6 @@
 
 		</div>  <!-- close container div (flexbox) -->
 
-<!--	{{/with}}  -->
+	
 
 </template>
