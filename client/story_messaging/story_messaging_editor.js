@@ -52,6 +52,77 @@ StoryMessagingEditor = function() {
 
 	}
 
+	this.addResponse = function( _rel ) {
+
+		var _recordID = this.getRecordID( _rel );
+
+		var _rec = db.ghChat.findOne( { _id: _recordID  } );
+
+		if (!_rec) {
+
+			showMessage("smed.addResponse could not find record for " + _recordID);
+
+			return;
+		}
+
+		var _arr = _rec.d;
+
+		var _obj = { t: "", g:"" };
+
+		_arr.push( _obj );
+
+		db.ghChat.update( { _id: _recordID }, { $set: { d: _arr } } );		
+	}
+
+	this.createDestinationName = function( _text, _rel ) {
+
+		var _recordID = this.getRecordID( _rel );
+
+		var _rec = db.ghChat.findOne( { _id: _recordID  } );
+
+		if (!_rec) {
+
+			showMessage("smed.createDestinationName could not find record for " + _recordID);
+
+			return;
+		}	
+
+		if ( _text.length > 8) _text = _text.substr(0,8);
+
+		_text = _text.replace(/ /g, "_");  //underscores instead of spaces
+
+		if (_text.substr( _text.length - 1, 1) == "_") _text = _text.substr(0, _text.length - 1);  //if the last char is an underscore, lop it off
+
+		_text = _text.replace(/'/g, "");  //get rid of apostrophes
+
+
+		var _arr = _rec.d;
+
+		var _skipCount = 0;
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			var _arrVal = _arr[i].g;
+
+			for (var j = 0; j < _arr.length; j++) {
+
+				var _test = _text + "_" + j;
+
+//c("testing " + _arrVal + " and " + _test)
+
+				if (_arrVal == _test) {
+//("incing skipCount")
+					_skipCount++
+				}
+
+			}
+
+		}
+
+		return _text + "_" + parseInt(_skipCount);
+
+	}
+
 	this.editResponse = function( _name, _sourceRelation) {
 
 		if (_name == "exit") {
@@ -131,12 +202,10 @@ StoryMessagingEditor = function() {
 
 		var _rel = this.relationOfDelete;
 
-c("delete this dest val " + _dest)
-
 		var _recordID = this.getRecordID( _rel );
 
 		var _rec = db.ghChat.findOne( { _id: _recordID } );
-c(_rec)
+
 		var _arr = _rec.d;
 
 		var _newData = [];
@@ -146,10 +215,10 @@ c(_rec)
 		for (var i = 0; i < _arr.length; i++) {
 
 			_obj = _arr[i];
-c(_obj)
+
 			if ( _obj.g != _dest) _newData.push( _obj );
 		}				
-c(_newData)
+
 		db.ghChat.update( { _id: _recordID }, { $set: { d: _newData } } );
 
 	}
@@ -212,7 +281,7 @@ c(_newData)
 			if ( $( _ID).length ) {
 
 				_dest = $( _ID).val();
-
+c("dest field from edit field is " + _dest)
 			}
 			else {
 
@@ -222,7 +291,15 @@ c(_newData)
 
 				_dest = $( _ID ).text();
 
-				_dest = this.fixDestination( _dest );
+				if ( _dest.length == 3) {  //i.e. only ">  "; must be a new record
+
+					_dest = this.createDestinationName( _response, _rel );
+c("calced dest name is " + _dest)
+				}
+				else {
+c("dest value from button is " + _dest)
+					_dest = this.fixDestination( _dest );
+				}
 
 			}
 

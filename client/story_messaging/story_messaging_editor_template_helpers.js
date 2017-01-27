@@ -49,6 +49,11 @@ Template.story_messaging_editor.helpers({
 
 Template.story_messaging_element.helpers({
 
+	addID: function() {
+
+		return "add_" + this._id;
+	},	
+
 	chatElementType: function() {
 
 		if (this.i == "u") return "Response set:";
