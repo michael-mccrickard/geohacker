@@ -95,6 +95,7 @@ StoryMessagingEditor = function() {
 
 		_text = _text.replace(/'/g, "");  //get rid of apostrophes
 
+		//check to see if there is a duplicate name in the array of responses
 
 		var _arr = _rec.d;
 
@@ -108,10 +109,8 @@ StoryMessagingEditor = function() {
 
 				var _test = _text + "_" + j;
 
-//c("testing " + _arrVal + " and " + _test)
-
 				if (_arrVal == _test) {
-//("incing skipCount")
+
 					_skipCount++
 				}
 
@@ -281,7 +280,7 @@ StoryMessagingEditor = function() {
 			if ( $( _ID).length ) {
 
 				_dest = $( _ID).val();
-c("dest field from edit field is " + _dest)
+
 			}
 			else {
 
@@ -294,10 +293,10 @@ c("dest field from edit field is " + _dest)
 				if ( _dest.length == 3) {  //i.e. only ">  "; must be a new record
 
 					_dest = this.createDestinationName( _response, _rel );
-c("calced dest name is " + _dest)
+
 				}
 				else {
-c("dest value from button is " + _dest)
+
 					_dest = this.fixDestination( _dest );
 				}
 
@@ -346,6 +345,30 @@ c("dest value from button is " + _dest)
 		db.ghChat.update( { _id: _recordID }, { $set: _updateObj } );
 
 		this.endConfigureMode();
+	}
+
+	this.checkForDestinationRecords = function( _rel )  {
+
+		var _recordID = this.getRecordID( _rel );
+
+		var _rec = db.ghChat.findOne( { _id: _recordID } );
+
+		var _arr = _rec.d;
+
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			var _dest = _arr[i];
+
+			var _destRecord = ghChat.findOne( {c: _rec.c, s: _rec.s, n: _dest } );
+
+			if ( !_destRecord ) {
+
+				var _newRecord = ghChat.insert( {c: _rec.c, s: _rec.s, i: _rec.i, d: [], n: _dest } )
+			}
+
+
+		}	
 	}
 }
 
