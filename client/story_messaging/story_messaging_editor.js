@@ -30,6 +30,11 @@ StoryMessagingEditor = function() {
 
 	this.relationOfDelete = "";
 
+	this.destinationList = [];
+
+	this.storyCode = "";
+
+
 
 	this.init = function( _chatRecordID )  {
 
@@ -37,7 +42,11 @@ StoryMessagingEditor = function() {
 
 		this.grandRecordID.set( _chatRecordID );
 
-		this.chatName = db.ghChat.findOne( { _id: _chatRecordID } ).s;
+		var _rec = db.ghChat.findOne( { _id: _chatRecordID } );
+
+		this.chatName = _rec.s;
+
+		this.storyCode = _rec.c;
 	}
 
 	this.reset = function() {
@@ -344,6 +353,11 @@ StoryMessagingEditor = function() {
 
 		db.ghChat.update( { _id: _recordID }, { $set: _updateObj } );
 
+
+		//if a new response(s) was added since the last save, we need to create a record for it
+
+		this.checkForDestinationRecords( _rel);
+
 		this.endConfigureMode();
 	}
 
@@ -358,17 +372,27 @@ StoryMessagingEditor = function() {
 
 		for (var i = 0; i < _arr.length; i++) {
 
-			var _dest = _arr[i];
+			var _dest = _arr[i].g;
 
-			var _destRecord = ghChat.findOne( {c: _rec.c, s: _rec.s, n: _dest } );
+			var _destRecord = db.ghChat.findOne( {c: _rec.c, s: _rec.s, n: _dest } );
 
 			if ( !_destRecord ) {
-
-				var _newRecord = ghChat.insert( {c: _rec.c, s: _rec.s, i: _rec.i, d: [], n: _dest } )
+c("dest rec not found for " + _dest)
+				var _newRecord = db.ghChat.insert( {c: _rec.c, s: _rec.s, i: _rec.i, d: [], n: _dest } )
 			}
 
 
 		}	
+	}
+
+	this.compileDestinations = function() {
+
+		this.destinationList = [];
+
+		var _arr = db.ghChat.find( { c: this.storycode, s: this.chatName } ).d;
+
+		
+
 	}
 }
 
