@@ -16,6 +16,8 @@ Template.story_messaging_editor.helpers({
 
 		var _obj = db.ghChat.findOne( { _id: smed.childRecordID.get() } );
 
+		if (!_obj) return null;
+
 		_obj.relation = "child";
 
 		return _obj;
@@ -28,6 +30,8 @@ Template.story_messaging_editor.helpers({
 
 		var _obj = db.ghChat.findOne( { _id: smed.parentRecordID.get() } );
 
+		if (!_obj) return null;
+
 		_obj.relation = "parent";
 
 		return _obj;
@@ -38,6 +42,8 @@ Template.story_messaging_editor.helpers({
 		if ( !smed.grandRecordID.get() ) return;
 
 		var _obj = db.ghChat.findOne( { _id: smed.grandRecordID.get() } );
+		
+		if (!_obj) return null;
 
 		_obj.relation = "grand";
 

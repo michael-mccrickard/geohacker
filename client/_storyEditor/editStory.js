@@ -20,7 +20,7 @@ StoryEditor = function() {
 
 	this.arrCollection = null;
 
-	this.tableList = ["Story","Location","Scene","Char","Token","Flag"];
+	this.tableList = ["Story","Location","Scene","Char","Agent","Token","Flag","Cue","Chat"];
 
 	this.uploader = new Slingshot.Upload("ghStoryPic");
 
@@ -87,6 +87,25 @@ StoryEditor = function() {
 //
 //*********************************************************************************
 
+	this.draw = function() {
+
+		this.conformButtons();
+
+		this.conformData();
+	}
+
+	this.conformButtons = function() {
+
+		this.deselectAllTableButtons();
+
+		if ( this.table.get().length ) this.selectTableButton();
+	}
+
+	this.conformData = function() {
+
+		if (this.table.get() == "Chat") this.displayChatData();
+	}
+
 
 	this.selectTableButton = function() {
 
@@ -122,6 +141,13 @@ StoryEditor = function() {
 			this.collectionID.set( 0 );
 		}
 	}
+
+	this.displayChatData = function() {
+
+		this.setCollection( "Chat", db.ghChat, cChat )
+	}
+
+	
 
 //*********************************************************************************
 //

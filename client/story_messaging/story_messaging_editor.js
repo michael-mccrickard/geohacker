@@ -32,6 +32,8 @@ StoryMessagingEditor = function() {
 
 	this.destinationList = [];
 
+	this.descendantsList = [];
+
 	this.storyCode = "";
 
 
@@ -106,7 +108,7 @@ StoryMessagingEditor = function() {
 
 		//check to see if there is a duplicate name in the array of responses
 
-		var _arr = _rec.d;
+		var _arr = this.compileDestinations();
 
 		var _skipCount = 0;
 
@@ -197,9 +199,11 @@ StoryMessagingEditor = function() {
 
 		this.relationOfDelete = _rel;
 
+		this.compileDescendants( _dest );
+
 		$("h4#chatEditWarningHeader").text("Warning!")
 
-		$("p#chatEditWarningMessage").text("Are you sure you want to delete response for destination: '" + _dest + "' ?");
+		$("p#chatEditWarningMessage").text("Are you sure you want to delete response for destination: '" + _dest + "', along with " + this.descendantsList.length + " descendant records?");
 
 		$("#chatEditWarningModal").modal();
 	}
@@ -228,6 +232,21 @@ StoryMessagingEditor = function() {
 		}				
 
 		db.ghChat.update( { _id: _recordID }, { $set: { d: _newData } } );
+
+		//remove the descendants using the list generated above in deleteResponse()
+
+		_arr = this.descendantsList;
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			_rec = db.ghChat.findOne( { c: this.storyCode, s: this.chatName, n: _arr[i] } );
+
+			if (! _rec ) continue;
+
+			var _ID = _rec._id;
+
+			db.ghChat.remove( { _id: _ID } );
+		}			
 
 	}
 
@@ -369,6 +388,7 @@ StoryMessagingEditor = function() {
 
 		var _arr = _rec.d;
 
+		var _speaker = this.switchSpeaker( _rec.i );
 
 		for (var i = 0; i < _arr.length; i++) {
 
@@ -377,10 +397,9 @@ StoryMessagingEditor = function() {
 			var _destRecord = db.ghChat.findOne( {c: _rec.c, s: _rec.s, n: _dest } );
 
 			if ( !_destRecord ) {
-c("dest rec not found for " + _dest)
-				var _newRecord = db.ghChat.insert( {c: _rec.c, s: _rec.s, i: _rec.i, d: [], n: _dest } )
-			}
 
+				db.ghChat.insert( {c: _rec.c, s: _rec.s, i: _speaker, d: [], n: _dest } )
+			}
 
 		}	
 	}
@@ -389,12 +408,87 @@ c("dest rec not found for " + _dest)
 
 		this.destinationList = [];
 
-		var _arr = db.ghChat.find( { c: this.storycode, s: this.chatName } ).d;
+		var _arr = db.ghChat.find( { c: this.storyCode, s: this.chatName } ).fetch();
 
-		
+		for (var i = 0; i < _arr.length; i++) {
+
+			var _name = _arr[i].n;
+
+			//don't count the starting recs or any pseudo dests (like a switch to another chat or play command)
+
+			if  ( this.isRealDestination( _name) ) {
+
+				if ( this.destinationList.indexOf( _name) != -1) showMessage("Duplicated response record name found: " + _name);
+
+				this.destinationList.push( _name );
+
+			}
+		}
+
+		return this.destinationList;
 
 	}
-}
+
+	this.isRealDestination = function( _s ) {
+
+		if ( _s != "*" && _s != "root" && _s != "exit" &&  _s.indexOf("@") == -1 ) return true;
+
+		return false;
+	}
+
+	this.switchSpeaker = function( _val ) {
+
+		if (_val == "u") return "h";
+
+		if (_val == "h") return "u";
+
+		showMessage("Unknown or null speaker code passed to smed.switchSpeaker -- " + _val)		
+	}
+
+	this.compileDescendants = function( _name )  {
+
+		this.descendantsList = [ _name ];  //we manually add this name to the list, b/c it is the first "descendant" of that response value
+
+		this.compileDescendants2( _name);
+	}
+
+	this.compileDescendants2 = function( _name ) {
+
+		var _rec = db.ghChat.findOne( { c: this.storyCode, s: this.chatName, n: _name } );
+
+		if ( !_rec ) return;
+
+		var _arr = _rec.d;
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			var _dest = _arr[i].g;
+
+			//don't count the starting recs or any pseudo dests (like a switch to another chat or a play command)
+
+			if  ( this.isRealDestination( _dest) ) {
+
+				if ( this.descendantsList.indexOf( _dest) == -1) this.descendantsList.push( _dest );
+
+				this.compileDescendants2( _dest );
+			}
+
+		}
+	}
+
+	this.restart = function() {
+
+		var _rec = db.ghChat.findOne( { c: this.storyCode, s: this.chatName, n: "root" } );
+
+		this.init( _rec._id );
+	}
+
+	this.close = function() {
+
+		FlowRouter.go("/editStory")
+	}
+
+}  //end story_messaging_editor
 
 
 

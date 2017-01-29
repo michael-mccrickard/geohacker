@@ -1,3 +1,10 @@
+Template.editStory.rendered = function() {
+
+  sed.draw();
+
+}
+
+
 Template.editStory.events = {
 
   'click #pickStory' : function(e){
@@ -44,7 +51,7 @@ Template.editStory.events = {
 
     e.preventDefault();
 
-    sed.setCollection( "Token", db.ghStoryAgent, cStoryAgent )
+    sed.setCollection( "Agent", db.ghStoryAgent, cStoryAgent )
   },
 
   'click #pickToken' : function(e){
@@ -65,7 +72,7 @@ Template.editStory.events = {
 
     e.preventDefault();
 
-    sed.setCollection( "Chat", db.ghChat, cChat )
+    sed.displayChatData();
   },
 
 
@@ -100,7 +107,7 @@ Template.editStory.events = {
 
         smed.init( e.currentTarget.id );
 
-        Meteor.setTimeout( function() { FlowRouter.go("/editChat"); }, 500 );
+       Meteor.setTimeout( function() { FlowRouter.go("/editChat"); }, 500 );
     }
 
 
@@ -172,6 +179,8 @@ Template.editStory.events = {
     sed.saveLocalCollectionToRecord();
 
     sed.mode.set("server");
+
+    Meteor.setTimeout( function() { sed.draw(); }, 250 );
   },
 
 
