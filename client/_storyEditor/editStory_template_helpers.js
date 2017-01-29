@@ -202,6 +202,7 @@ Template.editStory.helpers({
 
     return sed.template.get();
   },
+  
   serverMode: function() {
 
     if (sed.mode.get() == "server" ) return true;

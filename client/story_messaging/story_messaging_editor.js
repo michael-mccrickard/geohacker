@@ -142,6 +142,41 @@ StoryMessagingEditor = function() {
 			return;
 		}
 
+		//Is this a re-direct or a command?
+
+		if ( _name.indexOf("@") != -1) {
+
+			//Only one command at this time; just show a quick message; nothing to edit
+
+			if ( _name.substr(0,4) == "play" ) {
+
+				showMessage("Play scene here");
+
+				return;
+			}
+
+			//Not a command, must be a redirect
+
+			var _index = _name.indexOf("@");
+
+			var _newChatElementName = _name.substr(0, _index);
+
+			var _newScene = _name.substr( _index + 1 );
+
+			var _rec = db.ghChat.findOne( { c: this.storyCode, s: _newScene, n: _newChatElementName  } );
+
+			if ( ! _rec ) {
+
+				showMessage("Record was not found for redirected chat: " + _name);
+
+				return;
+			}
+
+			this.init( _rec._id );
+
+			return;
+		}
+
 		var _rec = db.ghChat.findOne( { c: sed.code.get(), s: this.chatName, n: _name } );
 
 		if (!_rec) {
