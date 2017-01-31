@@ -36,4 +36,6 @@ testStoryEditor = function() {
 	sed = new StoryEditor();
 
 	sed.init();
+
+	ved = new StoryEditorVisual();
 }

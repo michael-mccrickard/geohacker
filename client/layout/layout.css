@@ -29,7 +29,7 @@ div#universalMessageText {
 	text-transform: uppercase;
 }
 
-.topButtonStrip {
+.topButtonStripLeft {
 
 	position: fixed;
 
@@ -39,6 +39,58 @@ div#universalMessageText {
 
 	z-index: 2000;
 }
+
+.glyphButton {
+
+	padding: 0px;
+
+	padding-top: 2px;
+
+	width: 48px;
+
+	height: 40px;
+
+	margin-right: 8px;
+
+
+}
+
+.topButtonStripRight {
+
+	position: fixed;
+	top: 4px;
+
+	left: 50%;
+
+	z-index: 2000;
+}
+
+.topButtonSelections {
+
+	position: absolute;
+
+	top: 50px;
+
+	z-index: 2000;
+
+}
+
+.selectionButton{
+	display: block;
+	margin-top: 4px;
+}
+
+.selectionImage {
+
+	height: 48px;
+	width: 48px;
+}
+
+.topButtonRight {
+	position: fixed;
+	top: 4px;
+}
+
 
 .topButton {
 

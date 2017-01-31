@@ -524,6 +524,8 @@ c("db is removing record for " + _code + " in the current mission.")
 
     if (_type == cMeme) col = this.ghMeme;
 
+
+
     return col;
   }
 

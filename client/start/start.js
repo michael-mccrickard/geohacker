@@ -175,6 +175,9 @@ Session.set("isIOS", false);
 
  Session.set("sMusicReady", false ); 
 
+
+    Session.set("sUpdateVisualEditor", false);
+
 //****************************************************************
 //                  STARTUP
 //****************************************************************
