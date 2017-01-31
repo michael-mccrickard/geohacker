@@ -23,9 +23,9 @@ storyA = function() {
 
 	this.getDefaultChat = function() {
 
-		if (!this.flags.hasQuest) return "storyDefault_chat_preintro";
+		if (!this.flags.knowsQuest) return "storyDefault_chat_preintro";
 
-		if (!this.flags.hasVisitedGuard) return "storyA_chat_missionToMona";
+		if (!this.flags.visitedGuard) return "storyA_chat_missionToMona";
 
 		return "storyA_chat_missionInfo";
 	}
@@ -40,12 +40,12 @@ storyA = function() {
 
 		if (_name == "passcode") {
 
-			this.flags.hasPasscode = true;
+			this.flags.has_passcode = true;
 		}
 
 		if (_name == "mona") {
 
-			this.flags.hasPainting = true;
+			this.flags.has_mona = true;
 		}
 
 		this._addInventoryItem( _name );
@@ -59,7 +59,7 @@ storyA = function() {
 
 			if (this.scene == "secondGuardVisit") {
 
-				this.flags.hasGivenPasscode = true;
+				this.flags.gave_passcode = true;
 
 				this.play( "guardGetsPasscode");
 
@@ -71,7 +71,7 @@ storyA = function() {
 
 			if (this.scene == "nelsonGetsPainting") {
 
-				this.flags.hasGivenPainting = true;
+				this.flags.gave_painting = true;
 
 				this.play("nelsonAndMark");
 
@@ -103,14 +103,14 @@ storyA = function() {
 				return;
 			}
 
-			if ( !this.flags.hasQuest) {
+			if ( !this.flags.knowsQuest) {
 
 				this.play("missionToMona");
 
 				return;
 			}
 
-			if ( !this.flags.hasVisitedGuard || !this.flags.hasVisitedVanGogh ||  !this.flags.hasPasscode ||  !this.flags.hasPainting ||  !this.flags.hasGivenPainting ) {
+			if ( !this.flags.visitedGuard || !this.flags.visitedVanGogh ||  !this.flags.has_passcode ||  !this.flags.has_mona ||  !this.flags.gave_painting ) {
 
 				this.play("missionInfo");
 
@@ -122,14 +122,14 @@ storyA = function() {
 
 			this.background = "louvre.jpg";
 
-			if ( !this.flags.hasVisitedGuard ) {
+			if ( !this.flags.visitedGuard ) {
 
 					this.play("firstGuardVisit");
 
 					return;		
 			}
 
-			if ( this.flags.hasPasscode ) {
+			if ( this.flags.has_passcode ) {
 
 					this.play("secondGuardVisit");
 
@@ -141,14 +141,14 @@ storyA = function() {
 
 			this.background = "vanGoghHouse.jpg";
 
-			if ( !this.flags.hasVisitedGuard ) {
+			if ( !this.flags.visitedGuard ) {
 
 				this.playDefaultScene( );
 
 				return;	
 			}
 
-			if ( !this.flags.hasPasscode) {
+			if ( !this.flags.has_passcode) {
 
 				this.play("vanGogh");
 
@@ -160,7 +160,7 @@ storyA = function() {
 
 			this.background = "timbuktu_1.jpg";
 
-			if ( this.flags.hasPainting ) {
+			if ( this.flags.has_mona ) {
 
 				this.play("nelsonGetsPainting");
 

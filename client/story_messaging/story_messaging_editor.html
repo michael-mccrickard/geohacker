@@ -104,6 +104,21 @@
 		          			<span class="glyphicon glyphicon-trash"></span>
 	        			</button>
 
+
+					{{#if showMoveButtons}}
+
+						<div style="margin: 8px;">
+							<button type="button" class="btn btn-default btn-md " onclick="smed.moveResponse('{{this.g}}','{{relationFromParent}}', -1)">
+			          			<span class="glyphicon glyphicon-arrow-up"></span>
+		        			</button>
+
+							<button type="button" class="btn btn-default btn-md " onclick="smed.moveResponse('{{this.g}}','{{relationFromParent}}', 1)">
+			          			<span class="glyphicon glyphicon-arrow-down"></span>
+		        			</button>
+						</div>
+
+					{{/if}}
+
 					</div>
 
 				{{/each}}

@@ -264,6 +264,8 @@ StoryEditor = function() {
 
 	this.addRecord = function() {
 
+		doSpinner();
+
 		var _type = this.collectionID.get();
 
   		var data = {};
@@ -285,8 +287,23 @@ StoryEditor = function() {
 
   		}
 
-  		Meteor.call("addRecordWithDataObject", _type, data);
+  		Meteor.call("addRecordWithDataObject", _type, data, function(err, result) {
 
+			stopSpinner();
+
+			if (err) {
+
+				console.log(err);
+			}
+			else {
+
+				if ( sed.collectionID.get() == cChat) {
+
+					smed.createNewChat( result );
+				}
+			}
+
+		}); 	
 
 	}
 

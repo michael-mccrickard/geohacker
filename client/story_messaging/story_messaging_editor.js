@@ -36,6 +36,13 @@ StoryMessagingEditor = function() {
 
 	this.storyCode = "";
 
+    this.locked_sound_file = "locked.mp3";
+
+//*********************************************************************************
+//
+//				BASIC FUNCTIONS
+//
+//*********************************************************************************
 
 
 	this.init = function( _chatRecordID )  {
@@ -62,6 +69,74 @@ StoryMessagingEditor = function() {
 		this.chatName = "";
 
 	}
+
+	this.restart = function() {
+
+		var _rec = db.ghChat.findOne( { c: this.storyCode, s: this.chatName, n: "root" } );
+
+		this.init( _rec._id );
+	}
+
+	this.close = function() {
+
+		FlowRouter.go("/editStory")
+	}
+
+	this.createNewChat = function( _ID ) {
+
+		//request the chatName from the user here and fill it in for them
+
+		var _newChatName = prompt("Please enter the name for the new chat:", "");
+
+		if (_newChatName == null) {
+
+			db.ghChat.delete( { _id: _rec._id  } );
+
+			showMessage("Add new chat aborted.")
+
+			return;
+		}
+
+
+		//with the rec we get from sed, we make into the first helper record
+
+		var _obj = {};
+
+		_obj.c = sed.code.get();
+
+		_obj.i = "h";
+
+		_obj.n =  this.helperRootSpeechName;
+
+		_obj.d = [ { t: this.helperRootSpeech, g: this.agentRootSpeechName } ];
+
+		_obj.s = _newChatName
+
+
+		db.ghChat.update( { _id: _ID }, { $set: _obj  } );
+
+
+		//make the first user record
+
+		_obj.c = sed.code.get();
+
+		_obj.i = "u";
+
+		_obj.n =  this.agentRootSpeechName;
+
+		_obj.d = [ { t: "", g: "" } ];
+
+		_obj.s = _newChatName
+
+		db.ghChat.insert( _obj  );
+
+	}
+
+//*********************************************************************************
+//
+//				ADD / EDIT RESPONSE FUNCTIONS
+//
+//*********************************************************************************
 
 	this.addResponse = function( _rel ) {
 
@@ -214,12 +289,116 @@ StoryMessagingEditor = function() {
 		}
 	}
 
+//*********************************************************************************
+//
+//				MOVE RESPONSE FUNCTIONS
+//
+//*********************************************************************************
+
+this.moveResponse = function( _dest, _sourceRelation, _val) {
+
+	var _recordID = this.getRecordID( _sourceRelation );
+
+	var _arr = db.ghChat.findOne( { _id: _recordID } ).d;
+
+	var _indexToMove = Database.getObjectIndexWithValue( _arr, "g", _dest);
+
+	//Can we move it?
+
+	if ( ( _indexToMove == 0 && _val == -1) || ( _indexToMove == _arr.length-1 && _val == 1) ) {
+
+		showMessage("Cannot move response in that direction");
+
+		display.playEffect( this.locked_sound_file);
+
+		return;
+	}
+
+	//Flip the elements in the array
+
+	var _newIndex = _indexToMove + _val;
+
+	var _temp = _arr[ _newIndex ];
+
+	_arr[_newIndex] = _arr[_indexToMove];
+
+	_arr[_indexToMove] = _temp;	
+
+
+	db.ghChat.update( { _id: _recordID }, { $set: { d: _arr } } );
+}
+
+
+//*********************************************************************************
+//
+//				UTILITY FUNCTIONS
+//
+//*********************************************************************************
+
 	this.closeParentAndChild = function( _rel ) {
 
 		this.parentRecordID.set ( "" );
 
 	    this.childRecordID.set ( "" );
 	}
+
+	this.enableConfigureMode = function( _rel ) {
+
+		this.configureRelation.set( _rel );
+
+		this.configureMode.set(true);	
+	}
+
+	this.endConfigureMode = function(){
+
+		this.configureRelation.set( "" );
+
+		this.configureMode.set(false);	
+
+	}
+
+	this.fixDestination = function( _dest ) {
+
+		var _res = _dest.substr(3);  //lop off the ">  "
+
+		return _res;
+	}
+
+	this.getRecordID = function( _rel ) {
+
+		if (_rel == "grand") return this.grandRecordID.get();
+
+		if (_rel == "parent") return this.parentRecordID.get();
+
+		if (_rel == "child") return this.childRecordID.get();		
+	}
+
+	this.isRealDestination = function( _s ) {
+
+		if ( _s != "*" && _s != "root" && _s != "exit" &&  _s.indexOf("@") == -1 ) return true;
+
+		return false;
+	}
+
+	this.switchSpeaker = function( _val ) {
+
+		if (_val == "u") return "h";
+
+		if (_val == "h") return "u";
+
+		showMessage("Unknown or null speaker code passed to smed.switchSpeaker -- " + _val)		
+	}
+
+	this.showAll = function() {
+
+		sed.findSelector.set( {} );
+	}
+
+//*********************************************************************************
+//
+//				DELETE FUNCTIONS
+//
+//*********************************************************************************
 
 	this.abortDelete = function() {
 
@@ -285,36 +464,11 @@ StoryMessagingEditor = function() {
 
 	}
 
-	this.enableConfigureMode = function( _rel ) {
-
-		this.configureRelation.set( _rel );
-
-		this.configureMode.set(true);	
-	}
-
-	this.endConfigureMode = function(){
-
-		this.configureRelation.set( "" );
-
-		this.configureMode.set(false);	
-
-	}
-
-	this.fixDestination = function( _dest ) {
-
-		var _res = _dest.substr(3);  //lop off the ">  "
-
-		return _res;
-	}
-
-	this.getRecordID = function( _rel ) {
-
-		if (_rel == "grand") return this.grandRecordID.get();
-
-		if (_rel == "parent") return this.parentRecordID.get();
-
-		if (_rel == "child") return this.childRecordID.get();		
-	}
+//*********************************************************************************
+//
+//				SAVE FUNCTIONS
+//
+//*********************************************************************************
 
 	this.saveRecord = function( _rel) {
 
@@ -415,6 +569,12 @@ StoryMessagingEditor = function() {
 		this.endConfigureMode();
 	}
 
+//*********************************************************************************
+//
+//				TRAVERSAL FUNCTIONS
+//
+//*********************************************************************************
+
 	this.checkForDestinationRecords = function( _rel )  {
 
 		var _recordID = this.getRecordID( _rel );
@@ -464,21 +624,7 @@ StoryMessagingEditor = function() {
 
 	}
 
-	this.isRealDestination = function( _s ) {
 
-		if ( _s != "*" && _s != "root" && _s != "exit" &&  _s.indexOf("@") == -1 ) return true;
-
-		return false;
-	}
-
-	this.switchSpeaker = function( _val ) {
-
-		if (_val == "u") return "h";
-
-		if (_val == "h") return "u";
-
-		showMessage("Unknown or null speaker code passed to smed.switchSpeaker -- " + _val)		
-	}
 
 	this.compileDescendants = function( _name )  {
 
@@ -511,17 +657,7 @@ StoryMessagingEditor = function() {
 		}
 	}
 
-	this.restart = function() {
 
-		var _rec = db.ghChat.findOne( { c: this.storyCode, s: this.chatName, n: "root" } );
-
-		this.init( _rec._id );
-	}
-
-	this.close = function() {
-
-		FlowRouter.go("/editStory")
-	}
 
 }  //end story_messaging_editor
 

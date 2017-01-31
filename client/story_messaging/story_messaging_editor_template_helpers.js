@@ -42,7 +42,7 @@ Template.story_messaging_editor.helpers({
 		if ( !smed.grandRecordID.get() ) return;
 
 		var _obj = db.ghChat.findOne( { _id: smed.grandRecordID.get() } );
-		
+
 		if (!_obj) return null;
 
 		_obj.relation = "grand";
@@ -148,6 +148,13 @@ Template.story_messaging_element.helpers({
 	showAddButton: function() {
 
 		if (this.i == "u" || this.d.length == 0) return true;
+
+		return false; 
+	},
+
+	showMoveButtons: function() {
+
+		if (Template.parentData(1).i == "u" && Template.parentData(1).d.length) return true;
 
 		return false; 
 	},
