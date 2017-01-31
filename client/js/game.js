@@ -23,6 +23,8 @@ Game = function() {
 
 	this.intro = new Intro();
 
+	this.mode = new Blaze.ReactiveVar( gmNormal );
+
 
 	//this.music = ["amber.mp3","yellow.mp3","agent_d_cooper.mp3", "geohackerAmbientSofter.mp3", "geohackerThemeSoftest.mp3"];
 
@@ -241,8 +243,6 @@ Game = function() {
 
 
  		var rec = Meteor.users.findOne( { _id: _ID});
-
-// 		if ( rec.profile.p.indexOf("ghUserFeaturedPic") != -1 ) this.deleteUserS3File( rec.profile.p );
 
  		this.deleteUserS3File( rec.profile.av );	
 

@@ -307,6 +307,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		if ( display.homeButtonDisabled() ) return;
 
+		game.mode.set( gmNormal );
+
 		display.suspendAllMedia();
 
 		if (display.browser) display.browser.suspendRotation = true;

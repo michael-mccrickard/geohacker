@@ -29,3 +29,26 @@ div#universalMessageText {
 	text-transform: uppercase;
 }
 
+.topButtonStrip {
+
+	position: fixed;
+
+	top: 10px;
+
+	left: 10%;
+
+	z-index: 2000;
+}
+
+.topButton {
+
+	width: 32px;
+	margin-left: 32px;
+}
+
+.topButton2 {
+
+	position: relative;
+
+	left: 32px;
+}

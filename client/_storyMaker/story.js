@@ -18,6 +18,8 @@ Story =  function() {
 
 	this._init = function( _code ) {
 
+		this.reset();
+
 		this.code = _code;
 
 		this.name = "story" + _code;
@@ -56,7 +58,7 @@ Story =  function() {
 
  		//first subscribe to the records that supply any actual agent IDs (agents in the db) that we need for the story
 
-		Meteor.subscribe("storyAssets_StoryAgent", _code, function() { Session.set("sStoryAgentReady", true ) });
+		this.storyAgentSub = Meteor.subscribe("storyAssets_StoryAgent", _code, function() { Session.set("sStoryAgentReady", true ) });
 
 	},
 
@@ -68,23 +70,23 @@ Story =  function() {
 
 		//this sub will return the user records for the IDs found in _arr
 
-		Meteor.subscribe("storyAssets_StoryAgentRecord", _arr, function() { Session.set("sStoryAgentRecordReady", true ) });
+		this.storyAgentRecordSub = Meteor.subscribe("storyAssets_StoryAgentRecord", _arr, function() { Session.set("sStoryAgentRecordReady", true ) });
 
- 		Meteor.subscribe("storyAssets_Story", story.code, function() { Session.set("sStoryReady", true ) });
+ 		this.storySub = Meteor.subscribe("storyAssets_Story", story.code, function() { Session.set("sStoryReady", true ) });
 
-		Meteor.subscribe("storyAssets_Location", story.code, function() { Session.set("sLocationReady", true ) });
+		this.locationSub = Meteor.subscribe("storyAssets_Location", story.code, function() { Session.set("sLocationReady", true ) });
 
-		Meteor.subscribe("storyAssets_Scene", story.code, function() { Session.set("sSceneReady", true ) });
+		this.sceneSub = Meteor.subscribe("storyAssets_Scene", story.code, function() { Session.set("sSceneReady", true ) });
 
-		Meteor.subscribe("storyAssets_Char", story.code, function() { Session.set("sCharReady", true ) });
+		this.charSub = Meteor.subscribe("storyAssets_Char", story.code, function() { Session.set("sCharReady", true ) });
 
-		Meteor.subscribe("storyAssets_Token", story.code, function() { Session.set("sTokenReady", true ) });
+		this.tokenSub = Meteor.subscribe("storyAssets_Token", story.code, function() { Session.set("sTokenReady", true ) });
 
-		Meteor.subscribe("storyAssets_StoryFlag", story.code, function() { Session.set("sStoryFlagReady", true ) });
+		this.storyFlagSub = Meteor.subscribe("storyAssets_StoryFlag", story.code, function() { Session.set("sStoryFlagReady", true ) });
 
-		Meteor.subscribe("storyAssets_Cue", story.code, function() { Session.set("sCueReady", true ) });
+		this.cueSub = Meteor.subscribe("storyAssets_Cue", story.code, function() { Session.set("sCueReady", true ) });
 
-		Meteor.subscribe("storyAssets_Chat", story.code, function() { Session.set("sChatReady", true ) });
+		this.chatSub = Meteor.subscribe("storyAssets_Chat", story.code, function() { Session.set("sChatReady", true ) });
 
 //need to do this with value from the db, story record (in autoRun?)
 
@@ -105,6 +107,47 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		this.chatSource = db.ghChat.find().fetch();		//we will have to filter out the recs we need, for each chat
 
 	},
+
+
+
+
+	this.reset = function() {
+	
+		Session.set("sStoryReady", false);
+
+  		Session.set("sLocationReady", false);
+
+   		Session.set("sSceneReady", false);
+
+  		Session.set("sCharReady", false);
+
+   		Session.set("sTokenReady", false);
+
+   		Session.set("sStoryAgentReady", false);
+
+   		Session.set("sStoryAgentRecordReady", false);
+
+   		Session.set("sStoryFlagReady", false);
+
+   		Session.set("sCueReady", false);
+
+   		Session.set("sChatReady", false);
+
+      	if (!this.storyAgentSub) return;
+
+       	this.storySub.stop();
+       	this.storyAgentSub.stop();
+       	this.storyAgentRecordSub.stop();
+       	this.locationSub.stop();
+       	this.sceneSub.stop();
+       	this.charSub.stop();
+       	this.tokenSub.stop();
+       	this.storyFlagSub.stop();
+       	this.cueSub.stop();
+       	this.chatSub.stop();
+
+	},
+
 
 	this._addInventoryItem = function( _name ) {
 

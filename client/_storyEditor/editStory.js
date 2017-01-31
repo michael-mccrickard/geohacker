@@ -46,6 +46,8 @@ StoryEditor = function() {
 
 		smed = new StoryMessagingEditor();
 
+		this.reset();
+
 		Meteor.subscribe("allStories", function() { Session.set("sAllStoriesReady", true ) });
 
 		Meteor.subscribe("allLocations", function() { Session.set("sAllLocationsReady", true ) });
@@ -67,6 +69,27 @@ StoryEditor = function() {
 		this.findSelector.set( {} );
 
 		this.collection.set( db.ghStory );
+	}
+
+	this.reset = function() {
+
+		Session.set("sAllStoriesReady", false );
+
+  		Session.set("sAllLocationsReady", false );
+
+   		Session.set("sAllScenesReady", false );
+
+  		Session.set("sAllCharsReady", false );
+
+   		Session.set("sAllTokensReady", false );
+
+   		Session.set("sAllStoryAgentsReady", false );
+
+   		Session.set("sAllStoryFlagsReady", false );
+
+   		Session.set("sAllCues", false );
+
+   		Session.set("sAllChats", false );
 	}
 
 //*********************************************************************************

@@ -1,4 +1,13 @@
-testStory = function( _code) {
+testStory = function() {
+
+	var _code = sed.code.get();
+
+	if (!_code) {
+
+		showMessage("Select a story in the editor.");
+
+		return;
+	}
 
 	game.user.mode = uStory;
 
@@ -18,9 +27,11 @@ testStoryEditor = function() {
 
 	game.user.mode = uEditStory;
 
+	game.mode.set( gmEditStory );
+
 	FlowRouter.go("/waiting");
 
-	if ( !db.storiesInitialized ) db.initStories();
+	if ( !db.storiesInitialized )  db.initStories();
 
 	sed = new StoryEditor();
 

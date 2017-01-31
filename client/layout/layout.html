@@ -1,6 +1,16 @@
 
 <template name="layout">
 
+    {{#if editStoryMode}}
+
+        <div class="topButtonStrip">
+            <img class= "topButton" id="startStoryEdit" onclick="testStoryEditor()" src="edit_icon.png" />
+
+            <button type="button" class="btn btn-danger topButton2" onclick="testStory()" id="runStory">RUN</button>
+        </div>
+    
+    {{/if}}
+
     <audio autoplay id="musicPlayer">
     <source src="" type="audio/mpeg">
     Your browser does not support the audio element.
@@ -37,6 +47,8 @@
             {{> spinner}}
         </div>
     {{/if}}
+
+
 
   <div id="universalMessageText"></div>
 
