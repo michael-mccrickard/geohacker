@@ -27,6 +27,10 @@ gCountryIndex = 0;
 
 gColorIndex = 0;
 
+gSizeEntityMode = 0;
+
+gMoveEntityMode = 0;
+
 //turn in-game editor off / on  
 
 $(document).keydown(function(e) {
@@ -155,6 +159,7 @@ $(document).keydown(function(e) {
 
         if (gEditSidewallsMode) display.browser.nextMeme( display.browser.ID);
 
+        if (gMoveEntityMode) ved.moveEntityHoriz(-1);
 
         break;
 
@@ -166,6 +171,10 @@ $(document).keydown(function(e) {
 
         if (gEditSidewallsMode) display.browser.editSidewallFontSize(0.1)
 
+        if (gSizeEntityMode) ved.sizeEntity(1);
+
+        if (gMoveEntityMode) ved.moveEntityVert(-1);
+
         break;
 
       case 39:  //right arrow
@@ -173,6 +182,8 @@ $(document).keydown(function(e) {
         if (gEditLabels || gEditCapsulePos) nudgeLabel( e.which );
 
         if (gEditLearnCountry) posElementLeft(-1); 
+
+        if (gMoveEntityMode) ved.moveEntityHoriz(1);
 
         if (gEditSidewallsMode) {
 
@@ -190,6 +201,10 @@ $(document).keydown(function(e) {
         if (gEditLearnCountry) editTextSize(-1);
 
         if (gEditSidewallsMode) display.browser.editSidewallFontSize(-0.1)
+
+        if (gSizeEntityMode) ved.sizeEntity(-1);
+
+        if (gMoveEntityMode) ved.moveEntityVert(1);
 
         break;
 

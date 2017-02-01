@@ -16,11 +16,27 @@ Template.story.helpers({
   	 return story.chars;
   },
 
+  chatMode: function() {
+
+    if (story.mode.get() == "chat") return true;
+
+    return false;
+  },
+
   chatVisibilityClass: function() {
 
     if (story.mode.get() == "chat") return "";
 
      return "hidden";
+  },
+
+  editEntityMode: function() {
+
+    if (!ved) return false;
+
+    if ( ved.mode.get() == "entity") return true;
+
+    return false;
   },
 
   exerciseMode: function() {
@@ -30,26 +46,16 @@ Template.story.helpers({
   	return false;
   },
 
-  chatMode: function() {
-
-  	if (story.mode.get() == "chat") return true;
-
-  	return false;
-  },
-
-  token: function() {
-
-  	 return story.tokens;
-  },
-
-  storyButton: function() {
-
-    return story.storyButtons;
-  },
-
   inventoryButton: function() {
 
     return story.inventoryButtons;
+  },
+
+  mapMode: function() {
+
+      if (story.mode.get() == "map") return true;
+
+      return false;
   },
 
   picForBaseButton: function() {
@@ -65,12 +71,15 @@ Template.story.helpers({
       return false;
   },
 
-  mapMode: function() {
+  token: function() {
 
-      if (story.mode.get() == "map") return true;
+  	 return story.tokens;
+  },
 
-      return false;
-  }
+  storyButton: function() {
+
+    return story.storyButtons;
+  },
 
 });
 

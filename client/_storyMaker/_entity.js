@@ -3,6 +3,14 @@ Entity = function() {
 	this.leftSpacer = 4;
 
 	this.rightSpacer = 24;
+
+	//css transform values
+
+	this.scale = 1.0;
+
+	this.x = 0;
+
+	this.y = 0;
 	
 	this._add = function() {
 
@@ -10,7 +18,7 @@ Entity = function() {
 
 		//see note in init (in char and token obj cconstructors) about width and left
 
-		if (this.width) $(this.imageElement).css("width", this.width);
+		//if (this.width) $(this.imageElement).css("width", this.width);
 
 		if (this.left) $(this.element).css("left", this.left);
 

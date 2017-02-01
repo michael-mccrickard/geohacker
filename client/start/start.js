@@ -228,6 +228,8 @@ Meteor.startup(function() {
 
   smed = null;  //story messaging editor
 
+  ved = null;  //visual story editor
+
 
   db.initCore();
 

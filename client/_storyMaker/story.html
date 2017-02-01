@@ -54,32 +54,40 @@
 
 			</div>
 
-		<div class="divStoryButtons">
+		{{#if editEntityMode}}
 
-			<div class="storyButton">
-				<img class="imgStoryButton imgStoryButtonBG stretch" id="storyButtonMap" src="featuredBackdrop.jpg" />
+			{{>editEntityButtons}}
 
-				<img class="imgStoryButton imgStoryButtonContent" id="imgStoryButtonMap" src="storyMapButton3.png" />	
-			</div>
+		{{else}}
 
-			<div class="storyButton">
-				<img class="imgStoryButton imgStoryButtonBG stretch" id="storyButtonBase" src="featuredBackdrop.jpg" />
-
-				<img class="imgStoryButton imgStoryButtonContent" id="imgStoryButtonBase" src={{picForBaseButton}} />	
-			</div>
-
-			{{#each inventoryButton}}	
+			<div class="divStoryButtons">
 
 				<div class="storyButton">
+					<img class="imgStoryButton imgStoryButtonBG stretch" id="storyButtonMap" src="featuredBackdrop.jpg" />
 
-					<img class="imgStoryInventoryButton imgStoryButtonBG stretch" id="storyInventoryButton{{this}}" src="featuredBackdrop.jpg" data-shortname="" />
-
-					<img class="imgStoryInventoryButton imgStoryButtonContent" id="imgStoryInventoryButton{{this}}" src="featuredBackdrop.jpg" data-shortname="" />	
-				
+					<img class="imgStoryButton imgStoryButtonContent" id="imgStoryButtonMap" src="storyMapButton3.png" />	
 				</div>
-			{{/each}}
 
-		</div>
+				<div class="storyButton">
+					<img class="imgStoryButton imgStoryButtonBG stretch" id="storyButtonBase" src="featuredBackdrop.jpg" />
+
+					<img class="imgStoryButton imgStoryButtonContent" id="imgStoryButtonBase" src={{picForBaseButton}} />	
+				</div>
+
+				{{#each inventoryButton}}	
+
+					<div class="storyButton">
+
+						<img class="imgStoryInventoryButton imgStoryButtonBG stretch" id="storyInventoryButton{{this}}" src="featuredBackdrop.jpg" data-shortname="" />
+
+						<img class="imgStoryInventoryButton imgStoryButtonContent" id="imgStoryInventoryButton{{this}}" src="featuredBackdrop.jpg" data-shortname="" />	
+					
+					</div>
+				{{/each}}
+
+			</div>
+
+		{{/if}}
 
 	</div>
 
@@ -94,3 +102,6 @@
 		{{/if}}
 
 </template>
+
+
+

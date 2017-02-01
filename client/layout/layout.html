@@ -11,11 +11,11 @@
 
         <div class="topButtonStripRight">
 
-            <button type="button" class="btn btn-default btn-lg glyphButton" id="locationEdit" onclick="ved.locationEdit()">
+            <button type="button" class="btn btn-default btn-lg glyphButton" id="locationEdit" onclick="ved.setDataMode('Location', cLocation)">
                 <span class="glyphicon glyphicon-globe"></span>
             </button>
 
-            <button type="button" class="btn btn-warning btn-lg glyphButton" id="sceneEdit" onclick="">
+            <button type="button" class="btn btn-warning btn-lg glyphButton" id="sceneEdit" onclick="ved.setDataMode('Scene', cScene)">
                 <span class="glyphicon glyphicon-picture"></span>
             </button>
 
@@ -27,15 +27,15 @@
                 <span class="glyphicon glyphicon-apple"></span>
             </button>
 
-            <button type="button" class="btn btn-primary btn-lg glyphButton" id="chatEdit" onclick="">
+            <button type="button" class="btn btn-primary btn-lg glyphButton" id="chatEdit" onclick="ved.setDataMode('Chat', cChat)">
                 <span class="glyphicon glyphicon-comment"></span>
             </button>
 
-            <button type="button" class="btn btn-danger btn-lg glyphButton" id="flagEdit" onclick="">
-                <span class="glyphicon glyphicon-check"></span>
+            <button type="button" class="btn btn-danger btn-lg glyphButton" id="flagEdit" onclick="ved.setDataMode('StoryFlag', cStoryFlag)">
+                <span class="glyphicon glyphicon-flag"></span>
             </button>
 
-             <button type="button" class="btn btn-warning btn-lg glyphButton" id="cueEdit" onclick="">
+             <button type="button" class="btn btn-warning btn-lg glyphButton" id="cueEdit" onclick="ved.setDataMode('Cue', cCue)">
                 <span class="glyphicon glyphicon-list"></span>
             </button>           
         </div>
@@ -44,7 +44,7 @@
 
             {{#each menuElement}}    
                 
-                <button type="button" class="btn btn-default btn-lg selectionButton" id="" onclick="">
+                <button type="button" class="btn btn-default btn-lg selectionButton" id="{{this.sn}}">
                     <img class="selectionImage" src="{{this.p}}" />
                 </button>
 

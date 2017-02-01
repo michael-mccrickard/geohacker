@@ -1,10 +1,41 @@
+//Template helpers are in the layout folder:  layout_template_helpers.js
+//b/c the DOM elements need to persist over several templates
+
 StoryEditorVisual = function() {
 
 	this.menuOpen = new Blaze.ReactiveVar( false );
 
 	this.menuElementType = new Blaze.ReactiveVar( 0 ); 
+
+	this.mode = new Blaze.ReactiveVar("none");
+
+	this.submode = "none";
+
+	this.charArray = [];
+
+	this.selectedEntity = "";
+
+	this.setDataMode = function( _val, _collectionID ) {
+
+		this.mode.set( _val );
+
+		sed.table.set( _val );
+
+		//sed.setCollection( "Location", db.ghLocation, cLocation )
+
+		var _s = "sed.setCollection('" + _val + "', db.gh" + _val + ", " + _collectionID + ")";
+
+c(_s);
+
+		eval( _s );
+
+		FlowRouter.go("/editStory");
+	}	
+
 	
 	this.charEdit = function() {
+
+		var _arr = this.createCharArray();
 
 		this.menuElementType.set( cChar );
 
@@ -42,6 +73,125 @@ StoryEditorVisual = function() {
 		this.menuOpen.set( false );
 
 		this.updateContent();
+	}
+
+	this.createCharArray = function() {
+
+		this.charArray = [];
+
+		var _arr = db.ghChar.find( { c: sed.code.get() } ).fetch();
+
+		for (var i=0; i < _arr.length; i++) {
+
+			var _obj = {};
+
+			_obj.sn = _arr[i].sn;
+
+			_obj.p = _arr[i].p;
+
+			if (_arr[i].t == "a") {
+
+				var _rec = Meteor.users.findOne( { username: _arr[i].n } );
+
+				if (!_rec) {
+
+					showMessage( "User record not found for: " + _arr[i].n);
+
+					continue; 
+				}
+
+				_obj.p = _rec.profile.av;
+			}
+
+			this.charArray.push( _obj);
+		}
+
+	}
+
+	this.selectEntity = function( _name ) {
+
+		if (this.selectedEntity) $( story[ this.selectedEntity ].imageElement ).removeClass( "storyCharSel" );
+
+		this.selectedEntity = _name;
+
+		$( story[ _name ].imageElement ).addClass( "storyCharSel" );
+
+		this.menuOpen.set( 0 );
+
+		this.mode.set("entity");
+	}
+
+	this.sizeEntity = function( _val) {
+
+		var _scale = story[ this.selectedEntity ].scale;
+
+		_scale = _scale + _val * 0.1;
+
+		story[ this.selectedEntity ].scale = _scale;
+
+		var _str = "scale(" + _scale + "," + _scale + ")";
+
+		$( story[this.selectedEntity].element ).css("transform", _str);
+	}
+
+	this.moveEntityVert = function( _val) {
+		
+		_val = _val * 3;
+		
+		var _y = story[ this.selectedEntity ].y;
+
+		_y = _y + _val;
+
+		story[ this.selectedEntity ].y = _y;		
+
+		var _str = "translateY(" + _y + "px)";
+
+		$( story[this.selectedEntity].element ).css("transform", _str);
+	}
+
+	this.moveEntityHoriz = function( _val) {
+		
+		_val = _val * 3;
+		
+		var _x = story[ this.selectedEntity ].x;
+
+		_x = _x + _val;
+
+		story[ this.selectedEntity ].x = _x;		
+
+		var _str = "translateX(" + _x + "px)";
+
+		$( story[this.selectedEntity].element ).css("transform", _str);
+	}
+
+	this.setSubmode = function(_ID) {
+
+		this.submode = _ID;
+
+		gGameEditor = 0;
+
+		gSizeEntityMode = 0;
+
+		gMoveEntityMode = 0;
+
+		if (_ID == "size") {
+
+			gGameEditor = 1;
+
+			gSizeEntityMode = 1;
+
+			showMessage("Size mode on");
+		}
+
+		if (_ID == "move") {
+
+			gGameEditor = 1;
+
+			gMoveEntityMode = 1;
+
+			showMessage("Move mode on")
+		}
+
 	}
 
 }
