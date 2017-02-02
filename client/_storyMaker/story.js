@@ -26,7 +26,7 @@ Story =  function() {
 
 		if (!game.user.sms) game.user.sms = new StoryMessaging();
 
-		this.mode = new Blaze.ReactiveVar( "none" );
+		this.dataMode = new Blaze.ReactiveVar( "none" );
 
 		this.charObjs = [];  //this array holds the chars for the current scene
 
@@ -339,7 +339,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 			this.cue = this.cueSource[_index].d;	
 		}
 
-		this.mode.set( "scene" );
+		this.dataMode.set( "scene" );
 
 
 		//do we need to change the bg?
@@ -473,7 +473,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 		game.user.sms.startChat( this.chatSource );
 
-      	this.mode.set("chat");
+      	this.dataMode.set("chat");
 
       	Meteor.setTimeout( function() { display.animateScrollToBottom(); }, 300 );
 

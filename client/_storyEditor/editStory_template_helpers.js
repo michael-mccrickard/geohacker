@@ -96,7 +96,7 @@ Template.editStory.events = {
 
         sed.makeLocalCollection( _scene );
 
-        sed.mode.set( "local" );
+        sed.dataMode.set( "local" );
 
         return;
    }
@@ -176,7 +176,7 @@ Template.editStory.events = {
 
     sed.saveLocalCollectionToRecord();
 
-    sed.mode.set("server");
+    sed.dataMode.set("server");
 
     Meteor.setTimeout( function() { sed.draw(); }, 250 );
   },
@@ -203,14 +203,14 @@ Template.editStory.helpers({
 
   serverMode: function() {
 
-    if (sed.mode.get() == "server" ) return true;
+    if (sed.dataMode.get() == "server" ) return true;
 
     return false;
   },
 
   localMode: function() {
 
-    if (sed.mode.get() == "local" ) return true;
+    if (sed.dataMode.get() == "local" ) return true;
 
     return false;
   },
@@ -267,14 +267,14 @@ Template.storyData.helpers({
 
   serverMode: function() {
 
-    if (sed.mode.get() == "server" ) return true;
+    if (sed.dataMode.get() == "server" ) return true;
 
     return false;
   },
 
   localMode: function() {
 
-    if (sed.mode.get() == "local" ) return true;
+    if (sed.dataMode.get() == "local" ) return true;
 
     return false;
   },

@@ -6,7 +6,15 @@ StoryEditor = function() {
 
 	this.code = new Blaze.ReactiveVar("");
 
-	this.mode = new Blaze.ReactiveVar("server");
+	this.scene =  new Blaze.ReactiveVar("");
+
+	this.chat =   new Blaze.ReactiveVar("");
+
+	this.cue =   new Blaze.ReactiveVar("");
+
+	this.mode = new Blaze.ReactiveVar("");  //data or visual
+ 
+	this.dataMode = new Blaze.ReactiveVar("server");  //server or local
 
 	this.collection = new Blaze.ReactiveVar(null);
 
