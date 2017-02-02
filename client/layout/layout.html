@@ -4,62 +4,78 @@
     {{#if editStoryMode}}
 
         <div class="topButtonStripLeft">
-            <button type="button" class="btn btn-default topButton1" onclick="" id="">DATA</button>
+            <button type="button" class="btn btn-default topButton1" onclick="sed.setMode('data')" id="">DATA</button>
 
-            <button type="button" class="btn btn-info topButton2" onclick="" id="">VISUAL</button>
+            <button type="button" class="btn btn-info topButton2" onclick="sed.setMode('visual')" id="">VISUAL</button>
         </div>
 
-        <div class="topButtonStripMiddle">
-            <button type="button" class="btn btn-success topButton1Middle" onclick="testStory()" id="runStory">
-                <span class="glyphicon glyphicon-play"></span>
-            </button>
+        {{#if editorModeIsSelected}}
 
-            <button type="button" class="btn btn-danger topButton2Middle" onclick="testStoryEditor()" id="runStoryEditor">
-                <span class="glyphicon glyphicon-edit"></span>
-            </button>
-        </div>
+            <div class="topButtonStripMiddle">
 
-        <div class="topButtonStripRight">
+                 {{#if editorModeIsVisual}}
 
-            <button type="button" class="btn btn-default btn-lg glyphButton" id="locationEdit" onclick="ved.setDataMode('Location', cLocation)">
-                <span class="glyphicon glyphicon-globe"></span>
-            </button>
+                    <button type="button" class="btn btn-success topButton1Middle" onclick="sed.switchTo('story')" id="runStory">
+                        <span class="glyphicon glyphicon-play"></span>
+                    </button>
+                {{/if}}
 
-            <button type="button" class="btn btn-warning btn-lg glyphButton" id="sceneEdit" onclick="ved.setDataMode('Scene', cScene)">
-                <span class="glyphicon glyphicon-picture"></span>
-            </button>
+                  {{#if editorModeIsData}}               
 
-            <button type="button" class="btn btn-info btn-lg glyphButton" id="charEdit" onclick="ved.charEdit()">
-                <span class="glyphicon glyphicon-user"></span>
-            </button>
+                    <button type="button" class="btn btn-danger topButton2Middle" onclick="sed.switchTo('editor')" id="runStoryEditor">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </button>
 
-            <button type="button" class="btn btn-success btn-lg glyphButton" id="tokenEdit" onclick="ved.tokenEdit()">
-                <span class="glyphicon glyphicon-apple"></span>
-            </button>
+                  {{/if}}
+            </div>
 
-            <button type="button" class="btn btn-primary btn-lg glyphButton" id="chatEdit" onclick="ved.setDataMode('Chat', cChat)">
-                <span class="glyphicon glyphicon-comment"></span>
-            </button>
+        {{/if}}
 
-            <button type="button" class="btn btn-danger btn-lg glyphButton" id="flagEdit" onclick="ved.setDataMode('StoryFlag', cStoryFlag)">
-                <span class="glyphicon glyphicon-flag"></span>
-            </button>
+        {{#if editorModeIsVisual}}
 
-             <button type="button" class="btn btn-warning btn-lg glyphButton" id="cueEdit" onclick="ved.setDataMode('Cue', cCue)">
-                <span class="glyphicon glyphicon-list"></span>
-            </button>           
-        </div>
+            <div class="topButtonStripRight">
 
-        <div class="topButtonSelections">
-
-            {{#each menuElement}}    
-                
-                <button type="button" class="btn btn-default btn-lg selectionButton" id="{{this.sn}}">
-                    <img class="selectionImage" src="{{this.p}}" />
+                <button type="button" class="btn btn-default btn-lg glyphButton" id="locationEdit" onclick="ved.setDataMode('Location', cLocation)">
+                    <span class="glyphicon glyphicon-globe"></span>
                 </button>
 
-            {{/each}}
-        </div>
+                <button type="button" class="btn btn-warning btn-lg glyphButton" id="sceneEdit" onclick="ved.setDataMode('Scene', cScene)">
+                    <span class="glyphicon glyphicon-picture"></span>
+                </button>
+
+                <button type="button" class="btn btn-info btn-lg glyphButton" id="charEdit" onclick="ved.charEdit()">
+                    <span class="glyphicon glyphicon-user"></span>
+                </button>
+
+                <button type="button" class="btn btn-success btn-lg glyphButton" id="tokenEdit" onclick="ved.tokenEdit()">
+                    <span class="glyphicon glyphicon-apple"></span>
+                </button>
+
+                <button type="button" class="btn btn-primary btn-lg glyphButton" id="chatEdit" onclick="ved.setDataMode('Chat', cChat)">
+                    <span class="glyphicon glyphicon-comment"></span>
+                </button>
+
+                <button type="button" class="btn btn-danger btn-lg glyphButton" id="flagEdit" onclick="ved.setDataMode('StoryFlag', cStoryFlag)">
+                    <span class="glyphicon glyphicon-flag"></span>
+                </button>
+
+                 <button type="button" class="btn btn-warning btn-lg glyphButton" id="cueEdit" onclick="ved.setDataMode('Cue', cCue)">
+                    <span class="glyphicon glyphicon-list"></span>
+                </button>           
+            </div>
+
+            <div class="topButtonSelections">
+
+                {{#each menuElement}}    
+                    
+                    <button type="button" class="btn btn-default btn-lg selectionButton" id="{{this.sn}}">
+                        <img class="selectionImage" src="{{this.p}}" />
+                    </button>
+
+                {{/each}}
+            </div>
+
+        {{/if}}
 
     {{/if}}
 

@@ -1,5 +1,6 @@
 testStory = function() {
 
+
 	var _code = sed.code.get();
 
 	if (!_code) {
@@ -39,3 +40,5 @@ testStoryEditor = function() {
 
 	ved = new StoryEditorVisual();
 }
+
+

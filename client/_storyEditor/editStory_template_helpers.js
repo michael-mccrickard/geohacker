@@ -21,7 +21,6 @@ Template.editStory.events = {
 
     sed.code.set("");
 
-	
   },
 
   'click #pickLocation' : function(e){
@@ -85,36 +84,7 @@ Template.editStory.events = {
 
      e.preventDefault();
 
-     sed.recordID.set( e.currentTarget.id );
-	
-	   sed.code.set( $( "button#" + e.currentTarget.id + ".btn").data("c") );
-
-
-   if ( sed.table.get() == "Cue") {
-
-        var _scene = $( "input#" + e.currentTarget.id + ".n" ).val();
-
-        sed.makeLocalCollection( _scene );
-
-        sed.dataMode.set( "local" );
-
-        return;
-   }
-
-    if ( sed.table.get() == "Chat") {
-
-        smed.init( e.currentTarget.id );
-
-       Meteor.setTimeout( function() { FlowRouter.go("/editChat"); }, 500 );
-    }
-
-
-	  if ( sed.table.get() == "Story") {
-
-			$("#pick" + sed.table.get() ).text( sed.code.get() );
-	  }
-
-	  sed.findSelector.set( { c: sed.code.get() } );
+     sed.selectRecord( e.currentTarget.id );
   },
 
 

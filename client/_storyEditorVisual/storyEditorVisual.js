@@ -21,11 +21,7 @@ StoryEditorVisual = function() {
 
 		sed.table.set( _val );
 
-		//sed.setCollection( "Location", db.ghLocation, cLocation )
-
 		var _s = "sed.setCollection('" + _val + "', db.gh" + _val + ", " + _collectionID + ")";
-
-c(_s);
 
 		eval( _s );
 

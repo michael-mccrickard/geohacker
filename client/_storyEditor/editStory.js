@@ -1,8 +1,8 @@
 
 
-StoryEditor = function() {
+StoryEditor = function(_code) {
 
-	this.template = new Blaze.ReactiveVar("storyData");
+	this.template = new Blaze.ReactiveVar("storyData");  //was "storyData"
 
 	this.code = new Blaze.ReactiveVar("");
 
@@ -12,7 +12,7 @@ StoryEditor = function() {
 
 	this.cue =   new Blaze.ReactiveVar("");
 
-	this.mode = new Blaze.ReactiveVar("");  //data or visual
+	this.mode = new Blaze.ReactiveVar("none");  //none, data or visual
  
 	this.dataMode = new Blaze.ReactiveVar("server");  //server or local
 
@@ -100,15 +100,78 @@ StoryEditor = function() {
    		Session.set("sAllChats", false );
 	}
 
+
+	this.loadStory = function()  {
+
+		var _code = this.code.get();
+
+		if (!_code) {
+
+			showMessage("No story selected.");
+
+			return;
+		}
+
+game.user.mode = uStory;
+
+		var _name = "story" + _code;
+
+		eval( "story = new " + _name + "()" );
+
+		story._init( _code );
+
+	}
+
 //*********************************************************************************
 //
-//				STORY TESTING
+//		EDITOR MODE SWITCHING  AND STORY PLAY / STORY EDIT SWITCHING
 //
 //*********************************************************************************
 
-	this.loadStory = function() {
+	this.setMode = function(_val) {
 
+		if (_val == "visual") {
 
+			if (!ved) ved = new StoryEditorVisual();
+		}
+
+		this.mode.set( _val );
+
+		//make sure the layout template updates, if necessary
+
+		ved.updateContent();
+	}
+
+	this.switchTo = function( _val ) {
+
+		if (_val == "editor") {
+
+			FlowRouter.go("/editStory");
+		}
+
+		if (_val == "story") {
+
+			var _code = this.code.get();
+
+			if (!_code) {
+
+				showMessage("Select a story in the editor.");
+
+				return;
+			}
+
+			game.user.mode = uStory;
+
+			FlowRouter.go("/waiting");  
+
+//Modify this to go to current location if we have not switched stories
+
+			var _name = "story" + _code;
+
+			eval( "story = new " + _name + "()" );
+
+			story._init( _code );
+		}
 	}
 
 
@@ -123,6 +186,8 @@ StoryEditor = function() {
 		this.conformButtons();
 
 		this.conformData();
+
+		if (this.table.get() == "Token" ) this.extendBG();
 	}
 
 	this.conformButtons = function() {
@@ -171,6 +236,8 @@ StoryEditor = function() {
 
 			this.collectionID.set( 0 );
 		}
+
+		Meteor.setTimeout( function() { sed.draw() }, 500 );
 	}
 
 	this.displayChatData = function() {
@@ -178,7 +245,49 @@ StoryEditor = function() {
 		this.setCollection( "Chat", db.ghChat, cChat )
 	}
 
-	
+	this.selectRecord = function( _ID ) {
+
+	    this.recordID.set( _ID );
+		
+	    sed.code.set( $( "button#" + _ID + ".btn").data("c") );
+
+	    this.showSubTable( _ID );
+
+		if ( sed.table.get() == "Story") {
+
+			$("#pick" + sed.table.get() ).text( sed.code.get() );
+		}
+
+		 sed.findSelector.set( { c: sed.code.get() } );
+	}
+
+	this.showSubTable = function( _ID ) {
+
+	   if ( sed.table.get() == "Cue") {
+
+	        var _scene = $( "input#" + _ID + ".n" ).val();
+
+	        sed.makeLocalCollection( _scene );
+
+	        sed.dataMode.set( "local" );
+
+	        return;
+	   }
+
+	    if ( sed.table.get() == "Chat") {
+
+	        smed.init( _ID );
+
+	       Meteor.setTimeout( function() { FlowRouter.go("/editChat"); }, 500 );
+	    }
+	}
+
+	this.extendBG = function() {
+
+		var _width = $(document).width();
+
+		$("div.editor.storyDataTable").css("width", _width)
+	}
 
 //*********************************************************************************
 //
@@ -509,7 +618,8 @@ Tracker.autorun( function(comp) {
 
       ) {
 
-  	console.log("edit story data ready")
+  	console.log("edit story data ready");
+
 
   	FlowRouter.go("/editStory");
   } 
