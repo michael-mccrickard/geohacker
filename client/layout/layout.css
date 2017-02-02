@@ -33,7 +33,7 @@ div#universalMessageText {
 
 	position: fixed;
 
-	top: 5px;
+	top: 10px;
 
 	left: 10%;
 
@@ -53,18 +53,6 @@ div#universalMessageText {
 	margin-right: 8px;
 
 	font-size: 24px;
-}
-
-
-
-.topButtonStripMiddle {
-
-	position: fixed;
-	top: 4px;
-
-	left: 32%;
-
-	z-index: 2000;
 }
 
 .topButtonStripRight {
@@ -104,33 +92,15 @@ div#universalMessageText {
 }
 
 
-.topButton1 {
-	font-size: 18px;
-	margin-left: 32px;
+.topButton {
 
+	width: 32px;
+	margin-left: 32px;
 }
 
 .topButton2 {
-	font-size: 18px;
+
 	position: relative;
 
-	left: 16px;
-}
-
-.topButton1Middle {
-	font-size: 24px;
-	margin-left: 32px;
-	padding: 0px;
-width: 64px;
-	padding-top: 2px;
-}
-
-.topButton2Middle {
-	font-size: 24px;
-	position: relative;
-
-	left: 16px;
-	padding: 0px;
-width: 64px;
-	padding-top: 2px;
+	left: 32px;
 }
