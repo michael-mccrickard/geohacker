@@ -12,22 +12,36 @@ storyA = function() {
 
 		this.location = "base";  //base, FR, ML, NL
 
-		this.sceneButtonPic.set("storyA_scene.jpg");
+		this.baseButtonPic.set("storyA_scene.jpg");  //move to the db, under ghStory
+
+		this.baseBGPic = "starryBG.jpg";  //move to the db, under ghStory
 	}
 
 //*********************************************************************************
 //
-//				DEFAULT SCENE 
+//				CHATS 
 //
 //*********************************************************************************
 
-	this.getDefaultChat = function() {
 
-		if (!this.flags.knowsQuest) return "storyDefault_chat_preintro";
+	this.getChat = function() {
 
-		if (!this.flags.visitedGuard) return "storyA_chat_missionToMona";
+		//we can return a specific chat name here based on the scene,
+		//the flags, etc.
 
-		return "storyA_chat_missionInfo";
+		if (!this.flags.knowsQuest) return "intro";
+
+		if ( this.scene == "default") {
+
+			if (!this.flags.visitedGuard) return "missionToMona";
+
+			return "missionInfo";
+		}
+
+		//If we have have reached this point, we assume the chat name is the same
+		//as the scene name
+
+		return this.scene;
 	}
 
 //*********************************************************************************
@@ -94,7 +108,7 @@ storyA = function() {
 
 		if (_ID == "base") {
 
-			this.background = "starryBG.jpg";
+			this.background = this.baseBGPic;
 
 			if ( !this.flags.didExercise1 ) {
 

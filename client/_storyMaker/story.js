@@ -34,7 +34,9 @@ Story =  function() {
 
 		this.location = "";  //the country we're in or other locale like "base"
 
-		this.scene = "";   //the name of the scene that is currently or about to play
+		this.scene = "";   //the name of the scene (cue) that is currently or about to play
+
+		this.chat = "";  //name of the chat object to play
 
 		this.flags = {};   //the boolean flags that track the user's progress in the mission
 
@@ -46,7 +48,7 @@ Story =  function() {
 
 		this.buttonStripElement = "div.divStoryButtons";
 
-		this.sceneButtonPic = new Blaze.ReactiveVar("");
+		this.baseButtonPic = new Blaze.ReactiveVar("");
 
 		this.speed = 1.0;
 
@@ -75,8 +77,6 @@ Story =  function() {
  		this.storySub = Meteor.subscribe("storyAssets_Story", story.code, function() { Session.set("sStoryReady", true ) });
 
 		this.locationSub = Meteor.subscribe("storyAssets_Location", story.code, function() { Session.set("sLocationReady", true ) });
-
-		this.sceneSub = Meteor.subscribe("storyAssets_Scene", story.code, function() { Session.set("sSceneReady", true ) });
 
 		this.charSub = Meteor.subscribe("storyAssets_Char", story.code, function() { Session.set("sCharReady", true ) });
 
@@ -117,8 +117,6 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
   		Session.set("sLocationReady", false);
 
-   		Session.set("sSceneReady", false);
-
   		Session.set("sCharReady", false);
 
    		Session.set("sTokenReady", false);
@@ -139,7 +137,6 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
        	this.storyAgentSub.stop();
        	this.storyAgentRecordSub.stop();
        	this.locationSub.stop();
-       	this.sceneSub.stop();
        	this.charSub.stop();
        	this.tokenSub.stop();
        	this.storyFlagSub.stop();
@@ -455,21 +452,10 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
       	game.user.sms.startThread();
 
-		var _name = this.name + "_chat_" + this.scene;
+		this.chat = this.getChat();
 
-		//For a default chat, we have to check with the story instance
-		//to get the correct chat to play
 
-		if ( this.scene == "default") {
-
-			_name = this.getDefaultChat();
-		}
-
-		//we evaluate this so that js will see the string _name as an object
-
-	//	eval( "game.user.sms.startChat(" + _name + ")" );
-
-		this.chatSource = db.ghChat.find( { s: this.scene } ).fetch();
+		this.chatSource = db.ghChat.find( { s: this.chat } ).fetch();
 
 		game.user.sms.startChat( this.chatSource );
 
@@ -713,8 +699,6 @@ Tracker.autorun( function(comp) {
   if ( Session.get("sStoryReady") &&  
 
   		Session.get("sLocationReady")  && 
-
-   		Session.get("sSceneReady")  && 
 
   		Session.get("sCharReady")  && 
 

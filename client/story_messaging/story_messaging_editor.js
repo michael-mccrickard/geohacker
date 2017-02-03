@@ -58,6 +58,19 @@ StoryMessagingEditor = function() {
 		this.storyCode = _rec.c;
 	}
 
+	this.initByName = function( _name ) {
+
+		this.reset();
+
+		this.chatName = _name;
+
+		this.storyCode = sed.code.get();
+
+		var _rec = db.ghChat.findOne( { c: this.storyCode, s: _name, n: "root" } );
+
+		this.grandRecordID.set( _rec._id );	
+	}
+
 	this.reset = function() {
 
 		this.grandRecordID.set( "" );

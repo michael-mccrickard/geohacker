@@ -17,6 +17,8 @@ StoryEditorVisual = function() {
 
 	this.setDataMode = function( _val, _collectionID ) {
 
+	    sed.dataMode.set( "server" );
+
 		this.mode.set( _val );
 
 		sed.table.set( _val );
@@ -24,6 +26,32 @@ StoryEditorVisual = function() {
 		var _s = "sed.setCollection('" + _val + "', db.gh" + _val + ", " + _collectionID + ")";
 
 		eval( _s );
+
+		//doSpinner();
+
+		if (_val == "Chat") {
+
+			if (story.mode.get() == "chat") {
+
+				this.showLocalData( story.chat );
+
+				return;
+			}
+		}
+
+		if (_val == "Cue") {
+
+			//there's no cue for default, it's just the GIC for that country with the capital in the bg
+
+			if (story.scene != "default") {
+
+				this.showLocalData( story.scene );
+
+				return;				
+			}
+
+
+		}
 
 		FlowRouter.go("/editStory");
 	}	
@@ -188,6 +216,27 @@ StoryEditorVisual = function() {
 			showMessage("Move mode on")
 		}
 
+	}
+
+	this.showLocalData = function( _name ) {
+
+	   if ( sed.table.get() == "Cue") {
+
+	        sed.makeLocalCollection( story.scene );
+
+	        sed.dataMode.set( "local" );
+
+	       	Meteor.setTimeout( function() { FlowRouter.go("/editStory"); }, 250 );
+
+	        return;
+	   }
+
+	    if ( sed.table.get() == "Chat") {
+
+	        smed.initByName( _name );
+
+	       Meteor.setTimeout( function() { FlowRouter.go("/editChat"); }, 250 );
+	    }
 	}
 
 }

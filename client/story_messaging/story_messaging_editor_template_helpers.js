@@ -1,4 +1,7 @@
+Template.story_messaging_editor.rendered = function() {
 
+		stopSpinner();
+}
 
 //Template.story_messaging_element.events = {}
 

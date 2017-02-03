@@ -60,7 +60,7 @@ StoryEditor = function(_code) {
 
 		Meteor.subscribe("allLocations", function() { Session.set("sAllLocationsReady", true ) });
 
-		Meteor.subscribe("allScenes", function() { Session.set("sAllScenesReady", true ) });
+		//Meteor.subscribe("allScenes", function() { Session.set("sAllScenesReady", true ) });
 
 		Meteor.subscribe("allChars", function() { Session.set("sAllCharsReady", true ) });
 
@@ -85,7 +85,7 @@ StoryEditor = function(_code) {
 
   		Session.set("sAllLocationsReady", false );
 
-   		Session.set("sAllScenesReady", false );
+   		//Session.set("sAllScenesReady", false );
 
   		Session.set("sAllCharsReady", false );
 
@@ -164,13 +164,26 @@ game.user.mode = uStory;
 
 			FlowRouter.go("/waiting");  
 
-//Modify this to go to current location if we have not switched stories
 
-			var _name = "story" + _code;
+			//Is there a story object loaded?
 
-			eval( "story = new " + _name + "()" );
+			if (story.code) {
 
-			story._init( _code );
+				if ( story.code != _code ) {
+
+					this.loadStory( _code);
+
+					return;
+				}
+
+				FlowRouter.go("/story");
+
+			}
+			else {
+
+				this.loadStory( _code );
+			}
+
 		}
 	}
 
@@ -265,9 +278,7 @@ game.user.mode = uStory;
 
 	   if ( sed.table.get() == "Cue") {
 
-	        var _scene = $( "input#" + _ID + ".n" ).val();
-
-	        sed.makeLocalCollection( _scene );
+	        sed.makeLocalCollection( story.scene );
 
 	        sed.dataMode.set( "local" );
 
@@ -278,7 +289,7 @@ game.user.mode = uStory;
 
 	        smed.init( _ID );
 
-	       Meteor.setTimeout( function() { FlowRouter.go("/editChat"); }, 500 );
+	       Meteor.setTimeout( function() { FlowRouter.go("/editChat"); }, 250 );
 	    }
 	}
 
@@ -602,7 +613,7 @@ Tracker.autorun( function(comp) {
 
   		Session.get("sAllLocationsReady")  && 
 
-   		Session.get("sAllScenesReady")  && 
+   		//Session.get("sAllScenesReady")  && 
 
   		Session.get("sAllCharsReady")  && 
 

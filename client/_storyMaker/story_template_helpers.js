@@ -60,7 +60,7 @@ Template.story.helpers({
 
   picForBaseButton: function() {
 
-      return story.sceneButtonPic.get();
+      return story.baseButtonPic.get();
   },
 
 

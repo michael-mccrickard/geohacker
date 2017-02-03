@@ -2,6 +2,7 @@ Template.editStory.rendered = function() {
 
   sed.draw();
 
+  stopSpinner();
 }
 
 
@@ -223,11 +224,11 @@ Template.storyData.helpers({
 		return _obj._id;
 	},
 
-	notStoryOrScene : function() {
+	notStory : function() {
 
 		var _id = sed.collectionID.get();
 
-		if (_id == cStory || _id == cScene ) {
+		if (_id == cStory ) {
 
 			return false;
 		}
