@@ -416,6 +416,10 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
           this.hiliteButton("Base");
 
+          this.silenceAll();
+
+          this.hidePrompt();
+
           this.go("base");
 	},
 

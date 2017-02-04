@@ -123,7 +123,7 @@ c("removing item " + _name + " from inv in inventory.js")
 
 					_obj.hide();
 
-					this.slot[i] = null;
+					this.slot[i] = new InventoryItem();
 
 					return i;
 				}			

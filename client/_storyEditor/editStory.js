@@ -300,7 +300,7 @@ c("loading story b/c story obj had no code")
 
 	   		//this probably does nothing b/c story.go() determines the cue (scene)	
 
-	   		if (story.code) story.scene = n;
+	   		//if (story.code) story.scene = _name;
 
 	        this.makeLocalCollection( _name );
 

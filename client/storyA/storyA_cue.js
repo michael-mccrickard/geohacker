@@ -2,7 +2,7 @@ addCue = function() {
 
 	//var _scenes = [ "intro", "missionToMona", "firstGuardVisit", "secondGuardVisit", "missionInfo", "vanGogh", "userGetsPasscode", "guardGetsPasscode", "nelsonGetsPainting", "nelsonAndMark"]
 
-var _scenes = [ "missionToMona" ];
+var _scenes = [ "userGetsPasscode" ];
 
 	for (var i = 0; i < _scenes.length; i++ ) {
 
