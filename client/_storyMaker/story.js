@@ -478,6 +478,8 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		$(".storyButton").css("width", _width + "%");
 
 		this.hiliteButton( this.storyButton );
+
+		if (ved) ved.conformInventory();
 	},
 
 
@@ -627,7 +629,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 	this.makeInventoryArray = function( _num ) {
 
-		for (var i = 1;  i <= _num; i++) {
+		for (var i = 0;  i < _num; i++) {
 
 			this.inventoryButtons.push(i);
 		}

@@ -117,7 +117,7 @@
 
 				   	<th></th>  				  <!-- column for the DELETE button -->
 
-				   	{{#if notStory}}   <!-- column for the download button -->
+				   	{{#if notStoryOrChat}}   <!-- column for the download button -->
 				   		
 				   		<th></th> 
 				 	
@@ -135,7 +135,7 @@
 
 					    {{#each field}}
 
-					   		<td><input type="text" class="{{this}}" size="15" value="{{getValue this}}" id="{{getIDValue this}}"></td> 
+					   		<td><input type="text" class="{{this}}" size="15" value="{{getValue this}}" id="{{getIDValue}}"></td> 
 
 					   	{{/each}}
 
@@ -144,19 +144,32 @@
 					  	</td>
 
 					   	
-					   	{{#if notStoryOrScene}}
+					   	{{#if notStoryChatOrCue}}
 						
-						    <td>
-						    	<input type="file" id="I{{this._id}}">
-							</td>
-						
+
+						   	{{#if flag}}
+							
+
+						   		<td>
+						   			<input type="checkbox" class="f" value="flag" id="F{{this._id}}">
+								</td>
+							
+							{{else}}		
+
+							    <td>
+							    	<input type="file" id="I{{this._id}}">
+								</td>
+							
+							{{/if}}
+
 						{{/if}}
 
 					  	<td>
 					  		<button class="btn btn-danger" id="deleteRecord"  onclick="sed.deleteRecord( '{{this._id}}' )"><strong>DEL</strong></button> 
 					  	</td>
 
-					  </tr>
+
+					</tr>
 
 				  {{/each}} 
 			

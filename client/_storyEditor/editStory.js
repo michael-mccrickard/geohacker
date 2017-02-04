@@ -151,6 +151,13 @@ game.user.mode = uStory;
 
 		if (_val == "story") {
 
+			if (ved) {
+
+				ved.mode.set( "play" );
+
+				ved.submode = "none";
+			}
+
 			var _code = this.code.get();
 
 			if (!_code) {
@@ -170,17 +177,17 @@ game.user.mode = uStory;
 			if (story.code) {
 
 				if ( story.code != _code ) {
-
+c("loading new story b/c codes don't match")
 					this.loadStory( _code);
 
 					return;
 				}
-
+c("going to story in progress")
 				FlowRouter.go("/story");
 
 			}
 			else {
-
+c("loading story b/c story obj had no code")
 				this.loadStory( _code );
 			}
 
@@ -213,8 +220,19 @@ game.user.mode = uStory;
 	this.conformData = function() {
 
 		if (this.table.get() == "Chat") this.displayChatData();
+
+		if (this.table.get() == "StoryFlag") this.setStoryFlagValues();		
 	}
 
+	this.setStoryFlagValues = function() {
+
+		var _arr = this.collection.get().find( this.findSelector.get() ).fetch();
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			 document.getElementById("F" + _arr[i]._id ).checked = story.flags[ _arr[i].n ];
+		}
+	}
 
 	this.selectTableButton = function() {
 
@@ -235,11 +253,11 @@ game.user.mode = uStory;
 
 	    this.table.set( _name );
 
-	    sed.selectTableButton();
+	    this.selectTableButton();
 
-		sed.setFindSelector();
+		this.setFindSelector();
 
-		sed.collection.set( _collection );
+		this.collection.set( _collection );
 
 		if (_collectionID) {
 
@@ -262,25 +280,31 @@ game.user.mode = uStory;
 
 	    this.recordID.set( _ID );
 		
-	    sed.code.set( $( "button#" + _ID + ".btn").data("c") );
+	    this.code.set( $( "button#" + _ID + ".btn").data("c") );
 
 	    this.showSubTable( _ID );
 
-		if ( sed.table.get() == "Story") {
+		if ( this.table.get() == "Story") {
 
-			$("#pick" + sed.table.get() ).text( sed.code.get() );
+			$("#pick" + sed.table.get() ).text( this.code.get() );
 		}
 
-		 sed.findSelector.set( { c: sed.code.get() } );
+		 sed.findSelector.set( { c: this.code.get() } );
 	}
 
 	this.showSubTable = function( _ID ) {
 
 	   if ( sed.table.get() == "Cue") {
 
-	        sed.makeLocalCollection( story.scene );
+	   		var _name = db.ghCue.findOne( { _id: _ID } ).n;
 
-	        sed.dataMode.set( "local" );
+	   		//this probably does nothing b/c story.go() determines the cue (scene)	
+
+	   		if (story.code) story.scene = n;
+
+	        this.makeLocalCollection( _name );
+
+	        this.dataMode.set( "local" );
 
 	        return;
 	   }
@@ -476,7 +500,13 @@ game.user.mode = uStory;
 
 			this.arrCollection = new Meteor.Collection();
 
-			var _arr = db.ghCue.findOne( { c: this.code.get(), n: _scene } ).d;
+			var _rec = db.ghCue.findOne( { c: this.code.get(), n: _scene } );
+
+			var _arr = _rec.d;
+
+			//this is redundant in data mode but not visual
+
+			sed.recordID.set( _rec._id );
 
 			for (var i = 0; i < _arr.length; i++) {
 

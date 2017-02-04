@@ -7,7 +7,7 @@ StoryEditorVisual = function() {
 
 	this.menuElementType = new Blaze.ReactiveVar( 0 ); 
 
-	this.mode = new Blaze.ReactiveVar("none");
+	this.mode = new Blaze.ReactiveVar("play");
 
 	this.submode = "none";
 
@@ -237,6 +237,20 @@ StoryEditorVisual = function() {
 
 	       Meteor.setTimeout( function() { FlowRouter.go("/editChat"); }, 250 );
 	    }
+	}
+
+	this.conformInventory = function() {
+ 
+		var _arr = story.inv.slot;
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			if ( _arr[i].index != -1 ) {
+
+				_arr[i].show();
+			}
+
+		}
 	}
 
 }

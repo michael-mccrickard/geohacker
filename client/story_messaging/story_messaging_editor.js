@@ -55,6 +55,8 @@ StoryMessagingEditor = function() {
 
 		this.chatName = _rec.s;
 
+		if (story.code) story.chat = this.chatName;
+
 		this.storyCode = _rec.c;
 	}
 

@@ -91,37 +91,75 @@ Template.editStory.events = {
 
   'change input': function(event, template) {
 
-  	//we only care about the file input
+    	//we only care about the file and checkbox input
 
-    if ( $("#" + event.currentTarget.id).attr("type") != "file" ) {
+      var _type = $("#" + event.currentTarget.id).attr("type");
 
-    	return;
-    }
+      if ( _type != "file"  && _type != "checkbox") {
 
-    var _ID = event.currentTarget.id;
+      	return;
+      }
 
-    _ID = _ID.substr(1);  //we prefixed an "I" to the ID in the template to make it a legal HTML element ID
+      var _recordID = event.currentTarget.id.substr(1);  //we prefixed an "I" or an "F" to the ID in the template to make it a legal HTML element ID
 
-    var uploader = sed.uploader;
+      if (_type == "file") {
 
-    var _file = event.target.files[0];
+          var uploader = sed.uploader;
 
-    uploader.send(_file, function (error, downloadUrl) {
+          var _file = event.target.files[0];
 
-      if (error) {
-       
-        // Log service detailed response.
-        console.log(error);
+          uploader.send(_file, function (error, downloadUrl) {
+
+            if (error) {
+             
+              // Log service detailed response.
+              console.log(error);
+
+            }
+            else {
+
+              sed.updateURLForNewRecord( downloadUrl, _recordID );
+
+            } 
+          });     
+
+      } //end if file type
+
+      if (_type == "checkbox") {
+
+         //assuming this is the Flag table
+
+         //get the flag name
+         var _name = $("input#" + _recordID + ".n").val();
+
+         var _value = document.getElementById("F" + _recordID).checked;
+
+         if (story.code) { 
+
+            story.flags[ _name ] = _value;
+
+           //is this an inventory change?
+
+              var _item = "";
+
+             if ( ( _name.substr(0,4) == "has_"  && _value ) || (  _name.substr(0,5) == "gave_" && !_value ) ) {
+
+                _item = _name.substr(4);
+
+                story.addInventoryItem( _item );
+             }
+
+             if ( _name.substr(0,5) == "gave_") {
+
+                _item = _name.substr(5);
+
+                story.removeInventoryItem( _item );
+             }
+          }
 
       }
-      else {
 
-        sed.updateURLForNewRecord( downloadUrl, _ID );
-
-      }
-    });
-
-  },
+    }, //end change input
 
   'click .dataRow' : function(evt, template) {
 
@@ -159,7 +197,7 @@ Template.editStory.events = {
 
     sed.saveAllLocalRecords();
 
-    //sed.saveLocalCollectionToRecord();
+    sed.saveLocalCollectionToRecord();
   },
 
 }
@@ -224,17 +262,42 @@ Template.storyData.helpers({
 		return _obj._id;
 	},
 
-	notStory : function() {
+	notStoryChatOrCue : function() {
 
 		var _id = sed.collectionID.get();
 
-		if (_id == cStory ) {
+		if (_id == cStory || _id == cChat || _id == cCue) {
 
 			return false;
 		}
 
 		return true;
 	},
+
+  flag : function() {
+
+    var _id = sed.collectionID.get();
+
+    if (_id == cStoryFlag) {
+
+      return true;
+    }
+
+    return false;
+  },
+
+  notStoryOrChat : function() {
+
+    var _id = sed.collectionID.get();
+
+    if (_id == cStory || _id == cChat ) {
+
+      return false;
+    }
+
+    return true;
+  },
+
 
   serverMode: function() {
 

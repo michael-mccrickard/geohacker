@@ -1,6 +1,8 @@
 addCue = function() {
 
-	var _scenes = [ "intro", "missionToMona", "firstGuardVisit", "secondGuardVisit", "missionInfo", "vanGogh", "userGetsPasscode", "guardGetsPasscode", "nelsonGetsPainting", "nelsonAndMark"]
+	//var _scenes = [ "intro", "missionToMona", "firstGuardVisit", "secondGuardVisit", "missionInfo", "vanGogh", "userGetsPasscode", "guardGetsPasscode", "nelsonGetsPainting", "nelsonAndMark"]
+
+var _scenes = [ "missionToMona" ];
 
 	for (var i = 0; i < _scenes.length; i++ ) {
 
@@ -17,6 +19,7 @@ addCue = function() {
 }
 
 /*
+
 storyA_cue = function( _name ) {
 
 	var _cue = [];
@@ -69,17 +72,14 @@ storyA_cue = function( _name ) {
 		if ( _name == "missionToMona") {
 
 			_cue  = [
-						'story.flags["didExercise1"] = true',  //or put this in the exercise code
-
+						'story.flags["didExercise1"] = true',  
 						'story.computer.addContent( "warning" )',
 						'story.computer.add()',
 						'story.computer.scaleMe(0.5);',
-			
 						'story.twain.add()',
 						'story.bob.add()',
 						'story.fadeInChars()',  
 						'story.fadeInTokens()',
-
 						'story.twain.moveToStart()',
 						'story.bob.moveToStart()',
 						'delay.250',
