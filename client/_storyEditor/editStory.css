@@ -40,3 +40,16 @@ input[type=checkbox]
 
   font-family: Arial;
 }
+
+.chatDataArray {
+
+  position: fixed;
+
+  top: 90%;
+
+  left: 20%;
+
+  background-color: white;
+
+  border: 1px solid #000000;
+}
