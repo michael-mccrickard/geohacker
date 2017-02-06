@@ -38,6 +38,8 @@ StoryEditor = function(_code) {
 
 	this.story = null;
 
+
+
 	//these are specifically for the array of commands in ghCue
 
 	this.localFields = ["q", "d"];
@@ -83,6 +85,8 @@ StoryEditor = function(_code) {
 
 	this.reset = function() {
 
+		Session.set("sUpdateStoryEditDataContent", false);
+
 		Session.set("sAllStoriesReady", false );
 
   		Session.set("sAllLocationsReady", false );
@@ -123,6 +127,14 @@ game.user.mode = uStory;
 		story._init( _code );
 
 	}
+
+	this.updateContent = function() {
+
+		var _val = Session.get("sUpdateStoryEditDataContent");
+
+		Session.set("sUpdateStoryEditDataContent", !_val );
+	}
+
 
 //*********************************************************************************
 //
@@ -327,10 +339,39 @@ c("loading story b/c story obj had no code")
 
 	   			_name = db.ghChat.findOne( { _id: _ID } ).s;
 
-	       		this.findSelector.set( { c: this.code.get(), s: _name } );  		
+	       		this.findSelector.set( { c: this.code.get(), s: _name } );  
+
+	       		this.showChatData();	
+
 	    	}
 	    }
 	}
+
+	this.showChatData = function() {
+
+	  var _arr = sed.collection.get().findOne( { _id: sed.recordID.get() } ).d;
+
+      var _obj;
+
+      for (var i = 0; i < _arr.length; i++ ) {
+
+      	  _obj = _arr[i];
+
+	      $("div#gChatVal" + i).text( "g: " + _obj.g );
+
+	      $("div#tChatVal" + i).text( "t: " +  _obj.t );
+
+	      if (_obj.x) {
+
+	      	$("div#xChatVal" + i).text( "z: " +  _obj.x );
+	      }
+	      else {
+
+	      	$("div#xChatVal" + i).text("(No execute field found)");      	
+	      }      	
+      }
+    },
+
 
 	this.extendBG = function() {
 

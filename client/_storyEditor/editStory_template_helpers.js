@@ -295,7 +295,7 @@ Template.storyData.helpers({
 
     if (_id == cStoryFlag) {
 
-      return true;
+
     }
 
     return false;
@@ -349,4 +349,6 @@ Template.storyData.helpers({
 
     return sed.recordID.get();
   }
+
+
 });

@@ -31,12 +31,17 @@ StoryEditorVisual = function() {
 
 		if (_val == "Chat") {
 
-			if (story.mode.get() == "chat") {
+			if (story.code) {  //if there's no story.code, then no story is loaded
 
-				this.showData( story.chat );
+				if (story.mode.get() == "chat") {
 
-				return;
+					this.showData( story.chat );
+
+					return;
+				}				
 			}
+
+
 		}
 
 		if (_val == "Cue") {
