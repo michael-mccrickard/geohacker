@@ -456,7 +456,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
       	game.user.sms.startThread();
 
-		this.chat = this.getChat();
+		this.chat = this.getChat( _shortName );
 
 
 		this.chatSource = db.ghChat.find( { s: this.chat } ).fetch();

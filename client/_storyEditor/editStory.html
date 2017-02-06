@@ -106,10 +106,13 @@
 
 				  	<th></th>
 					
-				  	
 				  	{{#each field}}
 
-				   		 <th>{{this}}</th>
+				  		{{#if notOrderField}}
+
+				   		 	<th>{{this}}</th>
+
+				   		 {{/if}}
 				   	
 				   	{{/each}}	
 
@@ -128,14 +131,37 @@
 			  	{{#each dataRecord}}
 
 					  <tr class="dataRow" id="{{this._id}}">
-					    
-					    <td>
-					    	<button class="btn btn-success selectRecord" id="{{this._id}}" data-n="{{this.n}}" data-c="{{this.c}}"  size="2">SEL</button>
-					    </td>
+
+					  	{{#if notFlag}}
+
+						    <td>
+						    	<button class="btn btn-success selectRecord" id="{{this._id}}" data-n="{{this.n}}" data-c="{{this.c}}"  size="2">SEL</button>
+						    </td>					    
+
+	             		{{else}}
+
+	             			<td>
+		           				
+		           				<button type="button" class="btn btn-success btn-md" id="moveRecordUp" onclick="sed.moveRecordUp( {{this.o}} )">
+		               				<span class="glyphicon glyphicon-arrow-up"></span>
+		             			</button> 
+
+		           				<button type="button" class="btn btn-success btn-md" id="moveRecordDown" onclick="sed.moveRecordDown( {{this.o}} )">
+		               				<span class="glyphicon glyphicon-arrow-down"></span>
+		             			</button> 
+
+	             			</td>
+	             		
+	             		{{/if}}
+
 
 					    {{#each field}}
 
-					   		<td><input type="text" class="{{this}}" size="15" value="{{getValue this}}" id="{{getIDValue}}"></td> 
+				  			{{#if notOrderField}}
+
+					   			<td><input type="text" class="{{this}}" size="15" value="{{getValue this}}" id="{{getIDValue}}"></td> 
+
+					   		{{/if}}
 
 					   	{{/each}}
 
@@ -145,11 +171,9 @@
 
 					   	
 					   	{{#if notStoryChatOrCue}}
-						
 
 						   	{{#if flag}}
 							
-
 						   		<td>
 						   			<input type="checkbox" class="f" value="flag" id="F{{this._id}}">
 								</td>
@@ -167,7 +191,6 @@
 					  	<td>
 					  		<button class="btn btn-danger" id="deleteRecord"  onclick="sed.deleteRecord( '{{this._id}}' )"><strong>DEL</strong></button> 
 					  	</td>
-
 
 					</tr>
 

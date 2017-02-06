@@ -24,7 +24,7 @@ storyA = function() {
 //*********************************************************************************
 
 
-	this.getChat = function() {
+	this.getChat = function( _shortName ) {
 
 		//we can return a specific chat name here based on the scene,
 		//the flags, etc.
@@ -36,6 +36,13 @@ storyA = function() {
 			if (!this.flags.visitedGuard) return "missionToMona";
 
 			return "missionInfo";
+		}
+
+		if (this.scene == "nelsonGetPainting") {
+
+			if (_shortName == "nelson") return this.scene;
+
+			return "intro";
 		}
 
 		//If we have have reached this point, we assume the chat name is the same
@@ -85,7 +92,7 @@ storyA = function() {
 
 			if (this.scene == "nelsonGetsPainting") {
 
-				this.flags.gave_painting = true;
+				this.flags.gave_mona = true;
 
 				this.play("nelsonAndMark");
 
@@ -124,7 +131,7 @@ storyA = function() {
 				return;
 			}
 
-			if ( !this.flags.visitedGuard || !this.flags.visitedVanGogh ||  !this.flags.has_passcode ||  !this.flags.has_mona ||  !this.flags.gave_painting ) {
+			if ( !this.flags.visitedGuard || !this.flags.visitedVanGogh ||  !this.flags.has_passcode ||  !this.flags.has_mona ||  !this.flags.gave_mona ) {
 
 				this.play("missionInfo");
 
@@ -143,7 +150,7 @@ storyA = function() {
 					return;		
 			}
 
-			if ( this.flags.has_passcode ) {
+			if ( this.flags.has_passcode && !this.flags.has_mona ) {
 
 					this.play("secondGuardVisit");
 

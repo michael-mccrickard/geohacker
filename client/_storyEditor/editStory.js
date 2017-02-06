@@ -12,7 +12,7 @@ StoryEditor = function(_code) {
 
 	this.cue =   new Blaze.ReactiveVar("");
 
-	this.mode = new Blaze.ReactiveVar("none");  //none, data or visual
+	this.mode = new Blaze.ReactiveVar("data");  //data or visual
  
 	this.dataMode = new Blaze.ReactiveVar("server");  //server or local
 
@@ -28,7 +28,7 @@ StoryEditor = function(_code) {
 
 	this.arrCollection = null;
 
-	this.tableList = ["Story","Location","Scene","Char","Agent","Token","Flag","Cue","Chat"];
+	this.tableList = ["Story","Location","Scene","Char","Agent","Token","StoryFlag","Cue","Chat"];
 
 	this.uploader = new Slingshot.Upload("ghStoryPic");
 
@@ -53,6 +53,8 @@ StoryEditor = function(_code) {
 		//init the global messaging editor
 
 		smed = new StoryMessagingEditor();
+
+		ved = new StoryEditorVisual();
 
 		this.reset();
 
@@ -130,11 +132,6 @@ game.user.mode = uStory;
 
 	this.setMode = function(_val) {
 
-		if (_val == "visual") {
-
-			if (!ved) ved = new StoryEditorVisual();
-		}
-
 		this.mode.set( _val );
 
 		//make sure the layout template updates, if necessary
@@ -208,6 +205,8 @@ c("loading story b/c story obj had no code")
 		this.conformData();
 
 		if (this.table.get() == "Token" ) this.extendBG();
+
+		ved.updateContent()
 	}
 
 	this.conformButtons = function() {
@@ -219,12 +218,16 @@ c("loading story b/c story obj had no code")
 
 	this.conformData = function() {
 
+		if (this.mode.get() == "data") return;
+
 		if (this.table.get() == "Chat") this.displayChatData();
 
 		if (this.table.get() == "StoryFlag") this.setStoryFlagValues();		
 	}
 
 	this.setStoryFlagValues = function() {
+
+		if (!story.code) return;
 
 		var _arr = this.collection.get().find( this.findSelector.get() ).fetch();
 
@@ -287,16 +290,18 @@ c("loading story b/c story obj had no code")
 		if ( this.table.get() == "Story") {
 
 			$("#pick" + sed.table.get() ).text( this.code.get() );
-		}
 
-		 sed.findSelector.set( { c: this.code.get() } );
+			sed.findSelector.set( { c: this.code.get() } );
+		}
 	}
 
 	this.showSubTable = function( _ID ) {
 
+		var _name = "";
+
 	   if ( sed.table.get() == "Cue") {
 
-	   		var _name = db.ghCue.findOne( { _id: _ID } ).n;
+	   		_name = db.ghCue.findOne( { _id: _ID } ).n;
 
 	   		//this probably does nothing b/c story.go() determines the cue (scene)	
 
@@ -311,9 +316,19 @@ c("loading story b/c story obj had no code")
 
 	    if ( sed.table.get() == "Chat") {
 
-	        smed.init( _ID );
+	    	if (this.mode.get() == "visual") {
 
-	       Meteor.setTimeout( function() { FlowRouter.go("/editChat"); }, 250 );
+		        smed.init( _ID );
+
+	       		Meteor.setTimeout( function() { FlowRouter.go("/editChat"); }, 250 );    		
+	    	}
+
+	    	if (this.mode.get() == "data") {
+
+	   			_name = db.ghChat.findOne( { _id: _ID } ).s;
+
+	       		this.findSelector.set( { c: this.code.get(), s: _name } );  		
+	    	}
 	    }
 	}
 
@@ -324,11 +339,55 @@ c("loading story b/c story obj had no code")
 		$("div.editor.storyDataTable").css("width", _width)
 	}
 
+	this.moveRecordUp = function( _order ) {
+
+		if (_order == 0) {
+
+			showMessage( "Can't move record up any higher.");
+
+			return;
+		}
+
+		var _arr = this.collection.get().find( this.findSelector.get(0) ).fetch();
+
+		this.swapOrderedRecords( _arr, _order, _order - 1);
+
+	}
+
+	this.moveRecordDown = function( _order ) {
+
+		var _arr = this.collection.get().find( this.findSelector.get() ).fetch();
+
+		if (_order == _arr.length - 1) {
+
+			showMessage( "Can't move record down any lower.");
+
+			return;
+		}
+
+		this.swapOrderedRecords( _arr, _order, _order + 1);
+
+	}
+
 //*********************************************************************************
 //
 //				DATABASE FUNCTIONS -- SERVER
 //
 //*********************************************************************************
+
+	this.swapOrderedRecords = function( _arr, _oldOrder, _newOrder)  {
+
+
+		var _oldIndex = Database.getObjectIndexWithValue( _arr, "o", _oldOrder );
+
+		var _newIndex = Database.getObjectIndexWithValue( _arr, "o", _newOrder );
+
+
+		this.collection.get().update( { _id: _arr[ _oldIndex ]._id }, { $set:{ o: _newOrder } } );
+
+		this.collection.get().update( { _id: _arr[ _newIndex ]._id }, { $set:{ o: _oldOrder } } );
+
+	}
 
 	this.setFindSelector = function() {
 
@@ -501,6 +560,26 @@ c("loading story b/c story obj had no code")
 			this.arrCollection = new Meteor.Collection();
 
 			var _rec = db.ghCue.findOne( { c: this.code.get(), n: _scene } );
+
+			var _arr = _rec.d;
+
+			//this is redundant in data mode but not visual
+
+			sed.recordID.set( _rec._id );
+
+			for (var i = 0; i < _arr.length; i++) {
+
+				var _index = (i + 1) * 100;
+
+				this.arrCollection.insert( { q: parseInt(_index), d: _arr[i] } )
+			}
+		}
+
+		if (this.collectionID.get() == cChat)  {
+
+			this.arrCollection = new Meteor.Collection();
+
+			var _rec = db.ghChat.findOne( { c: this.code.get(), s: _scene } );
 
 			var _arr = _rec.d;
 

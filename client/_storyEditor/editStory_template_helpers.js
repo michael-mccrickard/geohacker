@@ -22,6 +22,8 @@ Template.editStory.events = {
 
     sed.code.set("");
 
+    sed.findSelector.set({});
+
   },
 
   'click #pickLocation' : function(e){
@@ -78,7 +80,7 @@ Template.editStory.events = {
 
     e.preventDefault();
 
-    sed.setCollection( "Flag", db.ghStoryFlag, cStoryFlag )
+    sed.setCollection( "StoryFlag", db.ghStoryFlag, cStoryFlag )
   },
 
   'click .selectRecord' : function(e){
@@ -228,6 +230,13 @@ Template.editStory.helpers({
 
 Template.storyData.helpers({
 
+  notOrderField: function() {
+
+      if ( this == "o") return false;
+
+      return true;
+  },
+
 	field : function() {
 
 		return Object.keys( sed.collection.get().find().fetch()[0] );
@@ -241,6 +250,12 @@ Template.storyData.helpers({
 
         return sed.collection.get().find( sed.findSelector.get(), {sort: { s: 1 } } );
       }
+
+      if (sed.table.get() == "StoryFlag") {
+
+        return sed.collection.get().find( sed.findSelector.get(), {sort: { o: 1 } } );
+      }
+
 
 			return sed.collection.get().find( sed.findSelector.get() );
 		}
@@ -284,6 +299,18 @@ Template.storyData.helpers({
     }
 
     return false;
+  },
+
+  notFlag : function() {
+
+    var _id = sed.collectionID.get();
+
+    if (_id == cStoryFlag) {
+
+      return false;
+    }
+
+    return true;
   },
 
   notStoryOrChat : function() {

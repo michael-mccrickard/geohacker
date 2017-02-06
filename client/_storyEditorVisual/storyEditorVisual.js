@@ -33,7 +33,7 @@ StoryEditorVisual = function() {
 
 			if (story.mode.get() == "chat") {
 
-				this.showLocalData( story.chat );
+				this.showData( story.chat );
 
 				return;
 			}
@@ -45,7 +45,7 @@ StoryEditorVisual = function() {
 
 			if (story.scene != "default") {
 
-				this.showLocalData( story.scene );
+				this.showData( story.scene );
 
 				return;				
 			}
@@ -218,7 +218,7 @@ StoryEditorVisual = function() {
 
 	}
 
-	this.showLocalData = function( _name ) {
+	this.showData = function( _name ) {
 
 	   if ( sed.table.get() == "Cue") {
 
