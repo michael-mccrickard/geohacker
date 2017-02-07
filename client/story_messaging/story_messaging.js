@@ -211,7 +211,9 @@ StoryMessaging = function() {
 
             story.mode.set("scene")
 
-            return;
+            //story.go( story.location );
+
+            //return;
         } 
 
         this.doHelperSpeech( this.dest );

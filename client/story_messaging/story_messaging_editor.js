@@ -589,6 +589,48 @@ this.moveResponse = function( _dest, _sourceRelation, _val) {
 //
 //*********************************************************************************
 
+	this.stepBack = function() {
+
+		var _name = db.ghChat.findOne( { _id: this.grandRecordID.get() } ).n;
+
+		if (_name == "root") {
+
+			display.playEffect( this.locked_sound_file);
+
+			showMessage("Already at the top of the tree");
+
+			return;
+		}
+
+		var _arr = db.ghChat.find( { c: this.storyCode, s: this.chatName } ).fetch();
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			var _arrResp = _arr[i].d;
+
+			var _index = Database.getObjectIndexWithValue( _arrResp, "g", _name);
+
+			if (_index != -1) {
+
+				//push parent forward to child and grand to parent
+
+				this.childRecordID.set( this.parentRecordID.get() );
+
+				this.parentRecordID.set( this.grandRecordID.get() );
+
+				this.grandRecordID.set( _arr[i]._id );
+
+				return;
+			}
+
+		}
+
+		display.playEffect( this.locked_sound_file);		
+
+		showMessage("Could not find a record with dest: " + _name);
+
+	}
+
 	this.checkForDestinationRecords = function( _rel )  {
 
 		var _recordID = this.getRecordID( _rel );

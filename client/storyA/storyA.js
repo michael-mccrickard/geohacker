@@ -110,6 +110,11 @@ storyA = function() {
 
 	this.go = function( _ID ) {
 
+		var _mode = this.mode.get();
+
+		if (_mode == "chat" || _mode == "map") return;
+		
+
 		this.location = _ID;
 
 
