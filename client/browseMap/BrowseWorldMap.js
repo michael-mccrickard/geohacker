@@ -654,6 +654,8 @@ c("zoomDone = " + worldMap.zoomDone)
 
         if (browseMap.mode.get() == "story") {
 
+            story.mode.set( "scene" );
+
             story.go( worldMap.mapObjectClicked );
 
             return;

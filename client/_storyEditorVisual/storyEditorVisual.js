@@ -15,6 +15,8 @@ StoryEditorVisual = function() {
 
 	this.selectedEntity = "";
 
+	this.returnRoute = "";
+
 	this.setDataMode = function( _val, _collectionID ) {
 
 	    sed.dataMode.set( "server" );
