@@ -847,6 +847,49 @@ Database.getObjectIndexWithValue = function( _arr, _field, _val) {
       return -1;
 }
 
+Database.getObjectIndexWithValueAdjacent = function( _arr, _field, _val, _offset) {
+
+    var _obj = null;
+
+c("looking for val " + _val + " in field " + _field )
+
+     for (var i = 0; i < _arr.length; i++) {
+
+          _obj = _arr[i];
+
+          if ( _obj[ _field ] == _val) {
+
+c("value " + _val + " found at index " + i + " and name is " + _obj.n)
+
+            //check the edge cases
+
+            if (_offset == -1 && i == 0) return -1;
+
+            if (_offset == 1 && i == _arr.length - 1) return -1;           
+
+c("offset is " + _offset)
+
+c("index where field val was found is " + i)
+
+var tmp = i + _offset;
+
+c( i + " plus " + _offset + " is " +  tmp);
+
+c("name of record at returned index is " + _arr[i + _offset].n)
+
+c("order val of record at returned index is " + _arr[i + _offset].o)
+
+c("arr follows")
+
+c( _arr );
+
+            return i + _offset; 
+          }   
+      } 
+
+      return -1;
+}
+
 Database.getBlankUserProfile = function() {
 
     var _pro = {

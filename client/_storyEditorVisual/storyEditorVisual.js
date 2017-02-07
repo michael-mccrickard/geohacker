@@ -258,4 +258,12 @@ StoryEditorVisual = function() {
 		}
 	}
 
+	this.restartStory = function() {
+
+		story.reset();
+
+		sed.switchTo("story");
+
+	}
+
 }

@@ -186,17 +186,17 @@ game.user.mode = uStory;
 			if (story.code) {
 
 				if ( story.code != _code ) {
-c("loading new story b/c codes don't match")
+
 					this.loadStory( _code);
 
 					return;
 				}
-c("going to story in progress")
+
 				FlowRouter.go("/story");
 
 			}
 			else {
-c("loading story b/c story obj had no code")
+
 				this.loadStory( _code );
 			}
 
@@ -349,7 +349,11 @@ c("loading story b/c story obj had no code")
 
 	this.showChatData = function() {
 
-	  var _arr = sed.collection.get().findOne( { _id: sed.recordID.get() } ).d;
+	  var _rec = sed.collection.get().findOne( { _id: sed.recordID.get() } );
+
+	  var _arr = _rec.d;
+
+	  var _x = _rec.x;
 
       var _obj;
 
@@ -361,9 +365,9 @@ c("loading story b/c story obj had no code")
 
 	      $("div#tChatVal" + i).text( "t: " +  _obj.t );
 
-	      if (_obj.x) {
+	      if (_x && i == 0) {
 
-	      	$("div#xChatVal" + i).text( "z: " +  _obj.x );
+	      	$("div#xChatVal" + i).text( "x: " +  _x );
 	      }
 	      else {
 
@@ -389,15 +393,17 @@ c("loading story b/c story obj had no code")
 			return;
 		}
 
-		var _arr = this.collection.get().find( this.findSelector.get(0) ).fetch();
+		var _arr = this.collection.get().find( { c: this.code.get() }, { sort: { o: 1 } } ).fetch();
 
-		this.swapOrderedRecords( _arr, _order, _order - 1);
+		this.swapOrderedRecords( _arr, _order, -1);
+
+		Meteor.setTimeout( function() { sed.updateContent(); }, 500);
 
 	}
 
 	this.moveRecordDown = function( _order ) {
 
-		var _arr = this.collection.get().find( this.findSelector.get() ).fetch();
+		var _arr = this.collection.get().find( { c: this.code.get() }, { sort: { o: 1 } } ).fetch();
 
 		if (_order == _arr.length - 1) {
 
@@ -406,8 +412,9 @@ c("loading story b/c story obj had no code")
 			return;
 		}
 
-		this.swapOrderedRecords( _arr, _order, _order + 1);
+		this.swapOrderedRecords( _arr, _order, 1);
 
+		Meteor.setTimeout( function() { sed.updateContent(); }, 500);
 	}
 
 //*********************************************************************************
@@ -416,17 +423,24 @@ c("loading story b/c story obj had no code")
 //
 //*********************************************************************************
 
-	this.swapOrderedRecords = function( _arr, _oldOrder, _newOrder)  {
+	this.swapOrderedRecords = function( _arr, _oldOrderVal, _dir)  {
+c("curr order val is " + _oldOrderVal + " and dir passed to func is " + _dir)
+
+		var _recordIndex = Database.getObjectIndexWithValue( _arr, "o", _oldOrderVal );
+
+		var _adjacentIndex = Database.getObjectIndexWithValueAdjacent( _arr, "o", _oldOrderVal, _dir );
+
+		if ( _adjacentIndex == -1 ) {
+
+			showMessage("Unexpected error occurred in swapOrderedRecords")
+
+			return;
+		}
 
 
-		var _oldIndex = Database.getObjectIndexWithValue( _arr, "o", _oldOrder );
+		this.collection.get().update( { _id: _arr[ _recordIndex ]._id }, { $set:{ o: _arr[ _adjacentIndex].o } } );
 
-		var _newIndex = Database.getObjectIndexWithValue( _arr, "o", _newOrder );
-
-
-		this.collection.get().update( { _id: _arr[ _oldIndex ]._id }, { $set:{ o: _newOrder } } );
-
-		this.collection.get().update( { _id: _arr[ _newIndex ]._id }, { $set:{ o: _oldOrder } } );
+		this.collection.get().update( { _id: _arr[ _adjacentIndex ]._id }, { $set:{ o: _oldOrderVal } } );
 
 	}
 
@@ -560,6 +574,15 @@ c("loading story b/c story obj had no code")
 				if (_field == "c" && sed.code.get() ) data[ _field ] = sed.code.get();					
 			}
 
+			if ( _field == "o" &&  _type == cStoryFlag) {
+
+				var _arr = sed.collection.get().find( { c: sed.code.get() }, { sort:{ o: -1 } } ).fetch();
+
+				var _highIndex = _arr[0].o;
+
+				 data[ _field ] = parseInt(_highIndex) + 1;				
+			}
+
   		}
 
   		Meteor.call("addRecordWithDataObject", _type, data, function(err, result) {
@@ -578,7 +601,7 @@ c("loading story b/c story obj had no code")
 				}
 			}
 
-		}); 	
+		}); 
 
 	}
 

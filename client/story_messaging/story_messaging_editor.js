@@ -571,8 +571,7 @@ this.moveResponse = function( _dest, _sourceRelation, _val) {
 
 		_updateObj.d = _data;
 
-		if (_execute) _updateObj.x = _execute;
-
+		_updateObj.x = _execute;
 
 		db.ghChat.update( { _id: _recordID }, { $set: _updateObj } );
 

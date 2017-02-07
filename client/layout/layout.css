@@ -117,12 +117,20 @@ div#universalMessageText {
 	left: 16px;
 }
 
-.topButton1Middle {
+.topButton0Middle {
 	font-size: 24px;
 	margin-left: 32px;
 	padding: 0px;
 width: 64px;
-	padding-top: 2px;
+	padding-top: 8px;
+}
+
+.topButton1Middle {
+	font-size: 24px;
+	margin-left: 16px;
+	padding: 0px;
+width: 64px;
+	padding-top: 8px;
 }
 
 .topButton2Middle {
@@ -132,5 +140,5 @@ width: 64px;
 	left: 16px;
 	padding: 0px;
 width: 64px;
-	padding-top: 2px;
+	padding-top: 8px;
 }

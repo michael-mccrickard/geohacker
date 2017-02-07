@@ -33,12 +33,12 @@ storyA = function() {
 
 		if ( this.scene == "default") {
 
-			if (!this.flags.visitedGuard) return "missionToMona";
+			if (!this.flags.awareOfPasscode) return "missionToMona";
 
 			return "missionInfo";
 		}
 
-		if (this.scene == "nelsonGetPainting") {
+		if (this.scene == "nelsonGetsPainting") {
 
 			if (_shortName == "nelson") return this.scene;
 
@@ -131,7 +131,7 @@ storyA = function() {
 				return;
 			}
 
-			if ( !this.flags.visitedGuard || !this.flags.visitedVanGogh ||  !this.flags.has_passcode ||  !this.flags.has_mona ||  !this.flags.gave_mona ) {
+			if (  !this.flags.gave_mona ) {
 
 				this.play("missionInfo");
 
@@ -143,7 +143,7 @@ storyA = function() {
 
 			this.background = "louvre.jpg";
 
-			if ( !this.flags.visitedGuard ) {
+			if ( !this.flags.awareOfPasscode || !this.flags.awareOfVanGogh  ) {
 
 					this.play("firstGuardVisit");
 
@@ -162,7 +162,7 @@ storyA = function() {
 
 			this.background = "vanGoghHouse.jpg";
 
-			if ( !this.flags.visitedGuard ) {
+			if ( !this.flags.awareOfPasscode ) {
 
 				this.playDefaultScene( );
 

@@ -130,6 +130,7 @@ Template.editStory.events = {
       if (_type == "checkbox") {
 
          //assuming this is the Flag table
+         if (sed.collectionID.get() != cStoryFlag) return;
 
          //get the flag name
          var _name = $("input#" + _recordID + ".n").val();
@@ -156,6 +157,35 @@ Template.editStory.events = {
                 _item = _name.substr(5);
 
                 story.removeInventoryItem( _item );
+             }
+
+             //we "back-fill" the previous flags in the sequence
+
+             if (_value) {
+
+                var _index = sed.collection.get().findOne( { c: story.code, n: _name } ).o;
+
+                if (!_index) {
+
+                  showMessage("Flag not found in this story: " + _name);
+
+                  return;
+                }
+
+                var _arr = sed.collection.get().find( { c: story.code }, { sort:{ o: 1 } } ).fetch();
+
+                for (var i = 0; _arr[i].n != _name; i++) {
+
+                    var _obj = _arr[i];
+
+                    $("input#F" + _obj._id + ".f").prop('checked', true);
+
+                    story.flags[ _arr[i].n ] = _value;
+
+
+                }
+
+
              }
           }
 
@@ -242,7 +272,21 @@ Template.storyData.helpers({
 		return Object.keys( sed.collection.get().find().fetch()[0] );
 	},
 
+  chat : function() {
+
+    var _id = sed.collectionID.get();
+
+    if (_id == cChat) {
+
+      return true;
+    }
+
+    return false;
+  },
+
 	dataRecord : function() {
+
+    var _val = Session.get("sUpdateStoryEditDataContent");
 
 		if (sed.code.get().length) {
 
@@ -295,7 +339,7 @@ Template.storyData.helpers({
 
     if (_id == cStoryFlag) {
 
-
+      return true;
     }
 
     return false;
