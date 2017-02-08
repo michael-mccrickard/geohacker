@@ -211,8 +211,6 @@ StoryMessaging = function() {
 
             story.mode.set("scene")
 
-            if (ved) story.go( story.location);
-
             return;
         } 
 

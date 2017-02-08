@@ -21,6 +21,8 @@ getFirstWord = function( _str ) {
     return (_arr[0]);
 }
 
+
+
 //************************************************************
 //    Array functions
 //************************************************************
@@ -129,6 +131,12 @@ whichBrowser = function(){
 //************************************************************
 //     Formatting functions
 //************************************************************
+
+formatFloat = function( _val ) {
+
+    return parseFloat(Math.round(_val * 100) / 100).toFixed(2);
+}
+
 
 capitalizeAllWords = function( _str ) {
 

@@ -93,6 +93,10 @@ $(document).keydown(function(e) {
 
 	if (!gGameEditor) return;
 
+    var _val = 1;
+
+    if (e.shiftKey) _val = 4;
+
     switch(e.which) {
 
       case 32: //space
@@ -159,7 +163,7 @@ $(document).keydown(function(e) {
 
         if (gEditSidewallsMode) display.browser.nextMeme( display.browser.ID);
 
-        if (gMoveEntityMode) ved.moveEntityHoriz(-1);
+        if (gMoveEntityMode) ved.moveEntityHoriz(-1 * _val);
 
         break;
 
@@ -173,7 +177,7 @@ $(document).keydown(function(e) {
 
         if (gSizeEntityMode) ved.sizeEntity(1);
 
-        if (gMoveEntityMode) ved.moveEntityVert(-1);
+        if (gMoveEntityMode) ved.moveEntityVert(-1 * _val);
 
         break;
 
@@ -183,7 +187,7 @@ $(document).keydown(function(e) {
 
         if (gEditLearnCountry) posElementLeft(-1); 
 
-        if (gMoveEntityMode) ved.moveEntityHoriz(1);
+        if (gMoveEntityMode) ved.moveEntityHoriz(_val);
 
         if (gEditSidewallsMode) {
 
@@ -204,7 +208,7 @@ $(document).keydown(function(e) {
 
         if (gSizeEntityMode) ved.sizeEntity(-1);
 
-        if (gMoveEntityMode) ved.moveEntityVert(1);
+        if (gMoveEntityMode) ved.moveEntityVert(_val);
 
         break;
 
