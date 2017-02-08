@@ -176,6 +176,23 @@ convertPercentToPixels = function( _obj ) {
     }
 }
 
+convertPixelsToPercentString = function( _obj ) {
+
+    var _val = 0.0;
+
+    if (_obj.x) {
+
+        _val = _obj.x / $(window).width() * 100;
+    }
+
+    if (_obj.y) {
+
+        _val = _obj.y / $(window).height() * 100;
+    }
+
+    return ( formatFloat(_val) + "%" );
+}
+
 convertMatrixStringToObject = function( _s) {
 
     _s = _s.substr(7, _s.length - 8);

@@ -55,8 +55,6 @@ StoryEditorVisual = function() {
 
 				return;				
 			}
-
-
 		}
 
 		FlowRouter.go("/editStory");
@@ -226,13 +224,9 @@ StoryEditorVisual = function() {
 
 		gMoveEntityMode = 0;
 
-		if (_ID == "size") {
+		if (_ID == "set") {
 
-			gGameEditor = 1;
-
-			gSizeEntityMode = 1;
-
-			showMessage("Size mode on");
+			this.saveEntity( null, story[ this.selectedEntity ] );
 		}
 
 
@@ -297,6 +291,23 @@ StoryEditorVisual = function() {
 
 		sed.switchTo("story");
 
+	}
+
+	this.saveEntity = function( _obj, _ent ) {
+
+		if (!_obj ) _obj = convertMatrixStringToObject( $(_ent.element).css("transform") );		
+
+		var _update = {};
+
+		if ( _obj.translateX ) _update.l = convertPixelsToPercentString( { x: _obj.translateX } );
+
+		if ( _obj.translateY ) _update.top = convertPixelsToPercentString( { y: _obj.translateY } );
+
+		if ( _obj.scaleX ) _update.sc = parseFloat(_obj.scaleX);
+
+showMessage( _update)
+
+		db.ghChar.update( { _id: _ent.ID }, { $set: _update } );
 	}
 
 }

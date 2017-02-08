@@ -32,9 +32,9 @@ Entity = function() {
 
 			_obj = {};
 
-			_obj.x = convertPercentToPixels( { x: this.left } );
+			_obj.x = this.x = convertPercentToPixels( { x: this.left } );
 
-			_obj.y = convertPercentToPixels( { y: this.top } );
+			_obj.y = this.y = convertPercentToPixels( { y: this.top } );
 
 			_obj.scale = this.scale;
 		}
@@ -44,6 +44,8 @@ Entity = function() {
 
 
 	this.transform = function( _obj ) {
+
+		if (!_obj) _obj = this;
 
 		var _str = "matrix(" + _obj.scale + ", 0, 0, " + _obj.scale + ", " + _obj.x + ", " + _obj.y + ")";
 
@@ -71,20 +73,6 @@ Entity = function() {
 		$( this.element ).velocity( "fadeOut", {duration: 1000} );
 	},
 
-	this.coordinatesToOffsets = function( _obj ) {
-
-		var currX = $( this.element ).offset().left;
-
-		var currY = $( this.element ).offset().top;
-		
-		_obj.x = _obj.x - currX;
-
-		_obj.y = _obj.y - currY;
-
-	}
-
-
-
 	this.moveToCorner = function(_dir) {
 
 		this.recordPos();
@@ -100,8 +88,6 @@ Entity = function() {
 
 
 		var _obj = { x: _left, y: _top };
-
-		//this.coordinatesToOffsets( _obj );  //no longer using offsets on the entities
 
 		this.tween = TweenLite.to( this.element, 1.5, { x: _obj.x, y: _obj.y } );
 	},

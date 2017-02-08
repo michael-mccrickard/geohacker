@@ -11,7 +11,7 @@ Char = function() {
 
 		this.left = percentStringToNumber( _obj.l );
 
-		if (_obj.sc) this.scale = _obj.scale;
+		if (_obj.sc) this.scale = parseFloat( _obj.sc );
 
 		this.shortName = _obj.sn;
 
@@ -25,14 +25,12 @@ Char = function() {
 			if (_obj.t == "g") this.type = "guest";  
 		}
 
-		if (_obj.ID) this.ID = _obj.ID;
+		if (_obj._id) this.ID = _obj._id;
 
 		//for an agent in the database, you don't supply the pic file in the _obj param b/c you don't know it,
 		//but for a "guest star", you do.  Also, we create the ID on the fly for guests.
 		
 		if ( this.type == "guest" ) {
-
-			if (this.index != 0) this.ID = story.name + "_" + this.shortName;  //the default agent (index 0) already has an ID
 
 			this.pic = _obj.p;			
 		}
