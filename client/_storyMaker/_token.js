@@ -35,13 +35,11 @@ Token = function() {
 
 		this.pic = _obj.p;	
 
-		this.top = _obj.top;
+		this.top = percentStringToNumber( _obj.top );
 
-		this.left = _obj.l;
+		this.left = percentStringToNumber( _obj.l );
 
-		this.width = _obj.w;
-
-		this.height = _obj.h;
+		if (_obj.sc) this.scale = _obj.sc;
 
 		this.index = _index;
 

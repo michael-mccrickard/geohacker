@@ -153,55 +153,52 @@ StoryEditorVisual = function() {
 
 	this.sizeEntity = function( _val) {
 
-		var _scale = story[ this.selectedEntity ].scale;
+		var _ent = story[ this.selectedEntity ];
+
+		var _scale = _ent.scale;
 
 		_scale = _scale + _val * 0.1;
 
-		story[ this.selectedEntity ].scale = _scale;
+		_ent.scale = _scale;
 		
-		this.transformEntity();
+		_ent.transform();
 	}
 
 	this.moveEntityVert = function( _val) {
 		
+		var _ent = story[ this.selectedEntity ];
+
 		_val = _val * 3;
 		
-		var _y = story[ this.selectedEntity ].y;
+		var _y = _ent.y;
 
 		_y = _y + _val;
 
-		story[ this.selectedEntity ].y = _y;		
+		_ent.y = _y;		
 
-		this.transformEntity();
+		_ent.transform();
+
+		this.showCoordinates();
 	}
 
 	this.moveEntityHoriz = function( _val) {
+
+		var _ent = story[ this.selectedEntity ];
 		
 		_val = _val * 3;
 		
-		var _x = story[ this.selectedEntity ].x;
+		var _x = _ent.x;
 
 		_x = _x + _val;
 
-		story[ this.selectedEntity ].x = _x;		
+		_ent.x = _x;		
 		
-		this.transformEntity();
-
-	}
-
-	this.transformEntity = function() {
-
-		var _ent = story[this.selectedEntity];
-
-		var _str = "matrix(" + _ent.scale + ", 0, 0, " + _ent.scale + ", " + _ent.x + ", " + _ent.y + ")";
-
-c( _str)
-
-		$( story[this.selectedEntity].element ).css("transform", _str);	
+		_ent.transform();
 
 		this.showCoordinates();
 
 	}
+
 
 	this.showCoordinates = function() {
 

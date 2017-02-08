@@ -16,24 +16,39 @@ Entity = function() {
 
 		$(this.imageElement).attr("src", this.pic);
 
-		//see note in init (in char and token obj cconstructors) about width and left
-
-		//if (this.width) $(this.imageElement).css("width", this.width);
-
-		if (this.left) $(this.element).css("left", this.left);
-
-		if (this.top) $(this.element).css("top", this.top);	
-
 		if (this.zIndex) $(this.element).css("z-index", this.zIndex);	
 
 		$(this.element).attr("data-shortname", this.shortName);
 
-	/*	$(this.element).css("opacity", 0);  */  //do this when we reset the scene instead?
+		this.draw();
 
 		this.show();  //remove "hidden" class	
 
-
 	},
+
+	this.draw = function( _obj ) {
+
+		if (!_obj) {
+
+			_obj = {};
+
+			_obj.x = convertPercentToPixels( { x: this.left } );
+
+			_obj.y = convertPercentToPixels( { y: this.top } );
+
+			_obj.scale = this.scale;
+		}
+
+		this.transform( _obj );
+	}
+
+
+	this.transform = function( _obj ) {
+
+		var _str = "matrix(" + _obj.scale + ", 0, 0, " + _obj.scale + ", " + _obj.x + ", " + _obj.y + ")";
+
+		$( this.element ).css("transform", _str);	
+	}
 
 	this.hide = function() {
 
@@ -68,14 +83,7 @@ Entity = function() {
 
 	}
 
-	this.percentStringToNumber = function( _str ) {
 
-		_str = _str.substr(0, _str.length - 1);
-
-		var _val = parseFloat( _str ) / 100;
-
-		return _val;
-	}
 
 	this.moveToCorner = function(_dir) {
 
@@ -93,14 +101,14 @@ Entity = function() {
 
 		var _obj = { x: _left, y: _top };
 
-		this.coordinatesToOffsets( _obj );
+		//this.coordinatesToOffsets( _obj );  //no longer using offsets on the entities
 
 		this.tween = TweenLite.to( this.element, 1.5, { x: _obj.x, y: _obj.y } );
 	},
 
-	this.moveToStart = function() {
+	this.moveToPrev = function() {
 
-		this.tween = TweenLite.to( this.element, 1.5, { x: 0, y: 0 } );
+		this.tween = TweenLite.to( this.element, 1.5, { x: this.prevX, y: this.prevY } );
 	},
 
 	this.q = function() {
@@ -110,9 +118,11 @@ Entity = function() {
 
 	this.recordPos = function() {
 
-		this.prevTop = $(this.element).offset().top;
+		var _obj = convertMatrixStringToObject( $(this.element).css("transform") );
 
-		this.prevLeft = $(this.element).offset().left;
+		this.prevX = _obj.translateX;
+
+		this.prevY = _obj.translateY;
 	},
 
 	this.say = function( _text) {

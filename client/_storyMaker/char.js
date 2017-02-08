@@ -7,11 +7,11 @@ Char = function() {
 
 		this.index = _index;
 
-		this.top = _obj.top;
+		this.top = percentStringToNumber( _obj.top );
 
-		this.left = _obj.l;
+		this.left = percentStringToNumber( _obj.l );
 
-		if (_obj.width) this.width = _obj.width;
+		if (_obj.sc) this.scale = _obj.scale;
 
 		this.shortName = _obj.sn;
 

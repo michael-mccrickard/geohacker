@@ -1,3 +1,7 @@
+//************************************************************
+//     String functions
+//************************************************************
+
 getRandomString = function() {
 
     var id = "";
@@ -21,7 +25,25 @@ getFirstWord = function( _str ) {
     return (_arr[0]);
 }
 
+capitalizeAllWords = function( _str ) {
 
+    var _arr = _str.split(" ");
+
+    var _res = "";
+
+    for (var i = 0; i < _arr.length; i++) {
+
+        if (i==0) _res = _res + capitalizeFirstLetter( _arr[i] );
+
+        if (i==1) _res = _res + " " + capitalizeFirstLetter( _arr[i] );
+    }
+
+    return _res;
+}
+
+capitalizeFirstLetter = function(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 //************************************************************
 //    Array functions
@@ -129,6 +151,59 @@ whichBrowser = function(){
 }
 
 //************************************************************
+//     Conversion functions
+//************************************************************
+
+percentStringToNumber = function( _str ) {
+
+    _str = _str.substr(0, _str.length - 1);
+
+    var _val = parseFloat( _str ) / 100;
+
+    return _val;
+}
+
+convertPercentToPixels = function( _obj ) {
+
+    if (_obj.x) {
+
+        return ( _obj.x * $(window).width() );
+    }
+
+    if (_obj.y) {
+
+        return ( _obj.y * $(window).height() );
+    }
+}
+
+convertMatrixStringToObject = function( _s) {
+
+    _s = _s.substr(7, _s.length - 8);
+
+    var _arr = _s.split(",");
+
+    //matrix(scaleX(),skewY(),skewX(),scaleY(),translateX(),translateY()):
+
+    var _obj = {};
+
+    _obj.scaleX = _arr[0];
+
+    _obj.skewY = _arr[1];
+
+    _obj.skewX = _arr[2];
+
+    _obj.scaleY = _arr[3];
+
+    _obj.translateX = _arr[4];
+
+    _obj.translateY = _arr[5];
+
+    return _obj;
+
+}
+
+
+//************************************************************
 //     Formatting functions
 //************************************************************
 
@@ -138,25 +213,10 @@ formatFloat = function( _val ) {
 }
 
 
-capitalizeAllWords = function( _str ) {
+//************************************************************
+//     Centering functions
+//************************************************************
 
-    var _arr = _str.split(" ");
-
-    var _res = "";
-
-    for (var i = 0; i < _arr.length; i++) {
-
-        if (i==0) _res = _res + capitalizeFirstLetter( _arr[i] );
-
-        if (i==1) _res = _res + " " + capitalizeFirstLetter( _arr[i] );
-    }
-
-    return _res;
-}
-
-capitalizeFirstLetter = function(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 centerDivOnDiv = function( _eleNarrow, _eleWide ) {
 
@@ -177,6 +237,10 @@ centerDivOnDiv2 = function( _eleToCenter, _eleToCenterWidth, _eleWide ) {
     $(_eleToCenter).css("left", fullWidth/2 - narrowWidth/2 + "px"); 
 
 }
+
+//************************************************************
+//     Misc functions
+//************************************************************
 
 getTextColorForBackground = function( _col )  {
 
