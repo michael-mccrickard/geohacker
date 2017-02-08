@@ -305,7 +305,7 @@ StoryEditorVisual = function() {
 
 		if ( _obj.scaleX ) _update.sc = parseFloat(_obj.scaleX);
 
-showMessage( _update)
+showMessage( "Saving entity " + _ent.shortName );
 
 		db.ghChar.update( { _id: _ent.ID }, { $set: _update } );
 	}

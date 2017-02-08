@@ -135,7 +135,9 @@ Entity = function() {
 
 	this.scaleMe = function( _amt )  {
 
-		TweenMax.to( this.element, 0.0, { scale: _amt } );		
+		this.scale = _amt;
+
+		this.transform();	
 	},
 
 
