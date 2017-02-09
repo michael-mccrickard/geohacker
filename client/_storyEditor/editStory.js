@@ -185,6 +185,8 @@ game.user.mode = uStory;
 
 			if (story.code) {
 
+				//Did we switch stories?
+
 				if ( story.code != _code ) {
 
 					this.loadStory( _code);
@@ -192,10 +194,14 @@ game.user.mode = uStory;
 					return;
 				}
 
+				//same story, just run with it
+
 				FlowRouter.go("/story");
 
 			}
 			else {
+
+				//story object not loaded yet
 
 				this.loadStory( _code );
 			}

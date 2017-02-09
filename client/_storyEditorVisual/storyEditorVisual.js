@@ -289,6 +289,10 @@ StoryEditorVisual = function() {
 
 		story.reset();
 
+		story.code = "0" //a "non-code", trick SED into loading the story from scratch
+
+		FlowRouter.go("/waiting");
+
 		sed.switchTo("story");
 
 	}
