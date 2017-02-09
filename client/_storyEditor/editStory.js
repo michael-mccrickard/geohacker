@@ -460,11 +460,11 @@ c("curr order val is " + _oldOrderVal + " and dir passed to func is " + _dir)
 		}
 	}
 
-	this.updateURLForNewRecord = function( _url, ID ) {
+	this.updateURLForNewRecord = function( _url, ID, _field ) {
 
 		var data = {};
 
-		data["p"] = _url;
+		data[ _field ] = _url;
 
 		Meteor.call("updateRecordOnServerWithDataObject", sed.collectionID.get(), ID, data, function(err, result) {
 

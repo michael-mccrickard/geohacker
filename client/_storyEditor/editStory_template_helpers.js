@@ -102,7 +102,15 @@ Template.editStory.events = {
       	return;
       }
 
-      var _recordID = event.currentTarget.id.substr(1);  //we prefixed an "I" or an "F" to the ID in the template to make it a legal HTML element ID
+      var _field = event.currentTarget.id.substr(0,1).toLowerCase();
+
+      if (_field == "i") _field = "p";  //pic field
+
+      if (_field == "g") _field = "bg";     //bg field (story)
+
+      if (_field == "b") _field = "btn";    //bg button field (story)
+
+      var _recordID = event.currentTarget.id.substr(1);  //we prefixed a char (B,G,I or F) to the ID in the template to make it a legal HTML element ID
 
       if (_type == "file") {
 
@@ -120,7 +128,7 @@ Template.editStory.events = {
             }
             else {
 
-              sed.updateURLForNewRecord( downloadUrl, _recordID );
+              sed.updateURLForNewRecord( downloadUrl, _recordID, _field );
 
             } 
           });     
@@ -321,11 +329,23 @@ Template.storyData.helpers({
 		return _obj._id;
 	},
 
-	notStoryChatOrCue : function() {
+  notChat : function() {
+
+    var _id = sed.collectionID.get();
+
+    if (_id == cChat) {
+
+      return false;
+    }
+
+    return true;
+  },
+
+	notChatOrCue : function() {
 
 		var _id = sed.collectionID.get();
 
-		if (_id == cStory || _id == cChat || _id == cCue) {
+		if (_id == cChat || _id == cCue) {
 
 			return false;
 		}
@@ -357,11 +377,11 @@ Template.storyData.helpers({
     return true;
   },
 
-  notStoryOrChat : function() {
+  notCue : function() {
 
     var _id = sed.collectionID.get();
 
-    if (_id == cStory || _id == cChat ) {
+    if (_id == cCue) {
 
       return false;
     }
@@ -369,6 +389,47 @@ Template.storyData.helpers({
     return true;
   },
 
+  notStory : function() {
+
+    var _id = sed.collectionID.get();
+
+    if (_id == cStory) {
+
+      return false;
+    }
+
+    return true;
+  },
+
+  story : function() {
+
+    var _id = sed.collectionID.get();
+
+    if (_id == cStory) {
+
+      return true;
+    }
+
+    return false;
+  },
+
+  storyHasNoBGPic : function() {
+
+    var _id = sed.collectionID.get();
+
+    if (_id != cStory) return false;
+
+    if (this.bg) return false;
+
+    return true;
+  },
+
+  storyHasNoBGButtonPic : function() {
+
+    if (!this.btn) return true;
+
+    return false;      
+  },
 
   serverMode: function() {
 

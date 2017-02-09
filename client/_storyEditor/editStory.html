@@ -116,14 +116,24 @@
 				   	
 				   	{{/each}}	
 
-				   	<th></th>  				  <!-- column for the SAVE button -->
+				   	<th></th>  		<!-- column for the SAVE button -->		 
 
-				   	<th></th>  				  <!-- column for the DELETE button -->
-
-				   	{{#if notStoryOrChat}}   <!-- column for the download button -->
+				   	{{#if notChat}}   <!-- column for the upload button -->
 				   		
-				   		<th></th> 
+				   		<th>{{#if story}}Base BG pic{{/if}}</th> 
 				 	
+				 	{{/if}}
+
+				 	{{#if story}}
+
+				 		<th>Base button pic</th> <!-- column for the upload2 button -->
+
+				 	{{/if}}
+
+				 	{{#if notCue}}
+
+				 		<th></th>  	<!-- column for the DELETE button for most tables -->
+
 				 	{{/if}}
 
 				  </tr>
@@ -170,7 +180,7 @@
 					  	</td>
 
 					   	
-					   	{{#if notStoryChatOrCue}}
+					   	{{#if notChatOrCue}}
 
 						   	{{#if flag}}
 							
@@ -181,12 +191,31 @@
 							{{else}}		
 
 							    <td>
-							    	<input type="file" id="I{{this._id}}">
+							    	{{#if story}}
+							    		<input type="file" id="G{{this._id}}">
+
+							    	{{else}}
+
+							    		<input type="file" id="P{{this._id}}">							    	
+							    	{{/if}}
+								
 								</td>
 							
 							{{/if}}
 
+							{{#if story}}
+
+							    <td>
+							    	{{#if story}}
+							    		<input type="file" id="B{{this._id}}">
+							    	{{/if}}
+								</td>
+
+							{{/if}}
+
 						{{/if}}
+
+
 
 					  	<td>
 					  		<button class="btn btn-danger" id="deleteRecord"  onclick="sed.deleteRecord( '{{this._id}}' )"><strong>DEL</strong></button> 

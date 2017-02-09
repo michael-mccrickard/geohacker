@@ -11,10 +11,6 @@ storyA = function() {
 	this.init = function() {
 
 		this.location = "base";  //base, FR, ML, NL
-
-		this.baseButtonPic.set("storyA_scene.jpg");  //move to the db, under ghStory
-
-		this.baseBGPic = "starryBG.jpg";  //move to the db, under ghStory
 	}
 
 //*********************************************************************************

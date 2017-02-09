@@ -145,6 +145,21 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 	},
 
+	this.initBase = function() {
+
+		var _rec = db.ghStory.findOne( { c: this.code } );
+
+		this.baseButtonPic.set( _rec.btn );  
+
+		this.baseBGPic = _rec.bg;  
+	}
+
+//*********************************************************************************
+//
+//				INVENTORY
+//
+//*********************************************************************************
+
 
 	this._addInventoryItem = function( _name ) {
 
@@ -723,6 +738,8 @@ Tracker.autorun( function(comp) {
   	console.log("story data ready")
 
      if (typeof story == 'undefined') return;
+
+    story.initBase();
 
   	story.init();
 
