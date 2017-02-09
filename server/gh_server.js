@@ -86,8 +86,6 @@ Meteor.startup(
 
     ghLocation =  new Meteor.Collection("ghLocation")
 
-    ghScene =  new Meteor.Collection("ghScene")
-
     ghChar =  new Meteor.Collection("ghChar")
 
     ghToken =  new Meteor.Collection("ghToken")
@@ -256,10 +254,6 @@ Meteor.startup(
       return ghLocation.find({});
     });   
 
-     Meteor.publish("allScenes",function(){
-      return ghScene.find({});
-    });  
-
      Meteor.publish("allChars",function(){
       return ghChar.find({});
     });  
@@ -300,10 +294,6 @@ Meteor.startup(
      Meteor.publish("storyAssets_Location",function( storyCode ){
       return ghLocation.find({ c: storyCode });
     });   
-
-     Meteor.publish("storyAssets_Scene",function( storyCode ){
-      return ghScene.find({ c: storyCode });
-    });  
 
      Meteor.publish("storyAssets_Char",function( storyCode ){
       return ghChar.find({ c: storyCode });
@@ -418,19 +408,6 @@ Meteor.startup(
     });
 
     ghLocation.allow({
-
-      insert: function() {
-          return true;
-      },
-      update: function() {
-          return true;
-      },
-      remove: function() {
-          return true;
-      }
-    });
-
-    ghScene.allow({
 
       insert: function() {
           return true;
@@ -589,6 +566,10 @@ function getChiefID2() {
   return res._id;
 }
 
+//A function with the same name is available to the client thru the db object;
+//it returns the client-side collections, of course.
+//Any changes / additions to one should be done to the other
+
 function getCollectionForType(_type) {
 
     var col = null;
@@ -624,8 +605,6 @@ function getCollectionForType(_type) {
     if (_type == cStory) col = ghStory;
 
     if (_type == cLocation) col = ghLocation;
-
-    if (_type == cScene) col = ghScene;
 
     if (_type == cToken) col = ghToken;
 

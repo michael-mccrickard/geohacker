@@ -6,6 +6,10 @@ Token = function() {
 
 		this.name = _obj.n;
 
+		this.ID = _obj._id;
+
+		this.collectionID = cToken;
+
 		this.shortName = _obj.n;
 
 		if (_obj.sn) {
@@ -16,6 +20,8 @@ Token = function() {
 		this.type = "";
 
 		this.owner = "";
+
+		this.ownerEntity = null;
 
 		if (_obj.t == "n") {
 
@@ -39,7 +45,9 @@ Token = function() {
 
 		this.left = percentStringToNumber( _obj.l );
 
-		if (_obj.sc) this.scale = _obj.sc;
+		if (_obj.scx) this.scaleX = _obj.scx;
+
+		if (_obj.scy) this.scaleY = _obj.scy;
 
 		this.index = _index;
 
@@ -73,21 +81,25 @@ Token = function() {
 
 		var _obj = this.content[ _name ];
 
+		_obj.ownerEntity = this;
+
 		$(this.contentElement).attr("src", _obj.pic);
 
-		$(this.contentElement).css("width", _obj.width);
+		//if (_obj.scaleX) $(this.contentElement).css("scaleX", _obj.scaleX);
 
-		$(this.contentElement).css("height", _obj.height);
+		//if (_obj.scaleY) $(this.contentElement).css("scaleY", _obj.scaleY);
 
-		$(this.contentElement).css("left", _obj.left);
+		//$(this.contentElement).css("left", _obj.left);
 
-		$(this.contentElement).css("top", _obj.top);	
+		//$(this.contentElement).css("top", _obj.top);	
 
 		$(this.contentElement).css("z-index", _obj.zIndex);	
 
 		$(this.contentElement).attr("data-shortName", this.shortName);	
 
 		if ( _obj.borderRadius) $(this.contentElement).css("border-radius", _obj.borderRadius);	
+
+		_obj.draw();
 	}
 
 

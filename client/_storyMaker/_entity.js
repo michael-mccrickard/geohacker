@@ -6,7 +6,9 @@ Entity = function() {
 
 	//css transform values
 
-	this.scale = 1.0;
+	this.scaleX = 1.0;
+
+	this.scaleY = 1.0;
 
 	this.x = 0;
 
@@ -36,7 +38,9 @@ Entity = function() {
 
 			_obj.y = this.y = convertPercentToPixels( { y: this.top } );
 
-			_obj.scale = this.scale;
+			_obj.scaleX = this.scaleX;
+
+			_obj.scaleY = this.scaleY;
 		}
 
 		this.transform( _obj );
@@ -47,7 +51,14 @@ Entity = function() {
 
 		if (!_obj) _obj = this;
 
-		var _str = "matrix(" + _obj.scale + ", 0, 0, " + _obj.scale + ", " + _obj.x + ", " + _obj.y + ")";
+		var _str = "matrix(" + _obj.scaleX + ", 0, 0, " + _obj.scaleY + ", " + _obj.x + ", " + _obj.y + ")";
+
+		if (this.ownerEntity) {
+
+			$( this.ownerEntity.contentElement ).css("transform", _str);
+
+			return;
+		}
 
 		$( this.element ).css("transform", _str);	
 	}

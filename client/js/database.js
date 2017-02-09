@@ -524,7 +524,21 @@ c("db is removing record for " + _code + " in the current mission.")
 
     if (_type == cMeme) col = this.ghMeme;
 
+    if (_type == cStory) col = this.ghStory;
 
+    if (_type == cLocation) col = this.ghLocation;
+
+    if (_type == cToken) col = this.ghToken;
+
+    if (_type == cChar) col = this.ghChar;
+
+    if (_type == cStoryFlag) col = this.ghStoryFlag;
+
+    if (_type == cStoryAgent) col = this.ghStoryAgent;
+
+    if (_type == cCue) col = this.ghCue;
+
+    if (_type == cChat) col = this.ghChat;
 
     return col;
   }

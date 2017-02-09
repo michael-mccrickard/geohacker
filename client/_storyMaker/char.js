@@ -5,6 +5,8 @@ Char = function() {
 
 		this.name = _obj.n;
 
+		this.collectionID = cChar;
+
 		this.index = _index;
 
 		this.top = percentStringToNumber( _obj.top );
@@ -36,8 +38,6 @@ Char = function() {
 		}
 
 		if ( this.type == "agent" ) {
-		
-			this.ID = _obj._id;
 
 			//the object we were passed was just the record in the ghChar table,
 			//we have to get the user record for the picture file

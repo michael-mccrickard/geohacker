@@ -135,6 +135,8 @@ $(document).keydown(function(e) {
 
         if (gEditLearnCountry) editTextColor(-1);
 
+        if (gSizeEntityMode) ved.sizeEntityXY(-1);
+
     		break;
 
       case 222: //single quote 
@@ -146,6 +148,8 @@ $(document).keydown(function(e) {
       case 36: //home
 
         if (gEditLearnCountry) editTextColor(1);
+
+        if (gSizeEntityMode) ved.sizeEntityXY(1);
 
         break;
 
@@ -163,6 +167,8 @@ $(document).keydown(function(e) {
 
         if (gEditSidewallsMode) display.browser.nextMeme( display.browser.ID);
 
+        if (gSizeEntityMode) ved.sizeEntityX(-1);
+
         if (gMoveEntityMode) ved.moveEntityHoriz(-1 * _val);
 
         break;
@@ -175,7 +181,7 @@ $(document).keydown(function(e) {
 
         if (gEditSidewallsMode) display.browser.editSidewallFontSize(0.1)
 
-        if (gSizeEntityMode) ved.sizeEntity(1);
+        if (gSizeEntityMode) ved.sizeEntityY(1);
 
         if (gMoveEntityMode) ved.moveEntityVert(-1 * _val);
 
@@ -188,6 +194,8 @@ $(document).keydown(function(e) {
         if (gEditLearnCountry) posElementLeft(-1); 
 
         if (gMoveEntityMode) ved.moveEntityHoriz(_val);
+
+        if (gSizeEntityMode) ved.sizeEntityX(1);
 
         if (gEditSidewallsMode) {
 
@@ -206,7 +214,7 @@ $(document).keydown(function(e) {
 
         if (gEditSidewallsMode) display.browser.editSidewallFontSize(-0.1)
 
-        if (gSizeEntityMode) ved.sizeEntity(-1);
+        if (gSizeEntityMode) ved.sizeEntityY(-1);
 
         if (gMoveEntityMode) ved.moveEntityVert(_val);
 

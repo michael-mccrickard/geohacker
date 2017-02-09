@@ -249,10 +249,17 @@ Template.editStory.helpers({
 
     return sed.template.get();
   },
-
+  
   serverMode: function() {
 
     if (sed.dataMode.get() == "server" ) return true;
+
+    return false;
+  },
+
+  serverAndDataMode: function() {
+
+    if (sed.dataMode.get() == "server" && sed.mode.get() == "data")  return true;
 
     return false;
   },
