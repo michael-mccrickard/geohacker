@@ -56,6 +56,8 @@ Story =  function() {
 
 		this.inv = new Inventory();
 
+		this.tempEntity = null;
+
  		this.storyButton = "Base";
 
  		//first subscribe to the records that supply any actual agent IDs (agents in the db) that we need for the story
@@ -177,7 +179,11 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 		this.inv.remove( _name );
 
-		this[ _name ].fadeIn(250);		
+		this[ _name ].draw();
+
+		this[ _name ].fadeIn(150);
+
+
 	},
 
 //*********************************************************************************

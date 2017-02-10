@@ -111,6 +111,8 @@ c("adding item " + _obj.shortName + " to inv in inventory.js")
 
 	this.remove = function( _name ) {
 
+story[ _name ].draw();
+
 c("removing item " + _name + " from inv in inventory.js")
 
 		for (var i = this.firstSlot; i <= this.lastSlot; i++) {

@@ -70,6 +70,8 @@ storyA = function() {
 
 	this.removeInventoryItem = function( _name) {
 
+		var _obj = {};
+
 		this._removeInventoryItem( _name );
 
 		if (_name == "passcode") {

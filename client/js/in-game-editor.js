@@ -331,6 +331,10 @@ function resetArrowKeyModes() {
 
   gEditSidewallsMode = false;
 
+  gMoveEntityMode = false;
+
+  gSizeEntityMode = false;
+
 }
 
 //***************************************************************
@@ -370,6 +374,8 @@ startGameEditor = function() {
 stopGameEditor = function() {
 
 	c("stopping game editor");
+
+  gGameEditor = 0;
 
   resetArrowKeyModes();
 

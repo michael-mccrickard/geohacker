@@ -22,6 +22,8 @@ StoryEditorVisual = function() {
 
 	this.setDataMode = function( _val, _collectionID ) {
 
+		this.prepareEditor();
+
 	    sed.dataMode.set( "server" );
 
 		this.mode.set( _val );
@@ -67,6 +69,8 @@ StoryEditorVisual = function() {
 	
 	this.charEdit = function() {
 
+		this.prepareEditor();
+
 		var _arr = this.createCharArray();
 
 		this.menuElementType.set( cChar );
@@ -82,6 +86,8 @@ StoryEditorVisual = function() {
 
 	this.tokenEdit = function() {
 
+		this.prepareEditor();
+
 		this.menuElementType.set( cToken );
 
 		var _left = $("button#tokenEdit").offset().left;
@@ -91,6 +97,12 @@ StoryEditorVisual = function() {
 		this.menuOpen.set( true );
 
 		Meteor.setTimeout( function() { ved.updateContent(); }, 500);
+	}
+
+	this.prepareEditor = function() {
+
+		stopGameEditor();
+
 	}
 
 	this.updateContent = function() {
@@ -243,11 +255,13 @@ StoryEditorVisual = function() {
 
 		if (this.selectedEntity.ownerEntity) _element = this.selectedEntity.ownerEntity.contentElement;
 
-		 var _left = $( _element ).offset().left / $(window).width();
+		var _obj = convertMatrixStringToObject( $(_element).css("transform") );
+
+		 var _left = _obj.translateX / $(window).width();
 
 		 _left = formatFloat( _left * 100);
 
-		 var _top = $( _element ).offset().top / $(window).height();
+		 var _top = _obj.translateY / $(window).height();
 
 		 _top = formatFloat( _top * 100);
 

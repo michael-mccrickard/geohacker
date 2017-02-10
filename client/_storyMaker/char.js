@@ -67,11 +67,7 @@ Char = function() {
 
 		this._add();
 
-		story.charObjs.push( this );
-
-		$(this.imageElement).attr("data-mongoid", this.ID);
-
-		$(this.imageElement).attr("data-shortname", this.shortName);		
+		story.charObjs.push( this );	
 
 		$(this.nameElement).text( this.name );
 	}

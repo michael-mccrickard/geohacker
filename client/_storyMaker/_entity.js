@@ -1,3 +1,5 @@
+gTempEntity = null;
+
 Entity = function() {
 
 	this.leftSpacer = 4;
@@ -14,9 +16,11 @@ Entity = function() {
 
 	this.y = 0;
 	
-	this._add = function() {
+	this._add = function( _flag ) {
 
 		$(this.imageElement).attr("src", this.pic);
+
+		$(this.imageElement).attr("data-shortname", this.shortName);	
 
 		if (this.zIndex) $(this.element).css("z-index", this.zIndex);	
 
@@ -24,9 +28,25 @@ Entity = function() {
 
 		this.draw();
 
-		this.show();  //remove "hidden" class	
-
 	},
+
+	this.change = function( _obj ) {
+
+		this.show();
+
+		if ( _obj ) {
+
+			if ( _obj.left ) this.left = percentStringToNumber( _obj.left );
+
+			if ( _obj.top ) this.top = percentStringToNumber( _obj.top );
+
+			if ( _obj.scaleX ) this.scaleX = _obj.scaleX;
+
+			if ( _obj.scaleY ) this.scaleY = _obj.scaleY;
+		}
+
+		this.draw();
+	}
 
 	this.draw = function( _obj ) {
 
@@ -74,14 +94,19 @@ Entity = function() {
 
 		var _duration = 1000;
 
-		if (_val) _durantion = _val;
+		if (_val) _duration = _val;
 
 		if ( $(this.element).css("opacity") == 0 ) $( this.element ).velocity( "fadeIn", {_duration: 1000} );
+
+		//TweenMax.to( this.element, 1.0, { opacity : 1 } );
+
 	},
 
 	this.fadeOut = function() {
-
+		
 		$( this.element ).velocity( "fadeOut", {duration: 1000} );
+
+		//TweenMax.to( this.element, 1.0, { opacity : 0 } );
 	},
 
 	this.moveToCorner = function(_dir) {

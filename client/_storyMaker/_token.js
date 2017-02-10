@@ -68,13 +68,12 @@ Token = function() {
 
 	}
 
-	this.add = function() {
 
-		this._add();
+	this.add = function( _flag ) {
+
+		this._add( _flag );
 
 		story.tokenObjs.push( this );
-
-		$(this.imageElement).attr("data-shortname", this.shortName);	
 	}
 
 	this.addContent = function( _name ) {
