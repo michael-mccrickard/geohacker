@@ -26,5 +26,11 @@ Template.editEntityButtons.events({
 
 		ved.setSubmode( event.currentTarget.id );
 
+	 },
+
+	'click button#close': function(event, template) {
+
+		ved.setSubmode( "none" );
+
 	 }
 });

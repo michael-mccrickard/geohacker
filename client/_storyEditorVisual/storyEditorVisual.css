@@ -46,7 +46,7 @@ div.editEntityButton {
 
 	padding-top: 1%;
 
-	width: 32%;
+	width: 31%;
 
     height: 88%;
 
@@ -57,19 +57,17 @@ color: black;
 	margin: 0.5%;
 }
 
-.glyphButtonSmall {
+.glyphButtonClose {
 
 	padding: 0px;
 
-	padding-top: 1%;
-
-	width: 16%;
-
-    height: 88%;
+	padding: 0.5%;
 
 color: black;
 
-	font-size: 4.0vw;
+	font-size: 1.0vw;
 
 	margin: 0.5%;
+
+	float: right;
 }

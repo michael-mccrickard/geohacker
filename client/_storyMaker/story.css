@@ -8,6 +8,25 @@ width: 100%;
 
 }
 
+.vedText {
+
+	font-family: Arial; 
+
+	color: yellow; 
+
+	position: relative;
+
+	float: right; 
+
+	margin-right: 96px;
+
+	top: 14px;
+
+	z-index: 2000;
+}
+
+
+
 .divStoryMap {
 
 	position: absolute;

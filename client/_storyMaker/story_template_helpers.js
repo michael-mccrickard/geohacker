@@ -81,6 +81,11 @@ Template.story.helpers({
     return story.storyButtons;
   },
 
+  VEDText: function() {
+
+    return story.scene;
+  }
+
 });
 
 Template.story.events({

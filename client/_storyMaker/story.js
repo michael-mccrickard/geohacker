@@ -391,6 +391,8 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 	this.playScene = function() {
 
+if (ved) $("div#divVEDText").text( this.scene );
+
 		this.cutScene = new CutScene( this.scene );
 
 		this.cutScene.play( this.cue );
@@ -451,6 +453,8 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
           this.silenceAll();
 
           this.hidePrompt();
+
+          story.mode.set("scene");
 
           this.go("base");
 	},

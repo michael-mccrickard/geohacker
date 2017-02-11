@@ -167,6 +167,17 @@ StoryEditorVisual = function() {
 		this.mode.set("entity");
 	}
 
+	this.unselectEntity = function() {
+
+		if (!this.selectedEntity) return;
+
+		$( this.selectedEntity.imageElement ).removeClass( "storyCharSel" );
+
+		this.selectedEntity = null;
+
+		this.selectedEntityName = "";
+	}
+
 	this.sizeEntityXY = function( _val) {
 
 		var _ent = this.selectedEntity;
@@ -281,6 +292,19 @@ StoryEditorVisual = function() {
 
 		gMoveEntityMode = 0;
 
+		if (_ID == "none") {
+
+			this.unselectEntity();
+
+			this.mode.set("play");
+
+			FlowRouter.go("/waiting")
+
+			Meteor.setTimeout( function() { FlowRouter.go("/story"); }, 250);
+
+			return;
+		}
+
 		if (_ID == "set") {
 
 			this.saveEntity( this.selectedEntity, null );
@@ -312,6 +336,8 @@ StoryEditorVisual = function() {
 	   if ( sed.table.get() == "Cue") {
 
 	        sed.makeLocalCollection( story.scene );
+
+	        sed.scene.set( story.scene );
 
 	        sed.dataMode.set( "local" );
 

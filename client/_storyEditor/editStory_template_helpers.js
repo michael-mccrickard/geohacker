@@ -303,6 +303,12 @@ Template.storyData.helpers({
 
     var _val = Session.get("sUpdateStoryEditDataContent");
 
+    if (sed.table.get() == "Story") {
+
+        return sed.collection.get().find( sed.findSelector.get(), {sort: { c: 1 } } );
+    }
+
+
 		if (sed.code.get().length) {
 
       if (sed.table.get() == "Chat") {
@@ -335,6 +341,18 @@ Template.storyData.helpers({
 
 		return _obj._id;
 	},
+
+  localName : function() {
+
+    var _id = sed.collectionID.get();
+
+    if (_id == cCue) {
+
+      return "Scene: " + sed.scene.get();
+    }
+
+    return "Command";
+  },
 
   notChat : function() {
 
