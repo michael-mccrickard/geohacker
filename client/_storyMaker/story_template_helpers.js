@@ -178,8 +178,6 @@ Template.story.events({
 
     'click .storyChar': function(event, template) {
 
-//need a check here to see if it's a good time to talk?
-
           var _sel = "img#" + event.currentTarget.id;
 
           var _shortName = $( _sel ).data().shortname;

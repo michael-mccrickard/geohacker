@@ -145,6 +145,10 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
        	this.cueSub.stop();
        	this.chatSub.stop();
 
+       	browseMap.reset();
+
+       	game.user.sms.conversation.remove( {} );
+
 	},
 
 	this.initBase = function() {

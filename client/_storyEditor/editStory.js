@@ -623,6 +623,7 @@ c("curr order val is " + _oldOrderVal + " and dir passed to func is " + _dir)
 //
 //*********************************************************************************
 
+
 	this.makeLocalCollection = function( _scene ) {
 
 		if (this.collectionID.get() == cCue)  {

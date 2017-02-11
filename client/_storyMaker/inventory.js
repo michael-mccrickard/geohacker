@@ -111,7 +111,7 @@ c("adding item " + _obj.shortName + " to inv in inventory.js")
 
 	this.remove = function( _name ) {
 
-story[ _name ].draw();
+//did have an ent.draw() comm here
 
 c("removing item " + _name + " from inv in inventory.js")
 
