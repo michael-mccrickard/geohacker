@@ -29,6 +29,8 @@ Token = function() {
 
 		this.contentBG = null;
 
+		this.contentMode = "front";  //'front' or 'back'
+
 		if (_obj.t == "n") {
 
 			this.type = "normal";
@@ -132,6 +134,8 @@ Token = function() {
 		$(this.contentElementBG).attr("data-shortName", this.shortName);	
 
 		if (_obj.borderRadius) $(this.contentElementBG).css("border-radius", _obj.borderRadius);
+
+		$(this.contentElementBG).attr("src", _obj.pic )
 
 	}
 

@@ -313,7 +313,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 						if ( _arrC[j].t == "c") _str = "story." + _name + ".content['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
 						
 						if ( _arrC[j].t == "cb") _str = "story." + _name + ".contentBG['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
-c(_str)
+
 						eval( _str)
 					}				
 				} //end if array of content tokens is non-empty
