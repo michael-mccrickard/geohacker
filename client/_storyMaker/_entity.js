@@ -16,6 +16,10 @@ Entity = function() {
 
 	this.y = 0;
 	
+	this.top = "0";
+
+	this.left = "0";
+
 	this._add = function( _flag ) {
 
 		$(this.imageElement).attr("src", this.pic);
@@ -73,10 +77,16 @@ Entity = function() {
 
 		var _str = "matrix(" + _obj.scaleX + ", 0, 0, " + _obj.scaleY + ", " + _obj.x + ", " + _obj.y + ")";
 
+c(_str)
+
 		if (this.ownerEntity) {
 
-			$( this.ownerEntity.contentElement ).css("transform", _str);
+			if ( this.type == "content") $( this.ownerEntity.contentElement ).css("transform", _str);
 
+			if ( this.type == "contentBG") {
+c("applying str to contentBG")
+				$( this.ownerEntity.contentElementBG ).css("transform", _str);
+			}
 			return;
 		}
 
@@ -98,15 +108,11 @@ Entity = function() {
 
 		if ( $(this.element).css("opacity") == 0 ) $( this.element ).velocity( "fadeIn", {_duration: 1000} );
 
-		//TweenMax.to( this.element, 1.0, { opacity : 1 } );
-
 	},
 
 	this.fadeOut = function() {
 		
 		$( this.element ).velocity( "fadeOut", {duration: 1000} );
-
-		//TweenMax.to( this.element, 1.0, { opacity : 0 } );
 	},
 
 	this.moveToCorner = function(_dir) {

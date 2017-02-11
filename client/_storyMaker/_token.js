@@ -2,13 +2,13 @@
 
 Token = function() {
 
-	this.init = function( _obj, _index ) {
+		this.init = function( _obj, _index ) {
 
 		this.name = _obj.n;
 
 		this.ID = _obj._id;
 
-		this.collectionID = cToken;
+		this.index = _index;
 
 		this.shortName = _obj.n;
 
@@ -17,11 +17,17 @@ Token = function() {
 			this.shortName = _obj.sn;
 		}
 
+		this.collectionID = cToken;
+
 		this.type = "";
 
 		this.owner = "";
 
 		this.ownerEntity = null;
+
+		this.content = null;
+
+		this.contentBG = null;
 
 		if (_obj.t == "n") {
 
@@ -36,20 +42,32 @@ Token = function() {
 
 			this.zIndex = 1000;
 
-			this.owner = _obj.o;
+			this.owner = _obj.w;
+
+			this.borderRadius = "16px";
 		}	
+
+		if (_obj.t == "cb") {
+
+			this.type = "contentBG";	
+
+			this.zIndex = 990;
+
+			this.owner = _obj.w;
+
+			this.borderRadius = "16px";
+		}
 
 		this.pic = _obj.p;	
 
-		this.top = percentStringToNumber( _obj.top );
+		if (_obj.top) this.top = percentStringToNumber( _obj.top );
 
-		this.left = percentStringToNumber( _obj.l );
+		if (_obj.l) this.left = percentStringToNumber( _obj.l );
 
 		if (_obj.scx) this.scaleX = _obj.scx;
 
 		if (_obj.scy) this.scaleY = _obj.scy;
 
-		this.index = _index;
 
 		this.movable = false;
 
@@ -64,10 +82,8 @@ Token = function() {
 
 		this.contentElement = "img#storyThingContent" + this.index + ".storyThingContent";		
 
-		//check for tokens in ghToken where o == this.shortName
-
+		this.contentElementBG = "img#storyThingContentBG" + this.index + ".storyThingContentBG";		
 	}
-
 
 	this.add = function( _flag ) {
 
@@ -80,28 +96,70 @@ Token = function() {
 
 		var _obj = this.content[ _name ];
 
+		Token.contentEntity = _obj;
+
 		_obj.ownerEntity = this;
-
-		$(this.contentElement).attr("src", _obj.pic);
-
-		//if (_obj.scaleX) $(this.contentElement).css("scaleX", _obj.scaleX);
-
-		//if (_obj.scaleY) $(this.contentElement).css("scaleY", _obj.scaleY);
-
-		//$(this.contentElement).css("left", _obj.left);
-
-		//$(this.contentElement).css("top", _obj.top);	
 
 		$(this.contentElement).css("z-index", _obj.zIndex);	
 
 		$(this.contentElement).attr("data-shortName", this.shortName);	
 
-		if ( _obj.borderRadius) $(this.contentElement).css("border-radius", _obj.borderRadius);	
+		if (_obj.borderRadius) $(this.contentElement).css("border-radius", _obj.borderRadius);
 
-		_obj.draw();
+		var _duration = 500;
+
+		Token.current = this;
+
+		Token.pic = _obj.pic;
+
+		this.fadeOutElement( this.contentElement, _duration ); 
+
+ 		Meteor.setTimeout( function() { $(Token.contentEntity.draw() ) }, _duration + 10 )
+
+ 		Meteor.setTimeout( function() { $(Token.current.contentElement).attr("src", Token.pic ) }, _duration + 20 )
+
+ 		Meteor.setTimeout( function() { Token.current.fadeInElement( Token.current.contentElement) }, _duration + 30 )
 	}
 
+	this.addContentBG = function( _name ) {
+
+		var _obj = this.contentBG[ _name ];
+
+		_obj.ownerEntity = this;
+
+		_obj.draw();
+
+		$(this.contentElementBG).attr("data-shortName", this.shortName);	
+
+		if (_obj.borderRadius) $(this.contentElementBG).css("border-radius", _obj.borderRadius);
+
+	}
+
+	this.fadeInElement = function(_element, _val) {
+
+		var _duration = 500;
+
+		if (_val) _duration = _val;
+
+		if ( $(_element).css("opacity") == 0 ) $( _element).velocity( "fadeIn", { duration: _duration} );
+
+	},
+
+	this.fadeOutElement = function( _element, _val ) {
+		
+		var _duration = 500;
+
+		if (_val) _duration = _val;
+
+		$( _element ).velocity( "fadeOut", { duration: 500} );
+	}
 
 } 
 
 Token.prototype = new Entity();
+
+Token.contentEntity = null;
+
+Token.current = null;
+
+Token.pic = "";

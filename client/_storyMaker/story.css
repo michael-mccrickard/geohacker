@@ -133,10 +133,13 @@ div.storyButton {
 
 	position: absolute;
 
-	border-radius: 16px;
-
 }
 
+.storyThingContentBG {
+
+	position: absolute;
+
+}
 
 .storyBG {
 

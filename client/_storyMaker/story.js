@@ -100,6 +100,8 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 		this.createTokens( "c" );  //content (sub-tokens)
 
+		this.createTokens( "cb" );  //content bg (sub-tokens)
+
 		this.createTokens( "n" );  //normal
 
 		this.createFlags();
@@ -288,7 +290,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 			if (_type == "n") {
 
-				var _arrC = db.ghToken.find( { o: _name } ).fetch();
+				var _arrC = db.ghToken.find( { w: _name } ).fetch();
 
 				if (_arrC.length) {
 
@@ -296,6 +298,9 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 					_str = "story." + _name + ".content = {};"
 
+					eval( _str );
+
+					_str = "story." + _name + ".contentBG = {};"
 
 					eval( _str );
 
@@ -305,8 +310,10 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 						
 						//story.computer.content["bunnies"] = story.bunnies;
 
-						_str = "story." + _name + ".content['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
-
+						if ( _arrC[j].t == "c") _str = "story." + _name + ".content['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
+						
+						if ( _arrC[j].t == "cb") _str = "story." + _name + ".contentBG['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
+c(_str)
 						eval( _str)
 					}				
 				} //end if array of content tokens is non-empty

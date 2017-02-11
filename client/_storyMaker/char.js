@@ -9,13 +9,12 @@ Char = function() {
 
 		this.index = _index;
 
-		this.top = percentStringToNumber( _obj.top );
+		this.shortName = _obj.n;
 
-		this.left = percentStringToNumber( _obj.l );
+		if (_obj.sn) {
 
-		if (_obj.sc) this.scale = parseFloat( _obj.sc );
-
-		this.shortName = _obj.sn;
+			this.shortName = _obj.sn;
+		}
 
 		this.placement = "top";
 
@@ -47,6 +46,14 @@ Char = function() {
 			this.pic = _rec.profile.av;
 			
 		}
+
+		if (_obj.top) this.top = percentStringToNumber( _obj.top );
+
+		if (_obj.l) this.left = percentStringToNumber( _obj.l );
+
+		if (_obj.scx) this.scaleX = _obj.scx;
+
+		if (_obj.scy) this.scaleY = _obj.scy;
 
 		this.size = 96;
 
