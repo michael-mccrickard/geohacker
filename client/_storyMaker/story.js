@@ -391,7 +391,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 	this.playScene = function() {
 
-if (ved) $("div#divVEDText").text( this.scene );
+		if (ved) ved.setInfoText( this.scene );
 
 		this.cutScene = new CutScene( this.scene );
 

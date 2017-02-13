@@ -249,6 +249,13 @@ Template.editStory.helpers({
 
     return sed.template.get();
   },
+
+  topPositionStoryContent : function()  {
+
+    if (sed.dataMode.get() == "server" ) return "64px";    
+
+    if (sed.dataMode.get() == "local" ) return "04px";  
+  },
   
   serverMode: function() {
 
@@ -270,6 +277,15 @@ Template.editStory.helpers({
 
     return false;
   },
+
+  tableName: function() {
+
+    var _n = sed.table.get();
+
+    if (_n == "Cue") _n = "Scene";
+
+    return _n.toUpperCase();
+  }
 
 });
 

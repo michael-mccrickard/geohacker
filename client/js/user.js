@@ -443,6 +443,14 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 		this.profile.p = url;
 	}
 
+	this.updateLastEditedStory = function( _code ) {
+
+		Meteor.users.update( {_id: Meteor.userId() }, { $set: { 'profile.lastEditedStory': _code }  })
+
+		this.profile.lastEditedStory = _code;
+	}
+
+
 	this.hasChiefInNetwork = function() {
 
 		if ( indexOf.this.profile.ag( Database.getChiefID()[0] ) == -1 ) return false;

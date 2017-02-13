@@ -39,7 +39,7 @@
 
             <div class="topButtonStripRight">
 
-                <button type="button" class="btn btn-default btn-lg glyphButton" id="locationEdit" onclick="ved.setDataMode('Location', cLocation)">
+                <button type="button" class="btn btn-default btn-lg glyphButton" id="locationEdit" onclick="ved.edit('Location', cLocation, 'edit')">
                     <span class="glyphicon glyphicon-globe"></span>
                 </button>
 
@@ -51,15 +51,15 @@
                     <span class="glyphicon glyphicon-apple"></span>
                 </button>
 
-                 <button type="button" class="btn btn-warning btn-lg glyphButton" id="cueEdit" onclick="ved.setDataMode('Cue', cCue)">
+                 <button type="button" class="btn btn-warning btn-lg glyphButton" id="cueEdit" onclick="ved.edit('Cue', cCue, 'edit')">
                     <span class="glyphicon glyphicon-list"></span>
                 </button>    
 
-                <button type="button" class="btn btn-primary btn-lg glyphButton" id="chatEdit" onclick="ved.setDataMode('Chat', cChat)">
+                <button type="button" class="btn btn-primary btn-lg glyphButton" id="chatEdit" onclick="ved.edit('Chat', cChat, 'edit')">
                     <span class="glyphicon glyphicon-comment"></span>
                 </button>
 
-                <button type="button" class="btn btn-danger btn-lg glyphButton" id="flagEdit" onclick="ved.setDataMode('StoryFlag', cStoryFlag)">
+                <button type="button" class="btn btn-danger btn-lg glyphButton" id="flagEdit" onclick="ved.edit('StoryFlag', cStoryFlag, 'edit')">
                     <span class="glyphicon glyphicon-flag"></span>
                 </button>
 

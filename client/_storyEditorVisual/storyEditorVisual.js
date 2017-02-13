@@ -7,7 +7,7 @@ StoryEditorVisual = function() {
 
 	this.menuElementType = new Blaze.ReactiveVar( 0 ); 
 
-	this.mode = new Blaze.ReactiveVar("play");
+	this.mode = new Blaze.ReactiveVar("play");  //play, select, entity, edit
 
 	this.submode = "none";
 
@@ -19,24 +19,37 @@ StoryEditorVisual = function() {
 
 	this.sizeIncValue = 0.05;
 
+	this.storyButtonText =  new Blaze.ReactiveVar("Story");
+ 
+	this.storyButtonElement = "button.btn-info.topButton2";
 
-	this.setDataMode = function( _val, _collectionID ) {
+	this.setMode = function( _val ) {
+
+		this.mode.set( _val);
+
+		if (_val == "select") sed.template.set("vedSelect");
+
+		if (_val == "edit") sed.template.set("storyData");
+	}
+
+
+	this.edit = function( _tableName, _collectionID, _mode ) {
 
 		this.prepareEditor();
 
+		this.setMode( _mode );
+
 	    sed.dataMode.set( "server" );
 
-		this.mode.set( _val );
+		sed.table.set( _tableName );
 
-		sed.table.set( _val );
-
-		var _s = "sed.setCollection('" + _val + "', db.gh" + _val + ", " + _collectionID + ")";
+		var _s = "sed.setCollection('" + _tableName + "', db.gh" + _tableName + ", " + _collectionID + ")";
 
 		eval( _s );
 
 		//doSpinner();
 
-		if (_val == "Chat") {
+		if (_tableName == "Chat") {
 
 			if (story.code) {  //if there's no story.code, then no story is loaded
 
@@ -51,7 +64,7 @@ StoryEditorVisual = function() {
 
 		}
 
-		if (_val == "Cue") {
+		if (_tableName == "Cue") {
 
 			//there's no cue for default, it's just the GIC for that country with the capital in the bg
 
@@ -196,6 +209,8 @@ StoryEditorVisual = function() {
 		_ent.scaleY = _scaleY;
 		
 		_ent.transform();
+
+		this.showCoordinates();
 	}
 
 	this.sizeEntityX = function( _val) {
@@ -209,6 +224,8 @@ StoryEditorVisual = function() {
 		_ent.scaleX = _scaleX;
 		
 		_ent.transform();
+
+		this.showCoordinates();
 	}
 
 	this.sizeEntityY = function( _val) {
@@ -222,6 +239,8 @@ StoryEditorVisual = function() {
 		_ent.scaleY = _scaleY;
 		
 		_ent.transform();
+
+		this.showCoordinates();
 	}
 
 	this.moveEntityVert = function( _val) {
@@ -276,9 +295,9 @@ StoryEditorVisual = function() {
 
 		 _top = formatFloat( _top * 100);
 
-		 var _s = "Left: " + _left + "%  --  Top:" + _top + "%";
+		 var _s = "Left: " + _left + "%  --  Top:" + _top + "% -- Scale(X,Y): " + _obj.scaleX + ", " + _obj.scaleY;
 
-		 showMessage( _s ); 
+		 this.setInfoText( _s ); 
 
 	}
 
@@ -341,6 +360,8 @@ StoryEditorVisual = function() {
 
 	        sed.dataMode.set( "local" );
 
+	        sed.positionTable( "local" );
+
 	       	Meteor.setTimeout( function() { FlowRouter.go("/editStory"); }, 250 );
 
 	        return;
@@ -366,6 +387,11 @@ StoryEditorVisual = function() {
 			}
 
 		}
+	}
+
+	this.setInfoText = function( _str) {
+c(_str)
+		$("div#divVEDText").text( _str );
 	}
 
 	this.restartStory = function() {

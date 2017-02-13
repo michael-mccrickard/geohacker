@@ -39,6 +39,10 @@ testStoryEditor = function() {
 	sed.init();
 
 	ved = new StoryEditorVisual();
+
+	//ved.setMode("select");
+
+	ved.edit("Story", cStory, "select");
 }
 
 

@@ -4,7 +4,7 @@
 
 		<div class="centered" style="margin-top: 50px;">
 
-			  <button type="button" class="btn btn-danger  btn-lg editStoryModeButton" id="returnToServer">RETURN</button>
+			  <button type="button" class="btn btn-danger  btn-lg editStoryModeButton" id="returnToServer">SELECT ANOTHER {{tableName}}</button>
 			  <button type="button" class="btn btn-success  btn-lg editStoryModeButton" id="saveAll">SAVE ALL</button>
 
 		</div>
@@ -14,7 +14,7 @@
 
 	{{#if serverAndDataMode}}
 
-		<div class="centered" style="margin-top: 50px;">
+		<div class="centered" style="margin-top: 50px; margin-bottom: -60px">
 
 			  <button type="button" class="btn btn-primary btn-lg editStoryModeButton editStoryModeButtonSel" id="pickStory">STORY</button>
 			  <button type="button" class="btn btn-success  btn-lg editStoryModeButton" id="pickLocation">LOCATION</button>
@@ -44,7 +44,7 @@
 
 	{{#if localMode}}
 
-	<div class="editor storyDataTable container">
+	<div class="storyDataTable container">
 
 			<table class="dataTable" id="localDataTable" border="2">
 
@@ -98,7 +98,7 @@
 	{{#if serverMode}}
 
 
-	<div class="editor storyDataTable container">
+	<div class="storyDataTable container">
 
 			<table class="dataTable" border="2">
 

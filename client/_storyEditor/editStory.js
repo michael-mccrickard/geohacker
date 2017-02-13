@@ -2,7 +2,7 @@
 
 StoryEditor = function(_code) {
 
-	this.template = new Blaze.ReactiveVar("storyData");  //was "storyData"
+	this.template = new Blaze.ReactiveVar("");  //"storyData", "select"
 
 	this.code = new Blaze.ReactiveVar("");
 
@@ -12,7 +12,7 @@ StoryEditor = function(_code) {
 
 	this.cue =   new Blaze.ReactiveVar("");
 
-	this.mode = new Blaze.ReactiveVar("data");  //data or visual
+	this.mode = new Blaze.ReactiveVar("visual");  //data or visual
  
 	this.dataMode = new Blaze.ReactiveVar("server");  //server or local
 
@@ -35,8 +35,6 @@ StoryEditor = function(_code) {
 	this.tempStoryAgentName = "";
 
 	this.tempStoryAgentRecordID = "";
-
-	this.story = null;
 
 
 
@@ -225,6 +223,17 @@ game.user.mode = uStory;
 		if (this.table.get() == "Token" ) this.extendBG();
 
 		ved.updateContent()
+
+		this.positionTable();
+	}
+
+	this.positionTable = function( _mode ) {
+
+		var _mode = this.dataMode.get();
+
+		if ( _mode == "local") $(".divEditStoryContent").css("top","-64px")
+
+		if ( _mode == "server") $(".divEditStoryContent").css("top","32px")
 	}
 
 	this.conformButtons = function() {
@@ -311,6 +320,8 @@ game.user.mode = uStory;
 
 			sed.findSelector.set( { c: this.code.get() } );
 		}
+
+		Meteor.setTimeout( sed.positionTable, 250 );
 	}
 
 	this.showSubTable = function( _ID ) {

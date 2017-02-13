@@ -1,0 +1,30 @@
+<template name="vedSelect">
+
+			<div class="divVedSelect">
+
+             <button type="button" class="btn btn-danger btn-lg vedSelectButton" id="new">
+                New {{elementTypeName}}
+            </button> 
+
+			<div class="form-group vedSelectGroup">
+			  <select class="form-control" id="sel1">
+				<option selected disabled>Select {{elementTypeName}}</option>
+
+				{{#each record}}
+				    <option>{{elementName this}}</option>
+				{{/each}}
+
+			  </select>
+			</div>
+
+			{{#if lastEditedName}}
+
+	             <button type="button" class="btn btn-success btn-lg vedSelectButton" id="last">
+	                {{lastEditedName}}
+	            </button>     
+            
+            {{/if}}
+
+		</div>
+
+</template>

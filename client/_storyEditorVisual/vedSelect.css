@@ -1,0 +1,44 @@
+.divVedSelect {
+
+	width: 100%;
+
+	position: relative;
+
+	top: 128px;
+
+	text-align: center;
+
+	font-family: Arial;
+}
+
+.vedSelectButton {
+
+    height: 88%;
+
+    width: 50%;
+
+	color: black;
+
+	font-size: 3.0vw;
+
+	margin: 0.5%;
+}
+
+.vedSelectGroup {
+
+	margin-top: 1%;
+
+	width: 50%;
+
+	margin-left: auto;
+
+	margin-right: auto;
+}
+
+select#sel1.form-control {
+
+	font-size: 3.0vw;	
+
+
+	height: 100%;
+}
