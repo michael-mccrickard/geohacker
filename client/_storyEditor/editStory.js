@@ -12,6 +12,8 @@ StoryEditor = function(_code) {
 
 	this.cue =   new Blaze.ReactiveVar("");
 
+	this.location =   new Blaze.ReactiveVar("");
+
 	this.mode = new Blaze.ReactiveVar("visual");  //data or visual
  
 	this.dataMode = new Blaze.ReactiveVar("server");  //server or local

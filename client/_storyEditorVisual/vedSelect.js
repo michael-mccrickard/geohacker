@@ -20,7 +20,11 @@ Template.vedSelect.helpers({
 
   elementName : function(_obj) {
 
-  	 return (_obj.n);
+  	var _ID = sed.collectionID.get();
+
+  	if (_ID == cChat) return ( _obj.s );  	
+
+  	 return ( _obj.n );
   },
 
   lastEditedName: function() {
@@ -44,18 +48,50 @@ Template.vedSelect.helpers({
 
 Template.vedSelect.events = {
 
-  'click button#last' : function(e){
+	'click button#last' : function(e){
 
-    e.preventDefault();
+		e.preventDefault();
 
-   	var _ID = sed.collectionID.get();
+		var _ID = sed.collectionID.get();
 
-  	if (_ID == cStory) {
+		if (_ID == cStory) {
 
-     	sed.code.set( game.user.profile.lastEditedStory );
+		 	sed.code.set( game.user.profile.lastEditedStory );
 
-    	ved.loadStory(); 		
-  	}   
+			ved.loadStory(); 		
+		}   
+	},
 
-  },
+	'change select': function(event, template) {
+
+	     //get the element name
+	     var _name = $("#elementSelect option:selected").val();
+
+	     var _table = sed.table.get();
+
+	     if (_table == "Story") ved.loadStoryByName( _name );
+
+	     if (_table == "Cue") {
+
+	     	sed.scene.set( _name );
+
+	     	ved.edit("Cue", cCue, "edit")    
+     	 }
+
+	     if (_table == "Chat") {
+
+	     	sed.chat.set( _name );
+
+	     	ved.showData( _name )    
+     	 }
+
+	     if (_table == "Location") {
+
+	     	sed.location.set( _name );
+
+	     	ved.edit("Location", cLocation, "edit")    
+     	 }
+
+	}
+
  }

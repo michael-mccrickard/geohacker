@@ -49,32 +49,49 @@ StoryEditorVisual = function() {
 
 		eval( _s );
 
-		//doSpinner();
+		//if we need to select an element to edit, then we're done here
+
+		if ( _mode == "select") {
+
+			FlowRouter.go("/editStory");
+
+			return;
+		}
+
+		
+		//If we're editing chat or cue, we call showData() to make the local collections for us
 
 		if (_tableName == "Chat") {
 
-			if (story.code) {  //if there's no story.code, then no story is loaded
+			if (story.mode.get() == "chat") {
 
-				if (story.mode.get() == "chat") {
+				this.showData( story.chat );
 
-					this.showData( story.chat );
-
-					return;
-				}				
+				return;
 			}
+			else {  //We were asked to edit the data, but there's no chat selected so switch modes
 
+				this.edit( "Chat", cChat, "select");
+			}				
 
 		}
 
 		if (_tableName == "Cue") {
 
-			//there's no cue for default, it's just the GIC for that country with the capital in the bg
+			//there's no editable cue for default, it's just the GIC for that country with the capital in the bg
 
-			if (story.scene != "default") {
+			if (story.scene != "default" && _mode == "edit") {
+
+				//Again we need to call showData to make the local collection 
 
 				this.showData( story.scene );
 
 				return;				
+			}
+			else {  //We were asked to edit the data, but the default scene is loaded, so ask user to pick and editable scene
+
+				this.edit( "Cue", cCue, "select");
+		
 			}
 		}
 
@@ -90,6 +107,7 @@ StoryEditorVisual = function() {
 		sed.template.set("vedSelect");
 
 		this.edit('Story', cStory, 'select');
+
 	}
 
 	
@@ -405,7 +423,7 @@ StoryEditorVisual = function() {
 	}
 
 	this.setInfoText = function( _str) {
-c(_str)
+
 		$("div#divVEDText").text( _str );
 	}
 
@@ -449,18 +467,21 @@ console.log( _update );
 		_collection.update( { _id: _ent.ID }, { $set: _update } );
 	}
 
-	this.loadStory = function()  {
+	this.loadStoryByName = function( _name)  {
 
-		var _code = sed.code.get();
+		var _code = db.ghStory.findOne( { n: _name } );
 
-		if (!_code) {
+		sed.code.set( _code );
 
-			showMessage("No story selected.");
+		this.loadStory();
+	}
 
-			return;
-		}
+
+	this.loadStory = function() {
 
 game.user.mode = uStory;
+
+		var _code = sed.code.get();
 
 		var _name = "story" + _code;
 
