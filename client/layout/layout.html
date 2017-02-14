@@ -4,38 +4,37 @@
     {{#if editStoryMode}}
 
         <div class="topButtonStripLeft">
-            <button type="button" class="btn btn-default topButton1" onclick="sed.setMode('data')" id="">DATA</button>
+            {{#if vedSelectStoryMode}}<button type="button" class="btn btn-default topButton1" onclick="sed.editData()" id="">DATA</button>{{/if}}
 
-            <button type="button" class="btn btn-info topButton2" onclick="sed.setMode('visual')" id="">VISUAL</button>
+            <button type="button" class="btn btn-info topButton2" onclick="ved.selectStory()" id="">STORIES</button>
         </div>
 
-        {{#if editorModeIsSelected}}
+        <div class="topButtonStripMiddle">
 
-            <div class="topButtonStripMiddle">
+             {{#if storyIsLoaded}}
 
-                 {{#if editorModeIsVisual}}
+                <button type="button" class="btn btn-danger topButton0Middle" onclick="ved.restartStory()" id="restartStory">
+                    <span class="glyphicon glyphicon-repeat"></span>
+                </button>
 
-                    <button type="button" class="btn btn-danger topButton0Middle" onclick="ved.restartStory()" id="restartStory">
-                        <span class="glyphicon glyphicon-repeat"></span>
-                    </button>
+                <button type="button" class="btn btn-success topButton1Middle" onclick="ved.continueStory()" id="runStory">
+                    <span class="glyphicon glyphicon-play"></span>
+                </button>
+            {{/if}}
 
-                    <button type="button" class="btn btn-success topButton1Middle" onclick="sed.switchTo('story')" id="runStory">
-                        <span class="glyphicon glyphicon-play"></span>
-                    </button>
-                {{/if}}
+            <!--
+              {{#if editorModeIsData}}               
 
-                  {{#if editorModeIsData}}               
+                <button type="button" class="btn btn-danger topButton2Middle" onclick="sed.editData()" id="runStoryEditor">
+                    <span class="glyphicon glyphicon-edit"></span>
+                </button>
 
-                    <button type="button" class="btn btn-danger topButton2Middle" onclick="sed.switchTo('editor')" id="runStoryEditor">
-                        <span class="glyphicon glyphicon-edit"></span>
-                    </button>
+              {{/if}}
+            -->
+        </div>
 
-                  {{/if}}
-            </div>
 
-        {{/if}}
-
-        {{#if editorModeIsVisual}}
+        {{#if storyIsLoaded}}
 
             <div class="topButtonStripRight">
 

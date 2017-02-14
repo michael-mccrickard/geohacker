@@ -102,6 +102,8 @@ Session.set("isIOS", false);
 
   //story data editor
 
+  Session.set("sStoryEditMode", "visual" );
+
   Session.set("sAllStoriesReady", false );
 
   Session.set("sAllLocationsReady", false );

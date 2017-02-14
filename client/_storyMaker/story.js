@@ -9,6 +9,8 @@ $(document).ready(function(){
 
 Story =  function() {
 
+	this.isLoaded = new Blaze.ReactiveVar(false);
+
 //*********************************************************************************
 //
 //	BASIC FUNCTIONS CALLED BY STORY INSTANCES IN THEIR CORRESPONDING FUNCTIONS
@@ -763,6 +765,8 @@ Tracker.autorun( function(comp) {
     story.initBase();
 
   	story.init();
+
+  	story.isLoaded.set( true );
 
   	FlowRouter.go("/story");
   } 

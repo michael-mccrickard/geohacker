@@ -105,27 +105,6 @@ StoryEditor = function(_code) {
 	}
 
 
-	this.loadStory = function()  {
-
-		var _code = this.code.get();
-
-		if (!_code) {
-
-			showMessage("No story selected.");
-
-			return;
-		}
-
-game.user.mode = uStory;
-
-		var _name = "story" + _code;
-
-		eval( "story = new " + _name + "()" );
-
-		story._init( _code );
-
-	}
-
 	this.updateContent = function() {
 
 		var _val = Session.get("sUpdateStoryEditDataContent");
@@ -146,65 +125,16 @@ game.user.mode = uStory;
 
 		//make sure the layout template updates, if necessary
 
+		if (_val == "data") this.template.set("storyData");
+
 		ved.updateContent();
 	}
 
-	this.switchTo = function( _val ) {
+	this.editData = function() {
 
-		if (_val == "editor") {
+		this.setMode("data");
 
-			FlowRouter.go("/editStory");
-		}
-
-		if (_val == "story") {
-
-			if (ved) {
-
-				ved.mode.set( "play" );
-
-				ved.submode = "none";
-			}
-
-			var _code = this.code.get();
-
-			if (!_code) {
-
-				showMessage("Select a story in the editor.");
-
-				return;
-			}
-
-			game.user.mode = uStory;
-
-			FlowRouter.go("/waiting");  
-
-
-			//Is there a story object loaded?
-
-			if (story.code) {
-
-				//Did we switch stories?
-
-				if ( story.code != _code ) {
-
-					this.loadStory( _code);
-
-					return;
-				}
-
-				//same story, just run with it
-
-				FlowRouter.go("/story");
-
-			}
-			else {
-
-				//story object not loaded yet
-
-				this.loadStory( _code );
-			}
-
-		}
+		FlowRouter.go("/editStory");
 	}
 
 
@@ -224,12 +154,12 @@ game.user.mode = uStory;
 
 		ved.updateContent()
 
-		this.positionTable();
+		this.positionTable()
 	}
 
-	this.positionTable = function( _mode ) {
+	this.positionTable = function() {
 
-		var _mode = this.dataMode.get();
+		var _mode = sed.dataMode.get();
 
 		if ( _mode == "local") $(".divEditStoryContent").css("top","-64px")
 
@@ -440,8 +370,12 @@ game.user.mode = uStory;
 //
 //*********************************************************************************
 
+	this.showAllData = function() {
+
+		this.findSelector.set( {} );
+	}
+
 	this.swapOrderedRecords = function( _arr, _oldOrderVal, _dir)  {
-c("curr order val is " + _oldOrderVal + " and dir passed to func is " + _dir)
 
 		var _recordIndex = Database.getObjectIndexWithValue( _arr, "o", _oldOrderVal );
 

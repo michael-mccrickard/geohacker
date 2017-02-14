@@ -7,7 +7,7 @@ StoryEditorVisual = function() {
 
 	this.menuElementType = new Blaze.ReactiveVar( 0 ); 
 
-	this.mode = new Blaze.ReactiveVar("play");  //play, select, entity, edit
+	this.mode = new Blaze.ReactiveVar("none");  //none, play, select, entity, edit
 
 	this.submode = "none";
 
@@ -19,7 +19,7 @@ StoryEditorVisual = function() {
 
 	this.sizeIncValue = 0.05;
 
-	this.storyButtonText =  new Blaze.ReactiveVar("Story");
+	this.storyButtonText =  new Blaze.ReactiveVar("Stories");
  
 	this.storyButtonElement = "button.btn-info.topButton2";
 
@@ -42,6 +42,8 @@ StoryEditorVisual = function() {
 	    sed.dataMode.set( "server" );
 
 		sed.table.set( _tableName );
+
+		if ( _tableName == "Story") sed.showAllData();
 
 		var _s = "sed.setCollection('" + _tableName + "', db.gh" + _tableName + ", " + _collectionID + ")";
 
@@ -79,6 +81,17 @@ StoryEditorVisual = function() {
 		FlowRouter.go("/editStory");
 	}	
 
+	this.selectStory = function() {
+
+		//Usually redundant, but we might be exiting data-edit mode
+
+		sed.setMode("visual");
+
+		sed.template.set("vedSelect");
+
+		this.edit('Story', cStory, 'select');
+	}
+
 	
 	this.charEdit = function() {
 
@@ -113,6 +126,8 @@ StoryEditorVisual = function() {
 	}
 
 	this.prepareEditor = function() {
+
+		this.menuOpen.set(0);
 
 		stopGameEditor();
 
@@ -432,6 +447,77 @@ console.log( _update );
 		var _collection = db.getCollectionForType( _ent.collectionID );
 
 		_collection.update( { _id: _ent.ID }, { $set: _update } );
+	}
+
+	this.loadStory = function()  {
+
+		var _code = sed.code.get();
+
+		if (!_code) {
+
+			showMessage("No story selected.");
+
+			return;
+		}
+
+game.user.mode = uStory;
+
+		var _name = "story" + _code;
+
+		eval( "story = new " + _name + "()" );
+
+		story._init( _code );
+
+		this.updateContent();
+
+	}
+
+	this.continueStory = function() {
+
+		this.mode.set( "play" );
+
+		this.submode = "none";
+
+
+		var _code = sed.code.get();
+
+		if (!_code) {
+
+			showMessage("Select a story in the editor.");
+
+			return;
+		}
+
+		game.user.mode = uStory;
+
+		FlowRouter.go("/waiting");  
+
+
+		//Is there a story object loaded?
+
+		if (story.code) {
+
+			//Did we switch stories?
+
+			if ( story.code != _code ) {
+
+				this.loadStory( _code);
+
+				return;
+			}
+
+			//same story, just run with it
+
+			FlowRouter.go("/story");
+
+		}
+		else {
+
+			//story object not loaded yet
+
+			this.loadStory( _code );
+		}
+
 	}
 
 }

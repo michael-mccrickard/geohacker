@@ -46,7 +46,6 @@ Template.vedSelect.events = {
 
   'click button#last' : function(e){
 
-c("click")
     e.preventDefault();
 
    	var _ID = sed.collectionID.get();
@@ -55,7 +54,7 @@ c("click")
 
      	sed.code.set( game.user.profile.lastEditedStory );
 
-    	sed.switchTo( 'story' ); 		
+    	ved.loadStory(); 		
   	}   
 
   },

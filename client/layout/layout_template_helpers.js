@@ -46,28 +46,38 @@ Template.layout.helpers({
 
   editorModeIsVisual: function() {
 
-    var _flag = Session.get("sUpdateVisualEditor");
-
-    if (!sed) return;
-
-    if (sed.mode.get() == "visual") {
-
-        return true;
-    }
+    if (Session.get("sStoryEditMode") == "visual") return true;
 
     return false;
   },
 
+
   editorModeIsData: function() {
+
+    if (Session.get("sStoryEditMode") == "data") return true;
+
+    return false;
+
+  },
+
+  storyIsLoaded : function() {
 
     var _flag = Session.get("sUpdateVisualEditor");
 
-    if (!sed) return;
+    if (sed.mode.get() == "data") return false;
 
-    if (sed.mode.get() == "data") {
+    if (story.isLoaded.get() == true ) return true;
 
-        return true;
-    }
+    return false;
+  },
+
+  vedSelectStoryMode : function() {
+
+    var _flag = Session.get("sUpdateVisualEditor");
+
+    var _mode = ved.mode.get();
+
+    if (_mode == "select" && sed.table.get() == "Story") return true;
 
     return false;
   }
