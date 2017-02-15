@@ -42,3 +42,8 @@ select#elementSelect.form-control {
 
 	height: 100%;
 }
+
+.vedModalButton {
+
+	margin: 16px;
+}

@@ -40,11 +40,12 @@ StoryEditor = function(_code) {
 
 
 
+
 	//these are specifically for the array of commands in ghCue
 
 	this.localFields = ["q", "d"];
 
-//*********************************************************************************
+//*********************************************************************************v
 //
 //				INIT
 //
@@ -153,6 +154,8 @@ StoryEditor = function(_code) {
 		this.conformData();
 
 		if (this.table.get() == "Token" ) this.extendBG();
+
+		if (this.table.get() == "Story") this.showAllData();
 
 		ved.updateContent()
 
@@ -365,6 +368,8 @@ StoryEditor = function(_code) {
 
 		Meteor.setTimeout( function() { sed.updateContent(); }, 500);
 	}
+
+
 
 //*********************************************************************************
 //

@@ -77,14 +77,12 @@ Entity = function() {
 
 		var _str = "matrix(" + _obj.scaleX + ", 0, 0, " + _obj.scaleY + ", " + _obj.x + ", " + _obj.y + ")";
 
-c(_str)
-
 		if (this.ownerEntity) {
 
 			if ( this.type == "content") $( this.ownerEntity.contentElement ).css("transform", _str);
 
 			if ( this.type == "contentBG") {
-c("applying str to contentBG")
+
 				$( this.ownerEntity.contentElementBG ).css("transform", _str);
 			}
 			return;

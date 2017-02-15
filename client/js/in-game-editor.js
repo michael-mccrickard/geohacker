@@ -369,11 +369,11 @@ startGameEditor = function() {
 
 	c("starting game editor")
 
+  gGameEditor = 1;
+
 }
 
 stopGameEditor = function() {
-
-	c("stopping game editor");
 
   gGameEditor = 0;
 

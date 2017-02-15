@@ -26,6 +26,8 @@ Story =  function() {
 
 		this.name = "story" + _code;
 
+		this.fullName = "";
+
 		if (!game.user.sms) game.user.sms = new StoryMessaging();
 
 		this.mode = new Blaze.ReactiveVar( "none" );
@@ -155,13 +157,17 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 	},
 
-	this.initBase = function() {
+	this.initStoryProperties = function() {
 
 		var _rec = db.ghStory.findOne( { c: this.code } );
 
 		this.baseButtonPic.set( _rec.btn );  
 
 		this.baseBGPic = _rec.bg;  
+
+		this.fullName = _rec.n;
+
+		sed.recordID.set( _rec._id );
 	}
 
 //*********************************************************************************
@@ -762,7 +768,7 @@ Tracker.autorun( function(comp) {
 
      if (typeof story == 'undefined') return;
 
-    story.initBase();
+    story.initStoryProperties();
 
   	story.init();
 

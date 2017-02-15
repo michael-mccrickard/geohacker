@@ -110,6 +110,11 @@ getS3FileFromPath = function(_path) {
     return (s.substring(i+1));
 }
 
+getFileFromPath = function( _str ) {
+
+    return _str.replace(/^.*[\\\/]/, '')
+}
+
 isURL = function( _name ) {
 
   if (_name.substr(0,7) == "http://" || _name.substr(0,8) == "https://") return true;

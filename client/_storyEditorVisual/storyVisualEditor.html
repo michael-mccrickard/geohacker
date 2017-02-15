@@ -22,3 +22,84 @@
 		</div>
 
 </template>
+
+
+<template name="vedModalStory">
+
+    <form>
+      <div class="form-group">
+        <label for="storyCode">Code</label>
+        <input type="text" class="form-control" id="storyCode" placeholder="{{storyCode}}">
+      </div>
+      <div class="form-group">
+        <label for="storyName">Name</label>
+        <input type="text" class="form-control" id="storyName" placeholder="{{storyName}}">
+      </div>
+      <div class="form-group">
+        <label for="storyBGPic">Upload background pic</label>
+        <input type="file" id="storyBGPic">
+        <p class="help-block">{{bgPic}}</p>
+      </div>
+      <div class="form-group">
+        <label for="storyBGButtonPic">Upload base button pic</label>
+        <input type="file" id="storyBGButtonPic">
+        <p class="help-block">{{bgButtonPic}}</p>
+      </div>
+      <div style="float:right"> 
+        <button type="button" class="btn btn-danger vedModalButton" id="btnCancelStoryModal">CANCEL</button>
+        <button type="button" class="btn btn-success vedModalButton" id="btnCreateStoryModal">{{greenButtonText}}</button>
+      </div>
+    </form>
+
+</template>
+
+
+<template name="vedModalLocation">
+
+    <form>
+      <div class="form-group">
+        <label for="countryCode">Country Code</label>
+        <input type="text" class="form-control" id="countryCode" placeholder="{{countryCode}}">
+      </div>
+      <div class="form-group">
+        <label for="locationPic">Upload pic</label>
+        <input type="file" id="locationPic">
+        <p class="help-block">{{locationPic}}</p>
+      </div>
+      <div style="float:right"> 
+        <button type="button" class="btn btn-danger vedModalButton" id="btnCancelLocationModal">CANCEL</button>
+        <button type="button" class="btn btn-success vedModalButton" id="btnCreateLocationModal">{{greenButtonText}}</button>
+      </div>
+    </form>
+
+</template>
+
+<template name="vedModalChar">
+
+    <form>
+      <div class="form-group">
+        <label for="charName">Name</label>
+        <input type="text" class="form-control" id="charName" placeholder="{{charName}}">
+      </div>
+      <div class="form-group">
+        <label for="charShortName">Short Name</label>
+        <input type="text" class="form-control" id="charShortName" placeholder="{{charShortName}}">
+        <p class="help-block">The name to be used in the story scripts.</p>
+      </div>
+      <div class="form-group">
+        <label for="charType">Type</label>
+        <input type="text" class="form-control" id="charType" placeholder="{{charType}}">
+        <p class="help-block">a = agent from db (do not upload a pic); g = guest (upload a pic)</p>
+      </div>
+      <div class="form-group">
+        <label for="charPic">Upload pic</label>
+        <input type="file" id="charPic">
+        <p class="help-block">{{charPic}}</p>
+      </div>
+      <div style="float:right"> 
+        <button type="button" class="btn btn-danger vedModalButton" id="btnCancelCharModal">CANCEL</button>
+        <button type="button" class="btn btn-success vedModalButton" id="btnCreateCharModal">{{greenButtonText}}</button>
+      </div>
+    </form>
+
+</template>

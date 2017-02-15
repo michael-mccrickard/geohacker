@@ -80,6 +80,13 @@ Template.layout.helpers({
     if (_mode == "select" && sed.table.get() == "Story") return true;
 
     return false;
+  },
+
+  vedModalTemplate: function() {
+
+    var _flag = Session.get("sUpdateVisualEditor");
+    
+    return ved.modalTemplate.get();
   }
 
 });

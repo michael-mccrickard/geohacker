@@ -11,6 +11,8 @@ Char = function() {
 
 		this.shortName = _obj.n;
 
+		this.entityType = "char";
+
 		if (_obj.sn) {
 
 			this.shortName = _obj.sn;

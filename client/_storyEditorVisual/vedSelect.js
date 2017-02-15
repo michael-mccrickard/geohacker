@@ -45,8 +45,32 @@ Template.vedSelect.helpers({
   },
 });
 
+Template.vedSelect.rendered = function() {
+
+	$('#vedModal').modal({ show: false})  
+}
+
 
 Template.vedSelect.events = {
+
+	'click button#new' : function(e){
+
+		e.preventDefault();
+
+		ved.showModal();
+
+		var _elementType = sed.table.get();
+
+		ved.modalTemplate.set("vedModal" + _elementType)
+
+		//clear the recordID so the template helpers know this is a new record
+
+		sed.recordID.set( "" );
+
+		$("#vedModalHeader").text( "NEW " + _elementType );
+
+		ved.updateContent();
+	},
 
 	'click button#last' : function(e){
 

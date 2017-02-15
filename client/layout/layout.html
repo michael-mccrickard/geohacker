@@ -13,6 +13,10 @@
 
              {{#if storyIsLoaded}}
 
+                <button type="button" class="btn btn-primary topButtonLeft" onclick="ved.editSelectedObject()" id="editSelectedObject">
+                    <span class="glyphicon glyphicon-cog"></span>
+                </button>
+
                 <button type="button" class="btn btn-danger topButton0Middle" onclick="ved.restartStory()" id="restartStory">
                     <span class="glyphicon glyphicon-repeat"></span>
                 </button>
@@ -38,7 +42,7 @@
 
             <div class="topButtonStripRight">
 
-                <button type="button" class="btn btn-default btn-lg glyphButton" id="locationEdit" onclick="ved.edit('Location', cLocation, 'select')">
+                <button type="button" class="btn btn-default btn-lg glyphButton" id="locationEdit" onclick="ved.editLocationObject()">
                     <span class="glyphicon glyphicon-globe"></span>
                 </button>
 
@@ -209,7 +213,24 @@
       </div>
     </div>
 
+    <div class="modal fade" id="vedModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content" style="color:black; font-family: Arial;">
 
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title modalText" id="vedModalHeader"></h4>
+              </div>
+              <div class="modal-body">
+                {{> Template.dynamic template=vedModalTemplate}}
+              </div>
+
+          <div class="modal-footer">
+            <!--button type="button" class="btn btn-default modalText" data-dismiss="modal">CLOSE</button-->
+          </div>
+        </div>
+      </div>
+    </div>
 
 </template>
 

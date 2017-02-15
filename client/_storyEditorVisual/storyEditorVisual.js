@@ -9,6 +9,8 @@ StoryEditorVisual = function() {
 
 	this.mode = new Blaze.ReactiveVar("none");  //none, play, select, entity, edit
 
+	this.modalTemplate = new Blaze.ReactiveVar("");
+
 	this.submode = "none";
 
 	this.charArray = [];
@@ -22,6 +24,12 @@ StoryEditorVisual = function() {
 	this.storyButtonText =  new Blaze.ReactiveVar("Stories");
  
 	this.storyButtonElement = "button.btn-info.topButton2";
+
+	this.picUploaded = "";
+
+	this.bgButtonPicUploaded = "";
+
+
 
 	this.setMode = function( _val ) {
 
@@ -43,7 +51,6 @@ StoryEditorVisual = function() {
 
 		sed.table.set( _tableName );
 
-		if ( _tableName == "Story") sed.showAllData();
 
 		var _s = "sed.setCollection('" + _tableName + "', db.gh" + _tableName + ", " + _collectionID + ")";
 
@@ -200,13 +207,15 @@ StoryEditorVisual = function() {
 
 	this.selectEntity = function( _name ) {
 
-		if (this.selectedEntity) $( this.selectedEntity.imageElement ).removeClass( "storyCharSel" );
+		if (this.selectedEntity) $( this.selectedEntity.imageElement ).removeClass( "storyEntitySel" );
 
 		this.selectedEntityName = _name;
 
 		this.selectedEntity = story[ _name ];
 
-		$( this.selectedEntity.imageElement ).addClass( "storyCharSel" );
+		sed.recordID.set( story[ _name ].ID );
+
+		$( this.selectedEntity.imageElement ).addClass( "storyEntitySel" );
 
 		this.menuOpen.set( 0 );
 
@@ -217,7 +226,7 @@ StoryEditorVisual = function() {
 
 		if (!this.selectedEntity) return;
 
-		$( this.selectedEntity.imageElement ).removeClass( "storyCharSel" );
+		$( this.selectedEntity.imageElement ).removeClass( "storyEntitySel" );
 
 		this.selectedEntity = null;
 
@@ -431,11 +440,9 @@ StoryEditorVisual = function() {
 
 		story.reset();
 
-		story.code = "0" //a "non-code", trick SED into loading the story from scratch
-
 		FlowRouter.go("/waiting");
 
-		sed.switchTo("story");
+		this.loadStory();
 
 	}
 
@@ -469,7 +476,7 @@ console.log( _update );
 
 	this.loadStoryByName = function( _name)  {
 
-		var _code = db.ghStory.findOne( { n: _name } );
+		var _code = db.ghStory.findOne( { n: _name } ).c;
 
 		sed.code.set( _code );
 
@@ -481,9 +488,13 @@ console.log( _update );
 
 game.user.mode = uStory;
 
+		this.mode.set("play");
+
 		var _code = sed.code.get();
 
 		var _name = "story" + _code;
+
+		var _s = "story = new " + _name + "()";
 
 		eval( "story = new " + _name + "()" );
 
@@ -539,6 +550,88 @@ game.user.mode = uStory;
 			this.loadStory( _code );
 		}
 
+	}
+
+	this.showModal = function() {
+
+		$('#vedModal').modal('show');
+	}
+
+	this.hideModal = function() {
+		$('#vedModal').modal('hide');
+	}
+
+	this.editSelectedObject = function() {
+
+		if (this.mode.get() == "entity") {
+
+			if (this.selectedEntity.entityType == "char") this.editCharObject();
+
+			if (this.selectedEntity.entityType == "token") this.editTokenObject();
+		
+			return;
+		}
+
+		this.editStoryObject();
+	}
+
+	this.editCharObject = function() {
+
+		this.edit('Char', cChar, 'select');
+
+		this.picUploaded = "";
+
+		Meteor.setTimeout( function() {
+
+			ved.showModal();
+
+			ved.modalTemplate.set("vedModalChar")
+
+			$("#vedModalHeader").text( this.selectedEntityName );
+
+			ved.updateContent();
+
+		}, 250 );
+	}
+
+	this.editStoryObject = function() {
+
+		this.selectStory();
+
+		this.picUploaded = "";
+
+		this.bgButtonPicUploaded = "";
+
+		Meteor.setTimeout( function() {
+
+			ved.showModal();
+
+			ved.modalTemplate.set("vedModalStory")
+
+			$("#vedModalHeader").text( story.fullName );
+
+			ved.updateContent();
+
+		}, 250 );
+	}
+
+	this.editLocationObject = function() {
+
+		this.edit('Location', cLocation, 'select');
+
+		this.picUploaded = "";
+
+		Meteor.setTimeout( function() {
+
+			ved.showModal();
+
+			ved.modalTemplate.set("vedModalLocation")
+
+			$("#vedModalHeader").text( story.location );
+
+			ved.updateContent();
+
+		}, 250 );
 	}
 
 }

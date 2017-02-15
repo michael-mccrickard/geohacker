@@ -12,6 +12,8 @@ Token = function() {
 
 		this.shortName = _obj.n;
 
+		this.entityType = "token";
+
 		if (_obj.sn) {
 
 			this.shortName = _obj.sn;
