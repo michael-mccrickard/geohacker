@@ -561,18 +561,13 @@ game.user.mode = uStory;
 		$('#vedModal').modal('hide');
 	}
 
-	this.editSelectedObject = function() {
+	this.editEntityObject = function() {
 
-		if (this.mode.get() == "entity") {
+		this.prepareEditor();
 
-			if (this.selectedEntity.entityType == "char") this.editCharObject();
+		if (this.selectedEntity.entityType == "char") this.editCharObject();
 
-			if (this.selectedEntity.entityType == "token") this.editTokenObject();
-		
-			return;
-		}
-
-		this.editStoryObject();
+		if (this.selectedEntity.entityType == "token") this.editTokenObject();
 	}
 
 	this.editCharObject = function() {
@@ -581,17 +576,16 @@ game.user.mode = uStory;
 
 		this.picUploaded = "";
 
-		Meteor.setTimeout( function() {
+		this.showModalForSelected( 'Char', this.selectedEntityName );
+	}
 
-			ved.showModal();
+	this.editTokenObject = function() {
 
-			ved.modalTemplate.set("vedModalChar")
+		this.edit('Token', cToken, 'select');
 
-			$("#vedModalHeader").text( this.selectedEntityName );
+		this.picUploaded = "";
 
-			ved.updateContent();
-
-		}, 250 );
+		this.showModalForSelected( 'Token', this.selectedEntityName );
 	}
 
 	this.editStoryObject = function() {
@@ -602,17 +596,7 @@ game.user.mode = uStory;
 
 		this.bgButtonPicUploaded = "";
 
-		Meteor.setTimeout( function() {
-
-			ved.showModal();
-
-			ved.modalTemplate.set("vedModalStory")
-
-			$("#vedModalHeader").text( story.fullName );
-
-			ved.updateContent();
-
-		}, 250 );
+		this.showModalForSelected( 'Story', story.fullName );
 	}
 
 	this.editLocationObject = function() {
@@ -621,17 +605,22 @@ game.user.mode = uStory;
 
 		this.picUploaded = "";
 
+		this.showModalForSelected( 'Location', story.location );
+	}
+
+	this.showModalForSelected = function( _type, _text ) {
+
 		Meteor.setTimeout( function() {
 
 			ved.showModal();
 
-			ved.modalTemplate.set("vedModalLocation")
+			ved.modalTemplate.set("vedModal" + _type)
 
-			$("#vedModalHeader").text( story.location );
+			$("#vedModalHeader").text( _text );
 
 			ved.updateContent();
 
-		}, 250 );
+		}, 250 );		
 	}
 
 }

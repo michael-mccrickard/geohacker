@@ -202,9 +202,11 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 //*********************************************************************************
 //
-//				CREATE ENTITIES FROM DATA
+//				LOAD / CREATE ENTITIES FROM DATA
 //
 //*********************************************************************************
+
+
 
 	//when we make the arrays, we have to add one to the count (allows for the default char and default token)
 	//Default token not used yet, not sure what it would be
@@ -348,19 +350,6 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 //
 //*********************************************************************************
 
-	this.finishPlay = function() {
-
-		this.resetScene();
-
-		$(this.bgElement).attr( "src", this.background );
-
-		if ( $(this.bgElement).css("opacity") == 0) this.fadeInBG();
-
-		Meteor.setTimeout( function() { story.playScene(); }, 1001);	
-
-	},
-
-
 	this.play = function( _name ) {
 
 		//the default scene already set story.cue in the calling function
@@ -397,6 +386,19 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		this.finishPlay();
 	},
 
+	this.finishPlay = function() {
+
+		this.resetScene();
+
+		$(this.bgElement).attr( "src", this.background );
+
+		if ( $(this.bgElement).css("opacity") == 0) this.fadeInBG();
+
+		Meteor.setTimeout( function() { story.playScene(); }, 1001);	
+
+	},
+
+
 	this.playScene = function() {
 
 		if (ved) ved.setInfoText( this.scene );
@@ -413,6 +415,21 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		this.charObjs = [];
 	},
 
+	this.getBackground = function( _countryCode ) {
+
+		if (_countryCode == "base") return this.baseBGPic;
+
+		var _rec = db.ghLocation.findOne( { c: this.code, n: _countryCode } );
+
+		if (!_rec) {
+
+			showMessage("No location rec found for country " + _ID);
+
+			return "";
+		}
+
+		return _rec.p;
+	}
 
 //*********************************************************************************
 //

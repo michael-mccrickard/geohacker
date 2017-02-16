@@ -32,5 +32,11 @@ Template.editEntityButtons.events({
 
 		ved.setSubmode( "none" );
 
+	 },
+
+	'click button#edit': function(event, template) {
+
+		ved.editEntityObject();
+
 	 }
 });

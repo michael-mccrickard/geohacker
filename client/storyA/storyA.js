@@ -115,10 +115,10 @@ storyA = function() {
 
 		this.location = _ID;
 
+		this.background = this.getBackground( _ID );
+
 
 		if (_ID == "base") {
-
-			this.background = this.baseBGPic;
 
 			if ( !this.flags.didExercise1 ) {
 
@@ -144,8 +144,6 @@ storyA = function() {
 
 		if ( _ID == "FR") {
 
-			this.background = "louvre.jpg";
-
 			if ( !this.flags.awareOfPasscode || !this.flags.awareOfVanGogh  ) {
 
 					this.play("firstGuardVisit");
@@ -163,8 +161,6 @@ storyA = function() {
 
 		if ( _ID == "NL") {
 
-			this.background = "vanGoghHouse.jpg";
-
 			if ( !this.flags.awareOfPasscode ) {
 
 				this.playDefaultScene( );
@@ -181,8 +177,6 @@ storyA = function() {
 		}
 
 		if ( _ID == "ML") {
-
-			this.background = "timbuktu_1.jpg";
 
 			if ( this.flags.has_mona ) {
 

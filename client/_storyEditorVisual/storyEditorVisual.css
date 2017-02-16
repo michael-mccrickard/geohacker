@@ -71,3 +71,20 @@ color: black;
 
 	float: right;
 }
+
+.glyphButtonEdit {
+
+	padding: 0px;
+
+	padding: 0.5%;
+
+color: black;
+
+	font-size: 1.0vw;
+
+	margin: 0.5%;
+	float: right;
+	position: relative;
+
+	top: -60px;
+}

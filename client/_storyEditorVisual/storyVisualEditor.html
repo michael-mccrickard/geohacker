@@ -15,9 +15,16 @@
                 <span class="glyphicon glyphicon-resize-full"></span><span class="glyphicon glyphicon-resize-small"></span>
             </button>     
 
-             <button type="button" class="btn btn-danger btn-sm glyphButtonClose" id="close">
-                <span class="glyphicon glyphicon-remove"></span>
-            </button>     
+                 <button type="button" class="btn btn-danger btn-sm glyphButtonClose" id="close">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
+
+            <div>
+                 <button type="button" class="btn btn-primary btn-sm glyphButtonEdit" id="edit">
+                    <span class="glyphicon glyphicon-cog"></span>
+                </button>
+            </div>
+
 
 		</div>
 
@@ -99,6 +106,46 @@
       <div style="float:right"> 
         <button type="button" class="btn btn-danger vedModalButton" id="btnCancelCharModal">CANCEL</button>
         <button type="button" class="btn btn-success vedModalButton" id="btnCreateCharModal">{{greenButtonText}}</button>
+      </div>
+    </form>
+
+</template>
+
+<template name="vedModalToken">
+
+    <form>
+      <div class="form-group">
+        <label for="tokenName">Name</label>
+        <input type="text" class="form-control" id="tokenName" placeholder="{{tokenName}}">
+      </div>
+
+      <div class="form-group">
+        <label for="tokenShortName">Short Name</label>
+        <input type="text" class="form-control" id="tokenShortName" placeholder="{{tokenShortName}}">
+        <p class="help-block">The name to be used in the story scripts.</p>
+      </div>
+      
+      <div class="form-group">
+        <label for="tokenType">Type</label>
+        <input type="text" class="form-control" id="tokenType" placeholder="{{tokenType}}">
+        <p class="help-block">n = normal; c = content (child element of a normal token)</p>
+      </div>
+      
+      <div class="form-group">
+        <label for="tokenMovable">Movable</label>
+        <input type="text" class="form-control" id="tokenMovable" placeholder="{{tokenMovable}}">
+        <p class="help-block">1 = movable (can go in inventory); 0 = not movable</p>
+      </div>
+
+      <div class="form-group">
+        <label for="tokenPic">Upload pic</label>
+        <input type="file" id="tokenPic">
+        <p class="help-block">{{tokenPic}}</p>
+      </div>
+      
+      <div style="float:right"> 
+        <button type="button" class="btn btn-danger vedModalButton" id="btnCancelTokenModal">CANCEL</button>
+        <button type="button" class="btn btn-success vedModalButton" id="btnCreateTokenModal">{{greenButtonText}}</button>
       </div>
     </form>
 
