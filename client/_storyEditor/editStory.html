@@ -6,7 +6,7 @@
 
 			  <button type="button" class="btn btn-danger  btn-lg editStoryModeButton" id="returnToServer">SELECT ANOTHER {{tableName}}</button>
 			  <button type="button" class="btn btn-success  btn-lg editStoryModeButton" id="saveAll">SAVE ALL</button>
-
+ 			  <button type="button" class="btn btn-primary  btn-lg editStoryModeButton" id="new">NEW {{tableName}}</button>
 		</div>
 
 	{{/if}}
@@ -271,21 +271,3 @@
 
 </template>
 
-<template name="editStoryObjectModal">
-
-	<form>
-	  <div class="form-group">
-	    <label for="email">Email address:</label>
-	    <input type="email" class="form-control" id="email">
-	  </div>
-	  <div class="form-group">
-	    <label for="pwd">Password:</label>
-	    <input type="password" class="form-control" id="pwd">
-	  </div>
-	  <div class="checkbox">
-	    <label><input type="checkbox"> Remember me</label>
-	  </div>
-	  <button type="submit" class="btn btn-default">Submit</button>
-	</form>
-
-</template>

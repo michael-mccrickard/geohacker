@@ -687,3 +687,150 @@ Template.vedModalToken.events = {
     ved.hideModal();
   },
 }
+
+
+//*********************************************************************************
+//
+//        LOCAL (Chat or Cue)
+//
+//*********************************************************************************
+
+Template.vedModalLocal.helpers({
+
+  localName : function() {
+
+    var _val = Session.get("sUpdateVisualEditor");
+
+    if ( sed.recordID.get() ) {
+
+        if (sed.table.get() == "Chat") return sed.chat;
+
+        if (sed.table.get() == "Cue") return sed.cue;
+    }
+
+    return "Enter name"
+  },
+
+  greenButtonText : function() {
+
+    var _val = Session.get("sUpdateVisualEditor");
+
+    if ( sed.recordID.get() ) return "UPDATE";
+
+    return "CREATE";    
+  }
+
+});
+
+
+Template.vedModalLocal.events = {
+
+  'click button#btnCreateLocalModal' : function(e){
+
+    e.preventDefault();
+
+    var _collectionID = ved.localType.get();
+
+    //Create a data object and insert the record with it
+    var _obj = {};
+
+    _obj.c = story.code;
+
+    _obj.d = [];
+
+    var _name = $( "input#localName" ).val();
+
+    if ( _name ) _obj.n = _name;  //we will change this value below chat records
+
+    if ( _collectionID == cChat) {
+
+       _obj.s = _name;  //formerly stood for 'scene', field 'n' already in use for this one (name of node)
+    }
+
+    var _text = $("button#btnCreateLocalModal").text();
+
+    if ( _text == "CREATE") {
+
+        if (_collectionID == cCue) {
+
+          db.ghCue.insert(_obj, function (err, _ID) {
+
+            if (err) {
+              console.log(err);
+              return;
+            }
+          });
+
+        } //end if cue
+
+        if (_collectionID == cChat)  {
+
+            _obj.i = "h";
+
+            _obj.n =  smed.helperRootSpeechName;
+
+            _obj.d = [ { t: smed.helperRootSpeech, g: smed.agentRootSpeechName } ];
+
+            db.ghChat.insert(_obj, function (err, _ID) {
+
+              if (err) {
+                console.log(err);
+                return;
+              }
+            });
+
+            _obj.i = "u";
+
+            _obj.n =  smed.agentRootSpeechName;
+
+            _obj.d = [ { t: "", g: "" } ];
+
+            db.ghChat.insert(_obj, function (err, _ID) {
+
+              if (err) {
+                console.log(err);
+                return;
+              }
+            });           
+        } //end if chat
+
+    } //end if CREATE
+
+
+    if ( _text == "UPDATE") {
+
+        if (_collectionID == cCue) {
+
+          db.ghCue.update( { _id: sed.recordID.get() }, { $set: _obj }, function (err, _ID) {
+
+            if (err) {
+              console.log(err);
+              return;
+            }
+          });
+        }
+
+        if (_collectionID == cChat)  {
+
+          db.ghChat.update( { _id: sed.recordID.get() }, { $set: _obj }, function (err, _ID) {
+
+              if (err) {
+                console.log(err);
+                return;
+              }
+          });
+        }
+
+    }  //end if UPDATE
+
+    ved.hideModal();  
+
+  },
+
+  'click button#btnCancelLocalModal' : function(e){
+
+    e.preventDefault();
+
+    ved.hideModal();
+  },
+}

@@ -269,7 +269,7 @@ StoryEditor = function(_code) {
 
 	   		//this probably does nothing b/c story.go() determines the cue (scene)	
 
-	   		//if (story.code) story.scene = _name;
+	   		this.cue.set( _name );
 
 	        this.makeLocalCollection( _name );
 
@@ -290,6 +290,8 @@ StoryEditor = function(_code) {
 	    	if (this.mode.get() == "data") {
 
 	   			_name = db.ghChat.findOne( { _id: _ID } ).s;
+
+	   			this.chat.set( _name )
 
 	       		this.findSelector.set( { c: this.code.get(), s: _name } );  
 

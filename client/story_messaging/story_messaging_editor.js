@@ -55,6 +55,8 @@ StoryMessagingEditor = function() {
 
 		this.chatName = _rec.s;
 
+		if (sed) sed.chat.set( _name );
+
 		if (story.code) story.chat = this.chatName;
 
 		this.storyCode = _rec.c;
@@ -69,6 +71,8 @@ StoryMessagingEditor = function() {
 		this.storyCode = sed.code.get();
 
 		var _rec = db.ghChat.findOne( { c: this.storyCode, s: _name, n: "root" } );
+
+		sed.recordID.set( _rec._id )
 
 		this.grandRecordID.set( _rec._id );	
 	}
@@ -94,7 +98,9 @@ StoryMessagingEditor = function() {
 
 	this.close = function() {
 
-		FlowRouter.go("/editStory")
+		ved.editLocalObject( "Chat", cChat, "select" );
+
+		//FlowRouter.go("/editStory")
 	}
 
 	this.createNewChat = function( _ID ) {

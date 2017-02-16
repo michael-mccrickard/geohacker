@@ -11,6 +11,8 @@ StoryEditorVisual = function() {
 
 	this.modalTemplate = new Blaze.ReactiveVar("");
 
+	this.localType = new Blaze.ReactiveVar("");
+
 	this.submode = "none";
 
 	this.charArray = [];
@@ -95,7 +97,7 @@ StoryEditorVisual = function() {
 
 				return;				
 			}
-			else {  //We were asked to edit the data, but the default scene is loaded, so ask user to pick and editable scene
+			else {  //We were asked to edit the data, but the default scene is loaded, so ask user to pick an editable scene
 
 				this.edit( "Cue", cCue, "select");
 		
@@ -431,9 +433,11 @@ StoryEditorVisual = function() {
 		}
 	}
 
-	this.setInfoText = function( _str) {
+	this.updateScreen = function( _str) {
 
-		$("div#divVEDText").text( _str );
+		this.menuOpen.set(0);
+
+		if (_str) $("div#divVEDText").text( _str );
 	}
 
 	this.restartStory = function() {
@@ -608,11 +612,39 @@ game.user.mode = uStory;
 		this.showModalForSelected( 'Location', story.location );
 	}
 
+	this.editLocalObject = function( _tableName, _collectionID, _mode ) {
+
+		this.localType.set( _tableName );
+
+		this.edit(_tableName, _collectionID, _mode);
+
+	}
+
+	this.showLocalModal = function( _table ) {
+
+		this.localType.set( _table );
+
+		var _name = "";
+
+		if (sed.recordID.get() ) {
+
+			_name = sed.chat;
+		}
+		else {
+
+			_name = "NEW " + sed.table.get();
+		}
+
+		this.showModalForSelected( "Local", _name );
+	}
+
 	this.showModalForSelected = function( _type, _text ) {
 
 		Meteor.setTimeout( function() {
 
 			ved.showModal();
+
+c('setting template to ' + "vedModal" + _type)
 
 			ved.modalTemplate.set("vedModal" + _type)
 

@@ -240,6 +240,15 @@ Template.editStory.events = {
     sed.saveLocalCollectionToRecord();
   },
 
+  'click #new' : function(e){
+
+    e.preventDefault();
+
+    sed.recordID.set( "" );
+
+    ved.showLocalModal( sed.collectionID.get() );
+  },
+
 }
 
 

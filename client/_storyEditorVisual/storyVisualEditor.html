@@ -150,3 +150,18 @@
     </form>
 
 </template>
+
+<template name="vedModalLocal">
+
+    <form>
+      <div class="form-group">
+        <label for="localName">Name</label>
+        <input type="text" class="form-control" id="localName" placeholder="{{localName}}">
+      </div>
+      <div style="float:right"> 
+        <button type="button" class="btn btn-danger vedModalButton" id="btnCancelLocalModal">CANCEL</button>
+        <button type="button" class="btn btn-success vedModalButton" id="btnCreateLocalModal">{{greenButtonText}}</button>
+      </div>
+    </form>
+
+</template>

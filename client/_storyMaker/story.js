@@ -401,7 +401,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 	this.playScene = function() {
 
-		if (ved) ved.setInfoText( this.scene );
+		if (ved) ved.updateScreen( this.scene );
 
 		this.cutScene = new CutScene( this.scene );
 
