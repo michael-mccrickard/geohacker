@@ -201,7 +201,7 @@ StoryMessagingEditor = function() {
 		if (_text.substr( _text.length - 1, 1) == "_") _text = _text.substr(0, _text.length - 1);  //if the last char is an underscore, lop it off
 
 		_text = _text.replace(/'/g, "");  //get rid of apostrophes
-
+		
 		//check to see if there is a duplicate name in the array of responses
 
 		var _arr = this.compileDestinations();
@@ -210,7 +210,7 @@ StoryMessagingEditor = function() {
 
 		for (var i = 0; i < _arr.length; i++) {
 
-			var _arrVal = _arr[i].g;
+			var _arrVal = _arr[i];
 
 			for (var j = 0; j < _arr.length; j++) {
 
@@ -295,7 +295,14 @@ StoryMessagingEditor = function() {
 			return;
 		}
 
-		if ( _sourceRelation == "grand" ) this.parentRecordID.set ( _rec._id );
+		if ( _sourceRelation == "grand" ) {
+
+			this.parentRecordID.set ( _rec._id );
+
+			//this will likely change the displayed child record, if any, so wipe it out
+
+			this.childRecordID.set("")
+		}
 
 		if ( _sourceRelation == "parent" ) this.childRecordID.set ( _rec._id );
 
@@ -355,6 +362,21 @@ this.moveResponse = function( _dest, _sourceRelation, _val) {
 //				UTILITY FUNCTIONS
 //
 //*********************************************************************************
+	
+	this.scrubData = function() {
+
+		//compile the descendants from root here
+
+		//get an array of all the records in the chat
+
+		//go thru the array and check the n values against the descendants
+
+				//if a record with current n value does not appear in descendants list,
+				//it is an orphan, so delete it
+
+
+	}
+
 
 	this.closeParentAndChild = function( _rel ) {
 
@@ -421,6 +443,18 @@ this.moveResponse = function( _dest, _sourceRelation, _val) {
 //
 //*********************************************************************************
 
+	this.deleteEntireChat = function() {
+
+		//need to confirm this here
+
+		var _arr = db.ghChat.find( { c: this.storyCode, s: this.chatName } ).fetch();
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			db.ghChat.remove( { _id: _arr[i]._id } );
+		}
+	}
+
 	this.abortDelete = function() {
 
 		this.responseToDelete = "";
@@ -472,10 +506,15 @@ this.moveResponse = function( _dest, _sourceRelation, _val) {
 
 		_arr = this.descendantsList;
 
+c("descendants list follows ")
+c(_arr)
+
 		for (var i = 0; i < _arr.length; i++) {
 
-			_rec = db.ghChat.findOne( { c: this.storyCode, s: this.chatName, n: _arr[i] } );
+c("looking for node with name " + _arr[i])
 
+			_rec = db.ghChat.findOne( { c: this.storyCode, s: this.chatName, n: _arr[i] } );
+c(_rec)
 			if (! _rec ) continue;
 
 			var _ID = _rec._id;
@@ -650,6 +689,8 @@ this.moveResponse = function( _dest, _sourceRelation, _val) {
 		for (var i = 0; i < _arr.length; i++) {
 
 			var _dest = _arr[i].g;
+
+			if (!this.isRealDestination( _dest) ) continue;
 
 			var _destRecord = db.ghChat.findOne( {c: _rec.c, s: _rec.s, n: _dest } );
 

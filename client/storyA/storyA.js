@@ -22,6 +22,8 @@ storyA = function() {
 
 	this.getChat = function( _shortName ) {
 
+return "test";
+
 		//we can return a specific chat name here based on the scene,
 		//the flags, etc.
 
