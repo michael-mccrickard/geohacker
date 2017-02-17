@@ -32,6 +32,12 @@ StoryEditorVisual = function() {
 	this.bgButtonPicUploaded = "";
 
 
+//*********************************************************************************
+//
+//				BASIC FUNCTIONS
+//
+//*********************************************************************************
+
 
 	this.setMode = function( _val ) {
 
@@ -42,6 +48,58 @@ StoryEditorVisual = function() {
 		if (_val == "edit") sed.template.set("storyData");
 	}
 
+	this.setSubmode = function(_ID) {
+
+		this.submode = _ID;
+
+		gGameEditor = 0;
+
+		gSizeEntityMode = 0;
+
+		gMoveEntityMode = 0;
+
+		if (_ID == "none") {
+
+			this.unselectEntity();
+
+			this.mode.set("play");
+
+			FlowRouter.go("/waiting")
+
+			Meteor.setTimeout( function() { FlowRouter.go("/story"); }, 250);
+
+			return;
+		}
+
+		if (_ID == "set") {
+
+			this.saveEntity( this.selectedEntity, null );
+		}
+
+
+		if (_ID == "size") {
+
+			gGameEditor = 1;
+
+			gSizeEntityMode = 1;
+
+			this.selectedEntity.update();
+
+			showMessage("Size mode on");
+		}
+
+		if (_ID == "move") {
+
+			gGameEditor = 1;
+
+			gMoveEntityMode = 1;
+
+			this.selectedEntity.update();
+
+			showMessage("Move mode on")
+		}
+
+	}
 
 	this.edit = function( _tableName, _collectionID, _mode ) {
 
@@ -107,6 +165,12 @@ StoryEditorVisual = function() {
 		FlowRouter.go("/editStory");
 	}	
 
+//*********************************************************************************
+//
+//				SELECT FUNCTIONS
+//
+//*********************************************************************************
+
 	this.selectStory = function() {
 
 		//Usually redundant, but we might be exiting data-edit mode
@@ -119,38 +183,117 @@ StoryEditorVisual = function() {
 
 	}
 
-	
-	this.charEdit = function() {
+	this.selectEntity = function( _name ) {
+
+		if (this.selectedEntity) $( this.selectedEntity.imageElement ).removeClass( "storyEntitySel" );
+
+		this.selectedEntityName = _name;
+
+		this.selectedEntity = story[ _name ];
+
+		sed.recordID.set( story[ _name ].ID );
+
+		$( this.selectedEntity.imageElement ).addClass( "storyEntitySel" );
+
+		this.showCoordinates();
+
+		this.menuOpen.set( 0 );
+
+		this.mode.set("entity");
+	}
+
+
+	this.unselectEntity = function() {
+
+		if (!this.selectedEntity) return;
+
+		$( this.selectedEntity.imageElement ).removeClass( "storyEntitySel" );
+
+		this.selectedEntity = null;
+
+		this.selectedEntityName = "";
+	}
+
+
+
+//*********************************************************************************
+//
+//				EDIT OBJECT TYPE FUNCTIONS
+//
+//*********************************************************************************
+
+
+	this.editEntityObject = function() {
 
 		this.prepareEditor();
 
-		var _arr = this.createCharArray();
+		if (this.selectedEntity.entityType == "char") this.editCharObject();
 
-		this.menuElementType.set( cChar );
-
-		var _left = $("button#charEdit").offset().left;
-
-		$("div.topButtonSelections").offset( { left: _left } );
-
-		this.menuOpen.set( true );
-
-		Meteor.setTimeout( function() { ved.updateContent(); }, 500);
+		if (this.selectedEntity.entityType == "token") this.editTokenObject();
 	}
 
-	this.tokenEdit = function() {
+	this.editCharObject = function() {
 
-		this.prepareEditor();
+		this.edit('Char', cChar, 'select');
 
-		this.menuElementType.set( cToken );
+		this.picUploaded = "";
 
-		var _left = $("button#tokenEdit").offset().left;
-
-		$("div.topButtonSelections").offset( { left: _left } );
-
-		this.menuOpen.set( true );
-
-		Meteor.setTimeout( function() { ved.updateContent(); }, 500);
+		this.showModalForSelected( 'Char', this.selectedEntityName );
 	}
+
+	this.editTokenObject = function() {
+
+		this.edit('Token', cToken, 'select');
+
+		this.picUploaded = "";
+
+		this.showModalForSelected( 'Token', this.selectedEntityName );
+	}
+
+	this.editStoryObject = function() {
+
+		this.selectStory();
+
+		this.picUploaded = "";
+
+		this.bgButtonPicUploaded = "";
+
+		this.showModalForSelected( 'Story', story.fullName );
+	}
+
+	this.editLocationObject = function() {
+
+		this.edit('Location', cLocation, 'select');
+
+		this.picUploaded = "";
+
+		this.showModalForSelected( 'Location', story.location );
+	}
+
+	this.editLocalObject = function( _tableName, _collectionID, _mode ) {
+
+		this.localType.set( _tableName );
+
+		this.edit(_tableName, _collectionID, _mode);
+
+	}
+
+	this.createNewEntity = function( _type ) {
+
+		this.selectedEntity = null;
+
+		sed.recordID.set("");
+
+		if ( _type == cChar) this.editCharObject();
+
+		if ( _type == cToken) this.editTokenObject();		
+	}
+
+//*********************************************************************************
+//
+//				UTILITY FUNCTIONS
+//
+//*********************************************************************************
 
 	this.prepareEditor = function() {
 
@@ -207,35 +350,32 @@ StoryEditorVisual = function() {
 
 	}
 
-	this.selectEntity = function( _name ) {
+	this.conformInventory = function() {
+ 
+		var _arr = story.inv.slot;
 
-		if (this.selectedEntity) $( this.selectedEntity.imageElement ).removeClass( "storyEntitySel" );
+		for (var i = 0; i < _arr.length; i++) {
 
-		this.selectedEntityName = _name;
+			if ( _arr[i].index != -1 ) {
 
-		this.selectedEntity = story[ _name ];
+				_arr[i].show();
+			}
 
-		sed.recordID.set( story[ _name ].ID );
-
-		$( this.selectedEntity.imageElement ).addClass( "storyEntitySel" );
-
-		this.showCoordinates();
-
-		this.menuOpen.set( 0 );
-
-		this.mode.set("entity");
+		}
 	}
 
-	this.unselectEntity = function() {
+	this.updateScreen = function( _str) {
 
-		if (!this.selectedEntity) return;
+		this.menuOpen.set(0);
 
-		$( this.selectedEntity.imageElement ).removeClass( "storyEntitySel" );
-
-		this.selectedEntity = null;
-
-		this.selectedEntityName = "";
+		if (_str) $("div#divVEDText").text( _str );
 	}
+
+//*********************************************************************************
+//
+//				EDIT OPERATION FUNCTIONS
+//
+//*********************************************************************************
 
 	this.sizeEntityXY = function( _val) {
 
@@ -324,6 +464,43 @@ StoryEditorVisual = function() {
 
 	}
 
+//*********************************************************************************
+//
+//				INTERFACE FUNCTIONS
+//
+//*********************************************************************************
+
+	this.charMenu = function() {
+
+		this.prepareEditor();
+
+		var _arr = this.createCharArray();
+
+		this.menuElementType.set( cChar );
+
+		var _left = $("button#charEdit").offset().left;
+
+		$("div.topButtonSelections").offset( { left: _left } );
+
+		this.menuOpen.set( true );
+
+		Meteor.setTimeout( function() { ved.updateContent(); }, 500);
+	}
+
+	this.tokenMenu = function() {
+
+		this.prepareEditor();
+
+		this.menuElementType.set( cToken );
+
+		var _left = $("button#tokenEdit").offset().left;
+
+		$("div.topButtonSelections").offset( { left: _left } );
+
+		this.menuOpen.set( true );
+
+		Meteor.setTimeout( function() { ved.updateContent(); }, 500);
+	}
 
 	this.showCoordinates = function() {
 
@@ -344,59 +521,6 @@ StoryEditorVisual = function() {
 		 var _s = "{left: '" + _left + "%', " + "top: '" + _top + "%', scaleX: " + _obj.scaleX + ", scaleY:" + _obj.scaleY + "}";
 
 		 this.updateScreen( _s ); 
-
-	}
-
-	this.setSubmode = function(_ID) {
-
-		this.submode = _ID;
-
-		gGameEditor = 0;
-
-		gSizeEntityMode = 0;
-
-		gMoveEntityMode = 0;
-
-		if (_ID == "none") {
-
-			this.unselectEntity();
-
-			this.mode.set("play");
-
-			FlowRouter.go("/waiting")
-
-			Meteor.setTimeout( function() { FlowRouter.go("/story"); }, 250);
-
-			return;
-		}
-
-		if (_ID == "set") {
-
-			this.saveEntity( this.selectedEntity, null );
-		}
-
-
-		if (_ID == "size") {
-
-			gGameEditor = 1;
-
-			gSizeEntityMode = 1;
-
-			this.selectedEntity.update();
-
-			showMessage("Size mode on");
-		}
-
-		if (_ID == "move") {
-
-			gGameEditor = 1;
-
-			gMoveEntityMode = 1;
-
-			this.selectedEntity.update();
-
-			showMessage("Move mode on")
-		}
 
 	}
 
@@ -425,26 +549,11 @@ StoryEditorVisual = function() {
 	    }
 	}
 
-	this.conformInventory = function() {
- 
-		var _arr = story.inv.slot;
-
-		for (var i = 0; i < _arr.length; i++) {
-
-			if ( _arr[i].index != -1 ) {
-
-				_arr[i].show();
-			}
-
-		}
-	}
-
-	this.updateScreen = function( _str) {
-
-		this.menuOpen.set(0);
-
-		if (_str) $("div#divVEDText").text( _str );
-	}
+//*********************************************************************************
+//
+//				STORY FUNCTIONS
+//
+//*********************************************************************************
 
 	this.restartStory = function() {
 
@@ -454,34 +563,6 @@ StoryEditorVisual = function() {
 
 		this.loadStory();
 
-	}
-
-	this.saveEntity = function( _ent, _obj ) {
-
-		var _element = _ent.element;
-
-		if ( _ent.ownerEntity ) _element = _ent.ownerEntity.contentElement;
-
-		if (!_obj ) _obj = convertMatrixStringToObject( $( _element ).css("transform") );		
-
-		var _update = {};
-
-		if ( _obj.translateX ) _update.l = convertPixelsToPercentString( { x: _obj.translateX } );
-
-		if ( _obj.translateY ) _update.top = convertPixelsToPercentString( { y: _obj.translateY } );
-
-		if ( _obj.scaleX ) _update.scx = parseFloat(_obj.scaleX);
-
-		if ( _obj.scaleY ) _update.scy = parseFloat(_obj.scaleY);
-
-
-showMessage( "Saving entity " + _ent.shortName );
-
-console.log( _update );
-
-		var _collection = db.getCollectionForType( _ent.collectionID );
-
-		_collection.update( { _id: _ent.ID }, { $set: _update } );
 	}
 
 	this.loadStoryByName = function( _name)  {
@@ -562,6 +643,46 @@ game.user.mode = uStory;
 
 	}
 
+//*********************************************************************************
+//
+//				DATABASE FUNCTIONS
+//
+//*********************************************************************************
+
+	this.saveEntity = function( _ent, _obj ) {
+
+		var _element = _ent.element;
+
+		if ( _ent.ownerEntity ) _element = _ent.ownerEntity.contentElement;
+
+		if (!_obj ) _obj = convertMatrixStringToObject( $( _element ).css("transform") );		
+
+		var _update = {};
+
+		if ( _obj.translateX ) _update.l = convertPixelsToPercentString( { x: _obj.translateX } );
+
+		if ( _obj.translateY ) _update.top = convertPixelsToPercentString( { y: _obj.translateY } );
+
+		if ( _obj.scaleX ) _update.scx = parseFloat(_obj.scaleX);
+
+		if ( _obj.scaleY ) _update.scy = parseFloat(_obj.scaleY);
+
+
+showMessage( "Saving entity " + _ent.shortName );
+
+console.log( _update );
+
+		var _collection = db.getCollectionForType( _ent.collectionID );
+
+		_collection.update( { _id: _ent.ID }, { $set: _update } );
+	}
+
+//*********************************************************************************
+//
+//				MODAL FUNCTIONS
+//
+//*********************************************************************************
+
 	this.showModal = function() {
 
 		$('#vedModal').modal('show');
@@ -569,61 +690,6 @@ game.user.mode = uStory;
 
 	this.hideModal = function() {
 		$('#vedModal').modal('hide');
-	}
-
-	this.editEntityObject = function() {
-
-		this.prepareEditor();
-
-		if (this.selectedEntity.entityType == "char") this.editCharObject();
-
-		if (this.selectedEntity.entityType == "token") this.editTokenObject();
-	}
-
-	this.editCharObject = function() {
-
-		this.edit('Char', cChar, 'select');
-
-		this.picUploaded = "";
-
-		this.showModalForSelected( 'Char', this.selectedEntityName );
-	}
-
-	this.editTokenObject = function() {
-
-		this.edit('Token', cToken, 'select');
-
-		this.picUploaded = "";
-
-		this.showModalForSelected( 'Token', this.selectedEntityName );
-	}
-
-	this.editStoryObject = function() {
-
-		this.selectStory();
-
-		this.picUploaded = "";
-
-		this.bgButtonPicUploaded = "";
-
-		this.showModalForSelected( 'Story', story.fullName );
-	}
-
-	this.editLocationObject = function() {
-
-		this.edit('Location', cLocation, 'select');
-
-		this.picUploaded = "";
-
-		this.showModalForSelected( 'Location', story.location );
-	}
-
-	this.editLocalObject = function( _tableName, _collectionID, _mode ) {
-
-		this.localType.set( _tableName );
-
-		this.edit(_tableName, _collectionID, _mode);
-
 	}
 
 	this.showLocalModal = function( _table ) {
@@ -646,11 +712,11 @@ game.user.mode = uStory;
 
 	this.showModalForSelected = function( _type, _text ) {
 
+		if (!this.selectedEntity) _text = "New " + _type;
+
 		Meteor.setTimeout( function() {
 
 			ved.showModal();
-
-c('setting template to ' + "vedModal" + _type)
 
 			ved.modalTemplate.set("vedModal" + _type)
 

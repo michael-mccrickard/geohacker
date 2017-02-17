@@ -26,6 +26,8 @@ Entity = function() {
 
 	this._add = function( _obj ) {
 
+c("adding " + this.name)
+
 		$(this.imageElement).attr("src", this.pic);
 
 		$(this.imageElement).attr("data-shortname", this.shortName);	
@@ -42,6 +44,8 @@ Entity = function() {
 
 	this.change = function( _obj ) {
 
+c("changing " + this.name)
+
 		if ( _obj ) {
 
 			if ( _obj.left ) this.left = percentStringToNumber( _obj.left );
@@ -57,7 +61,7 @@ Entity = function() {
 	}
 
 	this.draw = function( _obj ) {
-
+c("drawing " + this.name)
 		if (!_obj) {
 
 			_obj = {};
@@ -76,7 +80,9 @@ Entity = function() {
 
 
 	this.transform = function( _obj ) {
+c("transforming " + this.name + " and _obj follows")
 
+c(_obj)
 		if (!_obj) _obj = this;
 
 		var _str = "matrix(" + _obj.scaleX + ", 0, 0, " + _obj.scaleY + ", " + _obj.x + ", " + _obj.y + ")";
@@ -91,9 +97,14 @@ Entity = function() {
 			}
 			return;
 		}
-
+c(_str)
 		$( this.element ).css("transform", _str);	
 
+	}
+
+	this.getTransform = function() {
+
+		return $( this.element ).css("transform");
 	}
 
 	this.hide = function() {

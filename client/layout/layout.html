@@ -46,11 +46,11 @@
                     <span class="glyphicon glyphicon-globe"></span>
                 </button>
 
-                <button type="button" class="btn btn-info btn-lg glyphButton" id="charEdit" onclick="ved.charEdit()">
+                <button type="button" class="btn btn-info btn-lg glyphButton" id="charEdit" onclick="ved.charMenu()">
                     <span class="glyphicon glyphicon-user"></span>
                 </button>
 
-                <button type="button" class="btn btn-success btn-lg glyphButton" id="tokenEdit" onclick="ved.tokenEdit()">
+                <button type="button" class="btn btn-success btn-lg glyphButton" id="tokenEdit" onclick="ved.tokenMenu()">
                     <span class="glyphicon glyphicon-apple"></span>
                 </button>
 
@@ -78,6 +78,15 @@
                     </button>
 
                 {{/each}}
+
+                {{#if menuOpen}}
+
+                    <button type="button" class="btn btn-default btn-lg selectionButton newEntityButton" id="newEntity">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+
+                {{/if}}
+            
             </div>
 
         {{/if}}

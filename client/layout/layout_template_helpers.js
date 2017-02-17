@@ -30,6 +30,11 @@ Template.layout.helpers({
 
   },
 
+  menuOpen: function() {
+
+    return ved.menuOpen.get();
+  },
+
   editorModeIsSelected: function() {
 
     var _flag = Session.get("sUpdateVisualEditor");
@@ -95,7 +100,16 @@ Template.layout.events({
 
 	'click .selectionButton': function(event, template) {
 
-	      ved.selectEntity( event.currentTarget.id);
+      var _ID = event.currentTarget.id;
+
+      if ( _ID == "newEntity") {
+
+         ved.createNewEntity( ved.menuElementType.get() )
+
+         return;
+      }
+
+	    ved.selectEntity( _ID );
 
 	 },
 });

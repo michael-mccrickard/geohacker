@@ -179,6 +179,10 @@ convertPercentToPixels = function( _obj ) {
 
         return ( _obj.y * $(window).height() );
     }
+
+    //if _obj.x or _obj.y are zero, then above tests fail
+
+    return 0;
 }
 
 convertPixelsToPercentString = function( _obj ) {

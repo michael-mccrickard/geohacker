@@ -92,6 +92,11 @@ div#universalMessageText {
 	margin-top: 4px;
 }
 
+.newEntityButton {
+
+	width: 82px;
+}
+
 .selectionImage {
 
 	height: 48px;
