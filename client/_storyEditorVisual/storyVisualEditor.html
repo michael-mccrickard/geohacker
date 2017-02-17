@@ -43,15 +43,30 @@
         <input type="text" class="form-control" id="storyName" placeholder="{{storyName}}">
       </div>
       <div class="form-group">
+        <label for="storyInventorySize"># of Inventory slots</label>
+        <input type="text" class="form-control" id="storyInventorySize" placeholder="{{storyInventorySize}}">
+         <p class="help-block">3, 4 or 5</p>
+      </div>
+      <div class="form-group">
         <label for="storyBGPic">Upload background pic</label>
         <input type="file" id="storyBGPic">
         <p class="help-block">{{bgPic}}</p>
       </div>
+      
+      <div class="divModalImage">
+        <img class="modalImage" src='{{bgPicURL}}' />
+      </div>
+
       <div class="form-group">
         <label for="storyBGButtonPic">Upload base button pic</label>
         <input type="file" id="storyBGButtonPic">
         <p class="help-block">{{bgButtonPic}}</p>
       </div>
+
+      <div class="divModalImage">
+        <img class="modalImage" src='{{bgButtonPicURL}}' />
+      </div>
+
       <div style="float:right"> 
         <button type="button" class="btn btn-danger vedModalButton" id="btnCancelStoryModal">CANCEL</button>
         <button type="button" class="btn btn-success vedModalButton" id="btnCreateStoryModal">{{greenButtonText}}</button>
@@ -73,6 +88,11 @@
         <input type="file" id="locationPic">
         <p class="help-block">{{locationPic}}</p>
       </div>
+      
+      <div class="divModalImage">
+        <img class="modalImage" src='{{locationPicURL}}' />
+      </div>
+
       <div style="float:right"> 
         <button type="button" class="btn btn-danger vedModalButton" id="btnCancelLocationModal">CANCEL</button>
         <button type="button" class="btn btn-success vedModalButton" id="btnCreateLocationModal">{{greenButtonText}}</button>
@@ -103,6 +123,11 @@
         <input type="file" id="charPic">
         <p class="help-block">{{charPic}}</p>
       </div>
+
+      <div class="divModalImage">
+        <img class="modalImage" src='{{charPicURL}}' />
+      </div>
+
       <div style="float:right"> 
         <button type="button" class="btn btn-danger vedModalButton" id="btnCancelCharModal">CANCEL</button>
         <button type="button" class="btn btn-success vedModalButton" id="btnCreateCharModal">{{greenButtonText}}</button>
@@ -142,7 +167,11 @@
         <input type="file" id="tokenPic">
         <p class="help-block">{{tokenPic}}</p>
       </div>
-      
+
+      <div class="divModalImage">
+        <img class="modalImage" src='{{tokenPicURL}}' />
+      </div>
+
       <div style="float:right"> 
         <button type="button" class="btn btn-danger vedModalButton" id="btnCancelTokenModal">CANCEL</button>
         <button type="button" class="btn btn-success vedModalButton" id="btnCreateTokenModal">{{greenButtonText}}</button>

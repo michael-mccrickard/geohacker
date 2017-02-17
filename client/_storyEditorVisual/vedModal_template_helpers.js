@@ -34,6 +34,16 @@ Template.vedModalStory.helpers({
   	return "This is the background picture for the Base screen."
   },
 
+  bgPicURL : function() {
+
+    var _val = Session.get("sUpdateVisualEditor");
+
+    if ( sed.recordID.get() ) return story.baseBGPic;
+
+    return "This is the background picture for the Base screen."
+  },
+
+
   bgButtonPic : function() {
 
   	var _val = Session.get("sUpdateVisualEditor");
@@ -42,6 +52,16 @@ Template.vedModalStory.helpers({
 
   	return "This the picture for the 'Return to Base' button."
   },
+
+  bgButtonPicURL : function() {
+
+    var _val = Session.get("sUpdateVisualEditor");
+
+    if ( sed.recordID.get() ) return story.baseButtonPic.get()
+
+    return "This the picture for the 'Return to Base' button."
+  },
+
 
   greenButtonText : function() {
 
@@ -65,11 +85,15 @@ Template.vedModalStory.events = {
 
 		var _name = $( "input#storyName" ).val();
 
+    var _inventorySize = $( "input#storyInventorySize" ).val();
+
 		var _obj = {};
 
 		if (_code) _obj.c = _code;
 
 		if ( _name) _obj.n = _name;
+
+    if (_inventorySize) _obj.is = _inventorySize;
 
 		var _text = $("button#btnCreateStoryModal").text();
 
@@ -203,6 +227,15 @@ Template.vedModalLocation.helpers({
   	if ( sed.recordID.get() ) return getFileFromPath( story.background );
 
   	return "This is the background picture for the location."
+  },
+
+  locationPicURL : function() {
+
+    var _val = Session.get("sUpdateVisualEditor");
+
+    if ( sed.recordID.get() ) return story.background;
+
+    return "This is the background picture for the location."
   },
 
   greenButtonText : function() {
@@ -369,7 +402,14 @@ Template.vedModalChar.helpers({
 
   	var _val = Session.get("sUpdateVisualEditor");
 
-  	if ( sed.recordID.get() ) return ved.selectedEntity.pic;
+  	if ( sed.recordID.get() ) return getFileFromPath( ved.selectedEntity.pic );
+  },
+
+  charPicURL : function() {
+
+    var _val = Session.get("sUpdateVisualEditor");
+
+    if ( sed.recordID.get() ) return ved.selectedEntity.pic;
   },
 
   greenButtonText : function() {
@@ -548,6 +588,13 @@ Template.vedModalToken.helpers({
   },
 
   tokenPic : function() {
+
+    var _val = Session.get("sUpdateVisualEditor");
+
+    if ( sed.recordID.get() ) return getFileFromPath( ved.selectedEntity.pic );
+  },
+
+  tokenPicURL : function() {
 
     var _val = Session.get("sUpdateVisualEditor");
 

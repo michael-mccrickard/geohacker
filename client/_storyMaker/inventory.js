@@ -60,13 +60,9 @@ Inventory = function() {
 
 	this.slot = [];
 
-//to do: set these from story property (inventoryLength?)
+	this.firstSlot = 0;
 
-this.firstSlot = 0;
-
-this.lastSlot = 2;
-
-
+	this.lastSlot = story.inventorySize - 1;
 
 	for (var i = 0; i <= this.lastSlot; i++) {
 

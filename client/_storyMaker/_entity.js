@@ -26,8 +26,6 @@ Entity = function() {
 
 	this._add = function( _obj ) {
 
-c("adding " + this.name)
-
 		$(this.imageElement).attr("src", this.pic);
 
 		$(this.imageElement).attr("data-shortname", this.shortName);	
@@ -44,8 +42,6 @@ c("adding " + this.name)
 
 	this.change = function( _obj ) {
 
-c("changing " + this.name)
-
 		if ( _obj ) {
 
 			if ( _obj.left ) this.left = percentStringToNumber( _obj.left );
@@ -61,7 +57,7 @@ c("changing " + this.name)
 	}
 
 	this.draw = function( _obj ) {
-c("drawing " + this.name)
+
 		if (!_obj) {
 
 			_obj = {};
@@ -80,9 +76,7 @@ c("drawing " + this.name)
 
 
 	this.transform = function( _obj ) {
-c("transforming " + this.name + " and _obj follows")
 
-c(_obj)
 		if (!_obj) _obj = this;
 
 		var _str = "matrix(" + _obj.scaleX + ", 0, 0, " + _obj.scaleY + ", " + _obj.x + ", " + _obj.y + ")";
@@ -97,7 +91,7 @@ c(_obj)
 			}
 			return;
 		}
-c(_str)
+
 		$( this.element ).css("transform", _str);	
 
 	}
@@ -147,6 +141,35 @@ c(_str)
 
 		this.tween = TweenLite.to( this.element, 1.5, { x: _obj.x, y: _obj.y } );
 
+	},
+
+	this.moveTo = function( _obj ) {
+
+		this.update();
+
+		if (!_obj.left) {
+
+			_obj.left = this.left;
+		}
+		else {
+
+			_obj.left = percentStringToNumber( _obj.left);
+		}
+
+		if (!_obj.top) {
+
+			_obj.top = this.top;
+		}
+		else {
+
+			_obj.top = percentStringToNumber( _obj.top);
+		}
+
+		_obj.x = convertPercentToPixels( { x: _obj.left } );
+
+		_obj.y = convertPercentToPixels( { y: _obj.top } );
+
+		this.tween = TweenLite.to( this.element, 1.5, { x: _obj.x, y: _obj.y } );
 	},
 
 	this.moveToPrev = function() {
@@ -229,6 +252,7 @@ c(_str)
 		this.skewX = _obj.skewX;
 
 		this.skewY = _obj.skewY;		
+
 	}
 
 }

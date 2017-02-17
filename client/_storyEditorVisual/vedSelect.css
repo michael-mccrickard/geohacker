@@ -47,3 +47,8 @@ select#elementSelect.form-control {
 
 	margin: 16px;
 }
+
+.modalImage {
+
+	width: 256px;
+}

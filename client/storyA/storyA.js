@@ -11,6 +11,8 @@ storyA = function() {
 	this.init = function() {
 
 		this.location = "base";  //base, FR, ML, NL
+
+		this.inventorySize = 3;  //move to db?
 	}
 
 //*********************************************************************************
