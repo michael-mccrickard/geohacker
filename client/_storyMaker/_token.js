@@ -89,9 +89,9 @@ Token = function() {
 		this.contentElementBG = "img#storyThingContentBG" + this.index + ".storyThingContentBG";		
 	}
 
-	this.add = function( _flag ) {
+	this.add = function( _obj ) {
 
-		this._add( _flag );
+		this._add( _obj );
 
 		story.tokenObjs.push( this );
 	}

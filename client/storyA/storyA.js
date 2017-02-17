@@ -22,7 +22,7 @@ storyA = function() {
 
 	this.getChat = function( _shortName ) {
 
-return "test";
+//return "test";
 
 		//we can return a specific chat name here based on the scene,
 		//the flags, etc.
@@ -119,6 +119,9 @@ return "test";
 
 		this.background = this.getBackground( _ID );
 
+this.play("testScene");
+
+return;
 
 		if (_ID == "base") {
 

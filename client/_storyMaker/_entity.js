@@ -15,12 +15,16 @@ Entity = function() {
 	this.x = 0;
 
 	this.y = 0;
+
+	this.skewX = 0;
+
+	this.skeyY = 0;
 	
 	this.top = "0";
 
 	this.left = "0";
 
-	this._add = function( _flag ) {
+	this._add = function( _obj ) {
 
 		$(this.imageElement).attr("src", this.pic);
 
@@ -30,13 +34,13 @@ Entity = function() {
 
 		$(this.element).attr("data-shortname", this.shortName);
 
+		if (_obj) this.change( _obj );
+
 		this.draw();
 
 	},
 
 	this.change = function( _obj ) {
-
-		this.show();
 
 		if ( _obj ) {
 
@@ -89,6 +93,7 @@ Entity = function() {
 		}
 
 		$( this.element ).css("transform", _str);	
+
 	}
 
 	this.hide = function() {
@@ -130,6 +135,7 @@ Entity = function() {
 		var _obj = { x: _left, y: _top };
 
 		this.tween = TweenLite.to( this.element, 1.5, { x: _obj.x, y: _obj.y } );
+
 	},
 
 	this.moveToPrev = function() {
@@ -195,6 +201,23 @@ Entity = function() {
 
 		TweenMax.to( this.element, 1.5, { scale: _amt } );
 
+	}
+
+	this.update = function() {
+
+		var _obj = convertMatrixStringToObject( $( this.element ).css("transform") );	
+
+		this.scaleX = _obj.scaleX;
+
+		this.scaleY = _obj.scaleY;
+
+		this.x = _obj.translateX;
+
+		this.y = _obj.translateY;
+
+		this.skewX = _obj.skewX;
+
+		this.skewY = _obj.skewY;		
 	}
 
 }

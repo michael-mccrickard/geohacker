@@ -72,9 +72,9 @@ Char = function() {
 	}
 
 
-	this.add = function() {
+	this.add = function( _obj ) {
 
-		this._add();
+		this._add( _obj );
 
 		story.charObjs.push( this );	
 

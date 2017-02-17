@@ -219,6 +219,8 @@ StoryEditorVisual = function() {
 
 		$( this.selectedEntity.imageElement ).addClass( "storyEntitySel" );
 
+		this.showCoordinates();
+
 		this.menuOpen.set( 0 );
 
 		this.mode.set("entity");
@@ -339,9 +341,9 @@ StoryEditorVisual = function() {
 
 		 _top = formatFloat( _top * 100);
 
-		 var _s = "Left: " + _left + "%  --  Top:" + _top + "% -- Scale(X,Y): " + _obj.scaleX + ", " + _obj.scaleY;
+		 var _s = "{left: '" + _left + "%', " + "top: '" + _top + "%', scaleX: " + _obj.scaleX + ", scaleY:" + _obj.scaleY + "}";
 
-		 this.setInfoText( _s ); 
+		 this.updateScreen( _s ); 
 
 	}
 
@@ -380,6 +382,8 @@ StoryEditorVisual = function() {
 
 			gSizeEntityMode = 1;
 
+			this.selectedEntity.update();
+
 			showMessage("Size mode on");
 		}
 
@@ -388,6 +392,8 @@ StoryEditorVisual = function() {
 			gGameEditor = 1;
 
 			gMoveEntityMode = 1;
+
+			this.selectedEntity.update();
 
 			showMessage("Move mode on")
 		}

@@ -208,17 +208,17 @@ convertMatrixStringToObject = function( _s) {
 
     var _obj = {};
 
-    _obj.scaleX = _arr[0];
+    _obj.scaleX = parseFloat(_arr[0] );
 
-    _obj.skewY = _arr[1];
+    _obj.skewY = parseFloat(_arr[1] );
 
-    _obj.skewX = _arr[2];
+    _obj.skewX = parseFloat(_arr[2] );
 
-    _obj.scaleY = _arr[3];
+    _obj.scaleY = parseFloat(_arr[3] );
 
-    _obj.translateX = _arr[4];
+    _obj.translateX = parseFloat(_arr[4] );
 
-    _obj.translateY = _arr[5];
+    _obj.translateY = parseFloat(_arr[5] );
 
     return _obj;
 
