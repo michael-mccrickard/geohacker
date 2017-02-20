@@ -38,6 +38,13 @@
 	color: black;
 
 	margin-bottom: 16px;
+
+	position: relative;
+/*
+	width: 80%;
+
+	left: 20%;
+*/
 }
 
 .divChatHeadline {

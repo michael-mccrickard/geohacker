@@ -249,6 +249,26 @@ Template.editStory.events = {
     ved.showLocalModal( sed.collectionID.get() );
   },
 
+  'click #play' : function(e){
+
+    e.preventDefault();
+
+    sed.saveAllLocalRecords();
+
+    sed.saveLocalCollectionToRecord();
+
+    var _cid = sed.collectionID.get();
+
+    if (_cid == cCue ) {
+
+        story.reset();
+
+        FlowRouter.go("/waiting");
+
+        story._init( sed.code.get(), sed.scene.get() );
+    }
+  },
+
 }
 
 

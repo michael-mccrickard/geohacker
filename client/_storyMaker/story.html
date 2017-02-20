@@ -43,18 +43,18 @@
 		{{/if}}
 
 
-			<div class="divChatBackdrop {{chatVisibilityClass}}">
+		<div class="divChatBackdrop {{chatVisibilityClass}}">
 
-				<img class="imgChatBackdrop" src="blackBackdrop.jpg" />
-			</div>
+			<img class="imgChatBackdrop" src="blackBackdrop.jpg" />
+		</div>
 
-			<div class="divStoryMessaging {{chatVisibilityClass}}">
-				
-				{{> story_messaging}}
+		<div class="divStoryMessaging {{chatVisibilityClass}}">
+			
+			{{> story_messaging}}
 
-			</div>
+		</div>
 
-			<div id="divVEDText" class="vedText"></div>
+		<div id="divVEDText" class="vedText"></div>
 
 		{{#if editEntityMode}}
 
@@ -82,7 +82,7 @@
 
 						<img class="imgStoryInventoryButton imgStoryButtonBG stretch" id="storyInventoryButton{{this}}" src="featuredBackdrop.jpg" data-shortname="" />
 
-						<img class="imgStoryInventoryButton imgStoryButtonContent" id="imgStoryInventoryButton{{this}}" src="featuredBackdrop.jpg" data-shortname="" />	
+						<img class="imgStoryInventoryButton imgStoryButtonContent" id="imgStoryInventoryButton{{this}}" style="width: 75%" src="featuredBackdrop.jpg" data-shortname="" />	
 					
 					</div>
 				{{/each}}
@@ -91,17 +91,21 @@
 
 		{{/if}}
 
-	</div>
+		<div class="divStoryTitle" id="headline1">
+		</div>
+		<div class="divStoryTitle" id="headline2">
+		</div>
+	</div>  <!-- end divStory-->
 
-		{{#if mapMode}}
+	{{#if mapMode}}
 
-			<div>
+		<div>
 
-				{{> browseWorldMap}}
+			{{> browseWorldMap}}
 
-			</div>
+		</div>
 
-		{{/if}}
+	{{/if}}
 
 </template>
 

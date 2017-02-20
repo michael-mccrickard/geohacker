@@ -9,7 +9,29 @@ $(document).ready(function(){
 
 Story =  function() {
 
+	this.head = ".divStoryTitle";
+
+	this.head1 = "div#headline1.divStoryTitle";
+
+	this.head2 = "div#headline2.divStoryTitle";
+
 	this.isLoaded = new Blaze.ReactiveVar(false);
+
+	this.showHeadline = function( _text1, _text2, _color) {
+
+		if ( _text1) $( this.head1 ).text( _text1 );
+
+		if ( _text2) $( this.head2 ).text( _text2 );	
+		
+		if (_color) $( this.head ).css("color", _color);	
+
+		if ( $( this.head ).css("opacity") == 0 ) $( this.head ).velocity( "fadeIn", {_duration: 1000} );
+	}
+
+	this.hideHeadline = function() {
+
+		if ( $( this.head ).css("opacity") == 1) $( this.head ).velocity( "fadeOut", {_duration: 1000} );		
+	}
 
 //*********************************************************************************
 //
@@ -18,13 +40,18 @@ Story =  function() {
 //
 //*********************************************************************************
 
-	this._init = function( _code ) {
+	this._init = function( _code, _scene ) {
 
 		this.reset();
+
 
 		this.code = _code;
 
 		this.name = "story" + _code;
+
+		this.scenePreselect = "";
+
+		if (_scene) this.scenePreselect = _scene;
 
 		this.fullName = "";
 
@@ -57,8 +84,6 @@ Story =  function() {
 		this.speed = 1.0;
 
 		this.buttonStripHeightFactor = 0.135;
-
-		this.inv = new Inventory();
 
 		this.tempEntity = null;
 
@@ -350,15 +375,22 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 //
 //*********************************************************************************
 
+	this.playPreselect = function( _scene ) {
+
+		this.scenePreselect = "";
+
+		this.play( _scene );
+	}
+
+
 	this.play = function( _name ) {
+
 
 		//the default scene already set story.cue in the calling function
 
 		if ( _name != "default" ) {
 
 			this.scene = _name; 
-
-			//eval( "story.cue = " + story.name + "_cue( '" + _name + "' )" );
 
 			var _index = Database.getObjectIndexWithValue( this.cueSource, "n", this.scene);
 	 
@@ -423,7 +455,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 		if (!_rec) {
 
-			showMessage("No location rec found for country " + _ID);
+			showMessage("No location rec found for country " + _countryCode);
 
 			return "";
 		}

@@ -63,6 +63,30 @@ Template.story_messaging_element.helpers({
 		return "add_" + this._id;
 	},	
 
+	editContainerWidth: function() {
+
+		var _rel = this.relation;
+
+		if (_rel == "grand") return "83%";
+
+		if (_rel == "parent") return "99%";
+
+		if (_rel == "child") return "93%";
+
+	},
+
+	editContainerLeft: function() {
+
+		var _rel = this.relation;
+
+		if (_rel == "grand") return "20%";
+
+		if (_rel == "parent") return "1%";
+
+		if (_rel == "child") return "3%";
+
+	},
+
 	chatElementType: function() {
 
 		if (this.i == "u") return "Response set:";

@@ -39,8 +39,6 @@ StoryEditor = function(_code) {
 	this.tempStoryAgentRecordID = "";
 
 
-
-
 	//these are specifically for the array of commands in ghCue
 
 	this.localFields = ["q", "d"];
@@ -267,9 +265,9 @@ StoryEditor = function(_code) {
 
 	   		_name = db.ghCue.findOne( { _id: _ID } ).n;
 
-	   		//this probably does nothing b/c story.go() determines the cue (scene)	
+	   		//update the property
 
-	   		this.cue.set( _name );
+	   		this.scene.set( _name );
 
 	        this.makeLocalCollection( _name );
 
@@ -281,6 +279,10 @@ StoryEditor = function(_code) {
 	    if ( sed.table.get() == "Chat") {
 
 	    	if (this.mode.get() == "visual") {
+
+				_name = db.ghChat.findOne( { _id: _ID } ).s;
+
+	    		this.chat.set( _name )
 
 		        smed.init( _ID );
 

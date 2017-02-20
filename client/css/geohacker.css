@@ -37,6 +37,15 @@ body {
     src: url("SansPosterBold.ttf");
 }
 
+@font-face {
+    font-family: storyHeadlineBold;
+    src: url("PG_Roof Runners_active_b.ttf");
+}
+
+@font-face {
+    font-family: storyHeadline;
+    src: url("PG_Roof Runners_active.ttf");
+}
 
 .menuFont {
     font-size: 18px;

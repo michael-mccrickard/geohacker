@@ -557,7 +557,7 @@ StoryEditorVisual = function() {
 
 	this.restartStory = function() {
 
-		story.reset();
+		story.reset( );
 
 		FlowRouter.go("/waiting");
 

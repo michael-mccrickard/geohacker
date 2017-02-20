@@ -168,7 +168,7 @@ percentStringToNumber = function( _str ) {
     return _val;
 }
 
-convertPercentToPixels = function( _obj ) {
+convertObjectPercentToPixels = function( _obj ) {
 
     if (_obj.x) {
 
@@ -183,6 +183,16 @@ convertPercentToPixels = function( _obj ) {
     //if _obj.x or _obj.y are zero, then above tests fail
 
     return 0;
+}
+
+convertXPercentToPixels = function( _x ) {
+
+    return ( _x * $(window).width() );
+}
+
+convertYPercentToPixels = function( _y ) {
+
+    return ( _y * $(window).height() );
 }
 
 convertPixelsToPercentString = function( _obj ) {
@@ -200,6 +210,33 @@ convertPixelsToPercentString = function( _obj ) {
     }
 
     return ( formatFloat(_val) + "%" );
+}
+
+convertPixelsToPercent = function( _obj ) {
+
+    var _val = 0.0;
+
+    if (_obj.x) {
+
+        _val = _obj.x / $(window).width() * 100;
+    }
+
+    if (_obj.y) {
+
+        _val = _obj.y / $(window).height() * 100;
+    }
+
+    return ( formatFloat(_val) );
+}
+
+convertXPixelsToPercent = function( _x ) {
+
+    return ( _x / $(window).width() );
+}
+
+convertYPixelsToPercent = function( _y ) {
+
+    return ( _y / $(window).height() );
 }
 
 convertMatrixStringToObject = function( _s) {

@@ -99,7 +99,19 @@ this.unit = new Unit();
 
     }
 
+    this.playLoop = function(_file) {
+
+      $("#effectsPlayer").attr("src", _file);
+
+      document.getElementById("effectsPlayer").loop = true;
+
+      document.getElementById("effectsPlayer").play();
+    }
+
+
     this.playEffect = function(_file) {
+
+      document.getElementById("effectsPlayer").loop = false;
 
       $("#effectsPlayer").attr("src", _file);
 

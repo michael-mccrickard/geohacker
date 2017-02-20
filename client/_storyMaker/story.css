@@ -8,6 +8,33 @@ width: 100%;
 
 }
 
+.divStoryTitle {
+
+	font-family: storyHeadlineBold;
+
+	font-size: 16.0vh;
+
+	position: absolute;
+
+	width: 100%;
+
+	text-align: center;
+
+	opacity: 0;
+
+	z-index: 2000;
+}
+
+#headline1.divStoryTitle {
+
+		top: 25%;
+} 
+
+#headline2.divStoryTitle {
+
+		top: 45%;
+}
+
 .vedText {
 
 	font-family: Arial; 
@@ -78,8 +105,6 @@ div.storyButton {
   	position: relative;
 
   	top: -96%;
-
-  	width: 75%;
 
   	left: 12.5%;
 

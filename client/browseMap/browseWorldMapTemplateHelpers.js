@@ -72,7 +72,7 @@ Template.browseWorldMap.helpers({
 
     if (map.selectedRegion.length) {
 
-      return map.selectedRegion + "_icon.jpg";
+      return map.selectedRegion + "_icon.png";
     }
 
   },

@@ -12,7 +12,9 @@ storyA = function() {
 
 		this.location = "base";  //base, FR, ML, NL
 
-		this.inventorySize = 3;  //move to db?
+		this.inventorySize = 3;  //move to db?  if we do, we can move the next command to story.finishSubscriptions()
+
+		this.inv = new Inventory();
 	}
 
 //*********************************************************************************
@@ -115,15 +117,19 @@ storyA = function() {
 		var _mode = this.mode.get();
 
 		if (_mode == "chat" || _mode == "map") return;
-		
+
+		if (this.scenePreselect) {
+
+			this.playPreselect( this.scenePreselect );
+
+			return;
+		}
+
 
 		this.location = _ID;
 
 		this.background = this.getBackground( _ID );
-
-this.play("testScene");
-
-return;
+	
 
 		if (_ID == "base") {
 

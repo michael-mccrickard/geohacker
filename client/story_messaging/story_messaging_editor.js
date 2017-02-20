@@ -506,15 +506,10 @@ this.moveResponse = function( _dest, _sourceRelation, _val) {
 
 		_arr = this.descendantsList;
 
-c("descendants list follows ")
-c(_arr)
-
 		for (var i = 0; i < _arr.length; i++) {
 
-c("looking for node with name " + _arr[i])
-
 			_rec = db.ghChat.findOne( { c: this.storyCode, s: this.chatName, n: _arr[i] } );
-c(_rec)
+
 			if (! _rec ) continue;
 
 			var _ID = _rec._id;

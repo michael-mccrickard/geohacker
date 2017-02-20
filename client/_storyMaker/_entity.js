@@ -1,4 +1,3 @@
-gTempEntity = null;
 
 Entity = function() {
 
@@ -62,9 +61,9 @@ Entity = function() {
 
 			_obj = {};
 
-			_obj.x = this.x = convertPercentToPixels( { x: this.left } );
+			_obj.x = this.x = convertObjectPercentToPixels( { x: this.left } );
 
-			_obj.y = this.y = convertPercentToPixels( { y: this.top } );
+			_obj.y = this.y = convertObjectPercentToPixels( { y: this.top } );
 
 			_obj.scaleX = this.scaleX;
 
@@ -143,31 +142,39 @@ Entity = function() {
 
 	},
 
+	//The values expected in the argument are percent strings, _obj.left: "35%", e.g.
+
+	//The args to TweenLite are in pixels, x: 426, e.g.
+
+	//the entity properties .left and .top are in ratio form  this.left = 0.35, e.g.
+
+
 	this.moveTo = function( _obj ) {
 
 		this.update();
 
+
 		if (!_obj.left) {
 
-			_obj.left = this.left;
+			_obj.x = convertXPercentToPixels( this.left );
 		}
 		else {
 
-			_obj.left = percentStringToNumber( _obj.left);
+			_obj.x = percentStringToNumber( _obj.left );
+
+			_obj.x = convertXPercentToPixels( _obj.x );
 		}
 
 		if (!_obj.top) {
 
-			_obj.top = this.top;
+			_obj.y = convertYPercentToPixels( this.top );
 		}
 		else {
 
-			_obj.top = percentStringToNumber( _obj.top);
+			_obj.y = percentStringToNumber( _obj.top );
+
+			_obj.y = convertYPercentToPixels( _obj.y );
 		}
-
-		_obj.x = convertPercentToPixels( { x: _obj.left } );
-
-		_obj.y = convertPercentToPixels( { y: _obj.top } );
 
 		this.tween = TweenLite.to( this.element, 1.5, { x: _obj.x, y: _obj.y } );
 	},
@@ -231,10 +238,36 @@ Entity = function() {
 		$(this.element).removeClass("hidden");		
 	}
 
-	this.zoomMe =function( _amt ) {
+	this.zoomMe = function(_duration, _amtX, _amtY, _repeat, _repeatDelay, _yoyo ) {
 
-		TweenMax.to( this.element, 1.5, { scale: _amt } );
+		if (!_duration) _duration = 1.5;
 
+		var _obj = this.zoomOptions( _amtX, _amtY, _repeat, _repeatDelay);
+
+		TweenMax.to( this.element, _duration, _obj );
+	}
+
+	this.zoomOptions = function(_amtX, _amtY, _repeat, _repeatDelay, _yoyo ) {
+
+		var _obj = { scaleX: 2, scaleY: 2, repeat: 0, repeatDelay: 0, yoyo: false };
+
+		if (_amtX) _obj.scaleX = _amtX;
+
+		if (_amtY) _obj.scaleY = _amtY;
+
+		if (_repeat) _obj.repeat = _repeat;
+
+		if (_repeatDelay) _obj.repeatDelay = _repeatDelay;
+
+		//we assume that repetitions means yoyo = true	
+
+		if (_repeat) _obj.yoyo = true;	
+
+		//but this can be over-ridden
+
+		if (_yoyo) _obj.yoyo = _yoyo;
+
+		return _obj;
 	}
 
 	this.update = function() {
@@ -247,7 +280,11 @@ Entity = function() {
 
 		this.x = _obj.translateX;
 
+		this.left = convertXPixelsToPercent( this.x );
+
 		this.y = _obj.translateY;
+
+		this.top = convertYPixelsToPercent( this.y );
 
 		this.skewX = _obj.skewX;
 
