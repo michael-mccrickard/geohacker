@@ -9,7 +9,6 @@ StoryMessagingEditor = function() {
 
 	this.childRecordID = new Blaze.ReactiveVar("");
 
-
 	this.helperRootSpeechName = "root";
 
 	this.helperRootSpeech = "Yes ...";	
@@ -152,6 +151,7 @@ StoryMessagingEditor = function() {
 		db.ghChat.insert( _obj  );
 
 	}
+
 
 //*********************************************************************************
 //
@@ -375,6 +375,17 @@ this.moveResponse = function( _dest, _sourceRelation, _val) {
 				//it is an orphan, so delete it
 
 
+	}
+
+	this.test = function() {
+
+    	sed.saveAllLocalRecords();
+
+    	sed.saveLocalCollectionToRecord();
+
+    	//calling doChat with no argument causes it to play the chat for this.chatName (smed.chatName);
+
+    	story.doChat();
 	}
 
 

@@ -116,15 +116,7 @@ storyA = function() {
 
 		var _mode = this.mode.get();
 
-		if (_mode == "chat" || _mode == "map") return;
-
-		if (this.scenePreselect) {
-
-			this.playPreselect( this.scenePreselect );
-
-			return;
-		}
-
+		if (story.handleNavigationInParent( _mode) ) return;
 
 		this.location = _ID;
 

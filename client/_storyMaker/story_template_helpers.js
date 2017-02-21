@@ -187,7 +187,7 @@ Template.story.events({
 
           var _shortName = $( _sel ).data().shortname;
           
-          story.doChat( _sel, _shortName);
+          story.doChat( _shortName);
 
       },
 

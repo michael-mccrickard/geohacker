@@ -35,6 +35,22 @@ StoryMessaging = function() {
 
     this.targetObj = null;
 
+    this.createHelperTarget = function() {
+
+          this.targetObj = {
+
+            name: 'Helper',
+
+            ID: 'helper',
+
+            shortName: 'helper',
+
+            pic: smed.helperPic
+        }
+
+        this.targetID.set( 'helper' );      
+    }
+
     this.createTarget = function( _char) {
 
         this.targetObj = {
@@ -172,9 +188,9 @@ StoryMessaging = function() {
 
             var _newChat = _arr[1];
 
-            //eval this so that js sees _newChat as an object, not a string
+            //eval this so that js sees _newChat as an object, not a string?????
 
-            eval( "game.user.sms.tempSource = " + _newChat );
+            game.user.sms.tempSource = db.ghChat.find( { s: _newChat } ).fetch();
 
             this.source = this.createChatSource( this.tempSource );
 

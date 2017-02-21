@@ -44,7 +44,6 @@ Story =  function() {
 
 		this.reset();
 
-
 		this.code = _code;
 
 		this.name = "story" + _code;
@@ -533,32 +532,78 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
           Meteor.setTimeout( function() { story.mode.set("map"); }, 250 );
 	},
 
+	this.handleNavigationInParent = function( _mode )  {
+
+		if (_mode == "chat" || _mode == "map") return true;
+
+			if (this.scenePreselect) {
+
+				this.playPreselect( this.scenePreselect );
+
+				return true;
+			}
+
+		return false;
+	},
+
 //*********************************************************************************
 //
 //				CHAT
 //
 //*********************************************************************************
 
-	this.doChat = function( _sel, _shortName ) {
+	this.doChat = function( _shortName ) {
 
         this.silenceAll();
 
         this.hidePrompt();
 
-      	game.user.sms.createTarget( story[ _shortName ] );
+        if (_shortName) {
+			
+			game.user.sms.createTarget( story[ _shortName ] );	
+		}
+		else {
+
+			//if no _shortName was passed, then we are just testing the chat
+			//so create a dummy target
+
+			game.user.sms.createHelperTarget();		
+		}
 
       	game.user.sms.startThread();
 
-		this.chat = this.getChat( _shortName );
+		this.chat = this.getChat( _shortName );	
+
+		//if we're testing, then get the chat from smed
+
+        if (!_shortName) this.chat = smed.chatName;
 
 
 		this.chatSource = db.ghChat.find( { s: this.chat } ).fetch();
 
-		game.user.sms.startChat( this.chatSource );
+		if (_shortName) {
 
-      	this.mode.set("chat");
+			this.mode.set("chat");
 
-      	Meteor.setTimeout( function() { display.animateScrollToBottom(); }, 300 );
+			game.user.sms.startChat( this.chatSource );
+
+      		Meteor.setTimeout( function() { display.animateScrollToBottom(); }, 300 );		
+		}
+		else {
+
+			//In testing mode, we're in the editStory template, so we need to switch,
+			//then start the chat
+
+      		story.mode.set("chat");
+
+			FlowRouter.go("/story");
+
+      		Meteor.setTimeout( function() { 			
+
+				game.user.sms.startChat( story.chatSource ); 
+
+			}, 500 );				
+		}
 
 	},
 
