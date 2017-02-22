@@ -23,6 +23,9 @@ Entity = function() {
 
 	this.left = "0";
 
+	this.lastTransform = null;
+
+
 	this._add = function( _obj ) {
 
 		$(this.imageElement).attr("src", this.pic);
@@ -93,11 +96,20 @@ Entity = function() {
 
 		$( this.element ).css("transform", _str);	
 
+		this.lastTransform = convertMatrixStringToObject( _str );
+
 	}
 
 	this.getTransform = function() {
 
 		return $( this.element ).css("transform");
+	}
+
+	this.getTransformValue = function( _which ) {
+
+		var _obj = convertMatrixStringToObject( $(this.element).css("transform") );
+
+		return _obj[ _which ];
 	}
 
 	this.hide = function() {

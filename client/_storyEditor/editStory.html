@@ -64,8 +64,18 @@
 					    
 					    <td>
 
-					    	<td><input type="text" class="q"  size="5" value="{{ this.q }}" id="{{this._id}}"></td> 
-					    	
+					    	<!--td><input type="text" class="q"  size="5" value="{{ this.q }}" id="{{this._id}}"></td--> 
+
+			  				<button class="btn btn-primary" id="addLocalRecord"  onclick="sed.addLocalRecord( {{this.q}} )"><strong>+</strong></button> 
+
+							<button type="button" class="btn btn-info btn-md " onclick="sed.moveLocalRecord( {{this.q}}, -1)">
+			          			<span class="glyphicon glyphicon-arrow-up"></span>
+		        			</button>
+
+
+							<button type="button" class="btn btn-warning btn-md " onclick="sed.moveLocalRecord( {{this.q}}, 1)">
+			          			<span class="glyphicon glyphicon-arrow-down"></span>
+		        			</button>			    	
 					    </td>
 
 					    <td>
@@ -86,7 +96,7 @@
 				  {{/each}} 
 
 			  	<td>
-			  		<button class="btn btn-primary" id="addLocalRecord"  onclick="sed.addLocalRecord()"><strong>+</strong></button> 
+					<button class="btn btn-primary" id="addLocalRecord"  onclick="sed.addLocalRecord()"><strong>+</strong></button> 
 			  	</td>
 
 			</table>

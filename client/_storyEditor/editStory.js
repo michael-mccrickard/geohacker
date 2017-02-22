@@ -624,7 +624,7 @@ StoryEditor = function(_code) {
 	}
 
 
-	this.updateLocalRecord = function(_ID) {
+	this.updateLocalRecord = function(_ID, _q) {
 
 		doSpinner();
 
@@ -644,7 +644,7 @@ StoryEditor = function(_code) {
 
 			data[ _field ] = $(sel).val(); 		
 
-			if ( _field == "q") data[_field] = parseInt( $(sel).val() );			
+			if ( _field == "q") data[_field] = _q; //parseInt( $(sel).val() );			
 			
   		}
 
@@ -658,11 +658,11 @@ StoryEditor = function(_code) {
 
 		//create an array of the records in arrLocalCollection
 
-		var _arr = this.arrCollection.find( {} ).fetch();
+		var _arr = this.arrCollection.find( {}, { sort: { q: -1 } } ).fetch();
 
 		for (var i= 0; i < _arr.length; i++) {
 
-			this.updateLocalRecord( _arr[i]._id );
+			this.updateLocalRecord( _arr[i]._id, _arr[i].q );
 
 		}
 
@@ -671,36 +671,47 @@ StoryEditor = function(_code) {
 	this.deleteLocalRecord = function(_ID) {
 
   		this.arrCollection.remove( { _id: _ID } );
+
+  		this.renumberLocalCollection();
 	
 	}
 
-	this.addLocalRecord = function ( _id ) {
+	this.addLocalRecord = function ( _indexBefore) {
 
 		//get the highest number in the q field
-
+c("indexBefore is " + _indexBefore)
 		var _arr = this.arrCollection.find( {}, { sort: { q: -1 } } ).fetch();
-
+c("arr follows")
+c(_arr)
 		//we start by assuming that the recordset is empty
 
 		var _q = 100;
 
+		if (!_indexBefore) {
+
+			//If we have already existing records, we need to increment the highest q value
+			//that we got above.  We also can just use the fields already defined in one of the records.
+			//Doing it this way makes this portion work for any future localCollections we might need
+			//but we would still need to have an appropriate set of localFields defined (for the empty recordset case)
+
+			if ( _arr.length) _q = _arr[0].q + 100;
+			
+		}
+		else {
+
+			_q = _indexBefore + 50;
+		}
+c("q is " + _q)
+		this.addLocalOrderedRecord ( _q);
+	}
+
+	this.addLocalOrderedRecord = function ( _q) {		
+		
 		//Our only local collection so far is the array of commands in ghCue
 		//and localFields has the fieldnames for it
 
 		var fields = this.localFields;
 
-		//If we have already existing records, we need to increment the highest q value
-		//that we got above.  We also can just use the fields already defined in one of the records.
-		//Doing it this way makes this portion work for any future localCollections we might need
-		//but we would still need to have an appropriate set of localFields defined (for the empty recordset case)
-
-		if ( _arr.length) {
-
-			_q = _arr[0].q + 100;
-
-			fields = Object.keys( this.arrCollection.find().fetch()[0] );
-		}
-			
   		var data = {};
 
   		for (var i = 0; i < fields.length; i++) {
@@ -713,8 +724,11 @@ StoryEditor = function(_code) {
 
 			if ( _field == "q") data[ _field ] = parseInt(_q);
   		}
-
+c("data to be inserted follows")
+c(data)
   		this.arrCollection.insert( data );
+
+  		this.renumberLocalCollection();
 
 	}
 
@@ -734,12 +748,64 @@ StoryEditor = function(_code) {
 
 		//create temporary object from the field values and update record with it
 
-		sed.collection.get().update( { _id: sed.recordID.get() }, { $set: { d: _arrResult} } );
+		this.collection.get().update( { _id: this.recordID.get() }, { $set: { d: _arrResult} } );
 	}
 
+	this.renumberLocalCollection = function() {
+
+		var _arr= this.arrCollection.find( {}, { sort: { q: 1 }  } ).fetch();
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			var _ID = _arr[i]._id;
+
+			var _index = (i + 1) * 100;
+
+			this.arrCollection.update( { _id: _ID}, { $set: { q: parseInt(_index) } } )
+		}
+
+	}
+
+//*********************************************************************************
+//
+//				MOVE RECORD FUNCTIONS
+//
+//*********************************************************************************
+
+	//We are counting on the q (order) field in these recs to be consistent:  100, 200, 300, 400, etc.
+
+	//Any additions / deletions to the local collection must be followed by a renumberLocalCollection() call
+
+	this.moveLocalRecord = function( _indexToMove, _val) {
+
+		this.saveAllLocalRecords();
+
+		var _arr = this.arrCollection.find( {}, { sort: { q: 1 }  } ).fetch();
+
+		if ( ( _indexToMove == 100 && _val == -1) || ( _indexToMove == _arr.length * 100 && _val == 1) ) {
+
+			showMessage("Cannot move record in that direction");
+
+			display.playEffect( this.locked_sound_file);
+
+			return;
+		}
+
+		//Flip the elements in the array
+
+		var _thisRec = this.arrCollection.findOne( { q: _indexToMove } );
+
+		var _newIndex = _indexToMove + (_val * 100);
+
+		var _otherRec = this.arrCollection.findOne( { q: _newIndex } );
+
+		this.arrCollection.update( { _id: _thisRec._id }, { $set: { q: _newIndex } } );
+
+		this.arrCollection.update( { _id: _otherRec._id }, { $set: { q: _indexToMove } } );
+
+		this.saveLocalCollectionToRecord(); 
+	}
 }
-
-
 
 
 

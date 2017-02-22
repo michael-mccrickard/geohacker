@@ -180,6 +180,47 @@
 
 </template>
 
+<template name="vedModalTransform">
+
+    <form>
+
+      <div class="divModalImage">
+        <img class="modalImage" src='{{entityPicURL}}' />
+      </div>
+
+      <div class="form-group">
+        <p class="help-block">{{enityName}}</p>
+      </div>
+
+      <div class="form-group">
+        <label for="scaleX">scaleX</label>
+        <input type="text" class="form-control" id="entityScaleX" placeholder="{{entityScaleX}}">
+      </div>
+      
+      <div class="form-group">
+        <label for="scaleY">scaleY</label>
+        <input type="text" class="form-control" id="entityScaleX" placeholder="{{entityScaleX}}">
+      </div>
+
+      <div class="form-group">
+        <label for="translateX">translateX</label>
+        <input type="text" class="form-control" id="entityTranslateX" placeholder="{{entityTranslateX}}">
+      </div>
+
+      <div class="form-group">
+        <label for="translateY">translateY</label>
+        <input type="text" class="form-control" id="entityTranslateY" placeholder="{{entityTranslateY}}">
+      </div>
+
+      <div style="float:right"> 
+        <button type="button" class="btn btn-danger vedModalButton" id="btnCancelTransformModal">CANCEL</button>
+        <button type="button" class="btn btn-success vedModalButton" id="btnUpdateTransformModal">{{greenButtonText}}</button>
+      </div>
+    </form>
+
+</template>
+
+
 <template name="vedModalLocal">
 
     <form>

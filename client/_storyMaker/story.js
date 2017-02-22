@@ -72,6 +72,10 @@ Story =  function() {
 
  		this.storyButtonBGElements = ["#storyButtonMap", "#storyButtonBase"];
 
+ 		this.storyButtonBaseElement = "img#imgStoryButtonBase";
+
+  		this.storyButtonMapElement = "img#imgStoryButtonMap";		
+
 		this.inventoryButtons = [];
 
 		this.bgElement = "img.storyBG";
@@ -618,6 +622,16 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		var _width = 90.0 / parseFloat( this.inventoryButtons.length + 2 );  //plus two for the MAP and BASE buttons
 
 		$(".storyButton").css("width", _width + "%");
+
+		var _obj = getDimensions( this.baseButtonPic.get() );
+
+		this.inv.dimensionButtonImage( this.storyButtonBaseElement, _obj );
+
+		var _src = $( this.storyButtonMapElement ).attr("src");
+
+		_obj = getDimensions( _src );
+
+		this.inv.dimensionButtonImage( this.storyButtonMapElement, _obj );
 
 		this.hiliteButton( this.storyButton );
 

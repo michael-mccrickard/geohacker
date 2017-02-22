@@ -2,7 +2,7 @@ addCue = function() {
 
 	//var _scenes = [ "intro", "missionToMona", "firstGuardVisit", "secondGuardVisit", "missionInfo", "vanGogh", "userGetsPasscode", "guardGetsPasscode", "nelsonGetsPainting", "nelsonAndMark"]
 
-var _scenes = [ "userGetsPasscode" ];
+var _scenes = [ "intro" ];
 
 	for (var i = 0; i < _scenes.length; i++ ) {
 
@@ -18,8 +18,8 @@ var _scenes = [ "userGetsPasscode" ];
 	}	     
 }
 
-/*
 
+/*
 storyA_cue = function( _name ) {
 
 	var _cue = [];
@@ -31,12 +31,10 @@ storyA_cue = function( _name ) {
 						'story.computer.addContent( "warning" )',
 						'story.computer.add()',
 						'story.computer.scaleMe(0.5);',
-			
 						'story.twain.add()',
 						'story.bob.add()',
 						'story.fadeInChars()',  
 						'story.fadeInTokens()',
-
 						'delay.1000',
 						'story.twain.setDirection("right")', 
 						'story.bob.setDirection("left")',

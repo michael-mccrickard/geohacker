@@ -881,3 +881,212 @@ Template.vedModalLocal.events = {
     ved.hideModal();
   },
 }
+
+//*********************************************************************************
+//
+//        ANIMATE
+//
+//*********************************************************************************
+
+Template.vedModalTransform.helpers({
+
+  entityName : function() {
+
+    var _val = Session.get("sUpdateVisualEditor");
+
+    if ( sed.recordID.get() ) return ved.selectedEntity.name;
+
+    return "(No entity selected in scene)";
+  },
+
+  entityScaleX : function() {
+
+    var _val = Session.get("sUpdateVisualEditor");
+
+    if ( sed.recordID.get() ) return ved.selectedEntity.lastTransform.scaleX;
+
+    return "(No entity selected in scene)";
+  },
+
+  entityScaleY : function() {
+
+    var _val = Session.get("sUpdateVisualEditor");
+
+    if ( sed.recordID.get() ) return ved.selectedEntity.lastTransform.scaleY;
+
+    return "(No entity selected in scene)";
+  },
+
+
+  entityTranslateX : function() {
+
+    var _val = Session.get("sUpdateVisualEditor");
+
+    if ( sed.recordID.get() ) {
+
+      var _obj = {};
+
+      _obj.x = ved.selectedEntity.lastTransform.translateX
+
+      return convertPixelsToPercentString( _obj );
+
+    }
+
+    return "(No entity selected in scene)";
+  },
+
+  entityTranslateY : function() {
+
+    var _val = Session.get("sUpdateVisualEditor");
+
+    if ( sed.recordID.get() ) {
+
+      var _obj = {};
+
+      _obj.y = ved.selectedEntity.lastTransform.translateY
+
+      return convertPixelsToPercentString( _obj );
+    }
+
+    return "(No entity selected in scene)";
+  },
+
+  entityPicURL : function() {
+
+    var _val = Session.get("sUpdateVisualEditor");
+
+    if ( sed.recordID.get() ) return ved.selectedEntity.pic;
+  },
+
+  greenButtonText : function() {
+
+    var _val = Session.get("sUpdateVisualEditor");
+
+    if ( sed.recordID.get() ) return "UPDATE";
+
+    return "";    
+  }
+
+});
+
+Template.vedModalTransform.events = {
+
+  'click button#btnUpdateTransformModal' : function(e){
+
+    e.preventDefault();
+/*
+    //Create a data object and insert the record with it
+    var _obj = {};
+
+    _obj.c = story.code;
+
+    var _name = $( "input#tokenName" ).val();
+
+    var _shortName =  $( "input#tokenShortName" ).val();
+
+    var _type =  $( "input#tokenType" ).val();
+
+    var _movable =  $( "input#tokenMovable" ).val();
+
+    if ( _name ) _obj.n = _name
+
+    if (_shortName ) _obj.sn = _shortName
+
+    if ( _type ) _obj.t = _type
+
+    if ( _movable ) _obj.m = _movable
+
+
+    var _text = $("button#btnCreateTokenModal").text();
+
+    if ( _text == "CREATE") {
+
+        db.ghToken.insert(_obj, function (err, _ID) {
+
+          if (err) {
+            console.log(err);
+            return;
+          }
+
+          //Upload the pics here if any were specified
+
+          if ( ved.picUploaded ) sed.updateURLForNewRecord( ved.picUploaded, _ID, "p" );
+
+       }); 
+    }
+
+    if ( _text == "UPDATE") {
+
+        db.ghToken.update( { _id: ved.selectedEntity.ID }, { $set: _obj }, function (err, _ID) {
+
+          if (err) {
+            console.log(err);
+            return;
+          }
+
+          //Upload the pics here if any were specified
+
+          if ( ved.picUploaded ) sed.updateURLForNewRecord( ved.picUploaded, _ID, "p" );
+
+       }); 
+    }
+
+    ved.hideModal();    
+*/
+  },
+
+  'change input': function(event, template) {
+
+      //we only care about the file and checkbox input
+/*
+      var _type = $("#" + event.currentTarget.id).attr("type");
+
+      if ( _type != "file") {
+
+        return;
+      }
+
+      var _ID = event.currentTarget.id;
+
+      if (_ID == "tokenPic") ved.picUploaded = "";
+
+      var uploader = sed.uploader;
+
+      var _file = event.target.files[0];
+
+      if (_file) {
+
+        doSpinner();
+      }
+      else {
+
+        return;
+      }
+
+      uploader.send(_file, function (error, downloadUrl) {
+
+        stopSpinner();
+
+        if (error) {
+         
+          // Log service detailed response.
+          console.log(error);
+
+        }
+        else {
+
+          if (_ID == "tokenPic") ved.picUploaded = downloadUrl;    
+
+        } 
+
+      });     
+*/
+    },
+
+  'click button#btnCancelTransformModal' : function(e){
+
+    e.preventDefault();
+
+    ved.hideModal();
+  },
+}

@@ -1,4 +1,30 @@
+getDimensions = function( _s ) {
 
+		//lop off the extension
+
+		var _index = _s.lastIndexOf(".");
+
+		_s = _s.substr(0, _index);
+
+		var _lastIndex = _s.lastIndexOf("_");
+
+		var _front = _s.substr(0, _lastIndex );
+
+		var _height = _s.substr(_lastIndex + 1);
+
+		_lastIndex = _front.lastIndexOf("_");
+
+		var _width = _front.substr( _lastIndex + 1 );
+
+		var _obj = {};
+
+		_obj.width = _width;
+
+		_obj.height = _height;
+
+		return (_obj)
+
+	}
 
 InventoryItem = function( _obj ) {
 
@@ -44,6 +70,10 @@ InventoryItem = function( _obj ) {
 		$( this.getElement() ).attr("data-shortname", this.shortName);
 
 		$( this.getParentElement() ).attr("data-shortname", this.shortName);
+
+		var _obj = getDimensions( _pic );
+
+		story.inv.dimensionButtonImage( this.getElement(), _obj);
 	}
 
 	this.hide = function() {
@@ -54,6 +84,7 @@ InventoryItem = function( _obj ) {
 
 		$( this.getParentElement() ).attr("data-shortname", "");
 	}
+
 }
 
 Inventory = function() {
@@ -132,5 +163,22 @@ c("removing item " + _name + " from inv in inventory.js")
 		console.log("The item requested for removal was not found: " + _name);
 
 		return -1;
+	}
+
+	this.dimensionButtonImage = function( _element, _obj ) {
+
+		//the button has width/height ratio of 3/1
+
+		var _widthPercent = ( (3 * _obj.width) / _obj.height ) * 10;  //multiply by 10 to get a percentage of 100 value
+
+		var _leftPercent = (100 - _widthPercent) / 2;
+
+		_widthPercent = _widthPercent + "%";
+
+		_leftPercent = _leftPercent + "%";		
+
+		$( _element ).css("width", _widthPercent);
+
+		$( _element ).css("left", _leftPercent);	
 	}
 }
