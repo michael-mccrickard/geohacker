@@ -161,7 +161,7 @@ Entity = function() {
 	//the entity properties .left and .top are in ratio form  this.left = 0.35, e.g.
 
 
-	this.moveTo = function( _obj ) {
+	this.animate = function( _obj, _duration ) {
 
 		this.update();
 
@@ -188,7 +188,16 @@ Entity = function() {
 			_obj.y = convertYPercentToPixels( _obj.y );
 		}
 
-		this.tween = TweenLite.to( this.element, 1.5, { x: _obj.x, y: _obj.y } );
+		if (!_obj.scaleX) _obj.scaleX = this.scaleX;
+		
+		if (!_obj.scaleY) _obj.scaleY = this.scaleY;
+
+		if (!_obj.opacity) _obj.opacity = $(this.element).css("opacity");
+
+
+		if (!_duration) _duration = 1.5;
+
+		this.tween = TweenLite.to( this.element, _duration, { x: _obj.x, y: _obj.y, scaleX: _obj.scaleX, scaleY: _obj.scaleY, opacity: _obj.opacity } );
 	},
 
 	this.moveToPrev = function() {

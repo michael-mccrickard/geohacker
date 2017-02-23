@@ -31,6 +31,8 @@ StoryEditorVisual = function() {
 
 	this.bgButtonPicUploaded = "";
 
+	this.recordIDToEdit = "";
+
 
 //*********************************************************************************
 //
@@ -708,6 +710,13 @@ console.log( _update );
 		}
 
 		this.showModalForSelected( "Local", _name );
+	}
+
+	this.showTransformModal = function( _ID ) {
+
+		this.recordIDToEdit = _ID;
+
+		this.showModalForSelected( "Transform", "Add position / scale values" )
 	}
 
 	this.showModalForSelected = function( _type, _text ) {

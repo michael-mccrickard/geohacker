@@ -52,3 +52,12 @@ select#elementSelect.form-control {
 
 	width: 256px;
 }
+.modalTransformImage {
+
+	width: 96px;
+}
+
+label {
+
+	margin-left: 10px;
+}

@@ -23,6 +23,8 @@ CutScene = function( _name ) {
 
 		this.c = this.cue[ this.index ];
 
+//c(this.c)
+
 		if (this.c == "wait") {
 
 			story.showPrompt("Click anywhere to continue.")

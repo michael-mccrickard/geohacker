@@ -18,8 +18,8 @@ var _scenes = [ "intro" ];
 	}	     
 }
 
-
 /*
+
 storyA_cue = function( _name ) {
 
 	var _cue = [];
@@ -27,7 +27,7 @@ storyA_cue = function( _name ) {
 			if ( _name == "intro") {
 
 			_cue  = [
-
+						'story.computer.addContentBG( "staticBG" )',
 						'story.computer.addContent( "warning" )',
 						'story.computer.add()',
 						'story.computer.scaleMe(0.5);',
@@ -71,6 +71,7 @@ storyA_cue = function( _name ) {
 
 			_cue  = [
 						'story.flags["didExercise1"] = true',  
+						'story.computer.addContentBG( "staticBG" )',
 						'story.computer.addContent( "warning" )',
 						'story.computer.add()',
 						'story.computer.scaleMe(0.5);',

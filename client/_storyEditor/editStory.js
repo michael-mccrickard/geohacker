@@ -679,10 +679,9 @@ StoryEditor = function(_code) {
 	this.addLocalRecord = function ( _indexBefore) {
 
 		//get the highest number in the q field
-c("indexBefore is " + _indexBefore)
+
 		var _arr = this.arrCollection.find( {}, { sort: { q: -1 } } ).fetch();
-c("arr follows")
-c(_arr)
+
 		//we start by assuming that the recordset is empty
 
 		var _q = 100;
@@ -701,7 +700,7 @@ c(_arr)
 
 			_q = _indexBefore + 50;
 		}
-c("q is " + _q)
+
 		this.addLocalOrderedRecord ( _q);
 	}
 
@@ -724,8 +723,7 @@ c("q is " + _q)
 
 			if ( _field == "q") data[ _field ] = parseInt(_q);
   		}
-c("data to be inserted follows")
-c(data)
+
   		this.arrCollection.insert( data );
 
   		this.renumberLocalCollection();
@@ -745,8 +743,6 @@ c(data)
 			_arrResult.push( _arrSource[i].d )
 
 		}
-
-		//create temporary object from the field values and update record with it
 
 		this.collection.get().update( { _id: this.recordID.get() }, { $set: { d: _arrResult} } );
 	}

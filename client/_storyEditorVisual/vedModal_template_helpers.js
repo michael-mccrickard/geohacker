@@ -776,6 +776,8 @@ Template.vedModalLocal.events = {
 
     e.preventDefault();
 
+//c("after prevent")
+
     var _collectionID = ved.localType.get();
 
     //Create a data object and insert the record with it
@@ -786,7 +788,7 @@ Template.vedModalLocal.events = {
     _obj.d = [];
 
     var _name = $( "input#localName" ).val();
-
+//c("after get val from input field")
     if ( _name ) _obj.n = _name;  //we will change this value below chat records
 
     if ( _collectionID == cChat) {
@@ -795,13 +797,16 @@ Template.vedModalLocal.events = {
     }
 
     var _text = $("button#btnCreateLocalModal").text();
-
+//c("after get text from button")
     if ( _text == "CREATE") {
 
         if (_collectionID == cCue) {
-
+//c("coll is Cue")
+//c("obj of data to insert follows")
+//c(_obj)
           db.ghCue.insert(_obj, function (err, _ID) {
 
+//c("inside the callback on insert")
             if (err) {
               console.log(err);
               return;
@@ -884,7 +889,7 @@ Template.vedModalLocal.events = {
 
 //*********************************************************************************
 //
-//        ANIMATE
+//        TRANSFORM
 //
 //*********************************************************************************
 
@@ -962,7 +967,7 @@ Template.vedModalTransform.helpers({
 
     var _val = Session.get("sUpdateVisualEditor");
 
-    if ( sed.recordID.get() ) return "UPDATE";
+    if ( sed.recordID.get() ) return "ADD";
 
     return "";    
   }
@@ -974,113 +979,48 @@ Template.vedModalTransform.events = {
   'click button#btnUpdateTransformModal' : function(e){
 
     e.preventDefault();
-/*
-    //Create a data object and insert the record with it
+
+    //Create a data object and populate it with data from the form
     var _obj = {};
 
-    _obj.c = story.code;
+    var _arr = ['scaleX','scaleY','translateX','translateY','opacity'];
+ 
+    for (var i = 0; i < _arr.length; i++) {
 
-    var _name = $( "input#tokenName" ).val();
+        var _name = _arr[i];
 
-    var _shortName =  $( "input#tokenShortName" ).val();
+        var _value = document.getElementById( _name ).checked;
 
-    var _type =  $( "input#tokenType" ).val();
+        if (_value) {
 
-    var _movable =  $( "input#tokenMovable" ).val();
+          _obj[ _name] = $( "input#entity_" + _name).attr("placeholder");
 
-    if ( _name ) _obj.n = _name
-
-    if (_shortName ) _obj.sn = _shortName
-
-    if ( _type ) _obj.t = _type
-
-    if ( _movable ) _obj.m = _movable
-
-
-    var _text = $("button#btnCreateTokenModal").text();
-
-    if ( _text == "CREATE") {
-
-        db.ghToken.insert(_obj, function (err, _ID) {
-
-          if (err) {
-            console.log(err);
-            return;
-          }
-
-          //Upload the pics here if any were specified
-
-          if ( ved.picUploaded ) sed.updateURLForNewRecord( ved.picUploaded, _ID, "p" );
-
-       }); 
+          if (_name == "scaleX" || _name == "scaleY" ) _obj[ _name] = formatFloat( parseFloat( $( "input#entity_" + _name).attr("placeholder") ) );
+        }
     }
 
-    if ( _text == "UPDATE") {
 
-        db.ghToken.update( { _id: ved.selectedEntity.ID }, { $set: _obj }, function (err, _ID) {
+    //put the values into the d (data) field on the form
 
-          if (err) {
-            console.log(err);
-            return;
-          }
+    var _sel = "input#" + ved.recordIDToEdit;
 
-          //Upload the pics here if any were specified
+    var _text = $( _sel ).val() + "( " + JSON.stringify( _obj ) + " )";
 
-          if ( ved.picUploaded ) sed.updateURLForNewRecord( ved.picUploaded, _ID, "p" );
-
-       }); 
-    }
+    $( _sel ).val( _text );
 
     ved.hideModal();    
-*/
+
   },
 
   'change input': function(event, template) {
 
-      //we only care about the file and checkbox input
-/*
-      var _type = $("#" + event.currentTarget.id).attr("type");
-
-      if ( _type != "file") {
-
-        return;
-      }
+      //we only care about the checkbox input
 
       var _ID = event.currentTarget.id;
 
-      if (_ID == "tokenPic") ved.picUploaded = "";
+      var _type = $("#" + _ID).attr("type");
 
-      var uploader = sed.uploader;
 
-      var _file = event.target.files[0];
-
-      if (_file) {
-
-        doSpinner();
-      }
-      else {
-
-        return;
-      }
-
-      uploader.send(_file, function (error, downloadUrl) {
-
-        stopSpinner();
-
-        if (error) {
-         
-          // Log service detailed response.
-          console.log(error);
-
-        }
-        else {
-
-          if (_ID == "tokenPic") ved.picUploaded = downloadUrl;    
-
-        } 
-
-      });     
-*/
     },
 
   'click button#btnCancelTransformModal' : function(e){
