@@ -16,6 +16,15 @@ Template.vedModalStory.helpers({
   	return "Enter code"
   },
 
+  storyInventorySize : function() {
+
+    var _val = Session.get("sUpdateVisualEditor");
+
+    if ( sed.recordID.get() ) return story.inventorySize;
+
+    return "Enter size"    
+  },
+
   storyName : function() {
 
   	var _val = Session.get("sUpdateVisualEditor");

@@ -30,7 +30,7 @@ StoryEditor = function(_code) {
 
 	this.arrCollection = null;
 
-	this.tableList = ["Story","Location","Scene","Char","Agent","Token","StoryFlag","Cue","Chat"];
+	this.tableList = ["Story","Location","Scene","Char","Agent","Token","StoryFlag","Cue","Chat","StorySound"];
 
 	this.uploader = new Slingshot.Upload("ghStoryPic");
 
@@ -77,6 +77,8 @@ StoryEditor = function(_code) {
 
 		Meteor.subscribe("allChats", function() { Session.set("sAllCues", true ) });
 
+		Meteor.subscribe("allStorySounds", function() { Session.set("sAllStorySounds", true ) });
+
 		this.findSelector.set( {} );
 
 		this.collection.set( db.ghStory );
@@ -103,6 +105,8 @@ StoryEditor = function(_code) {
    		Session.set("sAllCues", false );
 
    		Session.set("sAllChats", false );
+
+   		Session.set("sAllStorySounds", false );
 	}
 
 
@@ -811,8 +815,6 @@ Tracker.autorun( function(comp) {
 
   		Session.get("sAllLocationsReady")  && 
 
-   		//Session.get("sAllScenesReady")  && 
-
   		Session.get("sAllCharsReady")  && 
 
    		Session.get("sAllTokensReady") &&
@@ -823,7 +825,9 @@ Tracker.autorun( function(comp) {
 
    		Session.get("sAllCues") &&
 
-   		Session.get("sAllChats")
+   		Session.get("sAllChats") &&
+
+   		Session.get("sAllStorySounds")
 
       ) {
 

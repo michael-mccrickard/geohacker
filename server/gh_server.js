@@ -98,6 +98,8 @@ Meteor.startup(
 
     ghChat = new Meteor.Collection("ghChat")
 
+    ghStorySound = new Meteor.Collection("ghStorySound")
+
     //country editing collections
 
     Meteor.publish("allImages", function() {
@@ -278,6 +280,10 @@ Meteor.startup(
       return ghChat.find({});
     });  
 
+     Meteor.publish("allStorySounds",function(){
+      return ghStorySound.find({});
+    });  
+
      Meteor.publish("tempAgent",function( _name){
 
       return Meteor.users.find( { username: _name }, { "_id": 1, "username": 1 } );
@@ -323,10 +329,28 @@ Meteor.startup(
       return ghChat.find({ c: storyCode });
     });  
 
+    Meteor.publish("storyAssets_StorySound",function( storyCode ){
+      return ghStorySound.find({ c: storyCode });
+    });  
+
+
     //music
 
     Meteor.publish("allMusic", function() {
       return ghMusic.find( {} );
+    });
+
+    ghStorySound.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      }
     });
 
     ghCue.allow({
@@ -618,6 +642,7 @@ function getCollectionForType(_type) {
 
     if (_type == cChat) col = ghChat;
 
+    if (_type == cStorySound) col = ghStorySound;
 
     return col;
   }

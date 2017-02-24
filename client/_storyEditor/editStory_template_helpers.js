@@ -83,6 +83,13 @@ Template.editStory.events = {
     sed.setCollection( "StoryFlag", db.ghStoryFlag, cStoryFlag )
   },
 
+  'click #pickStorySound' : function(e){
+
+    e.preventDefault();
+
+    sed.setCollection( "StorySound", db.ghStorySound, cStorySound )
+  },
+
   'click .selectRecord' : function(e){
 
      e.preventDefault();
@@ -110,7 +117,9 @@ Template.editStory.events = {
 
       if (_field == "b") _field = "btn";    //bg button field (story)
 
-      var _recordID = event.currentTarget.id.substr(1);  //we prefixed a char (B,G,I or F) to the ID in the template to make it a legal HTML element ID
+      if (_field == "p") _field = "u";  //url field (storySound)
+
+      var _recordID = event.currentTarget.id.substr(1);  //we prefixed a char (B,G,I,F, or P) to the ID in the template to make it a legal HTML element ID
 
       if (_type == "file") {
 
@@ -190,10 +199,7 @@ Template.editStory.events = {
 
                     story.flags[ _arr[i].n ] = _value;
 
-
                 }
-
-
              }
           }
 

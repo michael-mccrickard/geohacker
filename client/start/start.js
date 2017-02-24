@@ -122,6 +122,8 @@ Session.set("isIOS", false);
 
   Session.set("sAllChatsReady", false );
 
+  Session.set("sAllStorySoundsReady", false );
+
   //playing stories
 
   Session.set("sStoryReady", false );
@@ -143,6 +145,8 @@ Session.set("isIOS", false);
   Session.set("sCueReady", false );
 
   Session.set("sChatReady", false );
+
+  Session.set("sStorySoundReady", false );
   
   //display-related
 

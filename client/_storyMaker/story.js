@@ -1,10 +1,8 @@
 //story.js
 
-
 $(document).ready(function(){
     $('.divStory').tooltip(); 
 });
-
 
 
 Story =  function() {
@@ -17,21 +15,6 @@ Story =  function() {
 
 	this.isLoaded = new Blaze.ReactiveVar(false);
 
-	this.showHeadline = function( _text1, _text2, _color) {
-
-		if ( _text1) $( this.head1 ).text( _text1 );
-
-		if ( _text2) $( this.head2 ).text( _text2 );	
-		
-		if (_color) $( this.head ).css("color", _color);	
-
-		if ( $( this.head ).css("opacity") == 0 ) $( this.head ).velocity( "fadeIn", {_duration: 1000} );
-	}
-
-	this.hideHeadline = function() {
-
-		if ( $( this.head ).css("opacity") == 1) $( this.head ).velocity( "fadeOut", {_duration: 1000} );		
-	}
 
 //*********************************************************************************
 //
@@ -62,6 +45,8 @@ Story =  function() {
 
 		this.tokenObjs = [];  //this array holds the tokens for the current scene
 
+		this.soundObjs = [];  //this array holds the sounds for the story
+
 		this.location = "";  //the country we're in or other locale like "base"
 
 		this.scene = "";   //the name of the scene (cue) that is currently or about to play
@@ -77,6 +62,8 @@ Story =  function() {
   		this.storyButtonMapElement = "img#imgStoryButtonMap";		
 
 		this.inventoryButtons = [];
+
+		this.inventorySize = 0;
 
 		this.bgElement = "img.storyBG";
 
@@ -122,9 +109,9 @@ Story =  function() {
 
 		this.chatSub = Meteor.subscribe("storyAssets_Chat", story.code, function() { Session.set("sChatReady", true ) });
 
-//need to do this with value from the db, story record (in autoRun?)
+		this.storySoundSub = Meteor.subscribe("storyAssets_StorySound", story.code, function() { Session.set("sStorySoundReady", true ) });
 
-if (!this.inventoryButtons.length) this.makeInventoryArray(3);
+//need to do this with value from the db, story record (in autoRun?)
 
 		this.setEntityArrays();
 
@@ -137,6 +124,8 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 		this.createTokens( "n" );  //normal
 
 		this.createFlags();
+
+		this.createSounds();
 
 		this.cueSource = db.ghCue.find().fetch();
 
@@ -167,6 +156,8 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
    		Session.set("sChatReady", false);
 
+   		Session.set("sStorySoundReady", false);
+
       	if (!this.storyAgentSub) return;
 
        	this.storySub.stop();
@@ -178,6 +169,7 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
        	this.storyFlagSub.stop();
        	this.cueSub.stop();
        	this.chatSub.stop();
+       	this.storySoundSub.stop();
 
        	browseMap.reset();
 
@@ -195,7 +187,12 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 		this.fullName = _rec.n;
 
-		sed.recordID.set( _rec._id );
+		this.inventorySize = _rec.i;
+
+		if (this.inventorySize) this.makeInventoryArray( this.inventorySize );
+
+		if (sed) sed.recordID.set( _rec._id );
+
 	}
 
 //*********************************************************************************
@@ -204,6 +201,13 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 //
 //*********************************************************************************
 
+	this.makeInventoryArray = function( _num ) {
+
+		for (var i = 0;  i < _num; i++) {
+
+			this.inventoryButtons.push(i);
+		}
+	},
 
 	this._addInventoryItem = function( _name ) {
 
@@ -261,6 +265,22 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 		return _arr;
 	},
+
+	this.createSounds = function() {
+
+		var _arr = db.ghStorySound.find().fetch();
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			var _file = getFileFromPath( _arr[i].u );
+
+			var _index = _file.indexOf("-");
+
+		   _arr[i].n = _file.substr(_index + 1);
+		}
+
+		this.soundObjs = _arr;
+	}
 
 	this.createChars = function() {
 
@@ -779,17 +799,45 @@ if (!this.inventoryButtons.length) this.makeInventoryArray(3);
 
 //*********************************************************************************
 //
+//				SOUND FUNCTIONS
+//
+//*********************************************************************************
+
+	this.playStorySound = function( _file ) {
+
+		var _soundIndex = Database.getObjectIndexWithValue( this.soundObjs, "n", _file); 
+	
+		display.playEffect2( this.soundObjs[ _soundIndex].u );
+	}
+
+	this.playStorySoundLoop = function( _file ) {
+
+		var _soundIndex = Database.getObjectIndexWithValue( this.soundObjs, "n", _file); 
+	
+		display.playLoop( this.soundObjs[ _soundIndex].u );
+	}
+
+//*********************************************************************************
+//
 //				INTERFACE FUNCTIONS
 //
 //*********************************************************************************
 
-	this.makeInventoryArray = function( _num ) {
+	this.showHeadline = function( _text1, _text2, _color) {
 
-		for (var i = 0;  i < _num; i++) {
+		if ( _text1) $( this.head1 ).text( _text1 );
 
-			this.inventoryButtons.push(i);
-		}
-	},
+		if ( _text2) $( this.head2 ).text( _text2 );	
+		
+		if (_color) $( this.head ).css("color", _color);	
+
+		if ( $( this.head ).css("opacity") == 0 ) $( this.head ).velocity( "fadeIn", {_duration: 1000} );
+	}
+
+	this.hideHeadline = function() {
+
+		if ( $( this.head ).css("opacity") == 1) $( this.head ).velocity( "fadeOut", {_duration: 1000} );		
+	}
 
 	this.hiliteButton = function( _name ) {
 
@@ -868,7 +916,9 @@ Tracker.autorun( function(comp) {
 
    		Session.get("sCueReady") &&
 
-   		Session.get("sChatReady")
+   		Session.get("sChatReady") &&
+
+   		Session.get("sStorySoundReady")
 
       ) {
 
