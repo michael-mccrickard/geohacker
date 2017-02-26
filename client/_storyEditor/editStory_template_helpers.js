@@ -241,9 +241,7 @@ Template.editStory.events = {
 
     e.preventDefault();
 
-    sed.saveAllLocalRecords();
-
-    sed.saveLocalCollectionToRecord();
+    ved.saveLocal();
   },
 
   'click #new' : function(e){
@@ -259,9 +257,7 @@ Template.editStory.events = {
 
     e.preventDefault();
 
-    sed.saveAllLocalRecords();
-
-    sed.saveLocalCollectionToRecord();
+    ved.saveLocal();
 
     var _cid = sed.collectionID.get();
 
@@ -275,10 +271,46 @@ Template.editStory.events = {
     }
   },
 
+  'click #direct' : function(e){
+
+    e.preventDefault();
+
+    if (ved.mode.get() != "direct") {
+
+      ved.mode.set("direct");
+    }
+    else {
+
+      ved.mode.set("edit");
+    }
+  }
 }
 
 
 Template.editStory.helpers({
+
+
+
+  lowerButtonStripTop: function() {
+
+    if (ved.mode.get() == "direct") return "64px";
+
+      return "-122px";
+  },
+
+  cue: function() {
+
+    if (sed.table.get() == "Cue") return true;
+
+    return false;
+  },
+
+  directButtonText: function() {
+
+    if (ved.mode.get() == "direct") return "ABORT EDIT";
+
+    return "DIRECT EDIT";
+  },
 
   editStoryContent : function() {
 
@@ -308,7 +340,16 @@ Template.editStory.helpers({
 
   localMode: function() {
 
-    if (sed.dataMode.get() == "local" ) return true;
+    if (sed.dataMode.get() == "local") return true;
+
+    return false;
+  },
+
+  localModeNotDirect: function() {
+
+    if (ved.mode.get() == "direct") return false;
+
+    if (sed.dataMode.get() == "local") return true;
 
     return false;
   },
@@ -325,6 +366,33 @@ Template.editStory.helpers({
 });
 
 Template.storyData.helpers({
+
+  uploadFilename: function() {
+
+    var _id = sed.collectionID.get();
+
+    if (_id == cStorySound) {
+
+      return getFileFromPath(this.u);
+    }
+
+    return "";
+  },
+
+  directMode: function() {
+
+    if (ved.mode.get() == "direct") return true;
+
+    return false;
+  },
+
+  cueScript: function() {
+
+    var _val = Session.get("sUpdateStoryEditDataContent");
+
+    return ved.getCueScript();
+  
+  },
 
   notOrderField: function() {
 
@@ -522,6 +590,8 @@ Template.storyData.helpers({
   },
 
   localRecord: function() {
+
+     var _val = Session.get("sUpdateStoryEditDataContent");
 
      return sed.arrCollection.find( {}, { sort: {q: 1} } );
   },

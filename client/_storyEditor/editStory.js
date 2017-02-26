@@ -155,7 +155,7 @@ StoryEditor = function(_code) {
 
 		this.conformData();
 
-		if (this.table.get() == "Token" ) this.extendBG();
+		if (this.table.get() == "Token" || this.table.get() == "Story" ) this.extendBG();
 
 		if (this.table.get() == "Story") this.showAllData();
 
@@ -170,7 +170,7 @@ StoryEditor = function(_code) {
 
 		if ( _mode == "local") $(".divEditStoryContent").css("top","-64px")
 
-		if ( _mode == "server") $(".divEditStoryContent").css("top","32px")
+		if ( _mode == "server") $(".divEditStoryContent").css("top","-122px")
 	}
 
 	this.conformButtons = function() {

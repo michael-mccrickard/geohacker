@@ -49,24 +49,28 @@
 
 		<div class="divStoryMessageEntry rounded">
 
-			{{#with currentUser}}
+			{{#if showEntryBox}}
 
-				<div class="divStoryMessageEntryPic rounded">
-					<img class= "imgAgentAvatarMessageMini agentItem rounded" id="{{this._id}}" src="{{this.profile.av}}" />
-					<div class="agentLabelMini agentNameMessaging agentItem">{{this.username}}</div>
-				</div>
+				{{#with currentUser}}
 
-				<div class="divMessageBody">
+					<div class="divStoryMessageEntryPic rounded">
+						<img class= "imgAgentAvatarMessageMini agentItem rounded" id="{{this._id}}" src="{{this.profile.av}}" />
+						<div class="agentLabelMini agentNameMessaging agentItem">{{this.username}}</div>
+					</div>
 
-					{{#each choice}}
+					<div class="divMessageBody">
 
-						<button class="btn btn-md btn-primary btnChatChoice" onclick="game.user.sms.processUserChoice( '{{this}}',{{@index}} )">{{this}}</button>
-				
-					{{/each}}
-				
-				</div>
+						{{#each choice}}
 
-			{{/with}}		
+							<button class="btn btn-md btn-primary btnChatChoice" onclick="game.user.sms.processUserChoice( '{{this}}',{{@index}} )">{{this}}</button>
+					
+						{{/each}}
+					
+					</div>
+
+				{{/with}}	
+
+			{{/if}}	
 
 		</div>
 

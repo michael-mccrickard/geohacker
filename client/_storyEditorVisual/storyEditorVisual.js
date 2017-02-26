@@ -681,6 +681,60 @@ console.log( _update );
 
 //*********************************************************************************
 //
+//				DRIECT EDIT FUNCTIONS
+//
+//*********************************************************************************
+
+this.getCueScript = function() {
+
+	var _arr = sed.collection.get().findOne( {n: sed.scene.get()} ).d;
+
+	var _out = "";
+
+	for (var i = 0; i < _arr.length; i++) {
+
+		if (_arr[i].length > 2) {
+
+			_out = _out + _arr[i].trim() + "\n";			
+		}
+	}
+
+	return _out;
+}
+	
+this.rewriteCueScript = function() {
+
+	var _arr = $(".directEditTextArea").val().split("\n");
+
+	var _out = [];
+
+	for (var i = 0; i < _arr.length; i++) {
+
+		if (_arr[i].length > 2) {
+
+			_out.push( _arr[i] )	
+		}
+	}
+
+	sed.collection.get().update( {_id: sed.recordID.get() }, { $set: { d: _out } } );
+}
+
+this.saveLocal = function() {
+
+    if (this.mode.get() == "direct") {
+
+        this.rewriteCueScript();
+
+        return;
+    }
+
+    sed.saveAllLocalRecords();
+
+    sed.saveLocalCollectionToRecord();
+}
+
+//*********************************************************************************
+//
 //				MODAL FUNCTIONS
 //
 //*********************************************************************************

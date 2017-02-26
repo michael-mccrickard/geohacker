@@ -99,16 +99,6 @@ this.unit = new Unit();
 
     }
 
-    this.playLoop = function(_file) {
-
-      $("#effectsPlayer").attr("src", _file);
-
-      document.getElementById("effectsPlayer").loop = true;
-
-      document.getElementById("effectsPlayer").play();
-    }
-
-
     this.playEffect = function(_file) {
 
       document.getElementById("effectsPlayer").loop = false;
@@ -127,10 +117,28 @@ this.unit = new Unit();
 
     this.playEffect3 = function(_file) {
 
+      document.getElementById("effectsPlayer3").loop = false;
+
       $("#effectsPlayer3").attr("src", _file);
 
       document.getElementById("effectsPlayer3").play();
     }
+
+
+    this.playLoop = function(_file) {
+
+      $("#effectsPlayer3").attr("src", _file);
+
+      document.getElementById("effectsPlayer3").loop = true;
+
+      document.getElementById("effectsPlayer3").play();
+    }
+
+    this.stopLoop = function(_file) {
+
+        document.getElementById("effectsPlayer").pause();
+    }
+
 
     this.stopEffects = function() {
 

@@ -16,13 +16,6 @@ Template.story.helpers({
   	 return story.chars;
   },
 
-  chatMode: function() {
-
-    if (story.mode.get() == "chat") return true;
-
-    return false;
-  },
-
   chatVisibilityClass: function() {
 
     if (story.mode.get() == "chat") return "";
@@ -61,14 +54,6 @@ Template.story.helpers({
   picForBaseButton: function() {
 
       return story.baseButtonPic.get();
-  },
-
-
-  sceneMode: function() {
-
-      if (story.mode.get() == "scene") return true;
-
-      return false;
   },
 
   token: function() {
@@ -131,7 +116,7 @@ Template.story.events({
 
     'click div.divChatBackdrop': function(event, template) {
       
-          story.mode.set("scene");
+          story.returnToScene();
       },
 
     'click .divStoryThing': function(event, template) {

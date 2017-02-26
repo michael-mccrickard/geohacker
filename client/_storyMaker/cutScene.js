@@ -41,7 +41,7 @@ CutScene = function( _name ) {
 			return;
 		}
 
-		if ( this.c.substr( 0, 10) == "playEffect" || this.c.substr( 0, 8) == "playLoop" ) {
+		if ( this.c.substr( 0, 10) == "playEffect") {
 
 			this.c = "display." + this.c;
 
@@ -70,7 +70,7 @@ CutScene = function( _name ) {
 
 		if (!_c) _c = this.c;
 
-//c( _c );
+c( _c );
 
 		eval( _c );
 

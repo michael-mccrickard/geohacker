@@ -992,7 +992,7 @@ Template.vedModalTransform.events = {
     //Create a data object and populate it with data from the form
     var _obj = {};
 
-    var _arr = ['scaleX','scaleY','translateX','translateY','opacity'];
+    var _arr = ['scaleX','scaleY','left','top','rotation','opacity', "time", "repeat", "repeatDelay", "yoyo"];
  
     for (var i = 0; i < _arr.length; i++) {
 
@@ -1000,11 +1000,13 @@ Template.vedModalTransform.events = {
 
         var _value = document.getElementById( _name ).checked;
 
-        if (_value) {
+        if (_value) {        
 
-          _obj[ _name] = $( "input#entity_" + _name).attr("placeholder");
+          _obj[ _name] = $( "input#entity_" + _name).val();
 
-          if (_name == "scaleX" || _name == "scaleY" ) _obj[ _name] = formatFloat( parseFloat( $( "input#entity_" + _name).attr("placeholder") ) );
+          if (!_obj[ _name]) _obj[_name] = $( "input#entity_" + _name).attr("placeholder");
+
+          if (_name == "scaleX" || _name == "scaleY" ) _obj[ _name] = formatFloat( parseFloat( _obj[ _name] ) );
         }
     }
 

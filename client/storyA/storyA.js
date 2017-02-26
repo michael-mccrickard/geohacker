@@ -12,6 +12,8 @@ storyA = function() {
 
 		this.location = "base";  //base, FR, ML, NL
 
+		this.baseSound = "storyABase.mp3";
+
 		this.inventorySize = 3;  //move to db?  if we do, we can move the next command to story.finishSubscriptions()
 
 		this.inv = new Inventory();
@@ -112,6 +114,14 @@ storyA = function() {
 //
 //*********************************************************************************
 
+	this.playBGLoop = function( _ID) {
+c("playBGLoop, _ID is " + _ID)
+		if (_ID == "base")  this.playLoop( this.baseSound );
+		if (_ID == "FR") 	this.playLoop("paris_loop2.mp3")
+		if (_ID == "ML") 	this.playLoop("maliLoop2.mp3")
+		if (_ID == "NL") 	this.playLoop("netherlands_loop2.mp3")
+	}
+
 	this.go = function( _ID ) {
 
 		var _mode = this.mode.get();
@@ -145,6 +155,7 @@ storyA = function() {
 
 				return;
 			}
+
 		}
 
 		if ( _ID == "FR") {
@@ -190,6 +201,7 @@ storyA = function() {
 				return;
 			}
 		}
+
 
 		this.playDefaultScene( );
 

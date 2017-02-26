@@ -7,6 +7,8 @@
             {{#if vedSelectStoryMode}}<button type="button" class="btn btn-default topButton1" onclick="sed.editData()" id="">DATA</button>{{/if}}
 
             <button type="button" class="btn btn-info topButton2" onclick="ved.selectStory()" id="">STORIES</button>
+
+
         </div>
 
         <div class="topButtonStripMiddle">
@@ -17,6 +19,9 @@
                     <span class="glyphicon glyphicon-cog"></span>
                 </button>
 
+                <button type="button" class="btn btn-warning topButtonLeft2" onclick="story.killSound()" id="killSound">
+                    <span class="glyphicon glyphicon-volume-off"></span>
+                </button>
                 <button type="button" class="btn btn-danger topButton0Middle" onclick="ved.restartStory()" id="restartStory">
                     <span class="glyphicon glyphicon-repeat"></span>
                 </button>

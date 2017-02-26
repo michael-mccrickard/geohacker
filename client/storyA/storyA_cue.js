@@ -18,7 +18,7 @@ var _scenes = [ "intro" ];
 	}	     
 }
 
-/*
+
 
 storyA_cue = function( _name ) {
 
@@ -268,4 +268,4 @@ storyA_cue = function( _name ) {
 		return _cue;
 }
 
-*/
+

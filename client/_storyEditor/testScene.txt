@@ -1,0 +1,42 @@
+twain.add( {"translateX":"56.65%","translateY":"38.54%", scaleX: 2.2, scaleY: 1.8} )
+bob.add( {"translateX":"31.00%","translateY":"39.39%", scaleX: 1.8, scaleY: 2.2} )
+fadeInChars()
+playStorySoundLoop("reggaeLoop2.mp3")
+twain.animate( {"scaleX":"1.80","scaleY":"2.20","time":"1","repeat":"10","yoyo":"1"} )
+bob.zoomMe(1.0, 2.2, 1.8, 10, 0)
+delay.2000
+twain.say("Kinky reggae!")
+delay.2000
+twain.q()
+bob.say("Easy skanking!")
+delay.2000
+prez.add( {"translateX":"1.26%","translateY":"8.35%"} )
+prez.fadeIn()
+delay.1000
+playStorySound("ruckus.mp3")
+prez.setDirection('right')
+bob.q()
+prez.say("What are you hippies doing?  Stop all that pulsating!")
+delay.2000
+bob.animate( {"scaleX":"1.00","scaleY":"1.0","translateX":"25.06%","translateY":"10.05%"} )
+twain.animate( {"scaleX":"2.00","scaleY":"2.00"} )
+prez.q()
+delay.1600
+bob.sayLeft("Mellow down easy, mon.  Try this reggae music.")
+delay.2000
+album.add({"translateX":"130.80%","translateY":"7.96%"} )
+album.animate( {"translateX":"10.80%","translateY":"7.96%", "opacity":"1"} )
+bob.q()
+delay.2000
+prez.animate( {"left":"3%","rotation":"35","time":"0.5"} )
+delay.500
+stopStorySoundLoop()
+playStorySound("scratch.mp3")
+album.animate( {"scaleX":"0.25","scaleY":"0.25","left":"13%","top":"5.05%","opacity":"0","time":"1.0"} )
+delay.500
+prez.animate( {"left":"1.2%","rotation":"0","time":"0.5"} )
+delay.500
+prez.say("No way, Rastaman. I have important an important mission for one of you so-called agents.")
+wait
+prez.q()
+bob.say("Lay it on us, mon.  We aim to please.")

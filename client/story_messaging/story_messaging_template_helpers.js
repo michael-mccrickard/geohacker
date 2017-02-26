@@ -15,6 +15,13 @@ Template.story_messaging.helpers({
 		return game.user.sms.targetObj;
 	},
 
+	showEntryBox: function() {
+
+		if ( game.user.sms.showEntryBox.get() == true ) return true;
+
+		return false;
+	},
+
 	targetPic: function() {
 
 		var _ID = game.user.sms.targetID.get();

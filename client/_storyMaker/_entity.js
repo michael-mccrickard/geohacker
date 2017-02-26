@@ -50,6 +50,11 @@ Entity = function() {
 
 			if ( _obj.top ) this.top = percentStringToNumber( _obj.top );
 
+			if ( _obj.translateX ) this.left = percentStringToNumber( _obj.translateX );
+
+			if ( _obj.translateY ) this.top = percentStringToNumber( _obj.translateY );
+
+
 			if ( _obj.scaleX ) this.scaleX = _obj.scaleX;
 
 			if ( _obj.scaleY ) this.scaleY = _obj.scaleY;
@@ -125,7 +130,7 @@ Entity = function() {
 
 		if (_val) _duration = _val;
 
-		if ( $(this.element).css("opacity") == 0 ) $( this.element ).velocity( "fadeIn", {_duration: 1000} );
+		if ( $(this.element).css("opacity") != 1 ) $( this.element ).velocity( "fadeIn", {_duration: 1000} );
 
 	},
 
@@ -156,53 +161,80 @@ Entity = function() {
 
 	//The values expected in the argument are percent strings, _obj.left: "35%", e.g.
 
-	//The args to TweenLite are in pixels, x: 426, e.g.
+	//The args to TweenMax are in pixels, x: 426, e.g.
 
 	//the entity properties .left and .top are in ratio form  this.left = 0.35, e.g.
 
 
-	this.animate = function( _obj, _duration ) {
+	this.animate = function( _obj ) {
 
 		this.update();
 
+		var _time = 1.5;
 
-		if (!_obj.left) {
+		var _obj2 = {};
 
-			_obj.x = convertXPercentToPixels( this.left );
-		}
-		else {
+		if (_obj.translateX) _obj.left = _obj.translateX;
 
-			_obj.x = percentStringToNumber( _obj.left );
+		if (_obj.translateY) _obj.top = _obj.translateY;		
 
-			_obj.x = convertXPercentToPixels( _obj.x );
-		}
 
-		if (!_obj.top) {
+		if (_obj.left) {
 
-			_obj.y = convertYPercentToPixels( this.top );
-		}
-		else {
+			_obj2.x = percentStringToNumber( _obj.left );
 
-			_obj.y = percentStringToNumber( _obj.top );
-
-			_obj.y = convertYPercentToPixels( _obj.y );
+			_obj2.x = convertXPercentToPixels( _obj2.x );
 		}
 
-		if (!_obj.scaleX) _obj.scaleX = this.scaleX;
+		if (_obj.top) {
+
+			_obj2.y = percentStringToNumber( _obj.top );
+
+			_obj2.y = convertYPercentToPixels( _obj2.y );
+		}
+
+		if (_obj.scaleX) {
+
+			_obj2.scaleX = parseFloat( _obj.scaleX );
+		}
 		
-		if (!_obj.scaleY) _obj.scaleY = this.scaleY;
+		if (_obj.scaleY) {
 
-		if (!_obj.opacity) _obj.opacity = $(this.element).css("opacity");
+			_obj2.scaleY = parseFloat( _obj.scaleY );
+		}
+
+		if (_obj.rotation) _obj2.rotation = _obj.rotation;
+
+		if (_obj.opacity) _obj2.opacity = _obj.opacity;
 
 
-		if (!_duration) _duration = 1.5;
+		if (_obj.time) _time = parseFloat( _obj.time );
 
-		this.tween = TweenLite.to( this.element, _duration, { x: _obj.x, y: _obj.y, scaleX: _obj.scaleX, scaleY: _obj.scaleY, opacity: _obj.opacity } );
+		if (_obj.repeat) {
+
+			_obj2.repeat = parseInt( _obj.repeat );		
+		}
+
+		if (_obj.repeatDelay) {
+
+			_obj2.repeatDelay = parseInt( _obj.repeatDelay );		
+		}
+
+		if (!parseInt(_obj.yoyo) ) {
+
+			_obj2.yoyo = false;				
+		}
+		else {
+
+			_obj2.yoyo = true;
+		}
+
+		this.tween = TweenMax.to( this.element, _time, _obj2 );
 	},
 
 	this.moveToPrev = function() {
 
-		this.tween = TweenLite.to( this.element, 1.5, { x: this.prevX, y: this.prevY } );
+		this.tween = TweenMax.to( this.element, 1.5, { x: this.prevX, y: this.prevY } );
 	},
 
 	this.q = function() {
@@ -220,6 +252,8 @@ Entity = function() {
 	},
 
 	this.say = function( _text) {
+
+	  if (this.entityType == "char") display.playEffect2( "say" + this.index + ".mp3")
 
       $( this.element  ).tooltip({ delay:0, trigger:"manual",  title: _text, placement: this.placement });
 

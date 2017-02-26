@@ -131,6 +131,16 @@ div#universalMessageText {
 	left: -64px;
 }
 
+.topButtonLeft2 {
+	font-size: 18px;
+	padding: 0px;
+	width: 32px;
+	padding-top: 8px;
+	position: relative;
+	left: -32px;
+
+}
+
 .topButton0Middle {
 	font-size: 24px;
 	margin-left: 32px;

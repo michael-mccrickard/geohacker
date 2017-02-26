@@ -15,6 +15,8 @@ Story =  function() {
 
 	this.isLoaded = new Blaze.ReactiveVar(false);
 
+	this.inventorySound = "inventory2.mp3"
+
 
 //*********************************************************************************
 //
@@ -175,6 +177,8 @@ Story =  function() {
 
        	game.user.sms.conversation.remove( {} );
 
+       	this.killSound(); 
+
 	},
 
 	this.initStoryProperties = function() {
@@ -217,6 +221,8 @@ Story =  function() {
 
 		this.inv.add( _item );
 
+		this.playEffect( this.inventorySound )
+
 		this[ _name ].fadeOut(250);
 
 	},
@@ -226,6 +232,8 @@ Story =  function() {
 		this.inv.remove( _name );
 
 		this[ _name ].draw();
+
+		this.playEffect( this.inventorySound )
 
 		this[ _name ].fadeIn(150);
 
@@ -458,6 +466,10 @@ Story =  function() {
 
 		if (ved) ved.updateScreen( this.scene );
 
+c("story loc in playScene is " + story.location)
+
+		this.playBGLoop( this.location );
+
 		this.cutScene = new CutScene( this.scene );
 
 		this.cutScene.play( this.cue );
@@ -537,6 +549,7 @@ Story =  function() {
           story.mode.set("scene");
 
           this.go("base");
+
 	},
 
 	this.goMap = function() {
@@ -552,6 +565,10 @@ Story =  function() {
           this.hidePrompt();
 
           browseMap.mode.set( "story" );
+
+          this.playEffect( "storyMap.mp3")
+
+          display.playLoop("mapLoop.mp3")
 
           Meteor.setTimeout( function() { story.mode.set("map"); }, 250 );
 	},
@@ -569,6 +586,13 @@ Story =  function() {
 
 		return false;
 	},
+
+	this.returnToScene = function() {
+
+		this.mode.set("scene")
+
+		this.playBGLoop( this.location );
+	}
 
 //*********************************************************************************
 //
@@ -610,6 +634,8 @@ Story =  function() {
 			this.mode.set("chat");
 
 			game.user.sms.startChat( this.chatSource );
+
+			display.playEffect("messaging.mp3")
 
       		Meteor.setTimeout( function() { display.animateScrollToBottom(); }, 300 );		
 		}
@@ -699,6 +725,13 @@ Story =  function() {
 
 		    this.tokenObjs[ key ].fadeOut();    
 		}
+	},
+
+	this.fadeInAll = function() {
+
+		this.fadeInChars();
+
+		this.fadeInTokens();
 	},
 
 	this.fadeOutAll = function() {
@@ -803,19 +836,66 @@ Story =  function() {
 //
 //*********************************************************************************
 
-	this.playStorySound = function( _file ) {
+	this.playStorySound = function( _file ) { this.playSound( _file ) };
+
+	this.playStorySoundLoop = function( _file ) { this.playLoop( _file ) };
+
+	this.stopStorySoundLoop = function( _file ) { this.stopLoop() };
+
+	//The basic scheme for the 3 sound players is:
+
+	//player (no number) = effect (sound in public folder) (interface sounds: inventory sound, button sounds, etc)
+
+	//player2 = story sound AND effect2 (sound in public folder)  (scripted sound effects)
+
+	//player3 = story loop AND story sound2  (bg loops + the occasional scripted sound that overlaps an already playing one)
+
+	//The "AND" cases above are intended to be rare instances
+
+	this.playEffect = function( _file ) {
+	
+		display.playEffect( _file );
+	}
+
+	this.playEffect2 = function( _file ) {
+	
+		display.playEffect2( _file );
+	}
+
+	this.playSound = function( _file ) {
 
 		var _soundIndex = Database.getObjectIndexWithValue( this.soundObjs, "n", _file); 
 	
 		display.playEffect2( this.soundObjs[ _soundIndex].u );
 	}
 
-	this.playStorySoundLoop = function( _file ) {
+	this.playSound2 = function( _file ) {
 
 		var _soundIndex = Database.getObjectIndexWithValue( this.soundObjs, "n", _file); 
-	
+
+		display.playEffect3( this.soundObjs[ _soundIndex].u );
+	}
+
+	this.playLoop = function( _file ) {
+
+		var _soundIndex = Database.getObjectIndexWithValue( this.soundObjs, "n", _file); 
+
 		display.playLoop( this.soundObjs[ _soundIndex].u );
 	}
+
+	this.stopLoop = function() {
+
+		display.stopLoop();
+	}
+
+	this.killSound = function() {
+
+		display.stopEffects();
+
+		game.stopMusic();
+	}
+
+
 
 //*********************************************************************************
 //

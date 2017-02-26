@@ -14,6 +14,8 @@ StoryMessaging = function() {
 
     this.updateFlag = new Blaze.ReactiveVar( false );
 
+    this.showEntryBox = new Blaze.ReactiveVar( true );
+
     this.conversation = new Meteor.Collection(null);
 
     this.source = {};
@@ -169,6 +171,8 @@ StoryMessaging = function() {
             return;
         }
 
+        story.playEffect("message2.mp3");
+
         this.createUserChoices( this.dest );
     }
 
@@ -190,7 +194,7 @@ StoryMessaging = function() {
 
             //eval this so that js sees _newChat as an object, not a string?????
 
-            game.user.sms.tempSource = db.ghChat.find( { s: _newChat } ).fetch();
+            this.tempSource = db.ghChat.find( { s: _newChat } ).fetch();
 
             this.source = this.createChatSource( this.tempSource );
 
@@ -214,7 +218,13 @@ StoryMessaging = function() {
             this.dests.push( this.tmp[ i ].g );
         }
 
-        game.user.sms.updateContent();
+        Meteor.setTimeout( function() { 
+
+            game.user.sms.showEntryBox.set( true );
+
+            game.user.sms.updateContent();
+
+        }, 1000);
     }
 
     this.processUserChoice = function( _text, _index ) {
@@ -223,14 +233,20 @@ StoryMessaging = function() {
 
         this.addUserMessage( _text );
 
+        this.showEntryBox.set( false );
+
         if (this.dest == "exit") {
 
-            story.mode.set("scene")
+            story.returnToScene();
 
             return;
         } 
 
-        this.doHelperSpeech( this.dest );
+        story.playEffect("message1.mp3")
+
+        this.updateContent();
+
+        Meteor.setTimeout( function() { game.user.sms.doHelperSpeech( game.user.sms.dest ); }, 1000 );
     }
 
     this.checkExecute = function( _obj ) {

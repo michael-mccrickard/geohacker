@@ -2,12 +2,13 @@
 
 	{{#if localMode}}
 
-		<div class="centered" style="margin-top: 50px;">
+		<div class="divLowerButtonStrip" style="margin-top: {{lowerButtonStripTop}}">
 
-			  <button type="button" class="btn btn-danger  btn-lg editStoryModeButton" id="returnToServer">SELECT ANOTHER {{tableName}}</button>
-			  <button type="button" class="btn btn-success  btn-lg editStoryModeButton" id="saveAll">SAVE {{tableName}}</button>
- 			  <button type="button" class="btn btn-primary  btn-lg editStoryModeButton" id="new">NEW {{tableName}}</button>
- 			  <button type="button" class="btn btn-warning  btn-lg editStoryModeButton" id="play">PLAY {{tableName}}</button>
+			  <button type="button" class="btn btn-danger  btn-lg editStoryModeLowerButton" id="returnToServer">SELECT ANOTHER {{tableName}}</button>
+			  <button type="button" class="btn btn-success  btn-lg editStoryModeLowerButton" id="saveAll">SAVE {{tableName}}</button>
+ 			  <button type="button" class="btn btn-primary  btn-lg editStoryModeLowerButton" id="new">NEW {{tableName}}</button>
+ 			  <button type="button" class="btn btn-warning  btn-lg editStoryModeLowerButton" id="play">PLAY {{tableName}}</button>
+ 			  {{#if cue}}<button type="button" class="btn btn-danger  btn-lg editStoryModeLowerButton" id="direct">{{directButtonText}}</button>{{/if}}
 		</div>
 
 	{{/if}}
@@ -44,6 +45,12 @@
 </template>
 
 <template name="storyData">
+
+	{{#if directMode}}
+
+		<textarea rows="200" cols="150" class="directEditTextArea">{{cueScript}}</textarea>
+
+	{{/if}}
 
 	{{#if localMode}}
 
@@ -212,7 +219,7 @@
 
 							    	{{else}}
 
-							    		<input type="file" id="P{{this._id}}">							    	
+							    		<input type="file" id="P{{this._id}}"><h5 style="color:black; font-face: Arial">{{uploadFilename}}</h5>							    	
 							    	{{/if}}
 								
 								</td>
