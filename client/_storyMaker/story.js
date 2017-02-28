@@ -826,8 +826,15 @@ c("story loc in playScene is " + story.location)
 
 	this.prompt = function( _text) {
 
-		this.showPrompt( _text );
+		this.showPrompt( this.filterPrompt( _text ) );
 	},
+
+	this.filterPrompt = function( _s ) {
+
+		var _ret = _s.replace("\\", "'")
+
+		return _ret;
+	}
 
 
 //*********************************************************************************

@@ -90,6 +90,12 @@ Entity = function() {
 
 		if (this.ownerEntity) {
 
+c("in ent transform for " + this.name)
+c(this.type)
+c(this.ownerEntity)
+c(this.ownerEntity.contentElement)
+c(_str)
+
 			if ( this.type == "content") $( this.ownerEntity.contentElement ).css("transform", _str);
 
 			if ( this.type == "contentBG") {
@@ -327,7 +333,13 @@ Entity = function() {
 
 	this.update = function() {
 
-		var _obj = convertMatrixStringToObject( $( this.element ).css("transform") );	
+		var _element = this.element;
+
+		if ( this.type == "content") _element = this.ownerEntity.contentElement;
+
+		if ( this.type == "contentBG") _element = this.ownerEntity.contentElementBG;
+
+		var _obj = convertMatrixStringToObject( $( _element ).css("transform") );	
 
 		this.scaleX = _obj.scaleX;
 

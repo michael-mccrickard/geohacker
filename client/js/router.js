@@ -152,7 +152,7 @@ FlowRouter.route('/congrats', {
 
     game.pauseMusic();
 
-    display.playEffect("congrats1.mp3")
+    display.playEffect("congrats.mp3")
 
     BlazeLayout.render('layout', { content: "congrats" } );
 

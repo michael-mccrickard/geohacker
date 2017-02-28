@@ -136,7 +136,7 @@ this.unit = new Unit();
 
     this.stopLoop = function(_file) {
 
-        document.getElementById("effectsPlayer").pause();
+        document.getElementById("effectsPlayer3").pause();
     }
 
 

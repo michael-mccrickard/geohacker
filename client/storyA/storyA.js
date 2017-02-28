@@ -66,11 +66,21 @@ storyA = function() {
 		if (_name == "passcode") {
 
 			this.flags.has_passcode = true;
+
+			if (this.scene == "vanGogh") story.van.q();
 		}
 
 		if (_name == "mona") {
 
 			this.flags.has_mona = true;
+
+			if (this.scene == "guardGetsPasscode") {
+
+				Meteor.setTimeout( function() { story.guard.q(); }, 500 );
+
+				Meteor.setTimeout( function() { story.passcode.fadeOut(); }, 1500 );
+
+			}
 		}
 
 		this._addInventoryItem( _name );
@@ -115,7 +125,7 @@ storyA = function() {
 //*********************************************************************************
 
 	this.playBGLoop = function( _ID) {
-c("playBGLoop, _ID is " + _ID)
+
 		if (_ID == "base")  this.playLoop( this.baseSound );
 		if (_ID == "FR") 	this.playLoop("paris_loop2.mp3")
 		if (_ID == "ML") 	this.playLoop("maliLoop2.mp3")

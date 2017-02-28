@@ -12,6 +12,8 @@ testStory = function() {
 
 	game.user.mode = uStory;
 
+	game.mode.set( gmNormal );
+
 	FlowRouter.go("/waiting");  
 
 	if ( !db.storiesInitialized ) db.initStories();

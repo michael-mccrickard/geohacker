@@ -1,6 +1,6 @@
  <template name="story">
 
-  	<div id="storyPromptText"></div>
+  	<div id="storyPromptText" class="animated pulse"></div>
 
 	<div class="divStory">
 
@@ -54,7 +54,11 @@
 
 		</div>
 
-		<div id="divVEDText" class="vedText"></div>
+		{{#if editStoryMode}}
+		
+			<div id="divVEDText" class="vedText"></div>
+		
+		{{/if}}
 
 		{{#if editEntityMode}}
 
@@ -93,7 +97,7 @@
 
 		<div class="divStoryTitle" id="headline1">
 		</div>
-		
+
 		<div class="divStoryTitle" id="headline2">
 		</div>
 

@@ -86,6 +86,20 @@ Template.vedSelect.events = {
 		}   
 	},
 
+	'click button#testLast' : function(e){
+
+		e.preventDefault();
+
+		var _ID = sed.collectionID.get();
+
+		if (_ID == cStory) {
+
+		 	sed.code.set( game.user.profile.lastEditedStory );
+
+			testStory(); 		
+		}   
+	},
+
 	'change select': function(event, template) {
 
 	     //get the element name

@@ -432,9 +432,12 @@ StoryEditorVisual = function() {
 	}
 
 	this.moveEntityVert = function( _val) {
+
+c("vert")
 		
 		var _ent = this.selectedEntity;
-
+c("ent is ")
+c(_ent)
 		_val = _val * 3;
 		
 		var _y = _ent.y;
@@ -449,9 +452,11 @@ StoryEditorVisual = function() {
 	}
 
 	this.moveEntityHoriz = function( _val) {
+c("horiz")
 
 		var _ent = this.selectedEntity;
-		
+c("ent is " + _ent)
+c(_ent)
 		_val = _val * 3;
 		
 		var _x = _ent.x;

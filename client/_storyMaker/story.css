@@ -27,12 +27,12 @@ width: 100%;
 
 #headline1.divStoryTitle {
 
-		top: 25%;
+		top: 19%;
 } 
 
 #headline2.divStoryTitle {
 
-		top: 45%;
+		top: 37%;
 }
 
 .vedText {
@@ -261,6 +261,24 @@ div#storyPromptText {
 
 	text-transform: uppercase;
 }
+
+@keyframes pulse {
+  0% {transform: scale(1);}
+  50% {transform: scale(1.1);}
+  100% {transform: scale(1);}
+}
+.pulse {
+  animation-name: pulse;
+  animation-duration: 1s;
+}
+
+.animated {
+  animation-duration: 2.5s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+}
+
+
 
 div.tooltip-inner {
     color: #FFFFFF; 

@@ -23,6 +23,18 @@ Template.story.helpers({
      return "hidden";
   },
 
+  editStoryMode: function() {
+
+  if (Meteor.user() == null) return false;
+
+    if (!game) return false;
+
+    if (!game.user) return false;
+
+    if (game.mode.get() == gmEditStory) return true;
+    
+  },
+
   editEntityMode: function() {
 
     if (!ved) return false;
