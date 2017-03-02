@@ -8,6 +8,15 @@ c("home rendered")
 
 }
 
+
+Template.agent.rendered = function () {
+
+c("home rendered")
+
+  stopSpinner();
+
+}
+
 Template.home.helpers({
 
     homeContent: function() {

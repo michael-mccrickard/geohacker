@@ -82,7 +82,7 @@ Template.vedSelect.events = {
 
 		 	sed.code.set( game.user.profile.lastEditedStory );
 
-			ved.loadStory(); 		
+			storyManager.startStoryFromEditor()		
 		}   
 	},
 
@@ -96,7 +96,7 @@ Template.vedSelect.events = {
 
 		 	sed.code.set( game.user.profile.lastEditedStory );
 
-			testStory(); 		
+			storyManager.start( sed.code.get() ); 		
 		}   
 	},
 

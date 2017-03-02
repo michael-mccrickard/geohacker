@@ -228,13 +228,20 @@ Template.login.events({
 
       e.preventDefault();
 
-testStoryEditor();
+storyManager.startEditor();
 
 //testStory("A");
 
 //FlowRouter.go("/editChat");
 
 return;
+
+//*************************************************************************************************************
+//
+//                  END OF CHANGE WHAT THE BIG START BUTTON DOES HERE
+//  
+//
+//*************************************************************************************************************
 
       //This is here b/c we were having instances where the onLogin event
       //was apparently not firing ...

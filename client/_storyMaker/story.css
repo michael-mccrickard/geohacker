@@ -222,6 +222,31 @@ div.storyButton {
 	margin-right: auto;
 }
 
+
+.stampContainer {
+  margin: auto;
+  visibility: hidden;
+}
+
+.stamp {
+	font-family: Arial;
+    border: solid 4px;
+    border-radius: 16px;
+    color: red;
+    font-size: 100px;
+    font-weight: bold;
+    line-height: 1;
+    padding: 16px;
+    opacity: 0;
+    position: absolute;
+    margin: 0 auto;
+    top: 30%;
+    left: 30%;
+    text-transform: uppercase;
+    z-index: 5000;
+  }
+
+
 .storyCharName {
 
 	width: 100%;
@@ -272,7 +297,7 @@ div#storyPromptText {
   animation-duration: 1s;
 }
 
-.animated {
+.pulseAnimated {
   animation-duration: 2.5s;
   animation-fill-mode: both;
   animation-iteration-count: infinite;

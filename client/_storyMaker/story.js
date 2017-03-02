@@ -1,5 +1,7 @@
 //story.js
 
+
+
 $(document).ready(function(){
     $('.divStory').tooltip(); 
 });
@@ -41,7 +43,7 @@ Story =  function() {
 
 		if (!game.user.sms) game.user.sms = new StoryMessaging();
 
-		this.mode = new Blaze.ReactiveVar( "none" );
+		this.mode = new Blaze.ReactiveVar( "none" );  //select, scene, chat, map or exercise
 
 		this.charObjs = [];  //this array holds the chars for the current scene
 
@@ -80,6 +82,8 @@ Story =  function() {
 		this.tempEntity = null;
 
  		this.storyButton = "Base";
+
+ 		this.congrats = new StoryCongrats();
 
  		//first subscribe to the records that supply any actual agent IDs (agents in the db) that we need for the story
 
@@ -826,16 +830,8 @@ c("story loc in playScene is " + story.location)
 
 	this.prompt = function( _text) {
 
-		this.showPrompt( this.filterPrompt( _text ) );
+		this.showPrompt( _text );
 	},
-
-	this.filterPrompt = function( _s ) {
-
-		var _ret = _s.replace("\\", "'")
-
-		return _ret;
-	}
-
 
 //*********************************************************************************
 //

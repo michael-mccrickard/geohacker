@@ -73,6 +73,13 @@ Template.story.helpers({
   	 return story.tokens;
   },
 
+  selectMode: function() {
+
+    if (story.mode.get() == "select") return true;
+
+    return false;
+  },
+
   storyButton: function() {
 
     return story.storyButtons;
@@ -82,6 +89,8 @@ Template.story.helpers({
 
     return story.scene;
   }
+
+  
 
 });
 

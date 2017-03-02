@@ -59,7 +59,7 @@ CutScene = function( _name ) {
 			return;
 		}
 
-		if ( this.c.substr( 0, 6) != "story.") this.c = "story." + this.c;
+		if ( this.c.substr( 0, 6) != "story." && this.c.substr( 0, 8) != "display.") this.c = "story." + this.c;
 
 		this.playNow();
 

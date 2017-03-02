@@ -299,7 +299,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.goHome = function() {
 
-
 		//The avatar button in the upper-left corner 
 		//is what calls this function.
 		//It might be faded b/c we're in the middle of some
@@ -340,7 +339,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     		}
     	}
     		
-    	if (this.mode == uNone || this.mode == uIntro) {
+    	if (this.mode == uNone || this.mode == uIntro || this.mode > uHelp) {   // > uHelp would be story or editing 
 
     		this.setMode( uHack );
     	}

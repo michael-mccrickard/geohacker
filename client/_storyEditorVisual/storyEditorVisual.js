@@ -584,9 +584,11 @@ c(_ent)
 
 	this.loadStory = function() {
 
-game.user.mode = uStory;
+		game.user.mode = uEditStory;
 
 		this.mode.set("play");
+
+		game.mode.set( gmEditStory );
 
 		var _code = sed.code.get();
 
