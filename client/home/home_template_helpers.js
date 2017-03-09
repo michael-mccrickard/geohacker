@@ -64,6 +64,16 @@ Template.home.events({
 
   },
 
+  'click #divSelectStoryPic': function(e) {
+
+      e.preventDefault();  
+
+      doSpinner();
+
+      storyManager.init();
+
+  },
+
   'click #divHomeStatsPic': function(e) {
 
       e.preventDefault();  

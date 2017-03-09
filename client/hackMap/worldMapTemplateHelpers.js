@@ -159,12 +159,12 @@ Template.worldMap.helpers({
 
     if (map.selectedRegion.length) {
 
-      return map.selectedRegion + "_icon.jpg";
+      return map.selectedRegion + "_icon.png";
     }
 
     if (game.user.assign.selectedRegion.length) {
 
-       return game.user.assign.selectedRegion + "_icon.jpg";     
+       return game.user.assign.selectedRegion + "_icon.png";     
     }
 
   },

@@ -1,0 +1,40 @@
+.divSelectStory {
+	
+	position:relative;
+
+	top: 85px;
+
+	width: 100%;
+
+	text-align: center;
+}
+
+.selectStoryHeadline {
+	position:relative;
+
+	top: 85px;
+	width: 100%;
+
+	text-align: center;
+
+
+	color: yellow;
+
+	font-size: 4.0vw;
+}
+
+.divSelectStoryButton {
+
+	margin: 2%;
+
+
+}
+
+.storyPlayButton {
+
+	width: 50%;
+	font-family: Arial;
+
+	font-size: 3.0vw;
+}
+

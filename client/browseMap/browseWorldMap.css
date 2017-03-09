@@ -23,6 +23,23 @@ width: 100%;
 
 }
 
+.divExerciseClue {
+  
+  float: right; 
+  position: relative; 
+  top: 55px;  
+  border-radius: 7px; 
+  border: 4px solid; 
+  border-color: gray; 
+  margin-right: 16px;
+
+  font-size: 8.0vh;
+
+  font-family: Arial;
+
+  text-align: center;
+
+}
 
 
 .storyMapAreaLabel {

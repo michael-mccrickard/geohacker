@@ -32,6 +32,12 @@ CutScene = function( _name ) {
 			return;
 		}
 
+
+		if (this.c == "exit") {
+
+			return;
+		}
+
 		if ( this.c.substr(0,5) == "delay") {
 
 			this.val = parseInt( this.c.substr(6) );

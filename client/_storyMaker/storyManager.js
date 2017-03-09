@@ -1,6 +1,22 @@
 StoryManager = function() {
 
+	this.init = function() {
+
+		this.reset();
+
+		if ( !db.storiesInitialized )  db.initStories();
+
+		Meteor.subscribe("allStories", function() { Session.set("sAllStoriesReady", true ) });
+	}
+
+	this.reset = function() {
+
+		 Session.set("sAllStoriesReady", false);
+	}
+
 	this.start = function( _code ) {
+
+		story.killSound();
 
 		game.user.mode = uStory;
 
@@ -52,3 +68,9 @@ StoryManager = function() {
 }
 
 
+Tracker.autorun( function(comp) {
+
+  		if ( Session.get("sAllStoriesReady") ) FlowRouter.go("/storyManager");
+
+	}
+);  

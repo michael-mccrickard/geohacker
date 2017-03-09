@@ -10,6 +10,37 @@ Template.browseWorldMap.helpers({
     return false;
   },
 
+  notExerciseMode: function() {
+
+    if (browseMap.mode.get() == "exercise") return false;
+
+    return true;
+  },
+
+  exerciseMode: function() {
+
+    if (browseMap.mode.get() == "exercise") return true;
+
+    return false;
+  },
+
+  browseMapHeadline: function() {
+
+    if (browseMap.mode.get() == "exercise") return "";     
+
+    if (browseMap.mode.get() == "story") return "CLICK ANY COUNTRY TO GO THERE";      
+
+     return "PICK A COUNTRY TO EXPLORE";
+  },
+
+  browseMapLeft: function() {
+
+    if (browseMap.mode.get() == "exercise") return "16px";
+
+    return "0px";
+
+  },
+
   browseMode: function() {
 
     if (browseMap.mode.get() == "browse") return true;
@@ -102,13 +133,27 @@ Template.browseWorldMap.helpers({
       }
   },
 
-  mapWidth: function() { return Session.get("gWindowWidth") * 0.89},
+  mapWidth: function() { 
+
+    if (browseMap.mode.get() == "exercise")  return Session.get("gWindowWidth") * 0.65;
+
+    return Session.get("gWindowWidth") * 0.89;
+
+  },
+
+  exerciseClueWidth: function() { 
+
+    return Session.get("gWindowWidth") * 0.32;
+
+  },
 
   mapHeight: function() { 
 
     var _factor = 0.98;
 
-    if (browseMap.mode.get() == "story") _factor = 0.81;
+    var _mode = browseMap.mode.get();
+
+    if ( _mode == "story" || _mode == "exercise") _factor = 0.81;
 
     var h = (Session.get("gWindowHeight") - display.menuHeight) * _factor;
 
@@ -209,6 +254,18 @@ Template.browseWorldMap.rendered = function () {
 
         browseMap.worldMap.mapLevel = mlCountry;
 
+    }
+
+    var _showNames = true;
+
+    if (game.user.mode == uStory || game.user.mode == uStoryEdit ) {
+
+      if (story.mode.get() == "exercise") {
+
+        story.em.showMap();
+
+        return;
+      }
     }
 
     Meteor.setTimeout( function() { browseMap.worldMap.doCurrentMap() }, 250 );

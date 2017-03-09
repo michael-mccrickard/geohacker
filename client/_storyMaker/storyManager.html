@@ -1,0 +1,23 @@
+<template name="storyManager">
+
+	<div class="selectStoryHeadline">
+		GEOSQUAD MISSIONS
+	</div>
+
+	<div class="divSelectStory">
+
+		{{#each story}}
+
+			<div class="divSelectStoryButton">
+
+				<button type="button" class="btn btn-{{buttonType @index}} btn-lg storyPlayButton" id="{{this.c}}">
+					{{this.n}}
+			    </button>
+
+			</div>
+
+		{{/each}}
+
+	</div>
+
+</template>

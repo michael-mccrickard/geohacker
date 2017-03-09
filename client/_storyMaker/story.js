@@ -19,6 +19,8 @@ Story =  function() {
 
 	this.inventorySound = "inventory2.mp3"
 
+	this.em = new ExerciseManager();
+
 
 //*********************************************************************************
 //
@@ -80,6 +82,8 @@ Story =  function() {
 		this.buttonStripHeightFactor = 0.135;
 
 		this.tempEntity = null;
+
+		this.exercise = new Exercise();
 
  		this.storyButton = "Base";
 
@@ -941,6 +945,25 @@ c("story loc in playScene is " + story.location)
 			$( _sel ).attr("src", Control.featuredBackdrop());
 		}
 		
+	}
+
+//*********************************************************************************
+//
+//				EXERCISES 
+//
+//*********************************************************************************
+
+	this.doExercise = function() {
+
+		//just in case ...
+
+		story.silenceAll();
+
+		//need to decide the name by scene
+
+		var _name = "whereIsContinent"
+
+		this.em.start(_name)
 	}
 
 }

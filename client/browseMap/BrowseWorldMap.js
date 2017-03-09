@@ -83,7 +83,7 @@ BrowseWorldMap = function( _mapCtl ) {
     //the rendered callback for this template calls this function after a slight delay
     //to draw the map (by calling doMap with the right params)
 
-    this.doCurrentMap = function() {
+    this.doCurrentMap = function( _showNames ) {
 
         this.doClearButton(0);
 
@@ -156,7 +156,7 @@ c("clicking map object")
 
     }
 
-    this.doThisMap = function(_mapLevel, _drawLevel, _detailLevel, _continentID, _regionID) {
+    this.doThisMap = function(_mapLevel, _drawLevel, _detailLevel, _continentID, _regionID, _showNames) {
 
         //reset this each time, b/c it disappears if we switch hack/display objects
 
@@ -248,8 +248,19 @@ c("clicking map object")
 
         }
 
+        var _lockMap = false;
 
-        this.dp.areas = this.mm.getJSONForMap(this.selectedContinent, this.selectedRegion, _mapLevel, _drawLevel, _detailLevel, z1, z2, z3);
+        //on the exercises, we may or may not be zooming in when the user clicks on the map
+
+        //e.g. if the starting mapLevel (_mapLevel here) is the same as the answer level, we don't zoom
+
+        if (browseMap.mode.get() == "exercise") {
+
+            if (_mapLevel == story.em.exercise.config.mapLevelAnswer) _lockMap = true;
+        }
+
+
+        this.dp.areas = this.mm.getJSONForMap(this.selectedContinent, this.selectedRegion, _mapLevel, _drawLevel, _detailLevel, z1, z2, z3, _showNames, _lockMap);
 
         this.dp.images = [];
 
@@ -550,7 +561,9 @@ c("handleClick in browseMap")
 
     //allow zoomComplete to set the new map level and redraw the map
     //when the zoom is complete
+
 console.log(_event.mapObject);
+
     worldMap.zoomDone = false;
 
     worldMap.map.clearLabels();
@@ -592,8 +605,6 @@ console.log(_event.mapObject);
 
         this.detailLevel = mlCountry;
 
-
-
 c("level is mlContinent in handleclick")
 c("zoomDone = " + worldMap.zoomDone)
     }
@@ -604,6 +615,13 @@ c("zoomDone = " + worldMap.zoomDone)
 
         worldMap.customData = _event.mapObject.customData;
     }
+
+    if (browseMap.mode.get() == "exercise") {
+
+        story.em.processUserChoice( worldMap.mapObjectClicked );
+
+        //return;
+    }    
 
     if (level == mlCountry) { 
        
@@ -661,7 +679,8 @@ c("zoomDone = " + worldMap.zoomDone)
             story.go( worldMap.mapObjectClicked );
 
             return;
-        }        
+        } 
+      
     }
 
 }

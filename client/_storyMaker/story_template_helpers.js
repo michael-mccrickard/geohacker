@@ -122,11 +122,6 @@ Template.story.events({
          story.goBase();
       },
 
-    'click img#storyButtonBase': function(event, template) {
-
-         story.goBase();
-      },
-
     'click .imgStoryInventoryButton': function(event, template) {
 
         var _name = $(event.currentTarget).attr("data-shortname");

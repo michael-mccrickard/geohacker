@@ -135,6 +135,16 @@ FlowRouter.route('/story', {
     }
 });
 
+FlowRouter.route('/storyManager', {
+
+    name: "storyManager",
+
+    action: function (params, queryParams) { 
+
+      BlazeLayout.render('layout', { content: "storyManager" } )
+
+    }
+});
 
 
 

@@ -43,11 +43,29 @@ BrowseMapMaker = function() {
     _zoom params = the zoom extents to apply to each country, based on the _mapLevel (allows the countries to be clickable, but prevents zooming in)
 */
 
-    this.getJSONForMap = function(_continentID, _regionID, _mapLevel, _drawLevel, _detailLevel, _zoomLevel, _zoomLatitude, _zoomLongitude) {
+var mapZoomLevel = 0;
+
+var mapZoomLatitude = 0;
+
+var mapZoomLongitude = 0;
+
+
+    this.getJSONForMap = function(_continentID, _regionID, _mapLevel, _drawLevel, _detailLevel, _zoomLevel, _zoomLatitude, _zoomLongitude, _showNames, _lockMap) {
 
       var _rec = null;
 
       var s = '[';
+
+      if (!_lockMap) _lockMap = false;
+
+      //save these initial values to the module vars
+
+      mapZoomLevel = _zoomLevel;
+
+      mapZoomLatitude = _zoomLatitude;
+
+      mapZoomLongitude = _zoomLongitude;     
+
 
       if (_drawLevel == mlWorld) {
 
@@ -59,7 +77,7 @@ BrowseMapMaker = function() {
 
             _rec = arr[i];
 
-            s = s + this.getJSONForContinent(_rec.c, mlWorld, false);
+            s = s + this.getJSONForContinent(_rec.c, mlWorld, _lockMap, _showNames) 
 
         }
 
@@ -67,12 +85,12 @@ BrowseMapMaker = function() {
 
       if (_drawLevel == mlContinent) {
 
-        s = s + this.getJSONForContinent(_continentID, mlContinent, false);
+        s = s + this.getJSONForContinent(_continentID, mlContinent, _lockMap, _showNames) 
       }
 
       if (_drawLevel == mlRegion) {
 
-        s = s + this.getJSONForContinent(_regionID, mlRegion, false);
+        s = s + this.getJSONForContinent(_regionID, mlRegion, _lockMap, _showNames) 
       }
 
 
@@ -125,7 +143,7 @@ BrowseMapMaker = function() {
     */
 
 
-    this.getJSONForContinent = function(_code, _level, lockMap) {
+    this.getJSONForContinent = function(_code, _level, _lockMap, _showNames) {
 
 
       var arrR = [];
@@ -183,9 +201,9 @@ BrowseMapMaker = function() {
 
               var _regionID = _rec.c;
 
-              if (_level == mlWorld) s = s + this.getJSONForRegion(_level, _regionName, _regionID, _areaID, _areaName, _zoomLevel, _zoomLatitude, _zoomLongitude, _color, lockMap );
+              if (_level == mlWorld) s = s + this.getJSONForRegion(_level, _regionName, _regionID, _areaID, _areaName, _zoomLevel, _zoomLatitude, _zoomLongitude, _color, _lockMap, _showNames);
 
-              if (_level == mlContinent) s = s + this.getJSONForRegion(_level, _regionName, _regionID, _areaID, _areaName, _rec.z1, _rec.z2, _rec.z3, _rec.co, lockMap );
+              if (_level == mlContinent) s = s + this.getJSONForRegion(_level, _regionName, _regionID, _areaID, _areaName, _rec.z1, _rec.z2, _rec.z3, _rec.co, _lockMap, _showNames);
 
           }  
 
@@ -195,14 +213,14 @@ BrowseMapMaker = function() {
 
           arrR[0] = db.getRegionRec( _code );
 
-          s = s + this.getJSONForRegion(_level, arrR[0].n, arrR[0].c, '0', '0', 0,0,0, arrR[0].co, lockMap );
+          s = s + this.getJSONForRegion(_level, arrR[0].n, arrR[0].c, '0', '0', 0,0,0, arrR[0].co, _lockMap, _showNames);
        }
 
       return s;
     }
 
 
-    this.getJSONForRegion = function(_level, _regionName, _regionID, _areaID, _areaName, _zoomLevel, _zoomLatitude, _zoomLongitude, _color, lockMap) {
+    this.getJSONForRegion = function(_level, _regionName, _regionID, _areaID, _areaName, _zoomLevel, _zoomLatitude, _zoomLongitude, _color, _lockMap, _showNames) {
 
           var newline = "\n\r";
 
@@ -235,7 +253,7 @@ BrowseMapMaker = function() {
 
             if (_level == mlWorld) {
               
-              s = s + '"customData"' +  ': "' + _areaName + '", ' + newline; 
+              if (_showNames) s = s + '"customData"' +  ': "' + _areaName + '", ' + newline; 
 
               s = s + '"groupId"' +  ': "' + _areaID + '", ' + newline; 
 
@@ -243,7 +261,7 @@ BrowseMapMaker = function() {
 
             if (_level == mlContinent) {
               
-              s = s + '"customData"' +  ': "' + _regionName + '", ' + newline; 
+              if (_showNames) s = s + '"customData"' +  ': "' + _regionName + '", ' + newline; 
 
               s = s + '"groupId"' +  ': "' + _regionID + '", ' + newline; 
 
@@ -251,14 +269,22 @@ BrowseMapMaker = function() {
 
             if (_level == mlWorld || _level == mlContinent) {
 
-              if (!lockMap) {
+              if (_lockMap) {
+
+                s = s + '"zoomLevel"' + ': "' + mapZoomLevel + '", ' + newline;  
+
+                s = s + '"zoomLatitude"' + ': "' + mapZoomLatitude + '", ' + newline;  
+
+                s = s + '"zoomLongitude"' + ': "' + mapZoomLongitude + '", ' + newline; 
+
+              }
+              else {
 
                 s = s + '"zoomLevel"' + ': "' + _zoomLevel + '", ' + newline;  
 
                 s = s + '"zoomLatitude"' + ': "' + _zoomLatitude + '", ' + newline;  
 
                 s = s + '"zoomLongitude"' + ': "' + _zoomLongitude + '", ' + newline; 
-
               }
 
             }
@@ -269,7 +295,7 @@ BrowseMapMaker = function() {
             
             if (_level == mlRegion) {
               
-              s = s + '"customData"' +  ': "' + arr[i].n + '", ' + newline; 
+              if (_showNames) s = s + '"customData"' +  ': "' + arr[i].n + '", ' + newline; 
 
               s = s + '"color"' +  ': "' +  arr[i].co + '"' + newline;            
             }

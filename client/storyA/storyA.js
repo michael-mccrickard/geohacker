@@ -223,9 +223,11 @@ storyA = function() {
 //
 //*********************************************************************************
 
-	this.doExercise = function(_val) {
+	this.doneWithExercise = function() {
 
-		this.mode.set( "exercise" );
+		if (this.scene == "intro") this.flags.didExercise1 = true;
+
+		this.go( this.location );
 	}
 
 }

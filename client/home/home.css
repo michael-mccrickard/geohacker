@@ -89,6 +89,18 @@
   height: 70%;
 }
 
+.imgSelectStoryButton {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2%;
+
+  width: 95%;
+
+  height: 95%;
+}
+
+
 .divHomeMapButton {
 	float: right;
     cursor: pointer;
