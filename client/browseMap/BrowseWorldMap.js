@@ -77,7 +77,8 @@ BrowseWorldMap = function( _mapCtl ) {
 
         this.drawLevel = mlWorld;
 
-        this.detailLevel = mlContinent;        
+        this.detailLevel = mlContinent; 
+
     }
 
     //the rendered callback for this template calls this function after a slight delay
@@ -118,29 +119,25 @@ BrowseWorldMap = function( _mapCtl ) {
 
             this.detailLevel = mlContinent;
 
-            this.doThisMap( this.mapLevel, this.drawLevel, this.detailLevel, null, null);
+            this.doThisMap( this.mapLevel, this.drawLevel, this.detailLevel, null, null, _showNames);
         }
 
         if (level == mlContinent) {
 
-            //this.mapCtl.level.set( mlRegion );
-
-            this.doThisMap( mlContinent, mlContinent, mlRegion, this.selectedContinent, null);
+            this.doThisMap( mlContinent, mlContinent, mlRegion, this.selectedContinent, null, _showNames);
         }
 
 
         if (level == mlRegion) {
 
-           //this.mapCtl.level.set( mlCountry );
-
-            this.doThisMap( mlRegion, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion );        
+            this.doThisMap( mlRegion, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion, _showNames );        
         }
 
         if (level == mlCountry) {  //this is just a replay of the map zooming in on the correct country (browse mode)
 
             c("level in doCurrentMap is country")
            
-           this.doThisMap( mlRegion, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion);
+           this.doThisMap( mlRegion, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion, _showNames);
 
            //set level to country, so that the label uses the correct coords
 
@@ -162,7 +159,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
             if (mapObject) {
 
-                c("clicking map object")
+               c("clicking map object")
                 
                 this.map.clickMapObject(mapObject);
         
@@ -502,7 +499,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
         if (_level == mlWorld) {
 
-            this.doThisMap(mlWorld, mlWorld, mlContinent);
+            this.doThisMap(mlWorld, mlWorld, mlContinent, null, null, true);
 
             this.map.validateData();
 
@@ -521,7 +518,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
         if (_level == mlContinent) {
 
-            this.doThisMap( mlContinent, mlContinent, mlRegion, this.selectedContinent, this.selectedRegion );
+            this.doThisMap( mlContinent, mlContinent, mlRegion, this.selectedContinent, this.selectedRegion, true );
 
             this.map.validateData();
 
@@ -540,7 +537,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
         if (_level == mlRegion) {
 
-            this.doThisMap( mlRegion, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion );
+            this.doThisMap( mlRegion, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion, true );
 
             this.map.validateData();
 
@@ -591,6 +588,18 @@ console.log(_event.mapObject);
 
     var level = worldMap.mapCtl.level.get();
 
+c("level in handleclick in browseMap is " + level)
+c("zoomDone in handleclick in browseMap is = " + worldMap.zoomDone)
+
+
+    if (browseMap.mode.get() == "exercise") {
+
+        story.em.processUserChoice( worldMap.mapObjectClicked );
+
+c("exiting browsemap b/c of exercise mode")
+        
+        return;
+    }    
 
     //here we set the module vars for the area and the customData var for labelMapObject
 
@@ -624,8 +633,6 @@ console.log(_event.mapObject);
 
         this.detailLevel = mlCountry;
 
-c("level is mlContinent in handleclick")
-c("zoomDone = " + worldMap.zoomDone)
     }
 
     if (level == mlRegion) {
@@ -634,13 +641,6 @@ c("zoomDone = " + worldMap.zoomDone)
 
         worldMap.customData = _event.mapObject.customData;
     }
-
-    if (browseMap.mode.get() == "exercise") {
-
-        story.em.processUserChoice( worldMap.mapObjectClicked );
-
-        return;
-    }    
 
     if (level == mlCountry) { 
        
@@ -715,6 +715,8 @@ function handleZoomCompleted() {
 
     if (worldMap.zoomDone == true)  {
 
+        //if zoomDone is true, then we don't need to do any of the processing in this function
+
         c("handleZoomCompleted in browsemap is returning b/c zoomDone is true")
 
         return; 
@@ -724,10 +726,15 @@ function handleZoomCompleted() {
         c("zoomDone is false in browseMap.handleZoomCompleted")
     }
 
+    //we always set this back to true, so that we only do the processing below
+    //when we are specifically ready for it
+ 
     worldMap.zoomDone = true;
 
     
     var level = worldMap.mapCtl.level.get();
+
+    c("worldMap.mapCtl.level in handleZoomCompleted is " + level)
 
     c("worldMap.mapObjectClicked in handleZoomCompleted is " + worldMap.mapObjectClicked)
 
@@ -737,7 +744,7 @@ function handleZoomCompleted() {
 
     if (level == mlWorld) {
   
-        worldMap.doThisMap(mlContinent, mlContinent, mlRegion, _continentCode, null);
+        worldMap.doThisMap(mlContinent, mlContinent, mlRegion, _continentCode, null, true);
 
         worldMap.labelAllRegions();
 
@@ -750,7 +757,7 @@ function handleZoomCompleted() {
 
     if (level == mlContinent) {
    
-        worldMap.doThisMap(mlRegion, mlRegion, mlCountry, _continentCode, _regionCode);
+        worldMap.doThisMap(mlRegion, mlRegion, mlCountry, _continentCode, _regionCode, true);
 
         worldMap.doLabelRegion( _regionCode);
 

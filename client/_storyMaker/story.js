@@ -572,13 +572,24 @@ c("story loc in playScene is " + story.location)
 
           this.hidePrompt();
 
-          browseMap.worldMap.reset();
-
           browseMap.mode.set( "story" );
 
-          this.playEffect( "storyMap.mp3")
+          this.playEffect( "storyMap.mp3") 
 
           display.playLoop("mapLoop.mp3")
+
+          var _map = browseMap.worldMap;
+
+          if (this.location != "base") {
+
+          	_map.selectedCountry.set( this.location );
+
+          	_map.selectedRegion = db.getRegionCodeForCountry( this.location );
+
+          	_map.selectedContinent = db.getContinentCodeForCountry( this.location );
+
+          	_map.mapLevel = mlCountry;
+          }
 
           Meteor.setTimeout( function() { story.mode.set("map"); }, 250 );
 	},

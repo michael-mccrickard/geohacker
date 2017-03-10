@@ -171,6 +171,17 @@ StoryMessaging = function() {
             return;
         }
 
+        //are we exiting and executing a command here, instead of a normal helper response or more user choices?
+
+        if ( this.dest.substr(0,4) == "exe@" ) {
+
+            var _tmp = this.dest.split("@");
+
+            eval( _tmp[1] );
+
+            return;
+        }
+
         story.playEffect("message2.mp3");
 
         this.createUserChoices( this.dest );

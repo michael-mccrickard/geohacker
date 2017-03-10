@@ -258,7 +258,7 @@ Template.browseWorldMap.rendered = function () {
 
     var _showNames = true;
 
-    if (game.user.mode == uStory || game.user.mode == uStoryEdit ) {
+    if (game.user.mode == uStory || game.user.mode == uEditStory ) {
 
       if (story.mode.get() == "exercise") {
 
@@ -268,7 +268,7 @@ Template.browseWorldMap.rendered = function () {
       }
     }
 
-    Meteor.setTimeout( function() { browseMap.worldMap.doCurrentMap() }, 250 );
+    Meteor.setTimeout( function() { browseMap.worldMap.doCurrentMap( true ) }, 250 );  //show the names on the map, by default
 
     Meteor.setTimeout( function() { browseMap.finishDraw() }, 251 );
 

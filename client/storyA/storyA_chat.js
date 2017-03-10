@@ -5,6 +5,8 @@ addChat = function() {
 
 	var _scenes = [ "intro", "missionToMona", "firstGuardVisit", "secondGuardVisit", "missionInfo", "vanGogh", "nelsonGetsPainting"];
 
+_scenes = [ "firstGuardVisit2"];
+
 	for (var i = 0; i < _scenes.length; i++ ) {
 
 		var _shortName = _scenes[i];
@@ -38,6 +40,34 @@ addChat = function() {
 		} 
 	}	     
 }
+
+storyA_chat_firstGuardVisit2 = [
+
+	{
+		"i": "h",
+		"n": "vanGogh",
+		"d": [ { "t": "Just between you and me, I understand that a painter named Van Gogh has the passcode.  Good luck with that, though.  He is unusual.", "g": "thanks"} ]
+	},
+
+	{
+		"i": "u",
+		"n": "thanks",
+		"d": [ { "t": "Thank you, sir.  This was most helpful.", "g": "exit"}, { "t": "Where do I find him?", "g": "whereVanGogh"}  ] 
+	},
+
+	{
+		"i": "h",
+		"n": "whereVanGogh",
+		"d": [ { "t": "I thought you were a Geosquad agent!  Don't you have resources that help you with that stuff?  I would try his home country first.  Ask a senior agent, if you need to.", "g": "thanks2"} ] 
+	},
+
+	{
+		"i": "u",
+		"n": "thanks2",
+		"d": [ { "t": "OK.  Goodbye.", "g": "exit"}  ] 
+	}
+
+]
 
 storyA_chat_intro = [
 

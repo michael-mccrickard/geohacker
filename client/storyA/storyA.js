@@ -42,6 +42,14 @@ storyA = function() {
 			return "missionInfo";
 		}
 
+		if ( this.scene == "firstGuardVisit") {
+
+			if (this.flags.didExercise2) return "intro";
+		}
+
+		if ( this.scene == "firstGuardVisit2") return "intro";
+
+
 		if (this.scene == "nelsonGetsPainting") {
 
 			if (_shortName == "nelson") return this.scene;
@@ -170,12 +178,19 @@ storyA = function() {
 
 		if ( _ID == "FR") {
 
-			if ( !this.flags.awareOfPasscode || !this.flags.awareOfVanGogh  ) {
+			if ( !this.flags.awareOfPasscode) {
 
 					this.play("firstGuardVisit");
 
 					return;		
 			}
+
+			if (this.flags.didExercise2 && !this.flags.has_passcode) {
+
+					this.play("firstGuardVisit2");
+
+					return;		
+			}			
 
 			if ( this.flags.has_passcode && !this.flags.has_mona ) {
 
@@ -254,6 +269,8 @@ storyA = function() {
 	this.doneWithExercise = function() {
 
 		if (this.scene == "intro") this.flags.didExercise1 = true;
+
+		if (this.scene == "firstGuardVisit") this.flags.didExercise2 = true;
 
 		this.go( this.location );
 	}

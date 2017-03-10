@@ -172,6 +172,8 @@ Exercise = function() {
 		browseMap.mode.set("exercise");
 
 		story.mode.set("exercise");
+
+		story.fadeOutBG();
 	}
 
 
@@ -275,7 +277,7 @@ ExerciseItem = function( _obj ) {
 
 		var _showNames = false;  //over-ride this below if necessary
 
-		if (this.ID == "whereIs") {
+		if (this.ID == "whereIsContinent") {
 
 			this.clue( "Where is " + this.name + "?");
 
