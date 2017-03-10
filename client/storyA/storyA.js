@@ -223,6 +223,34 @@ storyA = function() {
 //
 //*********************************************************************************
 
+	this.doExercise = function() {
+
+		//just in case ...
+
+		story.silenceAll();
+
+		//the em.build() switches us to the exercise template
+		//and then the Template.rendered event starts the exercise
+
+		if (this.scene == "intro") {
+
+			this.em.build( "whereIsContinent");
+		}
+
+		if (this.scene == "firstGuardVisit") {
+
+			this.em.build();
+
+			this.em.add([
+
+				{ ID: "inWhichContinent", code: "europe", name: "France" },
+				{ ID: "inWhichContinent", code: "europe", name: "Netherlands" },
+				{ ID: "inWhichContinent", code: "africa", name: "Mali" },
+
+			]);
+		}
+	}
+
 	this.doneWithExercise = function() {
 
 		if (this.scene == "intro") this.flags.didExercise1 = true;

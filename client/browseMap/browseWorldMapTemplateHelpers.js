@@ -262,7 +262,7 @@ Template.browseWorldMap.rendered = function () {
 
       if (story.mode.get() == "exercise") {
 
-        story.em.showMap();
+        story.em.go();
 
         return;
       }

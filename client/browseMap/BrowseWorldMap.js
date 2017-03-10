@@ -85,6 +85,19 @@ BrowseWorldMap = function( _mapCtl ) {
 
     this.doCurrentMap = function( _showNames ) {
 
+        if (browseMap.mode.get() == "exercise") {
+
+            if (story.em.getConfig().mapLevelStart == mlContinent) {
+
+                this.selectedContinent = db.getContinentCodeForCountry( story.em.getCode() )
+            }
+
+            if (story.em.getConfig().mapLevelStart == mlRegion) {
+
+                this.selectedRegion = db.getRegionCodeForCountry( story.em.getCode() )
+            }
+        }
+
         this.doClearButton(0);
 
         //reset this each time, b/c it disappears if we switch hack/display objects
@@ -97,7 +110,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
             //this.mapCtl.level.set( mlContinent );
 
-c("level in doCurrentMap is world or none")
+            c("level in doCurrentMap is world or none")
 
             this.mapLevel = mlWorld;
 
@@ -124,7 +137,9 @@ c("level in doCurrentMap is world or none")
         }
 
         if (level == mlCountry) {  //this is just a replay of the map zooming in on the correct country (browse mode)
-c("level in doCurrentMap is country")
+
+            c("level in doCurrentMap is country")
+           
            this.doThisMap( mlRegion, mlRegion, mlCountry, this.selectedContinent, this.selectedRegion);
 
            //set level to country, so that the label uses the correct coords
@@ -134,7 +149,9 @@ c("level in doCurrentMap is country")
             var mapObject = null;
 
             if (this.selectedCountry.get().length) mapObject = this.map.getObjectById( this.selectedCountry.get() );
-c("mapObject in doCurrentMap follows")
+            
+            c("mapObject in doCurrentMap follows")
+            
             //prevent zoomCompleted from jumping us to the browse data screen
 
             this.zoomOnlyOnClick = true;
@@ -144,7 +161,9 @@ c("mapObject in doCurrentMap follows")
             this.zoomDone = false;
 
             if (mapObject) {
-c("clicking map object")
+
+                c("clicking map object")
+                
                 this.map.clickMapObject(mapObject);
         
             }
@@ -157,6 +176,18 @@ c("clicking map object")
     }
 
     this.doThisMap = function(_mapLevel, _drawLevel, _detailLevel, _continentID, _regionID, _showNames) {
+
+        var _lockMap = false;
+
+        //on the exercises, we may or may not be zooming in when the user clicks on the map
+
+        //e.g. if the starting mapLevel (_mapLevel here) is the same as the answer level, we don't zoom
+
+        if (browseMap.mode.get() == "exercise") {
+
+            if (_mapLevel == story.em.getConfig().mapLevelAnswer) _lockMap = true;
+
+        }
 
         //reset this each time, b/c it disappears if we switch hack/display objects
 
@@ -247,18 +278,6 @@ c("clicking map object")
             this.dp.zoomLongitude = z3 = rec.z3            
 
         }
-
-        var _lockMap = false;
-
-        //on the exercises, we may or may not be zooming in when the user clicks on the map
-
-        //e.g. if the starting mapLevel (_mapLevel here) is the same as the answer level, we don't zoom
-
-        if (browseMap.mode.get() == "exercise") {
-
-            if (_mapLevel == story.em.exercise.config.mapLevelAnswer) _lockMap = true;
-        }
-
 
         this.dp.areas = this.mm.getJSONForMap(this.selectedContinent, this.selectedRegion, _mapLevel, _drawLevel, _detailLevel, z1, z2, z3, _showNames, _lockMap);
 
@@ -620,7 +639,7 @@ c("zoomDone = " + worldMap.zoomDone)
 
         story.em.processUserChoice( worldMap.mapObjectClicked );
 
-        //return;
+        return;
     }    
 
     if (level == mlCountry) { 
@@ -652,7 +671,7 @@ c("zoomDone = " + worldMap.zoomDone)
 
         if (worldMap.zoomOnlyOnClick) {
 
-        c("handleclick in browsemap is exiting b/c zoomOnlyOnClick -- mlcountry level")
+            c("handleclick in browsemap is exiting b/c zoomOnlyOnClick -- mlcountry level")
 
             worldMap.mapCtl.level.set(mlRegion); 
 

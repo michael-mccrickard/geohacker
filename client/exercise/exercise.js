@@ -8,20 +8,6 @@ ExerciseManager = function() {
 
 	this.exercise = null;
 
-	this.start = function( _ID ) {
-
-		this.exercise = new Exercise( _ID);
-
-		this.exercise.show();
-
-		Meteor.setTimeout( function() { story.em.go() }, 300);
-	}
-
-	this.go = function() {
-
-		this.exercise.go();
-	}
-
 	this.processUserChoice = function( _val ) {
 
 		this.exercise.processUserChoice( _val );
@@ -34,10 +20,46 @@ ExerciseManager = function() {
 		story.mode.set("scene");
 	}
 
+	this.build = function( _ID ) {
+
+		story.mode.set("exercise");
+
+		this.exercise = new Exercise();
+
+		if (_ID) this.exercise.build(_ID);
+	}
+
+	this.go = function() {
+
+		this.exercise.show();
+
+		Meteor.setTimeout( function() { story.em.exercise.go() }, 300);
+	}
+
+
+	this.add = function( _arr ) {
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			this.exercise.add( _arr[i] );
+		}		
+	}
+
+	this.getCode = function() {
+
+		return this.exercise.item[ this.exercise.index ].code;
+	}
+
+	this.getConfig = function() {
+
+		return this.exercise.config;
+	}
+
+
 }
 
 
-Exercise = function(_ID) {
+Exercise = function() {
 
 	this.item = [];
 
@@ -53,34 +75,95 @@ Exercise = function(_ID) {
 
 	this.incorrectSound = "exerciseIncorrect.mp3";
 
+	//We can modify these functions to let value pairs in the param obj
+	//over-ride the default values
 
-	if (_ID == "whereIsContinent") {
+	//just passing the ID for now, but we could change this to an object
 
-		var _arr = Database.shuffle( db.ghZ.find().fetch() );
+	this.build = function( _ID ) {
+
+		//the .type property on these may not be needed.
+		//Probably won't know until we add the progressive build type
+
+		if (_ID == "whereIsContinent") {
+
+			var _arr = Database.shuffle( db.ghZ.find().fetch() );
+
+			var _obj = {};
+
+			_obj.ID = _ID;
+
+			_obj.type = "whereIs";
+
+			_obj.entityType = "area";
+
+			_obj.entity = "continent";	
+
+			_obj.mapLevelStart = mlWorld;
+
+			_obj.mapLevelAnswer = mlWorld;
+
+			this.config = _obj;
+
+			for (var i = 0; i < _arr.length; i++) {
+
+				_obj.code = _arr[i].c;
+
+				_obj.name = _arr[i].n;
+
+				this.item.push( new ExerciseItem( _obj ) );
+
+			}
+		}
+	}
+
+	this.add = function( _par ) {
 
 		var _obj = {};
 
-		_obj.ID = "whereIs";
+		_obj.ID = _par.ID;
 
-		_obj.entityType = "area";
+		if (_obj.ID == "whereIsCountry") {
 
-		_obj.entity = "continent";	
+			_obj.type = "whereIs";
 
-		_obj.mapLevelStart = mlWorld;
+			_obj.entityType = "area";
 
-		_obj.mapLevelAnswer = mlWorld;
+			_obj.entity = "country";	
 
-		this.config = _obj;
+			_obj.mapLevelStart = mlRegion;
 
-		for (var i = 0; i < _arr.length; i++) {
+			_obj.mapLevelAnswer = mlRegion;
 
-			_obj.code = _arr[i].c;
+			this.config = _obj;
 
-			_obj.name = _arr[i].n;
+			_obj.code = _par.code;
 
-			this.item.push( new ExerciseItem( _obj ) );
+			_obj.region = db.getRegionCodeForCountry( _par.code );
 
+			_obj.name = db.getCountryName( _par.code);
 		}
+
+		if (_obj.ID == "inWhichContinent") {
+
+			_obj.type = "whereIs";
+
+			_obj.entityType = "area";
+
+			_obj.entity = "continent";	
+
+			_obj.mapLevelStart = mlWorld;
+
+			_obj.mapLevelAnswer = mlContinent;
+
+			this.config = _obj;
+
+			_obj.code = _par.code;
+
+			_obj.name = _par.name;
+		}
+
+		this.item.push( new ExerciseItem( _obj ) );
 	}
 
 
@@ -115,10 +198,12 @@ Exercise = function(_ID) {
 	this.processUserChoice = function( _val ) {
 
 		var _item = this.item[ this.index ];
-		
-		var _answerGiven = "";
 
-		//assuming whereIs for the moment
+		//this is the country code of the item clicked
+		
+		var _answerGiven = _val;
+
+		//assuming whereIs type for the moment
 
 		if (_item.entity == "continent") _answerGiven = db.getContinentCodeForCountry( _val );
 		
@@ -126,9 +211,21 @@ Exercise = function(_ID) {
 
 			story.playEffect( this.correctSound );
 
-			_item.clue("CORRECT!")
+			var _clue = "CORRECT!";
 
-			_item.message( _item.name );
+			var _message = _item.name;
+
+			if (_item.ID == "inWhichContinent") {
+
+				_message = db.getContinentName( _item.code );
+
+				_clue = _clue + "  " + _item.name + " is in " + _message + ".";
+
+			}
+
+			_item.clue( _clue );
+
+			_item.message( _message );
 
 			Meteor.setTimeout( function() { story.em.exercise.go() }, 2000);
 		}
@@ -153,7 +250,7 @@ ExerciseItem = function( _obj ) {
 	this.messageElement = "#browseMapMessageBox";
 
 
-	this.type = _obj.ID;  //whereIs, findCountry
+	this.ID = _obj.ID;  //whereIs, findCountry
 
 	if (_obj.code) this.code = _obj.code; 
 
@@ -176,18 +273,25 @@ ExerciseItem = function( _obj ) {
 
 		_worldMap.mapLevel = this.mapLevelStart;
 
-		if (this.type == "whereIs") {
+		var _showNames = false;  //over-ride this below if necessary
+
+		if (this.ID == "whereIs") {
 
 			this.clue( "Where is " + this.name + "?");
 
-			this.message( "Click on " + this.name);		
-
-			_worldMap.drawLevel = mlWorld
-
-			_worldMap.detailLevel = mlContinent;	
-
-			Meteor.setTimeout( function() { browseMap.worldMap.doCurrentMap( false ) }, 250 );  //set _showNames to false
+			this.message( "Click on " + this.name);	
 		}
+
+		if (this.ID == "inWhichContinent") {
+
+			this.clue( "On which continent is " + this.name + "?");
+
+			this.message( "Click on the continent for " + this.name);	
+		}		
+
+
+		Meteor.setTimeout( function() { browseMap.worldMap.doCurrentMap( _showNames ) }, 250 );  
+		
 	}
 
 	this.clue = function( _s) {

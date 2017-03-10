@@ -572,6 +572,8 @@ c("story loc in playScene is " + story.location)
 
           this.hidePrompt();
 
+          browseMap.worldMap.reset();
+
           browseMap.mode.set( "story" );
 
           this.playEffect( "storyMap.mp3")
@@ -947,24 +949,6 @@ c("story loc in playScene is " + story.location)
 		
 	}
 
-//*********************************************************************************
-//
-//				EXERCISES 
-//
-//*********************************************************************************
-
-	this.doExercise = function() {
-
-		//just in case ...
-
-		story.silenceAll();
-
-		//need to decide the name by scene
-
-		var _name = "whereIsContinent"
-
-		this.em.start(_name)
-	}
 
 }
 
