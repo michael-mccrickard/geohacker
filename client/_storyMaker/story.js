@@ -474,8 +474,6 @@ Story =  function() {
 
 		if (ved) ved.updateScreen( this.scene );
 
-c("story loc in playScene is " + story.location)
-
 		this.playBGLoop( this.location );
 
 		this.cutScene = new CutScene( this.scene );
@@ -850,6 +848,27 @@ c("story loc in playScene is " + story.location)
 		this.showPrompt( _text );
 	},
 
+	this.brightness = function(_val, _element) {
+
+		if (!_element) _element = this.bgElement;
+
+		$( _element ).css("filter", "brightness(" + _val + "%)")
+	}
+
+	this.restoreBrightness = function(_element) {
+
+		if (!_element) _element = this.bgElement;
+
+		$(_element).addClass("restoreBrightness");
+	}
+
+	this.dimBrightness = function(_element) {
+
+		if (!_element) _element = this.bgElement;
+
+		$(_element).addClass("dimBrightness");
+	}
+
 //*********************************************************************************
 //
 //				SOUND FUNCTIONS
@@ -866,9 +885,9 @@ c("story loc in playScene is " + story.location)
 
 	//player (no number) = effect (sound in public folder) (interface sounds: inventory sound, button sounds, etc)
 
-	//player2 = story sound AND effect2 (sound in public folder)  (scripted sound effects)
+	//player2 = story sound (scripted sound effects) AND effect2 (sound in public folder)  
 
-	//player3 = story loop AND story sound2  (bg loops + the occasional scripted sound that overlaps an already playing one)
+	//player3 = story loop (bg loops)  AND story sound2 (the occasional scripted sound that overlaps an already playing one)
 
 	//The "AND" cases above are intended to be rare instances
 
@@ -913,6 +932,11 @@ c("story loc in playScene is " + story.location)
 		display.stopEffects();
 
 		game.stopMusic();
+	}
+
+	this.playMusic = function() {
+
+		game.startMusic();
 	}
 
 

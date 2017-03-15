@@ -1,3 +1,59 @@
+.divCongratsAgent {
+
+  font-family: Arial;
+
+  font-size: 12.0vh;
+
+  font-weight: bold;
+
+  text-transform: uppercase;
+
+  text-shadow: 4px 4px 8px #000000;
+
+  position: absolute;
+
+  width: 100%;
+
+  text-align: center;
+
+  opacity: 0;
+
+  z-index: 2000;
+
+  transform: scale(0.1);
+}
+
+#line1.divCongratsAgent {
+
+    top: 19%;
+} 
+
+#line2.divCongratsAgent {
+
+    top: 37%;
+}
+
+
+.divNextMissionButton {
+
+  position: relative;
+
+  top: 70%;
+
+  left: 73%;
+
+  opacity: 0;
+}
+
+.nextMissionButton {
+
+    color: white;
+
+    font-size: 3.0vw;
+
+    margin: 0.5%;
+}
+
 .animatedHue {
   -webkit-animation: filter-animation 2s infinite;
   animation: filter-animation 2s infinite;
@@ -21,4 +77,120 @@
   100% {
     filter: hue-rotate(359deg);
   }
+}
+
+
+.textColorChange {
+      
+      -webkit-animation:colorchange 3s infinite alternate;
+      animation:colorchange 3s infinite alternate;
+}
+
+@-webkit-keyframes colorchange {
+      
+      30% {
+        
+        color: #1abc9c;
+      }
+      
+      60% {
+        
+        color: #d35400;
+      }
+      
+      90% {
+        
+        color: pink;
+      }
+    }
+
+@-keyframes colorchange {
+      0% {
+        
+        color: blue;
+      }
+      
+      10% {
+        
+        color: #8e44ad;
+      }
+      
+      20% {
+        
+        color: #1abc9c;
+      }
+      
+      30% {
+        
+        color: #d35400;
+      }
+      
+      40% {
+        
+        color: blue;
+      }
+      
+      50% {
+        
+        color: #34495e;
+      }
+      
+      60% {
+        
+        color: blue;
+      }
+      
+      70% {
+        
+        color: #2980b9;
+      }
+      80% {
+     
+        color: #f1c40f;
+      }
+      
+      90% {
+     
+        color: #2980b9;
+      }
+      
+      100% {
+        
+        color: pink;
+      }
+    }
+
+.divCongratsAgent {
+
+  font-family: Arial;
+
+  font-size: 12.0vh;
+
+  font-weight: bold;
+
+  text-transform: uppercase;
+
+  text-shadow: 4px 4px 8px #000000;
+
+  position: absolute;
+
+  width: 100%;
+
+  text-align: center;
+
+  opacity: 0;
+
+  z-index: 2000;
+
+  transform: scale(0.05);
+}
+
+#line1.divCongratsAgent {
+
+    top: 19%;
+} 
+
+#line2.divCongratsAgent {
+
+    top: 37%;
 }

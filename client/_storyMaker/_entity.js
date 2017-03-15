@@ -90,12 +90,6 @@ Entity = function() {
 
 		if (this.ownerEntity) {
 
-c("in ent transform for " + this.name)
-c(this.type)
-c(this.ownerEntity)
-c(this.ownerEntity.contentElement)
-c(_str)
-
 			if ( this.type == "content") $( this.ownerEntity.contentElement ).css("transform", _str);
 
 			if ( this.type == "contentBG") {
@@ -144,6 +138,16 @@ c(_str)
 		
 		$( this.element ).velocity( "fadeOut", {duration: 1000} );
 	},
+
+	this.brightness = function(_val) {
+
+		story.brightness(_val, this.imageElement);
+	}
+
+	this.restoreBrightness = function() {
+
+		story.restoreBrightness( this.imageElement );
+	}
 
 	this.moveToCorner = function(_dir) {
 

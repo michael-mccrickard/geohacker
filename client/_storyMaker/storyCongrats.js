@@ -36,4 +36,42 @@ StoryCongrats = function() {
 
 	}
 
+	this.colorEffectText = function( _flag) {
+
+		if (_flag) {
+
+			$( ".divCongratsAgent").addClass("textColorChange")
+		}
+		else {
+
+			$( ".divCongratsAgent").removeClass("textColorChange");				
+		}
+
+	}
+
+	this.congratsAgent = function(_col) {
+
+		if (!_col) _col = "yellow";
+
+		if (_col) $(".divCongratsAgent").css("color", _col);
+
+		$("#line1.divCongratsAgent").text( "Great job," );
+
+		$("#line2.divCongratsAgent").text( "Agent " + game.username() + "!" );		
+
+		TweenMax.to( ".divCongratsAgent", 2, { scaleX: 1, scaleY: 1, opacity: 1, ease: Power3.easeIn } );
+	}
+
+	this.hideCongrats = function(_col) {
+
+		TweenMax.to( ".divCongratsAgent", 1, { scaleX: 10, scaleY: 10, opacity: 0 } );	
+
+		Meteor.setTimeout( function() { $(".divCongratsAgent").css("display", "none") }, 1501)
+	}
+
+	this.nextMission = function() {
+
+		$( ".divNextMissionButton" ).velocity( "fadeIn", {_duration: 1000} );
+	}
+
 }

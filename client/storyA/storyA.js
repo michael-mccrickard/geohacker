@@ -52,7 +52,7 @@ storyA = function() {
 
 		if (this.scene == "nelsonGetsPainting") {
 
-			if (_shortName == "nelson") return this.scene;
+			if (_shortName == "shadow") return this.scene;
 
 			return "intro";
 		}
@@ -160,14 +160,14 @@ storyA = function() {
 				return;
 			}
 
-			if ( !this.flags.knowsQuest) {
+			if (!this.flags.knowsQuest) {
 
 				this.play("missionToMona");
 
 				return;
 			}
 
-			if (  !this.flags.gave_mona ) {
+			if ( !this.flags.gave_mona ) {
 
 				this.play("missionInfo");
 
@@ -209,17 +209,28 @@ storyA = function() {
 				return;	
 			}
 
-			if ( !this.flags.has_passcode) {
+			if (!this.flags.didExercise3) {
 
 				this.play("vanGogh");
 
 				return;
 			}
+
+			if (!this.flags.has_passcode) {
+
+				this.play("userGetsPasscode");
+
+				return;
+			}			
 		}
 
 		if ( _ID == "ML") {
 
 			if ( this.flags.has_mona ) {
+
+				this.brightness(10);
+
+				this.brightness(20, this.shadow.imageElement);
 
 				this.play("nelsonGetsPainting");
 
@@ -258,9 +269,21 @@ storyA = function() {
 
 			this.em.add([
 
-				{ ID: "inWhichContinent", code: "europe", name: "France" },
-				{ ID: "inWhichContinent", code: "europe", name: "Netherlands" },
-				{ ID: "inWhichContinent", code: "africa", name: "Mali" },
+				{ ID: "inWhichContinent", aCode: "europe", qCode: "FR" },
+				{ ID: "inWhichContinent", aCode: "europe", qCode: "ML" }
+
+			]);
+		}
+
+		if (this.scene == "vanGogh") {
+
+			this.em.build();
+
+			this.em.add([
+
+				{ ID: "inWhichRegion", aCode: "weu", qCode: "FR" },
+				{ ID: "inWhichRegion", aCode: "weu", qCode: "NL" },
+				{ ID: "inWhichRegion", aCode: "nwaf", qCode: "ML" }
 
 			]);
 		}
@@ -271,6 +294,8 @@ storyA = function() {
 		if (this.scene == "intro") this.flags.didExercise1 = true;
 
 		if (this.scene == "firstGuardVisit") this.flags.didExercise2 = true;
+
+		if (this.scene == "vanGogh") this.flags.didExercise3 = true;
 
 		this.go( this.location );
 	}

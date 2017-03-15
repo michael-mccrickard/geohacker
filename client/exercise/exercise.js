@@ -10,7 +10,7 @@ ExerciseManager = function() {
 
 	this.processUserChoice = function( _val ) {
 
-		this.exercise.processUserChoice( _val );
+		this.exercise.item[ this.exercise.index ].processUserChoice( _val );
 	}
 
 	this.finishExercise = function() {
@@ -45,9 +45,9 @@ ExerciseManager = function() {
 		}		
 	}
 
-	this.getCode = function() {
+	this.getQCode = function() {
 
-		return this.exercise.item[ this.exercise.index ].code;
+		return this.exercise.item[ this.exercise.index ].qCode;
 	}
 
 	this.getConfig = function() {
@@ -95,9 +95,9 @@ Exercise = function() {
 
 			_obj.type = "whereIs";
 
-			_obj.entityType = "area";
+			_obj.qEntity = mlContinent;	
 
-			_obj.entity = "continent";	
+			_obj.aEntity = mlContinent;
 
 			_obj.mapLevelStart = mlWorld;
 
@@ -107,9 +107,9 @@ Exercise = function() {
 
 			for (var i = 0; i < _arr.length; i++) {
 
-				_obj.code = _arr[i].c;
+				_obj.qCode = _arr[i].c;
 
-				_obj.name = _arr[i].n;
+				_obj.aCode = _arr[i].c;
 
 				this.item.push( new ExerciseItem( _obj ) );
 
@@ -119,49 +119,56 @@ Exercise = function() {
 
 	this.add = function( _par ) {
 
+c("param obj in add follows")
+c( _par)
 		var _obj = {};
 
 		_obj.ID = _par.ID;
+
+		_obj.qCode = _par.qCode;
+
+		_obj.aCode = _par.aCode;
 
 		if (_obj.ID == "whereIsCountry") {
 
 			_obj.type = "whereIs";
 
-			_obj.entityType = "area";
-
-			_obj.entity = "country";	
+			_obj.qEntity = mlCountry;	
 
 			_obj.mapLevelStart = mlRegion;
 
-			_obj.mapLevelAnswer = mlRegion;
+			_obj.mapLevelEnd = mlRegion;
 
-			this.config = _obj;
-
-			_obj.code = _par.code;
-
-			_obj.region = db.getRegionCodeForCountry( _par.code );
-
-			_obj.name = db.getCountryName( _par.code);
+			_obj.aEntity = mlCountry;
 		}
 
 		if (_obj.ID == "inWhichContinent") {
 
 			_obj.type = "whereIs";
 
-			_obj.entityType = "area";
-
-			_obj.entity = "continent";	
+			_obj.qEntity = mlCountry;
 
 			_obj.mapLevelStart = mlWorld;
 
-			_obj.mapLevelAnswer = mlContinent;
+			_obj.mapLevelEnd = mlContinent;
 
-			this.config = _obj;
-
-			_obj.code = _par.code;
-
-			_obj.name = _par.name;
+			_obj.aEntity = mlContinent;
 		}
+
+		if (_obj.ID == "inWhichRegion") {
+
+			_obj.type = "whereIs";
+
+			_obj.qEntity = mlCountry;	
+
+			_obj.mapLevelStart = mlContinent;
+
+			_obj.mapLevelEnd = mlContinent;
+
+			_obj.aEntity = mlRegion;
+		}
+
+		this.config = _obj;
 
 		this.item.push( new ExerciseItem( _obj ) );
 	}
@@ -197,52 +204,6 @@ Exercise = function() {
 		this.item[ this.index ].draw();
 	}
 
-	this.processUserChoice = function( _val ) {
-
-		var _item = this.item[ this.index ];
-
-		//this is the country code of the item clicked
-		
-		var _answerGiven = _val;
-
-		//assuming whereIs type for the moment
-
-		if (_item.entity == "continent") _answerGiven = db.getContinentCodeForCountry( _val );
-		
-		if ( _answerGiven == _item.code) {
-
-			story.playEffect( this.correctSound );
-
-			var _clue = "CORRECT!";
-
-			var _message = _item.name;
-
-			if (_item.ID == "inWhichContinent") {
-
-				_message = db.getContinentName( _item.code );
-
-				_clue = _clue + "  " + _item.name + " is in " + _message + ".";
-
-			}
-
-			_item.clue( _clue );
-
-			_item.message( _message );
-
-			Meteor.setTimeout( function() { story.em.exercise.go() }, 2000);
-		}
-		else {
-
-			story.playEffect( this.incorrectSound );
-
-			_item.message("Incorrect.  Try again.");
-
-			this.index--;
-
-			Meteor.setTimeout( function() { story.em.exercise.go() }, 2000);			
-		}
-	}
-
 }
 
 ExerciseItem = function( _obj ) {  
@@ -254,17 +215,17 @@ ExerciseItem = function( _obj ) {
 
 	this.ID = _obj.ID;  //whereIs, findCountry
 
-	if (_obj.code) this.code = _obj.code; 
+	if (_obj.qCode) this.qCode = _obj.qCode; 
 
-	if (_obj.name) this.name = _obj.name; 
+	if (_obj.aCode) this.aCode = _obj.aCode; 
 
-	if (_obj.entityType) this.entityType = _obj.entityType;  //area, thing, person (only for whereIs)
+	if (_obj.qEntity) this.qEntity = _obj.qEntity;  //mlContinent, mlRegion, etc.
 
-	if (_obj.entity) this.entity = _obj.entity;  //continent, region, country, landmark, leader, celebrity  (only for whereIs)
+	if (_obj.aEntity) this.aEntity = _obj.aEntity;  //mlContinent, mlRegion, etc.
 
 	if (_obj.mapLevelStart) this.mapLevelStart = _obj.mapLevelStart;  
 
-	if (_obj.mapLevelAnswer) this.mapLevelAnswer = _obj.mapLevelAnswer;  
+	if (_obj.mapLevelEnd) this.mapLevelEnd = _obj.mapLevelEnd;  
 
 	if (_obj.pic) this.pic = _obj.pic;  
 
@@ -277,20 +238,32 @@ ExerciseItem = function( _obj ) {
 
 		var _showNames = false;  //over-ride this below if necessary
 
+		var _name = getAreaName( this.qEntity, this.qCode)
+
 		if (this.ID == "whereIsContinent") {
 
-			this.clue( "Where is " + this.name + "?");
+			this.clue( "Where is " + _name + "?");
 
-			this.message( "Click on " + this.name);	
+			this.message( "Click on " + _name);	
 		}
 
 		if (this.ID == "inWhichContinent") {
 
-			this.clue( "On which continent is " + this.name + "?");
+			this.clue( "On which continent is " + _name + "?");
 
-			this.message( "Click on the continent for " + this.name);	
+			this.message( "Click on the continent for " + _name);	
 		}		
 
+		if (this.ID == "inWhichRegion") {
+
+			this.clue( "In which region is " + _name + "?");
+
+			this.message( "Click on the region for " + _name);
+
+//use a property here
+_showNames = true;
+		
+		}
 
 		Meteor.setTimeout( function() { browseMap.worldMap.doCurrentMap( _showNames ) }, 250 );  
 		
@@ -306,4 +279,66 @@ ExerciseItem = function( _obj ) {
 		$(this.messageElement).text( _s);				
 	}
 
+	this.processUserChoice = function( _val ) {
+
+		//this is the country code of the item clicked (assuming whereIs questions for now),
+		//but depending on the answer entity (aEntity) we may have to interpolate it
+
+		if ( this.aEntity == mlContinent ) _val = db.getContinentCodeForCountry( _val );
+
+		if ( this.aEntity == mlRegion ) _val = db.getRegionCodeForCountry( _val );
+		
+c("_val is " + _val)
+c("_item.aCode is " + this.aCode)
+		
+		if ( _val == this.aCode) {
+
+			story.playEffect( story.em.exercise.correctSound );
+
+			var _clue = "CORRECT!";
+
+			var _answerName = getAreaName( this.aEntity, this.aCode)			
+
+			//need a better way to distinguish which types get this extra text
+
+			if (this.ID != "whereIsContinent") {
+
+				var _questionName = getAreaName( this.qEntity, this.qCode)
+
+				this.message( _answerName );
+
+				if (_answerName) {
+
+					_clue = _clue + "  " + _questionName + " is in " + _answerName + ".";
+				}
+			}
+
+			this.clue( _clue );
+
+			this.message( _answerName );
+
+			Meteor.setTimeout( function() { story.em.exercise.go() }, 2000);
+		}
+		else {
+
+			story.playEffect( story.em.exercise.incorrectSound );
+
+			this.clue("Incorrect.  Try again.");
+
+			story.em.exercise.index--;
+
+			Meteor.setTimeout( function() { story.em.exercise.go() }, 2000);			
+		}
+	}
+
+}
+
+
+function getAreaName( _level, _code) {
+
+	if (_level == mlContinent) return db.getContinentName( _code );
+
+	if (_level == mlRegion) return db.getRegionName( _code );
+
+	if (_level == mlCountry) return db.getCountryName( _code );
 }

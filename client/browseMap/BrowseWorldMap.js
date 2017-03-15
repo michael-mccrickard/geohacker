@@ -90,12 +90,12 @@ BrowseWorldMap = function( _mapCtl ) {
 
             if (story.em.getConfig().mapLevelStart == mlContinent) {
 
-                this.selectedContinent = db.getContinentCodeForCountry( story.em.getCode() )
+                this.selectedContinent = db.getContinentCodeForCountry( story.em.getQCode() )
             }
 
             if (story.em.getConfig().mapLevelStart == mlRegion) {
 
-                this.selectedRegion = db.getRegionCodeForCountry( story.em.getCode() )
+                this.selectedRegion = db.getRegionCodeForCountry( story.em.getQCode() )
             }
         }
 
