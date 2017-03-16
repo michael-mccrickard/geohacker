@@ -64,12 +64,14 @@ StoryCongrats = function() {
 
 	this.hideCongrats = function(_col) {
 
-		TweenMax.to( ".divCongratsAgent", 1, { scaleX: 10, scaleY: 10, opacity: 0 } );	
+		TweenMax.to( ".divCongratsAgent", 1, { scaleX: 5, scaleY: 5, opacity: 0 } );	
 
 		Meteor.setTimeout( function() { $(".divCongratsAgent").css("display", "none") }, 1501)
 	}
 
 	this.nextMission = function() {
+
+		$( ".divNextMissionButton" ).css( "display", "block" );
 
 		$( ".divNextMissionButton" ).velocity( "fadeIn", {_duration: 1000} );
 	}

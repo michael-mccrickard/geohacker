@@ -43,6 +43,8 @@
   left: 73%;
 
   opacity: 0;
+
+  display: none;
 }
 
 .nextMissionButton {

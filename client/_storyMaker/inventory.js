@@ -167,7 +167,11 @@ c("removing item " + _name + " from inv in inventory.js")
 
 	this.dimensionButtonImage = function( _element, _obj ) {
 
-		//the button has width/height ratio of 3/1
+		//the buttons currently have a width/height ratio of 3/1, which is the result of having 5 buttons (map, base, plus 3 inventory buttons)
+
+		//if future stories need more buttons, the width / height ratio will decrease (become more square) and 
+		//could (with enough buttons) become taller than their width.  Currently we don't have a way to calculate
+		//the _widthPercent based on the number of buttons -- the current value was determined experimentally
 
 		var _widthPercent = ( (3 * _obj.width) / _obj.height ) * 10;  //multiply by 10 to get a percentage of 100 value
 

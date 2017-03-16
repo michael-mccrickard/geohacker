@@ -42,12 +42,10 @@ storyA = function() {
 			return "missionInfo";
 		}
 
-		if ( this.scene == "firstGuardVisit") {
+		if ( this.scene == "firstGuardVisit2") {
 
-			if (this.flags.didExercise2) return "intro";
+			return "whereIsVanGogh";
 		}
-
-		if ( this.scene == "firstGuardVisit2") return "intro";
 
 
 		if (this.scene == "nelsonGetsPainting") {
@@ -270,7 +268,7 @@ storyA = function() {
 			this.em.add([
 
 				{ ID: "inWhichContinent", aCode: "europe", qCode: "FR" },
-				{ ID: "inWhichContinent", aCode: "europe", qCode: "ML" }
+				{ ID: "inWhichContinent", aCode: "africa", qCode: "ML" }
 
 			]);
 		}
