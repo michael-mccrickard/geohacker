@@ -51,17 +51,17 @@ Entity = function() {
 
 		if ( _obj ) {
 
-			if ( _obj.left ) this.left = percentStringToNumber( _obj.left ) * display.xFactor;
+			if ( _obj.left ) this.left = percentStringToNumber( _obj.left );
 
 			if ( _obj.top ) this.top = percentStringToNumber( _obj.top );
 
-			if ( _obj.translateX ) this.left = percentStringToNumber( _obj.translateX ) * display.xFactor;
+			if ( _obj.translateX ) this.left = percentStringToNumber( _obj.translateX );
 
 			if ( _obj.translateY ) this.top = percentStringToNumber( _obj.translateY );
 
 
 
-			if ( _obj.scaleX ) this.scaleX = _obj.scaleX * display.xFactor;
+			if ( _obj.scaleX ) this.scaleX = _obj.scaleX;
 
 			if ( _obj.scaleY ) this.scaleY = _obj.scaleY;
 		}
