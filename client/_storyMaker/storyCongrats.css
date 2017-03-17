@@ -90,17 +90,56 @@
 
 @-webkit-keyframes colorchange {
       
+      0% {
+        
+        color: blue;
+      }
+      
+      10% {
+        
+        color: green;
+      }
+      
+      20% {
+        
+        color:red;
+      }
+      
       30% {
         
-        color: #1abc9c;
+        color: yellow;
+      }
+      
+      40% {
+        
+        color: blue;
+      }
+      
+      50% {
+        
+        color: purple;
       }
       
       60% {
         
-        color: #d35400;
+        color: red;
+      }
+      
+      70% {
+        
+        color: green;
+      }
+      80% {
+     
+        color: yellow;
       }
       
       90% {
+     
+        color: white;
+      }
+      
+      100% {
         
         color: pink;
       }
@@ -114,17 +153,17 @@
       
       10% {
         
-        color: #8e44ad;
+        color: green;
       }
       
       20% {
         
-        color: #1abc9c;
+        color:red;
       }
       
       30% {
         
-        color: #d35400;
+        color: yellow;
       }
       
       40% {
@@ -134,26 +173,26 @@
       
       50% {
         
-        color: #34495e;
+        color: purple;
       }
       
       60% {
         
-        color: blue;
+        color: red;
       }
       
       70% {
         
-        color: #2980b9;
+        color: green;
       }
       80% {
      
-        color: #f1c40f;
+        color: yellow;
       }
       
       90% {
      
-        color: #2980b9;
+        color: white;
       }
       
       100% {
