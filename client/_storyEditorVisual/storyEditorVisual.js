@@ -296,6 +296,16 @@ StoryEditorVisual = function() {
 //				UTILITY FUNCTIONS
 //
 //*********************************************************************************
+	
+	this.getChildElement = function() {
+
+		if (this.selectedEntity.type == "content") return this.selectedEntity.ownerEntity.contentElement;
+
+		if (this.selectedEntity.type == "contentBG") return this.selectedEntity.ownerEntity.contentElementBG;
+
+		if (this.selectedEntity.type == "contentAnim") return this.selectedEntity.ownerEntity.contentElementAnim;		
+	}
+
 
 	this.prepareEditor = function() {
 
@@ -432,12 +442,9 @@ StoryEditorVisual = function() {
 	}
 
 	this.moveEntityVert = function( _val) {
-
-c("vert")
 		
 		var _ent = this.selectedEntity;
-c("ent is ")
-c(_ent)
+
 		_val = _val * 3;
 		
 		var _y = _ent.y;
@@ -452,11 +459,9 @@ c(_ent)
 	}
 
 	this.moveEntityHoriz = function( _val) {
-c("horiz")
 
 		var _ent = this.selectedEntity;
-c("ent is " + _ent)
-c(_ent)
+
 		_val = _val * 3;
 		
 		var _x = _ent.x;
@@ -513,7 +518,10 @@ c(_ent)
 
 		var _element = this.selectedEntity.element;
 
-		if (this.selectedEntity.ownerEntity) _element = this.selectedEntity.ownerEntity.contentElement;
+		if (this.selectedEntity.ownerEntity) {
+
+			_element = this.getChildElement();
+		}
 
 		var _obj = convertMatrixStringToObject( $(_element).css("transform") );
 
@@ -662,7 +670,10 @@ c(_ent)
 
 		var _element = _ent.element;
 
-		if ( _ent.ownerEntity ) _element = _ent.ownerEntity.contentElement;
+		if (this.selectedEntity.ownerEntity) {
+
+			_element = this.getChildElement();
+		}
 
 		if (!_obj ) _obj = convertMatrixStringToObject( $( _element ).css("transform") );		
 

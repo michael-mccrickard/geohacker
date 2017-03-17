@@ -96,20 +96,20 @@ Entity = function() {
 
 		var _str = "matrix(" + _obj.scaleX + ", 0, 0, " + _obj.scaleY + ", " + _obj.x + ", " + _obj.y + ")";
 
+		this.lastTransform = convertMatrixStringToObject( _str );
+
 		if (this.ownerEntity) {
 
 			if ( this.type == "content") $( this.ownerEntity.contentElement ).css("transform", _str);
 
-			if ( this.type == "contentBG") {
+			if ( this.type == "contentBG") $( this.ownerEntity.contentElementBG ).css("transform", _str);
 
-				$( this.ownerEntity.contentElementBG ).css("transform", _str);
-			}
+			if ( this.type == "contentAnim") $( this.ownerEntity.contentElementAnim ).css("transform", _str);
+
 			return;
 		}
 
 		$( this.element ).css("transform", _str);	
-
-		this.lastTransform = convertMatrixStringToObject( _str );
 
 	}
 

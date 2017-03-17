@@ -129,7 +129,9 @@ Story =  function() {
 
 		this.createTokens( "c" );  //content (sub-tokens)
 
-		this.createTokens( "cb" );  //content bg (sub-tokens)
+		this.createTokens( "ca" );  //content animated (gif sub-tokens)
+
+		this.createTokens( "cb" );  //content bg (sub-tokens on lowest layer)
 
 		this.createTokens( "n" );  //normal
 
@@ -378,6 +380,10 @@ Story =  function() {
 
 					eval( _str );
 
+					_str = "story." + _name + ".contentAnim = {};"
+
+					eval( _str );
+
 					//this array is treated normally
 
 					for (var j = 0; j < _arrC.length; j++) {	
@@ -386,6 +392,8 @@ Story =  function() {
 
 						if ( _arrC[j].t == "c") _str = "story." + _name + ".content['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
 						
+						if ( _arrC[j].t == "ca") _str = "story." + _name + ".contentAnim['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
+
 						if ( _arrC[j].t == "cb") _str = "story." + _name + ".contentBG['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
 
 						eval( _str)
