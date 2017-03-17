@@ -36,9 +36,14 @@ Entity = function() {
 
 		$(this.element).attr("data-shortname", this.shortName);
 
-		if (_obj) this.change( _obj );
+		if (_obj) {
 
-		this.draw();
+			this.change( _obj );
+		}
+		else {
+			
+			this.draw();
+		}
 
 	},
 
@@ -46,21 +51,24 @@ Entity = function() {
 
 		if ( _obj ) {
 
-			if ( _obj.left ) this.left = percentStringToNumber( _obj.left );
+			if ( _obj.left ) this.left = percentStringToNumber( _obj.left ) * display.xFactor;
 
 			if ( _obj.top ) this.top = percentStringToNumber( _obj.top );
 
-			if ( _obj.translateX ) this.left = percentStringToNumber( _obj.translateX );
+			if ( _obj.translateX ) this.left = percentStringToNumber( _obj.translateX ) * display.xFactor;
 
 			if ( _obj.translateY ) this.top = percentStringToNumber( _obj.translateY );
 
 
-			if ( _obj.scaleX ) this.scaleX = _obj.scaleX;
+
+			if ( _obj.scaleX ) this.scaleX = _obj.scaleX * display.xFactor;
 
 			if ( _obj.scaleY ) this.scaleY = _obj.scaleY;
 		}
 
 		this.draw();
+
+		this.update();
 	}
 
 	this.draw = function( _obj ) {
@@ -69,11 +77,11 @@ Entity = function() {
 
 			_obj = {};
 
-			_obj.x = this.x = convertObjectPercentToPixels( { x: this.left } );
+			_obj.x = this.x = convertObjectPercentToPixels( { x: this.left } ) * display.xFactor;
 
 			_obj.y = this.y = convertObjectPercentToPixels( { y: this.top } );
 
-			_obj.scaleX = this.scaleX;
+			_obj.scaleX = this.scaleX * display.xFactor;
 
 			_obj.scaleY = this.scaleY;
 		}
