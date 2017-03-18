@@ -156,7 +156,7 @@ FeaturedItem = function( ) {
 			}				
 		}
 
-		$("#pFEATURE3").attr("src", this.fileToLoad);
+		$("#preloadFeature").attr("src", this.fileToLoad);
 
         imagesLoaded( document.querySelector('#preloadFeature'), function( instance ) {
     

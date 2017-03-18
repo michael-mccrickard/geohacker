@@ -1,8 +1,15 @@
 Template.layout.helpers({
 
+  storyPreload: function() {
+
+    var _val = Session.get("sUpdateStoryPreloads");
+
+    return story.preloads;
+  },
+
   editStoryMode: function() {
 
-	if (Meteor.user() == null) return false;
+	  if (Meteor.user() == null) return false;
 
   	if (!game) return false;
 

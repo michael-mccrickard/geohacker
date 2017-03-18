@@ -147,6 +147,8 @@ Session.set("isIOS", false);
   Session.set("sChatReady", false );
 
   Session.set("sStorySoundReady", false );
+
+  Session.set("sUpdateStoryPreloads", false);
   
   //display-related
 

@@ -61,6 +61,8 @@ Story =  function() {
 
 		this.flags = {};   //the boolean flags that track the user's progress in the mission
 
+		this.preloads = [];
+
  		this.storyButtonBGElements = ["#storyButtonMap", "#storyButtonBase"];
 
  		this.storyButtonBaseElement = "img#imgStoryButtonBase";
@@ -121,31 +123,7 @@ Story =  function() {
 
 		this.storySoundSub = Meteor.subscribe("storyAssets_StorySound", story.code, function() { Session.set("sStorySoundReady", true ) });
 
-//need to do this with value from the db, story record (in autoRun?)
-
-		this.setEntityArrays();
-
-		this.createChars();
-
-		this.createTokens( "c" );  //content (sub-tokens)
-
-		this.createTokens( "ca" );  //content animated (gif sub-tokens)
-
-		this.createTokens( "cb" );  //content bg (sub-tokens on lowest layer)
-
-		this.createTokens( "n" );  //normal
-
-		this.createFlags();
-
-		this.createSounds();
-
-		this.cueSource = db.ghCue.find().fetch();
-
-		this.chatSource = db.ghChat.find().fetch();		//we will have to filter out the recs we need, for each chat
-
 	},
-
-
 
 
 	this.reset = function() {
@@ -191,7 +169,29 @@ Story =  function() {
 
 	},
 
-	this.initStoryProperties = function() {
+	this.createStoryFromData = function() {
+
+
+		this.setEntityArrays();
+
+		this.createChars();
+
+		this.createTokens( "c" );  //content (sub-tokens)
+
+		this.createTokens( "ca" );  //content animated (gif sub-tokens)
+
+		this.createTokens( "cb" );  //content bg (sub-tokens on lowest layer)
+
+		this.createTokens( "n" );  //normal
+
+		this.createFlags();
+
+		this.createSounds();
+
+		this.cueSource = db.ghCue.find().fetch();
+
+		this.chatSource = db.ghChat.find().fetch();		//we will have to filter out the recs we need, for each chat
+
 
 		var _rec = db.ghStory.findOne( { c: this.code } );
 
@@ -207,6 +207,81 @@ Story =  function() {
 
 		if (sed) sed.recordID.set( _rec._id );
 
+		//create the preloads array
+
+		this.preloads = [];
+
+		var _obj = null;
+
+		var _arr = Meteor.users.find({}).fetch();
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			this.preloads.push( _arr[i].profile.av );
+		}
+
+		_arr = db.ghStory.find( { c: this.code } ).fetch();
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			var _obj = _arr[i];
+
+			if (_obj.bg) this.preloads.push( _obj.bg );
+
+			if (_obj.btn) this.preloads.push( _obj.btn );			
+		}
+
+		_arr = db.ghLocation.find( { c: this.code } ).fetch();
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			_obj = _arr[i];
+
+			this.preloads.push( _obj.p );		
+		}			
+
+		_arr = db.ghChar.find( { c: this.code } ).fetch();
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			var _obj = _arr[i];
+
+			this.preloads.push( _obj.p );		
+		}	
+
+		_arr = db.ghToken.find( { c: this.code } ).fetch();
+
+		for (var i = 0; i < _arr.length; i++) {
+
+			var _obj = _arr[i];
+
+			this.preloads.push( _obj.p );		
+		}
+
+		this.updatePreloads();
+
+		Meteor.defer( function() { story.setPreloadCallback(); } );	
+
+	}
+
+	this.setPreloadCallback = function() {
+
+		imagesLoaded( document.querySelector('#preloadStoryFiles'), function( instance ) {
+
+        	story.init();
+
+  			//story.isLoaded.set( true );
+
+  			FlowRouter.go("/story");
+
+        });	
+	}
+
+	this.updatePreloads = function() {
+
+		var _val = Session.get("sUpdatePreloads");
+
+		Session.set("sUpdatePreloads", !_val);
 	}
 
 //*********************************************************************************
@@ -256,6 +331,7 @@ Story =  function() {
 //
 //*********************************************************************************
 
+	
 
 
 	//when we make the arrays, we have to add one to the count (allows for the default char and default token)
@@ -1017,13 +1093,11 @@ story_defaultAgent.prototype = new Char();
 
 Tracker.autorun( function(comp) {
 
-  if ( Session.get("sStoryAgentReady")
-
-      ) {
+  if ( Session.get("sStoryAgentReady") ) {
 
   	console.log("story agent data ready")
 
-     if (typeof story == 'undefined') return;
+	console.log("calling finishSubs in autorun")
 
   	story.finishSubscriptions( );
   } 
@@ -1055,18 +1129,23 @@ Tracker.autorun( function(comp) {
 
       ) {
 
-  	console.log("story data ready")
+  		console.log("story data ready")
 
-     if (typeof story == 'undefined') return;
+console.log("calling createStoryFromData")
 
-    story.initStoryProperties();
+		if (story.isLoaded.get() ) return;
 
-  	story.init();
+		story.isLoaded.set( true );
 
-  	story.isLoaded.set( true );
+    	story.createStoryFromData();
 
-  	FlowRouter.go("/story");
-  } 
+  		//story.init();
+
+  		//story.isLoaded.set( true );
+
+  		//FlowRouter.go("/story");
+ 		
+ 		} 
 
   console.log("story data not ready")
 

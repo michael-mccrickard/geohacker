@@ -52,9 +52,9 @@ Unit = function(_type, _name, _src, _videoID) {
 
 		//borrow the feature preload element
 
-		$("#pFEATURE3").attr("src", _file);
+		$("#preloadFeature").attr("src", _file);
 
-        imagesLoaded( document.querySelector('#pFEATURE3'), function( instance ) {
+        imagesLoaded( document.querySelector('#preloadFeature'), function( instance ) {
 
           //now that the image is loaded ...
 
