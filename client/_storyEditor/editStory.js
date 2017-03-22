@@ -341,7 +341,7 @@ StoryEditor = function(_code) {
 
 		var _width = $(document).width();
 
-		$("div.editor.storyDataTable").css("width", _width)
+		$("div.storyDataTable").css("width", _width)
 	}
 
 	this.moveRecordUp = function( _order ) {

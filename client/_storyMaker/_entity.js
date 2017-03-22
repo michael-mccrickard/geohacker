@@ -11,6 +11,10 @@ Entity = function() {
 
 	this.scaleY = 1.0;
 
+	this.currScaleX = 1.0;
+
+	this.currScaleY = 1.0;
+
 	this.x = 0;
 
 	this.y = 0;
@@ -51,19 +55,18 @@ Entity = function() {
 
 		if ( _obj ) {
 
-			if ( _obj.left ) this.left = percentStringToNumber( _obj.left );
+			if ( _obj.left ) this.left = _obj.left;
 
-			if ( _obj.top ) this.top = percentStringToNumber( _obj.top );
+			if ( _obj.top ) this.top = _obj.top;
 
-			if ( _obj.translateX ) this.left = percentStringToNumber( _obj.translateX );
+			if ( _obj.translateX ) this.left = _obj.translateX;
 
-			if ( _obj.translateY ) this.top = percentStringToNumber( _obj.translateY );
-
-
+			if ( _obj.translateY ) this.top = _obj.translateY;
 
 			if ( _obj.scaleX ) this.scaleX = _obj.scaleX;
 
 			if ( _obj.scaleY ) this.scaleY = _obj.scaleY;
+
 		}
 
 		this.draw();
@@ -77,22 +80,35 @@ Entity = function() {
 
 			_obj = {};
 
-			_obj.x = this.x = convertObjectPercentToPixels( { x: this.left } ) * display.xFactor;
+			_obj.x = this.x = parseFloat( this.left ) * $(window).width();
 
-			_obj.y = this.y = convertObjectPercentToPixels( { y: this.top } );
+			_obj.y = this.y = parseFloat( this.top ) * $(window).height();
 
-			_obj.scaleX = this.scaleX * display.xFactor;
+			_obj.scaleX = this.scaleX;
 
 			_obj.scaleY = this.scaleY;
-		}
 
-		this.transform( _obj );
+c( this.name + " scale values in draw() b4 -- " + this.scaleX + ", " + this.scaleY)
+
+			if (this.entityType == "token") {
+
+				_obj.scaleX = this.scaleX * $(window).width() / this.origSize.width;
+
+				_obj.scaleY = this.scaleY * $(window).height() / this.origSize.height; 	
+
+c( this.name + " scale values in draw() after -- " + _obj.scaleX + ", " + _obj.scaleY)				
+			}
+		}	
+
+		this.transform( _obj );	
 	}
 
 
 	this.transform = function( _obj ) {
 
 		if (!_obj) _obj = this;
+
+c( this.name + " scale values in transform() -- " + _obj.scaleX + ", " + _obj.scaleY)		
 
 		var _str = "matrix(" + _obj.scaleX + ", 0, 0, " + _obj.scaleY + ", " + _obj.x + ", " + _obj.y + ")";
 
@@ -199,16 +215,16 @@ Entity = function() {
 
 		if (_obj.left) {
 
-			_obj2.x = percentStringToNumber( _obj.left );
+			//_obj2.x = percentStringToNumber( _obj.left );
 
-			_obj2.x = convertXPercentToPixels( _obj2.x );
+			_obj2.x = _obj.left * $(window).width();
 		}
 
 		if (_obj.top) {
 
-			_obj2.y = percentStringToNumber( _obj.top );
+			//_obj2.y = percentStringToNumber( _obj.top );
 
-			_obj2.y = convertYPercentToPixels( _obj2.y );
+			_obj2.y =  _obj.top * $(window).height();
 		}
 
 		if (_obj.scaleX) {
@@ -246,6 +262,9 @@ Entity = function() {
 
 			_obj2.yoyo = true;
 		}
+
+c("obj for animation in ent.animate follows")
+c(_obj2)
 
 		this.tween = TweenMax.to( this.element, _time, _obj2 );
 	},
@@ -347,15 +366,16 @@ Entity = function() {
 
 		var _element = this.element;
 
-		if ( this.type == "content") _element = this.ownerEntity.contentElement;
+		if (this.ownerEntity) {
 
-		if ( this.type == "contentBG") _element = this.ownerEntity.contentElementBG;
+			_element = this.getChildElement( this.type );
+		}
 
 		var _obj = convertMatrixStringToObject( $( _element ).css("transform") );	
 
-		this.scaleX = _obj.scaleX;
+		this.currScaleX = _obj.scaleX;
 
-		this.scaleY = _obj.scaleY;
+		this.currScaleY = _obj.scaleY;
 
 		this.x = _obj.translateX;
 
@@ -370,5 +390,15 @@ Entity = function() {
 		this.skewY = _obj.skewY;		
 
 	}
+
+	this.getChildElement = function( _type ) {
+
+		if (_type == "content") return this.ownerEntity.contentElement;
+
+		if (_type == "contentBG") return this.ownerEntity.contentElementBG;
+
+		if (_type == "contentAnim") return this.ownerEntity.contentElementAnim;		
+	}
+
 
 }

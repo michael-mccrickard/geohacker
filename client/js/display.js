@@ -26,11 +26,11 @@ this.unit = new Unit();
 
     this.videoParent = null;
 
-    this.devScreenRatio = 1920/1080;
+    this.devScreenWidth = 1920;
 
-    this.screenRatio = screen.width/screen.height;
+    //this.screenRatio = screen.width/screen.height;
 
-    this.xFactor = this.devScreenRatio / this.screenRatio;
+    this.xFactor = this.devScreenWidth / screen.width;
 
 
     this.disableHomeButton = function() {

@@ -276,7 +276,7 @@ formatFloat = function( _val ) {
 }
 
 
-getDimensions = function( _s ) {
+getDimensionsFromFilename = function( _s ) {
 
     //lop off the extension
 
@@ -299,9 +299,9 @@ getDimensions = function( _s ) {
 
     var _obj = {};
 
-    _obj.width = _width;
+    _obj.width = parseInt(_width);
 
-    _obj.height = _height;
+    _obj.height = parseInt(_height);
 
     return (_obj)
 

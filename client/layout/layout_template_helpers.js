@@ -1,5 +1,12 @@
 Template.layout.helpers({
 
+  windowSize: function() {
+
+     return  "w: " + Session.get("gWindowWidth") + " -- h: " +Session.get("gWindowHeight");
+
+    
+  },
+
   storyPreload: function() {
 
     var _val = Session.get("sUpdateStoryPreloads");

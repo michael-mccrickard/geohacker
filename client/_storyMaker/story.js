@@ -1,7 +1,5 @@
 //story.js
 
-
-
 $(document).ready(function(){
     $('.divStory').tooltip(); 
 });
@@ -147,6 +145,8 @@ Story =  function() {
    		Session.set("sChatReady", false);
 
    		Session.set("sStorySoundReady", false);
+
+   		this.isLoaded.set( false );
 
       	if (!this.storyAgentSub) return;
 
@@ -772,13 +772,13 @@ Story =  function() {
 
 		$(".storyButton").css("width", _width + "%");
 
-		var _obj = getDimensions( this.baseButtonPic.get() );
+		var _obj = getDimensionsFromFilename( this.baseButtonPic.get() );
 
 		this.inv.dimensionButtonImage( this.storyButtonBaseElement, _obj );
 
 		var _src = $( this.storyButtonMapElement ).attr("src");
 
-		_obj = getDimensions( _src );
+		_obj = getDimensionsFromFilename( _src );
 
 		this.inv.dimensionButtonImage( this.storyButtonMapElement, _obj );
 
@@ -1099,6 +1099,8 @@ Tracker.autorun( function(comp) {
 
 	console.log("calling finishSubs in autorun")
 
+	if (typeof story === 'undefined') return;
+
   	story.finishSubscriptions( );
   } 
 
@@ -1131,19 +1133,15 @@ Tracker.autorun( function(comp) {
 
   		console.log("story data ready")
 
-console.log("calling createStoryFromData")
+		if (typeof story === 'undefined') return;
 
 		if (story.isLoaded.get() ) return;
 
 		story.isLoaded.set( true );
 
+		console.log("calling createStoryFromData")
+    	
     	story.createStoryFromData();
-
-  		//story.init();
-
-  		//story.isLoaded.set( true );
-
-  		//FlowRouter.go("/story");
  		
  		} 
 

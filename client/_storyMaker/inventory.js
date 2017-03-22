@@ -1,30 +1,4 @@
-getDimensions = function( _s ) {
 
-		//lop off the extension
-
-		var _index = _s.lastIndexOf(".");
-
-		_s = _s.substr(0, _index);
-
-		var _lastIndex = _s.lastIndexOf("_");
-
-		var _front = _s.substr(0, _lastIndex );
-
-		var _height = _s.substr(_lastIndex + 1);
-
-		_lastIndex = _front.lastIndexOf("_");
-
-		var _width = _front.substr( _lastIndex + 1 );
-
-		var _obj = {};
-
-		_obj.width = _width;
-
-		_obj.height = _height;
-
-		return (_obj)
-
-	}
 
 InventoryItem = function( _obj ) {
 
@@ -71,7 +45,7 @@ InventoryItem = function( _obj ) {
 
 		$( this.getParentElement() ).attr("data-shortname", this.shortName);
 
-		var _obj = getDimensions( _pic );
+		var _obj = getDimensionsFromFilename( _pic );
 
 		story.inv.dimensionButtonImage( this.getElement(), _obj);
 	}

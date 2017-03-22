@@ -356,6 +356,13 @@ FlowRouter.route('/userDirectory',  {
 //*********************************************
 
 
+FlowRouter.route('/storyPreload', {
+
+  action: function (params, queryParams) { BlazeLayout.render('layout', { content: "storyPreload" } ) }
+});
+
+
+
 function checkForFeature() {
 
   //if there is no control featured, then don't jump to

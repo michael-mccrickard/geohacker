@@ -66,9 +66,9 @@ StoryEditorVisual = function() {
 
 			this.mode.set("play");
 
-			FlowRouter.go("/waiting")
+			//FlowRouter.go("/waiting")
 
-			Meteor.setTimeout( function() { FlowRouter.go("/story"); }, 250);
+			//Meteor.setTimeout( function() { FlowRouter.go("/story"); }, 250);
 
 			return;
 		}
@@ -296,16 +296,6 @@ StoryEditorVisual = function() {
 //				UTILITY FUNCTIONS
 //
 //*********************************************************************************
-	
-	this.getChildElement = function() {
-
-		if (this.selectedEntity.type == "content") return this.selectedEntity.ownerEntity.contentElement;
-
-		if (this.selectedEntity.type == "contentBG") return this.selectedEntity.ownerEntity.contentElementBG;
-
-		if (this.selectedEntity.type == "contentAnim") return this.selectedEntity.ownerEntity.contentElementAnim;		
-	}
-
 
 	this.prepareEditor = function() {
 
@@ -520,7 +510,7 @@ StoryEditorVisual = function() {
 
 		if (this.selectedEntity.ownerEntity) {
 
-			_element = this.getChildElement();
+			_element = this.selectedEntity.getChildElement( this.selectedEntity.type );
 		}
 
 		var _obj = convertMatrixStringToObject( $(_element).css("transform") );
@@ -672,7 +662,7 @@ StoryEditorVisual = function() {
 
 		if (this.selectedEntity.ownerEntity) {
 
-			_element = this.getChildElement();
+			_element = this.selectedEntity.getChildElement( this.selectedEntity.type );
 		}
 
 		if (!_obj ) _obj = convertMatrixStringToObject( $( _element ).css("transform") );		
@@ -687,6 +677,18 @@ StoryEditorVisual = function() {
 
 		if ( _obj.scaleY ) _update.scy = parseFloat(_obj.scaleY);
 
+		if ( _ent.entityType == "token") {
+
+			if (_ent.ownerEntity) {
+
+				_element = _ent.getChildElement( _ent.type );				
+			}
+
+			_update.scx = $( _element ).outerWidth() * _obj.scaleX / $(window).width();
+
+			_update.scy = $( _element ).outerHeight() * _obj.scaleY / $(window).height();
+
+		}
 
 showMessage( "Saving entity " + _ent.shortName );
 
@@ -694,7 +696,7 @@ console.log( _update );
 
 		var _collection = db.getCollectionForType( _ent.collectionID );
 
-		_collection.update( { _id: _ent.ID }, { $set: _update } );
+		//_collection.update( { _id: _ent.ID }, { $set: _update } );
 	}
 
 //*********************************************************************************

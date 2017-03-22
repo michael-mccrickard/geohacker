@@ -77,13 +77,16 @@ Token = function() {
 
 		this.pic = _obj.p;	
 
-		if (_obj.top) this.top = percentStringToNumber( _obj.top );
+		this.origSize = getDimensionsFromFilename( this.pic );
 
-		if (_obj.l) this.left = percentStringToNumber( _obj.l );
+		if (_obj.top) this.top = _obj.top;
 
-		if (_obj.scx) this.scaleX = _obj.scx;
+		if (_obj.l) this.left = _obj.l;
 
-		if (_obj.scy) this.scaleY = _obj.scy;
+
+		if (_obj.scx) this.scaleX = parseFloat(_obj.scx);
+
+		if (_obj.scy) this.scaleY = parseFloat(_obj.scy);			
 
 
 		this.movable = false;
