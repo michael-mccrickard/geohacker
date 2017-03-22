@@ -7,13 +7,13 @@ Entity = function() {
 
 	//css transform values
 
-	this.scaleX = 1.0;
+	this.scaleX = 0;
 
-	this.scaleY = 1.0;
+	this.scaleY = 0;
 
-	this.currScaleX = 1.0;
+	this.currScaleX = 0;
 
-	this.currScaleY = 1.0;
+	this.currScaleY = 0;
 
 	this.x = 0;
 
@@ -84,20 +84,12 @@ Entity = function() {
 
 			_obj.y = this.y = parseFloat( this.top ) * $(window).height();
 
-			_obj.scaleX = this.scaleX;
+			_obj.scaleX = this.scaleX * $(window).width() / this.origSize.width;
 
-			_obj.scaleY = this.scaleY;
+			_obj.scaleY = this.scaleY * $(window).height() / this.origSize.height; 	
 
-c( this.name + " scale values in draw() b4 -- " + this.scaleX + ", " + this.scaleY)
-
-			if (this.entityType == "token") {
-
-				_obj.scaleX = this.scaleX * $(window).width() / this.origSize.width;
-
-				_obj.scaleY = this.scaleY * $(window).height() / this.origSize.height; 	
-
-c( this.name + " scale values in draw() after -- " + _obj.scaleX + ", " + _obj.scaleY)				
-			}
+//c( this.name + " scale values in draw() after -- " + _obj.scaleX + ", " + _obj.scaleY)				
+			//}
 		}	
 
 		this.transform( _obj );	
@@ -108,7 +100,7 @@ c( this.name + " scale values in draw() after -- " + _obj.scaleX + ", " + _obj.s
 
 		if (!_obj) _obj = this;
 
-c( this.name + " scale values in transform() -- " + _obj.scaleX + ", " + _obj.scaleY)		
+//c( this.name + " scale values in transform() -- " + _obj.scaleX + ", " + _obj.scaleY)		
 
 		var _str = "matrix(" + _obj.scaleX + ", 0, 0, " + _obj.scaleY + ", " + _obj.x + ", " + _obj.y + ")";
 

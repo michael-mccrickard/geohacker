@@ -21,7 +21,7 @@ StoryEditorVisual = function() {
 
 	this.selectedEntity = null;
 
-	this.sizeIncValue = 0.05;
+	this.sizeIncValue = 0.005;
 
 	this.storyButtonText =  new Blaze.ReactiveVar("Stories");
  
@@ -381,14 +381,15 @@ StoryEditorVisual = function() {
 
 	this.sizeEntityXY = function( _val) {
 
+		var screenRatio = $(window).height()/ $(Window).width();
+
 		var _ent = this.selectedEntity;
 
 		var _scaleX = _ent.scaleX;
 
-		_scaleX = _scaleX + _val * this.sizeIncValue;
+		_scaleX = _scaleX + _val * this.sizeIncValue * screenRatio;
 		
 		_ent.scaleX = _scaleX;
-
 
 		var _scaleY = _ent.scaleY;
 
@@ -396,7 +397,7 @@ StoryEditorVisual = function() {
 
 		_ent.scaleY = _scaleY;
 		
-		_ent.transform();
+		_ent.draw();
 
 		this.showCoordinates();
 	}
@@ -410,8 +411,8 @@ StoryEditorVisual = function() {
 		_scaleX = _scaleX + _val * this.sizeIncValue;
 
 		_ent.scaleX = _scaleX;
-		
-		_ent.transform();
+
+		_ent.draw();
 
 		this.showCoordinates();
 	}
@@ -426,7 +427,7 @@ StoryEditorVisual = function() {
 
 		_ent.scaleY = _scaleY;
 		
-		_ent.transform();
+		_ent.draw();
 
 		this.showCoordinates();
 	}
@@ -435,15 +436,15 @@ StoryEditorVisual = function() {
 		
 		var _ent = this.selectedEntity;
 
-		_val = _val * 3;
+		_val = _val * 0.01;
 		
-		var _y = _ent.y;
+		var _top = _ent.top;
 
-		_y = _y + _val;
+		_top = _top + _val;
 
-		_ent.y = _y;		
+		_ent.top = _top;		
 
-		_ent.transform();
+		_ent.draw();
 
 		this.showCoordinates();
 	}
@@ -452,15 +453,15 @@ StoryEditorVisual = function() {
 
 		var _ent = this.selectedEntity;
 
-		_val = _val * 3;
+		_val = _val * 0.01;
 		
-		var _x = _ent.x;
+		var _left = _ent.left;
 
-		_x = _x + _val;
+		_left = _left + _val;
 
-		_ent.x = _x;		
+		_ent.left = _left;			
 		
-		_ent.transform();
+		_ent.draw();
 
 		this.showCoordinates();
 
@@ -669,13 +670,13 @@ StoryEditorVisual = function() {
 
 		var _update = {};
 
-		if ( _obj.translateX ) _update.l = convertPixelsToPercentString( { x: _obj.translateX } );
+		if ( _obj.translateX ) _update.l = convertPixelsToPercent( { x: _obj.translateX } );
 
-		if ( _obj.translateY ) _update.top = convertPixelsToPercentString( { y: _obj.translateY } );
+		if ( _obj.translateY ) _update.top = convertPixelsToPercent( { y: _obj.translateY } );
 
-		if ( _obj.scaleX ) _update.scx = parseFloat(_obj.scaleX);
+		if ( _obj.scaleX ) _update.scx = _ent.scaleX;
 
-		if ( _obj.scaleY ) _update.scy = parseFloat(_obj.scaleY);
+		if ( _obj.scaleY ) _update.scy = _ent.scaleY;
 
 		if ( _ent.entityType == "token") {
 
@@ -696,7 +697,7 @@ console.log( _update );
 
 		var _collection = db.getCollectionForType( _ent.collectionID );
 
-		//_collection.update( { _id: _ent.ID }, { $set: _update } );
+		_collection.update( { _id: _ent.ID }, { $set: _update } );
 	}
 
 //*********************************************************************************
