@@ -41,6 +41,11 @@
   }
 }
 
+.storyElement {
+
+	transform-origin: left top;
+}
+
 
 .divStory {
 

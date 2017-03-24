@@ -19,6 +19,10 @@ Story =  function() {
 
 	this.em = new ExerciseManager();
 
+	this.origWindowWidth = 1422;
+
+	this.origWindowHeight = 800;
+
 
 //*********************************************************************************
 //
