@@ -785,6 +785,7 @@ Template.vedModalLocal.events = {
 
     e.preventDefault();
 
+//c("after prevent")
 
     var _collectionID = ved.localType.get();
 
@@ -796,7 +797,7 @@ Template.vedModalLocal.events = {
     _obj.d = [];
 
     var _name = $( "input#localName" ).val();
-
+//c("after get val from input field")
     if ( _name ) _obj.n = _name;  //we will change this value below chat records
 
     if ( _collectionID == cChat) {
@@ -805,13 +806,16 @@ Template.vedModalLocal.events = {
     }
 
     var _text = $("button#btnCreateLocalModal").text();
-
+//c("after get text from button")
     if ( _text == "CREATE") {
 
         if (_collectionID == cCue) {
-
+//c("coll is Cue")
+//c("obj of data to insert follows")
+//c(_obj)
           db.ghCue.insert(_obj, function (err, _ID) {
 
+//c("inside the callback on insert")
             if (err) {
               console.log(err);
               return;
@@ -938,7 +942,7 @@ Template.vedModalTransform.helpers({
 
       _obj.x = ved.selectedEntity.lastTransform.translateX
 
-      return convertPixelsToPercent( _obj );
+      return convertPixelsToPercentString( _obj );
 
     }
 
@@ -955,7 +959,7 @@ Template.vedModalTransform.helpers({
 
       _obj.y = ved.selectedEntity.lastTransform.translateY
 
-      return convertPixelsToPercent( _obj );
+      return convertPixelsToPercentString( _obj );
     }
 
     return "(No entity selected in scene)";

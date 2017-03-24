@@ -117,12 +117,7 @@ Template.editStory.events = {
 
       if (_field == "b") _field = "btn";    //bg button field (story)
 
-      if (_field == "p") {
-
-          if (sed.table.get() == "StorySound") _field = "u";  //url field (storySound)
-
-          //otherwise p is the correct field (char, token)
-      }
+      if (_field == "p") _field = "u";  //url field (storySound)
 
       var _recordID = event.currentTarget.id.substr(1);  //we prefixed a char (B,G,I,F, or P) to the ID in the template to make it a legal HTML element ID
 

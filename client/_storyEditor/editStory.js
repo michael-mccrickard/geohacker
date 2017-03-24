@@ -155,7 +155,7 @@ StoryEditor = function(_code) {
 
 		this.conformData();
 
-		if (this.table.get() == "Token" || this.table.get() == "Story" || this.table.get() == "Char" ) this.extendBG();
+		if (this.table.get() == "Token" || this.table.get() == "Story" ) this.extendBG();
 
 		if (this.table.get() == "Story") this.showAllData();
 
