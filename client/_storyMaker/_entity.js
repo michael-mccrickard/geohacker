@@ -74,37 +74,26 @@ Entity = function() {
 		this.update();
 	}
 
-	this.draw = function(_obj) {
+	this.draw = function( _obj ) {
 
-		var _windowWidth = $(window).width();
+		if (!_obj) {
 
-		var _windowHeight = $(window).height();
+			_obj = {};
 
-		if (!_obj) _obj = {};
+			_obj.x = this.x = parseFloat( this.left ) * $(window).width();
 
-		var _pixelWidth = this.scaleX * _windowWidth;
+			_obj.y = this.y = parseFloat( this.top ) * $(window).height();
 
-		_obj.scaleX = _pixelWidth /  this.origSize.width;
-	  
-	  
-	  	var _pixelHeight = this.scaleY * _windowHeight;
+			_obj.scaleX = this.scaleX * $(window).width() / this.origSize.width;
 
-		_obj.scaleY = _pixelHeight / this.origSize.height;
-		
-	  	_obj.y = this.top * _windowHeight;
+			_obj.scaleY = this.scaleY * $(window).height() / this.origSize.height; 	
 
-		_obj.x = this.left * _windowWidth;	
-	  
-/*
-		if ( this.ownerEntity) {
+//c( this.name + " scale values in draw() after -- " + _obj.scaleX + ", " + _obj.scaleY)				
+			//}
+		}	
 
-			_obj.y = _obj.y - ( _pixelHeight);		
-		}  
-*/
-		this.transform( _obj );
-
+		this.transform( _obj );	
 	}
-
 
 
 	this.transform = function( _obj ) {
@@ -405,29 +394,3 @@ c(_obj2)
 
 
 }
-
-
-/*
-
-
-	this.draw2 = function( _obj ) {
-
-		if (!_obj) {
-
-			_obj = {};
-
-			_obj.x = this.x = parseFloat( this.left ) * $(window).width();
-
-			_obj.y = this.y = parseFloat( this.top ) * $(window).height();
-
-			_obj.scaleX = this.scaleX * $(window).width() / this.origSize.width;
-
-			_obj.scaleY = this.scaleY * $(window).height() / this.origSize.height; 	
-
-//c( this.name + " scale values in draw() after -- " + _obj.scaleX + ", " + _obj.scaleY)				
-			//}
-		}	
-
-		this.transform( _obj );	
-	}
-*/

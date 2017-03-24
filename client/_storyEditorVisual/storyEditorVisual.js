@@ -381,7 +381,7 @@ StoryEditorVisual = function() {
 
 	this.sizeEntityXY = function( _val) {
 
-		var screenRatio = $(window).height()/ $(window).width();
+		var screenRatio = $(window).height()/ $(Window).width();
 
 		var _ent = this.selectedEntity;
 
@@ -436,7 +436,7 @@ StoryEditorVisual = function() {
 		
 		var _ent = this.selectedEntity;
 
-		_val = _val * 0.003;
+		_val = _val * 0.01;
 		
 		var _top = _ent.top;
 
@@ -453,7 +453,7 @@ StoryEditorVisual = function() {
 
 		var _ent = this.selectedEntity;
 
-		_val = _val *  0.003;
+		_val = _val * 0.01;
 		
 		var _left = _ent.left;
 

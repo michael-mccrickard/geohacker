@@ -2,43 +2,19 @@
 
 .testBoxBig {
 
-
+	position: absolute;
 /*
-	top: 25%;
+	top: 100px;
 
-	left: 30%;
-
-	width: 30%;
-*/
-}
-
-img#smallA {
-z-index: 100;
-/*
-	top: 25%;
-	left: 10%;
-	width: 10%;
+	left: 500px;
 */
 }
 
 
-img#smallB {
-
-/*
-	top: 25%;
-	left: 70%;
-	width: 10%;
-*/
-}
-
-
-
-.testBox{
+.testBoxSmall {
 
 	position: absolute;
-border: 1px solid white;
 
-transform-origin: left top;
 /*
 	top: 200px;
 
