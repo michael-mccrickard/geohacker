@@ -195,38 +195,21 @@ convertYPercentToPixels = function( _y ) {
     return ( _y * $(window).height() );
 }
 
-convertPixelsToPercentString = function( _obj ) {
-
-    var _val = 0.0;
-
-    if (_obj.x) {
-
-        _val = _obj.x / $(window).width() * 100;
-    }
-
-    if (_obj.y) {
-
-        _val = _obj.y / $(window).height() * 100;
-    }
-
-    return ( formatFloat(_val) + "%" );
-}
-
 convertPixelsToPercent = function( _obj ) {
 
     var _val = 0.0;
 
     if (_obj.x) {
 
-        _val = _obj.x / $(window).width() * 100;
+        _val = _obj.x / $(window).width();
     }
 
     if (_obj.y) {
 
-        _val = _obj.y / $(window).height() * 100;
+        _val = _obj.y / $(window).height();
     }
 
-    return ( formatFloat(_val) );
+    return _val;
 }
 
 convertXPixelsToPercent = function( _x ) {

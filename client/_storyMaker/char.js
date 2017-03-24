@@ -49,13 +49,22 @@ Char = function() {
 			
 		}
 
-		if (_obj.top) this.top = percentStringToNumber( _obj.top );
+		if (_obj.top) this.top = parseFloat(_obj.top);
 
-		if (_obj.l) this.left = percentStringToNumber( _obj.l );
+		if (_obj.l) this.left = parseFloat(_obj.l);
 
-		if (_obj.scx) this.scaleX = _obj.scx;
+		this.origSize = getDimensionsFromFilename( this.pic );
 
-		if (_obj.scy) this.scaleY = _obj.scy;
+		//set the default scale to be the equivalent of the natural size
+
+		this.scaleX = this.origSize.width / $(window).width();
+
+		this.scaleY = this.origSize.height / $(window).height();
+
+		if (_obj.scx) this.scaleX = parseFloat(_obj.scx);
+
+		if (_obj.scy) this.scaleY = parseFloat(_obj.scy);
+
 
 		this.size = 96;
 

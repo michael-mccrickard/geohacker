@@ -2,106 +2,95 @@
 
 sizeAndPos = function() {
 
-	var _big = "img.testBoxBig"
+	var _big = "img#big"
 
-	var _sm = "img.testBoxSmall"
+	var _smA = "img#smallA";
 
-
-	var _origSize = {};
-
-	_origSize.width = 300;
-
-	_origSize.height = 300;	
+	var _smB = "img#smallB";
 
 
-	var _newSize = {};
+	var _top = 0.3;
 
-	//originally 300 / 2000
 
-	_newSize.width = 600 / 2000;
+	var _left = 0.4;
 
-	//originally 300 / 800
+	var _width = 0.1;
 
-	_newSize.height = 600 / 800;		
+	doElement( _smA, _left, _top, _width, 100, true);
 
 	
-	var _left = 500 / 2000;
+	_top =  0.1;
 
-	var _top = 0.25;
+	_left = 0.30
 
-	doElement( _big, _origSize, _newSize, _left, _top, false);
+	_width = 0.3;
+
+	doElement( _big, _left, _top, _width, 300);
 
 
-	_origSize.width = 100;
+	_left = 0.7;
 
-	_origSize.height = 100;	
+	_top =  0.1;
 
-	//originally 100 / 2000
+	_width = 0.1;
 
-	_newSize.width = 200 / 2000;
-
-	//originally 100 / 800
-
-	_newSize.height = 200 / 800;	
-
-	_left = 600 / 2000;
-
-	_top = 0.375;
-
-	doElement( _sm, _origSize, _newSize, _left, _top, true);
+	doElement( _smB, _left, _top, _width, 100);
 
 }
 
-doElement = function( _ele, _origSize, _newSize, _left, _top, _childFlag) {
+doElement = function( _ele, _left, _top, _width, _origWidth, _childFlag) {
 
 	var _windowWidth = $(window).width();
 
 	var _windowHeight = $(window).height();
 
-	var _origWindowWidth = 2000;
 
-	var _origWindowHeight = 800;
+	var _pixelWidth = _width * _windowWidth;
 
+	var _scaleX = _pixelWidth / _origWidth;
+  
+  
+  	var _pixelHeight = _width * _windowHeight;
 
-	var _pixelWidth = _newSize.width * _windowWidth;
-
-	var _scaleX = _pixelWidth / _origSize.width;
-
-
-	var _pixelHeight = _newSize.height * _windowHeight;
-
-	var _scaleY = _pixelHeight / _origSize.height;
-
-
-	var _topVal = _top * _windowHeight;
+	var _scaleY = _pixelHeight / _origWidth;
+	
+  	var _topVal = _top * _windowHeight;
 
 	var _leftVal = _left * _windowWidth;	
-
+  
 
 	if ( _childFlag) {
 
-		var _factor = (_origWindowWidth  - _windowWidth) / _origWindowWidth;
+		_topVal = _topVal - ( _pixelHeight);		
+	}  
 
-		_leftVal = _leftVal + ( _factor * _origSize.width);  
-
-		_factor = (_origWindowHeight  - _windowHeight) / _origWindowHeight;
-
-		_topVal = _topVal + ( _factor * _origSize.height);		
-	}
 
 	var _str = "matrix(" + _scaleX + ", 0, 0, " + _scaleY + ", " + _leftVal + ", " + _topVal + ")";
 
-c(_str)
+
 
 c(_ele)
+c(_str)
+	
 
-	$(_ele).css("transform", _str);
+	$(_ele).css("transform", _str)
+
 }
 
 
 
 
 /*
+
+	_str = _str + "translateX(" + _leftVal + "px) ";
+
+	_str = _str + "translateY(" + _topVal + "px)";
+
+	_str = _str + "scaleX(" + _scaleX + ") ";
+
+	_str = _str + "scaleY(" + _scaleY + ") ";
+
+
 
 	var _bigWidth = _bigBoxSize/_origWidth * _windowWidth;
 

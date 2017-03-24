@@ -7,13 +7,13 @@ Entity = function() {
 
 	//css transform values
 
-	this.scaleX = 1.0;
+	this.scaleX = 0;
 
-	this.scaleY = 1.0;
+	this.scaleY = 0;
 
-	this.currScaleX = 1.0;
+	this.currScaleX = 0;
 
-	this.currScaleY = 1.0;
+	this.currScaleY = 0;
 
 	this.x = 0;
 
@@ -74,41 +74,44 @@ Entity = function() {
 		this.update();
 	}
 
-	this.draw = function( _obj ) {
+	this.draw = function(_obj) {
 
-		if (!_obj) {
+		var _windowWidth = $(window).width();
 
-			_obj = {};
+		var _windowHeight = $(window).height();
 
-			_obj.x = this.x = parseFloat( this.left ) * $(window).width();
+		if (!_obj) _obj = {};
 
-			_obj.y = this.y = parseFloat( this.top ) * $(window).height();
+		var _pixelWidth = this.scaleX * _windowWidth;
 
-			_obj.scaleX = this.scaleX;
+		_obj.scaleX = _pixelWidth /  this.origSize.width;
+	  
+	  
+	  	var _pixelHeight = this.scaleY * _windowHeight;
 
-			_obj.scaleY = this.scaleY;
+		_obj.scaleY = _pixelHeight / this.origSize.height;
+		
+	  	_obj.y = this.top * _windowHeight;
 
-c( this.name + " scale values in draw() b4 -- " + this.scaleX + ", " + this.scaleY)
+		_obj.x = this.left * _windowWidth;	
+	  
+/*
+		if ( this.ownerEntity) {
 
-			if (this.entityType == "token") {
+			_obj.y = _obj.y - ( _pixelHeight);		
+		}  
+*/
+		this.transform( _obj );
 
-				_obj.scaleX = this.scaleX * $(window).width() / this.origSize.width;
-
-				_obj.scaleY = this.scaleY * $(window).height() / this.origSize.height; 	
-
-c( this.name + " scale values in draw() after -- " + _obj.scaleX + ", " + _obj.scaleY)				
-			}
-		}	
-
-		this.transform( _obj );	
 	}
+
 
 
 	this.transform = function( _obj ) {
 
 		if (!_obj) _obj = this;
 
-c( this.name + " scale values in transform() -- " + _obj.scaleX + ", " + _obj.scaleY)		
+//c( this.name + " scale values in transform() -- " + _obj.scaleX + ", " + _obj.scaleY)		
 
 		var _str = "matrix(" + _obj.scaleX + ", 0, 0, " + _obj.scaleY + ", " + _obj.x + ", " + _obj.y + ")";
 
@@ -402,3 +405,29 @@ c(_obj2)
 
 
 }
+
+
+/*
+
+
+	this.draw2 = function( _obj ) {
+
+		if (!_obj) {
+
+			_obj = {};
+
+			_obj.x = this.x = parseFloat( this.left ) * $(window).width();
+
+			_obj.y = this.y = parseFloat( this.top ) * $(window).height();
+
+			_obj.scaleX = this.scaleX * $(window).width() / this.origSize.width;
+
+			_obj.scaleY = this.scaleY * $(window).height() / this.origSize.height; 	
+
+//c( this.name + " scale values in draw() after -- " + _obj.scaleX + ", " + _obj.scaleY)				
+			//}
+		}	
+
+		this.transform( _obj );	
+	}
+*/

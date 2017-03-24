@@ -79,14 +79,19 @@ Token = function() {
 
 		this.origSize = getDimensionsFromFilename( this.pic );
 
-		if (_obj.top) this.top = _obj.top;
+		if (_obj.top) this.top = parseFloat(_obj.top);
 
-		if (_obj.l) this.left = _obj.l;
+		if (_obj.l) this.left = parseFloat(_obj.l);
 
+		//set the default scale to be the equivalent of the natural size
+
+		this.scaleX = this.origSize.width / $(window).width();
+
+		this.scaleY = this.origSize.height / $(window).height();
 
 		if (_obj.scx) this.scaleX = parseFloat(_obj.scx);
 
-		if (_obj.scy) this.scaleY = parseFloat(_obj.scy);			
+		if (_obj.scy) this.scaleY = parseFloat(_obj.scy);
 
 
 		this.movable = false;

@@ -41,6 +41,11 @@
   }
 }
 
+.storyElement {
+
+	transform-origin: left top;
+}
+
 
 .divStory {
 
@@ -208,7 +213,6 @@ div.storyButton {
 
 	opacity: 0;
 
-	width: 128px;
 }
 
 .divStoryThing {
@@ -262,8 +266,6 @@ div.storyButton {
 
 .storyChar {
 
-	width: 96px;
-
 	border-radius: 8px;
 
 	display: block;
@@ -306,7 +308,7 @@ div.storyButton {
 
 	font-family: Arial;
 
-	font-size: 10;
+	font-size: 32px;
 
 	margin-top: 4px;
 
