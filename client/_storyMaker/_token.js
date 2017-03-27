@@ -85,13 +85,13 @@ Token = function() {
 
 		//set the default scale to be the equivalent of the natural size
 
-		this.screenScaleX = this.origSize.width / $(window).width();
+		this.scaleX = this.origSize.width / $(window).width();
 
-		this.screenScaleY = this.origSize.height / $(window).height();
+		this.scaleY = this.origSize.height / $(window).height();
 
-		if (_obj.scx) this.screenScaleX = parseFloat(_obj.scx);
+		if (_obj.scx) this.scaleX = parseFloat(_obj.scx);
 
-		if (_obj.scy) this.screenScaleY = parseFloat(_obj.scy);
+		if (_obj.scy) this.scaleY = parseFloat(_obj.scy);
 
 
 		this.movable = false;

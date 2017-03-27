@@ -385,17 +385,17 @@ StoryEditorVisual = function() {
 
 		var _ent = this.selectedEntity;
 
-		var _scaleX = _ent.screenScaleX;
+		var _scaleX = _ent.scaleX;
 
 		_scaleX = _scaleX + _val * this.sizeIncValue * screenRatio;
 		
-		_ent.screenScaleX = _scaleX;
+		_ent.scaleX = _scaleX;
 
-		var _scaleY = _ent.screenScaleY;
+		var _scaleY = _ent.scaleY;
 
 		_scaleY = _scaleY + _val * this.sizeIncValue;
 
-		_ent.screenScaleY = _scaleY;
+		_ent.scaleY = _scaleY;
 		
 		_ent.draw();
 
@@ -406,11 +406,11 @@ StoryEditorVisual = function() {
 
 		var _ent = this.selectedEntity;
 
-		var _scaleX = _ent.screenScaleX;
+		var _scaleX = _ent.scaleX;
 
 		_scaleX = _scaleX + _val * this.sizeIncValue;
 
-		_ent.screenScaleX = _scaleX;
+		_ent.scaleX = _scaleX;
 
 		_ent.draw();
 
@@ -421,11 +421,11 @@ StoryEditorVisual = function() {
 
 		var _ent = this.selectedEntity;
 
-		var _scaleY = _ent.screenScaleY;
+		var _scaleY = _ent.scaleY;
 
 		_scaleY = _scaleY + _val * this.sizeIncValue;
 
-		_ent.screenScaleY = _scaleY;
+		_ent.scaleY = _scaleY;
 		
 		_ent.draw();
 
@@ -516,23 +516,13 @@ StoryEditorVisual = function() {
 
 		var _obj = convertMatrixStringToObject( $(_element).css("transform") );
 
-		var _left = _obj.translateX / $(window).width();
-
-		var _top = _obj.translateY / $(window).height();
-
-		if (this.selectedEntity.ownerEntity) {
-
-			var _owner = this.selectedEntity.ownerEntity;
-
-			_left = _obj.translateX / (_owner.screenScaleX * $(window).width() );
-
-			_top = _obj.translateY / (_owner.screenScaleY * $(window).height() );
-		}
+		 var _left = _obj.translateX / $(window).width();
 
 		 _left = formatFloat( _left * 100);
 
-		 _top = formatFloat( _top * 100);
+		 var _top = _obj.translateY / $(window).height();
 
+		 _top = formatFloat( _top * 100);
 
 		 var _s = "{left: '" + _left + "%', " + "top: '" + _top + "%', scaleX: " + _obj.scaleX + ", scaleY:" + _obj.scaleY + "}";
 
@@ -680,24 +670,25 @@ StoryEditorVisual = function() {
 
 		var _update = {};
 
-		if ( _obj.screenScaleX ) _update.scx = _ent.screenScaleX;
+		if ( _obj.translateX ) _update.l = convertPixelsToPercent( { x: _obj.translateX } );
 
-		if ( _obj.screenScaleY ) _update.scy = _ent.screenScaleY;	
+		if ( _obj.translateY ) _update.top = convertPixelsToPercent( { y: _obj.translateY } );
 
-		if (_ent.ownerEntity)  {
-			
-			_update.l = convertPixelsToPercentOfParent( { x: _ent.left, ent: _ent } );
+		if ( _obj.scaleX ) _update.scx = _ent.scaleX;
 
-			_update.top = convertPixelsToPercentOfParent( { y: _ent.top, ent: _ent } );
+		if ( _obj.scaleY ) _update.scy = _ent.scaleY;
 
-		}
-		else {
+		if ( _ent.entityType == "token") {
 
-			if ( _obj.translateX ) _update.l = convertPixelsToPercentOfScreen( { x: _obj.translateX } );
+			if (_ent.ownerEntity) {
 
-			if ( _obj.translateY ) _update.top = convertPixelsToPercentOfScreen( { y: _obj.translateY } );
+				_element = _ent.getChildElement( _ent.type );				
+			}
 
-	
+			_update.scx = $( _element ).outerWidth() * _obj.scaleX / $(window).width();
+
+			_update.scy = $( _element ).outerHeight() * _obj.scaleY / $(window).height();
+
 		}
 
 showMessage( "Saving entity " + _ent.shortName );

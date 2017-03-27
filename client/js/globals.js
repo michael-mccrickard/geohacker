@@ -197,16 +197,6 @@ convertYPercentToPixels = function( _y ) {
 
 convertPixelsToPercent = function( _obj ) {
 
-    if (_obj.ent.ownerEntity) return convertPixelsToPercentOfParent( _obj);
-
-    return convertPixelsToPercentOfScreen( _obj );
-
-    return _val;
-}
-
-
-convertPixelsToPercentOfScreen = function( _obj ) {
-
     var _val = 0.0;
 
     if (_obj.x) {
@@ -220,30 +210,6 @@ convertPixelsToPercentOfScreen = function( _obj ) {
     }
 
     return _val;
-}
-
-convertPixelsToPercentOfParent = function( _obj ) {
-
-    var _val = 0.0;
-
-    var _parentDimension = 0;
-
-    if (_obj.x) {
-
-        _parentDimension = _obj.ent.ownerEntity.screenScaleX * $(window).width();
-
-        _val = _obj.x / _parentDimension;
-    }
-
-    if (_obj.y) {
-
-        _parentDimension = _obj.ent.ownerEntity.screenScaleY * $(window).height();
-
-        _val = _obj.y / _parentDimension;
-    }
-
-    return _val;
-
 }
 
 convertXPixelsToPercent = function( _x ) {
