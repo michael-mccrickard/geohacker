@@ -670,14 +670,14 @@ StoryEditorVisual = function() {
 
 		var _update = {};
 
-		if ( _obj.translateX ) _update.l = convertPixelsToPercent( { x: _obj.translateX } );
+		if ( _obj.translateX ) _update.l = convertPixelsToPercent( { x: _obj.translateX, ent: _ent } );
 
-		if ( _obj.translateY ) _update.top = convertPixelsToPercent( { y: _obj.translateY } );
+		if ( _obj.translateY ) _update.top = convertPixelsToPercent( { y: _obj.translateY, ent: _ent } );
 
 		if ( _obj.scaleX ) _update.scx = _ent.scaleX;
 
 		if ( _obj.scaleY ) _update.scy = _ent.scaleY;
-
+/*
 		if ( _ent.entityType == "token") {
 
 			if (_ent.ownerEntity) {
@@ -690,6 +690,7 @@ StoryEditorVisual = function() {
 			_update.scy = $( _element ).outerHeight() * _obj.scaleY / $(window).height();
 
 		}
+*/
 
 showMessage( "Saving entity " + _ent.shortName );
 

@@ -82,6 +82,7 @@ Entity = function() {
 
 		if (!_obj) _obj = {};
 
+
 		var _pixelWidth = this.scaleX * _windowWidth;
 
 		_obj.scaleX = _pixelWidth /  this.origSize.width;
@@ -90,17 +91,22 @@ Entity = function() {
 	  	var _pixelHeight = this.scaleY * _windowHeight;
 
 		_obj.scaleY = _pixelHeight / this.origSize.height;
+
 		
-	  	_obj.y = this.top * _windowHeight;
+	  	var _topVal = this.top * _windowHeight;
 
-		_obj.x = this.left * _windowWidth;	
+		var _yFactor =  ( this.scaleY - 1.0) * this.origSize.height;  
+
+		_obj.y = _topVal + _yFactor/2;
+
+
+		var _leftVal = this.left * _windowWidth;	
 	  
-/*
-		if ( this.ownerEntity) {
+		var _xFactor = ( this.scaleX - 1.0) * this.origSize.width;
 
-			_obj.y = _obj.y - ( _pixelHeight);		
-		}  
-*/
+		_obj.x = _leftVal + _xFactor/2;
+
+
 		this.transform( _obj );
 
 	}
@@ -382,11 +388,11 @@ c(_obj2)
 
 		this.x = _obj.translateX;
 
-		this.left = convertXPixelsToPercent( this.x );
+		//this.left = convertPixelsToPercent( { x: this.x, ent: this } );
 
 		this.y = _obj.translateY;
 
-		this.top = convertYPixelsToPercent( this.y );
+		//this.top = convertPixelsToPercent( { y: this.y, ent: this } );
 
 		this.skewX = _obj.skewX;
 

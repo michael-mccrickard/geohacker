@@ -199,17 +199,26 @@ convertPixelsToPercent = function( _obj ) {
 
     var _val = 0.0;
 
+    var _ent = _obj.ent;  
+
     if (_obj.x) {
 
-        _val = _obj.x / $(window).width();
+        var _xFactor = ( _ent.scaleX - 1.0) * _ent.origSize.width;  
+
+        _val = (_obj.x - _xFactor/2) / $(window).width();
+
+        return (_val );
     }
 
     if (_obj.y) {
 
-        _val = _obj.y / $(window).height();
+        var _yFactor = ( _ent.scaleY - 1.0) * _ent.origSize.height;  
+
+        _val = (_obj.y - _yFactor/2) / $(window).height();
+
+        return (_val );
     }
 
-    return _val;
 }
 
 convertXPixelsToPercent = function( _x ) {
