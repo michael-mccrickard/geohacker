@@ -7,13 +7,13 @@ Entity = function() {
 
 	//css transform values
 
-	this.scaleX = 0;
+	this.imageScaleX = 0;
 
-	this.scaleY = 0;
+	this.imageScaleY = 0;
 
-	this.currScaleX = 0;
+	this.screenScaleX = 0;
 
-	this.currScaleY = 0;
+	this.screenScaleY = 0;
 
 	this.x = 0;
 
@@ -63,15 +63,13 @@ Entity = function() {
 
 			if ( _obj.translateY ) this.top = _obj.translateY;
 
-			if ( _obj.scaleX ) this.scaleX = _obj.scaleX;
+			if ( _obj.screenScaleX ) this.screenScaleX = _obj.screenScaleX;
 
-			if ( _obj.scaleY ) this.scaleY = _obj.scaleY;
+			if ( _obj.screenScaleY ) this.screenScaleY = _obj.screenScaleY;
 
 		}
 
 		this.draw();
-
-		this.update();
 	}
 
 	this.draw = function(_obj) {
@@ -82,25 +80,48 @@ Entity = function() {
 
 		if (!_obj) _obj = {};
 
-		var _pixelWidth = this.scaleX * _windowWidth;
+		var _pixelWidth = this.screenScaleX * _windowWidth;
 
-		_obj.scaleX = _pixelWidth /  this.origSize.width;
-	  
-	  
-	  	var _pixelHeight = this.scaleY * _windowHeight;
+		if (!this.ownerEntity) {
 
-		_obj.scaleY = _pixelHeight / this.origSize.height;
+			_obj.imageScaleX = _pixelWidth /  this.origSize.width;
+	  
+	  		var _pixelHeight = this.screenScaleY * _windowHeight;
+
+			_obj.imageScaleY = _pixelHeight / this.origSize.height;
 		
-	  	_obj.y = this.top * _windowHeight;
+	  		_obj.y = this.top * _windowHeight;
 
-		_obj.x = this.left * _windowWidth;	
+			_obj.x = this.left * _windowWidth;	
+		}
+		else {
+
+			var _ownerElement = this.ownerEntity.element;
+
+			_pixelWidth = this.screenScaleX * this.ownerEntity.screenScaleX * _windowWidth;
+
+			_obj.imageScaleX = _pixelWidth /  this.origSize.width;
 	  
-/*
-		if ( this.ownerEntity) {
+	  		_pixelHeight = this.screenScaleY * this.ownerEntity.screenScaleY * _windowHeight;
 
-			_obj.y = _obj.y - ( _pixelHeight);		
-		}  
-*/
+			_obj.imageScaleY = _pixelHeight / this.origSize.height;
+
+
+	  		_obj.y = this.top * this.ownerEntity.screenScaleY * _windowHeight;
+
+			_obj.x = this.left * this.ownerEntity.screenScaleX * _windowWidth;
+
+
+		}
+	  
+		this.imageScaleX = _obj.imageScaleX;
+
+		this.imageScaleY = _obj.imageScaleY;
+
+		this.x = _obj.x;
+
+		this.y = _obj.y;
+
 		this.transform( _obj );
 
 	}
@@ -113,7 +134,7 @@ Entity = function() {
 
 //c( this.name + " scale values in transform() -- " + _obj.scaleX + ", " + _obj.scaleY)		
 
-		var _str = "matrix(" + _obj.scaleX + ", 0, 0, " + _obj.scaleY + ", " + _obj.x + ", " + _obj.y + ")";
+		var _str = "matrix(" + _obj.imageScaleX + ", 0, 0, " + _obj.imageScaleY + ", " + _obj.x + ", " + _obj.y + ")";
 
 		this.lastTransform = convertMatrixStringToObject( _str );
 
@@ -129,7 +150,6 @@ Entity = function() {
 		}
 
 		$( this.element ).css("transform", _str);	
-
 	}
 
 	this.getTransform = function() {
@@ -376,17 +396,20 @@ c(_obj2)
 
 		var _obj = convertMatrixStringToObject( $( _element ).css("transform") );	
 
-		this.currScaleX = _obj.scaleX;
+		this.imageScaleX = _obj.scaleX;
 
-		this.currScaleY = _obj.scaleY;
+		this.imageScaleY = _obj.scaleY;
 
 		this.x = _obj.translateX;
 
-		this.left = convertXPixelsToPercent( this.x );
-
 		this.y = _obj.translateY;
 
-		this.top = convertYPixelsToPercent( this.y );
+		//new version of convertPixelsToPercent detects object generation (parent or child)
+
+		this.left = convertPixelsToPercent( { x: this.x, ent: this } );
+
+		this.top = convertPixelsToPercent( { y: this.y, ent: this } );
+
 
 		this.skewX = _obj.skewX;
 

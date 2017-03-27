@@ -938,6 +938,8 @@ Template.vedModalTransform.helpers({
 
       _obj.x = ved.selectedEntity.lastTransform.translateX
 
+      _obj.ent = ved.selectedEntity;
+
       return convertPixelsToPercent( _obj );
 
     }
@@ -954,6 +956,8 @@ Template.vedModalTransform.helpers({
       var _obj = {};
 
       _obj.y = ved.selectedEntity.lastTransform.translateY
+
+      _obj.ent = ved.selectedEntity;
 
       return convertPixelsToPercent( _obj );
     }

@@ -9,17 +9,17 @@ sizeAndPos = function() {
 	var _smB = "img#smallB";
 
 
-	var _top = 0.3;
+	var _top = 0.4;
 
 
 	var _left = 0.4;
 
 	var _width = 0.1;
 
-	doElement( _smA, _left, _top, _width, 100, true);
+	doElement( _smA, _left, _top, _width, 100);
 
 	
-	_top =  0.1;
+	_top =  0.3;
 
 	_left = 0.30
 
@@ -30,7 +30,7 @@ sizeAndPos = function() {
 
 	_left = 0.7;
 
-	_top =  0.1;
+	_top =  0.3;
 
 	_width = 0.1;
 
@@ -38,7 +38,7 @@ sizeAndPos = function() {
 
 }
 
-doElement = function( _ele, _left, _top, _width, _origWidth, _childFlag) {
+doElement = function( _ele, _left, _top, _width, _origWidth) {
 
 	var _windowWidth = $(window).width();
 
@@ -56,14 +56,15 @@ doElement = function( _ele, _left, _top, _width, _origWidth, _childFlag) {
 	
   	var _topVal = _top * _windowHeight;
 
-	var _leftVal = _left * _windowWidth;	
-  
+	var _leftVal = _left * _windowWidth;
 
-	if ( _childFlag) {
+	var _xFactor = ( _scaleX - 1.0) * _origWidth;
 
-		_topVal = _topVal - ( _pixelHeight);		
-	}  
+	_leftVal = _leftVal + _xFactor/2 ;
 
+	var _yFactor =  ( _scaleY - 1.0) * _origWidth;  //use height here, but we're using squares so this is OK
+
+	_topVal = _topVal + _yFactor/2 ;
 
 	var _str = "matrix(" + _scaleX + ", 0, 0, " + _scaleY + ", " + _leftVal + ", " + _topVal + ")";
 
@@ -77,66 +78,19 @@ c(_str)
 
 }
 
+zoomAll = function() {
 
+	var _big = "img#big"
 
+	var _smA = "img#smallA";
 
-/*
+	var _smB = "img#smallB";
 
-	_str = _str + "translateX(" + _leftVal + "px) ";
+	//$(_big).css("transform-origin","initial");
 
-	_str = _str + "translateY(" + _topVal + "px)";
+	TweenLite.to( _big, 2, { scale: 4 }  );
 
-	_str = _str + "scaleX(" + _scaleX + ") ";
-
-	_str = _str + "scaleY(" + _scaleY + ") ";
-
-
-
-	var _bigWidth = _bigBoxSize/_origWidth * _windowWidth;
-
-	var _bigScaleX = _bigWidth / _bigBoxSize;
-
-	var _bigHeight = _bigBoxSize/_origHeight * _windowHeight;	
-
-	var _bigScaleY = _bigHeight / _bigBoxSize;
-
-	var _bigLeft = _bigLeftVal/_origWidth * _windowWidth;
-
-	var _bigTop = _bigTopVal/_origHeight * _windowHeight;
-
-	var _str = "matrix(" + _bigScaleX + ", 0, 0, " + _bigScaleY + ", " + _bigLeft + ", " + _bigTop + ")";
-
-	$(_big).css("transform", _str);
-
-
-
-	var _smWidth = _smBoxSize/_origWidth * _windowWidth;
-
-	var _smScaleX = _smWidth / _smBoxSize;
-
-	var _smHeight = _smBoxSize/_origHeight * _windowHeight;
-
-	var _smScaleY = _smHeight / _smBoxSize;
-
-	var _smTop = _smTopVal/_origHeight * _windowHeight;
-
-	var _smLeft = _smLeftVal/_origWidth * _windowWidth;	
-
-	var _xFactor = (_origWidth  - _windowWidth) / _origWidth;
-
-	_smLeft = _smLeft + ( _xFactor * _smBoxSize);
-
-	_xFactor = (_origHeight  - _windowHeight) / _origHeight;
-
-	_smTop = _smTop + ( _xFactor * _smBoxSize);
-
-	_str = "matrix(" + _smScaleX + ", 0, 0, " + _smScaleY + ", " + _smLeft + ", " + _smTop + ")";
-
-	$(_sm).css("transform", _str);
-
-*/
-
-
+}
 
 
 
