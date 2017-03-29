@@ -43,6 +43,7 @@
 
 .storyElement {
 
+	z-index:  1002;
 	/*	transform-origin: left top;  */
 }
 
@@ -215,13 +216,11 @@ div.storyButton {
 
 }
 
-.divStoryThing {
+.storyThing {
 
 	position: absolute;
 
 	opacity: 0;
-
-	text-align: center;
 }
 
 .storyThingContent {
@@ -273,6 +272,7 @@ div.storyButton {
 	margin-left: auto;
 
 	margin-right: auto;
+
 }
 
 

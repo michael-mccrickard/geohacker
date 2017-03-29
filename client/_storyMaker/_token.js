@@ -21,15 +21,13 @@ Token = function() {
 
 		this.collectionID = cToken;
 
-		this.type = "";  //normal, content, contentAnim, contentBG
+		this.type = "";  //normal, content, contentBG
 
 		this.owner = "";
 
 		this.ownerEntity = null;
 
 		this.content = null;
-
-		this.contentAnim = null;
 
 		this.contentBG = null;
 
@@ -52,17 +50,6 @@ Token = function() {
 
 			this.borderRadius = "16px";
 		}	
-
-		if (_obj.t == "ca") {
-
-			this.type = "contentAnim";	
-
-			this.zIndex = 1000;
-
-			this.owner = _obj.w;
-
-			this.borderRadius = "16px";
-		}
 
 		if (_obj.t == "cb") {
 
@@ -101,15 +88,13 @@ Token = function() {
 
 		this.spacer = 16;
 
-		this.element = "div#storyThing" + this.index + ".divStoryThing";
+		this.element = "img#storyThingPic" + this.index + ".storyThing";
 
-		this.imageElement = "img#storyThingPic" + this.index + ".storyThing";
+		this.imageElement = this.element;  //will be different for Chars
 
-		this.contentElement = "img#storyThingContent" + this.index + ".storyThingContent";		
+		this.contentElement = null;
 
-		this.contentElementBG = "img#storyThingContentBG" + this.index + ".storyThingContentBG";	
-
-		this.contentElementAnim = "img#storyThingContentAnim" + this.index + ".storyThingContentAnim";	
+		this.contentElementBG = null;
 
 		this.currentContentElement = "";	
 	}
@@ -123,17 +108,17 @@ Token = function() {
 
 	this.fadeOutContent = function() {
 
-		if ( this.contentElementAnim) this.fadeOutElement( this.contentElementAnim );
-
 		if ( this.contentElement) this.fadeOutElement( this.contentElement );
 
 	}
 
 	this.addContent = function( _name ) {
 
-		var _obj = this.content[ _name ];
+		var _obj = story[ _name ];
 
 		_obj.ownerEntity = this;
+
+		this.contentElement = _obj.element;
 
 		$(this.contentElement).css("z-index", _obj.zIndex);	
 
@@ -146,25 +131,6 @@ Token = function() {
 		this.switchContent( _obj );
 	}
 
-	this.addContentAnim = function( _name ) {
-
-		var _obj = this.contentAnim[ _name ];
-
-		_obj.ownerEntity = this;
-
-		$(this.contentElementAnim).css("z-index", _obj.zIndex);	
-
-		_obj.draw();
-
-		$(this.contentElementAnim).attr("data-shortName", this.shortName);	
-
-		if (_obj.borderRadius) $(this.contentElementAnim).css("border-radius", _obj.borderRadius);
-
-		this.currentContentElement = this.contentElementAnim;
-
-		this.switchContent( _obj );
-
-	}
 
 	this.switchContent = function( _obj ) {
 
@@ -187,9 +153,11 @@ Token = function() {
 
 	this.addContentBG = function( _name ) {
 
-		var _obj = this.contentBG[ _name ];
+		var _obj = story[ _name ];
 
 		_obj.ownerEntity = this;
+
+		this.contentElementBG = _obj.element;
 
 		$(this.contentElementBG).css("z-index", _obj.zIndex);	
 

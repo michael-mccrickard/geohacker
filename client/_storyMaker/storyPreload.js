@@ -9,12 +9,12 @@ sizeAndPos = function() {
 	var _smB = "img#smallB";
 
 
-	var _top = 0.3;
+	var _top = 0.1;
 
 
-	var _left = 0.4;
+	var _left = 0.1;
 
-	var _width = 0.1;
+	var _width = 0.2;
 
 	doElement( _smA, _left, _top, _width, 100, true);
 
@@ -23,22 +23,25 @@ sizeAndPos = function() {
 
 	_left = 0.30
 
-	_width = 0.3;
+	_width = 0.6;
 
 	doElement( _big, _left, _top, _width, 300);
+
 
 
 	_left = 0.7;
 
 	_top =  0.1;
 
-	_width = 0.1;
+	_width = 0.2;
 
 	doElement( _smB, _left, _top, _width, 100);
-
+return; 
 }
 
 doElement = function( _ele, _left, _top, _width, _origWidth, _childFlag) {
+
+	/*
 
 	var _windowWidth = $(window).width();
 
@@ -58,14 +61,41 @@ doElement = function( _ele, _left, _top, _width, _origWidth, _childFlag) {
 
 	var _leftVal = _left * _windowWidth;	
   
+*/
 
-	if ( _childFlag) {
+	var _windowWidth = $(window).width();
 
-		_topVal = _topVal - ( _pixelHeight);		
-	}  
+	var _windowHeight = $(window).height();
+
+var _obj = {};
+
+		var _pixelWidth = _width * _windowWidth;
+
+		_obj.scaleX = _pixelWidth /  _origWidth;
+	  
+	  
+	  	var _pixelHeight = _width * _windowHeight;
+
+		_obj.scaleY = _pixelHeight / _origWidth;
+
+		
+	  	var _topVal = _top * _windowHeight;
+
+		var _yFactor =  (_pixelHeight - _origWidth) / 2;
+
+		_obj.y = _topVal + _yFactor;
 
 
-	var _str = "matrix(" + _scaleX + ", 0, 0, " + _scaleY + ", " + _leftVal + ", " + _topVal + ")";
+		var _leftVal = _left * _windowWidth;	
+	  
+		var _xFactor =  (_pixelWidth - _origWidth) / 2;
+
+		//if (_pixelWidth < _origWidth) _xFactor = _xFactor * -1;
+
+		_obj.x = _leftVal + _xFactor;
+
+
+	var _str = "matrix(" + _obj.scaleX + ", 0, 0, " + _obj.scaleY + ", " + _obj.x + ", " + _obj.y + ")";
 
 
 
@@ -163,7 +193,7 @@ c(_obj.n)
 c(_ent)
 
 
-			var _element = _ent.getChildElement( _ent.type );
+			var _element = _ent.element;
 
 			var _width = $( _element ).outerWidth() / $(window).width();
 

@@ -11,10 +11,6 @@ Entity = function() {
 
 	this.scaleY = 0;
 
-	this.currScaleX = 0;
-
-	this.currScaleY = 0;
-
 	this.x = 0;
 
 	this.y = 0;
@@ -32,13 +28,12 @@ Entity = function() {
 
 	this._add = function( _obj ) {
 
-		$(this.imageElement).attr("src", this.pic);
+		$(this.element).attr("src", this.pic);
 
-		$(this.imageElement).attr("data-shortname", this.shortName);	
+		$(this.element).attr("data-shortname", this.shortName);	
 
 		if (this.zIndex) $(this.element).css("z-index", this.zIndex);	
 
-		$(this.element).attr("data-shortname", this.shortName);
 
 		if (_obj) {
 
@@ -58,10 +53,6 @@ Entity = function() {
 			if ( _obj.left ) this.left = _obj.left;
 
 			if ( _obj.top ) this.top = _obj.top;
-
-			if ( _obj.translateX ) this.left = _obj.translateX;
-
-			if ( _obj.translateY ) this.top = _obj.translateY;
 
 			if ( _obj.scaleX ) this.scaleX = _obj.scaleX;
 
@@ -95,17 +86,21 @@ Entity = function() {
 		
 	  	var _topVal = this.top * _windowHeight;
 
-		var _yFactor =  ( this.scaleY - 1.0) * this.origSize.height;  
+		var _yFactor =  (_pixelHeight - this.origSize.height) / 2;
 
-		_obj.y = _topVal + _yFactor/2;
+		_obj.y = _topVal + _yFactor;
 
 
 		var _leftVal = this.left * _windowWidth;	
 	  
-		var _xFactor = ( this.scaleX - 1.0) * this.origSize.width;
+		var _xFactor =  (_pixelWidth - this.origSize.width) / 2; 
 
-		_obj.x = _leftVal + _xFactor/2;
+		_obj.x = _leftVal + _xFactor;
 
+
+		this.x = _obj.x;
+
+		this.y = _obj.y;
 
 		this.transform( _obj );
 
@@ -122,17 +117,6 @@ Entity = function() {
 		var _str = "matrix(" + _obj.scaleX + ", 0, 0, " + _obj.scaleY + ", " + _obj.x + ", " + _obj.y + ")";
 
 		this.lastTransform = convertMatrixStringToObject( _str );
-
-		if (this.ownerEntity) {
-
-			if ( this.type == "content") $( this.ownerEntity.contentElement ).css("transform", _str);
-
-			if ( this.type == "contentBG") $( this.ownerEntity.contentElementBG ).css("transform", _str);
-
-			if ( this.type == "contentAnim") $( this.ownerEntity.contentElementAnim ).css("transform", _str);
-
-			return;
-		}
 
 		$( this.element ).css("transform", _str);	
 
@@ -224,14 +208,10 @@ Entity = function() {
 
 		if (_obj.left) {
 
-			//_obj2.x = percentStringToNumber( _obj.left );
-
 			_obj2.x = _obj.left * $(window).width();
 		}
 
 		if (_obj.top) {
-
-			//_obj2.y = percentStringToNumber( _obj.top );
 
 			_obj2.y =  _obj.top * $(window).height();
 		}
@@ -375,16 +355,7 @@ c(_obj2)
 
 		var _element = this.element;
 
-		if (this.ownerEntity) {
-
-			_element = this.getChildElement( this.type );
-		}
-
 		var _obj = convertMatrixStringToObject( $( _element ).css("transform") );	
-
-		this.currScaleX = _obj.scaleX;
-
-		this.currScaleY = _obj.scaleY;
 
 		this.x = _obj.translateX;
 
@@ -398,15 +369,6 @@ c(_obj2)
 
 		this.skewY = _obj.skewY;		
 
-	}
-
-	this.getChildElement = function( _type ) {
-
-		if (_type == "content") return this.ownerEntity.contentElement;
-
-		if (_type == "contentBG") return this.ownerEntity.contentElementBG;
-
-		if (_type == "contentAnim") return this.ownerEntity.contentElementAnim;		
 	}
 
 

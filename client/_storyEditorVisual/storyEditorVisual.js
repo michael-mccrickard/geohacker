@@ -381,9 +381,9 @@ StoryEditorVisual = function() {
 
 	this.sizeEntityXY = function( _val) {
 
-		var screenRatio = $(window).height()/ $(window).width();
-
 		var _ent = this.selectedEntity;
+
+		var _scaleRatio = _ent.scaleY / _ent.scaleX;
 
 		var _scaleX = _ent.scaleX;
 
@@ -509,22 +509,19 @@ StoryEditorVisual = function() {
 
 		var _element = this.selectedEntity.element;
 
-		if (this.selectedEntity.ownerEntity) {
+		var _ent = this.selectedEntity;
 
-			_element = this.selectedEntity.getChildElement( this.selectedEntity.type );
-		}
+		//var _obj = convertMatrixStringToObject( $(_element).css("transform") );
 
-		var _obj = convertMatrixStringToObject( $(_element).css("transform") );
+		 //var _left = convertPixelsToPercent( { x: _obj.translateX, ent: this.selectedEntity } );
 
-		 var _left = _obj.translateX / $(window).width();
+		 //_left = formatFloat( _left * 100);
 
-		 _left = formatFloat( _left * 100);
+		 //var _top = ( { y: _obj.translateY, ent: this.selectedEntity } );
 
-		 var _top = _obj.translateY / $(window).height();
+		 //_top = formatFloat( _top * 100);
 
-		 _top = formatFloat( _top * 100);
-
-		 var _s = "{left: '" + _left + "%', " + "top: '" + _top + "%', scaleX: " + _obj.scaleX + ", scaleY:" + _obj.scaleY + "}";
+		 var _s = "{left: " + formatFloat(_ent.left) + ", " + "top: " + formatFloat(_ent.top) + ", scaleX: " + formatFloat(_ent.scaleX) + ", scaleY:" + formatFloat(_ent.scaleY) + "}";
 
 		 this.updateScreen( _s ); 
 
@@ -661,36 +658,18 @@ StoryEditorVisual = function() {
 
 		var _element = _ent.element;
 
-		if (this.selectedEntity.ownerEntity) {
-
-			_element = this.selectedEntity.getChildElement( this.selectedEntity.type );
-		}
-
-		if (!_obj ) _obj = convertMatrixStringToObject( $( _element ).css("transform") );		
+		//if (!_obj ) _obj = convertMatrixStringToObject( $( _element ).css("transform") );		
 
 		var _update = {};
 
-		if ( _obj.translateX ) _update.l = convertPixelsToPercent( { x: _obj.translateX, ent: _ent } );
+		_update.l = _ent.left; //convertPixelsToPercent( { x: _obj.translateX, ent: _ent } );
 
-		if ( _obj.translateY ) _update.top = convertPixelsToPercent( { y: _obj.translateY, ent: _ent } );
+		_update.top = _ent.top; //convertPixelsToPercent( { y: _obj.translateY, ent: _ent } );
 
-		if ( _obj.scaleX ) _update.scx = _ent.scaleX;
+		_update.scx = _ent.scaleX;
 
-		if ( _obj.scaleY ) _update.scy = _ent.scaleY;
-/*
-		if ( _ent.entityType == "token") {
+		_update.scy = _ent.scaleY;
 
-			if (_ent.ownerEntity) {
-
-				_element = _ent.getChildElement( _ent.type );				
-			}
-
-			_update.scx = $( _element ).outerWidth() * _obj.scaleX / $(window).width();
-
-			_update.scy = $( _element ).outerHeight() * _obj.scaleY / $(window).height();
-
-		}
-*/
 
 showMessage( "Saving entity " + _ent.shortName );
 

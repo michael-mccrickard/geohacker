@@ -431,56 +431,23 @@ Story =  function() {
 
 			var _index = 0;
 
-			//the index on the normal tokens is one plus the array index
+			//the index on the tokens is one plus the array index
 			//(we don't use zero for consistency with the Chars)
 
-			if (_type == "n") _index = i + 1;
+			_index = i + 1;
 
 			_str = "story." + _name + ".init( _obj, " + _index + " )";
 
 			eval(  _str );	
 
+			if ( _obj.w ) {
 
-			//if this is a "normal" token, then we check to see if there are any content
-			//tokens to be added to it's content property (all the content tokens were created first)
+				//$( story.warning.element ).addClass( _obj.w );
 
-			if (_type == "n") {
+				_str = "$( story." + _name + ".element ).addClass( _obj.w )";
 
-				var _arrC = db.ghToken.find( { w: _name } ).fetch();
-
-				if (_arrC.length) {
-
-					//story.computer.content = {};
-
-					_str = "story." + _name + ".content = {};"
-
-					eval( _str );
-
-					_str = "story." + _name + ".contentBG = {};"
-
-					eval( _str );
-
-					_str = "story." + _name + ".contentAnim = {};"
-
-					eval( _str );
-
-					//this array is treated normally
-
-					for (var j = 0; j < _arrC.length; j++) {	
-						
-						//story.computer.content["bunnies"] = story.bunnies;
-
-						if ( _arrC[j].t == "c") _str = "story." + _name + ".content['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
-						
-						if ( _arrC[j].t == "ca") _str = "story." + _name + ".contentAnim['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
-
-						if ( _arrC[j].t == "cb") _str = "story." + _name + ".contentBG['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
-
-						eval( _str)
-					}				
-				} //end if array of content tokens is non-empty
-
-			}  //end if normal	
+				eval(  _str );					
+			}
 
 		} //end for loop thru records	
 	},
@@ -1152,3 +1119,48 @@ Tracker.autorun( function(comp) {
   console.log("story data not ready")
 
 });  
+
+
+/*
+
+			//if this is a "normal" token, then we check to see if there are any content
+			//tokens to be added to it's content property (all the content tokens were created first)
+
+			if (_type == "n") {
+
+				var _arrC = db.ghToken.find( { w: _name } ).fetch();
+
+				if (_arrC.length) {
+
+					//story.computer.content = {};
+
+					_str = "story." + _name + ".content = {};"
+
+					eval( _str );
+
+					_str = "story." + _name + ".contentBG = {};"
+
+					eval( _str );
+
+					_str = "story." + _name + ".contentAnim = {};"
+
+					eval( _str );
+
+					//this array is treated normally
+
+					for (var j = 0; j < _arrC.length; j++) {	
+						
+						//story.computer.content["bunnies"] = story.bunnies;
+
+						if ( _arrC[j].t == "c") _str = "story." + _name + ".content['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
+						
+						if ( _arrC[j].t == "ca") _str = "story." + _name + ".contentAnim['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
+
+						if ( _arrC[j].t == "cb") _str = "story." + _name + ".contentBG['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
+
+						eval( _str)
+					}				
+				} //end if array of content tokens is non-empty
+
+			}  //end if normal	
+*/
