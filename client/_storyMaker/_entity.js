@@ -7,13 +7,9 @@ Entity = function() {
 
 	//css transform values
 
-	this.scaleX = 0;  //the percentage size (relative to the window)
+	this.scaleX = 0;
 
 	this.scaleY = 0;
-
-	this.imageScaleX = 0;  //the percentage size of the image relative to it's natural size
-
-	this.imageScaleY = 0;
 
 	this.x = 0;
 
@@ -32,9 +28,9 @@ Entity = function() {
 
 	this._add = function( _obj ) {
 
-		$(this.imageElement).attr("src", this.pic);
+		$(this.element).attr("src", this.pic);
 
-		$(this.imageElement).attr("data-shortname", this.shortName);	
+		$(this.element).attr("data-shortname", this.shortName);	
 
 		if (this.zIndex) $(this.element).css("z-index", this.zIndex);	
 
@@ -65,6 +61,8 @@ Entity = function() {
 		}
 
 		this.draw();
+
+		this.update();
 	}
 
 	this.draw = function(_obj) {
@@ -99,6 +97,11 @@ Entity = function() {
 
 		_obj.x = _leftVal + _xFactor;
 
+
+		this.x = _obj.x;
+
+		this.y = _obj.y;
+
 		this.transform( _obj );
 
 	}
@@ -114,12 +117,8 @@ Entity = function() {
 		var _str = "matrix(" + _obj.scaleX + ", 0, 0, " + _obj.scaleY + ", " + _obj.x + ", " + _obj.y + ")";
 
 		this.lastTransform = convertMatrixStringToObject( _str );
-                 
+
 		$( this.element ).css("transform", _str);	
-
-c(this.name + " -- string in trans() is " + _str)
-
-		this.update();
 
 	}
 
@@ -130,24 +129,7 @@ c(this.name + " -- string in trans() is " + _str)
 
 	this.getTransformValue = function( _which ) {
 
-		return ( this.getTransformValueForElement( _which, this.element ) );
-	}
-
-	this.getSize = function() {
-
-		var _obj = {};
-
-		_obj.width = this.imageScaleX * this.origSize.width;
-
-		_obj.height = this.imageScaleY * this.origSize.height;
-
-		return _obj;
-
-	}
-
-	this.getTransformValueForElement = function( _which, _element  ) {
-
-		var _obj = convertMatrixStringToObject( $(_element).css("transform") );
+		var _obj = convertMatrixStringToObject( $(this.element).css("transform") );
 
 		return _obj[ _which ];
 	}
@@ -182,7 +164,7 @@ c(this.name + " -- string in trans() is " + _str)
 	this.restoreBrightness = function() {
 
 		story.restoreBrightness( this.imageElement );
-	} 
+	}
 
 	this.moveToCorner = function(_dir) {
 
@@ -194,13 +176,13 @@ c(this.name + " -- string in trans() is " + _str)
 
 		if (_dir == "ne") {
 
-			_left = $(window).width() - (this.getSize().width * 1.5) - this.rightSpacer;
-
-	c("for ent " + this.name + " -- left val for NE corner is " + _left)
+			_left = $(window).width() - this.size - this.rightSpacer;
 		}
 
 
-		this.tween = TweenLite.to( this.element, 1.5, { x: _left, y: _top } );
+		var _obj = { x: _left, y: _top };
+
+		this.tween = TweenLite.to( this.element, 1.5, { x: _obj.x, y: _obj.y } );
 
 	},
 
@@ -339,60 +321,11 @@ c(_obj2)
 
 	this.zoomMe = function(_duration, _amtX, _amtY, _repeat, _repeatDelay, _yoyo ) {
 
-		var _windowWidth = $(window).width();
-
-		var _windowHeight = $(window).height();
-
 		if (!_duration) _duration = 1.5;
 
 		var _obj = this.zoomOptions( _amtX, _amtY, _repeat, _repeatDelay);
 
-		var _element = this.element;
-
-		//var _currScaleX = this.getTransformValue( "scaleX" );
-
-		//var _currScaleY = this.getTransformValue( "scaleY" );			
-
-		var _obj1 = copyObject( _obj );
-
-		var _pixelWidth = _amtX * _windowWidth;
-
-		_obj1.scaleX = _pixelWidth / this.origSize.width;
-
-		var _pixelHeight = _amtY * _windowHeight;
-
-		_obj1.scaleY = _pixelHeight / this.origSize.height;
-		 
-
-		if (this.type == "owner")  {
-
-			if (this.contentElement) this.zoomContent( _obj, _duration, this.contentElement );
-		}
-c(_obj1)
-		TweenMax.to( _element, _duration, _obj1 );
-	}
-
-	this.zoomContent = function( _obj, _duration, _element ) {
-
-		var _currScaleX = this.getTransformValueForElement( "scaleX", _element );
-
-		var _currScaleY = this.getTransformValueForElement( "scaleY", _element );
-
-		var _obj2 = copyObject( _obj );
-
-		_obj2.scaleX = _obj.scaleX * _currScaleX;
-
-		_obj2.scaleY = _obj.scaleY * _currScaleY;
-
-		var _name = $(_element).attr("data-shortname");
-
-		var _origSize = story[ _name ].origSize;
-		
-		var _yFactor = (_currScaleY * _origSize.height) - (_obj2.scaleY * _origSize.height);
-	
-		_obj2.y = "+=" + _yFactor/4;
-
-		 TweenMax.to( _element, _duration, _obj2 );
+		TweenMax.to( this.element, _duration, _obj );
 	}
 
 	this.zoomOptions = function(_amtX, _amtY, _repeat, _repeatDelay, _yoyo ) {
@@ -424,17 +357,17 @@ c(_obj1)
 
 		var _obj = convertMatrixStringToObject( $( _element ).css("transform") );	
 
-		if (_obj.translateX) this.x = _obj.translateX;
+		this.x = _obj.translateX;
 
-		if (_obj.translateY) this.y = _obj.translateY;
+		//this.left = convertPixelsToPercent( { x: this.x, ent: this } );
 
-		if (_obj.skewX) this.skewX = _obj.skewX;
+		this.y = _obj.translateY;
 
-		if (_obj.skewY) this.skewY = _obj.skewY;	
+		//this.top = convertPixelsToPercent( { y: this.y, ent: this } );
 
-		if (_obj.scaleX) this.imageScaleX = _obj.scaleX;
+		this.skewX = _obj.skewX;
 
-		if (_obj.scaleY) this.imageScaleY = _obj.scaleY;	
+		this.skewY = _obj.skewY;		
 
 	}
 

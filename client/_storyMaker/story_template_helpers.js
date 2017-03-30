@@ -135,17 +135,7 @@ Template.story.events({
           story.returnToScene();
       },
 
-    'click .storyThing': function(event, template) {
-
-       if (story.cutScene) {
-
-            if (story.cutScene.c == "wait") {
-
-              story.cutScene.playNext();
-
-              return;
-            }
-        }
+    'click .divStoryThing': function(event, template) {
 
         var _name = $(event.currentTarget).attr("data-shortname");
 
@@ -156,6 +146,18 @@ Template.story.events({
             return;
         }
 
+       if (story.cutScene) {
+
+        if (story.cutScene.c == "wait") story.cutScene.playNext();
+       }
+      },
+
+    'click .storyThing': function(event, template) {
+
+       if (story.cutScene) {
+
+        if (story.cutScene.c == "wait") story.cutScene.playNext();
+       }
       },
 
     'click .storyThingContent': function(event, template) {

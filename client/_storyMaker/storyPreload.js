@@ -9,27 +9,23 @@ sizeAndPos = function() {
 	var _smB = "img#smallB";
 
 
-	var _top = 0.2;
+	var _top = 0.1;
 
 
-	var _left = 0.4;
+	var _left = 0.1;
 
-	var _width = 0.1;
+	var _width = 0.2;
 
-	var _hite = 0.05;
-
-	doElement( _smA, _left, _top, _width, _hite, 100, true);
+	doElement( _smA, _left, _top, _width, 100, true);
 
 	
 	_top =  0.1;
 
 	_left = 0.30
 
-	_width = 0.3;
+	_width = 0.6;
 
-	_hite = 0.3;
-
-	doElement( _big, _left, _top, _width, _hite, 300);
+	doElement( _big, _left, _top, _width, 300);
 
 
 
@@ -37,15 +33,13 @@ sizeAndPos = function() {
 
 	_top =  0.1;
 
-	_width = 0.1;
+	_width = 0.2;
 
-	_hite = 0.1;
-
-	doElement( _smB, _left, _top, _width, _hite, 100);
+	doElement( _smB, _left, _top, _width, 100);
 return; 
 }
 
-doElement = function( _ele, _left, _top, _width, _hite, _origWidth, _childFlag) {
+doElement = function( _ele, _left, _top, _width, _origWidth, _childFlag) {
 
 	/*
 
@@ -80,7 +74,7 @@ var _obj = {};
 		_obj.scaleX = _pixelWidth /  _origWidth;
 	  
 	  
-	  	var _pixelHeight = _hite * _windowHeight;
+	  	var _pixelHeight = _width * _windowHeight;
 
 		_obj.scaleY = _pixelHeight / _origWidth;
 
@@ -113,44 +107,7 @@ c(_str)
 
 }
 
-zoomTest = function() {
 
-		if (!_duration) _duration = 1.5;
-
-
-		var _element = this.element;
-
-		var _currScaleX = this.getTransformValue( "scaleX" );
-
-		var _currScaleY = this.getTransformValue( "scaleY" );			
-
-		var _obj1 = copyObject( _obj );
-
-		_obj1.scaleX = _amtX * _currScaleX;
-
-		_obj1.scaleY = _amtY * _currScaleY;
-
-		if (this.type == "owner")  {
-
-			if (this.contentElement) {
-
-				_currScaleX = this.getTransformValueForElement( "scaleX", this.contentElement );
-
-				_currScaleY = this.getTransformValueForElement( "scaleY", this.contentElement );
-
-				 var _obj2 = copyObject( _obj );
-
-				_obj2.scaleX = _amtX * _currScaleX;
-
-				_obj2.scaleY = _amtY * _currScaleY;
-c(_obj2)
-				 TweenMax.to( this.contentElement, _duration, _obj2 );
-			}
-		}
-c(_obj)
-		TweenMax.to( _element, _duration, _obj );
-
-}
 
 
 /*
