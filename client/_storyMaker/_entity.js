@@ -28,7 +28,7 @@ Entity = function() {
 
 	this._add = function( _obj ) {
 
-		$(this.element).attr("src", this.pic);
+		$(this.imageElement).attr("src", this.pic);
 
 		$(this.element).attr("data-shortname", this.shortName);	
 

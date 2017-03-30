@@ -118,11 +118,13 @@ Token = function() {
 
 		_obj.ownerEntity = this;
 
+		story.tokenObjs.push( _obj );
+
 		this.contentElement = _obj.element;
 
 		$(this.contentElement).css("z-index", _obj.zIndex);	
 
-		$(this.contentElement).attr("data-shortName", this.shortName);	
+		$(this.contentElement).attr("data-shortName", _name);	
 
 		if (_obj.borderRadius) $(this.contentElement).css("border-radius", _obj.borderRadius);
 

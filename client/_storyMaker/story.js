@@ -186,7 +186,7 @@ Story =  function() {
 
 		this.createTokens( "cb" );  //content bg (sub-tokens on lowest layer)
 
-		this.createTokens( "n" );  //normal
+		this.createTokens();  //normal
 
 		this.createFlags();
 
@@ -343,7 +343,7 @@ Story =  function() {
 	
 	this.setEntityArrays = function() {
 
-		var _tokenCount = db.ghToken.find( { t: "n" } ).fetch().length;
+		var _tokenCount = db.ghToken.find( {} ).fetch().length;
 
 		this.tokens = this.makeArray(_tokenCount + 1);
 
@@ -410,9 +410,9 @@ Story =  function() {
 		}	
 	},
 
-	this.createTokens = function( _type ) {
+	this.createTokens = function() {
 
-		var _arr = db.ghToken.find( { t: _type } ).fetch();
+		var _arr = db.ghToken.find( {} ).fetch();
 
 
 		for (var i = 0; i < _arr.length; i++) {
@@ -439,7 +439,7 @@ Story =  function() {
 			_str = "story." + _name + ".init( _obj, " + _index + " )";
 
 			eval(  _str );	
-
+/*
 			if ( _obj.w ) {
 
 				//$( story.warning.element ).addClass( _obj.w );
@@ -447,8 +447,9 @@ Story =  function() {
 				_str = "$( story." + _name + ".element ).addClass( _obj.w )";
 
 				eval(  _str );					
-			}
 
+			}
+*/
 		} //end for loop thru records	
 	},
 
