@@ -33,12 +33,11 @@ Token = function() {
 
 		this.contentMode = "front";  //'front' or 'back'
 
-		if (_obj.t == "n") {
+		this.zIndex = 1001;
 
-			this.type = "normal";
+		if (_obj.t == "n") this.type = "normal";
 
-			this.zIndex = 1001;
-		}
+		if (_obj.t == "o") this.type = "owner";
 
 		if (_obj.t == "c") {
 
@@ -116,9 +115,11 @@ Token = function() {
 
 		var _obj = story[ _name ];
 
+		story.tokenObjs.push( _obj );
+
 		_obj.ownerEntity = this;
 
-		story.tokenObjs.push( _obj );
+		this.fadeOutContent();
 
 		this.contentElement = _obj.element;
 
@@ -137,8 +138,6 @@ Token = function() {
 	this.switchContent = function( _obj ) {
 
 		var _duration = 500;
-
-		this.fadeOutContent();
 
 		Token.contentEntity = _obj;
 
@@ -190,6 +189,15 @@ Token = function() {
 		if (_val) _duration = _val;
 
 		$( _element ).velocity( "fadeOut", { duration: 500} );
+	}
+
+	this.linkContent = function() {
+
+		$(this.element).addClass( this.shortName );
+
+		if (this.contentElement) $(this.contentElement).addClass( this.shortName );
+
+		if (this.contentElementBG) $(this.contentElementBG).addClass( this.shortName );		
 	}
 
 } 
