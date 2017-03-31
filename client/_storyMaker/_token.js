@@ -65,9 +65,9 @@ Token = function() {
 
 		this.origSize = getDimensionsFromFilename( this.pic );
 
-		if (_obj.top) this.top = parseFloat(_obj.top);
+		if (_obj.top) this.translateY = parseFloat(_obj.top);
 
-		if (_obj.l) this.left = parseFloat(_obj.l);
+		if (_obj.l) this.translateX = parseFloat(_obj.l);
 
 		//set the default scale to be the equivalent of the natural size
 
@@ -79,6 +79,7 @@ Token = function() {
 
 		if (_obj.scy) this.scaleY = parseFloat(_obj.scy);
 
+		this.lastTransform = this.createDefaultTransform();
 
 		this.movable = false;
 
@@ -145,9 +146,9 @@ Token = function() {
 
 		Token.pic = _obj.pic;
 
- 		Meteor.setTimeout( function() { $(Token.contentEntity.draw() ) }, _duration + 10 )
+ 		Meteor.setTimeout( function() { $( Token.contentEntity.draw( Token.contentEntity.createDefaultTransform() ) ) }, _duration + 10 )
 
- 		Meteor.setTimeout( function() { $(Token.current.currentContentElement).attr("src", Token.pic ) }, _duration + 20 )
+ 		Meteor.setTimeout( function() { $( Token.current.currentContentElement).attr("src", Token.pic ) }, _duration + 20 )
 
  		Meteor.setTimeout( function() { Token.current.fadeInElement( Token.current.currentContentElement) }, _duration + 30 )
 	}
