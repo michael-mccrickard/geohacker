@@ -23,6 +23,8 @@ StoryEditorVisual = function() {
 
 	this.sizeIncValue = 0.005;
 
+	this.moveIncValue = 0.003;
+
 	this.storyButtonText =  new Blaze.ReactiveVar("Stories");
  
 	this.storyButtonElement = "button.btn-info.topButton2";
@@ -66,10 +68,6 @@ StoryEditorVisual = function() {
 
 			this.mode.set("play");
 
-			//FlowRouter.go("/waiting")
-
-			//Meteor.setTimeout( function() { FlowRouter.go("/story"); }, 250);
-
 			return;
 		}
 
@@ -85,8 +83,6 @@ StoryEditorVisual = function() {
 
 			gSizeEntityMode = 1;
 
-			this.selectedEntity.update();
-
 			showMessage("Size mode on");
 		}
 
@@ -95,8 +91,6 @@ StoryEditorVisual = function() {
 			gGameEditor = 1;
 
 			gMoveEntityMode = 1;
-
-			this.selectedEntity.update();
 
 			showMessage("Move mode on")
 		}
@@ -381,23 +375,21 @@ StoryEditorVisual = function() {
 
 	this.sizeEntityXY = function( _val) {
 
+		_val = _val * this.sizeIncValue;
+
 		var _ent = this.selectedEntity;
 
-		var _scaleRatio = _ent.scaleY / _ent.scaleX;
+		var _scaleX = _ent.getTransformValue("scaleX");
 
-		var _scaleX = _ent.scaleX;
+		var _scaleY = _ent.getTransformValue("scaleY");
 
-		_scaleX = _scaleX + _val * this.sizeIncValue * screenRatio;
+		var _scaleRatio = _scaleY / _scaleX;
+
+		_scaleX = _scaleX + _val;
+
+		_scaleY = _scaleY + (_scaleRatio * _val);
 		
-		_ent.scaleX = _scaleX;
-
-		var _scaleY = _ent.scaleY;
-
-		_scaleY = _scaleY + _val * this.sizeIncValue;
-
-		_ent.scaleY = _scaleY;
-		
-		_ent.draw();
+		_ent.change( { scaleX: _scaleX, scaleY: _scaleY  } );
 
 		this.showCoordinates();
 	}
@@ -410,7 +402,7 @@ StoryEditorVisual = function() {
 
 		_scaleX = _scaleX + _val * this.sizeIncValue;
 
-		_ent.draw( { scaleX: _scaleX  } );
+		_ent.change( { scaleX: _scaleX  } );
 
 		this.showCoordinates();
 	}
@@ -419,13 +411,11 @@ StoryEditorVisual = function() {
 
 		var _ent = this.selectedEntity;
 
-		var _scaleY = _ent.scaleY;
+		var _scaleY = _ent.getTransformValue("scaleY");
 
 		_scaleY = _scaleY + _val * this.sizeIncValue;
 
-		_ent.scaleY = _scaleY;
-		
-		_ent.draw();
+		_ent.change( { scaleY: _scaleY  } );
 
 		this.showCoordinates();
 	}
@@ -434,15 +424,11 @@ StoryEditorVisual = function() {
 		
 		var _ent = this.selectedEntity;
 
-		_val = _val * 0.003;
-		
-		var _top = _ent.top;
+		var _translateY = _ent.getTransformValue("translateY");
 
-		_top = _top + _val;
+		_translateY = _translateY + _val;
 
-		_ent.top = _top;		
-
-		_ent.draw();
+		_ent.change( { translateY: _translateY  } );
 
 		this.showCoordinates();
 	}
@@ -451,15 +437,11 @@ StoryEditorVisual = function() {
 
 		var _ent = this.selectedEntity;
 
-		_val = _val *  0.003;
-		
-		var _left = _ent.left;
+		var _translateX = _ent.getTransformValue("translateX");
 
-		_left = _left + _val;
+		_translateX = _translateX + _val;
 
-		_ent.left = _left;			
-		
-		_ent.draw();
+		_ent.change( { translateX: _translateX  } );
 
 		this.showCoordinates();
 
@@ -504,22 +486,16 @@ StoryEditorVisual = function() {
 	}
 
 	this.showCoordinates = function() {
+		
+		var _windowWidth = $(window).width();
+
+		var _windowHeight = $(window).height();
 
 		var _element = this.selectedEntity.element;
 
-		var _ent = this.selectedEntity;
+		var _obj = convertMatrixStringToObject( $(_element).css("transform") );
 
-		//var _obj = convertMatrixStringToObject( $(_element).css("transform") );
-
-		 //var _left = convertPixelsToPercent( { x: _obj.translateX, ent: this.selectedEntity } );
-
-		 //_left = formatFloat( _left * 100);
-
-		 //var _top = ( { y: _obj.translateY, ent: this.selectedEntity } );
-
-		 //_top = formatFloat( _top * 100);
-
-		 var _s = "{left: " + formatFloat(_ent.left) + ", " + "top: " + formatFloat(_ent.top) + ", scaleX: " + formatFloat(_ent.scaleX) + ", scaleY:" + formatFloat(_ent.scaleY) + "}";
+		 var _s = "{x: " + formatFloat(_obj.translateX / _windowWidth) + ", " + "y: " + formatFloat(_obj.translateY / _windowHeight) + ", scaleX: " + formatFloat(_obj.scaleX / _windowWidth) + ", scaleY:" + formatFloat(_obj.scaleY / _windowHeight) + "}";
 
 		 this.updateScreen( _s ); 
 

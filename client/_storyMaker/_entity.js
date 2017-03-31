@@ -47,11 +47,11 @@ Entity = function() {
 
 	this.change = function( _obj ) {
 
-		var _mat = this.lastTransform;
+		var _mat = this.lastTransform;		
 
-		if ( _obj.left ) _mat.translateX = _obj.translateX;
+		if ( _obj.translateX ) _mat.translateX = _obj.translateX;
 
-		if ( _obj.top ) _mat.translateY = _obj.translateY;
+		if ( _obj.translateY ) _mat.translateY = _obj.translateY;
 
 		if ( _obj.scaleX ) _mat.scaleX = _obj.scaleX;
 
@@ -61,7 +61,7 @@ Entity = function() {
 
 		if ( _obj.skewY ) _mat.skewY = _obj.skewY;
 
-		this.draw( _mat);
+		this.transform( _mat);
 	}
 
 	this.draw = function(_obj) {
@@ -396,7 +396,7 @@ c(_obj1)
 
 		_obj2.scaleY = _yFactor * _currScaleY;
 		
-		var _pixelWidth = _obj2.scaleX * _origSize.width;
+		var _pixelWidth = _obj2.scaleX * _origSize.width;  //not using this yet
 
 		var _pixelHeight = _obj2.scaleY * _origSize.height;
 
