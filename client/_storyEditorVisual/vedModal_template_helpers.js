@@ -911,18 +911,22 @@ Template.vedModalTransform.helpers({
 
   entityScaleX : function() {
 
+    var _windowWidth = $(window).width();
+
     var _val = Session.get("sUpdateVisualEditor");
 
-    if ( sed.recordID.get() ) return ved.selectedEntity.lastTransform.scaleX;
+    if ( sed.recordID.get() ) return ved.selectedEntity.lastTransform.scaleX * ved.selectedEntity.origSize.width / _windowWidth;
 
     return "(No entity selected in scene)";
   },
 
   entityScaleY : function() {
 
+    var _windowHeight = $(window).height();
+
     var _val = Session.get("sUpdateVisualEditor");
 
-    if ( sed.recordID.get() ) return ved.selectedEntity.lastTransform.scaleY;
+    if ( sed.recordID.get() ) return ved.selectedEntity.lastTransform.scaleY * ved.selectedEntity.origSize.height / _windowHeight;
 
     return "(No entity selected in scene)";
   },
@@ -930,17 +934,17 @@ Template.vedModalTransform.helpers({
 
   entityTranslateX : function() {
 
+    var _windowWidth = $(window).width();
+
+    var _windowHeight = $(window).height();
+
     var _val = Session.get("sUpdateVisualEditor");
 
     if ( sed.recordID.get() ) {
 
-      var _obj = {};
+      var _translateX = ( ved.selectedEntity.lastTransform.translateX - ((_windowWidth * ved.selectedEntity.scaleX - ved.selectedEntity.origSize.width ) / 2) ) / _windowWidth;
 
-      _obj.translateX = ved.selectedEntity.lastTransform.translateX
-
-      _obj.ent = ved.selectedEntity;
-
-      return convertPixelsToPercent( _obj );
+      return _translateX;
 
     }
 
@@ -949,17 +953,17 @@ Template.vedModalTransform.helpers({
 
   entityTranslateY : function() {
 
+    var _windowWidth = $(window).width();
+
+    var _windowHeight = $(window).height();
+
     var _val = Session.get("sUpdateVisualEditor");
 
     if ( sed.recordID.get() ) {
 
-      var _obj = {};
+      var _translateY =  ( ved.selectedEntity.lastTransform.translateY - ((_windowHeight * ved.selectedEntity.scaleY - ved.selectedEntity.origSize.height ) / 2) ) / _windowHeight;
 
-      _obj.ent = ved.selectedEntity;
-
-      _obj.translateY = ved.selectedEntity.lastTransform.translateY
-
-      return convertPixelsToPercent( _obj );
+      return _translateY;
     }
 
     return "(No entity selected in scene)";
