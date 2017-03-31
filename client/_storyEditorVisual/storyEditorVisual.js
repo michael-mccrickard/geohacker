@@ -493,9 +493,24 @@ StoryEditorVisual = function() {
 
 		var _element = this.selectedEntity.element;
 
+		var _ent = this.selectedEntity;
+
 		var _obj = convertMatrixStringToObject( $(_element).css("transform") );
 
-		 var _s = "{x: " + formatFloat(_obj.translateX / _windowWidth) + ", " + "y: " + formatFloat(_obj.translateY / _windowHeight) + ", scaleX: " + formatFloat(_obj.scaleX / _windowWidth) + ", scaleY:" + formatFloat(_obj.scaleY / _windowHeight) + "}";
+c("matrix object for " + _ent.name + " follows")
+c( _obj )
+
+		var _origSize = _ent.origSize;
+
+		var _x = _obj.translateX + (_windowWidth * _obj.scaleX - _origSize.width ) / 2;
+
+		var _y = _obj.translateY + (_windowHeight * _obj.scaleY - _origSize.height ) / 2;
+
+		var _scaleX = ( _obj.scaleX * _origSize.width ) / _windowWidth;
+
+		var _scaleY = ( _obj.scaleY * _origSize.height ) / _windowHeight;
+
+		 var _s = "{x: " + formatFloat( _x / _windowWidth ) + ", " + "y: " + formatFloat( _y / _windowHeight ) + ", scaleX: " + formatFloat( _scaleX ) + ", scaleY:" + formatFloat(_scaleY) + "}";
 
 		 this.updateScreen( _s ); 
 
