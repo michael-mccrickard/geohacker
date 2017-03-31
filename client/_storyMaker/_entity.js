@@ -361,51 +361,51 @@ c(_obj2)
 		_obj1.scaleY = _pixelHeight / this.origSize.height;
 
 
-var _currScaleY = this.getTransformValue( "scaleY");
+		var _currScaleY = this.getTransformValue( "scaleY");
 
-var _yFactor = (_currScaleY * this.origSize.height) - _pixelHeight;
+		var _yFactor = _obj1.scaleY / _currScaleY ;
 		 
+
+		var _currScaleX = this.getTransformValue( "scaleX");
+
+		var _xFactor = _obj1.scaleX / _currScaleX ;
+
 
 		if (this.type == "owner")  {
 
-			if (this.contentElement) this.zoomContent( _obj, _duration, this.contentElement, _yFactor );
+			if (this.contentElement) this.zoomContent( _xFactor, _yFactor, _obj, _duration, this.contentElement, _yFactor );
 		}
 c(_obj1)
 		TweenMax.to( _element, _duration, _obj1 );
 	}
 
-	this.zoomContent = function( _obj, _duration, _element, _yFactor ) {
-
-		var _windowWidth = $(window).width();
-
-		var _windowHeight = $(window).height();
+	this.zoomContent = function( _xFactor, _yFactor, _obj, _duration, _element, _yFactor ) {
 
 		var _obj2 = copyObject( _obj );
 
 
 		var _name = $(_element).attr("data-shortname");
 
-c("name in zC is " + _name)
-
 		var _origSize = story[ _name ].origSize;
-
-		
-		var _pixelWidth = _obj.scaleX * _windowWidth;
-
-		_obj2.scaleX = _pixelWidth / _origSize.width;
-
-		var _pixelHeight = _obj.scaleY * _windowHeight;
-
-		_obj2.scaleY = _pixelHeight / _origSize.height;
-
 
 		var _currScaleY = this.getTransformValueForElement( "scaleY", _element);
 
-		var _yFactor2 = (_currScaleY * _origSize.height) - (_obj2.scaleY * _origSize.height);
+		var _currScaleX = this.getTransformValueForElement( "scaleX", _element);
 
-		//_yFactor =  _yFactor - _yFactor2;
+		_obj2.scaleX = _xFactor * _currScaleX;
 
-		//_obj2.y = "+=" + _yFactor2/4;
+		_obj2.scaleY = _yFactor * _currScaleY;
+		
+		var _pixelWidth = _obj2.scaleX * _origSize.width;
+
+		var _pixelHeight = _obj2.scaleY * _origSize.height;
+
+
+		var _yFactor2 = (_currScaleY * _origSize.height) - (_pixelHeight);
+
+		_yFactor =  _yFactor - _yFactor2;
+
+		_obj2.y = "+=" + _yFactor2/4;
 
 		 TweenMax.to( _element, _duration, _obj2 );
 	}
