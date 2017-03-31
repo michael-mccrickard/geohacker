@@ -159,6 +159,20 @@ whichBrowser = function(){
 //     Conversion functions
 //************************************************************
 
+copyObject = function( _obj ) {
+
+    var copy = {};
+
+        for (var attr in _obj) {
+
+            copy[attr] = _obj[attr];
+        
+        }
+
+    return copy;
+}
+
+
 percentStringToNumber = function( _str ) {
 
     _str = _str.substr(0, _str.length - 1);

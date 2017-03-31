@@ -406,13 +406,11 @@ StoryEditorVisual = function() {
 
 		var _ent = this.selectedEntity;
 
-		var _scaleX = _ent.scaleX;
+		var _scaleX = _ent.getTransformValue("scaleX");
 
 		_scaleX = _scaleX + _val * this.sizeIncValue;
 
-		_ent.scaleX = _scaleX;
-
-		_ent.draw();
+		_ent.draw( { scaleX: _scaleX  } );
 
 		this.showCoordinates();
 	}
@@ -662,9 +660,9 @@ StoryEditorVisual = function() {
 
 		var _update = {};
 
-		_update.l = _ent.left; //convertPixelsToPercent( { x: _obj.translateX, ent: _ent } );
+		_update.l = _ent.translateX; //convertPixelsToPercent( { x: _obj.translateX, ent: _ent } );
 
-		_update.top = _ent.top; //convertPixelsToPercent( { y: _obj.translateY, ent: _ent } );
+		_update.top = _ent.translateY; //convertPixelsToPercent( { y: _obj.translateY, ent: _ent } );
 
 		_update.scx = _ent.scaleX;
 

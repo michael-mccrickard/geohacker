@@ -229,12 +229,6 @@ div.storyButton {
 
 }
 
-.storyThingContentAnim {
-
-	position: absolute;
-
-}
-
 .storyThingContentBG {
 
 	position: absolute;
@@ -308,7 +302,7 @@ div.storyButton {
 
 	font-family: Arial;
 
-	font-size: 32px;
+	font-size: 2.0vh;
 
 	margin-top: 4px;
 
