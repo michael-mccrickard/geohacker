@@ -502,9 +502,9 @@ c( _obj )
 
 		var _origSize = _ent.origSize;
 
-		var _x = _obj.translateX + (_windowWidth * _obj.scaleX - _origSize.width ) / 2;
+		var _x = _obj.translateX - (_windowWidth * _ent.scaleX - _origSize.width ) / 2;
 
-		var _y = _obj.translateY + (_windowHeight * _obj.scaleY - _origSize.height ) / 2;
+		var _y = _obj.translateY - (_windowHeight * _ent.scaleY - _origSize.height ) / 2;
 
 		var _scaleX = ( _obj.scaleX * _origSize.width ) / _windowWidth;
 
