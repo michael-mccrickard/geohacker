@@ -33,11 +33,12 @@ Token = function() {
 
 		this.contentMode = "front";  //'front' or 'back'
 
-		this.zIndex = 1001;
+		if (_obj.t == "n") {
 
-		if (_obj.t == "n") this.type = "normal";
+			this.type = "normal";
 
-		if (_obj.t == "o") this.type = "owner";
+			this.zIndex = 1001;
+		}
 
 		if (_obj.t == "c") {
 
@@ -65,9 +66,9 @@ Token = function() {
 
 		this.origSize = getDimensionsFromFilename( this.pic );
 
-		if (_obj.top) this.translateY = parseFloat(_obj.top);
+		if (_obj.top) this.top = parseFloat(_obj.top);
 
-		if (_obj.l) this.translateX = parseFloat(_obj.l);
+		if (_obj.l) this.left = parseFloat(_obj.l);
 
 		//set the default scale to be the equivalent of the natural size
 
@@ -79,7 +80,6 @@ Token = function() {
 
 		if (_obj.scy) this.scaleY = parseFloat(_obj.scy);
 
-		this.lastTransform = this.createDefaultTransform();
 
 		this.movable = false;
 
@@ -116,17 +116,13 @@ Token = function() {
 
 		var _obj = story[ _name ];
 
-		story.tokenObjs.push( _obj );
-
 		_obj.ownerEntity = this;
-
-		this.fadeOutContent();
 
 		this.contentElement = _obj.element;
 
 		$(this.contentElement).css("z-index", _obj.zIndex);	
 
-		$(this.contentElement).attr("data-shortName", _name);	
+		$(this.contentElement).attr("data-shortName", this.shortName);	
 
 		if (_obj.borderRadius) $(this.contentElement).css("border-radius", _obj.borderRadius);
 
@@ -140,15 +136,17 @@ Token = function() {
 
 		var _duration = 500;
 
+		this.fadeOutContent();
+
 		Token.contentEntity = _obj;
 
 		Token.current = this;
 
 		Token.pic = _obj.pic;
 
- 		Meteor.setTimeout( function() { $( Token.contentEntity.draw( Token.contentEntity.createDefaultTransform() ) ) }, _duration + 10 )
+ 		Meteor.setTimeout( function() { $(Token.contentEntity.draw() ) }, _duration + 10 )
 
- 		Meteor.setTimeout( function() { $( Token.current.currentContentElement).attr("src", Token.pic ) }, _duration + 20 )
+ 		Meteor.setTimeout( function() { $(Token.current.currentContentElement).attr("src", Token.pic ) }, _duration + 20 )
 
  		Meteor.setTimeout( function() { Token.current.fadeInElement( Token.current.currentContentElement) }, _duration + 30 )
 	}
@@ -190,15 +188,6 @@ Token = function() {
 		if (_val) _duration = _val;
 
 		$( _element ).velocity( "fadeOut", { duration: 500} );
-	}
-
-	this.linkContent = function() {
-
-		$(this.element).addClass( this.shortName );
-
-		if (this.contentElement) $(this.contentElement).addClass( this.shortName );
-
-		if (this.contentElementBG) $(this.contentElementBG).addClass( this.shortName );		
 	}
 
 } 

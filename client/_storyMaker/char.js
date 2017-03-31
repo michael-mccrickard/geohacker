@@ -49,9 +49,9 @@ Char = function() {
 			
 		}
 
-		if (_obj.top) this.translateY = parseFloat(_obj.top);
+		if (_obj.top) this.top = parseFloat(_obj.top);
 
-		if (_obj.l) this.translateX = parseFloat(_obj.l);
+		if (_obj.l) this.left = parseFloat(_obj.l);
 
 		this.origSize = getDimensionsFromFilename( this.pic );
 
@@ -65,7 +65,6 @@ Char = function() {
 
 		if (_obj.scy) this.scaleY = parseFloat(_obj.scy);
 
-		this.lastTransform = this.createDefaultTransform();
 
 		this.size = 96;
 
