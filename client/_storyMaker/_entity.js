@@ -69,27 +69,46 @@ c(_obj)
 
 	this.integrateTransformWithDBValues = function( _obj) {
 
-		var _mat = this.lastTransform;
+		var _mat = copyObject( this.lastTransform );
 
 		var _windowWidth = $(window).width();
 
 		var _windowHeight = $(window).height();
 
-		var _pixelHeight = this.lastTransform.scaleY * _windowHeight;
+		var _pixelHeight = this.lastTransform.scaleY * this.origSize.height;
 
-		var _pixelWidth = this.lastTransform.scaleX * _windowWidth;
+		var _pixelWidth = this.lastTransform.scaleX * this.origSize.width;
 
-		if (_obj.translateX) _mat.translateX = this.fixTranslateValueForCSS( _obj, "x", _pixelWidth);
+		
+		if (_obj.translateX) _mat.translateX = _obj.translateX;
 
-		if (_obj.translateY) _mat.translateY = this.fixTranslateValueForCSS( _obj, "y", _pixelHeight);
+		if (_obj.translateY) _mat.translateY = _obj.translateY;
 
-		if (_obj.scaleX) _mat.scaleX = this.fixScaleValueForCSS( _obj.scaleX);
+		
+		if (_obj.scaleX) _mat.scaleX = _obj.scaleX;
 
-		if (_obj.scaleY) _mat.scaleY = this.fixScaleValueForCSS( _obj.scaleY);
+		if (_obj.scaleY) _mat.scaleY = _obj.scaleY;
+
+
+		if (!_obj.scaleX) _mat.scaleX = this.fixScaleValueForDB( _mat, "x");
+
+		if (!_obj.scaleY) _mat.scaleY = this.fixScaleValueForDB( _mat, "y");
+
+
+		if (_obj.translateX) _mat.translateX = this.fixTranslateValueForCSS( _mat, "x", _pixelWidth);
+
+		if (_obj.translateY) _mat.translateY = this.fixTranslateValueForCSS( _mat, "y", _pixelHeight);
+
+
+		if (!_obj.scaleX) _mat.scaleX = this.fixScaleValueForCSS( _mat, "x");
+
+		if (!_obj.scaleY) _mat.scaleY = this.fixScaleValueForCSS( _mat, "y");
+
+
 
 c(this.name + " matrix in integrate follows")
 c(_mat)
-
+c("yo mama")
 		return _mat;
 
 	}
