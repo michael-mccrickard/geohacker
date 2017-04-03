@@ -379,9 +379,9 @@ StoryEditorVisual = function() {
 
 		var _ent = this.selectedEntity;
 
-		var _scaleX = _ent.getTransformValue("scaleX");
+		var _scaleX = _ent.lastTransform.scaleX;
 
-		var _scaleY = _ent.getTransformValue("scaleY");
+		var _scaleY = _ent.lastTransform.scaleY;
 
 		var _scaleRatio = _scaleY / _scaleX;
 
@@ -389,7 +389,7 @@ StoryEditorVisual = function() {
 
 		_scaleY = _scaleY + (_scaleRatio * _val);
 		
-		_ent.change( { scaleX: _scaleX, scaleY: _scaleY  } );
+		_ent.transformOnly( { scaleX: _scaleX, scaleY: _scaleY  } );
 
 		this.showCoordinates();
 	}
@@ -398,11 +398,11 @@ StoryEditorVisual = function() {
 
 		var _ent = this.selectedEntity;
 
-		var _scaleX = _ent.getTransformValue("scaleX");
+		var _scaleX = _ent.lastTransform.scaleX;
 
 		_scaleX = _scaleX + _val * this.sizeIncValue;
 
-		_ent.change( { scaleX: _scaleX  } );
+		_ent.transformOnly( { scaleX: _scaleX  } );
 
 		this.showCoordinates();
 	}
@@ -411,11 +411,11 @@ StoryEditorVisual = function() {
 
 		var _ent = this.selectedEntity;
 
-		var _scaleY = _ent.getTransformValue("scaleY");
+		var _scaleY = _ent.lastTransform.scaleY;
 
 		_scaleY = _scaleY + _val * this.sizeIncValue;
 
-		_ent.change( { scaleY: _scaleY  } );
+		_ent.transformOnly( { scaleY: _scaleY  } );
 
 		this.showCoordinates();
 	}
@@ -424,11 +424,11 @@ StoryEditorVisual = function() {
 		
 		var _ent = this.selectedEntity;
 
-		var _translateY = _ent.getTransformValue("translateY");
+		var _translateY = _ent.lastTransform.translateY;
 
 		_translateY = _translateY + _val;
 
-		_ent.change( { translateY: _translateY  } );
+		_ent.transformOnly( { translateY: _translateY  } );
 
 		this.showCoordinates();
 	}
@@ -437,11 +437,11 @@ StoryEditorVisual = function() {
 
 		var _ent = this.selectedEntity;
 
-		var _translateX = _ent.getTransformValue("translateX");
+		var _translateX = _ent.lastTransform.translateX;
 
 		_translateX = _translateX + _val;
 
-		_ent.change( { translateX: _translateX  } );
+		_ent.transformOnly( { translateX: _translateX  } );
 
 		this.showCoordinates();
 
@@ -502,19 +502,21 @@ c( _obj )
 
 		var _origSize = _ent.origSize;
 
-		var _x = _obj.translateX - (_windowWidth * _ent.scaleX - _origSize.width ) / 2;
+		var _x = _ent.fixTranslateValueForDB( _obj, "x");//_obj.translateX - (_windowWidth * _ent.scaleX - _origSize.width ) / 2;
 
-		var _y = _obj.translateY - (_windowHeight * _ent.scaleY - _origSize.height ) / 2;
+		var _y = _ent.fixTranslateValueForDB( _obj, "y");//_obj.translateY - (_windowHeight * _ent.scaleY - _origSize.height ) / 2;
 
-		var _scaleX = ( _obj.scaleX * _origSize.width ) / _windowWidth;
+		var _scaleX = _ent.fixScaleValueForDB( _obj, "x");//( _obj.scaleX * _origSize.width ) / _windowWidth;
 
-		var _scaleY = ( _obj.scaleY * _origSize.height ) / _windowHeight;
+		var _scaleY = _ent.fixScaleValueForDB( _obj, "y");//( _obj.scaleY * _origSize.height ) / _windowHeight;
 
-		 var _s = "{x: " + formatFloat( _x / _windowWidth ) + ", " + "y: " + formatFloat( _y / _windowHeight ) + ", scaleX: " + formatFloat( _scaleX ) + ", scaleY:" + formatFloat(_scaleY) + "}";
+		 var _s = "{x: " + formatFloat( _x ) + ", " + "y: " + formatFloat( _y ) + ", scaleX: " + formatFloat( _scaleX ) + ", scaleY:" + formatFloat(_scaleY) + "}";
 
 		 this.updateScreen( _s ); 
 
 	}
+
+
 
 	this.showData = function( _name ) {
 
@@ -647,17 +649,17 @@ c( _obj )
 
 		var _element = _ent.element;
 
-		//if (!_obj ) _obj = convertMatrixStringToObject( $( _element ).css("transform") );		
+		if (!_obj ) _obj = convertMatrixStringToObject( $( _element ).css("transform") );		
 
 		var _update = {};
 
-		_update.l = _ent.translateX; //convertPixelsToPercent( { x: _obj.translateX, ent: _ent } );
+		_update.l = _ent.fixTranslateValueForDB( _obj, "x");
 
-		_update.top = _ent.translateY; //convertPixelsToPercent( { y: _obj.translateY, ent: _ent } );
+		_update.top = _ent.fixTranslateValueForDB( _obj, "y");
 
-		_update.scx = _ent.scaleX;
+		_update.scx = _ent.fixScaleValueForDB( _obj, "x");
 
-		_update.scy = _ent.scaleY;
+		_update.scy = _ent.fixScaleValueForDB( _obj, "y");
 
 
 showMessage( "Saving entity " + _ent.shortName );

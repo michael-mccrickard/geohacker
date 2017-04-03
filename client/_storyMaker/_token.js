@@ -159,17 +159,19 @@ Token = function() {
 
 		_obj.ownerEntity = this;
 
+		story.tokenObjs.push( _obj );
+
 		this.contentElementBG = _obj.element;
 
 		$(this.contentElementBG).css("z-index", _obj.zIndex);	
-
-		_obj.draw();
 
 		$(this.contentElementBG).attr("data-shortName", this.shortName);	
 
 		if (_obj.borderRadius) $(this.contentElementBG).css("border-radius", _obj.borderRadius);
 
-		$(this.contentElementBG).attr("src", _obj.pic )
+		$(this.contentElementBG).attr("src", _obj.pic );
+
+		_obj.draw();
 
 	}
 

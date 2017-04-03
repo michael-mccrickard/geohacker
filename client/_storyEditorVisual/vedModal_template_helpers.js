@@ -915,7 +915,13 @@ Template.vedModalTransform.helpers({
 
     var _val = Session.get("sUpdateVisualEditor");
 
-    if ( sed.recordID.get() ) return ved.selectedEntity.lastTransform.scaleX * ved.selectedEntity.origSize.width / _windowWidth;
+    if ( sed.recordID.get() ) {
+
+      var _ent = ved.selectedEntity;
+
+      return   _ent.fixScaleValueForDB( _ent.lastTransform, "x"); //ved.selectedEntity.lastTransform.scaleX * ved.selectedEntity.origSize.width / _windowWidth;
+
+    }
 
     return "(No entity selected in scene)";
   },
@@ -926,7 +932,13 @@ Template.vedModalTransform.helpers({
 
     var _val = Session.get("sUpdateVisualEditor");
 
-    if ( sed.recordID.get() ) return ved.selectedEntity.lastTransform.scaleY * ved.selectedEntity.origSize.height / _windowHeight;
+    if ( sed.recordID.get() ) {
+
+      var _ent = ved.selectedEntity;
+
+      return   _ent.fixScaleValueForDB( _ent.lastTransform, "y"); //ved.selectedEntity.lastTransform.scaleX * ved.selectedEntity.origSize.width / _windowWidth;
+
+    }
 
     return "(No entity selected in scene)";
   },
@@ -942,9 +954,9 @@ Template.vedModalTransform.helpers({
 
     if ( sed.recordID.get() ) {
 
-      var _translateX = ( ved.selectedEntity.lastTransform.translateX - ((_windowWidth * ved.selectedEntity.scaleX - ved.selectedEntity.origSize.width ) / 2) ) / _windowWidth;
+      var _ent = ved.selectedEntity;
 
-      return _translateX;
+      return   _ent.fixTranslateValueForDB( _ent.lastTransform, "x"); //ved.selectedEntity.lastTransform.scaleX * ved.selectedEntity.origSize.width / _windowWidth;
 
     }
 
@@ -961,9 +973,10 @@ Template.vedModalTransform.helpers({
 
     if ( sed.recordID.get() ) {
 
-      var _translateY =  ( ved.selectedEntity.lastTransform.translateY - ((_windowHeight * ved.selectedEntity.scaleY - ved.selectedEntity.origSize.height ) / 2) ) / _windowHeight;
+      var _ent = ved.selectedEntity;
 
-      return _translateY;
+      return   _ent.fixTranslateValueForDB( _ent.lastTransform, "y"); //ved.selectedEntity.lastTransform.scaleX * ved.selectedEntity.origSize.width / _windowWidth;
+
     }
 
     return "(No entity selected in scene)";
@@ -972,7 +985,7 @@ Template.vedModalTransform.helpers({
   entityPicURL : function() {
 
     var _val = Session.get("sUpdateVisualEditor");
-
+   
     if ( sed.recordID.get() ) return ved.selectedEntity.pic;
   },
 

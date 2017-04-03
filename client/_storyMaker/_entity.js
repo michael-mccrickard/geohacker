@@ -36,16 +36,72 @@ Entity = function() {
 
 		if (_obj) {
 
-			this.change( _obj );
+			this.drawWithTransform( _obj );
+
 		}
 		else {
 			
-			this.draw( this.createDefaultTransform() );
+			this.draw( this.lastTransform );
 		}
 
 	},
 
+	//convenience function for script; shorter name
+
 	this.change = function( _obj ) {
+
+		this.drawWithTransform(_obj);
+	}
+
+	this.drawWithTransform = function( _obj ) {
+
+		_obj = this.fixPropertyNames( _obj );
+
+c(this.name + " _obj in drawWithTransform before integrate follows ")
+c(_obj)
+
+		_obj = this.integrateTransformWithDBValues(_obj);
+
+
+
+		this.draw( _obj );
+	}
+
+	this.integrateTransformWithDBValues = function( _obj) {
+
+		var _mat = this.lastTransform;
+
+		var _windowWidth = $(window).width();
+
+		var _windowHeight = $(window).height();
+
+		var _pixelHeight = this.lastTransform.scaleY * _windowHeight;
+
+		var _pixelWidth = this.lastTransform.scaleX * _windowWidth;
+
+		if (_obj.translateX) _mat.translateX = this.fixTranslateValueForCSS( _obj, "x", _pixelWidth);
+
+		if (_obj.translateY) _mat.translateY = this.fixTranslateValueForCSS( _obj, "y", _pixelHeight);
+
+		if (_obj.scaleX) _mat.scaleX = this.fixScaleValueForCSS( _obj.scaleX);
+
+		if (_obj.scaleY) _mat.scaleY = this.fixScaleValueForCSS( _obj.scaleY);
+
+c(this.name + " matrix in integrate follows")
+c(_mat)
+
+		return _mat;
+
+	}
+
+	this.transformOnly = function( _obj ) {
+
+		_obj = this.changeTransform( _obj );
+
+		this.transform( _obj );
+	}
+
+	this.changeTransform = function( _obj ) {
 
 		var _mat = this.lastTransform;		
 
@@ -61,48 +117,15 @@ Entity = function() {
 
 		if ( _obj.skewY ) _mat.skewY = _obj.skewY;
 
-		this.transform( _mat);
+		return _mat;
 	}
 
 	this.draw = function(_obj) {
 
-		var _windowWidth = $(window).width();
-
-		var _windowHeight = $(window).height();
-
-		if (!_obj) {
-
-			showMessage("Entity.draw() called without an object")
-
-			return;
-		}
-
-
-		var _pixelWidth = _obj.scaleX * _windowWidth;
-
-		_obj.scaleX = _pixelWidth /  this.origSize.width;
-	  
-	  
-	  	var _pixelHeight = _obj.scaleY * _windowHeight;
-
-		_obj.scaleY = _pixelHeight / this.origSize.height;
-
-		
-	  	var _topVal = _obj.translateY * _windowHeight;
-
-		var _yFactor =  (_pixelHeight - this.origSize.height) / 2;
-
-		_obj.translateY = _topVal + _yFactor;
-
-
-		var _leftVal = _obj.translateX * _windowWidth;	
-	  
-		var _xFactor =  (_pixelWidth - this.origSize.width) / 2; 
-
-		_obj.translateX = _leftVal + _xFactor;
-
- c(this.name + " -- obj follows" )
+ c(this.name + " in entity.draw() -- obj follows" )
  c(_obj)
+
+ 		if (!_obj) _obj = this.lastTransform;
 
 		this.transform( _obj );
 
@@ -116,7 +139,7 @@ Entity = function() {
 
 		var _str = "matrix(" + _obj.scaleX + ", " + _obj.skewY + ", " + _obj.skewX + ", " + _obj.scaleY + ", " + _obj.translateX + ", " + _obj.translateY + ")";
 
-c(this.name + " -- string in trans() is " + _str)
+c(this.name + " -- string in entity.transform() is " + _str)
 
 		this.lastTransform = _obj;
                  
@@ -124,14 +147,46 @@ c(this.name + " -- string in trans() is " + _str)
 
 	}
 
+	//create the initial transform matrix object from the default (DB) values
+
+	this.createDefaultTransform = function() {
+
+		var _obj = { scaleX: this.scaleX, scaleY: this.scaleY, translateX: this.translateX, translateY: this.translateY, skewX: this.skewX, skewY: this.skewY };
+
+		_obj.translateX = this.fixTranslateValueForCSS( _obj, "x" );
+
+		_obj.translateY = this.fixTranslateValueForCSS( _obj, "y" ) ; 	
+
+		_obj.scaleX = this.fixScaleValueForCSS( _obj, "x" );
+
+		_obj.scaleY = this.fixScaleValueForCSS( _obj, "y" ) ; 
+
+		_obj.skewX = this.skewX;
+
+		_obj.skewY = this.skewY;
+
+c("obj in createDefaultTransform follows for " + this.name)
+
+c(_obj)
+
+		return _obj;
+	}
+
+	this.fixPropertyNames = function( _obj ) {
+
+		var _obj2 = copyObject( _obj );
+
+		if (_obj2.left) _obj2.translateX = _obj2.left;
+
+		if (_obj2.top) _obj2.translateY = _obj2.top;	
+		
+		return _obj2;	
+
+	}
+
 	this.getTransform = function() {
 
 		return $( this.element ).css("transform");
-	}
-
-	this.getTransformValue = function( _which ) {
-
-		return ( this.getTransformValueForElement( _which, this.element ) );
 	}
 
 	this.getSize = function() {
@@ -146,11 +201,83 @@ c(this.name + " -- string in trans() is " + _str)
 
 	}
 
-	this.getTransformValueForElement = function( _which, _element  ) {
+	this.fixScaleValueForDB = function( _obj, _axis) {
 
-		var _obj = convertMatrixStringToObject( $(_element).css("transform") );
+		var _windowWidth = $(window).width();
 
-		return _obj[ _which ];
+		var _windowHeight = $(window).height();
+
+		if (_axis == "x") return ( _obj.scaleX * this.origSize.width ) / _windowWidth;
+
+		if (_axis == "y") return ( _obj.scaleY * this.origSize.height ) / _windowHeight;
+	}
+
+	this.fixTranslateValueForDB = function( _obj, _axis) {
+
+		var _windowWidth = $(window).width();
+
+		var _windowHeight = $(window).height();
+
+		if (_axis == "x") return (_obj.translateX - (_windowWidth * this.scaleX - this.origSize.width ) / 2 ) / _windowWidth;
+
+		if (_axis == "y") return (_obj.translateY - (_windowHeight * this.scaleY - this.origSize.height ) / 2) / _windowHeight;
+	}
+
+	this.fixScaleValueForCSS = function( _obj, _axis ) {
+
+		var _windowWidth = $(window).width();
+
+		var _windowHeight = $(window).height();
+
+		if (_axis == "x") {
+
+			var _pixelWidth = _obj.scaleX * _windowWidth;
+
+			return _pixelWidth /  this.origSize.width;		
+		}
+
+		if (_axis == "y") {
+
+			var _pixelHeight = _obj.scaleY * _windowHeight;
+
+			return _pixelHeight /  this.origSize.height;		
+		}
+	} 
+
+	this.fixTranslateValueForCSS = function( _obj, _axis, _elementSize) {
+
+		var _windowWidth = $(window).width();
+
+		var _windowHeight = $(window).height();
+
+		var _pixelHeight = _obj.scaleY * _windowHeight;
+
+		var _pixelWidth = _obj.scaleX * _windowWidth;
+
+
+		if (_axis == "y") {
+
+			if (_elementSize) _pixelHeight = _elementSize;
+
+		  	var _topVal = _obj.translateY * _windowHeight;
+
+			var _yFactor =  (_pixelHeight - this.origSize.height) / 2;
+
+			return _topVal + _yFactor;			
+		}
+
+
+		if (_axis == "x") {
+
+			if (_elementSize) _pixelWidth = _elementSize;
+
+		  	var _leftVal = _obj.translateX * _windowWidth;
+
+			var _xFactor =  (_pixelWidth - this.origSize.width) / 2;
+
+			return _leftVal + _xFactor;			
+		}
+
 	}
 
 	this.hide = function() {
@@ -213,8 +340,6 @@ c(this.name + " -- string in trans() is " + _str)
 
 
 	this.animate = function( _obj ) {
-
-		this.update();
 
 		var _time = 1.5;
 
@@ -352,6 +477,7 @@ c(_obj2)
 
 		var _obj1 = copyObject( _obj );
 
+
 		var _pixelWidth = _obj.scaleX * _windowWidth;
 
 		_obj1.scaleX = _pixelWidth / this.origSize.width;
@@ -361,47 +487,48 @@ c(_obj2)
 		_obj1.scaleY = _pixelHeight / this.origSize.height;
 
 
-		var _currScaleY = this.getTransformValue( "scaleY");
+		var _currScaleY = this.lastTransform.scaleY;
 
-		var _yFactor = _obj1.scaleY / _currScaleY ;
+		var _yFactor = _obj1.scaleY / _currScaleY;
 		 
 
-		var _currScaleX = this.getTransformValue( "scaleX");
+		var _currScaleX = this.lastTransform.scaleX;
 
-		var _xFactor = _obj1.scaleX / _currScaleX ;
+		var _xFactor = _obj1.scaleX / _currScaleX;
 
 
 		if (this.type == "owner")  {
 
-			if (this.contentElement) this.zoomContent( _xFactor, _yFactor, _obj, _duration, this.contentElement, _yFactor );
+			if (this.contentElement) this.zoomContent( _xFactor, _yFactor, _obj, _duration, this.contentElement);
 		}
 c(_obj1)
 		TweenMax.to( _element, _duration, _obj1 );
 	}
 
-	this.zoomContent = function( _xFactor, _yFactor, _obj, _duration, _element, _yFactor ) {
+	this.zoomContent = function( _xFactor, _yFactor, _obj, _duration, _element) {
+
+		var _windowWidth = $(window).width();
+
+		var _windowHeight = $(window).height();
+
 
 		var _obj2 = copyObject( _obj );
 
-
 		var _name = $(_element).attr("data-shortname");
 
-		var _origSize = story[ _name ].origSize;
+		var _ent = story[ _name ];
 
-		var _currScaleY = this.getTransformValueForElement( "scaleY", _element);
+		var _origSize = _ent.origSize;
 
-		var _currScaleX = this.getTransformValueForElement( "scaleX", _element);
-
-		_obj2.scaleX = _xFactor * _currScaleX;
-
-		_obj2.scaleY = _yFactor * _currScaleY;
 		
-		var _pixelWidth = _obj2.scaleX * _origSize.width;  //not using this yet
+		_obj2.scaleX = _xFactor * _ent.lastTransform.scaleX;
+
+		_obj2.scaleY = _yFactor * _ent.lastTransform.scaleY;
+
 
 		var _pixelHeight = _obj2.scaleY * _origSize.height;
 
-
-		var _yFactor2 = (_currScaleY * _origSize.height) - (_pixelHeight);
+		var _yFactor2 = (_ent.lastTransform.scaleY * _origSize.height) - (_pixelHeight)
 
 		_yFactor =  _yFactor - _yFactor2;
 
@@ -433,30 +560,7 @@ c(_obj1)
 		return _obj;
 	}
 
-	//create the initial transform matrix object from the default (DB) values
 
-	this.createDefaultTransform = function() {
-
-		var _obj = {};
-
-		_obj.scaleX = this.scaleX;
-
-		_obj.scaleY = this.scaleY;
-
-		_obj.skewX = this.skewX;
-
-		_obj.skewY = this.skewY;
-
-		_obj.translateX = this.translateX;
-
-		_obj.translateY = this.translateY;
-
-c("obj in cDT follows for " + this.name)
-
-c(_obj)
-
-		return _obj;
-	}
 
 
 }
@@ -523,4 +627,51 @@ c(_obj)
 
 		this.transform( _obj );	
 	}
+
+/*
+		var _windowWidth = $(window).width();
+
+		var _windowHeight = $(window).height();
+
+		if (!_obj) {
+
+			console.log("Entity.draw() called without an object")
+
+			return;
+		}
+
+		_obj.translateX = this.fixTranslateValueForCSS( _obj, "x" );
+
+		_obj.translateY = this.fixTranslateValueForCSS( _obj, "y" ) ; 		
+
+		_obj.scaleX = this.fixScaleValueForCSS( _obj, "x" );
+
+		_obj.scaleY = this.fixScaleValueForCSS( _obj, "y" ) ; 
+
+
+
+
+		var _pixelWidth = _obj.scaleX * _windowWidth;
+
+		_obj.scaleX = _pixelWidth /  this.origSize.width;
+	  
+	  
+	  	var _pixelHeight = _obj.scaleY * _windowHeight;
+
+		_obj.scaleY = _pixelHeight / this.origSize.height;
+		
+	  	var _topVal = _obj.translateY * _windowHeight;
+
+		var _yFactor =  (_pixelHeight - this.origSize.height) / 2;
+
+		_obj.translateY = _topVal + _yFactor;
+
+
+		var _leftVal = _obj.translateX * _windowWidth;	
+	  
+		var _xFactor =  (_pixelWidth - this.origSize.width) / 2; 
+
+		_obj.translateX = _leftVal + _xFactor;
 */
+
+
