@@ -465,6 +465,8 @@ c(_obj2)
 
 	this.zoomMe = function(_duration, _amtX, _amtY, _repeat, _repeatDelay, _yoyo ) {
 
+		this.update();
+
 		var _windowWidth = $(window).width();
 
 		var _windowHeight = $(window).height();
@@ -501,12 +503,13 @@ c(_obj2)
 
 			if (this.contentElement) this.zoomContent( _xFactor, _yFactor, _obj, _duration, this.contentElement);
 		}
+c("zoom params for zoomMe follows")
 c(_obj1)
 		TweenMax.to( _element, _duration, _obj1 );
 	}
 
 	this.zoomContent = function( _xFactor, _yFactor, _obj, _duration, _element) {
-
+ 
 		var _windowWidth = $(window).width();
 
 		var _windowHeight = $(window).height();
@@ -533,6 +536,9 @@ c(_obj1)
 		_yFactor =  _yFactor - _yFactor2;
 
 		_obj2.y = "+=" + _yFactor2/4;
+
+c("zoom params for zContent follows")
+c(_obj2)
 
 		 TweenMax.to( _element, _duration, _obj2 );
 	}
@@ -561,7 +567,15 @@ c(_obj1)
 	}
 
 
+	this.update = function() {
 
+		var _element = this.element;
+
+		var _obj = convertMatrixStringToObject( $( _element ).css("transform") );	
+	
+		this.lastTransform = _obj
+
+	}
 
 }
 
@@ -569,25 +583,7 @@ c(_obj1)
 /*
 
 
-	this.update = function() {
 
-		var _element = this.element;
-
-		var _obj = convertMatrixStringToObject( $( _element ).css("transform") );	
-
-		if (_obj.translateX) this.translateX = _obj.translateX;
-
-		if (_obj.translateY) this.translateY = _obj.translateY;
-
-		if (_obj.skewX) this.skewX = _obj.skewX;
-
-		if (_obj.skewY) this.skewY = _obj.skewY;	
-
-		if (_obj.scaleX) this.imageScaleX = _obj.scaleX;
-
-		if (_obj.scaleY) this.imageScaleY = _obj.scaleY;	
-
-	}
 
 		if (this.lastTransform) {
 
