@@ -1,7 +1,7 @@
 
 <template name="layout">
 
-   <div class="windowSize"> {{windowSize}}</div>
+  {{#if storyIsLoaded}}  <div class="windowSize"> {{windowSize}}</div> {{/if}}
 
     {{#if editStoryMode}}
 

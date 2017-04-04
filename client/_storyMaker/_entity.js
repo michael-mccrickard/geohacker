@@ -28,6 +28,14 @@ Entity = function() {
 
 	this._add = function( _obj ) {
 
+		if (this.movable) {
+
+			$(this.element).css("width", "");
+
+			$(this.element).css("height", "");			
+		}
+
+
 		$(this.imageElement).attr("src", this.pic);
 
 		$(this.imageElement).attr("data-shortname", this.shortName);	
@@ -301,7 +309,7 @@ c(_obj)
 
 	this.hide = function() {
 
-		$(this.element).addClass("hidden");		
+		//$(this.element).addClass("hidden");		
 	}
 
 	this.fadeIn = function(_val) {
@@ -312,13 +320,31 @@ c(_obj)
 
 		if (_val) _duration = _val;
 
-		if ( $(this.element).css("opacity") != 1 ) $( this.element ).velocity( "fadeIn", {_duration: 1000} );
+		if ( $(this.element).css("opacity") != 1 ) $( this.element ).velocity( "fadeIn", {duration: _val} );
 
 	},
 
-	this.fadeOut = function() {
+	this.fadeOut = function(_val) {
+
+		if (this.movable) {
+
+c(_name + " is movable")
+
+			$(this.element).velocity({ opacity: 0 }, { complete: function(elements) { 
+
+				$(elements).css("width", "1px");
+
+				$(elements).css("height", "1px");
+			}});
+
+			return;
+		}
 		
-		$( this.element ).velocity( "fadeOut", {duration: 1000} );
+		var _duration = 500;
+
+		if (_val) _duration = _val;
+
+		$( this.element ).velocity( "fadeOut", {duration: _val} );
 	},
 
 	this.brightness = function(_val) {
@@ -521,6 +547,8 @@ c(_obj2)
 		if (this.type == "owner")  {
 
 			if (this.contentElement) this.zoomContent( _xFactor, _yFactor, _obj, _duration, this.contentElement);
+
+			if (this.contentElementBG) this.zoomContent( _xFactor, _yFactor, _obj, _duration, this.contentElementBG);
 		}
 c("zoom params for zoomMe follows")
 c(_obj1)

@@ -89,8 +89,6 @@ Inventory = function() {
 
 	this.add = function( _obj ) {
 
-c("adding item " + _obj.shortName + " to inv in inventory.js")
-
 		_obj.index = this.getNextSlot();
 
 		if (_obj.index == -1) {
@@ -113,8 +111,6 @@ c("adding item " + _obj.shortName + " to inv in inventory.js")
 	this.remove = function( _name ) {
 
 //did have an ent.draw() comm here
-
-c("removing item " + _name + " from inv in inventory.js")
 
 		for (var i = this.firstSlot; i <= this.lastSlot; i++) {
 

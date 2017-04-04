@@ -83,7 +83,7 @@ Token = function() {
 
 		this.movable = false;
 
-		this.movable = _obj.m;
+		this.movable = parseInt(_obj.m);
 
 
 		this.spacer = 16;

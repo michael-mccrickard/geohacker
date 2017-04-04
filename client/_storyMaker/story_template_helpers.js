@@ -2,6 +2,8 @@ Template.story.rendered = function() {
 
 	Meteor.setTimeout( function() { 
 
+    game.pauseMusic();
+
     story.draw();
 
     story.go( story.location ); 

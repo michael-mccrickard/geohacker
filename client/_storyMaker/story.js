@@ -298,8 +298,6 @@ Story =  function() {
 
 	this._addInventoryItem = function( _name ) {
 
-c("name in addINVItem is " + _name)
-
 		if ( this[ _name ].movable == false) return;
 
 		var _item = new InventoryItem( this[ _name ] );
@@ -316,7 +314,9 @@ c("name in addINVItem is " + _name)
 
 		this.inv.remove( _name );
 
-		this[ _name ].draw();
+		//currently, all item removals launch another scene, so no need to draw it here
+
+		//this[ _name ].draw();
 
 		this.playEffect( this.inventorySound )
 
@@ -612,7 +612,7 @@ c("name in addINVItem is " + _name)
 
           this.hiliteButton('Map');
 
-          this.hideAll();
+          this.fadeOutAll();
 
           this.silenceAll();
 
