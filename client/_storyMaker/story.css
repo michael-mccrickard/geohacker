@@ -1,3 +1,7 @@
+.blur {
+	filter:blur(5px);
+}
+
 .restoreBrightness {
   -webkit-animation: filter-brightness_animation 2s;
   animation: filter-brightness_animation 2s;
@@ -305,6 +309,8 @@ div.storyButton {
 	font-size: 2.0vh;
 
 	margin-top: 4px;
+
+	padding: 4px;
 
 	color: yellow;
 

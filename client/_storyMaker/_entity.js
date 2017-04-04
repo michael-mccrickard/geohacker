@@ -212,9 +212,9 @@ c(_obj)
 
 		var _obj = {};
 
-		_obj.width = this.scaleX * this.origSize.width;
+		_obj.width = this.lastTransform.scaleX * this.origSize.width;
 
-		_obj.height = this.scaleY * this.origSize.height;
+		_obj.height = this.lastTransform.scaleY * this.origSize.height;
 
 		return _obj;
 
@@ -341,7 +341,7 @@ c(_obj)
 
 		if (_dir == "ne") {
 
-			_left = $(window).width() - (this.getSize().width * 1.5) - this.rightSpacer;
+			_left = $(window).width() - (this.getSize().width) - this.rightSpacer;
 
 	c("for ent " + this.name + " -- left val for NE corner is " + _left)
 		}

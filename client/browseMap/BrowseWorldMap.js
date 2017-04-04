@@ -695,6 +695,8 @@ c("exiting browsemap b/c of exercise mode")
 
             story.mode.set( "scene" );
 
+            story.restoreBG();
+
             story.go( worldMap.mapObjectClicked );
 
             return;

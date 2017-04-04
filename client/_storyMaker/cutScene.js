@@ -6,16 +6,27 @@ CutScene = function( _name ) {
 
 	this.c = "";
 
+	this.running = false;
+
 	this.play = function( _cue) {
- 
+ 		
+ 		this.running = true;
+
 		this.cue = _cue;
 
 		this.playNext();
 	}
 
+	this.stop = function() {
+
+		this.running = false;
+	}
+
 	this.playNext = function() {
 
 		if (ved) ved.updateScreen();
+
+		if (this.running == false) return;
 
 		this.index++;
 
@@ -73,6 +84,8 @@ CutScene = function( _name ) {
 	}
 
 	this.playNow = function( _c ) {
+
+		if (this.running == false) return;
 
 		if (!_c) _c = this.c;
 

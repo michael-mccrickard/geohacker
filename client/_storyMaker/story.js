@@ -298,6 +298,8 @@ Story =  function() {
 
 	this._addInventoryItem = function( _name ) {
 
+c("name in addINVItem is " + _name)
+
 		if ( this[ _name ].movable == false) return;
 
 		var _item = new InventoryItem( this[ _name ] );
@@ -514,6 +516,8 @@ Story =  function() {
 
 		if (ved) ved.updateScreen( this.scene );
 
+		this.restoreBG();
+
 		this.playBGLoop( this.location );
 
 		this.cutScene = new CutScene( this.scene );
@@ -584,6 +588,8 @@ Story =  function() {
 
 	this.goBase = function() {
 
+		  this.cutScene.stop();
+
           this.unhiliteAllButtons();
 
           this.hiliteButton("Base");
@@ -599,6 +605,8 @@ Story =  function() {
 	},
 
 	this.goMap = function() {
+
+		  this.cutScene.stop();
 
 		  this.unhiliteAllButtons();
 
@@ -1024,45 +1032,20 @@ Story =  function() {
 		
 	}
 
+	this.blurBG = function() {
 
+		$(story.bgElement).addClass("blur");
+	}
+
+	this.restoreBG = function() {
+
+		$(story.bgElement).removeClass("blur");
+	}
 }
 
 //end of Story object
 
-story_defaultAgent = function( _rec ) {
 
-	var _obj = {
-
-		n: capitalizeAllWords( _rec.username ),
-		sn: "da",         //default agent
-		top: "47%",
-		l: "47%",
-		p: _rec.profile.av,
-		t: "g",               //process this agent like a guest
-		ID: story.name + "_" + getRandomString()
-	}
-
-	this.init( _obj, 0 );	//default agent is always index zero
-}
-
-story_defaultAgent.prototype = new Char();
-
-Tracker.autorun( function(comp) {
-
-  if ( Session.get("sStoryAgentReady") ) {
-
-  	console.log("story agent data ready")
-
-	console.log("calling finishSubs in autorun")
-
-	if (typeof story === 'undefined') return;
-
-  	story.finishSubscriptions( );
-  } 
-
-  console.log("story agent data not ready")
-
-});  
 
 
 Tracker.autorun( function(comp) {

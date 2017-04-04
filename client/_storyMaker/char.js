@@ -53,7 +53,14 @@ Char = function() {
 
 		if (_obj.l) this.translateX = parseFloat(_obj.l);
 
-		this.origSize = getDimensionsFromFilename( this.pic );
+		if (!_obj.origSize) {
+
+			this.origSize = getDimensionsFromFilename( this.pic );
+		}
+		else {
+
+			this.origSize = _obj.origSize;
+		}
 
 		//set the default scale to be the equivalent of the natural size
 

@@ -266,6 +266,8 @@ Template.browseWorldMap.rendered = function () {
 
         return;
       }
+
+      story.blurBG();
     }
 
     Meteor.setTimeout( function() { browseMap.worldMap.doCurrentMap( true ) }, 250 );  //show the names on the map, by default

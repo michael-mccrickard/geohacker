@@ -96,12 +96,12 @@ Template.story.helpers({
 
 Template.story.events({
 
-
+/*
     'click #continueStory': function(event, template) {
 
           if (story.scene == "intro") story.play( "missionToMona" );
       },
-
+*/
 
     //Map button
 
