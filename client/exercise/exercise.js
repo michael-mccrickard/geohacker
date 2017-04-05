@@ -135,11 +135,11 @@ c( _par)
 
 			_obj.qEntity = mlCountry;	
 
-			_obj.mapLevelStart = mlRegion;
+			_obj.mapLevelStart = mlWorld;
 
-			_obj.mapLevelEnd = mlRegion;
+			_obj.mapLevelEnd = mlCountry;
 
-			_obj.aEntity = mlCountry;
+			_obj.aEntity = mlContinent;  //we will increment this as user drills down
 		}
 
 		if (_obj.ID == "inWhichContinent") {
@@ -247,6 +247,13 @@ ExerciseItem = function( _obj ) {
 			this.message( "Click on " + _name);	
 		}
 
+		if (this.ID == "whereIsCountry") {
+
+			this.clue( "Find " + _name);
+
+			this.message( "First click the continent for " + _name);	
+		}
+
 		if (this.ID == "inWhichContinent") {
 
 			this.clue( "On which continent is " + _name + "?");
@@ -281,12 +288,22 @@ _showNames = true;
 
 	this.processUserChoice = function( _val ) {
 
+		var _level = browseMap.worldMap.mapLevel;
+
 		//this is the country code of the item clicked (assuming whereIs questions for now),
 		//but depending on the answer entity (aEntity) we may have to interpolate it
+
+c("level in pUC is " + browseMap.worldMap.mapLevel)
+
+c(_val)
 
 		if ( this.aEntity == mlContinent ) _val = db.getContinentCodeForCountry( _val );
 
 		if ( this.aEntity == mlRegion ) _val = db.getRegionCodeForCountry( _val );
+
+		if ( this.aEntity == mlCountry ) {
+
+		}
 		
 c("_val is " + _val)
 c("_item.aCode is " + this.aCode)
@@ -297,13 +314,75 @@ c("_item.aCode is " + this.aCode)
 
 			var _clue = "CORRECT!";
 
-			var _answerName = getAreaName( this.aEntity, this.aCode)			
+			var _answerName = getAreaName( this.aEntity, this.aCode);
+
+			var _questionName = "";			
+
+			
+c(this.ID)
+			if (this.ID == "whereIsCountry") {
+
+				//Need to:  1) delay 2nd part of fb, sync it with map change
+				// 2) Label country after clicking it (right or wrong)
+
+				var _showNames = true;
+
+				if (_level == mlWorld) {
+
+					browseMap.worldMap.mapLevel = mlContinent;
+
+					browseMap.worldMap.selectedContinent = _val;
+
+					this.aEntity = mlRegion;
+
+					this.aCode = db.getRegionCodeForCountry( this.qCode );
+
+					_clue = _clue + "  Now click the region for " + db.getCountryName( this.qCode ) + ".";
+				}
+
+				if (_level == mlContinent) {
+
+					browseMap.worldMap.mapLevel = mlRegion;
+
+					browseMap.worldMap.selectedRegion = _val;
+
+					this.aEntity = mlCountry;
+
+					this.aCode = this.qCode;
+
+					_clue = _clue + "  Now click " + db.getCountryName( this.qCode ) + ".";
+
+					_showNames = false;
+				}
+
+				if (_level == mlRegion) {
+
+					_level = mlCountry;
+				}				
+
+				this.clue( _clue );
+
+				this.message( _answerName );
+
+
+				if (_level == mlCountry) {				
+
+					Meteor.setTimeout( function() { story.em.exercise.go() }, 2000);
+				}
+				else {
+
+					Meteor.setTimeout( function() { browseMap.worldMap.doCurrentMap( _showNames ) }, 2000 );  
+
+				}
+
+				return;
+			}
 
 			//need a better way to distinguish which types get this extra text
 
 			if (this.ID != "whereIsContinent") {
 
-				var _questionName = getAreaName( this.qEntity, this.qCode)
+				_questionName = getAreaName( this.qEntity, this.qCode)
 
 				this.message( _answerName );
 

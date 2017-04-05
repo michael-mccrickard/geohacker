@@ -88,15 +88,21 @@ BrowseWorldMap = function( _mapCtl ) {
 
         if (browseMap.mode.get() == "exercise") {
 
-            if (story.em.getConfig().mapLevelStart == mlContinent) {
+            //need a better way to determine whether or not we set these properties here (new property in config?)
 
-                this.selectedContinent = db.getContinentCodeForCountry( story.em.getQCode() )
+            if (story.em.getConfig().ID != "whereIsCountry") {  
+
+                if (story.em.getConfig().mapLevelStart == mlContinent) {
+
+                    this.selectedContinent = db.getContinentCodeForCountry( story.em.getQCode() )
+                }
+
+                if (story.em.getConfig().mapLevelStart == mlRegion) {
+
+                    this.selectedRegion = db.getRegionCodeForCountry( story.em.getQCode() )
+                }               
             }
 
-            if (story.em.getConfig().mapLevelStart == mlRegion) {
-
-                this.selectedRegion = db.getRegionCodeForCountry( story.em.getQCode() )
-            }
         }
 
         this.doClearButton(0);

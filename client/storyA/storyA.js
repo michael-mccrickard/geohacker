@@ -285,6 +285,19 @@ storyA = function() {
 
 			]);
 		}
+
+		if (this.scene == "nelsonGetsPainting") {
+
+			this.em.build();
+
+			this.em.add([
+
+				{ ID: "whereIsCountry", aCode: "europe", qCode: "FR" },
+				{ ID: "whereIsCountry", aCode: "europe", qCode: "NL" },
+				{ ID: "whereIsCountry", aCode: "africa", qCode: "ML" }
+
+			]);
+		}
 	}
 
 	this.doneWithExercise = function() {
