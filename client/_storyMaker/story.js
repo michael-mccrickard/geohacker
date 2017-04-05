@@ -689,6 +689,7 @@ Story =  function() {
 
 		this.chat = this.getChat( _shortName );	
 
+
 		//if we're testing, then get the chat from smed
 
         if (!_shortName) this.chat = smed.chatName;

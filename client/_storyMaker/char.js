@@ -20,6 +20,10 @@ Char = function() {
 
 		this.placement = "top";
 
+		this.chat = "";
+
+		this.lastSpeech = "";
+
 
 		if (_obj.t) {   //type
 

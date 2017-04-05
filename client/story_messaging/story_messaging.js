@@ -22,10 +22,10 @@ StoryMessaging = function() {
 
     this.tempSource = [];
 
+    this.targetEntity = null;
+
 
     //speech level properties
-
-    this.speechIndex = 0;
 
     this.text = "";
 
@@ -36,6 +36,8 @@ StoryMessaging = function() {
     this.dests = [];
 
     this.targetObj = null;
+
+    //this is the dummy target used in the editor
 
     this.createHelperTarget = function() {
 
@@ -67,7 +69,13 @@ StoryMessaging = function() {
         }
 
         this.targetID.set( _char.ID );
+
+        this.targetEntity = _char;
+
     }
+
+    //Take the scalar array of objects, _arr, and change it into an associative
+    //array of objects, using the n value as the key
 
     this.createChatSource = function( _arr ) {
 
@@ -126,8 +134,18 @@ StoryMessaging = function() {
 
         this.source = this.createChatSource( _arr );
 
-        this.doHelperSpeech( "root" );
+        if ( this.targetEntity.chat != story.chat ) {
 
+            this.targetEntity.chat = story.chat; 
+
+            this.doHelperSpeech( "root" );
+        }
+        else {
+
+            c("continuing existing chat");
+
+            this.doHelperSpeech( this.targetEntity.lastSpeech );           
+        }
     }
 
     this.doHelperSpeech = function( _val ) {
@@ -150,9 +168,11 @@ StoryMessaging = function() {
 
             if (this.source[ _val].i == "h") {
 
-                this.text = this.source[ _val ].d[ 0 ].t;  //for helper speeches, we should only ever one item in this d array
+                this.text = this.source[ _val ].d[ 0 ].t;  //for helper speeches, we should only ever have one item in this d array
 
                 this.dest = this.source[ _val ].d[ 0 ].g;
+
+                this.targetEntity.lastSpeech = _val;
 
                 this.addNPCMessage( this.text );                   
             }
