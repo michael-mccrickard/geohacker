@@ -618,6 +618,8 @@ Story =  function() {
 
           this.hidePrompt();
 
+          browseMap.reset();
+
           browseMap.mode.set( "story" );
 
           this.playEffect( "storyMap.mp3") 

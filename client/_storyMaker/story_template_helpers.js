@@ -192,4 +192,10 @@ Template.story.events({
 
       },
 
+    'click #nextMission': function(event, template) {
+
+          alert("More Geosquad missions coming soon!  Thanks for playing.")
+
+      },
+
 });

@@ -70,8 +70,6 @@ c(_obj)
 
 		_obj = this.integrateTransformWithDBValues(_obj);
 
-
-
 		this.draw( _obj );
 	}
 
@@ -116,7 +114,7 @@ c(_obj)
 
 c(this.name + " matrix in integrate follows")
 c(_mat)
-c("yo mama")
+
 		return _mat;
 
 	}
@@ -171,7 +169,6 @@ c(this.name + " -- string in entity.transform() is " + _str)
 		this.lastTransform = _obj;
                  
 		$( this.element ).css("transform", _str);	
-
 	}
 
 	//create the initial transform matrix object from the default (DB) values
