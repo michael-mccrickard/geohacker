@@ -249,9 +249,9 @@ ExerciseItem = function( _obj ) {
 
 		if (this.ID == "whereIsCountry") {
 
-			this.clue( "Find " + _name);
+			this.clue( "Find " + _name + ".  First click the continent ...");
 
-			this.message( "First click the continent for " + _name);	
+			this.message( "Click the continent for " + _name);	
 		}
 
 		if (this.ID == "inWhichContinent") {
@@ -293,10 +293,6 @@ _showNames = true;
 		//this is the country code of the item clicked (assuming whereIs questions for now),
 		//but depending on the answer entity (aEntity) we may have to interpolate it
 
-c("level in pUC is " + browseMap.worldMap.mapLevel)
-
-c(_val)
-
 		if ( this.aEntity == mlContinent ) _val = db.getContinentCodeForCountry( _val );
 
 		if ( this.aEntity == mlRegion ) _val = db.getRegionCodeForCountry( _val );
@@ -318,14 +314,14 @@ c("_item.aCode is " + this.aCode)
 
 			var _questionName = "";			
 
-			
-c(this.ID)
 			if (this.ID == "whereIsCountry") {
 
 				//Need to:  1) delay 2nd part of fb, sync it with map change
 				// 2) Label country after clicking it (right or wrong)
 
 				var _showNames = true;
+
+				var _clue2 = "";
 
 				if (_level == mlWorld) {
 
@@ -337,7 +333,7 @@ c(this.ID)
 
 					this.aCode = db.getRegionCodeForCountry( this.qCode );
 
-					_clue = _clue + "  Now click the region for " + db.getCountryName( this.qCode ) + ".";
+					_clue2 = "Now click the region for " + db.getCountryName( this.qCode ) + ".";
 				}
 
 				if (_level == mlContinent) {
@@ -350,9 +346,9 @@ c(this.ID)
 
 					this.aCode = this.qCode;
 
-					_clue = _clue + "  Now click " + db.getCountryName( this.qCode ) + ".";
+					_clue2 = " Now click " + db.getCountryName( this.qCode ) + ".";
 
-					_showNames = false;
+					_showNames = true;  //could be false for a more advanced challenge
 				}
 
 				if (_level == mlRegion) {
@@ -371,7 +367,9 @@ c(this.ID)
 				}
 				else {
 
-					Meteor.setTimeout( function() { browseMap.worldMap.doCurrentMap( _showNames ) }, 2000 );  
+					Meteor.setTimeout( function() { story.em.exercise.item[ story.em.exercise.index ].clue( _clue2 ) }, 2000);
+
+					Meteor.setTimeout( function() { browseMap.worldMap.doCurrentMap( _showNames ) }, 2001 );  
 
 				}
 
@@ -405,6 +403,13 @@ c(this.ID)
 			this.clue("Incorrect.  Try again.");
 
 			story.em.exercise.index--;
+
+			if (this.ID == "whereIsCountry") {
+
+				this.aCode = db.getContinentCodeForCountry( this.qCode );
+
+				this.aEntity = mlContinent;
+			}
 
 			Meteor.setTimeout( function() { story.em.exercise.go() }, 2000);			
 		}

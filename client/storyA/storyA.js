@@ -116,7 +116,7 @@ storyA = function() {
 
 				this.flags.gave_mona = true;
 
-				this.play("nelsonAndMark");
+				this.play("finalChallenge");
 
 				return;
 			}
@@ -224,13 +224,22 @@ storyA = function() {
 
 		if ( _ID == "ML") {
 
-			if ( this.flags.has_mona ) {
+			if ( this.flags.has_mona  && !this.flags.didExercise4) {
 
 				this.brightness(10);
 
 				this.brightness(20, this.shadow.imageElement);
 
 				this.play("nelsonGetsPainting");
+
+				return;
+			}
+
+			if ( this.flags.didExercise4 ) {
+
+				this.restoreBrightness();
+
+				this.play("nelsonAndMark");
 
 				return;
 			}
@@ -286,7 +295,7 @@ storyA = function() {
 			]);
 		}
 
-		if (this.scene == "nelsonGetsPainting") {
+		if (this.scene == "finalChallenge") {
 
 			this.em.build();
 
@@ -307,6 +316,8 @@ storyA = function() {
 		if (this.scene == "firstGuardVisit") this.flags.didExercise2 = true;
 
 		if (this.scene == "vanGogh") this.flags.didExercise3 = true;
+
+		if (this.scene == "finalChallenge") this.flags.didExercise4 = true;
 
 		this.go( this.location );
 	}

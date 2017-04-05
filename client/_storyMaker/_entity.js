@@ -328,8 +328,6 @@ c(_obj)
 
 		if (this.movable) {
 
-c(_name + " is movable")
-
 			$(this.element).velocity({ opacity: 0 }, { complete: function(elements) { 
 
 				$(elements).css("width", "1px");
@@ -368,8 +366,6 @@ c(_name + " is movable")
 		if (_dir == "ne") {
 
 			_left = $(window).width() - (this.getSize().width) - this.rightSpacer;
-
-	c("for ent " + this.name + " -- left val for NE corner is " + _left)
 		}
 
 
@@ -440,6 +436,11 @@ c(_name + " is movable")
 
 			_obj2.yoyo = true;
 		}
+
+		_obj2.onComplete = updateEntity;
+
+		_obj2.onCompleteParams = [ this.shortName ] ;
+
 
 c("obj for animation in ent.animate follows")
 c(_obj2)
@@ -550,6 +551,11 @@ c(_obj2)
 
 			if (this.contentElementBG) this.zoomContent( _xFactor, _yFactor, _obj, _duration, this.contentElementBG);
 		}
+
+		_obj1.onComplete = updateEntity;
+
+		_obj1.onCompleteParams = [ this.shortName ] ;
+
 c("zoom params for zoomMe follows")
 c(_obj1)
 		TweenMax.to( _element, _duration, _obj1 );
@@ -620,12 +626,20 @@ c(_obj2)
 
 		var _obj = convertMatrixStringToObject( $( _element ).css("transform") );	
 	
-		this.lastTransform = _obj
+		this.lastTransform = _obj;
+
+c("update obj for " + this.name + " follows")
+c(_obj)
 
 	}
 
 }
 
+
+updateEntity = function( _shortName ) {
+
+	story[ _shortName].update();
+}
 
 /*
 

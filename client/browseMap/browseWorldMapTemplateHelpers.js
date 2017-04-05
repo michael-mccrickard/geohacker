@@ -260,6 +260,8 @@ Template.browseWorldMap.rendered = function () {
 
     if (game.user.mode == uStory || game.user.mode == uEditStory ) {
 
+      story.fadeOutAll();
+
       if (story.mode.get() == "exercise") {
 
         story.em.go();
