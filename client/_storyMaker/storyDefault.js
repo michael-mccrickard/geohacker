@@ -1,15 +1,33 @@
-story_defaultAgent = function( _rec ) {
+create_story_defaultAgent = function( _rec ) {
+
+	//set the src of this preload element to the pic
+
+	$("#preloadFeature").attr("src", _rec.profile.av);
+
+
+	imagesLoaded( document.querySelector('#preloadFeature'), function( instance ) {
+
+		story.tempAgentImage = display.getImageFromFile( _rec.profile.av);
+
+
+		Meteor.setTimeout( function() { story.da = new story_defaultAgent( _rec ); }, 500 );
+
+    });	
+
+}
+
+story_defaultAgent = function( _rec ) { 
 
 	var _obj = {
 
-		n: capitalizeAllWords( _rec.username ),
+		n: capitalizeAllWords( _rec.username ), 
 		sn: "da",         //default agent
 		top: 0.47,
 		l: 0.47,
 		scx: 0.10,
 		scy: 0.15,
+		origSize: { width: story.tempAgentImage.width, height: story.tempAgentImage.height },
 		p: _rec.profile.av,
-		origSize: { width: 72, height: 72}, 
 		t: "g",               //process this agent like a guest
 		ID: story.name + "_" + getRandomString()
 	}
@@ -47,6 +65,15 @@ storyDefault_cue = function( _name ) {
 					'story.da.add()',
 					'story.da.show()',
 					'story.da.fadeIn()'
+
+				];	
+	}
+
+	if ( _name == "refuseItem") {
+
+		_cue  = [
+
+					'story.da.say("Sorry, I cannot use that.")'
 
 				];	
 	}

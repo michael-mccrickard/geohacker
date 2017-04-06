@@ -65,6 +65,8 @@ var d2 = new Date(_startDate);
 
 dofake = function() {
 
+
+
   var _arr = db.ghC.find().fetch();
 
       for (var i = 0; i < _arr.length; i++) {
@@ -72,12 +74,14 @@ dofake = function() {
 
         if ( !Meteor.users.findOne( { 'profile.cc': _arr[i].c } ) ) {
 
-          break;
+          c("no agent in country " + _arr[i].n)
         } 
 
         
 
     }
+
+return;
 
 var fakeCountry = _arr[i].c;
 

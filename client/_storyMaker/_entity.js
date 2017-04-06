@@ -154,6 +154,15 @@ c(_mat)
 
 		this.transform( _obj );
 
+		if (this.entityType == "char") {
+
+			var _fontSize = 0.03 * $(window).height();
+
+			_fontSize = _fontSize / _obj.scaleY;
+
+			$(this.nameElement).css("font-size", _fontSize + "px");
+		}
+
 	}
 
 

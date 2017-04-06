@@ -33,7 +33,7 @@ storyA = function() {
 		//we can return a specific chat name here based on the scene,
 		//the flags, etc.
 
-		if (!this.flags.knowsQuest) return "intro";
+		if (!this.flags.knowsQuest) return "storyDefault_chat_preintro";
 
 		if ( this.scene == "default") {
 
@@ -108,6 +108,8 @@ storyA = function() {
 
 				return;
 			}
+
+			this.refuseItem( _name );
 		}
 
 		if (_name == "mona") {
@@ -120,6 +122,8 @@ storyA = function() {
 
 				return;
 			}
+
+			this.refuseItem( _name );
 		}
 		
 	}	
@@ -145,6 +149,10 @@ storyA = function() {
 		if (story.handleNavigationInParent( _mode) ) return;
 
 		this.location = _ID;
+
+		//this will fail in the case of "non-story countries",
+		//but those cases are always default scenes, and playDefaultScene uses
+		//db.getCapitalPic() to set the background
 
 		this.background = this.getBackground( _ID );
 	
@@ -202,7 +210,7 @@ storyA = function() {
 
 			if ( !this.flags.awareOfPasscode ) {
 
-				this.playDefaultScene( );
+				this.playDefaultScene();
 
 				return;	
 			}

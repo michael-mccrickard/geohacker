@@ -19,9 +19,7 @@ Story =  function() {
 
 	this.em = new ExerciseManager();
 
-	this.origWindowWidth = 1422;
-
-	this.origWindowHeight = 800;
+	this.tempAgentImage = null;
 
 
 //*********************************************************************************
@@ -325,6 +323,25 @@ Story =  function() {
 
 	},
 
+	this.refuseItem = function( _name) {
+
+		story.silenceAll();
+
+		story[ _name ].add( { "top": "0.1", "left":"0.47"} );
+
+		//story[ _name ].fadeIn();
+
+		story.da = story.charObjs[0];
+
+		Meteor.setTimeout( function() { story.da.say("Sorry, I cannot use that."); }, 1000 );
+
+		Meteor.setTimeout( function() { story.addInventoryItem(_name); }, 2000 );	
+
+
+
+
+	}
+
 //*********************************************************************************
 //
 //				LOAD / CREATE ENTITIES FROM DATA
@@ -540,7 +557,7 @@ Story =  function() {
 
 		if (!_rec) {
 
-			showMessage("No location rec found for country " + _countryCode);
+			console.log("No location rec found for country " + _countryCode);
 
 			return "";
 		}
@@ -560,13 +577,9 @@ Story =  function() {
 
 			var _rec =  Meteor.users.findOne( { 'profile.cc': _countryID } ); 
 
-			story.da = new story_defaultAgent( _rec );
+			create_story_defaultAgent( _rec );
 
-			story.scene = "default"; 
-
-			story.cue = storyDefault_cue( story.scene );
-
-			story.play( story.scene );
+			story.finishPlayDefaultScene();
 		 
 		 });	
 	},
@@ -579,6 +592,15 @@ Story =  function() {
 
 	},
 
+	this.finishPlayDefaultScene = function() {
+
+		story.scene = "default"; 
+
+		story.cue = storyDefault_cue( story.scene );
+
+		story.play( story.scene );
+	}
+
 
 //*********************************************************************************
 //
@@ -588,7 +610,7 @@ Story =  function() {
 
 	this.goBase = function() {
 
-		  this.cutScene.stop();
+		  if (this.cutScene) this.cutScene.stop();
 
           this.unhiliteAllButtons();
 
@@ -606,7 +628,7 @@ Story =  function() {
 
 	this.goMap = function() {
 
-		  this.cutScene.stop();
+		  if (this.cutScene) this.cutScene.stop();
 
 		  this.unhiliteAllButtons();
 
@@ -699,6 +721,11 @@ Story =  function() {
 
 		this.chatSource = db.ghChat.find( { s: this.chat } ).fetch();
 
+		//this default chat is not in the db
+
+		if (this.chat == "storyDefault_chat_preintro") this.chatSource = storyDefault_chat_preintro;
+
+		
 		if (_shortName) {
 
 			this.mode.set("chat");
