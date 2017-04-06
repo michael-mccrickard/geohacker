@@ -45,12 +45,89 @@
   }
 }
 
+
+@font-face {
+    font-family: cam_nwsa_nesa_ssa;
+    src: url("cam_nwsa_nesa_ssa.ttf");
+}
+
+
+@font-face {
+    font-family: nam;
+    src: url("nam.otf");
+}
+
+
+@font-face {
+    font-family: neu_weu;
+    src: url("neu_weu.ttf");
+}
+
+
+@font-face {
+    font-family: sas_aus_oce;
+    src: url("sas_aus_oce.ttf");
+}
+
+
+@font-face {
+    font-family: eeu_cas;
+    src: url("eeu_cas.ttf");
+}
+
+
+@font-face {
+    font-family: bal;
+    src: url("bal.ttf");
+}
+
+
+@font-face {
+    font-family: eas_seas;
+    src: url("eas_seas.ttf");
+}
+
+
+@font-face {
+    font-family: swas_meas;
+    src: url("swas_meas.ttf");
+}
+
+
+@font-face {
+    font-family: neaf_nwaf_caf_saf;
+    src: url("africa2.ttf");
+}
+
+
+
+.divCityNameText {
+
+	position: absolute;
+
+	top: 75px;
+
+	width: 100%;
+
+	pointer-events: none;
+
+	text-align: center;
+
+	font-size: 5.0vw;
+
+	color: yellow;
+
+	text-shadow: 4px 4px 8px #000000;
+
+	opacity: 0;
+}
+
+
 .storyElement {
 
 	z-index:  1002;
 	/*	transform-origin: left top;  */
 }
-
 
 .divStory {
 

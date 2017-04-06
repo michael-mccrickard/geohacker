@@ -21,6 +21,10 @@ Story =  function() {
 
 	this.tempAgentImage = null;
 
+	this.regionFonts = ["cam_nwsa_nesa_ssa","nam","neu_weu","sas_aus_oce","eeu_cas","bal","eas_seas", "swas_meas","neaf_nwaf_caf_saf"];
+
+	this.cityNameElement = "div.divCityNameText";
+
 
 //*********************************************************************************
 //
@@ -526,6 +530,8 @@ Story =  function() {
 
 		Meteor.setTimeout( function() { story.playScene(); }, 1001);	
 
+		Meteor.setTimeout( function() { story.showCityName(); }, 2001);
+
 	},
 
 
@@ -608,17 +614,28 @@ Story =  function() {
 //
 //*********************************************************************************
 
-	this.goBase = function() {
+	this.cleanScene = function() {
 
 		  if (this.cutScene) this.cutScene.stop();
 
           this.unhiliteAllButtons();
 
-          this.hiliteButton("Base");
-
           this.silenceAll();
 
+          this.fadeOutAll();
+
           this.hidePrompt();
+
+          this.hideCityName();
+	
+	}
+
+
+	this.goBase = function() {
+
+          this.cleanScene();
+
+          this.hiliteButton("Base");
 
           story.mode.set("scene");
 
@@ -628,17 +645,9 @@ Story =  function() {
 
 	this.goMap = function() {
 
-		  if (this.cutScene) this.cutScene.stop();
-
-		  this.unhiliteAllButtons();
+          this.cleanScene();
 
           this.hiliteButton('Map');
-
-          this.fadeOutAll();
-
-          this.silenceAll();
-
-          this.hidePrompt();
 
           browseMap.reset();
 
@@ -1070,6 +1079,49 @@ Story =  function() {
 	this.restoreBG = function() {
 
 		$(story.bgElement).removeClass("blur");
+	}
+
+	this.showCityName = function() {
+
+		var _fontName = "scannerFont";
+
+		var _name = "Geosquad HQ"
+
+		if (this.location != "base") {
+
+			var _region = db.getRegionCodeForCountry( this.location );
+
+			var _name = db.getCapitalName( this.location );
+
+
+			for (var i = 0; i < this.regionFonts.length; i++) {
+
+				var _str = this.regionFonts[i];
+
+				var _arr = _str.split("_");
+
+				if ( _arr.indexOf( _region) != -1) {
+
+					_fontName = _str;
+
+					break;
+				}
+			}			
+		}
+
+		//now apply the text and font
+
+		$(this.cityNameElement).css("font-family", _fontName);
+
+		$(this.cityNameElement).text(_name);	
+
+		$(this.cityNameElement).velocity( { opacity: 0.7}, {duration: 1000}  );	
+
+	}
+
+	this.hideCityName = function() {
+
+		$(this.cityNameElement).velocity( { opacity: 0.0}, {duration: 1000}  );		
 	}
 }
 
