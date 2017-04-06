@@ -266,9 +266,9 @@ storyA = function() {
 
 	this.doExercise = function() {
 
-		//just in case ...
+		//hide city name, silence all, etc.
 
-		story.silenceAll();
+		this._doExercise();
 
 		//the em.build() switches us to the exercise template
 		//and then the Template.rendered event starts the exercise

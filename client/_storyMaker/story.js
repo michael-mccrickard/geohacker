@@ -21,7 +21,7 @@ Story =  function() {
 
 	this.tempAgentImage = null;
 
-	this.regionFonts = ["cam_nwsa_nesa_ssa","nam","neu_weu","sas_aus_oce","eeu_cas","bal","eas_seas", "swas_meas","neaf_nwaf_caf_saf"];
+	this.regionFonts = ["cam_nwsa_nesa_ssa","nam","neu_weu","sas_aus_oce","eeu_cas","bal","eas_seas", "swas_mea","neaf_nwaf_caf_saf"];
 
 	this.cityNameElement = "div.divCityNameText";
 
@@ -487,6 +487,7 @@ Story =  function() {
 
 	this.play = function( _name ) {
 
+		this.disableButtons();
 
 		//the default scene already set story.cue in the calling function
 
@@ -531,6 +532,8 @@ Story =  function() {
 		Meteor.setTimeout( function() { story.playScene(); }, 1001);	
 
 		Meteor.setTimeout( function() { story.showCityName(); }, 2001);
+
+		Meteor.setTimeout( function() { story.enableButtons(); }, 2002);
 
 	},
 
@@ -630,6 +633,15 @@ Story =  function() {
 	
 	}
 
+	this.navigationReady = function() {
+
+		//if (Meteor.user().profile.st == usAdmin) return true;
+
+		if ( parseFloat( $(this.buttonStripElement).css("opacity") ) < 1.0 ) return false;
+
+		return true;
+	}
+
 
 	this.goBase = function() {
 
@@ -644,6 +656,8 @@ Story =  function() {
 	},
 
 	this.goMap = function() {
+
+		  if (this.navigationReady() == false) return;
 
           this.cleanScene();
 
@@ -1123,6 +1137,24 @@ Story =  function() {
 
 		$(this.cityNameElement).velocity( { opacity: 0.0}, {duration: 1000}  );		
 	}
+
+	this.disableButtons = function() {
+
+		$(this.buttonStripElement).velocity( { opacity: 0.75}, {duration: 1}  );	
+	}
+
+	this.enableButtons = function() {
+
+		$(this.buttonStripElement).velocity( { opacity: 1.0}, {duration: 500}  );	
+	}
+
+	this._doExercise = function() { 
+
+		this.silenceAll();
+
+		this.hideCityName();
+	}
+	
 }
 
 //end of Story object
