@@ -26,6 +26,15 @@ Template.layout.helpers({
     
   },
 
+  locationType: function() {
+
+    var _type = ved.menuElementType.get();
+
+    if (_type == cLocation) return true;
+
+    return false;
+  },
+
   menuElement: function() {
 
   	var _flag = Session.get("sUpdateVisualEditor");
@@ -42,9 +51,13 @@ Template.layout.helpers({
 
    	if (_type == cToken ) return ( db.ghToken.find( { c: sed.code.get() } ).fetch() );
 
+    if (_type == cLocation ) return ( db.ghLocation.find( { c: sed.code.get() } ).fetch() );    
+
   },
 
   menuOpen: function() {
+
+    if (ved.menuElementType.get() == cLocation) return false;
 
     return ved.menuOpen.get();
   },

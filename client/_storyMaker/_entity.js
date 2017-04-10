@@ -5,13 +5,13 @@ Entity = function() {
 
 	this.rightSpacer = 24;
 
-	//css transform values
+	//css transform values (stored in the database; default values)
 
 	this.scaleX = 0;  //the percentage size (relative to the window)
 
 	this.scaleY = 0;
 
-	this.translateX = 0;
+	this.translateX = 0;   //the percentage coordinate (relative to the window)
 
 	this.translateY = 0;
 
@@ -19,9 +19,9 @@ Entity = function() {
 
 	this.skewY = 0;
 	
-	this.top = 0;
+	//this.top = 0;
 
-	this.left = 0;
+	//this.left = 0;
 
 	this.lastTransform = null;
 
@@ -65,8 +65,8 @@ Entity = function() {
 
 		_obj = this.fixPropertyNames( _obj );
 
-c(this.name + " _obj in drawWithTransform before integrate follows ")
-c(_obj)
+		c(this.name + " _obj in drawWithTransform before integrate follows ")
+		c(_obj)
 
 		_obj = this.integrateTransformWithDBValues(_obj);
 
@@ -110,10 +110,8 @@ c(_obj)
 
 		if (!_obj.scaleY) _mat.scaleY = this.fixScaleValueForCSS( _mat, "y");
 
-
-
-c(this.name + " matrix in integrate follows")
-c(_mat)
+		c(this.name + " matrix in integrate follows")
+		c(_mat)
 
 		return _mat;
 
@@ -147,8 +145,8 @@ c(_mat)
 
 	this.draw = function(_obj) {
 
- c(this.name + " in entity.draw() -- obj follows" )
- c(_obj)
+		 c(this.name + " in entity.draw() -- obj follows" )
+		 c(_obj)
 
  		if (!_obj) _obj = this.lastTransform;
 
@@ -160,12 +158,13 @@ c(_mat)
 
 			_fontSize = _fontSize / _obj.scaleY;
 
+			//if the scale is tiny, then the font will be huge
+			if (_fontSize > 32) _fontSize = 32;
+
 			$(this.nameElement).css("font-size", _fontSize + "px");
 		}
 
 	}
-
-
 
 	this.transform = function( _obj ) {
 
@@ -173,7 +172,7 @@ c(_mat)
 
 		var _str = "matrix(" + _obj.scaleX + ", " + _obj.skewY + ", " + _obj.skewX + ", " + _obj.scaleY + ", " + _obj.translateX + ", " + _obj.translateY + ")";
 
-c(this.name + " -- string in entity.transform() is " + _str)
+		c(this.name + " -- string in entity.transform() is " + _str)
 
 		this.lastTransform = _obj;
                  
@@ -198,9 +197,9 @@ c(this.name + " -- string in entity.transform() is " + _str)
 
 		_obj.skewY = this.skewY;
 
-c("obj in createDefaultTransform follows for " + this.name)
+		c("obj in createDefaultTransform follows for " + this.name)
 
-c(_obj)
+		c(_obj)
 
 		return _obj;
 	}
@@ -313,14 +312,10 @@ c(_obj)
 
 	}
 
-	this.hide = function() {
-
-		//$(this.element).addClass("hidden");		
-	}
 
 	this.fadeIn = function(_val) {
 
-		this.show();
+		//this.show();
 
 		var _duration = 1000;
 
@@ -448,8 +443,8 @@ c(_obj)
 		_obj2.onCompleteParams = [ this.shortName ] ;
 
 
-c("obj for animation in ent.animate follows")
-c(_obj2)
+		c("obj for animation in ent.animate follows")
+		c(_obj2)
 
 		this.tween = TweenMax.to( this.element, _time, _obj2 );
 	},
@@ -512,7 +507,11 @@ c(_obj2)
 
 	this.show = function() {
 
-		$(this.element).removeClass("hidden");		
+		//$(this.element).removeClass("hidden");	
+
+		$(this.element).css("display","initial");
+
+		$(this.element).css("opacity",1);
 	}
 
 	this.zoomMe = function(_duration, _amtX, _amtY, _repeat, _repeatDelay, _yoyo ) {
@@ -562,8 +561,6 @@ c(_obj2)
 
 		_obj1.onCompleteParams = [ this.shortName ] ;
 
-c("zoom params for zoomMe follows")
-c(_obj1)
 		TweenMax.to( _element, _duration, _obj1 );
 	}
 
@@ -595,9 +592,6 @@ c(_obj1)
 		_yFactor =  _yFactor - _yFactor2;
 
 		_obj2.y = "+=" + _yFactor2/4;
-
-c("zoom params for zContent follows")
-c(_obj2)
 
 		 TweenMax.to( _element, _duration, _obj2 );
 	}
@@ -634,9 +628,6 @@ c(_obj2)
 	
 		this.lastTransform = _obj;
 
-c("update obj for " + this.name + " follows")
-c(_obj)
-
 	}
 
 }
@@ -646,95 +637,3 @@ updateEntity = function( _shortName ) {
 
 	story[ _shortName].update();
 }
-
-/*
-
-
-
-
-		if (this.lastTransform) {
-
-			var _mat = convertMatrixStringToObject( $( this.element ).css("transform") );	
-
-			if (!_obj.scaleX) _obj.scaleX = _mat.scaleX;
-
-			if (!_obj.scaleY) _obj.scaleY = _mat.scaleY;
-		
-			if (!_obj.skewX) _obj.skewX = _mat.skewX;
-		
-			if (!_obj.skewY) _obj.skewY = _mat.skewY;
-		
-			if (!_obj.translateX) _obj.translateX = _mat.translateX;
-		
-			if (!_obj.translateY) _obj.translateY = _mat.translateY;		
-		}
-
-
-	this.draw2 = function( _obj ) {
-
-		if (!_obj) {
-
-			_obj = {};
-
-			_obj.x = this.x = parseFloat( this.left ) * $(window).width();
-
-			_obj.y = this.y = parseFloat( this.top ) * $(window).height();
-
-			_obj.scaleX = this.scaleX * $(window).width() / this.origSize.width;
-
-			_obj.scaleY = this.scaleY * $(window).height() / this.origSize.height; 	
-
-//c( this.name + " scale values in draw() after -- " + _obj.scaleX + ", " + _obj.scaleY)				
-			//}
-		}	
-
-		this.transform( _obj );	
-	}
-
-/*
-		var _windowWidth = $(window).width();
-
-		var _windowHeight = $(window).height();
-
-		if (!_obj) {
-
-			console.log("Entity.draw() called without an object")
-
-			return;
-		}
-
-		_obj.translateX = this.fixTranslateValueForCSS( _obj, "x" );
-
-		_obj.translateY = this.fixTranslateValueForCSS( _obj, "y" ) ; 		
-
-		_obj.scaleX = this.fixScaleValueForCSS( _obj, "x" );
-
-		_obj.scaleY = this.fixScaleValueForCSS( _obj, "y" ) ; 
-
-
-
-
-		var _pixelWidth = _obj.scaleX * _windowWidth;
-
-		_obj.scaleX = _pixelWidth /  this.origSize.width;
-	  
-	  
-	  	var _pixelHeight = _obj.scaleY * _windowHeight;
-
-		_obj.scaleY = _pixelHeight / this.origSize.height;
-		
-	  	var _topVal = _obj.translateY * _windowHeight;
-
-		var _yFactor =  (_pixelHeight - this.origSize.height) / 2;
-
-		_obj.translateY = _topVal + _yFactor;
-
-
-		var _leftVal = _obj.translateX * _windowWidth;	
-	  
-		var _xFactor =  (_pixelWidth - this.origSize.width) / 2; 
-
-		_obj.translateX = _leftVal + _xFactor;
-*/
-
-

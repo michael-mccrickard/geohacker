@@ -2,6 +2,8 @@ StoryCongrats = function() {
 	
 	this.complete = function() {
 
+		story.hideCityName();
+
 		var _text = "div.stamp";
 
 		$(_text).css("visibility","visible");

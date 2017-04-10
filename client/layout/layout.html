@@ -28,7 +28,7 @@
                     <span class="glyphicon glyphicon-repeat"></span>
                 </button>
 
-                <button type="button" class="btn btn-success topButton1Middle" onclick="ved.continueStory()" id="runStory">
+                <button type="button" class="btn btn-success topButton1Middle" onclick="ved.locationMenu(window.event)" id="runStory">
                     <span class="glyphicon glyphicon-play"></span>
                 </button>
             {{/if}}
@@ -79,10 +79,20 @@
             <div class="topButtonSelections">
 
                 {{#each menuElement}}    
-                    
-                    <button type="button" class="btn btn-default btn-lg selectionButton" id="{{this.sn}}">
-                        <img class="selectionImage" src="{{this.p}}" />
-                    </button>
+
+                        {{#if locationType}}
+
+                            <button type="button" class="btn btn-default btn-lg selectionButton" id="{{this.n}}">
+                                <span style="font-family:Arial; fontSize:48px; color:black;">{{this.n}}</span>
+                                <img class="selectionImage" src="{{this.p}}" />
+                            </button>
+
+                        {{else}}
+
+                            <button type="button" class="btn btn-default btn-lg selectionButton" id="{{this.sn}}">
+                                <img class="selectionImage" src="{{this.p}}" />
+                            </button>
+                        {{/if}}
 
                 {{/each}}
 

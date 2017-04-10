@@ -32,7 +32,7 @@
 
 				if (_mode == "alltime") display.stats.dayOffset = 0;
 
-				if (_mode == "recent") display.stats.dayOffset = 5;
+				if (_mode == "recent") display.stats.dayOffset = 30;
 
 				Meteor.defer( function() { display.stats.template.set( _mode ); } );
 

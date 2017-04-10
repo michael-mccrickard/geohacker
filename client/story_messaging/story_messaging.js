@@ -317,7 +317,7 @@ StoryMessaging = function() {
 
             } } }, function() { 
 
-                if ( $(window).height() < $(document).height() ) {
+                if ( ( $(window).height() * 0.75 ) < $(document).height() ) {
 
                     display.animateScrollToBottom();
                 }

@@ -249,7 +249,7 @@ ExerciseItem = function( _obj ) {
 
 		if (this.ID == "whereIsCountry") {
 
-			this.clue( "Find " + _name + ".  First click the continent ...");
+			this.clue( "Find " + _name + ".");
 
 			this.message( "Click the continent for " + _name);	
 		}
@@ -319,7 +319,7 @@ c("_item.aCode is " + this.aCode)
 				//Need to:  1) delay 2nd part of fb, sync it with map change
 				// 2) Label country after clicking it (right or wrong)
 
-				var _showNames = true;
+				var _showNames = false;
 
 				var _clue2 = "";
 
@@ -347,8 +347,6 @@ c("_item.aCode is " + this.aCode)
 					this.aCode = this.qCode;
 
 					_clue2 = " Now click " + db.getCountryName( this.qCode ) + ".";
-
-					_showNames = true;  //could be false for a more advanced challenge
 				}
 
 				if (_level == mlRegion) {

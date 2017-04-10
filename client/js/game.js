@@ -277,6 +277,8 @@ Game = function() {
 
 	this.username = function() {
 
+		if ( Meteor.user().emails[0].address.indexOf("example.com") != -1) return capitalizeAllWords( this.user.name );
+
 		return this.user.name;
 	}
 

@@ -716,6 +716,8 @@ Story =  function() {
 
 	this.doChat = function( _shortName ) {
 
+		if ( !this.checkForChat() ) return;
+
         this.silenceAll();
 
         this.hidePrompt();
@@ -1099,14 +1101,20 @@ Story =  function() {
 
 		var _fontName = "scannerFont";
 
-		var _name = "Geosquad HQ"
+		//there may be a custom name (something other than the capital)
+
+		var _name = this.getCityName( this.scene );
+
+		//If we're not, we look up the capital name, assuming we are not on base.
+		//We also need the right font name based on region
 
 		if (this.location != "base") {
 
 			var _region = db.getRegionCodeForCountry( this.location );
 
-			var _name = db.getCapitalName( this.location );
+			//don't replace the custom name, if we have one
 
+			if (!_name) _name = db.getCapitalName( this.location );
 
 			for (var i = 0; i < this.regionFonts.length; i++) {
 
@@ -1122,6 +1130,10 @@ Story =  function() {
 				}
 			}			
 		}
+
+		//we must be on base
+
+		if (!_name) _name = "Geosquad HQ";
 
 		//now apply the text and font
 

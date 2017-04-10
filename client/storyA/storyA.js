@@ -25,6 +25,19 @@ storyA = function() {
 //
 //*********************************************************************************
 
+	this.checkForChat = function() {
+
+		if (this.flags.gave_mona && !this.flags.didExercise4) {
+
+			this.doExercise();
+
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
 
 	this.getChat = function( _shortName ) {
 
@@ -77,6 +90,14 @@ storyA = function() {
 		}
 
 		if (_name == "mona") {
+
+			if (this.flags.gave_mona) {
+
+				this.doExercise();
+
+				return;
+			}
+
 
 			this.flags.has_mona = true;
 
@@ -173,12 +194,9 @@ storyA = function() {
 				return;
 			}
 
-			if ( !this.flags.gave_mona ) {
+			//otherwise, we just answer questions
 
-				this.play("missionInfo");
-
-				return;
-			}
+			this.play("missionInfo");
 
 		}
 
@@ -198,9 +216,16 @@ storyA = function() {
 					return;		
 			}			
 
-			if ( this.flags.has_passcode && !this.flags.has_mona ) {
+			if ( this.flags.has_passcode && !this.flags.has_mona && !this.flags.gave_passcode ) {
 
 					this.play("secondGuardVisit");
+
+					return;						
+			}
+
+			if ( this.flags.gave_passcode && !this.flags.has_mona ) {
+
+					this.play("guardGetsPasscode");
 
 					return;						
 			}
@@ -232,11 +257,20 @@ storyA = function() {
 
 		if ( _ID == "ML") {
 
+			this.brightness(10);
+
+			this.brightness(20, this.shadow.imageElement);
+
+			//in case user skipped out after giving the painting
+
+			if ( this.flags.gave_mona  && !this.flags.didExercise4) {
+
+				this.play("finalChallenge");		
+
+				return;		
+			}
+
 			if ( this.flags.has_mona  && !this.flags.didExercise4) {
-
-				this.brightness(10);
-
-				this.brightness(20, this.shadow.imageElement);
 
 				this.play("nelsonGetsPainting");
 
@@ -244,8 +278,6 @@ storyA = function() {
 			}
 
 			if ( this.flags.didExercise4 ) {
-
-				this.restoreBrightness();
 
 				this.play("nelsonAndMark");
 
@@ -256,6 +288,15 @@ storyA = function() {
 
 		this.playDefaultScene( );
 
+	}
+
+	this.getCityName = function(_scene) {
+
+		if (_scene == "vanGogh" || _scene == "userGetsPasscode" ) return "Zundert";
+
+		if (_scene == "nelsonAndMark" || _scene == "nelsonGetsPainting" ||  _scene == "finalChallenge") return "Timbuktu";
+
+		return null;
 	}
 
 //*********************************************************************************

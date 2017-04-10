@@ -181,6 +181,15 @@ StoryEditorVisual = function() {
 
 	this.selectEntity = function( _name ) {
 
+		if (this.menuElementType.get() == cLocation) {
+
+			story.location = _name;
+
+			this.continueStory();
+
+			return;
+		}
+
 		if (this.selectedEntity) $( this.selectedEntity.imageElement ).removeClass( "storyEntitySel" );
 
 		this.selectedEntityName = _name;
@@ -485,6 +494,21 @@ StoryEditorVisual = function() {
 		Meteor.setTimeout( function() { ved.updateContent(); }, 500);
 	}
 
+	this.locationMenu = function() {
+
+		this.prepareEditor();
+
+		this.menuElementType.set( cLocation );
+
+		var _left = $("button#runStory").offset().left;
+
+		$("div.topButtonSelections").offset( { left: _left } );
+
+		this.menuOpen.set( true );
+
+		Meteor.setTimeout( function() { ved.updateContent(); }, 500);
+	}
+
 	this.showCoordinates = function() {
 		
 		var _windowWidth = $(window).width();
@@ -591,7 +615,10 @@ c( _obj )
 
 	}
 
-	this.continueStory = function() {
+
+	this.continueStory = function(e) {
+
+		this.menuClose();
 
 		this.mode.set( "play" );
 
@@ -781,5 +808,26 @@ this.saveLocal = function() {
 
 		}, 250 );		
 	}
-
 }
+
+/*
+
+//console.log(e)
+
+	    var isRightMB;
+	    //e = e || window.event;
+
+		// Gecko (Firefox), WebKit (Safari/Chrome) & Opera
+	    if ("which" in e)  {
+
+	    	isRightMB = e.which == 3; 
+	    } 
+	    else {
+	    	
+			//IE, Opera
+	    	if ("button" in e)  isRightMB = e.button == 2; 
+	    }
+
+c("Right mouse button " + (isRightMB ? "" : " was not") + "clicked!");
+
+*/

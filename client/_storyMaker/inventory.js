@@ -6,6 +6,8 @@ InventoryItem = function( _obj ) {
 
 	this.element2 = ".imgStoryInventoryButton.imgStoryButtonContent";
 
+	this.buttonElement = "img#storyInventoryButton";
+
 	this.parentElement1 = "div#storyThing";
 
 	this.parentElement2 = ".divStoryThing";
@@ -35,6 +37,11 @@ InventoryItem = function( _obj ) {
 		return this.parentElement1 + this.index + this.parentElement2;
 	}
 
+	this.getButtonElement = function() {
+
+		return	this.buttonElement + this.index;
+	}
+
 	this.show = function() {
 
 		var _pic = this.pic;
@@ -44,6 +51,8 @@ InventoryItem = function( _obj ) {
 		$( this.getElement() ).attr("data-shortname", this.shortName);
 
 		$( this.getParentElement() ).attr("data-shortname", this.shortName);
+
+		$( this.getButtonElement() ).attr("data-shortname", this.shortName);		
 
 		var _obj = getDimensionsFromFilename( _pic );
 
@@ -109,8 +118,6 @@ Inventory = function() {
 	//the obj param here is an inventoryItem, a wrapper around a token object
 
 	this.remove = function( _name ) {
-
-//did have an ent.draw() comm here
 
 		for (var i = this.firstSlot; i <= this.lastSlot; i++) {
 
