@@ -1,12 +1,12 @@
-FlowRouter.route('/newBrowse', {
+FlowRouter.route('/newBrowse2', {
 
-  name: "newBrowse",
+  name: "newBrowse2",
 
   action: function (params, queryParams) { 
 
     $('body').addClass('noscroll'); 
 
-    BlazeLayout.render('layout', { content: "newBrowse" } ) 
+    BlazeLayout.render('layout', { content: "newBrowse2" } ) 
   },
 
 });

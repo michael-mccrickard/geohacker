@@ -421,7 +421,7 @@ refreshWindow = function(_which) {
         return;
     }
 
-    if (name == "newBrowse") {
+    if (name == "newBrowse2") {
 
         var myVideo = { width: 0, height: 0, top: 0, left: 0 };
 

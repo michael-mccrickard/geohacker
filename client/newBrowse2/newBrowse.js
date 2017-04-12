@@ -1,6 +1,6 @@
 //newBrowse.js
 
-Browser = function(  ) {
+Browser2 = function(  ) {
 
 	this.updateFlag = new Blaze.ReactiveVar(false);
 
@@ -32,15 +32,15 @@ Browser = function(  ) {
 
 	this.leftMeme = null;
 
-	this.leftTextElement = "div.divBrowseText.divLeftText";
+	this.leftTextElement = "div.memeText.bigPicText";
 
-	this.leftImageElement = "img#browseLeftImage";
+	this.leftImageElement = "img.bigPic";
 	
 	this.rightMeme = null;
 
-	this.rightTextElement = "div.divBrowseText.divRightText";
+	this.rightTextElement = "div.memeText.smallPicText";
 
-	this.rightImageElement = "img#browseRightImage";
+	this.rightImageElement = "img.smallPic";
 
 	this.memeIndex = -1;
 
@@ -56,7 +56,9 @@ Browser = function(  ) {
 
 	this.memeToEdit = null;
 
-	this.defaultFontSize = "1.5vw";
+	this.defaultBigFontSize = "4.0vw";
+
+	this.defaultSmallFontSize = "3.0vw";
 
 
 	this.init = function( _code ) {
@@ -170,13 +172,13 @@ Browser = function(  ) {
 
 	this.draw = function(  _obj ) {
 
-        _obj.width = $(".centerImg").outerWidth() + 16;
+        _obj.width = $("img.video").outerWidth();
 
-        _obj.height = $(".centerImg").outerHeight() + 16; 
+        _obj.height = $("img.video").outerHeight(); 
 
-        _obj.top  = $(".divCenterImg").position().top;
+        _obj.top  = $("img.video").position().top;
 
-        _obj.left  = $(window).width() * .3467;		
+        _obj.left  =  $("img.video").position().left;
 	}
 
 	this.startMemeRotation = function() {
@@ -220,7 +222,9 @@ Browser = function(  ) {
 
 		if (_id != this.ID ) return;
 
-		var _fontSize = this.defaultFontSize;
+		var _fontSize = 0;
+
+		var _fontFactor = 1.0;
 
 		this.memeIndex++;
 
@@ -240,6 +244,10 @@ Browser = function(  ) {
 
 			//this.fixIndex( this.leftMeme );
 
+			_fontSize = this.defaultBigFontSize;
+
+			_fontFactor = 3.0;
+
 			this.leftMeme =  this.arrMeme[ this.memeIndex ];
 
 			this.textElement = this.leftTextElement;
@@ -252,7 +260,9 @@ Browser = function(  ) {
 
 		if (this.whichSide == "right") {
 
-			//this.fixIndex( this.rightMeme );
+			_fontSize = this.defaultSmallFontSize;
+
+			_fontFactor = 2.0;
 
 			this.rightMeme = this.arrMeme[ this.memeIndex ];
 
@@ -267,7 +277,14 @@ Browser = function(  ) {
 
 		this.fade( "out", this.imageElement);	
 
-		if ( this.arrMeme[ this.memeIndex ].rec.fs ) _fontSize = this.arrMeme[ this.memeIndex ].rec.fs;
+		if ( this.arrMeme[ this.memeIndex ].rec.fs ) {
+
+			console.log(this.arrMeme[ this.memeIndex ].rec.t)
+
+			c("fs from db is " + this.arrMeme[ this.memeIndex ].rec.fs)
+
+			_fontSize = _fontFactor * parseFloat(this.arrMeme[ this.memeIndex ].rec.fs);
+		}
 
 		Meteor.setTimeout( function() { display.browser.updateContent(); }, 600 );
 
@@ -289,7 +306,9 @@ Browser = function(  ) {
 
     this.setFontSize = function( _val ) {
 
-    	$( this.textElement ).css("font-size", _val);
+c("fontsize into setFontSize is " + _val)
+
+    	$( this.textElement ).css("font-size", _val + "vh");
     },
 
 	this.setID = function() {

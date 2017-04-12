@@ -10,7 +10,7 @@ Display = function() {
   /*********************************************/
 
 
-    this.browser = new Browser();
+    this.browser = new Browser2();
 
     this.help = new Help();
 

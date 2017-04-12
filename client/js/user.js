@@ -76,9 +76,9 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
       this.returnName = _returnRoute;
 
-      if(_returnRoute == "newBrowse") this.returnRoute = "browseWorldMap";
+      if(_returnRoute == "newBrowse2") this.returnRoute = "browseWorldMap";
 
-      if (_returnRoute == "worldMap" || _returnRoute == "browseWorldMap" || _returnRoute == "newBrowse") this.returnName = "map";
+      if (_returnRoute == "worldMap" || _returnRoute == "browseWorldMap" || _returnRoute == "newBrowse2") this.returnName = "map";
 
       if (_returnRoute == "congrats") this.returnName = "mission";     
 
@@ -103,7 +103,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
       }
       else {
 
-      	FlowRouter.go("newBrowse");
+      	FlowRouter.go("newBrowse2");
       }
       
     };

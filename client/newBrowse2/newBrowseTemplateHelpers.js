@@ -13,7 +13,7 @@ function scaleMe( _val ) {
 
 }
 
-Template.newBrowse.helpers({
+Template.newBrowse2.helpers({
 
 	country: function() {
 
@@ -61,7 +61,7 @@ Template.newBrowse.helpers({
 		return "white";
 	},	
 
-	countryName: function() {
+	translatedCountryText: function() {
 
 		return hack.getCountryName();
 	},
@@ -110,8 +110,8 @@ Template.newBrowse.helpers({
 
       return "60px";
     },
-    
-    leftImage: function() {
+
+  leftImage: function() {
 
       display.browser.updateFlag.get();
 
@@ -129,15 +129,15 @@ Template.newBrowse.helpers({
 
       display.browser.updateFlag.get();
 
-    	return display.browser.getSidewallImage("right");
-  	},
+      return display.browser.getSidewallImage("right");
+    },
 
      rightText: function() {
 
       display.browser.updateFlag.get();
 
-    	return display.browser.getSidewallText("right");
-  	},
+      return display.browser.getSidewallText("right");
+    },
 
   	video: function() {
 
@@ -178,28 +178,10 @@ Template.newBrowse.helpers({
       return youtube.waiting.get();
     },
 
-  	primary: function() {
-
-      display.browser.updateFlag.get(); 
-
-  		return display.browser.primaryItems;
-  	},
-
     returnName: function() {
 
       return game.user.returnName;
     },
-
-   	leftPrimaryEdge: function( _index ) {
-
-  		display.browser.updateFlag.get();
-
-  		var _count = display.browser.primaryItems.length;
-
-  		var _fullWidth = _count * (120 + 8);
-
-  		return ( $(window).width() / 2) - (_fullWidth/2) + (_index * (120 + 8) );
-  	},
 
    	leftVideoEdge: function( _index ) {
 
@@ -209,7 +191,9 @@ Template.newBrowse.helpers({
 
   		var _fullWidth = _count * (120 + 8);
 
-  		return ( $(window).width() / 2) - (_fullWidth/2) + (_index * (120 + 8) );
+  		//return ( $(window).width() / 2) - (_fullWidth/2) + (_index * (120 + 8) );
+
+      return 0.02 * $(window).width() + (_index * (120 + 8) );
   	},
 
     isBrowseMode: function() {
@@ -231,29 +215,23 @@ Template.newBrowse.helpers({
 
  });
 
-Template.newBrowse.events({
+Template.newBrowse2.events({
 
+/*
     'click img#browseLeftImage': function(e) {
 
         display.featuredMeme = display.browser.leftMeme;
                 
-        display.browser.showFeatured("/newBrowse");      
+        display.browser.showFeatured("/newBrowse2");      
 
 
     },
+*/
+    'click img.flag': function(event, template) {
 
-    'click img#browseRightImage': function(e) {
+//game.user.browseCountry( "AU", "newBrowse2" );
 
-        display.featuredMeme = display.browser.rightMeme;
-                
-        display.browser.showFeatured("/newBrowse");       
-    },
-
-    'click .imgFlag': function(event, template) {
-
-//game.user.browseCountry( "AU", "newBrowse" );
-
-		      game.user.browseCountry( db.getRandomRec( db.ghC ).c, "newBrowse" );
+		      game.user.browseCountry( db.getRandomRec( db.ghC ).c, "newBrowse2" );
       },
 
     'click .ytthumb': function(event, template) {
@@ -266,6 +244,7 @@ Template.newBrowse.events({
 
     },
 
+/*
     'click .imgPrimaryThumb': function(event, template) {
 
     		var _id = event.target.id;
@@ -305,7 +284,7 @@ Template.newBrowse.events({
     		}
 
       },
-
+*/
       'click .btnReturn': function(e) {
         
         e.preventDefault();
@@ -315,7 +294,7 @@ Template.newBrowse.events({
  });
 
 
-Template.newBrowse.rendered = function() {
+Template.newBrowse2.rendered = function() {
 
   if (hack.countryCode != display.browser.countryCode) {
 
@@ -342,7 +321,7 @@ Template.newBrowse.rendered = function() {
 
           game.pauseMusic();
 
-          Meteor.setTimeout( function() {refreshWindow("newBrowse"); }, 250 );      
+          Meteor.setTimeout( function() {refreshWindow("newBrowse2"); }, 250 );      
       }
       else {
 

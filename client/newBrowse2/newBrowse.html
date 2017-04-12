@@ -1,0 +1,109 @@
+<template name="newBrowse2">
+
+
+	<div class="returnToPrevMode" id="divBtnReturn" style="color:white;">
+
+		<img src="{{globePic}}" width="{{globeSize}}" height="{{globeSize}}" class="btnReturn" />
+
+		<span class="spanReturnText" id="returnText" >RETURN TO {{returnName}}</span>
+
+	</div>	
+
+	<div id="divNewBrowse2">
+
+{{#with country}}
+
+	    <div class="browseHomelandText">{{homelandText}} <span class="browseTranslatedCountryName">({{translatedCountryText}})</span></div>
+	    
+			     <div class="divBigPic">   
+
+					<img class="bigPic"  src="{{leftImage}}" />
+
+					<div class="memeText bigPicText">{{leftText}}</div>
+				</div>
+
+
+			     <div class="divSmallPic">   
+					<img class="smallPic"  src="{{rightImage}}" />
+					<div class="memeText smallPicText">{{rightText}}</div>
+				</div>
+
+				<img class="video"  src="http://mccrickard.net/test/testBox300.jpg" />
+
+	    			<!--img class="thumbs"  src="http://mccrickard.net/test/testBox300.jpg" /-->
+
+					{{#each video}} 
+
+						<div class="divVideoThumbs" style="left:{{leftVideoEdge @index}}px;" >
+
+							<img class="ytthumb" data-videoid="{{this.u}}" id="v{{@index}}" src="{{videoThumbnailOrFile}}" />
+
+							<div class="divPrimaryName">{{videoName}}</div>
+
+						</div>
+					
+					{{/each}}
+
+				<img class="flag"   src="{{flagImage}}" />
+	    
+				<img class="anthem"  src="http://mccrickard.net/test/testBox100b.png" />
+	    
+	<img class="speech"  src="http://mccrickard.net/test/testBox100a.png" />
+	    
+{{/with}}
+
+	</div>
+
+<!--
+	{{#with country}}
+
+		<div class="browseHomelandText">
+
+			<div class="browseTransHomelandText">
+
+			  <span>{{countryName}}</span>
+			</div>
+
+			<div  class="browseNativeHomelandText">
+
+			  <span style="font-size: {{HTSize}}">{{homelandText}}</span>
+
+			</div>
+
+		</div>
+
+		<div class="divBrowseFlagImg">
+
+			<img class="imgFlag" src="{{flagImage}}" onclick="hack.playAnthem()" style="max-width: {{flagMaxWidth}}px; max-height: {{flagMaxHeight}}px;  {{flagBorder}}">
+		</div>
+
+
+		<div class="divCenterImg"><img class="centerImg" src="featuredBackdrop.jpg"></div>
+
+		{{#if youTubeWaiting}}
+
+			<div class="displayWaiting">
+				{{> spinner}}
+			</div>
+		
+		{{/if}}
+
+		<div class="divVideos">
+			
+			{{#each video}} 
+
+				<div class="divVideoThumbs" style="left:{{leftVideoEdge @index}}px;" >
+
+					<img class="ytthumb" data-videoid="{{this.u}}" id="v{{@index}}" src="{{videoThumbnailOrFile}}" />
+
+					<div class="divPrimaryName">{{videoName}}</div>
+
+				</div>
+			
+			{{/each}}
+			
+		</div>
+
+	{{/with}}
+-->
+</template>

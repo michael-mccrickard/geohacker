@@ -221,7 +221,7 @@ Navigator = function() {
 
       if (!game.user) return;
 
-      if (_route == "/newBrowse") {
+      if (_route == "/newBrowse2") {
 
         game.user.mode = uBrowseCountry;
 

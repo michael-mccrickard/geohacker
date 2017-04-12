@@ -231,11 +231,11 @@ this.debriefCollection = null;
 
         //display.browser.init( this.countryCode);
 
-        display.browser = new Browser();
+        display.browser = new Browser2();
 
         display.browser.init( this.countryCode );
 
-        FlowRouter.go("/newBrowse");
+        FlowRouter.go("/newBrowse2");
 
     }
 

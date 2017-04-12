@@ -39,7 +39,7 @@ Template.meme.events({
           return;
       }
 
-      if ( game.user.mode == uBrowseCountry) FlowRouter.go("/newBrowse");
+      if ( game.user.mode == uBrowseCountry) FlowRouter.go("/newBrowse2");
 
   },
 
