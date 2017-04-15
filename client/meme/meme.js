@@ -94,6 +94,8 @@ Meme = function( _rec, _type )  {
 
 	this.usedByHelper = false;
 
+	this.loaded = true;
+
 
 	this.init = function() {
 
@@ -213,15 +215,60 @@ Meme = function( _rec, _type )  {
 
 	}
 
-	this.preloadImageForSidewall = function() {
+	this.preloadImagesForSidewall = function( _side ) {
 
-		//borrow the debrief preload element
+		var _preloadElement = "";
 
-		$("#preloadDebrief").attr("src", this.image );
+		if (_side == "left") _preloadElement = "#imgDebrief";
 
-        imagesLoaded( document.querySelector('#preloadDebrief'), function( instance ) {
+		if (_side == "right") _preloadElement = "#imgDebrief2";
 
-        	//anything we need to do here?
+
+		$(_preloadElement).attr("src", this.image );
+
+		var _image = this.image;
+
+		var _this = this;
+
+        imagesLoaded( document.querySelector("#preloadDebrief"), function( instance ) {
+
+        	_this.imageSrc = display.getImageFromFile( _image );  
+
+
+        	if (!display.browser.loaded) {
+
+        		Meteor.setTimeout( function() { display.browser.show(); }, 500 );
+
+        		return;
+        	}
+
+        	//it takes a moment to create the off-screen image (for dimensioning)
+        	//in the call the getImageFromFile() above
+
+        	//Meteor.setTimeout( function() { display.browser.drawNextMeme(); }, 500 );
+
+        });
+
+	}
+
+	this.preloadImageForSidewall = function( _side ) {
+
+		var _preloadElement = "#imgDebrief";
+
+		$(_preloadElement).attr("src", this.image );
+
+		var _image = this.image;
+
+		var _this = this;
+
+        imagesLoaded( document.querySelector(_preloadElement), function( instance ) {
+c("image loaded")
+        	_this.imageSrc = display.getImageFromFile( _image );  
+
+        	//it takes a moment to create the off-screen image (for dimensioning)
+        	//in the call the getImageFromFile() above
+
+        	Meteor.setTimeout( function() { display.browser.drawNextMeme(); }, 500 );
 
         });
 

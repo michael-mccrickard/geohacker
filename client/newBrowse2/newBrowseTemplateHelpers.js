@@ -110,28 +110,28 @@ Template.newBrowse2.helpers({
 
       return "60px";
     },
-
+/*
   leftImage: function() {
 
       display.browser.updateFlag.get();
 
       return display.browser.getSidewallImage("left");
     },
-
+*/
      leftText: function() {
 
       display.browser.updateFlag.get();
 
       return display.browser.getSidewallText("left");
     },
-
+/*
      rightImage: function() {
 
       display.browser.updateFlag.get();
 
       return display.browser.getSidewallImage("right");
     },
-
+*/
      rightText: function() {
 
       display.browser.updateFlag.get();
@@ -295,6 +295,14 @@ Template.newBrowse2.events({
 
 
 Template.newBrowse2.rendered = function() {
+
+  if (!display.browser.loaded) {
+
+
+    display.browser.leftMeme.preloadImagesForSidewall( "left");
+
+    display.browser.rightMeme.preloadImagesForSidewall( "right");
+  }
 
   if (hack.countryCode != display.browser.countryCode) {
 

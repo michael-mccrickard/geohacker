@@ -22,6 +22,8 @@ Browser2 = function(  ) {
 							//in this.countryCode, so we can tell when the country has changed
 							//upon return from the browsemap (user could have simply viewed the map)
 
+	this.loaded = false;
+
 	//meme related
 
 	this.featuredMeme = null;
@@ -30,17 +32,33 @@ Browser2 = function(  ) {
 
 	this.imageElement = "";
 
+	this.imageSrc = null;
+
+	this.meme = null;
+
 	this.leftMeme = null;
 
-	this.leftTextElement = "div.memeText.bigPicText";
+	this.leftElement = "div.divBigPic";
+
+	this.leftTextElement = "div.browserMemeText.bigPicText";
 
 	this.leftImageElement = "img.bigPic";
 	
 	this.rightMeme = null;
 
-	this.rightTextElement = "div.memeText.smallPicText";
+	this.rightElement = "div.divSmallPic";
+
+	this.rightTextElement = "div.browserMemeText.smallPicText";
 
 	this.rightImageElement = "img.smallPic";
+
+	this.leftWidth = 0.6;
+
+	this.leftHeight = 0.69;
+
+	this.rightWidth = 0.34;
+
+	this.rightHeight = 0.31;
 
 	this.memeIndex = -1;
 
@@ -58,7 +76,7 @@ Browser2 = function(  ) {
 
 	this.defaultBigFontSize = "4.0vw";
 
-	this.defaultSmallFontSize = "3.0vw";
+	this.defaultSmallFontSize = "3.5vw";
 
 
 	this.init = function( _code ) {
@@ -80,17 +98,13 @@ Browser2 = function(  ) {
 
 		Database.shuffle( this.arrMeme );
 
-
 		this.leftMeme = this.arrMeme[0];
 
 		this.rightMeme = this.arrMeme[1];
 
-		var _fontSize;
-
 		this.textElement = this.leftTextElement;  //should match default whichSide above
 
 		this.imageElement = this.leftImageElement;  //should match default whichSide above
-
 
 		//make primaries, first the map modal
 		
@@ -162,11 +176,136 @@ Browser2 = function(  ) {
 
 		this.items = db.ghVideo.find( { cc: hack.countryCode, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } } ).fetch();
 
-		this.rotatingMemes = false;
-
-		if (!gEditSidewallsMode) this.startMemeRotation();
-
 		this.updateContent();
+
+	}
+
+	this.dimensionPic = function( _side) {
+
+		this.meme = this.leftMeme;
+
+		var _sourceWidth = this.leftMeme.imageSrc.width;
+
+		var _sourceHeight = this.leftMeme.imageSrc.height;
+
+		var _sourceRatio =  _sourceWidth / _sourceHeight;
+
+		var _targetRatio = (this.leftWidth * $(window).width() ) / ( this.leftHeight * $(window).height() ); 
+
+		var _imageElement = this.leftImageElement;
+
+		var _element = this.leftElement;
+
+		var _left = 0;
+
+		var _top = 0;
+
+		var _width = this.leftWidth;
+
+		var _height = this.leftHeight;
+
+		var _pixelWidth = 0;
+
+		var _pixelHeight = 0;
+
+
+		if (_side == "right") {
+
+			this.meme = this.rightMeme;
+
+			_sourceWidth = this.rightMeme.imageSrc.width;
+
+			_sourceHeight = this.rightMeme.imageSrc.height;
+
+			_sourceRatio =  _sourceWidth / _sourceHeight;
+
+			_targetRatio = ( this.rightWidth * $(window).width() ) / ( this.rightHeight * $(window).height() ); 
+
+			_imageElement = this.rightImageElement;		
+
+			_element = this.rightElement;
+
+			_width = this.rightWidth;
+
+			_height = this.rightHeight;
+		}
+
+
+
+		if ( _sourceRatio < _targetRatio)  {//taller, more portrait-like compared to target
+
+			$(_imageElement).css("height","100%");
+
+			$(_imageElement).css("width","");
+
+			$(_imageElement).offset( {top: $( _element ).offset().top } );		
+
+			_left = $( _element ).offset().left;
+
+			_pixelHeight = _height * $(window).height();
+
+			_pixelWidth = _sourceWidth * (_pixelHeight / _sourceHeight);
+
+			_width = _width * $(window).width();
+
+if (this.meme) {
+
+	c("meme follows")
+
+	c( this.meme)
+}
+
+c("variable width, height is 100%")
+
+c("pixelWidth is " + _pixelWidth)
+
+c("width is " + _width)
+
+c("pixelHeight is " + _pixelHeight)
+
+_height = _height * $(window).height();
+
+c("height is " + _height)
+
+			_left = _left + (_width/2) - ( _pixelWidth/ 2);
+
+c("_left is " + _left)
+
+			$(_imageElement).offset( {left: _left} );	
+
+
+		}
+		else {
+
+			$(_imageElement).css("width","100%");
+
+			$(_imageElement).css("height","");		
+
+			$(_imageElement).offset( {left: $( _element ).offset().left } );		
+
+			_top = $( _element ).offset().top;
+
+			_pixelWidth = _width * $(window).width();
+
+			_pixelHeight = _sourceHeight * (_pixelWidth / _sourceWidth);	
+
+			_height = _height * $(window).height();
+
+if (this.meme) {
+
+	c("meme follows")
+
+	c( this.meme)
+}
+
+c("variable height, width is 100%")
+
+c("height is " + _height)
+			_top = _top + (_height/2) - ( _pixelHeight/ 2);
+c("top is " + _top)
+			$(_imageElement).offset( {top: _top} );	
+
+		}
 
 	}
 
@@ -179,6 +318,30 @@ Browser2 = function(  ) {
         _obj.top  = $("img.video").position().top;
 
         _obj.left  =  $("img.video").position().left;
+	}
+
+	//the preload callback in meme.js calls this one, if browser.loaded is false
+
+	this.show = function() {
+
+		if (!this.leftMeme.loaded || !this.rightMeme.loaded) return;
+
+		this.loaded = true;
+
+
+		this.dimensionPic("right");
+
+		$(this.rightImageElement).attr("src", this.rightMeme.image);
+
+		this.dimensionPic("left");
+
+		$(this.leftImageElement).attr("src", this.leftMeme.image);		
+
+		//this.startMemeRotation();
+
+		this.rotatingMemes = false;
+
+		Meteor.setTimeout( function() { display.browser.startMemeRotation(); }, display.browser.memeDelay );
 	}
 
 	this.startMemeRotation = function() {
@@ -211,12 +374,6 @@ Browser2 = function(  ) {
 		return this.whichSide;		
 	}
 
-	//make sure we are not re-showing the same meme with our index
-
-	this.fixIndex = function( _meme) {
-
-
-	}
 
 	this.nextMeme = function( _id ) {
 
@@ -238,17 +395,12 @@ Browser2 = function(  ) {
 
 			if (gEditSidewallsMode && this.arrMeme.length != 3) this.flipSide();
 		}
-		
 
 		if (this.whichSide == "left") {
 
-			//this.fixIndex( this.leftMeme );
-
-			_fontSize = this.defaultBigFontSize;
-
-			_fontFactor = 3.0;
-
 			this.leftMeme =  this.arrMeme[ this.memeIndex ];
+
+			this.meme = this.leftMeme;
 
 			this.textElement = this.leftTextElement;
 
@@ -260,11 +412,9 @@ Browser2 = function(  ) {
 
 		if (this.whichSide == "right") {
 
-			_fontSize = this.defaultSmallFontSize;
-
-			_fontFactor = 2.0;
-
 			this.rightMeme = this.arrMeme[ this.memeIndex ];
+
+			this.meme = this.rightMeme;
 
 			this.textElement = this.rightTextElement;
 
@@ -277,14 +427,43 @@ Browser2 = function(  ) {
 
 		this.fade( "out", this.imageElement);	
 
-		if ( this.arrMeme[ this.memeIndex ].rec.fs ) {
+		this.clearPreloads();
 
-			console.log(this.arrMeme[ this.memeIndex ].rec.t)
+		display.browser.meme.preloadImageForSidewall( this.whichSide ); //callback will trigger next function
 
-			c("fs from db is " + this.arrMeme[ this.memeIndex ].rec.fs)
+	}
 
-			_fontSize = _fontFactor * parseFloat(this.arrMeme[ this.memeIndex ].rec.fs);
+	this.drawNextMeme = function() {
+
+//c("meme (right) in drawNextMeme is " + this.meme)
+
+		var _fontSize = 0;
+
+		var _fontFactor = 1.0;
+
+		if (this.whichSide == "right") {
+
+			_fontSize = this.defaultSmallFontSize;
+
+			_fontFactor = 2.0;
 		}
+
+		if (this.whichSide == "left") {
+
+			_fontSize = this.defaultBigFontSize;
+
+			_fontFactor = 4.0;
+		}	
+
+		if ( this.meme.rec.fs ) {
+
+			_fontSize = _fontFactor * parseFloat( this.meme.rec.fs );
+		}
+
+		this.dimensionPic( this.whichSide )
+
+		$(this.imageElement).attr("src", this.meme.image)
+
 
 		Meteor.setTimeout( function() { display.browser.updateContent(); }, 600 );
 
@@ -305,8 +484,6 @@ Browser2 = function(  ) {
 
 
     this.setFontSize = function( _val ) {
-
-c("fontsize into setFontSize is " + _val)
 
     	$( this.textElement ).css("font-size", _val + "vh");
     },
@@ -554,5 +731,12 @@ display.featuredMeme.preloadImageForFeature();
 		var _val = this.updateFlag.get();
 
 		this.updateFlag.set( !_val );
+	}
+
+	this.clearPreloads = function() {
+
+		$("#imgDebrief").attr("src", "");
+
+		$("#imgDebrief2").attr("src", "");		
 	}
 }
