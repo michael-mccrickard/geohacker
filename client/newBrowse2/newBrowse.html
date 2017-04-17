@@ -31,11 +31,13 @@
 						
 						</div>
 
-						<img class="video"  src="http://mccrickard.net/test/testBox300.jpg" />
+						<img class="video"  src="youtube.png" />
+
+						<div class="divVideoThumbs">
 
 							{{#each video}} 
 
-								<div class="divVideoThumbs" style="left:{{leftVideoEdge @index}}px;" >
+								<div class="divVideoThumb" style="left:{{leftVideoEdge @index}}px;" >
 
 									<img class="ytthumb" data-videoid="{{this.u}}" id="v{{@index}}" src="{{videoThumbnailOrFile}}" />
 
@@ -45,11 +47,23 @@
 							
 							{{/each}}
 
+						</div>
+
 						<img class="flag"   src="{{flagImage}}" />
+
+				<div class="soundText"></div>
+
+			    <button type="button" class="btn btn-primary btn-lg browseButton map" id="btnMap" onclick="display.browser.showMap()">
+						<img class="imgBrowseCountryMap" src="{{countryMap}}" />
+				</button>
+
+			    <button type="button" class="btn btn-danger btn-lg browseButton anthem" id="btnAnthem" onclick="display.browser.playAnthem()">
+						<span class="glyphicon glyphicon-music browseButtonLarge"></span>
+				</button>
 			    
-						<img class="anthem"  src="http://mccrickard.net/test/testBox100b.png" />
-			    
-			<img class="speech"  src="http://mccrickard.net/test/testBox100a.png" />
+			    <button type="button" class="btn btn-primary btn-lg browseButton speech" id="btnSpeech" onclick="display.browser.playLanguageFile()">
+						<span class="glyphicon glyphicon-comment browseButtonLarge"></span>
+				</button>
 			    
 		{{/with}}
 

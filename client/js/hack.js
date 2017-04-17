@@ -239,28 +239,42 @@ this.debriefCollection = null;
 
     }
 
-    this.playAnthem = function() {
+    this.playAnthem = function( _code) {
+
+       if (!_code) _code = this.countryCode;
 
        var _file = this.getAnthemFile();
 
-       if (hacker.ctl["SOUND"]) {
+       //if (hack.mode != mEdit) {
 
-          if (hacker.ctl["SOUND"].getState() == sPlaying ) hacker.ctl["SOUND"].pause();
-       }
+          if (hacker.ctl.length) {
+
+            if (hacker.ctl["SOUND"].getState() == sPlaying ) hacker.ctl["SOUND"].pause();          
+          }
+       //}
+
+       game.pauseMusic();
 
        display.playEffect( _file );
     },
 
-    this.playLanguageFile = function() {
+    this.playLanguageFile = function(_code) {
 
-       var _file = this.getLanguageFile();
+       if (!_code) _code = this.countryCode;
+
+       var _file = this.getLanguageFile( _code );
 
        if (!_file) return;
 
-       if (hack.mode != mEdit) {
-          
-          if (hacker.ctl["SOUND"].getState() == sPlaying ) hacker.ctl["SOUND"].pause();
-       }
+       //if (hack.mode != mEdit) {
+
+          if (hacker.ctl.length) {
+
+            if (hacker.ctl["SOUND"].getState() == sPlaying ) hacker.ctl["SOUND"].pause();          
+          }
+      //}
+
+       game.pauseMusic();
 
        display.playEffect( _file );
     },
@@ -275,9 +289,11 @@ this.debriefCollection = null;
     /*              GETTERS FOR SOUNDS         
     /**************************************************************/
 
-    this.getAnthemFile = function() {
+    this.getAnthemFile = function(_code) {
 
-      var rec = db.ghSound.findOne( {'cc':  this.countryCode, 'dt': 'ant' } );
+       if (!_code) _code = this.countryCode;
+
+      var rec = db.ghSound.findOne( {'cc':  _code, 'dt': 'ant' } );
 
       if (rec) {
 
@@ -290,9 +306,13 @@ this.debriefCollection = null;
 
     }
 
-    this.getLanguageFile = function() {
+    this.getLanguageFile = function(_code) {
 
-      var rec = db.ghSound.findOne( {'cc':  this.countryCode, 'dt': 'lng' } );
+       if (!_code) _code = this.countryCode;
+
+      var rec = db.ghSound.findOne( {'cc':  _code, 'dt': 'lng' } );
+
+      //if (game.user.mode == uBrowseCountry)
 
       if (rec) {
 

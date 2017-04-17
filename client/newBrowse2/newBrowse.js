@@ -52,6 +52,8 @@ Browser2 = function(  ) {
 
 	this.rightImageElement = "img.smallPic";
 
+	this.soundTextElement = "div.soundText";
+
 	this.leftWidth = 0.6;
 
 	this.leftHeight = 0.69;
@@ -74,7 +76,7 @@ Browser2 = function(  ) {
 
 	this.memeToEdit = null;
 
-	this.defaultBigFontSize = "4.0vw";
+	this.defaultBigFontSize = "6.0vw";
 
 	this.defaultSmallFontSize = "3.5vw";
 
@@ -123,8 +125,11 @@ Browser2 = function(  ) {
 		var _unit = null;
 
 
+//All we need now is the country map ( new Unit() ?)
+
 		//named primary videos
 
+/*
 		var _arrCode = ["gn", "sd", "tt"];
 
 		var _arrName = ["Geography Now", "Seeker Daily", "Top Ten Archive"];
@@ -171,10 +176,10 @@ Browser2 = function(  ) {
 
 			this.primaryItems.push(_unit);
 		}
-
+*/
 		//finally the regular videos (non-primary)
 
-		this.items = db.ghVideo.find( { cc: hack.countryCode, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } } ).fetch();
+		this.items = db.ghVideo.find( { cc: hack.countryCode } ).fetch();  //, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } 
 
 		this.updateContent();
 
@@ -248,28 +253,7 @@ Browser2 = function(  ) {
 
 			_width = _width * $(window).width();
 
-if (this.meme) {
-
-	c("meme follows")
-
-	c( this.meme)
-}
-
-c("variable width, height is 100%")
-
-c("pixelWidth is " + _pixelWidth)
-
-c("width is " + _width)
-
-c("pixelHeight is " + _pixelHeight)
-
-_height = _height * $(window).height();
-
-c("height is " + _height)
-
 			_left = _left + (_width/2) - ( _pixelWidth/ 2);
-
-c("_left is " + _left)
 
 			$(_imageElement).offset( {left: _left} );	
 
@@ -291,18 +275,8 @@ c("_left is " + _left)
 
 			_height = _height * $(window).height();
 
-if (this.meme) {
-
-	c("meme follows")
-
-	c( this.meme)
-}
-
-c("variable height, width is 100%")
-
-c("height is " + _height)
 			_top = _top + (_height/2) - ( _pixelHeight/ 2);
-c("top is " + _top)
+
 			$(_imageElement).offset( {top: _top} );	
 
 		}
@@ -341,7 +315,7 @@ c("top is " + _top)
 
 		this.rotatingMemes = false;
 
-		Meteor.setTimeout( function() { display.browser.startMemeRotation(); }, display.browser.memeDelay );
+		Meteor.setTimeout( function() { display.browser.startMemeRotation(); }, display.browser.memeDelay / 2 );
 	}
 
 	this.startMemeRotation = function() {
@@ -457,7 +431,7 @@ c("top is " + _top)
 
 		if ( this.meme.rec.fs ) {
 
-			_fontSize = _fontFactor * parseFloat( this.meme.rec.fs );
+if (this.whichSide == "right") _fontSize = _fontFactor * parseFloat( this.meme.rec.fs );
 		}
 
 		this.dimensionPic( this.whichSide )
@@ -738,5 +712,49 @@ display.featuredMeme.preloadImageForFeature();
 		$("#imgDebrief").attr("src", "");
 
 		$("#imgDebrief2").attr("src", "");		
+	}
+
+	this.playLanguageFile = function() {
+
+      if (youtube.loaded) {
+
+          youtube.pause();
+      }
+	
+		var _meme = new Meme( db.ghMeme.findOne( {cc:  this.countryCode, dt: { $in: ["lng_o", "lng_i", "lng_om"] } } ), "debrief" );
+
+		_meme.init();
+
+		this.setSoundText( _meme.text );
+
+      hack.playLanguageFile();
+
+      Meteor.setTimeout( function() { game.pauseMusic() }, 500 );
+	}
+
+	this.playAnthem = function() {
+
+      if (youtube.loaded) {
+
+          youtube.pause();
+      }
+
+      hack.playAnthem();
+
+      this.setSoundText("Now playing: The national anthem of " + hack.getCountryName() +" ." )
+
+      Meteor.setTimeout( function() { game.pauseMusic() }, 500 );
+	}
+
+	this.setSoundText = function(_str) {
+
+		$( this.soundTextElement ).text( _str );
+	}
+
+	this.showMap = function() {
+
+		display.unit = new Unit("modal", hack.getCountryName(), hack.getCountryMapURL() );
+
+		display.unit.preloadImage();
 	}
 }

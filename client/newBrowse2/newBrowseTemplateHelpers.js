@@ -28,6 +28,11 @@ Template.newBrowse2.helpers({
 		return this.co;
 	},
 
+  countryMap: function() {
+
+    return hack.getCountryMapURL();
+  },
+
 	homelandText: function() {
 
 		return this.ht;

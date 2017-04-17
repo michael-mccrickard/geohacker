@@ -568,10 +568,10 @@ c("youtube ready")
                 if (_file) event.target.playVideo();
 
                 if (game.user.mode == uBrowseCountry) {
-c("setting pos of browse video in onYouTubeIframeAPIReady")
+
                     Video.setPos( myVideo );               
                 }  
-c("showing yt in onYouTubeIframeAPIReady")
+
                 youtube.show();
             },
 
@@ -580,7 +580,7 @@ c("showing yt in onYouTubeIframeAPIReady")
                 // Play video when player ready.
 
                 if (event.data == YT.PlayerState.PLAYING) {
-c("yt is now playing in onYouTubeIframeAPIReady")
+
                       //redundant, except when we are coming here from a hack, or after a hack 
 
                       if (game.user.mode == uBrowseCountry) {
@@ -589,7 +589,13 @@ c("yt is now playing in onYouTubeIframeAPIReady")
 
                           game.pauseMusic();
 
+                          display.stopEffects();
+
                           refreshWindow("ytplayer");
+
+                          youtube.show();
+
+                          return;
                       }
 
                       if (game.user.mode == uHelp) refreshWindow("ytplayer");
