@@ -115,28 +115,14 @@ Template.newBrowse2.helpers({
 
       return "60px";
     },
-/*
-  leftImage: function() {
 
-      display.browser.updateFlag.get();
-
-      return display.browser.getSidewallImage("left");
-    },
-*/
      leftText: function() {
 
       display.browser.updateFlag.get();
 
       return display.browser.getSidewallText("left");
     },
-/*
-     rightImage: function() {
 
-      display.browser.updateFlag.get();
-
-      return display.browser.getSidewallImage("right");
-    },
-*/
      rightText: function() {
 
       display.browser.updateFlag.get();
@@ -196,8 +182,6 @@ Template.newBrowse2.helpers({
 
   		var _fullWidth = _count * (120 + 8);
 
-  		//return ( $(window).width() / 2) - (_fullWidth/2) + (_index * (120 + 8) );
-
       return 0.02 * $(window).width() + (_index * (120 + 8) );
   	},
 
@@ -249,47 +233,6 @@ Template.newBrowse2.events({
 
     },
 
-/*
-    'click .imgPrimaryThumb': function(event, template) {
-
-    		var _id = event.target.id;
-
-    		var _type = $("#" + _id).data("type");
-
-    		var _name = $("#" + _id).data("name");
-
-    		var _videoid = $("#" + _id).data("videoid");
-
-    		var _src = $("#" + _id).attr("src");
-    		
-    		if ( _type == "modal" ) {
-
-    			display.unit = new Unit("modal", _name, _src);
-
-    			display.unit.preloadImage();
-
-    			//$('#zoomInModal').modal('show');
-
-          display.browser.hiliteFrame( _id );
-
-          $('#zoomInModal').on('hidden.bs.modal', function () {
-
-              c("modal hide")
-
-              if (display.browser.videoFrameID.length) {
-
-                display.browser.hiliteFrame( display.browser.videoFrameID );
-              }
-          });
-    		}
-
-    		if (_type == "video") {
-
-    			display.browser.playVideo( _videoid, _id );
-    		}
-
-      },
-*/
       'click .btnReturn': function(e) {
         
         e.preventDefault();

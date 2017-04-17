@@ -45,15 +45,15 @@ position: absolute;
 .browseButtonLarge {
 color: white;
 
-	font-size: 3.0vw;
+	font-size: 2.5vw;
 
-	width: 100%;
+	width: 75%;
 
-	height: 100%;
+	height: 75%;
 
 	position: relative;
 
-	left: -16%;
+	left: -23%;
 
 }
 
@@ -130,10 +130,10 @@ color: white;
 .flag {
 	
 	position: absolute;
-	top: 7%;
+	top: 9%;
 	left: 81%;
-	width: 18%;
-  height: 18%;
+	width: 16%;
+  height: 16%;
   border-radius: 8px;
  color: gray;
   border: solid 3px;
@@ -229,19 +229,6 @@ color: white;
 /**********************************************************************************/
 /**********************************************************************************/
 
-.divPrimary {
-
-	position: relative;
-
-	top: -9%;
-}
-
-.divVideos {
-
-	position: relative;
-
-	top: 9%;
-}
 
 .returnToPrevMode {
     cursor: pointer;
@@ -265,27 +252,7 @@ color: white;
 }
 
 
-
-.imgPrimaryThumb {
-
-	width: 120px;
-	height: 90px;
-
-	border: 4px solid;
-    border-color: gray;
-    margin-left: 4px;		
-    cursor: pointer;
-
-}
-
-.divPrimaryEntry{
-
-	position: absolute;
-	width: 120px;
-	z-index: 102;
-}
-
-.divPrimaryName {
+.divVideoName {
 
 	font-family: Arial;
 	font-size: 14px;
@@ -293,154 +260,3 @@ color: white;
 }
 
 
-
-.divBrowseText {
-	position: absolute;
-	text-align: center;
-
-	top: 73%;
-
-	font-family: Arial;
-
-	font-size: 1.5vw;
-
-	background: red;
-
-	z-index: 101;
-
-}
-
-.divLeftText {
-
-top: 67%;
-
-	width: 28.5%;
-	left: 4.5%;
-  transform: perspective( 1000px ) rotateY( 45deg );
-
- transform-origin: 110% -550%;
-
-
-}
-
-.divRightText {
-top: 72%;
-	width: 34%;
-	left: 64%;
-  transform: perspective( 1000px ) rotateY( -45deg );
-
-transform-origin: 20% -535%;  
-}
-
-.imgRotated {
-
-	 transform-style: preserve-3d;
-
-	width: 43%; 
-
-	height: 66%;
-
-	z-index: 100;
-}
-
-.imgLeft {
-
-  transform: perspective( 1000px ) rotateY( 45deg );
-
-}
-
-.imgRight {
-
-	float: right;
-
-  transform: perspective( 1000px ) rotateY( -45deg );
-
-}
-
-.divBrowseFlagImg {
-
-	position: absolute;
-
-	left: 55%;
-
-	top: 60px;
-
-	z-index: 100;
-
-}
-
-.imgFlag {
-
-	cursor: pointer;
-/*
-	border: 4px solid;
-    border-color: gray;
-*/
-}
-
-/*
-.browseTransHomelandText {
-	
-	font-size: 1.5vw;
-
-	color: yellow;
-}
-
-.browseHomelandText {
-	position: absolute;
-	top: 60px;
-	left: 35%;
-	font-family: Arial;
-	text-align: left;
-	 width: 400px;
-	z-index: 100;
-
-	color: white;
-
-}
-*/
-
-.browseNativeHomelandText {
-	/*margin-top: -10%;*/
-	/*font-size: 6.0vw;*/
-}
-
-.divRotatedImg {
-
-	display: inline;
-
-	position: relative;
-
-	top: 110px;
-
-
-	width: 100%;
-
-	z-index: 100;
-}
-
-
-
-.divCenterImg {
-
-	position: absolute;
-
-	top: 23%;
-
-	width: 100%;
-
-	height: 50%;
-
-	text-align: center;
-
-z-index: 1;
-}
-
-.centerImg {
-
-	width: 30%;
-height: 75%;
-
-z-index: 1;
-
-}

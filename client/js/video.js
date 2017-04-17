@@ -25,7 +25,7 @@ Video = function( _file, _parent ) {
 
 	//set the GIF element to be used for display of animated gifs based on parent
 
-	if (this.parent === display.browser) this.element = "img.centerImg";
+	if (this.parent === display.browser) this.element = "img.video";
 
 	if (this.parent === hacker.ctl["VIDEO"]) this.element = "img.featuredPic";
 
@@ -53,6 +53,8 @@ Video = function( _file, _parent ) {
 	 		}
 	 	}
 	 	else {
+
+	 		youtube.stop();
 
 	 		youtube.hide();
 

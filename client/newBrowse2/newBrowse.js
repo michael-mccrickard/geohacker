@@ -4,7 +4,7 @@ Browser2 = function(  ) {
 
 	this.updateFlag = new Blaze.ReactiveVar(false);
 
-	this.videoBGFile = "featuredBackdrop.jpg";
+	this.videoBGFile = "youtube.png";
 
 	this.index = 0;
 
@@ -411,6 +411,35 @@ Browser2 = function(  ) {
 
 //c("meme (right) in drawNextMeme is " + this.meme)
 
+		this.dimensionPic( this.whichSide )
+
+		$(this.imageElement).attr("src", this.meme.image)
+
+
+		Meteor.setTimeout( function() { display.browser.updateContent(); }, 600 );
+
+		Meteor.setTimeout( function() { display.browser.setFontSize(); }, 650 );
+
+		Meteor.setTimeout( function() { 	
+
+			display.browser.fade( "in", display.browser.textElement);
+
+			display.browser.fade( "in", display.browser.imageElement);		
+
+		}, 700 );
+
+	 	var _id = this.setID();
+
+		if (!this.suspendRotation) Meteor.setTimeout( function() { display.browser.nextMeme( _id ); }, 700 + display.browser.memeDelay );
+	}
+
+
+    this.setFontSize = function( _element, _meme ) {
+
+    	if (!_element) _element = this.textElement;
+
+    	if (!_meme) _meme = this.meme;
+
 		var _fontSize = 0;
 
 		var _fontFactor = 1.0;
@@ -431,35 +460,10 @@ Browser2 = function(  ) {
 
 		if ( this.meme.rec.fs ) {
 
-if (this.whichSide == "right") _fontSize = _fontFactor * parseFloat( this.meme.rec.fs );
+			if (this.whichSide == "right") _fontSize = _fontFactor * parseFloat( _meme.rec.fs );
 		}
 
-		this.dimensionPic( this.whichSide )
-
-		$(this.imageElement).attr("src", this.meme.image)
-
-
-		Meteor.setTimeout( function() { display.browser.updateContent(); }, 600 );
-
-		Meteor.setTimeout( function() { display.browser.setFontSize( _fontSize ); }, 650 );
-
-		Meteor.setTimeout( function() { 	
-
-			display.browser.fade( "in", display.browser.textElement);
-
-			display.browser.fade( "in", display.browser.imageElement);		
-
-		}, 700 );
-
-	 	var _id = this.setID();
-
-		if (!this.suspendRotation) Meteor.setTimeout( function() { display.browser.nextMeme( _id ); }, 700 + display.browser.memeDelay );
-	}
-
-
-    this.setFontSize = function( _val ) {
-
-    	$( this.textElement ).css("font-size", _val + "vh");
+    	$( _element ).css("font-size", _val + "vh");
     },
 
 	this.setID = function() {
@@ -592,7 +596,6 @@ if (this.whichSide == "right") _fontSize = _fontFactor * parseFloat( this.meme.r
 
 		this.index = parseInt( _frameid.substr(1) );
 
-
 		//reset our plain bg if we are using YouTube
 		//(otherwise the src on the bg is an animated .gif file; this happens in video.js)
 
@@ -628,7 +631,6 @@ if (this.whichSide == "right") _fontSize = _fontFactor * parseFloat( this.meme.r
 
 		$(".ytthumb").css("border-color","gray");
 
-		$(".imgPrimaryThumb").css("border-color","gray");
 	}
 
 	this.restart = function() {
@@ -683,7 +685,7 @@ if (this.whichSide == "right") _fontSize = _fontFactor * parseFloat( this.meme.r
 
 	this.setVideoBG = function( _file ) {
 
-		$(".centerImg").attr("src", _file);
+		$("img.video").attr("src", _file);
 	}
 
 	this.setFeatured = function( _val ) {
