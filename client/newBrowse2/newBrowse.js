@@ -245,7 +245,14 @@ this.memeDelay = 2500;
 
 	//the preload callback in meme.js calls this one, if browser.loaded is false
 
-	this.show = function() {
+	this.show = function(_dontRotateFlag) {
+c("browser.show()")
+
+c("browser.show, this.leftMeme.loaded = " + this.leftMeme.loaded)
+
+c("browser.show, this.rightMeme.loaded = " + this.rightMeme.loaded)
+
+		if (this.loaded) return;
 
 		if (!this.leftMeme.loaded || !this.rightMeme.loaded) return;
 
@@ -256,16 +263,23 @@ this.memeDelay = 2500;
 
 		$(this.rightImageElement).attr("src", this.rightMeme.image);
 
-		Meteor.setTimeout( function() { this.setFontSize( this.rightTextElement, this.rightMeme )  }, 500 );
+		$(this.rightTextElement).text( this.rightMeme.text );
+
+		Meteor.setTimeout( function() { display.browser.whichSide = "right"; display.browser.setFontSize( display.browser.rightTextElement, display.browser.rightMeme )  }, 100 );
 
 		this.dimensionPic("left");
 
-		$(this.leftImageElement).attr("src", this.leftMeme.image);		
+		$(this.leftImageElement).attr("src", this.leftMeme.image);	
 
-		Meteor.setTimeout( function() { this.setFontSize( this.leftTextElement, this.leftMeme )  }, 501 );
+		$(this.leftTextElement).text( this.leftMeme.text );
+
+		Meteor.setTimeout( function() { display.browser.whichSide = "left"; display.browser.setFontSize( display.browser.leftTextElement, display.browser.leftMeme )  }, 150 );
 
 
-		//this.startMemeRotation();
+		//Meteor.setTimeout( function() { display.browser.updateContent()  }, 600 );		
+
+
+		if (_dontRotateFlag) return;
 
 		this.rotatingMemes = false;
 
@@ -273,7 +287,7 @@ this.memeDelay = 2500;
 	}
 
 	this.startMemeRotation = function() {
-
+c("browser.startMemeRotation")
 		if (this.arrMeme.length <= 2) return;
 
 		if (this.rotatingMemes) return;
@@ -304,7 +318,7 @@ this.memeDelay = 2500;
 
 
 	this.nextMeme = function( _id ) {
-
+c("browser.nextMeme")
 		if (_id != this.ID ) return;
 
 		var _fontSize = 0;
@@ -363,12 +377,18 @@ this.memeDelay = 2500;
 
 	this.drawNextMeme = function() {
 
+
+c("browser.drawNextMeme")
+
+
+
 //c("meme (right) in drawNextMeme is " + this.meme)
 
 		this.dimensionPic( this.whichSide )
 
 		$(this.imageElement).attr("src", this.meme.image)
 
+		$(this.textElement).text( this.meme.text );
 
 		Meteor.setTimeout( function() { display.browser.updateContent(); }, 600 );
 
@@ -383,13 +403,13 @@ this.memeDelay = 2500;
 		}, 700 );
 
 	 	var _id = this.setID();
-
+//this.suspendRotation = true;
 		if (!this.suspendRotation) Meteor.setTimeout( function() { display.browser.nextMeme( _id ); }, 700 + display.browser.memeDelay );
 	}
 
 
     this.setFontSize = function( _element, _meme ) {
-
+c("browser.setFontSize")
     	if (!_element) _element = this.textElement;
 
     	if (!_meme) _meme = this.meme;
@@ -422,6 +442,12 @@ this.memeDelay = 2500;
 
 			_fontSize = _fontSize + "vw";
 
+c("adjusted fontsize for " + this.whichSide + " meme is " + _fontSize)
+
+		}
+		else {
+
+c("default fontsize for " + this.whichSide + " meme is " + _fontSize)
 		}
 
     	$( _element ).css("font-size", _fontSize);
@@ -504,13 +530,9 @@ this.memeDelay = 2500;
 
 		_val = ( _val / $(window).width() ) * 100;
 
-c("updated font value before adjustment is " + _val)
-
 		if (this.memeToEdit == this.leftMeme) _val = _val * 0.67;
 
 		if (this.memeToEdit == this.rightMeme) _val = _val * 1.5;		
-
-c("updated font value after adjustment is " + _val)
 
   		db.updateRecord2( cMeme, "fs", this.memeToEdit.id, _val + "vw");
 
@@ -724,6 +746,21 @@ c("updated font value after adjustment is " + _val)
     	this.setSoundText("");
 
     	game.playMusic();
+    }
+
+    this.switchElements = function() {
+
+    	var _meme = this.leftMeme;
+
+    	this.leftMeme = this.rightMeme;
+
+    	this.rightMeme = _meme;
+
+    	this.loaded = false;
+
+    	this.show( true ); 
+
+
     }
 }
 

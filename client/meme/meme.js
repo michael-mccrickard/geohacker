@@ -94,7 +94,7 @@ Meme = function( _rec, _type )  {
 
 	this.usedByHelper = false;
 
-	this.loaded = true;
+	this.loaded = false;
 
 
 	this.init = function() {
@@ -234,9 +234,11 @@ Meme = function( _rec, _type )  {
 
         	_this.imageSrc = display.getImageFromFile( _image );  
 
+        	_this.loaded = true;
+
 
         	if (!display.browser.loaded) {
-
+c("calling show from preloadImagesForSidewall")
         		Meteor.setTimeout( function() { display.browser.show(); }, 500 );
 
         		return;
@@ -257,6 +259,8 @@ Meme = function( _rec, _type )  {
 		var _this = this;
 
         imagesLoaded( document.querySelector(_preloadElement), function( instance ) {
+
+        	_this.loaded = true;
 
         	_this.imageSrc = display.getImageFromFile( _image );  
 
