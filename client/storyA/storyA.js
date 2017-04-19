@@ -198,6 +198,8 @@ storyA = function() {
 
 			this.play("missionInfo");
 
+			return;
+
 		}
 
 		if ( _ID == "FR") {
@@ -229,13 +231,17 @@ storyA = function() {
 
 					return;						
 			}
+
+			this.playDefaultScene("FR");
+
+			return;
 		}
 
 		if ( _ID == "NL") {
 
 			if ( !this.flags.awareOfPasscode ) {
 
-				this.playDefaultScene();
+				this.playDefaultScene("NL");
 
 				return;	
 			}
@@ -252,10 +258,21 @@ storyA = function() {
 				this.play("userGetsPasscode");
 
 				return;
-			}			
+			}	
+
+			this.playDefaultScene("NL");
+
+			return;		
 		}
 
 		if ( _ID == "ML") {
+
+			if (!this.flags.has_mona) {
+
+				this.playDefaultScene("ML");
+
+				return;
+			}
 
 			this.brightness(10);
 
@@ -283,6 +300,7 @@ storyA = function() {
 
 				return;
 			}
+
 		}
 
 
@@ -292,9 +310,13 @@ storyA = function() {
 
 	this.getCityName = function(_scene) {
 
-		if (_scene == "vanGogh" || _scene == "userGetsPasscode" ) return "Zundert";
+		if (this.location == "NL") return "Zundert";
 
-		if (_scene == "nelsonAndMark" || _scene == "nelsonGetsPainting" ||  _scene == "finalChallenge") return "Timbuktu";
+		if (this.location == "ML") return "Timbuktu";
+
+		//if (_scene == "vanGogh" || _scene == "userGetsPasscode" ) return "Zundert";
+
+		//if (_scene == "nelsonAndMark" || _scene == "nelsonGetsPainting" ||  _scene == "finalChallenge") return "Timbuktu";
 
 		return null;
 	}

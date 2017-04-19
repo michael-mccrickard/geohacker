@@ -242,11 +242,6 @@ Meme = function( _rec, _type )  {
         		return;
         	}
 
-        	//it takes a moment to create the off-screen image (for dimensioning)
-        	//in the call the getImageFromFile() above
-
-        	//Meteor.setTimeout( function() { display.browser.drawNextMeme(); }, 500 );
-
         });
 
 	}
@@ -262,7 +257,7 @@ Meme = function( _rec, _type )  {
 		var _this = this;
 
         imagesLoaded( document.querySelector(_preloadElement), function( instance ) {
-c("image loaded")
+
         	_this.imageSrc = display.getImageFromFile( _image );  
 
         	//it takes a moment to create the off-screen image (for dimensioning)

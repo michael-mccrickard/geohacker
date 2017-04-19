@@ -239,7 +239,7 @@ this.debriefCollection = null;
 
     }
 
-    this.playAnthem = function( _code) {
+    this.playAnthem = function( _code, _detectEndFlag ) {
 
        if (!_code) _code = this.countryCode;
 
@@ -255,10 +255,10 @@ this.debriefCollection = null;
 
        game.pauseMusic();
 
-       display.playEffect( _file );
+       display.playEffect( _file, _detectEndFlag );
     },
 
-    this.playLanguageFile = function(_code) {
+    this.playLanguageFile = function(_code, _detectEndFlag) {
 
        if (!_code) _code = this.countryCode;
 
@@ -276,7 +276,7 @@ this.debriefCollection = null;
 
        game.pauseMusic();
 
-       display.playEffect( _file );
+       display.playEffect( _file, _detectEndFlag );
     },
 
 

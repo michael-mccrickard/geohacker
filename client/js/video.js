@@ -54,9 +54,14 @@ Video = function( _file, _parent ) {
 	 	}
 	 	else {
 
-	 		youtube.stop();
+	 		//it's possible the player doesn't exist yet
 
-	 		youtube.hide();
+	 		if (youtube && ytplayer) {
+
+		 		youtube.stop();
+
+		 		youtube.hide();	 			
+	 		}
 
 	 		$( this.element ).attr("src", this.file );
 	 	}

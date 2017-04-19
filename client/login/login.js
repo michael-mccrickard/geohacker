@@ -233,9 +233,9 @@ Template.login.events({
 
 //testStory("A");
 
-game.user.browseCountry( db.getRandomRec( db.ghC ).c, "newBrowse2" );
+//game.user.browseCountry( db.getRandomRec( db.ghC ).c, "newBrowse2" );
 
-return;
+//return;
 
 //*************************************************************************************************************
 //*************************************************************************************************************

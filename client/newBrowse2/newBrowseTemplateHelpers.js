@@ -9,7 +9,7 @@ function scaleMe( _val ) {
 
    _val = _val * (_w / fullWidth);
 
-   return _val + "px";
+   return _val * 1.5 + "px";
 
 }
 
@@ -42,14 +42,14 @@ Template.newBrowse2.helpers({
 
 		if (this.tts) return scaleMe(this.tts);
 
-		return scaleMe(20);
+		return scaleMe(40);
 	},
 
 	HTSize: function() {
 
 		if (this.hts) return scaleMe(this.hts);
 
-		return scaleMe(31.11);
+		return scaleMe(61.11);
 	},
 
 	TTColor: function() {
@@ -206,16 +206,24 @@ Template.newBrowse2.helpers({
 
 Template.newBrowse2.events({
 
-/*
-    'click img#browseLeftImage': function(e) {
+    'click img.bigPic': function(e) {
 
-        display.featuredMeme = display.browser.leftMeme;
+        display.featuredMeme  = display.browser.leftMeme;
                 
-        display.browser.showFeatured("/newBrowse2");      
+        display.browser.showFeatured();      
 
 
     },
-*/
+
+    'click img.smallPic': function(e) {
+
+        display.featuredMeme = display.browser.rightMeme;
+                
+        display.browser.showFeatured();      
+
+
+    },
+
     'click img.flag': function(event, template) {
 
 //game.user.browseCountry( "AU", "newBrowse2" );
@@ -251,6 +259,10 @@ Template.newBrowse2.rendered = function() {
 
     display.browser.rightMeme.preloadImagesForSidewall( "right");
   }
+  else {
+
+    display.browser.show();
+  }
 
   if (hack.countryCode != display.browser.countryCode) {
 
@@ -262,7 +274,7 @@ Template.newBrowse2.rendered = function() {
 
     display.browser.playVideoByIndex( Database.getRandomValue(_count) );    
 
-//display.browser.playVideoByIndex( 3 );
+//display.browser.playVideoByIndex( 3 ); 
 
   }
   else {
@@ -292,7 +304,7 @@ Template.newBrowse2.rendered = function() {
     }
   }
 
-  display.browser.setFontSizesOnMemes();
+  //display.browser.setFontSizesOnMemes();
 
   display.browser.updateFlag.get();
 

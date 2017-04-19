@@ -105,13 +105,34 @@ this.unit = new Unit();
 
     }
 
-    this.playEffect = function(_file) {
+    this.soundEffectDone = function() {
+
+      if (game.user.mode == uBrowseCountry) {
+
+         display.browser.soundEffectDone();
+      }
+
+    }
+
+
+    this.playEffect = function(_file, _detectEndFlag) {
 
       document.getElementById("effectsPlayer").loop = false;
 
       $("#effectsPlayer").attr("src", _file);
 
       document.getElementById("effectsPlayer").play();
+
+      if (_detectEndFlag) {
+
+          Meteor.setTimeout(function() { 
+
+            var _effects = document.getElementById("effectsPlayer");
+
+            _effects.addEventListener('ended', display.soundEffectDone); 
+          
+         }, 4000);        
+      }
     }
 
     this.playEffect2 = function(_file) {

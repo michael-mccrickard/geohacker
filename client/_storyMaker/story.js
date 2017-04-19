@@ -593,9 +593,16 @@ Story =  function() {
 		 });	
 	},
 
-	this.playDefaultScene = function() {
+	this.playDefaultScene = function( _countryCode) {
 
-		this.background = db.getCapitalPic( this.location );
+		if (_countryCode) {
+
+			this.background = this.getBackground( _countryCode);
+		}
+		else {
+
+			this.background = db.getCapitalPic( this.location );
+		}
 
 		this.addDefaultAgent( this.location );
 
@@ -691,12 +698,12 @@ Story =  function() {
 
 		if (_mode == "chat" || _mode == "map") return true;
 
-			if (this.scenePreselect) {
+		if (this.scenePreselect) {
 
-				this.playPreselect( this.scenePreselect );
+			this.playPreselect( this.scenePreselect );
 
-				return true;
-			}
+			return true;
+		}
 
 		return false;
 	},

@@ -439,7 +439,7 @@ function toggleEditSidewallsMode() {
 
    if (gEditSidewallsMode) {
 
-      showMessage("EDITING SIDEWALLS ON");
+      //showMessage("EDITING SIDEWALLS ON");
 
       display.browser.suspendRotation = true;
 

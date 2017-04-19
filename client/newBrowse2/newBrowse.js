@@ -68,7 +68,7 @@ Browser2 = function(  ) {
 
 	this.whichSide = "right";
 
-	this.memeDelay = 5000;
+this.memeDelay = 2500;
 
 	this.rotatingMemes = false;
 
@@ -76,9 +76,11 @@ Browser2 = function(  ) {
 
 	this.memeToEdit = null;
 
-	this.defaultBigFontSize = "6.0vw";
+	this.textElementToEdit = null;
 
-	this.defaultSmallFontSize = "3.5vw";
+	this.defaultBigFontSize = "3.0vw";
+
+	this.defaultSmallFontSize = "1.5vw";
 
 
 	this.init = function( _code ) {
@@ -124,60 +126,7 @@ Browser2 = function(  ) {
 
 		var _unit = null;
 
-
-//All we need now is the country map ( new Unit() ?)
-
-		//named primary videos
-
-/*
-		var _arrCode = ["gn", "sd", "tt"];
-
-		var _arrName = ["Geography Now", "Seeker Daily", "Top Ten Archive"];
-
-		for (var i = 0; i < _arrCode.length; i++) {
-
-			_index = Database.getObjectIndexWithValue( _items, "dt", _arrCode[i] );
-
-			if (_index != -1) {
-
-				_obj = _items[ _index ];
-
-				_unit = new Unit("video", _arrName[i], "http://img.youtube.com/vi/" + _obj.u + "/default.jpg", _obj.u);
-
-				this.primaryItems.push(_unit);
-			}
-
-		}
-
-		//Other primaries
-
-		_items = db.ghVideo.find( { cc: hack.countryCode, s: "p" }  ).fetch();
-
-		var _unit = null;
-
-		var _name = "";
-
-		for (var i = 0; i < _items.length; i++) {
-
-			_obj = _items[ i ];
-
-	  		_index = editor.arrCode.indexOf( _obj.dt );
-
-	  		if ( _index != -1) {
-
-	  			_name = editor.arrCodeText[ _index ];
-	  		}
-	  		else {
-
-	  			_name = "Info";
-	  		}
-
-			_unit = new Unit("video", _name, "http://img.youtube.com/vi/" + _obj.u + "/default.jpg", _obj.u);
-
-			this.primaryItems.push(_unit);
-		}
-*/
-		//finally the regular videos (non-primary)
+		//the videos
 
 		this.items = db.ghVideo.find( { cc: hack.countryCode } ).fetch();  //, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } 
 
@@ -307,9 +256,14 @@ Browser2 = function(  ) {
 
 		$(this.rightImageElement).attr("src", this.rightMeme.image);
 
+		Meteor.setTimeout( function() { this.setFontSize( this.rightTextElement, this.rightMeme )  }, 500 );
+
 		this.dimensionPic("left");
 
 		$(this.leftImageElement).attr("src", this.leftMeme.image);		
+
+		Meteor.setTimeout( function() { this.setFontSize( this.leftTextElement, this.leftMeme )  }, 501 );
+
 
 		//this.startMemeRotation();
 
@@ -448,22 +402,29 @@ Browser2 = function(  ) {
 
 			_fontSize = this.defaultSmallFontSize;
 
-			_fontFactor = 2.0;
+			_fontFactor = 0.67;
 		}
 
 		if (this.whichSide == "left") {
 
 			_fontSize = this.defaultBigFontSize;
 
-			_fontFactor = 4.0;
+			_fontFactor = 1.5;
 		}	
 
-		if ( this.meme.rec.fs ) {
+		if ( _meme.rec.fs ) {
 
-			if (this.whichSide == "right") _fontSize = _fontFactor * parseFloat( _meme.rec.fs );
+			_fontSize = _meme.rec.fs; 
+
+			_fontSize = parseFloat( _fontSize.substr( 0, _fontSize.length - 2) );
+
+			_fontSize = _fontSize * _fontFactor;
+
+			_fontSize = _fontSize + "vw";
+
 		}
 
-    	$( _element ).css("font-size", _val + "vh");
+    	$( _element ).css("font-size", _fontSize);
     },
 
 	this.setID = function() {
@@ -486,7 +447,7 @@ Browser2 = function(  ) {
 
 	this.editSidewallFontSize = function(_val) {
 
-		var _fontSize = $( this.textElement ).css("font-size");
+		var _fontSize = $( this.textElementToEdit ).css("font-size");
 
 		_fontSize = _fontSize.substr(0, _fontSize.length - 2);
 
@@ -494,7 +455,7 @@ Browser2 = function(  ) {
 
 		_fontSize = _fontSize + "px";
 
-		$( this.textElement ).css("font-size", _fontSize );
+		$( this.textElementToEdit ).css("font-size", _fontSize );
 
 	}
 
@@ -512,7 +473,7 @@ Browser2 = function(  ) {
 
 			this.memeToEdit = this.leftMeme;
 
-			this.textElement = this.leftTextElement;
+			this.textElementToEdit = this.leftTextElement;
 		}
 
 
@@ -522,37 +483,40 @@ Browser2 = function(  ) {
 
 			this.memeToEdit = this.rightMeme;
 
-			this.textElement = this.rightTextElement;
+			this.textElementToEdit = this.rightTextElement;
 		}
+
+		showMessage("Editing: " + this.memeToEdit.text)
 	}
 
 	this.setFontSizesOnMemes = function() {
 
-		if ( this.leftMeme.rec.fs ) {
+		this.setFontSize( this.leftTextElement, this.leftMeme);
 
-			$( this.leftTextElement ).css("font-size", this.leftMeme.rec.fs);
-		}
-
-
-		if ( this.rightMeme.rec.fs ) {
-
-			$( this.rightTextElement ).css("font-size", this.rightMeme.rec.fs);
-		}
+		this.setFontSize( this.rightTextElement, this.rightMeme);		
 	}
 
 	this.updateMemeFontSize = function() {
 
-		var _val = $(this.textElement).css("font-size");
+		var _val = $(this.textElementToEdit).css("font-size");
 
 		_val = _val.substr(0, _val.length - 2);
 
-		_val = parseFloat(_val) / $(window).width() * 100;
+		_val = ( _val / $(window).width() ) * 100;
+
+c("updated font value before adjustment is " + _val)
+
+		if (this.memeToEdit == this.leftMeme) _val = _val * 0.67;
+
+		if (this.memeToEdit == this.rightMeme) _val = _val * 1.5;		
+
+c("updated font value after adjustment is " + _val)
 
   		db.updateRecord2( cMeme, "fs", this.memeToEdit.id, _val + "vw");
 
   		_val = _val.toString();
 
-  		_text = $(this.textElement).text();
+  		_text = $(this.textElementToEdit).text();
 
   		showMessage("Font size updated for meme: " + _text.substr(0,12) + " -- " + _val.substr(0,4) + "vw");
 	}
@@ -688,18 +652,13 @@ Browser2 = function(  ) {
 		$("img.video").attr("src", _file);
 	}
 
-	this.setFeatured = function( _val ) {
-
-		this.featuredMeme = this.arrMeme[ _val ];
-	}
-
 	this.showFeatured = function() {
 
 		this.video.stop();
 
 		this.video.hide();
 
-display.featuredMeme.preloadImageForFeature();
+		display.featuredMeme.preloadImageForFeature();
 	}
 
 	this.updateContent = function() {
@@ -729,7 +688,7 @@ display.featuredMeme.preloadImageForFeature();
 
 		this.setSoundText( _meme.text );
 
-      hack.playLanguageFile();
+      hack.playLanguageFile( this.countryCode, true);
 
       Meteor.setTimeout( function() { game.pauseMusic() }, 500 );
 	}
@@ -741,9 +700,9 @@ display.featuredMeme.preloadImageForFeature();
           youtube.pause();
       }
 
-      hack.playAnthem();
+      hack.playAnthem( this.countryCode, true);
 
-      this.setSoundText("Now playing: The national anthem of " + hack.getCountryName() +" ." )
+      this.setSoundText("Now playing: The national anthem of " + hack.getCountryName() +"." )
 
       Meteor.setTimeout( function() { game.pauseMusic() }, 500 );
 	}
@@ -759,4 +718,12 @@ display.featuredMeme.preloadImageForFeature();
 
 		display.unit.preloadImage();
 	}
+
+    this.soundEffectDone = function() {
+
+    	this.setSoundText("");
+
+    	game.playMusic();
+    }
 }
+
