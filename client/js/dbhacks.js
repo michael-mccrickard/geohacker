@@ -1,3 +1,63 @@
+/*
+
+var composite: {
+    "url": "mapbox://mapbox.mapbox-streets-v7,geohackergame.9d95zvrn",
+    "type": "vector"
+}
+
+addAllLayers = function() {
+*/
+
+
+makeLayers = function()  {
+
+map.setPaintProperty('admin_level_2', 'line-opacity', 0);
+
+map.setPaintProperty('admin_level_3', 'line-opacity', 0);
+
+var newline = "\n\r";
+
+ var _s0 = 'map.addLayer(' + newline;
+
+  var _s1 = '{' + newline + '"id": "';
+
+  var _s2 = '",' + newline + '"type": "fill",' + newline + '"source": "composite",'  + newline + '"source-layer": "ne_10m_admin_0_countries_1-drrv7p",'  + newline + '"filter": ['  + newline +'"==",'  + newline + '"ADM0_A3_IS",'  + newline + '"';  
+  
+  var _s3 =  '"' + newline + '],' + newline + '"layout": {' + newline + '"visibility": "visible"' + newline + '},' + newline + '"paint": {' + newline + '"fill-color": "';
+
+  var _s4 = '"' + newline + '}' + newline + '}, "tanzania"' + newline + ');' + newline;
+
+  var _s = "";
+
+
+  var _arr = db.ghC.find( { r: { $in: ["neaf","saf","caf","nwaf"]  } }).fetch();
+
+      for (var i = 0; i < _arr.length; i++) {
+
+        _s = "";
+
+        var _obj = _arr[i];
+
+        var _code = _obj.d;  //the 3 letter code
+
+        var _name = _obj.c;
+
+        var _color = _obj.co;
+
+
+        _s = _s + _s0 + _s1 + _name + _s2 + _code + _s3 + _color + _s4;
+
+eval( _s );
+
+      }
+
+
+
+        //Meteor.call("writeFile", _s, "layers.js");
+  }
+
+
+
 fixCodes = function() {
 
   var count = 0;

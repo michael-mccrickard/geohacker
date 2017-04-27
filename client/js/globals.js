@@ -375,7 +375,7 @@ refreshWindow = function(_which) {
 
     if (name == "browseWorldMap") {
 
-        browseMap.worldMap.map.clearLabels();
+        //browseMap.worldMap.map.clearLabels();
 
         browseMap.finishDraw();
 

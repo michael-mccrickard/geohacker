@@ -35,6 +35,8 @@ Template.browseWorldMap.helpers({
 
   browseMapLeft: function() {
 
+return ( $(window).width() * 0.05) + "px";
+
     if (browseMap.mode.get() == "exercise") return "16px";
 
     return "0px";
@@ -239,6 +241,101 @@ Template.browseWorldMap.events = {
   }
 }
 
+
+testmap = function() {
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VvaGFja2VyZ2FtZSIsImEiOiJjajF0bmdsazEwMHRpMndxa3g5ejA3azBkIn0.hj99DCrI-6Ikb90g3T2p-w';
+map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/geohackergame/cj20h0zm0001a2spl2bixyn11',
+    //center: [16.614, 38.134],
+    //zoom: 1.5 // starting zoom
+
+    center: [31.33, -6.298],
+    zoom:  3.8// starting zoom   
+    });
+
+
+    map.on('style.load', function () {
+
+          map.addSource("lake_labels", {
+              "type": "geojson",
+              "data": {
+                  "type": "FeatureCollection",
+                  "features": [
+
+                  {
+                      "type": "Feature",
+                      "geometry": {
+                          "type": "Point",
+                          "coordinates": [33.164, -1.232]
+                      },
+
+                      "properties": {
+                        "title": "Lake Victoria"
+                      }
+                  },
+
+                  {
+                      "type": "Feature",
+                      "geometry": {
+                          "type": "Point",
+                          "coordinates": [28.5, -6.186]
+                      },
+
+                      "properties": {
+                        "title": "Lake Tanganyika"
+                      }
+                  },
+
+                  {
+                      "type": "Feature",
+                      "geometry": {
+                          "type": "Point",
+                          "coordinates": [34.450, -12.117]
+                      },
+
+                      "properties": {
+                        "title": "Lake Malawi"
+                      }
+                  },                                 
+                ] 
+              }
+            });
+
+          map.addLayer({
+              "id": "lake_labels",
+              "type": "symbol",
+              "source": "lake_labels",
+              "minzoom": 3,
+              "maxzoom": 21,
+              "paint": {
+                "text-color": "#00008B"
+              },
+              "layout": {
+                  "text-field": "{title}",
+                  "text-size": {
+                    "stops": [
+
+                      // zoom is 3 -> fontsize will 8px
+                      [3, 12],
+
+                      [6, 16],
+
+                      [9, 24],
+
+                      [12, 36]
+                    ]
+                  },
+                  "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+                  "text-anchor": "center"
+
+              }
+          });
+        });
+
+}
+
 //*************************************************************************
 //              RENDERED CALLBACK
 //*************************************************************************
@@ -246,7 +343,11 @@ Template.browseWorldMap.events = {
 
 Template.browseWorldMap.rendered = function () {
   
+Meteor.setTimeout( function() { testmap() } , 500 );
     stopSpinner();
+
+return;
+
 
     //get ready to show the country on the map
 

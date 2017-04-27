@@ -250,7 +250,10 @@ Template.newBrowse2.events({
  });
 
 
+
+
 Template.newBrowse2.rendered = function() {
+
 
   if (!display.browser.loaded) {
 
@@ -260,7 +263,11 @@ Template.newBrowse2.rendered = function() {
     display.browser.rightMeme.preloadImagesForSidewall( "right");
   }
   else {
+
 c("calling show() from rendered")
+    
+    display.browser.loaded = false;
+
     display.browser.show();
   }
 

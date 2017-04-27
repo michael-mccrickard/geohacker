@@ -22,26 +22,17 @@ Template.selectCountry.helpers({
 
       var flag = Session.get("sUpdateEditScreenFlag");
 
-      var sel = "";
+      var sel = ""
 
-      if (dataMode) {
-
-          sel = 1;
-      }
-      else {
-          
-          sel = 0;  
-      }
-
-      if ( editAllMode.get() ) return  db.ghC.find( { d: sel }, {sort: {n: 1} } );
+      if ( editAllMode.get() ) return  db.ghC.find( {}, {sort: {n: 1} } );
 
       var arr = [];
 
       arr = selRegions.get();
 
-      if (selRegions.get().length > 0) return db.ghC.find( { d: sel, r: { $in: arr } }, {sort: {n: 1} } );
+      if (selRegions.get().length > 0) return db.ghC.find( { r: { $in: arr } }, {sort: {n: 1} } );
 
-      return db.ghC.find( { d: sel }, {sort: {n: 1} } );
+      return db.ghC.find( {}, {sort: {n: 1} } );
 
     },
 

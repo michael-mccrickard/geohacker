@@ -625,26 +625,7 @@ this.updateRecord2 = function (_type, field, ID, value, cb) {
 
         var selField = sel + arrField[i];
 
-        //for a checkbox, we look at 'checked' property
-        //otherwise we just use the val() function
-
-        var value = undefined;
-
-        if ( arrField[i] == "d") {
-
-          if ( $(selField).prop('checked') ) {
-
-            value = 1;
-          }
-          else {
-
-            value = 0;
-          }
-        }
-        else {
-
-          value = $(selField).val();
-        }
+        var value = $(selField).val();
 
         if ( arrField[i] == "dt" ) value = editor.getDTValue( ID );
 

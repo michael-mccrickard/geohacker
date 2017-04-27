@@ -260,6 +260,12 @@ $(document).keydown(function(e) {
 
 	    	break;
 
+      case 74: //j
+
+        if (gEditSidewallsMode) display.browser.switchElements();
+
+        break;
+
       case 76: //l
 
         toggleEditLearnCountryMode();

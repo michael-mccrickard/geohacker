@@ -775,6 +775,16 @@ Meteor.methods({
 
     },
 
+    writeFile: function(_s, _name) {
+
+
+      var fs = Npm.require('fs');
+
+      var p = "/Users/michaelmccrickard/Desktop/";
+
+      fs.writeFileSync(p + _name, _s);
+    },
+
 
     getTopBadges: function(_days) {
 
