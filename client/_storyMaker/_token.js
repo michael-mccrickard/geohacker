@@ -65,6 +65,10 @@ Token = function() {
 
 		this.origSize = getDimensionsFromFilename( this.pic );
 
+		this.translateY = 0;
+
+		this.translatex = 0;
+
 		if (_obj.top) this.translateY = parseFloat(_obj.top);
 
 		if (_obj.l) this.translateX = parseFloat(_obj.l);

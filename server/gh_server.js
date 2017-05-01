@@ -322,6 +322,7 @@ Meteor.startup(
     });  
    
     Meteor.publish("storyAssets_Cue",function( storyCode ){
+
       return ghCue.find({ c: storyCode });
     });  
 

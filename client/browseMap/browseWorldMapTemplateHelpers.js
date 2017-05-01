@@ -35,7 +35,7 @@ Template.browseWorldMap.helpers({
 
   browseMapLeft: function() {
 
-return ( $(window).width() * 0.05) + "px";
+//return ( $(window).width() * 0.03) + "px";
 
     if (browseMap.mode.get() == "exercise") return "16px";
 
@@ -137,7 +137,7 @@ return ( $(window).width() * 0.05) + "px";
 
   mapWidth: function() { 
 
-    if (browseMap.mode.get() == "exercise")  return Session.get("gWindowWidth") * 0.65;
+    if (browseMap.mode.get() == "exercise")  return Session.get("gWindowWidth") * 0.6;
 
     return Session.get("gWindowWidth") * 0.89;
 
@@ -145,7 +145,7 @@ return ( $(window).width() * 0.05) + "px";
 
   exerciseClueWidth: function() { 
 
-    return Session.get("gWindowWidth") * 0.32;
+    return Session.get("gWindowWidth") * 0.37;
 
   },
 
@@ -343,11 +343,13 @@ map = new mapboxgl.Map({
 
 Template.browseWorldMap.rendered = function () {
   
+/*
+
 Meteor.setTimeout( function() { testmap() } , 500 );
     stopSpinner();
 
 return;
-
+*/
 
     //get ready to show the country on the map
 

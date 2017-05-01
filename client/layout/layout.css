@@ -13,6 +13,8 @@
 	font-family: Arial;
 
 	color: yellow;
+
+	pointer-events: none;
 }
 
 .imgZoomInModal {

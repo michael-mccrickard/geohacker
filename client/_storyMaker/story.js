@@ -564,11 +564,20 @@ Story =  function() {
 
 		var _rec = db.ghLocation.findOne( { c: this.code, n: _countryCode } );
 
-		if (!_rec) {
+		if (!_rec.p) {
 
-			console.log("No location rec found for country " + _countryCode);
+			var _pic = db.getCapitalPic( _countryCode );
 
-			return "";
+			if (_pic) {
+
+				return _pic
+			}
+			else {
+
+				console.log("No location rec found for country " + _countryCode);
+
+				return "";				
+			}
 		}
 
 		return _rec.p;
@@ -595,17 +604,9 @@ Story =  function() {
 
 	this.playDefaultScene = function( _countryCode) {
 
-		if (_countryCode) {
-
-			this.background = this.getBackground( _countryCode);
-		}
-		else {
-
-			this.background = db.getCapitalPic( this.location );
-		}
+		this.background = this.getBackground( _countryCode);
 
 		this.addDefaultAgent( this.location );
-
 	},
 
 	this.finishPlayDefaultScene = function() {
@@ -993,7 +994,7 @@ Story =  function() {
 
 	//The basic scheme for the 3 sound players is:
 
-	//player (no number) = effect (sound in public folder) (interface sounds: inventory sound, button sounds, etc)
+	//player (no number) = effect (sound in public folder > interface sounds: inventory sound, button sounds, etc)
 
 	//player2 = story sound (scripted sound effects) AND effect2 (sound in public folder)  
 
@@ -1014,7 +1015,7 @@ Story =  function() {
 	this.playSound = function( _file ) {
 
 		var _soundIndex = Database.getObjectIndexWithValue( this.soundObjs, "n", _file); 
-	
+
 		display.playEffect2( this.soundObjs[ _soundIndex].u );
 	}
 
@@ -1110,7 +1111,9 @@ Story =  function() {
 
 		//there may be a custom name (something other than the capital)
 
-		var _name = this.getCityName( this.scene );
+//		var _name = this.getCityName( this.scene );
+
+var _name = this.getCityName( this.location );
 
 		//If we're not, we look up the capital name, assuming we are not on base.
 		//We also need the right font name based on region
@@ -1140,7 +1143,7 @@ Story =  function() {
 
 		//we must be on base
 
-		if (!_name) _name = "Geosquad HQ";
+if (!_name) _name = ""; //_name = "Geosquad HQ";
 
 		//now apply the text and font
 
@@ -1170,6 +1173,8 @@ Story =  function() {
 	this._doExercise = function() { 
 
 		this.silenceAll();
+
+		this.hidePrompt();
 
 		this.hideCityName();
 	}

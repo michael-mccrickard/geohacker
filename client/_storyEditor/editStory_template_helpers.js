@@ -8,6 +8,13 @@ Template.editStory.rendered = function() {
 
 Template.editStory.events = {
 
+  'click #dupeRecord' : function(e){
+
+    e.preventDefault();
+
+
+  },
+
   'click #pickStory' : function(e){
 
     e.preventDefault();

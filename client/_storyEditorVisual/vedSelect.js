@@ -107,7 +107,7 @@ Template.vedSelect.events = {
 
 	     var _table = sed.table.get();
 
-	     if (_table == "Story") ved.loadStoryByName( _name );
+	     if (_table == "Story") ved.setStoryByName( _name );
 
 	     if (_table == "Cue") {
 

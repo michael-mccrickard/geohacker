@@ -61,23 +61,23 @@ StoryEditor = function(_code) {
 
 		Meteor.subscribe("allStories", function() { Session.set("sAllStoriesReady", true ) });
 
-		Meteor.subscribe("allLocations", function() { Session.set("sAllLocationsReady", true ) });
+		this.locationSub = Meteor.subscribe("allLocations", function() { Session.set("sAllLocationsReady", true ) });
 
 		//Meteor.subscribe("allScenes", function() { Session.set("sAllScenesReady", true ) });
 
-		Meteor.subscribe("allChars", function() { Session.set("sAllCharsReady", true ) });
+		this.charSub = Meteor.subscribe("allChars", function() { Session.set("sAllCharsReady", true ) });
 
-		Meteor.subscribe("allTokens", function() { Session.set("sAllTokensReady", true ) });
+		this.tokenSub = Meteor.subscribe("allTokens", function() { Session.set("sAllTokensReady", true ) });
 
-		Meteor.subscribe("allStoryAgents", function() { Session.set("sAllStoryAgentsReady", true ) });
+		this.storyAgentSub = Meteor.subscribe("allStoryAgents", function() { Session.set("sAllStoryAgentsReady", true ) });
 
-		Meteor.subscribe("allStoryFlags", function() { Session.set("sAllStoryFlagsReady", true ) });
+		this.storyFlagSub = Meteor.subscribe("allStoryFlags", function() { Session.set("sAllStoryFlagsReady", true ) });
 
-		Meteor.subscribe("allCues", function() { Session.set("sAllChats", true ) });
+		this.cueSub = Meteor.subscribe("allCues", function() { Session.set("sAllCues", true ) });
 
-		Meteor.subscribe("allChats", function() { Session.set("sAllCues", true ) });
+		this.chatSub = Meteor.subscribe("allChats", function() { Session.set("sAllChats", true ) });
 
-		Meteor.subscribe("allStorySounds", function() { Session.set("sAllStorySounds", true ) });
+		this.storySoundSub = Meteor.subscribe("allStorySounds", function() { Session.set("sAllStorySounds", true ) });
 
 		this.findSelector.set( {} );
 
@@ -92,8 +92,6 @@ StoryEditor = function(_code) {
 
   		Session.set("sAllLocationsReady", false );
 
-   		//Session.set("sAllScenesReady", false );
-
   		Session.set("sAllCharsReady", false );
 
    		Session.set("sAllTokensReady", false );
@@ -107,6 +105,21 @@ StoryEditor = function(_code) {
    		Session.set("sAllChats", false );
 
    		Session.set("sAllStorySounds", false );
+
+   		if (this.locationSub) {
+
+    		this.locationSub.stop();
+	   		this.charSub.stop();
+	    	this.tokenSub.stop();
+	   		this.storyAgentSub.stop();
+
+	   		this.storyFlagSub.stop();
+	   		this.cueSub.stop();
+	   		this.chatSub.stop();
+	   		this.storySoundSub.stop();  			
+   		}
+
+
 	}
 
 
@@ -136,6 +149,8 @@ StoryEditor = function(_code) {
 	}
 
 	this.editData = function() {
+
+this.init();
 
 		this.setMode("data");
 
@@ -385,6 +400,44 @@ StoryEditor = function(_code) {
 //
 //*********************************************************************************
 
+	this.dupeRecord = function( _recID ) {
+
+		var _code = prompt("Enter the CODE for the story to copy the record to:", "");
+
+		if (!_code) {
+
+			showMessage("No record copied");
+
+			return;
+		}
+
+		var _rec = this.collection.get().findOne( { _id: _recID  } );
+
+		var _obj = {};
+
+		var _arr = Object.keys( _rec );
+
+		for (var i = 0; i < _arr.length; i++ ) {
+
+			var _fld = _arr[i];
+
+			if (_fld == "_id") continue;
+
+			if ( _fld == "c") {
+
+				_obj[ _fld ] = _code;
+			}
+			else {
+
+				_obj[ _fld ] = _rec[ _fld ];				
+			}
+		}
+console.log( _obj );
+
+		var res = this.collection.get().insert( _obj );
+
+	}
+
 	this.showAllData = function() {
 
 		this.findSelector.set( {} );
@@ -498,10 +551,20 @@ StoryEditor = function(_code) {
 
 			sel = "input#" + _id + "." + _field;
 
+			//don't do anything to the data field when we use a localCollection for cue
+			//all updates are handled by the localCollection routines
 
-			data[ _field ] = $(sel).val(); 					
-			
+			if (sed.collectionID.get() == cCue) {
+
+				if (_field != "d") 	data[ _field ] = $(sel).val(); 
+			}
+			else {
+
+				data[ _field ] = $(sel).val(); 
+			}
   		}
+
+console.log( data );
 
 		Meteor.call("updateRecordOnServerWithDataObject", sed.collectionID.get(), _id, data, function(err, result) {
 
@@ -734,7 +797,7 @@ StoryEditor = function(_code) {
 
 	}
 
-	this.saveLocalCollectionToRecord = function() {
+	this.saveLocalCollectionToRecord = function( _returnArrayOnlyFlag ) {
 
 		//create an array of the records in arrLocalCollection
 
@@ -747,6 +810,8 @@ StoryEditor = function(_code) {
 			_arrResult.push( _arrSource[i].d )
 
 		}
+
+		if (_returnArrayOnlyFlag) return _arrResult;
 
 		this.collection.get().update( { _id: this.recordID.get() }, { $set: { d: _arrResult} } );
 	}

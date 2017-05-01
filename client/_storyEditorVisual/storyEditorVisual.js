@@ -583,17 +583,40 @@ c( _obj )
 
 	}
 
-	this.loadStoryByName = function( _name)  {
+	this.setStoryByName = function( _name)  {
+
+		game.user.profile.lastEditedStory = _name;
+
+		$("button#last").text( _name );
 
 		var _code = db.ghStory.findOne( { n: _name } ).c;
 
 		sed.code.set( _code );
+
+		game.user.updateLastEditedStory( _code );
+	}
+
+	this.loadStoryByName = function( _name)  {
+
+		game.user.profile.lastEditedStory = _name;
+
+		$("button#last").text( _name );
+
+		var _code = db.ghStory.findOne( { n: _name } ).c;
+
+		sed.code.set( _code );
+
+		game.user.updateLastEditedStory( _code );
 
 		this.loadStory();
 	}
 
 
 	this.loadStory = function() {
+
+		//reset the editor b/c subscribes to all records and now we just want the records from one story
+
+		sed.reset();
 
 		game.user.mode = uEditStory;
 
@@ -603,7 +626,25 @@ c( _obj )
 
 		var _code = sed.code.get();
 
+		story = null;
+
 		var _name = "story" + _code;
+
+		  try {
+
+		    eval( _name );
+
+		  }
+		  catch(err) {
+
+			var _msg = "Create " + _name + ".js to edit the story.";
+
+			showMessage( _msg );
+
+			alert( _msg );
+
+			return;
+		  }
 
 		var _s = "story = new " + _name + "()";
 
@@ -618,7 +659,7 @@ c( _obj )
 
 	this.continueStory = function(e) {
 
-		this.menuClose();
+		this.closeMenu();
 
 		this.mode.set( "play" );
 

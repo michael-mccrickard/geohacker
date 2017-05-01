@@ -91,24 +91,15 @@ Entity = function() {
 		if (_obj.translateY) _mat.translateY = _obj.translateY;
 
 		
-		if (_obj.scaleX) _mat.scaleX = _obj.scaleX;
+		if (_obj.scaleX) _mat.scaleX = this.fixScaleValueForCSS(_obj, "x");
 
-		if (_obj.scaleY) _mat.scaleY = _obj.scaleY;
-
-
-		if (!_obj.scaleX) _mat.scaleX = this.fixScaleValueForDB( _mat, "x");
-
-		if (!_obj.scaleY) _mat.scaleY = this.fixScaleValueForDB( _mat, "y");
+		if (_obj.scaleY) _mat.scaleY = this.fixScaleValueForCSS(_obj, "y");
 
 
 		if (_obj.translateX) _mat.translateX = this.fixTranslateValueForCSS( _mat, "x", _pixelWidth);
 
 		if (_obj.translateY) _mat.translateY = this.fixTranslateValueForCSS( _mat, "y", _pixelHeight);
 
-
-		if (!_obj.scaleX) _mat.scaleX = this.fixScaleValueForCSS( _mat, "x");
-
-		if (!_obj.scaleY) _mat.scaleY = this.fixScaleValueForCSS( _mat, "y");
 
 		c(this.name + " matrix in integrate follows")
 		c(_mat)
@@ -185,6 +176,8 @@ Entity = function() {
 
 		var _obj = { scaleX: this.scaleX, scaleY: this.scaleY, translateX: this.translateX, translateY: this.translateY, skewX: this.skewX, skewY: this.skewY };
 
+console.log( _obj );
+
 		_obj.translateX = this.fixTranslateValueForCSS( _obj, "x" );
 
 		_obj.translateY = this.fixTranslateValueForCSS( _obj, "y" ) ; 	
@@ -233,6 +226,8 @@ Entity = function() {
 
 	}
 
+	//the values passed in are object-relative values; fix them to be screen-relative for storage in db
+
 	this.fixScaleValueForDB = function( _obj, _axis) {
 
 		var _windowWidth = $(window).width();
@@ -244,6 +239,8 @@ Entity = function() {
 		if (_axis == "y") return ( _obj.scaleY * this.origSize.height ) / _windowHeight;
 	}
 
+	//the incoming values use the object center as the anchor point, fix them to use the top-left corner of the object
+
 	this.fixTranslateValueForDB = function( _obj, _axis) {
 
 		var _windowWidth = $(window).width();
@@ -254,6 +251,8 @@ Entity = function() {
 
 		if (_axis == "y") return (_obj.translateY - (_windowHeight * this.scaleY - this.origSize.height ) / 2) / _windowHeight;
 	}
+
+	//the values passed in are screen-relative values; fix them to object-relative for use with the CSS transform
 
 	this.fixScaleValueForCSS = function( _obj, _axis ) {
 
@@ -275,6 +274,8 @@ Entity = function() {
 			return _pixelHeight /  this.origSize.height;		
 		}
 	} 
+
+	//the values passed in use the top-left corner as the anchor point; fix them to use the object center
 
 	this.fixTranslateValueForCSS = function( _obj, _axis, _elementSize) {
 
@@ -470,7 +471,7 @@ Entity = function() {
 
 	this.say = function( _text) {
 
-	  if (this.entityType == "char") display.playEffect2( "say" + this.index + ".mp3")
+	  if (this.entityType == "char") display.playEffect( "say" + this.index + ".mp3")
 
       $( this.element  ).tooltip({ delay:0, trigger:"manual",  title: _text, placement: this.placement });
 

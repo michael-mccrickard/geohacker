@@ -1,6 +1,6 @@
-//After changing the name of this function, change the last line in the file (prototype)
 
-storyBlank = function() {
+
+storyB = function() {
 
 //*********************************************************************************
 //
@@ -14,7 +14,7 @@ storyBlank = function() {
 
 		this.baseSound = "storyABase.mp3";
 
-		this.inventorySize = 3;  //move to db?  if we do, we can move the next command to story.finishSubscriptions()
+		this.inventorySize = 4;  //move to db?  if we do, we can move the next command to story.finishSubscriptions()
 
 		this.inv = new Inventory();
 	}
@@ -167,9 +167,11 @@ storyBlank = function() {
 
 		this.background = this.getBackground( _ID );
 	
-
-/*
 		if (_ID == "base") {
+
+			this.play("intro");
+return;
+
 
 			if (this.flags.flagName1 ) {
 
@@ -188,7 +190,7 @@ storyBlank = function() {
 			this.play( commonScene );  //probably info about the mission
 
 		}
-
+/*
 		if ( _ID == countryCode) {
 
 			if ( !this.flags.flagName3) {
@@ -201,16 +203,18 @@ storyBlank = function() {
 		}
 */
 
-		this.playDefaultScene( );
+		this.playDefaultScene( _ID);
 
 	}
 
 	//typically, the location name displayed on the screen when you go to a country is the name of the capital
 	//but not necessarily ...
 
-	this.getCityName = function(_scene) {
+	this.getCityName = function(_location) {
 
-		//if (_scene == "sceneName1" || _scene == "sceneName2" ) return "specific city name";
+		if (_location == "ID") return "Bali";
+
+		if (_location == "US") return "Cleveland";
 
 		return null;  //just use the capital name
 	}
@@ -290,5 +294,5 @@ storyBlank = function() {
 }
 
 
-storyBlank.prototype = new Story();
+storyB.prototype = new Story();
 
