@@ -64,12 +64,14 @@ storyB = function() {
 
 	this.addInventoryItem = function( _name) {
 
-/*
-		if (_name == "itemName2") {
 
-			this.flags.flagName1 = true;
+		if (_name == "letter") {
+
+			this.flags.gotLetter = true;
+
+			this.play("missionToPsy");
 		}
-
+/*
 		if (_name == "itemName2") {
 
 			if (this.flags.flagName2) {
@@ -170,16 +172,15 @@ storyB = function() {
 		if (_ID == "base") {
 
 			this.play("intro");
-return;
 
 
-			if (this.flags.flagName1 ) {
+			if (this.flags.gotLetter ) {
 
-				this.play( sceneName1 );
+				this.play( "missionToPsy" );
 
 				return;
 			}
-
+return;
 			if (!this.flags.flagName2) {
 
 				this.play( sceneName2);

@@ -91,10 +91,19 @@ Entity = function() {
 		if (_obj.translateY) _mat.translateY = _obj.translateY;
 
 		
-		if (_obj.scaleX) _mat.scaleX = this.fixScaleValueForCSS(_obj, "x");
+		if (_obj.scaleX) {
 
-		if (_obj.scaleY) _mat.scaleY = this.fixScaleValueForCSS(_obj, "y");
+			_mat.scaleX = this.fixScaleValueForCSS(_obj, "x");
 
+			_pixelWidth = _mat.scaleX * this.origSize.width;
+		}
+
+		if  (_obj.scaleY) {
+			
+			_mat.scaleY = this.fixScaleValueForCSS(_obj, "y")
+
+			_pixelHeight = _mat.scaleY * this.origSize.height;
+		}
 
 		if (_obj.translateX) _mat.translateX = this.fixTranslateValueForCSS( _mat, "x", _pixelWidth);
 
@@ -151,6 +160,8 @@ Entity = function() {
 
 			//if the scale is tiny, then the font will be huge
 			if (_fontSize > 32) _fontSize = 32;
+
+			if (_fontSize < 18) _fontSize = 18;			
 
 			$(this.nameElement).css("font-size", _fontSize + "px");
 		}
@@ -247,9 +258,9 @@ console.log( _obj );
 
 		var _windowHeight = $(window).height();
 
-		if (_axis == "x") return (_obj.translateX - (_windowWidth * this.scaleX - this.origSize.width ) / 2 ) / _windowWidth;
+		if (_axis == "x") return (_obj.translateX - (_windowWidth * this.fixScaleValueForDB(_obj, "x") - this.origSize.width ) / 2 ) / _windowWidth;
 
-		if (_axis == "y") return (_obj.translateY - (_windowHeight * this.scaleY - this.origSize.height ) / 2) / _windowHeight;
+		if (_axis == "y") return (_obj.translateY - (_windowHeight * this.fixScaleValueForDB(_obj, "y") - this.origSize.height ) / 2) / _windowHeight;
 	}
 
 	//the values passed in are screen-relative values; fix them to object-relative for use with the CSS transform
@@ -405,12 +416,12 @@ console.log( _obj );
 
 		if (_obj.scaleX) {
 
-			_obj2.scaleX = parseFloat( _obj.scaleX );
+			_obj2.scaleX = this.fixScaleValueForCSS( _obj, "x" );
 		}
 		
 		if (_obj.scaleY) {
 
-			_obj2.scaleY = parseFloat( _obj.scaleY );
+			_obj2.scaleY = this.fixScaleValueForCSS( _obj, "y" );
 		}
 
 		if (_obj.rotation) _obj2.rotation = _obj.rotation;

@@ -21,7 +21,7 @@ StoryEditorVisual = function() {
 
 	this.selectedEntity = null;
 
-	this.sizeIncValue = 0.005;
+	this.sizeIncValue = 0.05;
 
 	this.moveIncValue = 0.003;
 
