@@ -20,13 +20,13 @@ ExerciseManager = function() {
 		story.mode.set("scene");
 	}
 
-	this.build = function( _ID ) {
+	this.build = function( _ID, _arr ) {
 
 		story.mode.set("exercise");
 
 		this.exercise = new Exercise();
 
-		if (_ID) this.exercise.build(_ID);
+		if (_ID) this.exercise.build(_ID, _arr);
 	}
 
 	this.go = function() {
@@ -80,14 +80,16 @@ Exercise = function() {
 
 	//just passing the ID for now, but we could change this to an object
 
-	this.build = function( _ID ) {
+	this.build = function( _ID, _arr ) {
 
 		//the .type property on these may not be needed.
 		//Probably won't know until we add the progressive build type
 
 		if (_ID == "whereIsContinent") {
 
-			var _arr = Database.shuffle( db.ghZ.find().fetch() );
+			if (!_arr) _arr = db.ghZ.find().fetch();
+
+			Database.shuffle( _arr );
 
 			var _obj = {};
 

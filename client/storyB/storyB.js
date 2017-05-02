@@ -45,7 +45,7 @@ storyB = function() {
 		//we can return a specific chat name here based on the scene,
 		//the flags, etc.
 
-		//if (!this.flags.flagName) return "chatName";
+		if (!this.scene == "startMission") return "misionInfo";
 
 		//If we have have reached this point, we assume the chat name is the same
 		//as the scene name
@@ -174,16 +174,16 @@ storyB = function() {
 			this.play("intro");
 
 
-			if (this.flags.gotLetter ) {
+			if (this.flags.gotLetter && !this.flags.didExercise1) {
 
 				this.play( "missionToPsy" );
 
 				return;
 			}
-return;
-			if (!this.flags.flagName2) {
 
-				this.play( sceneName2);
+			if (this.flags.didExercise1) { 
+
+				this.play( "startMission");
 
 				return;
 			}
@@ -237,14 +237,28 @@ return;
 
 //leaving the actual code from storyA here b/c the syntax, etc. is not easy to remember
 
-/*
+		if (this.scene == "missionToPsy") {
 
-		if (this.scene == "intro") {
+			var _arr = [];
 
-			this.em.build( "whereIsContinent");
+			var _obj1 = {};
+
+			var _obj2 = {};
+
+			_obj1.c = 'africa';
+
+			_arr.push( _obj1 );
+
+			_obj2.c = 'asia';
+
+			_arr.push( _obj2 );
+
+console.log( _arr );
+
+			this.em.build( "whereIsContinent", _arr);
 		}
 
-		if (this.scene == "firstGuardVisit") {
+/*		if (this.scene == "firstGuardVisit") {
 
 			this.em.build();
 
@@ -287,7 +301,7 @@ return;
 
 	this.doneWithExercise = function() {
 
-		//if (this.scene == "sceneName1") this.flags.flagName1 = true;
+		if (this.scene == "missionToPsy") this.flags.didExercise1 = true;
 
 		this.go( this.location );
 	}
