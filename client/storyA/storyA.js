@@ -46,7 +46,12 @@ storyA = function() {
 		//we can return a specific chat name here based on the scene,
 		//the flags, etc.
 
-		if (!this.flags.knowsQuest) return "storyDefault_chat_preintro";
+		if (!this.flags.knowsQuest) {
+
+			if (this.location == "base")  return "storyDefault_chat_cantTalkNow";
+
+			return "storyDefault_chat_reportToBase";
+		}
 
 		if ( this.scene == "default") {
 
@@ -114,6 +119,13 @@ storyA = function() {
 	}
 
 	this.removeInventoryItem = function( _name) {
+
+		if (this.mode.get() == "exercise") {
+			
+			this.playEffect( this.locked_sound_file );
+
+			return;
+		}
 
 		var _obj = {};
 

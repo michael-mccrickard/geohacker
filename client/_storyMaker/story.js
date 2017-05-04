@@ -81,6 +81,8 @@ Story =  function() {
 
 		this.buttonStripElement = "div.divStoryButtons";
 
+		this.locked_sound_file = "locked.mp3";
+
 		this.baseButtonPic = new Blaze.ReactiveVar("");
 
 		this.speed = 1.0;
@@ -310,6 +312,10 @@ Story =  function() {
 
 		this[ _name ].fadeOut(250);
 
+		var _s = "story.flags.has_" + _name + " = 1";
+
+		eval(_s);
+
 	},
 
 	this._removeInventoryItem = function( _name ) {
@@ -324,7 +330,9 @@ Story =  function() {
 
 		this[ _name ].fadeIn(150);
 
+		"story.flags.gave_" + _name + " = 1";
 
+		eval(_s);
 	},
 
 	this.refuseItem = function( _name) {
@@ -756,8 +764,9 @@ Story =  function() {
 
 		//this default chat is not in the db
 
-		if (this.chat == "storyDefault_chat_preintro") this.chatSource = storyDefault_chat_preintro;
+		if (this.chat == "storyDefault_chat_cantTalkNow") this.chatSource = storyDefault_chat_cantTalkNow;
 
+		if (this.chat == "storyDefault_chat_reportToBase") this.chatSource = storyDefault_chat_reportToBase;
 		
 		if (_shortName) {
 

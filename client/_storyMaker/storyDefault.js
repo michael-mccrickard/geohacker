@@ -82,12 +82,28 @@ storyDefault_cue = function( _name ) {
 
 }
 
-storyDefault_chat_preintro = [
+storyDefault_chat_reportToBase = [
 
 	{
 		"i": "h",
 		"n": "root",
 		"d": [ { "t": "Agent, you need to report to your base to get your mission!", "g":"*" } ]
+	},
+
+	{
+		"i": "u",
+		"n": "*",
+		"d": [ { "t": "Bye.", "g": "exit"}  ]  
+
+	}
+];
+
+storyDefault_chat_cantTalkNow = [
+
+	{
+		"i": "h",
+		"n": "root",
+		"d": [ { "t": "Sorry, I can't talk now.", "g":"*" } ]
 	},
 
 	{

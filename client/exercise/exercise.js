@@ -238,6 +238,8 @@ ExerciseItem = function( _obj ) {
 
 		_worldMap.mapLevel = this.mapLevelStart;
 
+		browseMap.level.set( this.mapLevelStart );
+
 		var _showNames = false;  //over-ride this below if necessary
 
 		var _name = getAreaName( this.qEntity, this.qCode)

@@ -64,6 +64,7 @@ storyBlank = function() {
 
 	this.addInventoryItem = function( _name) {
 
+
 /*
 		if (_name == "itemName2") {
 
@@ -95,6 +96,13 @@ storyBlank = function() {
 	//shows it in the play area
 
 	this.removeInventoryItem = function( _name) {
+
+		if (this.mode.get() == "exercise") {
+
+			this.playEffect( this.locked_sound_file );
+
+			return;
+		}
 
 		var _obj = {};
 

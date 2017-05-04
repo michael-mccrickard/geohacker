@@ -45,7 +45,12 @@ storyB = function() {
 		//we can return a specific chat name here based on the scene,
 		//the flags, etc.
 
-		if (!this.scene == "startMission") return "misionInfo";
+		if (!this.flags.has_letter && !this.flags.gave_letter) {
+
+			if (this.location == "base")  return "storyDefault_chat_cantTalkNow";
+
+			return "storyDefault_chat_reportToBase";
+		}
 
 		//If we have have reached this point, we assume the chat name is the same
 		//as the scene name
@@ -64,12 +69,9 @@ storyB = function() {
 
 	this.addInventoryItem = function( _name) {
 
-
 		if (_name == "letter") {
 
-			this.flags.gotLetter = true;
-
-			this.play("missionToPsy");
+			this.play("missionToMalawi");
 		}
 /*
 		if (_name == "itemName2") {
@@ -97,6 +99,13 @@ storyB = function() {
 	//shows it in the play area
 
 	this.removeInventoryItem = function( _name) {
+
+		if (this.mode.get() == "exercise") {
+
+			this.playEffect( this.locked_sound_file );
+
+			return;
+		}
 
 		var _obj = {};
 
@@ -149,7 +158,13 @@ storyB = function() {
 
 		if (_ID == "base")  this.playLoop( this.baseSound );
 
-		//if (_ID == countryCode) 	this.playLoop("specificLocationLoop.mp3")
+		if (_ID == "IS") this.playLoop("iceland_ambience.mp3")
+
+		if (_ID == "KR") this.playLoop("korea_ambience.mp3")
+
+		if (_ID == "US") this.playLoop("cleveland_ambience.mp3")
+
+		if (_ID == "MW") this.playLoop("malawi_ambience.mp3")
 
 	}
 
@@ -171,38 +186,66 @@ storyB = function() {
 	
 		if (_ID == "base") {
 
-			this.play("intro");
+			if (!this.flags.has_letter  && !this.flags.gave_letter) {
 
-
-			if (this.flags.gotLetter && !this.flags.didExercise1) {
-
-				this.play( "missionToPsy" );
+				this.play("intro");
 
 				return;
 			}
 
-			if (this.flags.didExercise1) { 
 
-				this.play( "startMission");
+			if (this.flags.has_Letter && !this.flags.didExercise1) {
+
+				this.play( "missionToMalawi" );
 
 				return;
 			}
 
-			this.play( commonScene );  //probably info about the mission
+			if (this.flags.didExercise1  && !this.flags.knows_langspil) { 
+
+				this.play( "missionToIceland");
+
+				return;
+			}
+
+			//this.play( commonScene );  //probably info about the mission
 
 		}
-/*
-		if ( _ID == countryCode) {
 
-			if ( !this.flags.flagName3) {
+		if ( _ID == "MW") {
 
-					this.play( sceneName3 );
+			if ( this.flags.didExercise1 && !this.flags.didExercise2) {
+
+					this.play( "visitChef1" );
 
 					return;		
 			}
 
+			if ( this.flags.didExercise2 && !this.flags.knows_langspil) {
+
+					this.play( "missionToIceland" );
+
+					return;		
+			}
 		}
-*/
+
+		if ( _ID == "IS") {
+
+			if ( this.flags.knows_langspil && !this.flags.knowsBook) {
+
+					this.play( "visitBjork1" );
+
+					return;		
+			}
+
+			if ( this.flags.didExercise3 && !this.flags.knows_book) {
+
+					this.play( "missionToBali" );
+
+					return;		
+			}
+		}
+
 
 		this.playDefaultScene( _ID);
 
@@ -237,39 +280,32 @@ storyB = function() {
 
 //leaving the actual code from storyA here b/c the syntax, etc. is not easy to remember
 
-		if (this.scene == "missionToPsy") {
-
-			var _arr = [];
-
-			var _obj1 = {};
-
-			var _obj2 = {};
-
-			_obj1.c = 'africa';
-
-			_arr.push( _obj1 );
-
-			_obj2.c = 'asia';
-
-			_arr.push( _obj2 );
-
-console.log( _arr );
-
-			this.em.build( "whereIsContinent", _arr);
-		}
-
-/*		if (this.scene == "firstGuardVisit") {
+		if (this.scene == "missionToMalawi") {
 
 			this.em.build();
 
 			this.em.add([
 
-				{ ID: "inWhichContinent", aCode: "europe", qCode: "FR" },
-				{ ID: "inWhichContinent", aCode: "africa", qCode: "ML" }
+				{ ID: "inWhichContinent", aCode: "asia", qCode: "KR" },
+				{ ID: "inWhichContinent", aCode: "asia", qCode: "KP" },
+				{ ID: "inWhichContinent", aCode: "africa", qCode: "MW" }
 
 			]);
 		}
 
+		if (this.scene == "visitChef1") {
+
+			this.em.build();
+
+			this.em.add([
+
+				{ ID: "inWhichRegion", aCode: "saf", qCode: "MW" },
+				{ ID: "inWhichRegion", aCode: "eas", qCode: "KR" },
+				{ ID: "inWhichRegion", aCode: "eas", qCode: "KP" }
+
+			]);
+		}
+/*
 		if (this.scene == "vanGogh") {
 
 			this.em.build();
@@ -301,7 +337,9 @@ console.log( _arr );
 
 	this.doneWithExercise = function() {
 
-		if (this.scene == "missionToPsy") this.flags.didExercise1 = true;
+		if (this.scene == "missionToMalawi") this.flags.didExercise1 = true;
+
+		if (this.scene == "visitChef1") this.flags.didExercise2 = true;
 
 		this.go( this.location );
 	}
