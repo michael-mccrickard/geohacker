@@ -25,6 +25,8 @@ Story =  function() {
 
 	this.cityNameElement = "div.divCityNameText";
 
+	this.showMapboxMap = new Blaze.ReactiveVar( false );
+
 
 //*********************************************************************************
 //
@@ -330,7 +332,7 @@ Story =  function() {
 
 		this[ _name ].fadeIn(150);
 
-		"story.flags.gave_" + _name + " = 1";
+		var _s = "story.flags.gave_" + _name + " = 1";
 
 		eval(_s);
 	},
@@ -495,7 +497,6 @@ Story =  function() {
 
 	this.play = function( _name ) {
 
-		this.disableButtons();
 
 		//the default scene already set story.cue in the calling function
 
@@ -513,7 +514,13 @@ Story =  function() {
 
 		//do we need to change the bg?
 
+		var _changeBGFlag = false;
+
 		if ( $(this.bgElement).attr("src") != this.background ) {
+
+			_changeBGFlag = true;
+
+			this.disableButtons();
 
 			this.fadeOutChars();
 
@@ -521,15 +528,15 @@ Story =  function() {
 
 			this.fadeOutBG();
 
-			Meteor.setTimeout( function() { story.finishPlay(); }, 1100);
+			Meteor.setTimeout( function() { story.finishPlay( _changeBGFlag ); }, 1100);
 
 			return;				
 		}
 
-		this.finishPlay();
+		this.finishPlay( _changeBGFlag );
 	},
 
-	this.finishPlay = function() {
+	this.finishPlay = function( _changeBGFlag) {
 
 		this.resetScene();
 
@@ -541,7 +548,7 @@ Story =  function() {
 
 		Meteor.setTimeout( function() { story.showCityName(); }, 2001);
 
-		Meteor.setTimeout( function() { story.enableButtons(); }, 2002);
+		if (_changeBGFlag) Meteor.setTimeout( function() { story.enableButtons(); }, 2002);
 
 	},
 
@@ -762,7 +769,7 @@ Story =  function() {
 
 		this.chatSource = db.ghChat.find( { s: this.chat } ).fetch();
 
-		//this default chat is not in the db
+		//this default chats are not in the db
 
 		if (this.chat == "storyDefault_chat_cantTalkNow") this.chatSource = storyDefault_chat_cantTalkNow;
 
@@ -1236,46 +1243,99 @@ Tracker.autorun( function(comp) {
 });  
 
 
+
 /*
+doMap = function() {
 
-			//if this is a "normal" token, then we check to see if there are any content
-			//tokens to be added to it's content property (all the content tokens were created first)
+    mapboxgl.accessToken = 'pk.eyJ1IjoiZ2VvaGFja2VyZ2FtZSIsImEiOiJjajF0bmdsazEwMHRpMndxa3g5ejA3azBkIn0.hj99DCrI-6Ikb90g3T2p-w';
+map = new mapboxgl.Map({
+    container: 'mmap',
+    style: 'mapbox://styles/geohackergame/cj2c4umj2002p2so1naymjsr8',
+    //center: [16.614, 38.134],
+    //zoom: 1.5 // starting zoom
 
-			if (_type == "n") {
+    center: [31.33, -6.298],
+    zoom:  3.8// starting zoom   
+    });
 
-				var _arrC = db.ghToken.find( { w: _name } ).fetch();
 
-				if (_arrC.length) {
+    map.on('style.load', function () {
 
-					//story.computer.content = {};
+          map.addSource("lake_labels", {
+              "type": "geojson",
+              "data": {
+                  "type": "FeatureCollection",
+                  "features": [
 
-					_str = "story." + _name + ".content = {};"
+                  {
+                      "type": "Feature",
+                      "geometry": {
+                          "type": "Point",
+                          "coordinates": [33.164, -1.232]
+                      },
 
-					eval( _str );
+                      "properties": {
+                        "title": "Lake Victoria"
+                      }
+                  },
 
-					_str = "story." + _name + ".contentBG = {};"
+                  {
+                      "type": "Feature",
+                      "geometry": {
+                          "type": "Point",
+                          "coordinates": [28.5, -6.186]
+                      },
 
-					eval( _str );
+                      "properties": {
+                        "title": "Lake Tanganyika"
+                      }
+                  },
 
-					_str = "story." + _name + ".contentAnim = {};"
+                  {
+                      "type": "Feature",
+                      "geometry": {
+                          "type": "Point",
+                          "coordinates": [34.450, -12.117]
+                      },
 
-					eval( _str );
+                      "properties": {
+                        "title": "Lake Malawi"
+                      }
+                  },                                 
+                ] 
+              }
+            });
 
-					//this array is treated normally
+          map.addLayer({
+              "id": "lake_labels",
+              "type": "symbol",
+              "source": "lake_labels",
+              "minzoom": 3,
+              "maxzoom": 21,
+              "paint": {
+                "text-color": "#00008B"
+              },
+              "layout": {
+                  "text-field": "{title}",
+                  "text-size": {
+                    "stops": [
 
-					for (var j = 0; j < _arrC.length; j++) {	
-						
-						//story.computer.content["bunnies"] = story.bunnies;
+                      // zoom is 3 -> fontsize will 8px
+                      [3, 12],
 
-						if ( _arrC[j].t == "c") _str = "story." + _name + ".content['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
-						
-						if ( _arrC[j].t == "ca") _str = "story." + _name + ".contentAnim['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
+                      [6, 16],
 
-						if ( _arrC[j].t == "cb") _str = "story." + _name + ".contentBG['" + _arrC[j].sn + "'] = story." + _arrC[j].sn + ";"
+                      [9, 24],
 
-						eval( _str)
-					}				
-				} //end if array of content tokens is non-empty
+                      [12, 36]
+                    ]
+                  },
+                  "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+                  "text-anchor": "center"
 
-			}  //end if normal	
+              }
+          });
+        });
+}
+
 */

@@ -19,9 +19,7 @@ Entity = function() {
 
 	this.skewY = 0;
 	
-	//this.top = 0;
-
-	//this.left = 0;
+	this.movable = true;
 
 	this.lastTransform = null;
 

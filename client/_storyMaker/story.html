@@ -6,23 +6,33 @@
 
 		<img class="storyBG" />
 
-		{{#each char}}
+		{{#if showMapboxMap}}
 
-			<div class="divStoryChar storyElement" id="storyChar{{this}}" >
-			  
-				<img class="storyChar storyElement" id="storyCharPic{{this}}" src="" data-mongoid="" data-shortname="" /> 
-				<div class="storyCharName" id="storyCharName{{this}}"></div>
+			<div id='mmap' style='float: left; position: relative; top: 55px; left: {{MMapLeft}}px; width: {{MMapWidth}}px; height: {{MMapHeight}}px;'></div>
 
-			</div>
+		{{/if}}
 
-		{{/each}}
+		{{#if sceneMode}}
+
+			{{#each char}}
+
+				<div class="divStoryChar storyElement" id="storyChar{{this}}" >
+				  
+					<img class="storyChar storyElement" id="storyCharPic{{this}}" src="" data-mongoid="" data-shortname="" /> 
+					<div class="storyCharName" id="storyCharName{{this}}"></div>
+
+				</div>
+
+			{{/each}}
 
 
-		{{#each token}}
+			{{#each token}}
 
-			<img class="storyThing storyElement" id="storyThingPic{{this}}" src=""  data-shortname="" /> 
-			
-		{{/each}}
+				<img class="storyThing storyElement" id="storyThingPic{{this}}" src=""  data-shortname="" /> 
+				
+			{{/each}}
+
+		{{/if}}
 
 
 		{{#if exerciseMode}} 

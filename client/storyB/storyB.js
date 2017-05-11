@@ -17,6 +17,12 @@ storyB = function() {
 		this.inventorySize = 4;  //move to db?  if we do, we can move the next command to story.finishSubscriptions()
 
 		this.inv = new Inventory();
+
+		this.lakeVictoriaID = 479;
+
+		this.lakeTanganyikaID = 478;
+
+		this.lakeMalawiID = 477;
 	}
 
 //*********************************************************************************
@@ -71,7 +77,7 @@ storyB = function() {
 
 		if (_name == "letter") {
 
-			this.play("missionToMalawi");
+			this.play("missionToMalawi");  
 		}
 /*
 		if (_name == "itemName2") {
@@ -106,6 +112,9 @@ storyB = function() {
 
 			return;
 		}
+
+		//letter -- lock out any attempt to remove this if we are not at the correct Psy scene
+
 
 		var _obj = {};
 
@@ -194,16 +203,16 @@ storyB = function() {
 			}
 
 
-			if (this.flags.has_Letter && !this.flags.didExercise1) {
+			if (this.flags.has_letter && !this.flags.didExercise1) {
 
 				this.play( "missionToMalawi" );
 
 				return;
 			}
 
-			if (this.flags.didExercise1  && !this.flags.knows_langspil) { 
+			if (this.flags.didExercise1 && !this.flags.didExercise2) {
 
-				this.play( "missionToIceland");
+				this.play( "startMissionToMalawi" );
 
 				return;
 			}
@@ -342,6 +351,43 @@ storyB = function() {
 		if (this.scene == "visitChef1") this.flags.didExercise2 = true;
 
 		this.go( this.location );
+	}
+
+//*********************************************************************************
+//
+//				MAPBOX 
+//
+//********************************************************************************* 
+
+
+	this.mapboxReady = function() {
+
+		var _arr = [33.164, -1.232];
+
+		story.mapbox.addLabel("vic_label", _arr, "Lake Victoria"); 
+
+		_arr = [28.5, -6.186];
+
+		story.mapbox.addLabel("tan_label", _arr, "Lake Tanganyika"); 
+
+		_arr = [34.450, -12.117];
+
+		story.mapbox.addLabel("mal_label", _arr, "Lake Malawi"); 
+
+		story.mapbox.fillCountries( ["neaf","saf","caf","nwaf"] );
+
+		story.mapbox.map.flyTo( {center: [31.33, -6.298], zoom: 3.8, speed: 0.2} );
+
+		story.mapbox.setLayerClickHandler( "lakes", function(e) {
+
+		var _obj = e.features[0];
+
+			if ( _obj.id == story.lakeVictoriaID ) story.mapbox.showLabel( "l_vic_label");
+
+			if ( _obj.id == story.lakeTanganyikaID ) story.mapbox.showLabel( "l_tan_label");
+
+			if ( _obj.id == story.lakeMalawiID ) story.mapbox.showLabel( "l_mal_label");
+		});	
 	}
 
 }

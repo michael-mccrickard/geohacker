@@ -13,6 +13,28 @@ Template.story.rendered = function() {
 
 Template.story.helpers({
 
+  MMapLeft: function() {
+
+     return $(window).width() * 0.05;
+  },
+
+  MMapWidth: function() {
+
+     return $(window).width() * 0.9;
+  },
+
+
+  MMapHeight: function() {
+
+     return $(window).height() * 0.9;
+  },
+
+  showMapboxMap: function() {
+
+    return story.showMapboxMap.get();
+  },
+
+
   char: function() {
 
   	 return story.chars;
@@ -51,6 +73,15 @@ Template.story.helpers({
   	if (story.mode.get() == "exercise") return true;
 
   	return false;
+  },
+
+  sceneMode: function() {
+
+    var _mode = story.mode.get();
+
+    if (_mode == "scene" || _mode == "chat") return true;
+
+    return false;
   },
 
   inventoryButton: function() {
@@ -98,12 +129,6 @@ Template.story.helpers({
 
 Template.story.events({
 
-/*
-    'click #continueStory': function(event, template) {
-
-          if (story.scene == "intro") story.play( "missionToMona" );
-      },
-*/
 
     //Map button
 
@@ -187,9 +212,24 @@ Template.story.events({
           var _sel = "img#" + event.currentTarget.id;
 
           var _shortName = $( _sel ).data().shortname;
-          
-          story.doChat( _shortName);
 
+          var _name = $(event.currentTarget).attr("data-shortname");
+
+          if ( story[ _name].movable ) {  
+
+             story.doChat( _shortName);
+          }
+          else {
+
+            if (story.cutScene.c == "wait") {
+
+                story.hidePrompt();
+          
+                story.cutScene.playNext();
+
+            }
+
+          }
       },
 
     'click #nextMission': function(event, template) {

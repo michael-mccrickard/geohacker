@@ -169,6 +169,8 @@ StoryEditorVisual = function() {
 
 	this.selectStory = function() {
 
+		if (story.cutScene) story.cutScene.stop();
+
 		//Usually redundant, but we might be exiting data-edit mode
 
 		sed.setMode("visual");
@@ -304,6 +306,8 @@ StoryEditorVisual = function() {
 
 		this.menuOpen.set(0);
 
+		if (story.cutScene) story.cutScene.stop();
+
 		stopGameEditor();
 
 	}
@@ -352,6 +356,39 @@ StoryEditorVisual = function() {
 
 			this.charArray.push( _obj);
 		}
+
+	}
+
+	this.createLocationArray = function() {
+
+		this.locationArray = [];
+
+		var _arr = db.ghLocation.find( { c: sed.code.get() } ).fetch();
+
+		for (var i=0; i < _arr.length; i++) {
+
+			var _obj = {};
+
+			_obj.n = _arr[i].n;
+
+			if (!_arr[i].p) {
+
+				_obj.p = db.getCapitalPic( _arr[i].n )		
+
+			}
+			else {
+				_obj.p = _arr[i].p;
+
+			}
+
+			this.locationArray.push( _obj);
+		}
+
+		 _obj = {};
+		 _obj.n = "base"
+		 _obj.p = story.baseBGPic;
+
+		this.locationArray.push( _obj);
 
 	}
 
@@ -497,6 +534,8 @@ StoryEditorVisual = function() {
 	this.locationMenu = function() {
 
 		this.prepareEditor();
+
+		var _arr = this.createLocationArray();
 
 		this.menuElementType.set( cLocation );
 

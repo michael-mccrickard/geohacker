@@ -51,7 +51,7 @@ Template.layout.helpers({
 
    	if (_type == cToken ) return ( db.ghToken.find( { c: sed.code.get() } ).fetch() );
 
-    if (_type == cLocation ) return ( db.ghLocation.find( { c: sed.code.get() } ).fetch() );    
+    if (_type == cLocation ) return ( ved.locationArray );    
 
   },
 

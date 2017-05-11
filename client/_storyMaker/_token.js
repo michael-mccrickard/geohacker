@@ -85,10 +85,7 @@ Token = function() {
 
 		this.lastTransform = this.createDefaultTransform();
 
-		this.movable = false;
-
 		this.movable = parseInt(_obj.m);
-
 
 		this.spacer = 16;
 

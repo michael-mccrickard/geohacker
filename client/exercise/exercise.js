@@ -190,7 +190,12 @@ c( _par)
 
 		this.index++;
 
-		if (this.index == 0) story.playEffect( this.startSound );
+		if (this.index == 0) {
+
+			story.playEffect( this.startSound );
+
+			Database.shuffle(this.item);
+		}
 
 		if (this.index == this.item.length) {
 
