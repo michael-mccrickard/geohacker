@@ -23,6 +23,8 @@ Entity = function() {
 
 	this.lastTransform = null;
 
+	this.saySoundLimit = 3;
+
 
 	this._add = function( _obj ) {
 
@@ -480,7 +482,18 @@ console.log( _obj );
 
 	this.say = function( _text) {
 
-	  if (this.entityType == "char") display.playEffect( "say" + this.index + ".mp3")
+	  if (this.entityType == "char") {
+
+	  	var _index = this.index;
+
+	  	if (this.index > this.saySoundLimit)  {
+
+	  		_index = 1;
+	  	}
+
+	  	display.playEffect( "say" + _index + ".mp3")
+
+	  }
 
       $( this.element  ).tooltip({ delay:0, trigger:"manual",  title: _text, placement: this.placement });
 

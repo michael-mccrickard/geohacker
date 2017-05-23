@@ -27,13 +27,23 @@ Template.story.helpers({
   MMapHeight: function() {
 
      return $(window).height() * 0.9;
+  
+     return false;
   },
 
-  showMapboxMap: function() {
+  typeIsAmmap: function() {
 
-    return story.showMapboxMap.get();
+    if (story.exerciseType.get() == "ammap") return true;
+
+    return false;
   },
 
+  typeIsMapbox: function() {
+
+   if (story.exerciseType.get() == "mapbox") return true;
+
+    return false;
+  },
 
   char: function() {
 

@@ -82,6 +82,8 @@ Exercise = function() {
 
 	this.build = function( _ID, _arr ) {
 
+		story.exerciseType.set("ammap");
+
 		//the .type property on these may not be needed.
 		//Probably won't know until we add the progressive build type
 
@@ -408,6 +410,10 @@ c("_item.aCode is " + this.aCode)
 			story.playEffect( story.em.exercise.incorrectSound );
 
 			this.clue("Incorrect.  Try again.");
+
+			//we have to back up twice, b/c go() will increment the index
+
+			story.em.exercise.index--;
 
 			story.em.exercise.index--;
 

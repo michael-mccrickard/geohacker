@@ -230,7 +230,7 @@ storyB = function() {
 					return;		
 			}
 
-			if ( this.flags.didExercise2 && !this.flags.knows_langspil) {
+			if ( this.flags.didExercise2 && !this.flags.knowsLangspil) {
 
 					this.play( "missionToIceland" );
 
@@ -240,14 +240,14 @@ storyB = function() {
 
 		if ( _ID == "IS") {
 
-			if ( this.flags.knows_langspil && !this.flags.knowsBook) {
+			if ( this.flags.knowsLangspil && !this.flags.knowsBook) {
 
 					this.play( "visitBjork1" );
 
 					return;		
 			}
 
-			if ( this.flags.didExercise3 && !this.flags.knows_book) {
+			if ( this.flags.didExercise3 && !this.flags.knowsBook) {
 
 					this.play( "missionToBali" );
 
@@ -314,33 +314,21 @@ storyB = function() {
 
 			]);
 		}
-/*
-		if (this.scene == "vanGogh") {
 
-			this.em.build();
+		if (this.scene == "visitBjork1") {
 
-			this.em.add([
+			story.mem.init( "bjork" );  //pass the shortName of the char "hosting" the exercise
 
-				{ ID: "inWhichRegion", aCode: "weu", qCode: "FR" },
-				{ ID: "inWhichRegion", aCode: "weu", qCode: "NL" },
-				{ ID: "inWhichRegion", aCode: "nwaf", qCode: "ML" }
+			this.mem.build();
 
-			]);
-		}
+			this.mem.add([
 
-		if (this.scene == "finalChallenge") {
+				{ qText: "Click the largest lake in Africa.", aCode: this.lakeVictoriaID, aText: "Exactly. Lake Victoria is the largest lake on the continent." },
 
-			this.em.build();
-
-			this.em.add([
-
-				{ ID: "whereIsCountry", aCode: "europe", qCode: "FR" },
-				{ ID: "whereIsCountry", aCode: "europe", qCode: "NL" },
-				{ ID: "whereIsCountry", aCode: "africa", qCode: "ML" }
+				{ qText: "Click Lake Malawi.", aCode: this.lakeMalawiID, aText: "That's it. Lake Malawi is the third largest lake in Africa." },
 
 			]);
 		}
-*/
 
 	}
 
@@ -359,36 +347,70 @@ storyB = function() {
 //
 //********************************************************************************* 
 
-
 	this.mapboxReady = function() {
 
-		var _arr = [33.164, -1.232];
+		if (this.mode.get() == "exercise") {
 
-		story.mapbox.addLabel("vic_label", _arr, "Lake Victoria"); 
+			this.doMapboxForExercise( "visitBjork1"); 
+		}
 
-		_arr = [28.5, -6.186];
-
-		story.mapbox.addLabel("tan_label", _arr, "Lake Tanganyika"); 
-
-		_arr = [34.450, -12.117];
-
-		story.mapbox.addLabel("mal_label", _arr, "Lake Malawi"); 
-
-		story.mapbox.fillCountries( ["neaf","saf","caf","nwaf"] );
-
-		story.mapbox.map.flyTo( {center: [31.33, -6.298], zoom: 3.8, speed: 0.2} );
-
-		story.mapbox.setLayerClickHandler( "lakes", function(e) {
-
-		var _obj = e.features[0];
-
-			if ( _obj.id == story.lakeVictoriaID ) story.mapbox.showLabel( "l_vic_label");
-
-			if ( _obj.id == story.lakeTanganyikaID ) story.mapbox.showLabel( "l_tan_label");
-
-			if ( _obj.id == story.lakeMalawiID ) story.mapbox.showLabel( "l_mal_label");
-		});	
 	}
+
+	this.doMapboxForExercise = function( _scene) {
+
+		if (_scene == "visitBjork1") {
+
+			var _arr = [33.164, -1.232];
+
+			story.mapbox.addLabel("vic_label", _arr, "Lake Victoria"); 
+
+			_arr = [28.5, -6.186];
+
+			story.mapbox.addLabel("tan_label", _arr, "Lake Tanganyika"); 
+
+			_arr = [34.450, -12.117];
+
+			story.mapbox.addLabel("mal_label", _arr, "Lake Malawi"); 
+
+			story.mapbox.fillCountries( ["neaf","saf","caf","nwaf"] );
+
+			story.mapbox.map.flyTo( {center: [32.99, -9.614], zoom: 4.42, speed: 0.2} );
+
+			story.mapbox.setLayerClickHandler( "lakes", function(e) {
+
+			var _obj = e.features[0];
+
+				story.mem.char.q();
+
+				if ( _obj.id == story.lakeVictoriaID ) {
+
+					story.mapbox.showLabel( "l_vic_label");
+				}
+
+				if ( _obj.id == story.lakeTanganyikaID ) {
+
+					story.mapbox.showLabel( "l_tan_label");
+				}
+
+				if ( _obj.id == story.lakeMalawiID ) {
+
+					story.mapbox.showLabel( "l_mal_label");
+				}
+
+
+				Meteor.setTimeout( function() { story.mem.exercise.processUserChoice( _obj.id ) }, 500 );
+
+			});	
+
+			story.bjork.add( {translateX: 0.87, translateY: 0.50, scaleX: 0.10, scaleY:0.20}   );
+
+			story.bjork.fadeIn();			
+
+			Meteor.setTimeout( function() { story.mem.go() }, 3500)
+		}
+
+	}
+
 
 }
 

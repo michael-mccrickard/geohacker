@@ -1,10 +1,13 @@
- testmap = function() {
+mapFeature = function(_ID, _name, _type) {
 
-	story.showMapboxMap.set(1);
+	if (_ID) this.ID = _ID;
 
-	Meteor.setTimeout( function() { if (!story.mapbox) story.mapbox = new ghMapbox(); }, 1000 );
+	if (_name) this._name = _name;
+
+	if (_type) this.ID = _type;
 
 }
+ 
 
  ghMapbox = function() {
 

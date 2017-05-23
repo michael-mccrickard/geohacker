@@ -6,13 +6,8 @@
 
 		<img class="storyBG" />
 
-		{{#if showMapboxMap}}
 
-			<div id='mmap' style='float: left; position: relative; top: 55px; left: {{MMapLeft}}px; width: {{MMapWidth}}px; height: {{MMapHeight}}px;'></div>
-
-		{{/if}}
-
-		{{#if sceneMode}}
+	<!--	{{#if sceneMode}} -->
 
 			{{#each char}}
 
@@ -32,17 +27,27 @@
 				
 			{{/each}}
 
-		{{/if}}
+<!--		{{/if}}  -->
 
 
-		{{#if exerciseMode}} 
+	{{#if exerciseMode}}
 
 			<div>
 
-				{{> exercise}}
+				{{#if typeIsAmmap}}
+
+					{{> browseWorldMap}}
+
+				{{/if}}
+
+				{{#if typeIsMapbox}}
+
+					{{> mapboxExercise}}
+
+				{{/if}}				
 			</div>
 
-		{{/if}}
+		{{/if}}  
 
 
 		<div class="divChatBackdrop {{chatVisibilityClass}}">

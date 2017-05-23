@@ -267,7 +267,10 @@ Template.browseWorldMap.rendered = function () {
 
       if (story.mode.get() == "exercise") {
 
-        story.em.go();
+        if (story.exerciseMode.get() == "ammap") {
+
+          story.em.go();         
+        }
 
         return;
       }
