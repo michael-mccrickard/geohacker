@@ -55,11 +55,21 @@ Story =  function() {
 
 		this.mode = new Blaze.ReactiveVar( "none" );  //select, scene, chat, map or exercise
 
+		this.chars = [];  //array for the indices
+
+		this.tokens = []; //array for the indices
+
+		this.labels = []; //array for the indices	
+
+		this.labelCount = 3;  //default; change by setting this same property in the story instance	
+
 		this.charObjs = [];  //this array holds the chars for the current scene
 
 		this.tokenObjs = [];  //this array holds the tokens for the current scene
 
 		this.soundObjs = [];  //this array holds the sounds for the story
+
+		this.labelObjs = [];
 
 		this.location = "";  //the country we're in or other locale like "base"
 
@@ -381,6 +391,8 @@ Story =  function() {
 		var _charCount = db.ghChar.find().fetch().length;
 
 		this.chars = this.makeArray(_charCount + 1);
+
+		this.labels = this.makeArray(this.labelCount + 1);
 	},
 
 	this.makeArray = function( _val ) {
@@ -575,6 +587,8 @@ Story =  function() {
 		this.tokenObjs = [];
 
 		this.charObjs = [];
+
+		this.labelObjs = [];
 	},
 
 	this.getBackground = function( _countryCode ) {
@@ -765,6 +779,8 @@ Story =  function() {
 
 		this.chat = this.getChat( _shortName );	
 
+		if ( this[ _shortName ].movable == 0 ) this.chat = storyDefault_chat_cantTalkNow; 
+
 
 		//if we're testing, then get the chat from smed
 
@@ -806,6 +822,38 @@ Story =  function() {
 		}
 
 	},
+
+//*********************************************************************************
+//
+//				LABELS
+//
+//*********************************************************************************
+
+this.addLabel = function( _index, _text, _obj) {
+
+	var _label = new StoryLabel( _index, _text, _obj );
+
+	_label.add();
+
+	this.labelObjs.push( _label );
+}
+
+this.showLabel = function( _ID ) {
+
+	var _label = this.getLabelByID( _ID);
+
+	_label.place();
+
+	_label.show();
+}
+
+this.getLabelByID = function( _ID ) {
+
+	var _arrIndex = Database.getObjectIndexWithValue( this.labelObjs, "index", _ID);
+
+	return this.labelObjs[ _arrIndex ];
+}
+
 
 //*********************************************************************************
 //
@@ -1197,6 +1245,8 @@ if (!_name) _name = ""; //_name = "Geosquad HQ";
 		this.hidePrompt();
 
 		this.hideCityName();
+
+		this.fadeOutBG();
 	}
 	
 }

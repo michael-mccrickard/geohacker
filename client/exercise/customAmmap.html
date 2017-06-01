@@ -1,4 +1,8 @@
-<template name="mapboxExercise">
+<template name="customAmmap">
+
+	<div id="customAmmap"  style="float: left; position: relative; left: {{mapLeft}}px; top: 55px; width: {{mapWidth}}px; height: {{mapHeight}}px; border-radius: 7px; border: 4px solid; border-color: gray;">
+	</div>  
+
 
 	{{#with exerciseChar}}
 
@@ -10,7 +14,5 @@
 		</div>
 
 	{{/with}}
-
-	<div id='mmap' style='float: left; position: relative; top: 55px; left: {{MMapLeft}}px; width: {{MMapWidth}}px; height: {{MMapHeight}}px;'></div>
 
 </template>

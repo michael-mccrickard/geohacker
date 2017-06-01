@@ -45,7 +45,7 @@ mapFeature = function(_ID, _name, _type) {
 		this.map.setLayoutProperty(_layerID, 'visibility', 'visible');
 	}
 
-	this.addLabel = function( _layerName, _arr, _title) {
+	this.addLabel = function( _layerName, _arr, _title, _visibleFlag) {
 
           this.map.addSource(_layerName, {
 
@@ -69,16 +69,19 @@ mapFeature = function(_ID, _name, _type) {
               }
            });
 
-          this.addLabelLayer(_layerName);
+          this.addLabelLayer(_layerName, _visibleFlag);
     }
 
-	this.addLabelLayer = function( _id, _visibleFlag ) {
+	this.addLabelLayer = function( _id, _visible ) {
 
 		var _layerID = "l_" + _id;
 
-		var _visible = "none";
+		var _visibleFlag = "none";
 
-		if (_visibleFlag) _visible = "visible";
+		if (_visible == "show") {
+
+			_visibleFlag = "visible";
+		}
 
 		this.map.addLayer({
 
@@ -108,12 +111,15 @@ mapFeature = function(_ID, _name, _type) {
 			      },
 			      "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
 			      "text-anchor": "center",
-			      "visibility": _visible
+			      "visibility": _visibleFlag
 
 			  }
 		});
 
 	}
+
+
+	//remember the regions you choose to fill must have their 3 letter codes in the db
 
 	this.fillCountries = function( _arrRegions )  {
 

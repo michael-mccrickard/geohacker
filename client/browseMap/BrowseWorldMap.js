@@ -265,7 +265,7 @@ BrowseWorldMap = function( _mapCtl ) {
 
         this.dp = {
 
-            "mapVar": AmCharts.maps.worldLow, 
+            "mapVar": AmCharts.maps.worldLow,
         }
 
         //Set the map areas based on map level

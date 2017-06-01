@@ -38,6 +38,14 @@ Template.story.helpers({
     return false;
   },
 
+  typeIsCustomAmmap: function() {
+
+    if (story.exerciseType.get() == "customAmmap") return true;
+
+    return false;
+  },
+
+
   typeIsMapbox: function() {
 
    if (story.exerciseType.get() == "mapbox") return true;
@@ -48,6 +56,11 @@ Template.story.helpers({
   char: function() {
 
   	 return story.chars;
+  },
+
+  label: function() {
+
+     return story.labels;
   },
 
   chatVisibilityClass: function() {

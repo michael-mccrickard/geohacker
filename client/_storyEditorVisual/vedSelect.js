@@ -96,7 +96,7 @@ Template.vedSelect.events = {
 
 		 	sed.code.set( game.user.profile.lastEditedStory );
 
-			storyManager.start( sed.code.get() ); 		
+			storyManager.start( game.user.profile.lastEditedStory ); 		
 		}   
 	},
 

@@ -24,12 +24,16 @@ ExerciseManager = function() {
 
 		story.mode.set("exercise");
 
+		story.exerciseType.set("ammap");
+
 		this.exercise = new Exercise();
 
 		if (_ID) this.exercise.build(_ID, _arr);
 	}
 
 	this.go = function() {
+
+		Database.shuffle( this.exercise.item );
 
 		this.exercise.show();
 
@@ -195,8 +199,6 @@ c( _par)
 		if (this.index == 0) {
 
 			story.playEffect( this.startSound );
-
-			Database.shuffle(this.item);
 		}
 
 		if (this.index == this.item.length) {
@@ -411,11 +413,17 @@ c("_item.aCode is " + this.aCode)
 
 			this.clue("Incorrect.  Try again.");
 
-			//we have to back up twice, b/c go() will increment the index
+var _worldMap = browseMap.worldMap;
 
-			story.em.exercise.index--;
+_worldMap.mapLevel = this.mapLevelStart;
 
-			story.em.exercise.index--;
+browseMap.level.set( this.mapLevelStart );
+
+			//Back up and try again
+
+			if (story.em.exercise.index > -1) story.em.exercise.index--;
+
+			//if (story.em.exercise.index > -1) story.em.exercise.index--;
 
 			if (this.ID == "whereIsCountry") {
 

@@ -63,8 +63,11 @@
 				  	<th>Order</th>
 				  	<th>{{localName}}</th>
 				  	<th></th>
-				  	<th></th>
-				  
+
+				  	{{#if notCue}}
+					  	<th></th>
+					{{/if}}
+
 				  </tr>
 
 			  	{{#each localRecord}}
@@ -99,9 +102,11 @@
 					  		<button class="btn btn-danger" id="deleteLocalRecord"  onclick="sed.deleteLocalRecord( '{{this._id}}' )"><strong>DEL</strong></button> 
 					    </td>
 
-					    <td>
-					  		<button class="btn btn-primary" id="saveLocalRecord"  onclick="sed.updateLocalRecord( '{{this._id}}' )"><strong>SAV</strong></button> 
-					    </td>
+					    {{#if notCue}}
+						    <td>
+						  		<button class="btn btn-primary" id="saveLocalRecord"  onclick="sed.updateLocalRecord( '{{this._id}}' )"><strong>SAV</strong></button> 
+						    </td>
+					    {{/if}}
 
 					  </tr>
 

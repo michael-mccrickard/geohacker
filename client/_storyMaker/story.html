@@ -7,7 +7,7 @@
 		<img class="storyBG" />
 
 
-	<!--	{{#if sceneMode}} -->
+		{{#if sceneMode}} 
 
 			{{#each char}}
 
@@ -27,7 +27,13 @@
 				
 			{{/each}}
 
-<!--		{{/if}}  -->
+			{{#each label}}
+
+				<div class="storyLabel" id="storyLabel{{this}}" data-shortname=""></div> 
+				
+			{{/each}}
+
+		{{/if}} 
 
 
 	{{#if exerciseMode}}
@@ -37,6 +43,12 @@
 				{{#if typeIsAmmap}}
 
 					{{> browseWorldMap}}
+
+				{{/if}}
+
+				{{#if typeIsCustomAmmap}}
+
+					{{> customAmmap}}
 
 				{{/if}}
 

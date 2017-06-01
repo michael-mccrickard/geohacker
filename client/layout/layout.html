@@ -73,7 +73,9 @@
                     <span class="glyphicon glyphicon-flag"></span>
                 </button>
 
-       
+                <button type="button" class="btn btn-default btn-lg glyphButton" id="labelEdit" onclick="ved.labelMenu()">
+                    <span class="glyphicon glyphicon-font"></span>
+                </button>       
             </div>
 
             <div class="topButtonSelections">
@@ -87,7 +89,17 @@
                                 <img class="selectionImage" src="{{this.p}}" />
                             </button>
 
-                        {{else}}
+                        {{/if}}
+
+                        {{#if labelType}}
+                                                
+                            <button type="button" class="btn btn-default btn-lg selectionButton" id="n{{this.index}}">
+                                <span style="font-family:Arial; fontSize:12px; color:black;">{{this.text}}</span>
+                            </button>
+
+                        {{/if}}
+
+                        {{#if notLocationOrLabel}}
 
                             <button type="button" class="btn btn-default btn-lg selectionButton" id="{{this.sn}}">
                                 <img class="selectionImage" src="{{this.p}}" />
@@ -98,9 +110,13 @@
 
                 {{#if menuOpen}}
 
-                    <button type="button" class="btn btn-default btn-lg selectionButton newEntityButton" id="newEntity">
-                        <span class="glyphicon glyphicon-plus"></span>
-                    </button>
+                    {{#if notLabelType}}
+
+                        <button type="button" class="btn btn-default btn-lg selectionButton newEntityButton" id="newEntity">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+
+                    {{/if}}
 
                 {{/if}}
             

@@ -22,7 +22,14 @@ storyB = function() {
 
 		this.lakeTanganyikaID = 478;
 
-		this.lakeMalawiID = 477;
+		this.lakeMalawiID = 477;	
+
+
+		this.javaID = "ID_4";
+
+		this.borneoID = "ID_11";
+
+		this.sumatraID = "ID_12";
 	}
 
 //*********************************************************************************
@@ -39,6 +46,8 @@ storyB = function() {
 
 
 	this.checkForChat = function() {
+
+		if (!this.flags.didExercise1) return false;
 
 
 		return true;
@@ -58,8 +67,33 @@ storyB = function() {
 			return "storyDefault_chat_reportToBase";
 		}
 
+		if (this.scene == "default" || this.scene == "defaultBase") {
+
+			if (!this.flags.knowsLangspil) return "missionToMalawi";
+
+			if (!this.flags.knowsBook) return "missionToIceland";
+
+			if (!this.flags.knowsVideo) return "missionToUS";
+
+			if (!this.flags.has_video) return "missionToIndonesia";
+
+			if (!this.flags.gave_video) return "missionToUS2";
+ 		}
+
+ 		//the user might ask questions immediately of an agent that just supplied a token
+
+ 		if (this.scene == "userGetsVideo" && this.flags.has_video) return "missionToUS2";
+
+ 		if (this.scene == "visitLibrarian2" && this.flags.gave_video) return "missionToIceland2";
+
+ 		if (this.scene == "visitBjork2" && this.flags.gave_book) return "missionToMalawi2";
+
+ 		if (this.scene == "visitChef2" && this.flags.gave_lang) return "missionToKorea";
+
 		//If we have have reached this point, we assume the chat name is the same
 		//as the scene name
+
+
 
 		return this.scene;
 	}
@@ -78,6 +112,35 @@ storyB = function() {
 		if (_name == "letter") {
 
 			this.play("missionToMalawi");  
+		}
+
+		if (_name == "video") {
+
+			//allow dancer to speak once user has video
+
+			this.dancer.movable = 1;
+		}
+
+		if (_name == "book") {
+
+			//allow lib to speak once user has book
+
+			this.lib.movable = 1;
+
+		}
+
+		if (_name == "lang") {
+
+			//allow Bjork to speak once user has langspil
+
+			this.bjork.movable = 1;
+		}
+
+		if (_name == "nsima") {
+
+			//allow chef to speak once user has nsima
+
+			this.chef.movable = 1;
 		}
 /*
 		if (_name == "itemName2") {
@@ -125,14 +188,11 @@ storyB = function() {
 
 		//we typically need to refuse the item also, if the conditions aren't right
 
-/*
-		if (_name == "itemName1") {
+		if (_name == "video") {
 
-			if (this.scene == "sceneName1") {
+			if (this.scene == "visitLibrarian2") {
 
-				this.flags.flagName1 = true;
-
-				this.play( "sceneName2");
+				this.play( "userGetsBook");
 
 				return;
 			}
@@ -140,20 +200,30 @@ storyB = function() {
 			this.refuseItem( _name );
 		}
 
-		if (_name == "itemName2") {
+		if (_name == "book") {
 
-			if (this.scene == "sceneName3") {
+			if (this.scene == "visitBjork2") {
 
-				this.flags.flagName2 = true;
-
-				this.play("sceneName4");
+				this.play("userGetsLangspil");
 
 				return;
 			}
 
 			this.refuseItem( _name );
 		}
-*/
+
+		if (_name == "lang") {
+
+			if (this.scene == "visitChef2") {
+
+				this.play("userGetsNsima");
+
+				return;
+			}
+
+			this.refuseItem( _name );
+		}
+
 
 	}	
 
@@ -174,6 +244,8 @@ storyB = function() {
 		if (_ID == "US") this.playLoop("cleveland_ambience.mp3")
 
 		if (_ID == "MW") this.playLoop("malawi_ambience.mp3")
+
+		//if (_ID == "ID") this.playLoop("indonesia_ambience.mp3")
 
 	}
 
@@ -217,7 +289,9 @@ storyB = function() {
 				return;
 			}
 
-			//this.play( commonScene );  //probably info about the mission
+			this.play( "defaultBase" );  //probably info about the mission
+
+			return;
 
 		}
 
@@ -236,11 +310,18 @@ storyB = function() {
 
 					return;		
 			}
+
+			if ( this.flags.has_lang && !this.flags.gave_lang) {
+
+					this.play( "visitChef2" );
+
+					return;		
+			}
 		}
 
 		if ( _ID == "IS") {
 
-			if ( this.flags.knowsLangspil && !this.flags.knowsBook) {
+			if ( this.flags.knowsLangspil && !this.flags.didExercise3) {
 
 					this.play( "visitBjork1" );
 
@@ -249,12 +330,60 @@ storyB = function() {
 
 			if ( this.flags.didExercise3 && !this.flags.knowsBook) {
 
-					this.play( "missionToBali" );
+					this.play( "missionToUS" );
+
+					return;		
+			}
+
+			if ( this.flags.has_book && !this.flags.gave_book) {
+
+					this.play( "visitBjork2" );
 
 					return;		
 			}
 		}
 
+		if ( _ID == "US") {
+
+			if ( this.flags.knowsBook && !this.flags.metLibrarian) {
+
+					this.play( "visitLibrarian1" );
+
+					return;		
+			}
+
+			if ( this.flags.metLibrarian && !this.flags.knowsVideo) {
+
+					this.play( "learnIndonesia" );
+
+					return;		
+			}
+
+			if ( this.flags.has_video && !this.flags.gave_video) {
+
+					this.play( "visitLibrarian2" );
+
+					return;		
+			}
+		}
+
+
+		if ( _ID == "ID") {
+
+			if ( this.flags.knowsVideo && !this.flags.didExercise4) {
+
+					this.play( "visitDancer1" );
+
+					return;		
+			}
+
+			if ( this.flags.didExercise4 && !this.flags.has_video) {
+
+					this.play( "userGetsVideo" );
+
+					return;		
+			}
+		}
 
 		this.playDefaultScene( _ID);
 
@@ -265,7 +394,7 @@ storyB = function() {
 
 	this.getCityName = function(_location) {
 
-		if (_location == "ID") return "Bali";
+		//if (_location == "ID") return "Bali";
 
 		if (_location == "US") return "Cleveland";
 
@@ -317,15 +446,32 @@ storyB = function() {
 
 		if (this.scene == "visitBjork1") {
 
-			story.mem.init( "bjork" );  //pass the shortName of the char "hosting" the exercise
+			story.mem.init( "bjork", "mapbox" );  //pass the shortName of the char "hosting" the exercise
 
-			this.mem.build();
+			this.mem.build( false );  //don't shuffle
 
 			this.mem.add([
 
-				{ qText: "Click the largest lake in Africa.", aCode: this.lakeVictoriaID, aText: "Exactly. Lake Victoria is the largest lake on the continent." },
-
 				{ qText: "Click Lake Malawi.", aCode: this.lakeMalawiID, aText: "That's it. Lake Malawi is the third largest lake in Africa." },
+
+				{ qText: "Click the largest lake in Africa.", aCode: this.lakeVictoriaID, aText: "Exactly. Lake Victoria is the largest lake on the continent." },
+				
+
+			]);
+		}
+
+
+		if (this.scene == "visitDancer1") {
+
+			story.mem.init( "dancer", "customAmmap" );  //pass the shortName of the char "hosting" the exercise
+
+			this.mem.build( false );  //don't shuffle
+
+			this.mem.add([
+
+				{ qText: "Click the island of Borneo.", aCode: this.borneoID, aText: "That's it. Indonesia shares Borneo with Malaysia and Brunei." },
+
+				{ qText: "Click the the most populous island in Indonesia.", aCode: this.javaID, aText: "Exactly. Over half the population lives on the island of Java." },
 
 			]);
 		}
@@ -337,6 +483,10 @@ storyB = function() {
 		if (this.scene == "missionToMalawi") this.flags.didExercise1 = true;
 
 		if (this.scene == "visitChef1") this.flags.didExercise2 = true;
+
+		if (this.scene == "visitBjork1") this.flags.didExercise3 = true;
+
+		if (this.scene == "visitDancer1") this.flags.didExercise4 = true;
 
 		this.go( this.location );
 	}
@@ -353,8 +503,8 @@ storyB = function() {
 
 			this.doMapboxForExercise( "visitBjork1"); 
 		}
-
 	}
+
 
 	this.doMapboxForExercise = function( _scene) {
 
@@ -362,15 +512,15 @@ storyB = function() {
 
 			var _arr = [33.164, -1.232];
 
-			story.mapbox.addLabel("vic_label", _arr, "Lake Victoria"); 
+			story.mapbox.addLabel("vic_label", _arr, "Lake Victoria", "hide"); 
 
 			_arr = [28.5, -6.186];
 
-			story.mapbox.addLabel("tan_label", _arr, "Lake Tanganyika"); 
+			story.mapbox.addLabel("tan_label", _arr, "Lake Tanganyika", "hide"); 
 
 			_arr = [34.450, -12.117];
 
-			story.mapbox.addLabel("mal_label", _arr, "Lake Malawi"); 
+			story.mapbox.addLabel("mal_label", _arr, "Lake Malawi", "hide"); 
 
 			story.mapbox.fillCountries( ["neaf","saf","caf","nwaf"] );
 
@@ -402,15 +552,46 @@ storyB = function() {
 
 			});	
 
-			story.bjork.add( {translateX: 0.87, translateY: 0.50, scaleX: 0.10, scaleY:0.20}   );
 
-			story.bjork.fadeIn();			
+			story.bjork.add( {left: 0.68, top: 0.33, scaleX: 0.10, scaleY:0.17}   );
+
+			story.bjork.fadeIn();
 
 			Meteor.setTimeout( function() { story.mem.go() }, 3500)
 		}
 
 	}
 
+	this.doCustomAmmapForExercise = function() {
+
+		this.dancer.fadeIn();
+
+		this.dancer.add( {left: 0.85, top: 0.57, scaleX: 0.11, scaleY:0.16} );
+
+		this.dancer.setDirection("top");
+
+		Meteor.setTimeout( function() { customAmmap.doThisMap( { mapVar: AmCharts.maps.AsiaLow, z1: "6.43", z2: "-40.4", z3: "57.5" } ) }, 500);
+
+		Meteor.setTimeout( function() { customAmmap.colorCountries(); }, 1000);
+
+		Meteor.setTimeout( function() { customAmmap.freezeCountries( { mapVar: AmCharts.maps.AsiaLow, z1: "6.43", z2: "-40.4", z3: "57.5" } ); }, 1500);
+
+		Meteor.setTimeout( function() { story.mem.go() }, 2000);
+	}
+
+
+
+	this.labelClickedExerciseObject = function(_ID) {
+
+		if (this.scene == "visitDancer1") {
+
+			if (_ID == this.javaID) customAmmap.labelMapObject("Java", 35.4, -45.2, "white")
+
+			if (_ID == this.borneoID) customAmmap.labelMapObject("Borneo", 38, -38, "white")
+
+			if (_ID == this.sumatraID) customAmmap.labelMapObject("Sumatra", 16, -38.7, "white")
+		}		
+	}
 
 }
 

@@ -196,9 +196,18 @@ StoryEditorVisual = function() {
 
 		this.selectedEntityName = _name;
 
-		this.selectedEntity = story[ _name ];
+		if (this.menuElementType.get() == cStoryLabel) {
 
-		sed.recordID.set( story[ _name ].ID );
+			this.selectedEntity = story.getLabelByID( _name.substr(1) );
+		}
+		else {
+
+			this.selectedEntity = story[ _name ];
+
+			sed.recordID.set( story[ _name ].ID );			
+		}
+
+
 
 		$( this.selectedEntity.imageElement ).addClass( "storyEntitySel" );
 
@@ -359,6 +368,11 @@ StoryEditorVisual = function() {
 
 	}
 
+	this.createLabelArray = function() {
+
+		this.labelArray = story.labelObjs;
+	}
+
 	this.createLocationArray = function() {
 
 		this.locationArray = [];
@@ -419,6 +433,11 @@ StoryEditorVisual = function() {
 //
 //*********************************************************************************
 
+	this.rotateEntity = function( _val ) {
+
+		
+	}
+
 	this.sizeEntityXY = function( _val) {
 
 		_val = _val * this.sizeIncValue;
@@ -468,6 +487,13 @@ StoryEditorVisual = function() {
 
 	this.moveEntityVert = function( _val) {
 		
+		if (this.menuElementType.get() == cStoryLabel) {
+
+			this.moveLabelVert( _val );
+
+			return;
+		}
+
 		var _ent = this.selectedEntity;
 
 		var _translateY = _ent.lastTransform.translateY;
@@ -481,6 +507,13 @@ StoryEditorVisual = function() {
 
 	this.moveEntityHoriz = function( _val) {
 
+		if (this.menuElementType.get() == cStoryLabel) {
+
+			this.moveLabelHoriz( _val );
+
+			return;
+		}
+
 		var _ent = this.selectedEntity;
 
 		var _translateX = _ent.lastTransform.translateX;
@@ -491,6 +524,36 @@ StoryEditorVisual = function() {
 
 		this.showCoordinates();
 
+	}
+
+	this.moveLabelVert = function( _val ) {
+
+		_val = _val / 100;
+
+		var _ent = this.selectedEntity;
+
+		var _translateY = _ent.y;
+
+		_ent.y = _translateY + _val;
+
+		_ent.place();
+
+		this.showCoordinates();		
+	}
+
+	this.moveLabelHoriz = function( _val ) {
+
+		_val = _val / 100;
+
+		var _ent = this.selectedEntity;
+
+		var _translateX = _ent.x;
+
+		_ent.x = _translateX + _val;
+
+		_ent.place();
+
+		this.showCoordinates();		
 	}
 
 //*********************************************************************************
@@ -548,6 +611,24 @@ StoryEditorVisual = function() {
 		Meteor.setTimeout( function() { ved.updateContent(); }, 500);
 	}
 
+
+	this.labelMenu = function() {
+
+		this.prepareEditor();
+
+		var _arr = this.createLabelArray();
+
+		this.menuElementType.set( cStoryLabel );
+
+		var _left = $("button#labelEdit").offset().left;
+
+		$("div.topButtonSelections").offset( { left: _left } );
+
+		this.menuOpen.set( true );
+
+		Meteor.setTimeout( function() { ved.updateContent(); }, 500);
+	}
+
 	this.showCoordinates = function() {
 		
 		var _windowWidth = $(window).width();
@@ -558,6 +639,13 @@ StoryEditorVisual = function() {
 
 		var _ent = this.selectedEntity;
 
+		if ( this.menuElementType.get() == cStoryLabel) {
+
+			this.showCoordinatesForLabel( _ent );
+
+			return;
+		}
+
 		var _obj = convertMatrixStringToObject( $(_element).css("transform") );
 
 c("matrix object for " + _ent.name + " follows")
@@ -565,13 +653,13 @@ c( _obj )
 
 		var _origSize = _ent.origSize;
 
-		var _x = _ent.fixTranslateValueForDB( _obj, "x");//_obj.translateX - (_windowWidth * _ent.scaleX - _origSize.width ) / 2;
+		var _x = _ent.fixTranslateValueForDB( _obj, "x");
 
-		var _y = _ent.fixTranslateValueForDB( _obj, "y");//_obj.translateY - (_windowHeight * _ent.scaleY - _origSize.height ) / 2;
+		var _y = _ent.fixTranslateValueForDB( _obj, "y");
 
-		var _scaleX = _ent.fixScaleValueForDB( _obj, "x");//( _obj.scaleX * _origSize.width ) / _windowWidth;
+		var _scaleX = _ent.fixScaleValueForDB( _obj, "x");
 
-		var _scaleY = _ent.fixScaleValueForDB( _obj, "y");//( _obj.scaleY * _origSize.height ) / _windowHeight;
+		var _scaleY = _ent.fixScaleValueForDB( _obj, "y");
 
 		 var _s = "{x: " + formatFloat( _x ) + ", " + "y: " + formatFloat( _y ) + ", scaleX: " + formatFloat( _scaleX ) + ", scaleY:" + formatFloat(_scaleY) + "}";
 
@@ -579,6 +667,12 @@ c( _obj )
 
 	}
 
+	this.showCoordinatesForLabel = function( _ent) {
+
+		var _s = "{x: " + formatFloat( _ent.x ) + ", " + "y: " + formatFloat( _ent.y ) + "}";
+
+		this.updateScreen( _s ); 
+	}
 
 
 	this.showData = function( _name ) {
@@ -665,6 +759,8 @@ c( _obj )
 
 		var _code = sed.code.get();
 
+c("code in loadStory is " + _code);
+		
 		story = null;
 
 		var _name = "story" + _code;
@@ -684,8 +780,6 @@ c( _obj )
 
 			return;
 		  }
-
-		var _s = "story = new " + _name + "()";
 
 		eval( "story = new " + _name + "()" );
 

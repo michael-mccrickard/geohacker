@@ -35,6 +35,33 @@ Template.layout.helpers({
     return false;
   },
 
+  labelType: function() {
+
+    var _type = ved.menuElementType.get();
+
+    if (_type == cStoryLabel) return true;
+
+    return false;
+  },
+
+  notLocationOrLabel: function() {
+
+    var _type = ved.menuElementType.get();
+
+    if (_type == cStoryLabel || _type == cLocation) return false;
+
+    return true;
+  },
+
+  notLabelType: function() {
+
+    var _type = ved.menuElementType.get();
+
+    if (_type == cStoryLabel ) return false;
+
+    return true;
+  },
+
   menuElement: function() {
 
   	var _flag = Session.get("sUpdateVisualEditor");
@@ -52,6 +79,8 @@ Template.layout.helpers({
    	if (_type == cToken ) return ( db.ghToken.find( { c: sed.code.get() } ).fetch() );
 
     if (_type == cLocation ) return ( ved.locationArray );    
+
+    if (_type == cStoryLabel ) return ( ved.labelArray );   
 
   },
 

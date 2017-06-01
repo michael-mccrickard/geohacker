@@ -111,6 +111,14 @@ $(document).keydown(function(e) {
 
         if (gEditLearnCountry) editCountry(-1);
 
+        if (gSizeEntityMode || gMoveEntityMode) ved.rotateEntity(-1);
+
+        break;
+
+      case 33: //pagedown
+
+        if (gSizeEntityMode || gMoveEntityMode) ved.rotateEntity(1);
+
         break;
 
       case 190: //period 

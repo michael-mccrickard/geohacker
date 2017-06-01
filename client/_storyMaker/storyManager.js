@@ -16,6 +16,10 @@ StoryManager = function() {
 
 	this.start = function( _code ) {
 
+c("code in sM.start is " + _code)
+
+		if (sed) sed.reset();   //we need to subscribe to only one story now and the editor subscribes to all
+
 		story.killSound();
 
 		game.user.mode = uStory;

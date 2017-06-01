@@ -294,10 +294,12 @@ Meteor.startup(
     //stories
 
      Meteor.publish("storyAssets_Story",function( storyCode ){
+
       return ghStory.find({ c: storyCode });
     }); 
 
      Meteor.publish("storyAssets_Location",function( storyCode ){
+
       return ghLocation.find({ c: storyCode });
     });   
 

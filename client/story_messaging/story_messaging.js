@@ -52,6 +52,8 @@ StoryMessaging = function() {
             pic: smed.helperPic
         }
 
+        this.targetEntity = this.targetObj;
+
         this.targetID.set( 'helper' );      
     }
 

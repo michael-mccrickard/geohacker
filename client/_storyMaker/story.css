@@ -141,6 +141,23 @@ width: 100%;
 
 }
 
+.storyLabel {
+
+  font-family: Arial;
+
+  position: absolute;
+
+  pointer-events: none;
+
+  text-align: center;
+
+  text-shadow: 1px 1px 4px #A9A9A9;
+
+  opacity: 0;
+
+  z-index: 1010;
+}
+
 .divStoryTitle {
 
 	font-family: storyHeadlineBold;

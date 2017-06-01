@@ -1,7 +1,7 @@
 //exercise.js
 Template.mapboxExercise.rendered = function() {
 
-	story.fadeOutAll();
+	story.fadeOutTokens();
 
 	//Create the ghMapbox object which will create the map object; then the
 	//on.load callback will call this.mapboxReady()
@@ -11,28 +11,26 @@ Template.mapboxExercise.rendered = function() {
 
 Template.mapboxExercise.helpers({
 
-  MMapLeft: function() {
+	MMapLeft: function() {
 
-     return $(window).width() * 0.05;
-  },
+	 	return $(window).width() * 0.05;
+	},
 
-  MMapWidth: function() {
+	MMapWidth: function() {
 
-     return $(window).width() * 0.8;
-  },
+	 	return $(window).width() * 0.92;
+	},
 
+	MMapHeight: function() {
 
-  MMapHeight: function() {
+	 	return $(window).height() * 0.9;
 
-     return $(window).height() * 0.9;
-  
-     return false;
-  },
+	},
 
-  exerciseChar: function() {
+	exerciseChar: function() {
 
-  	return story.mem.char.index;
-  },
+		return story.mem.char.index;
+	},
 
 	picForChar: function() {
 
@@ -47,11 +45,15 @@ Template.mapboxExercise.helpers({
 });
 
 
-MapboxExerciseManager = function(_charName) {
+MapboxExerciseManager = function() {
 
 	this.char = null;
 
 	this.exercise = null;
+
+	this.exerciseType = "";
+
+	this.shuffleItems = true;
 
 	this.setChar = function(_charName) {
 
@@ -68,11 +70,13 @@ MapboxExerciseManager = function(_charName) {
 		story.mode.set("scene");
 	}
 
-	this.init = function( _charName ) {
+	this.init = function( _charName, _exerciseType ) {
 
-		if (_charName) this.char = story[ _charName ];
+		this.char = story[ _charName ];
 
-		story.exerciseType.set("mapbox");
+		this.exerciseType = _exerciseType;
+
+		story.exerciseType.set( _exerciseType );
 
 		//We need a little delay here to ensure that the template has been redrawn with the exercise on it.
 		//The rendered event for the mapboxExercise template creates the ghMapbox object and it's onload event
@@ -81,7 +85,9 @@ MapboxExerciseManager = function(_charName) {
 		Meteor.setTimeout( function() { story.mode.set("exercise"); }, 500 );
 	}
 
-	this.build = function() {
+	this.build = function(_shuffleFlag) {
+
+		if (_shuffleFlag !== 'undefined') this.shuffleItems = _shuffleFlag;
 
 		this.exercise = new MapboxExercise();
 
@@ -90,6 +96,8 @@ MapboxExerciseManager = function(_charName) {
 	this.go = function() {
 
 		this.exercise.show();
+
+		if (this.shuffleItems) Database.shuffle(this.exercise.item);
 
 		Meteor.setTimeout( function() { story.mem.exercise.go() }, 300);
 	}
@@ -132,6 +140,7 @@ MapboxExercise = function() {
 
 	this.incorrectSound = "exerciseIncorrect.mp3";
 
+
 	//We can modify these functions to let value pairs in the param obj
 	//over-ride the default values
 
@@ -154,7 +163,7 @@ MapboxExercise = function() {
 
 	this.show = function() {
 
-		browseMap.mode.set("exercise");
+		//browseMap.mode.set("exercise");
 
 		story.mode.set("exercise");
 
@@ -169,8 +178,6 @@ MapboxExercise = function() {
 		if (this.index == 0) {
 
 			story.playEffect( this.startSound );
-
-			Database.shuffle(this.item);
 		}
 
 		if (this.index == this.item.length) {
@@ -225,6 +232,7 @@ MapboxExerciseItem = function( _obj ) {
 	}
 
 	this.processUserChoice = function( _val ) {
+
 		
 c("_val is " + _val)
 c("_item.aCode is " + this.aCode)
