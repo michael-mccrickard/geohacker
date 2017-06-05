@@ -290,6 +290,12 @@ console.log( _obj );
 
 	this.fixTranslateValueForCSS = function( _obj, _axis, _elementSize) {
 
+		_obj = this.fixPropertyNames(_obj);
+
+c("fixed obj in fixTranslateValueForCSS follows")
+
+c(_obj)
+
 		var _windowWidth = $(window).width();
 
 		var _windowHeight = $(window).height();
@@ -395,6 +401,10 @@ console.log( _obj );
 
 	this.animate = function( _obj ) {
 
+c("anim param obj follows")
+
+c(_obj)
+
 		var _time = 1.5;
 
 		var _obj2 = {};
@@ -405,13 +415,14 @@ console.log( _obj );
 
 
 		if (_obj.left) {
-
-			_obj2.x = _obj.left * $(window).width();
+		
+			_obj2.x = this.fixTranslateValueForCSS( _obj, "x")
 		}
 
 		if (_obj.top) {
+			
+			_obj2.y = this.fixTranslateValueForCSS( _obj, "y")
 
-			_obj2.y =  _obj.top * $(window).height();
 		}
 
 		if (_obj.scaleX) {
@@ -422,6 +433,16 @@ console.log( _obj );
 		if (_obj.scaleY) {
 
 			_obj2.scaleY = this.fixScaleValueForCSS( _obj, "y" );
+		}
+
+		if (_obj.skewX) {
+
+			_obj2.skewX = _obj.skewX;
+		}
+		
+		if (_obj.skewY) {
+
+			_obj2.skewY = _obj.skewY;
 		}
 
 		if (_obj.rotation) _obj2.rotation = _obj.rotation;
@@ -511,6 +532,13 @@ console.log( _obj );
 	this.sayRight = function( _text ) {
 
 		this.placement = "right";
+
+		this.say( _text );
+	},
+
+	this.sayTop = function( _text ) {
+
+		this.placement = "top";
 
 		this.say( _text );
 	},

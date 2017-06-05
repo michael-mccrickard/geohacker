@@ -127,7 +127,7 @@
 
 .storyElement {
 
-	z-index:  1002;
+
 	/*	transform-origin: left top;  */
 }
 
@@ -321,6 +321,8 @@ div.storyButton {
 	position: absolute;
 
 	opacity: 0;
+
+    z-index:  1003;
 }
 
 .storyThingContent {

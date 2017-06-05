@@ -95,7 +95,12 @@ $(document).keydown(function(e) {
 
     var _val = 1;
 
-    if (e.shiftKey) _val = 4;
+    if (e.shiftKey) {
+
+        _val = 4;
+
+        if (gMoveEntityMode) _val = 12;
+    }
 
     switch(e.which) {
 

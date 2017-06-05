@@ -65,31 +65,25 @@ storyBlank = function() {
 	this.addInventoryItem = function( _name) {
 
 
+//In most cases, we want to hide the prompt that is on the screen after adding the inv item
+//However, if we want to show a new prompt after adding the item (say, it's the end of the scene 
+// and we want to tell the user what to do next) then we trap that particular case, do the this._addInventoryItem() call and return
+
 /*
 		if (_name == "itemName2") {
+	
+			this._addInventoryItem(_name);
 
-			this.flags.flagName1 = true;
-		}
+			showPrompt("Use the map to travel to Iceland")
 
-		if (_name == "itemName2") {
-
-			if (this.flags.flagName2) {
-
-				this.doExercise();
-
-				return;
-			}
-
-			if (this.scene == "sceneName") {
-
-				//do something special
-
-			}
+			return;
 		}
 
 */
 
 		this._addInventoryItem( _name );
+
+		this.hidePrompt();
 	}
 
 	//this._removeInventoryItem( _name ) hides the inv item in the inventory and then
@@ -219,6 +213,8 @@ storyBlank = function() {
 	this.getCityName = function(_scene) {
 
 		//if (_scene == "sceneName1" || _scene == "sceneName2" ) return "specific city name";
+
+		if (this.locaton == "base") return "Geosquad HQ";
 
 		return null;  //just use the capital name
 	}

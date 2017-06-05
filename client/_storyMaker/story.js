@@ -664,13 +664,13 @@ Story =  function() {
 
           this.unhiliteAllButtons();
 
-          this.silenceAll();
-
           this.fadeOutAll();
 
           this.hidePrompt();
 
           this.hideCityName();
+
+          this.silenceAll();
 	
 	}
 
@@ -1179,9 +1179,7 @@ this.getLabelByID = function( _ID ) {
 
 		//there may be a custom name (something other than the capital)
 
-//		var _name = this.getCityName( this.scene );
-
-var _name = this.getCityName( this.location );
+		var _name = this.getCityName( this.location );
 
 		//If we're not, we look up the capital name, assuming we are not on base.
 		//We also need the right font name based on region
@@ -1211,7 +1209,7 @@ var _name = this.getCityName( this.location );
 
 		//we must be on base
 
-if (!_name) _name = ""; //_name = "Geosquad HQ";
+	if (!_name) _name = ""; 
 
 		//now apply the text and font
 

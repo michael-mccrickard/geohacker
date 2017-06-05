@@ -84,11 +84,11 @@ storyB = function() {
 
  		if (this.scene == "userGetsVideo" && this.flags.has_video) return "missionToUS2";
 
- 		if (this.scene == "visitLibrarian2" && this.flags.gave_video) return "missionToIceland2";
+ 		if (this.scene == "userGetsBook" && this.flags.has_book) return "missionToIceland2";
 
- 		if (this.scene == "visitBjork2" && this.flags.gave_book) return "missionToMalawi2";
+ 		if (this.scene == "userGetsLangspil" && this.flags.has_lang) return "missionToMalawi2";
 
- 		if (this.scene == "visitChef2" && this.flags.gave_lang) return "missionToKorea";
+ 		if (this.scene == "userGetsNsmima" && this.flags.has_nsima) return "missionToKorea";
 
 		//If we have have reached this point, we assume the chat name is the same
 		//as the scene name
@@ -111,55 +111,77 @@ storyB = function() {
 
 		if (_name == "letter") {
 
-			this.play("missionToMalawi");  
+			if (this.scene == "intro")  this.play("missionToMalawi");  
 		}
 
 		if (_name == "video") {
 
-			//allow dancer to speak once user has video
+			//allow dancer to chat once user has video
 
-			this.dancer.movable = 1;
+			if (this.scene == "userGetsVideo") {
+
+				this.dancer.movable = 1;
+
+				this.showPrompt("Use the map to go back to the USA");
+
+				this._addInventoryItem( _name );
+
+				return;
+			}
 		}
 
 		if (_name == "book") {
 
-			//allow lib to speak once user has book
+			//allow lib to chat once user has book
 
 			this.lib.movable = 1;
+
+			this.showPrompt("Use the map to return to Iceland")
+
+			this._addInventoryItem( _name );
+
+			return;
 
 		}
 
 		if (_name == "lang") {
 
-			//allow Bjork to speak once user has langspil
+			//allow Bjork to chat once user has langspil
 
 			this.bjork.movable = 1;
+
+			this.showPrompt("Use the map to return to Malawi")
+
+			this._addInventoryItem( _name );
+
+			return;
 		}
 
 		if (_name == "nsima") {
 
-			//allow chef to speak once user has nsima
+			//allow chef to chat once user has nsima
 
 			this.chef.movable = 1;
-		}
-/*
-		if (_name == "itemName2") {
 
-			if (this.flags.flagName2) {
+			this.scene="default";
 
-				this.doExercise();
+			this._addInventoryItem( _name );
 
-				return;
-			}
+			this.showPrompt("Use the map to travel to South Korea")
 
-			if (this.scene == "sceneName") {
-
-				//do something special
-
-			}
+			return;
 		}
 
-*/
+		if (_name == "psy") {
+
+			//fix the movable flag so story._addInventoryItem() won't reject him
+
+			this.psy.movable = 1;
+
+			this.play("missionToBase1");
+		}
+
+		this.hidePrompt();
 
 		this._addInventoryItem( _name );
 	}
@@ -194,22 +216,22 @@ storyB = function() {
 
 				this.play( "userGetsBook");
 
+				this.hidePrompt();
+
 				return;
 			}
-
-			this.refuseItem( _name );
 		}
 
 		if (_name == "book") {
 
 			if (this.scene == "visitBjork2") {
 
+				this.hidePrompt();
+
 				this.play("userGetsLangspil");
 
 				return;
 			}
-
-			this.refuseItem( _name );
 		}
 
 		if (_name == "lang") {
@@ -220,11 +242,39 @@ storyB = function() {
 
 				return;
 			}
-
-			this.refuseItem( _name );
 		}
 
+		if (_name == "nsima") {
 
+			if (this.scene == "visitPsy1") {
+
+				this.play("psyGetsNsima");
+
+				return;
+			}
+		}
+
+		if (_name == "letter") {
+
+			if (this.scene == "psyGetsNsima") {
+
+				this.play("psyGetsLetter");
+
+				return;
+			}
+		}
+
+		if (_name == "psy") {
+
+			if (this.scene == "userDeliverPsy") {
+
+				this.play("prezAndPsyChat");
+
+				return;
+			}
+		}
+
+		this.refuseItem( _name );
 	}	
 
 //*********************************************************************************
@@ -245,7 +295,7 @@ storyB = function() {
 
 		if (_ID == "MW") this.playLoop("malawi_ambience.mp3")
 
-		//if (_ID == "ID") this.playLoop("indonesia_ambience.mp3")
+		if (_ID == "ID") this.playLoop("indonesia_ambience.mp3")
 
 	}
 
@@ -285,6 +335,13 @@ storyB = function() {
 			if (this.flags.didExercise1 && !this.flags.didExercise2) {
 
 				this.play( "startMissionToMalawi" );
+
+				return;
+			}
+
+			if (this.flags.has_psy  && !this.flags.gave_psy) {
+
+				this.play( "userDeliverPsy" );
 
 				return;
 			}
@@ -385,6 +442,32 @@ storyB = function() {
 			}
 		}
 
+		if ( _ID == "KR") {
+
+			if ( this.flags.has_nsima && !this.flags.gave_nsima) {
+
+					this.play( "visitPsy1" );
+
+					return;		
+			}
+
+			//thse actually triggered thru the inventory but these help us in testing
+
+			if ( this.flags.gave_nsima && !this.flags.gave_letter) {
+
+					this.play( "psyGetsLetter" );
+
+					return;		
+			}
+
+			if ( this.flags.gave_letter && !this.flags.has_psy) {
+
+					this.play( "userGetsPsy" );
+
+					return;		
+			}
+		}
+
 		this.playDefaultScene( _ID);
 
 	}
@@ -394,7 +477,7 @@ storyB = function() {
 
 	this.getCityName = function(_location) {
 
-		//if (_location == "ID") return "Bali";
+		if (_location == "base") return "Geosquad HQ";
 
 		if (_location == "US") return "Cleveland";
 

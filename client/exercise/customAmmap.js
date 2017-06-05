@@ -212,7 +212,7 @@ Template.customAmmap.helpers({
 
   mapHeight: function() { 
 
-    _factor = 0.81;
+    _factor = 0.79;
 
     return $(window).height() * _factor;
 

@@ -33,7 +33,7 @@ Token = function() {
 
 		this.contentMode = "front";  //'front' or 'back'
 
-		this.zIndex = 1001;
+		this.zIndex = 1003;
 
 		if (_obj.t == "n") this.type = "normal";
 

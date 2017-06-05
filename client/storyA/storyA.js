@@ -116,6 +116,8 @@ storyA = function() {
 		}
 
 		this._addInventoryItem( _name );
+
+		this.hidePrompt();
 	}
 
 	this.removeInventoryItem = function( _name) {
@@ -326,9 +328,7 @@ storyA = function() {
 
 		if (this.location == "ML") return "Timbuktu";
 
-		//if (_scene == "vanGogh" || _scene == "userGetsPasscode" ) return "Zundert";
-
-		//if (_scene == "nelsonAndMark" || _scene == "nelsonGetsPainting" ||  _scene == "finalChallenge") return "Timbuktu";
+		if (this.location == "base") return "Geosquad HQ";
 
 		return null;
 	}

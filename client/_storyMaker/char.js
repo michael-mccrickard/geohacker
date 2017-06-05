@@ -24,6 +24,8 @@ Char = function() {
 
 		this.lastSpeech = "";
 
+		this.actLikeToken = false;  //temporarily set to true to enable adding/removing from inventory
+
 
 		if (_obj.t) {   //type
 

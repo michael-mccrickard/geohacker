@@ -234,13 +234,18 @@ Template.story.events({
 
           var _sel = "img#" + event.currentTarget.id;
 
-          var _shortName = $( _sel ).data().shortname;
-
           var _name = $(event.currentTarget).attr("data-shortname");
+
+          if (story[ _name].actLikeToken ) {
+
+              story.addInventoryItem( _name );
+
+              return;
+          }
 
           if ( story[ _name].movable ) {  
 
-             story.doChat( _shortName);
+             story.doChat( _name);
           }
           else {
 
@@ -256,6 +261,13 @@ Template.story.events({
       },
 
     'click #nextMission': function(event, template) {
+
+          if (story.code == "A") {
+
+             storyManager.start("B");
+
+             return;
+          }
 
           alert("More Geosquad missions coming soon!  Thanks for playing.")
 

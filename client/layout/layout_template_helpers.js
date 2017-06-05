@@ -132,6 +132,17 @@ Template.layout.helpers({
     return false;
   },
 
+  storyIsLoadedForEditing : function() {
+
+    var _flag = Session.get("sUpdateVisualEditor");
+
+    if (sed.mode.get() == "data") return false;
+
+    if (story.isLoaded.get() == true &&  game.mode.get() == gmEditStory) return true;
+
+    return false;
+  },
+
   vedSelectStoryMode : function() {
 
     var _flag = Session.get("sUpdateVisualEditor");

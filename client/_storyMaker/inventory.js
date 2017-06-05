@@ -110,8 +110,6 @@ Inventory = function() {
 		this.slot[ _obj.index ] = _obj;
 
 		_obj.show();
-
-		story.hidePrompt();
 	}
 
 

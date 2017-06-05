@@ -23,7 +23,7 @@ StoryEditorVisual = function() {
 
 	this.sizeIncValue = 0.05;
 
-	this.moveIncValue = 0.003;
+	this.moveIncValue = 0.015;
 
 	this.storyButtonText =  new Blaze.ReactiveVar("Stories");
  
