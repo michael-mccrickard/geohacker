@@ -10,7 +10,7 @@ Template.storyManager.helpers({
 
   story: function() {
 
-  	 return db.ghStory.find( { r: 1 }, { sort: { c: 1 } }).fetch();
+  	 return db.ghStory.find( { r: "1" }, { sort: { c: 1 } }).fetch();
   },
 
   buttonType: function( _index ) {
