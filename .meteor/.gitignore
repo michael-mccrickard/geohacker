@@ -1,1 +1,5 @@
 local
+bundled
+node-modules
+settings.json
+settingsGalaxy.json
