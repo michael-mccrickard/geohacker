@@ -1,7 +1,5 @@
 local
 bundled
-docs
+node_modules
 settings.json
-compose_settings.json
-settingsModulus.json
 settingsGalaxy.json
