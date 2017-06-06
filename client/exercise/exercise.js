@@ -71,7 +71,7 @@ Exercise = function() {
 
 	this.config = {};
 
-	this.startSound = "exerciseStart.mp3";
+	this.startSound = "exerciseStart2.mp3";
 
 	this.itemChangeSound = "exerciseItemChange.mp3";
 

@@ -163,8 +163,6 @@ storyB = function() {
 
 			this.chef.movable = 1;
 
-			this.scene="default";
-
 			this._addInventoryItem( _name );
 
 			this.showPrompt("Use the map to travel to South Korea")
