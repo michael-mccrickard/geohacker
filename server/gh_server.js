@@ -11,10 +11,29 @@ var featuredUserID;
 //      EMAIL SETTINGS
 //*********************************************
 
+/*
+console.log(process.env.MAIL_URL)
 
-process.env.MAIL_URL = Meteor.settings.MAIL_URL;
-process.env.AWS_ACCESS_KEY_ID = Meteor.settings.AWS_ACCESS_KEY_ID;
-process.env.AWS_SECRET_ACCESS_KEY = Meteor.settings.AWS_SECRET_ACCESS_KEY;
+console.log(process.env.AWS_ACCESS_KEY_ID)
+
+console.log(process.env.AWS_SECRET_ACCESS_KEY)
+*/
+
+if (Meteor.isDevelopment) {
+
+  process.env.MAIL_URL = Meteor.settings.MAIL_URL;
+  process.env.AWS_ACCESS_KEY_ID = Meteor.settings.AWS_ACCESS_KEY_ID;
+  process.env.AWS_SECRET_ACCESS_KEY = Meteor.settings.AWS_SECRET_ACCESS_KEY;
+}
+
+/*
+console.log( Meteor.settings.MAIL_URL)
+
+console.log( Meteor.settings.AWS_ACCESS_KEY_ID)
+
+console.log( Meteor.settings.AWS_SECRET_ACCESS_KEY)
+
+*/
 
 Accounts.emailTemplates.siteName = "Geohacker";
 Accounts.emailTemplates.from = "Geohacker In Chief <mikemccrickard@gmail.com>";
@@ -29,14 +48,16 @@ Accounts.emailTemplates.resetPassword.text = function (user, url) {
      + "Keep on hacking, " + user.username + "!" 
 };
 
+
 //*********************************************
 //      AWS S3 OBJECTS
 //*********************************************
 
 AWS.config.update({
-       accessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
-       secretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY
+       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
+
 
 //*********************************************
 //      STARTUP
@@ -1125,6 +1146,7 @@ var apiCall = function (apiUrl, callback) {
     var myError = new Meteor.Error(errorCode, errorMessage);
     callback(myError, null);
   }
+
 }
 
 

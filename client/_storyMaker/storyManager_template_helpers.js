@@ -10,7 +10,9 @@ Template.storyManager.helpers({
 
   story: function() {
 
-  	 return db.ghStory.find( { r: "1" }, { sort: { c: 1 } }).fetch();
+  	 if (Meteor.settings.public.showAllStories == 1) return db.ghStory.find( {}, { sort: { c: 1 } }).fetch();
+
+     if (Meteor.settings.public.showAllStories == 0) return db.ghStory.find( { r: "1" }, { sort: { c: 1 } }).fetch();
   },
 
   buttonType: function( _index ) {

@@ -1,0 +1,40 @@
+{ 
+
+	"galaxy.meteor.com": { 
+
+		"env": 
+
+			{ "ROOT_URL": "http://geohackergame.meteorapp.com", 
+
+			  "MONGO_URL": "mongodb://ghUser:ardthentogyptiol9@ds019201-a0.mlab.com:19201/geohacker_live?replicaSet=rs-ds019201",
+
+			  "AWS_ACCESS_KEY_ID": "AKIAI5B6DIGAVOLS6GKQ",
+
+			  "AWS_SECRET_ACCESS_KEY": "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",
+
+			  "MAIL_URL": "smtp://casanova_quinn:hypoplasiafactor69@smtp.sendgrid.net:587",
+
+			  "mapboxToken": "pk.eyJ1IjoiZ2VvaGFja2VyZ2FtZSIsImEiOiJjajJodm82ZnkwMHl0Mndtcmp4MHVkbWFrIn0.x0tIVPk-TRDUnL7nkOfZWg"
+
+			}
+		},
+
+	 	  "private":
+
+		  {   "AWS_ACCESS_KEY_ID": "AKIAI5B6DIGAVOLS6GKQ",
+
+			  "AWS_SECRET_ACCESS_KEY": "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",
+
+			  "MAIL_URL": "smtp://casanova_quinn:hypoplasiafactor69@smtp.sendgrid.net:587"
+		  },
+
+		  "public": { 
+
+		  	"GENERAL_PASSWORD": "mnbvcxz",
+
+		  	"mapboxToken": "pk.eyJ1IjoiZ2VvaGFja2VyZ2FtZSIsImEiOiJjajJodm82ZnkwMHl0Mndtcmp4MHVkbWFrIn0.x0tIVPk-TRDUnL7nkOfZWg",
+
+	  		"showAllStories": 1
+		  }
+
+}

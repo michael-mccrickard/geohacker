@@ -25,7 +25,7 @@ CutScene = function( _name ) {
 
 	this.playNext = function() {
 
-		if (ved) ved.updateScreen();
+		//if (ved) ved.updateScreen();
 
 		if (this.running == false) return;
 
