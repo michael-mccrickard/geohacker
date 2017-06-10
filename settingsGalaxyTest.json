@@ -4,7 +4,7 @@
 
 		"env": 
 
-			{ "ROOT_URL": "http://geohackergame.meteorapp.com", 
+			{ "ROOT_URL": "http://www.geohackergame.meteorapp.com", 
 
 			  "MONGO_URL": "mongodb://ghUser:ardthentogyptiol9@ds019201-a0.mlab.com:19201/geohacker_live?replicaSet=rs-ds019201",
 
