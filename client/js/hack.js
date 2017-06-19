@@ -99,6 +99,19 @@ this.debriefCollection = null;
         FlowRouter.go("/waiting");
     };
 
+    this.initForBrowseEdit = function( _code) {
+
+        this.mode = mBrowse;
+
+        this.countryCode = _code;
+
+        this.index = Database.getIndexForCountryCode( _code );
+
+        this.subscribeToData( _code );
+
+        FlowRouter.go("/waiting");
+    };
+
     this.initForLearn = function( _code) {
 
         //this.mode = mBrowse;
@@ -175,7 +188,7 @@ this.debriefCollection = null;
 
        this.debriefSub =  Meteor.subscribe("ghMeme", function() { Session.set("sDebriefReady", true ) });     
 
-       this.agentsSub =  Meteor.subscribe("agentsInCountry", function() { Session.set( "sAgentsInCountryReady", true ) } );
+       this.agentsSub =  Meteor.subscribe("agentHelpers", function() { Session.set( "sAgentHelpersReady", true ) } );
     }
 
     this.cancelSubs = function() {
@@ -229,11 +242,19 @@ this.debriefCollection = null;
 
         browseMap.level.set( mlCountry );
 
-        //display.browser.init( this.countryCode);
-
         display.browser = new Browser2();
 
         display.browser.init( this.countryCode );
+
+        FlowRouter.go("/newBrowse2");
+
+    }
+
+    this.starEditBrowse = function() {
+
+        display.browser = new Browser2();
+
+        display.browser.initForEdit( this.countryCode );
 
         FlowRouter.go("/newBrowse2");
 
@@ -501,9 +522,7 @@ this.debriefCollection = null;
 
    this.getWelcomeAgent = function() {
 
-      //when we have the title field implemented on the user records,
-      //we'll return the GIC for the country
-
+    //get an agent from the country just hacked
 
       if (!this.welcomeAgent) {
 
@@ -538,6 +557,9 @@ Hack.resetDataFlags = function() {
 
       Session.set("sDebriefReady", false );
 
+      Session.set("sAgentHelpersReady", false );
+ 
+
 }
 
 Tracker.autorun( function(comp) {
@@ -548,7 +570,7 @@ Tracker.autorun( function(comp) {
       Session.get("sWebReady") && 
       Session.get("sSoundReady") && 
       Session.get("sDebriefReady") && 
-      Session.get("sAgentsInCountryReady") 
+      Session.get("sAgentHelpersReady") 
 
       ) {
 
@@ -557,6 +579,13 @@ Tracker.autorun( function(comp) {
           Hack.resetDataFlags();
 
           hack.index = Database.getIndexForCountryCode( hack.countryCode );
+
+          if (game.user.mode == uEdit) {
+
+             hack.starEditBrowse();
+
+            return;
+          }
 
           if (game.user.mode == uLearn) {
 

@@ -37,7 +37,7 @@ Helper = function() {
 
 	this.countryPool = [];
 
-	this.init = function() {
+	this.init = function(_code) {
 
 		this.ZClue = 0;
 
@@ -50,13 +50,21 @@ Helper = function() {
 		this.countryPool = [];
 		
 
-		//get a random GIC agent to be the helper		
+		//get a random GIC agent to be the helper
 
-		var _arr = Meteor.users.find( {_id: { $ne: Meteor.userId() }, "profile.ut": utGeohackerInChiefCountry } ).fetch();
+		this.rec = null;		
 
-		this.rec = Database.getRandomElement( _arr );
+		var _arr =  Meteor.users.find( { 'profile.cc': { $ne: _code}, '_id': { $ne: Database.getChiefID()[0]  } } ).fetch();
 
-		if (!this.rec) this.rec = Database.getChiefRec();
+		if (_arr.length) {
+
+			this.rec = Database.getRandomElement( _arr );
+		}
+		else {
+
+			this.rec = Database.getChiefRec();			
+		}
+
 
 		//set the helper's picture and title
 

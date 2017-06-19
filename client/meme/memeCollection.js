@@ -62,7 +62,7 @@ MemeCollection = function(  _parent ) {
 
 	    	_arr = this.collection.find( { cc: _countryCode, dt: "flg" } ).fetch();
 
-	    	//if not, then add one without text
+	    	//if not, then add one
 
 	    	if (!_arr.length) {
 
@@ -73,6 +73,8 @@ MemeCollection = function(  _parent ) {
 	    		_obj._id = db.ghImage.find( { cc: _countryCode, dt: "flg"} )._id;
 
 	    		_obj.dt = "flg";
+
+	    		_obj.tc ="National flag";
 
 	    		_meme = new Meme( _obj, this.parent);
 

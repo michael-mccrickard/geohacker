@@ -217,14 +217,16 @@ Meme = function( _rec, _type )  {
 
 	this.preloadImagesForSidewall = function( _side ) {
 
-		var _preloadElement = "";
-
-		if (_side == "left") _preloadElement = "#imgDebrief";
-
-		if (_side == "right") _preloadElement = "#imgDebrief2";
 
 
-		$(_preloadElement).attr("src", this.image );
+		var _preloadElement1 = "#imgDebrief";
+
+		var _preloadElement2 =  "#imgDebrief2";
+
+
+		$(_preloadElement1).attr("src", this.image );
+
+		$(_preloadElement2).attr("src", this.image );
 
 		var _image = this.image;
 
@@ -238,7 +240,9 @@ Meme = function( _rec, _type )  {
 
 
         	if (!display.browser.loaded) {
+
 c("calling show from preloadImagesForSidewall")
+
         		Meteor.setTimeout( function() { display.browser.show(); }, 500 );
 
         		return;
@@ -265,7 +269,7 @@ c("calling show from preloadImagesForSidewall")
         	_this.imageSrc = display.getImageFromFile( _image );  
 
         	//it takes a moment to create the off-screen image (for dimensioning)
-        	//in the call the getImageFromFile() above
+        	//in the call to getImageFromFile() above
 
         	Meteor.setTimeout( function() { display.browser.drawNextMeme(); }, 500 );
 

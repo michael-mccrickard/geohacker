@@ -44,6 +44,7 @@ FlowRouter.route('/intro', {
 
 });
 
+
 FlowRouter.route('/help', {
 
     name: "help",
@@ -284,6 +285,8 @@ FlowRouter.route('/closeup', {
 FlowRouter.route('/editor', {
 
   action: function (params, queryParams) { 
+
+  $('body').removeClass('noscroll');
 
    BlazeLayout.render('layout', { content: "editor" } ) 
 

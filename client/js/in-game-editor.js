@@ -178,7 +178,7 @@ $(document).keydown(function(e) {
 
         if (gEditLearnCountry) posElementLeft(1); 
 
-        if (gEditSidewallsMode) display.browser.nextMeme( display.browser.ID);
+          display.browser.editNextMeme( -1 );
 
         if (gSizeEntityMode) ved.sizeEntityX(-1);
 
@@ -212,9 +212,11 @@ $(document).keydown(function(e) {
 
         if (gEditSidewallsMode) {
 
-          var _id = display.browser.setID();
+          //var _id = display.browser.setID();
 
-          display.browser.nextMeme( _id );
+          //display.browser.nextMeme( _id );
+
+          display.browser.editNextMeme( 1 );
         }
         break;
 

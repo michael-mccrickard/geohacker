@@ -175,6 +175,11 @@ Meteor.startup(
     });   
 
 
+     Meteor.publish("agentHelpers", function () {
+
+      return Meteor.users.find( { 'profile.ut': { $gt: 1 }  } );
+    }); 
+
 
     //only for super-admin?
     Meteor.publish("registeredUsers", function () {

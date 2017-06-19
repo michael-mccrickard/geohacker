@@ -395,6 +395,8 @@ Control.allLoadsAreEqual = function() {
 
       var _ctl  = hacker.ctl[ _arr[i] ];
 
+      if (_ctl.name == "MEME") continue;
+
       if (i == 0) _loadCount = _ctl.loadedCount;
 
       if (_loadCount != _ctl.loadedCount) { 

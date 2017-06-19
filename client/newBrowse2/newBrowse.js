@@ -70,13 +70,9 @@ Browser2 = function(  ) {
 
 this.memeDelay = 2500;
 
-	this.rotatingMemes = false;
-
-	this.suspendRotation = false;
+	this.rotatingMemes = false;  //true when the memes are currently being rotated (i.e., we have more than 2 memes)
 
 	this.memeToEdit = null;
-
-	this.textElementToEdit = null;
 
 	this.defaultBigFontSize = "3.0vw";
 
@@ -84,8 +80,6 @@ this.memeDelay = 2500;
 
 
 	this.init = function( _code ) {
-
-		if (!editor) editor = new Editor();
 
 		this.arrMeme = [];
 
@@ -129,6 +123,44 @@ this.memeDelay = 2500;
 		//the videos
 
 		this.items = db.ghVideo.find( { cc: hack.countryCode } ).fetch();  //, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } 
+
+		this.updateContent();
+
+	}
+
+	this.initForEdit = function( _code ) {
+
+		if (!editor) editor = new Editor();
+
+      	game.user.returnRoute = "/editor";
+
+      	game.user.returnName = "editor";
+
+		this.arrMeme = [];
+
+		//get the array of memes for this country
+
+		var _arr = db.ghMeme.find( { cc: hack.countryCode, dt: { $nin: ["rmp", "map", "ant", "lng_i", "lng_o", "lng_om"] } } ).fetch();
+
+		for (var i = 0; i< _arr.length; i++) {
+
+			this.arrMeme.push( new Meme( _arr[i], "browse" ) );
+
+			this.arrMeme[i].init();
+		}
+
+		this.leftMeme = this.arrMeme[0];
+
+		this.meme = this.leftMeme;
+
+
+		this.rightMeme = this.arrMeme[0];
+
+		this.memeIndex = 0;
+
+		this.textElement = this.leftTextElement;  //should match default whichSide above
+
+		this.imageElement = this.leftImageElement;  //should match default whichSide above
 
 		this.updateContent();
 
@@ -245,7 +277,8 @@ this.memeDelay = 2500;
 
 	//the preload callback in meme.js calls this one, if browser.loaded is false
 
-	this.show = function(_dontRotateFlag) {
+	this.show = function() {
+
 c("browser.show()")
 
 c("browser.show, this.leftMeme.loaded = " + this.leftMeme.loaded)
@@ -275,11 +308,9 @@ c("browser.show, this.rightMeme.loaded = " + this.rightMeme.loaded)
 
 		Meteor.setTimeout( function() { display.browser.whichSide = "left"; display.browser.setFontSize( display.browser.leftTextElement, display.browser.leftMeme )  }, 150 );
 
+if (game.user.mode == uEdit) return;
 
-		//Meteor.setTimeout( function() { display.browser.updateContent()  }, 600 );		
-
-
-		if (_dontRotateFlag) return;
+		//set rotatingMemes to false so that startMemeRotation() will know to kick off the action
 
 		this.rotatingMemes = false;
 
@@ -287,16 +318,28 @@ c("browser.show, this.rightMeme.loaded = " + this.rightMeme.loaded)
 	}
 
 	this.startMemeRotation = function() {
+
 c("browser.startMemeRotation")
+
+		//Nothing to rotate if we only have two memes (and we should always have at least two ...)
+		
 		if (this.arrMeme.length <= 2) return;
 
+		//if the memes are already rotating then we can just exit
+
 		if (this.rotatingMemes) return;
+
+		//set the flag so that we know the rotation is in progress
 
 		this.rotatingMemes = true;
 
 		this.memeIndex = 1;
 
 		var _id = this.setID();
+
+		//nextMeme will change the data on the current memes, fade out the currently displayed ones, and preload the images for the new ones
+		//then the callbacks from preload will call drawNextMeme() to  draw the new ones on the screen, and then call nextMeme() (this same function)
+		//with a delay starting the process all over again
 
 		Meteor.setTimeout( function() { display.browser.nextMeme( _id ); }, display.browser.memeDelay );
 
@@ -318,7 +361,9 @@ c("browser.startMemeRotation")
 
 
 	this.nextMeme = function( _id ) {
+
 c("browser.nextMeme")
+
 		if (_id != this.ID ) return;
 
 		var _fontSize = 0;
@@ -333,9 +378,6 @@ c("browser.nextMeme")
 
 			this.memeIndex = 0;
 
-			//change up the order, if we are editing 
-
-			if (gEditSidewallsMode && this.arrMeme.length != 3) this.flipSide();
 		}
 
 		if (this.whichSide == "left") {
@@ -377,10 +419,7 @@ c("browser.nextMeme")
 
 	this.drawNextMeme = function() {
 
-
 c("browser.drawNextMeme")
-
-
 
 //c("meme (right) in drawNextMeme is " + this.meme)
 
@@ -403,7 +442,7 @@ c("browser.drawNextMeme")
 		}, 700 );
 
 	 	var _id = this.setID();
-//this.suspendRotation = true;
+		
 		if (!this.suspendRotation) Meteor.setTimeout( function() { display.browser.nextMeme( _id ); }, 700 + display.browser.memeDelay );
 	}
 
@@ -473,7 +512,22 @@ c("default fontsize for " + this.whichSide + " meme is " + _fontSize)
 
 	this.editSidewallFontSize = function(_val) {
 
-		var _fontSize = $( this.textElementToEdit ).css("font-size");
+		this.editSidewallFontSizeForSide("left", _val);
+
+		this.editSidewallFontSizeForSide("right", _val);
+
+	}
+
+
+	this.editSidewallFontSizeForSide = function(_side, _val) {
+
+		_val = _val * 10;
+
+		var _textElementToEdit = this.leftTextElement;
+
+		if (_side == "right") _textElementToEdit = this.rightTextElement;
+
+		var _fontSize = $( _textElementToEdit ).css("font-size");
 
 		_fontSize = _fontSize.substr(0, _fontSize.length - 2);
 
@@ -481,38 +535,8 @@ c("default fontsize for " + this.whichSide + " meme is " + _fontSize)
 
 		_fontSize = _fontSize + "px";
 
-		$( this.textElementToEdit ).css("font-size", _fontSize );
+		$( _textElementToEdit ).css("font-size", _fontSize );
 
-	}
-
-	this.markNextSidewall = function() {
-
-		var _which = this.flipSide();
-
-		$( this.leftTextElement ).css("background-color","red");
-
-		$( this.rightTextElement ).css("background-color","red");
-
-		if (_which == "left") {
-
-			$( this.leftTextElement ).css("background-color","blue");
-
-			this.memeToEdit = this.leftMeme;
-
-			this.textElementToEdit = this.leftTextElement;
-		}
-
-
-		if (_which == "right") {
-
-			$( this.rightTextElement ).css("background-color","blue");
-
-			this.memeToEdit = this.rightMeme;
-
-			this.textElementToEdit = this.rightTextElement;
-		}
-
-		showMessage("Editing: " + this.memeToEdit.text)
 	}
 
 	this.setFontSizesOnMemes = function() {
@@ -524,21 +548,23 @@ c("default fontsize for " + this.whichSide + " meme is " + _fontSize)
 
 	this.updateMemeFontSize = function() {
 
-		var _val = $(this.textElementToEdit).css("font-size");
+		var _val = $(this.leftTextElement).css("font-size");
 
 		_val = _val.substr(0, _val.length - 2);
 
 		_val = ( _val / $(window).width() ) * 100;
 
-		if (this.memeToEdit == this.leftMeme) _val = _val * 0.67;
+		//if (this.memeToEdit == this.leftMeme) _val = _val * 0.67;
 
-		if (this.memeToEdit == this.rightMeme) _val = _val * 1.5;		
+		_val = _val * 0.67;
 
-  		db.updateRecord2( cMeme, "fs", this.memeToEdit.id, _val + "vw");
+		//if (this.memeToEdit == this.rightMeme) _val = _val * 1.5;		
+
+  		db.updateRecord2( cMeme, "fs", this.leftMeme.id, _val + "vw");
 
   		_val = _val.toString();
 
-  		_text = $(this.textElementToEdit).text();
+  		_text = $(this.leftTextElement).text();
 
   		showMessage("Font size updated for meme: " + _text.substr(0,12) + " -- " + _val.substr(0,4) + "vw");
 	}
@@ -665,7 +691,6 @@ c("default fontsize for " + this.whichSide + " meme is " + _fontSize)
 		}
 
 		FlowRouter.go( _route);
-
 	}
 
 
@@ -759,8 +784,42 @@ c("default fontsize for " + this.whichSide + " meme is " + _fontSize)
     	this.loaded = false;
 
     	this.show( true ); 
-
-
     }
+
+	this.editNextMeme = function( _val ) {
+
+c("browser.editNextMeme")
+
+		var _fontSize = 0;
+
+		var _fontFactor = 1.0;
+
+		this.memeIndex = this.memeIndex + _val;
+
+		if (this.memeIndex == this.arrMeme.length) {
+
+			this.memeIndex = 0;
+		}
+
+		if (this.memeIndex == -1) {
+
+			this.memeIndex = this.arrMeme.length;
+		}		
+
+		this.leftMeme =  this.arrMeme[ this.memeIndex ];
+
+		this.meme = this.leftMeme;
+
+		this.textElement = this.leftMeme.textElement
+
+		this.rightMeme = this.arrMeme[ this.memeIndex ]
+
+		this.clearPreloads();
+
+		display.browser.loaded = false;
+
+		this.meme.preloadImagesForSidewall(); //callback will trigger next function
+
+	}
 }
 

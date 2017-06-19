@@ -177,7 +177,7 @@ Session.set("isIOS", false);
 
   Session.set("sAgentsInNetworkReady", false);
 
-  Session.set("sAgentsInCountryReady", false);
+  Session.set("sAgentHelpersReady", false);
 
  //music
 

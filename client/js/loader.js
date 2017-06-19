@@ -110,9 +110,6 @@ NewLoader = function() {
 
 	this.loadRandomControl = function() {
 
-		var low = -1;
-
-		var i = 0;
 
 		var randomControl = null;
 
@@ -120,88 +117,27 @@ NewLoader = function() {
 		
 		var tmp = [];
 
-		//cycle thru the controls and see if any are maxed out;
+		//use all the memes first
 
-		//if so, remove them.  Also, set the low var
+		var _ctl = hacker.ctl["MEME"];
 
+		if (_ctl.loadedCount < _ctl.fullCount) {
 
-		while (i < hacker.ctlName.length) {
+			randomControl = _ctl;
 
-			var _name = hacker.ctlName[i];
+			var _meme = MemeCollection.getNextHackerItem( randomControl.memeCollection.items );
 
-			var fullCount = hacker.ctl[_name].fullCount;
+			randomControl.meme = _meme;
 
-			var loadedCount = hacker.ctl[_name].loadedCount;
+			randomControl.addToSequence( randomControl.getMemeIndex() );
+		}
+		else {
 
-			//skip the map and any control that is fully loaded
+			this.getNonMemeControl( tmp );  //this will add the potential clues to the tmp array
 
-			if ( _name == "MAP" || fullCount == loadedCount) {
-
-				i++;
-
-				continue;
-			}
-
-			//set the low if we haven't already
-
-			if ( low == -1) low = loadedCount;
-
-			//test and see if the current control is lower than low
-
-			if ( loadedCount  < low )  {
-
-				low = loadedCount;
-			}
-
-			//add control to the array
-	
-			tmp.push( hacker.ctl[ _name ] );
-
-			i++;
-
+			randomControl =  Database.getRandomElement(tmp);
 		}
 
-
-		//if all the control are equally loaded, no need to do anything more except pick one at random
-
-		if ( Control.allLoadsAreEqual() == false ) {
-
-			//if any of the control data counts are higher than the low, remove them
-
-			//we only need to run this check if we have more than one control left
-
-			if (tmp.length > 1) {
-
-				i = 0;
-
-				while (tmp[i]) {
-
-					//any control that is at the low threshold, we keep
-
-					if ( tmp[i].loadedCount == low)  {
-
-						i++;   
-
-						continue;
-
-					}		
-					else {
-
-						//the only remaining possibility is that the control is higher than the low threshold
-						//so remove it
-
-						tmp.splice(i, 1);						
-					}
-
-					//if we're down to a single control, then we have to use it, so break
-
-					if (tmp.length == 1)  {break;}
-				}
-
-			}
-		}
-
-		var randomControl =  Database.getRandomElement(tmp);
 
 //if we need to force a certain control for any reason, this is the place to do it
 
@@ -227,16 +163,6 @@ if (this.totalClueCount == 4) randomControl = hacker.ctl["MEME"];
 			
 			randomControl.loadedCount = newCount;
 
-			if (randomControl.name == "MEME") {
-
-				var _meme = MemeCollection.getNextHackerItem( randomControl.memeCollection.items );
-
-				randomControl.meme = _meme;
-
-				randomControl.addToSequence( randomControl.getMemeIndex() );
-
-			}
-
 			randomControl.setIndex( randomControl.loadedCount - 1);
 
 
@@ -259,4 +185,101 @@ if (hack.countryCode == "CU") randomControl.setIndex( 1 );
 		}
 
 	}
+
+	this.getNonMemeControl = function( _arr ) {
+
+		var low = -1;
+
+		var i = 0;
+
+		while (i < hacker.ctlName.length) {
+
+			var _name = hacker.ctlName[i];
+
+			if (_name == "MEME") {
+
+				i++
+
+				continue;
+			}
+
+			var fullCount = hacker.ctl[_name].fullCount;
+
+			var loadedCount = hacker.ctl[_name].loadedCount;
+
+			//skip any control that is fully loaded
+
+			if ( fullCount == loadedCount) {
+
+				i++;
+
+				continue;
+			}
+
+			//set the low if we haven't already
+
+			if ( low == -1) low = loadedCount;
+
+			//test and see if the current control is lower than low
+
+			if ( loadedCount  < low )  {
+
+				low = loadedCount;
+			}
+
+			//add control to the array
+	
+			_arr.push( hacker.ctl[ _name ] );
+
+			i++;
+
+		}
+
+
+		//if all the control are equally loaded, no need to do anything more except pick one at random
+
+		if ( Control.allLoadsAreEqual() == false ) {
+
+			//if any of the control data counts are higher than the low, remove them
+
+			//we only need to run this check if we have more than one control left
+
+			if (_arr.length > 1) {
+
+				i = 0;
+
+				while (_arr[i]) {
+
+					//any control that is at the low threshold, we keep
+
+					if ( _arr[i].loadedCount == low)  {
+
+						i++;   
+
+						continue;
+
+					}		
+					else {
+
+						//the only remaining possibility is that the control is higher than the low threshold
+						//so remove it
+
+						_arr.splice(i, 1);						
+					}
+
+					//if we're down to a single control, then we have to use it, so break
+
+					if (_arr.length == 1)  {break;}
+				}
+
+			}
+		}		
+	}
 }
+
+/*
+
+
+
+
+*/

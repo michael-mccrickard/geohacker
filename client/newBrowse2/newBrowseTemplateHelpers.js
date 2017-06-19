@@ -254,6 +254,15 @@ Template.newBrowse2.events({
 
 Template.newBrowse2.rendered = function() {
 
+  if (game.user.mode == uEdit) {
+
+      display.browser.leftMeme.preloadImagesForSidewall( "left");    
+
+      display.browser.rightMeme.preloadImagesForSidewall( "left");
+
+      return;
+  }
+
 
   if (!display.browser.loaded) {
 
@@ -280,8 +289,6 @@ c("calling show() from rendered")
     var _count = display.browser.items.length;
 
     display.browser.playVideoByIndex( Database.getRandomValue(_count) );    
-
-//display.browser.playVideoByIndex( 3 ); 
 
   }
   else {
@@ -310,8 +317,6 @@ c("calling show() from rendered")
       c("no browser.video found")
     }
   }
-
-  //display.browser.setFontSizesOnMemes();
 
   display.browser.updateFlag.get();
 

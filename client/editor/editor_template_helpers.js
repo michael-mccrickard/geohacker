@@ -376,6 +376,17 @@ Template.editor.events = {
 
   }, 
 
+  'click #editFontSizes' : function(evt, template) {
+
+    game.user.mode = uEdit;
+
+    gGameEditor = true;
+
+    gEditSidewallsMode = true;
+
+    hack.initForBrowseEdit( editor.hack.countryCode);
+
+  }, 
 
   'click #editSound' : function(evt, template) {
 

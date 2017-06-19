@@ -81,7 +81,7 @@ Hacker = function() {
 
         this.loader.totalClueCount = 0;
 
-        this.helper.init();
+        this.helper.init( _code );
 
         this.makeControls(_code);
 
