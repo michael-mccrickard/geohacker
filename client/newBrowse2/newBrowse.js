@@ -81,6 +81,8 @@ this.memeDelay = 2500;
 
 	this.init = function( _code ) {
 
+		if (!editor) editor = new Editor();
+
 		this.arrMeme = [];
 
 		//get the array of memes for this country
@@ -461,7 +463,7 @@ c("browser.setFontSize")
 
 			_fontSize = this.defaultSmallFontSize;
 
-			_fontFactor = 0.67;
+			_fontFactor = 0.87;   //0.67
 		}
 
 		if (this.whichSide == "left") {

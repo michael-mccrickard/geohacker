@@ -1,5 +1,114 @@
+doColors = function() {
+
+  var arr = db.ghC.find( {} ).fetch();
+
+  var _s = "";
+
+    var newline = "\n\r";
 
 
+      var _s1 = '{' + newline + '"id": "' ;
+
+      var _s2 = '"type": "fill",' + newline + '"source": "composite",'  + newline + '"source-layer": "ne_10m_admin_0_countries_1-drrv7p",'  + newline + '"filter": ['  + newline +'"==",'  + newline + '"ADM0_A3_IS",'  + newline + '"';  
+      
+      var _s3 = '],' + newline + '"layout": {' + newline + '"visibility": "visible"' + newline + '},' + newline + '"paint": {' + newline + '"fill-color": "';
+
+      var _s4 = '}' + newline + '},' + newline;
+
+      for (var i = 0; i < arr.length; i++) {
+
+          var _obj = arr[i];
+
+          _s = _s + _s1 + _obj.d + '",' + newline;
+
+          _s = _s + _s2 +  _obj.d + '"' + newline;
+
+          _s = _s + _s3 + _obj.co + '"' + newline + _s4; 
+      }
+
+c(_s)
+
+  Meteor.call("writeFile", _s, "countriesColored.json")
+
+
+
+  }
+
+doLabels = function() {
+
+  var arr = db.ghC.find( {} ).fetch();
+
+  var _s = "";
+
+    var newline = "\n\r";
+
+
+      var _s1 = '{' + newline + '"type": "FeatureCollection"' + newline + '"features": [' + newline + '{' +  newline + '{' + '"type": "Feature",' + newline + '"geometry": {' + newline + '"type": "Point",' + newline;
+
+      var _s2 = '"coordinates": [';
+      
+      var _s3 = '],' + newline + '},' + newline + '"properties": {' + newline + '"name":';
+
+      var _s4 = newline + '}' + newline + '},' + newline;
+
+      for (var i = 0; i < arr.length; i++) {
+
+        _s = _s1 + _s1 + _s2 + arr[i].cla + "," + arr[i].clo + _s3 + arr[i].n.toUpperCase() + _s4;
+
+
+      }
+
+      var _s = _s + ']' + newline + '}';
+
+c(_s)
+
+  Meteor.call("writeFile", _s, "countryLabels.json")
+
+
+
+  }
+
+
+
+countMemes = function() {
+
+  var count = 0;
+
+  var arr = db.ghC.find( {} ).fetch();
+
+      arrCollection = new Meteor.Collection(null);
+
+ 
+  for (var i = 0; i < arr.length; i++) {
+
+      var _obj = arr[i];
+
+      var _arrMeme = db.ghMeme.find( { cc: _obj.c } ).fetch();
+
+if (_arrMeme.length < 7) count++;
+
+      arrCollection.insert( { q: _arrMeme.length, n: _obj.n } );
+
+//c( _obj.n + " -- " + _arrMeme.length);
+
+  }
+
+//console.log(arrCollection);
+
+//return;
+
+c(count + " countries need additional memes.");
+
+  var _arrSort = arrCollection.find({}, {sort: {  q: -1}}).fetch();
+
+
+  for (var j = 0; j < _arrSort.length; j++) {
+
+    c(_arrSort[j].n + " -- " + _arrSort[j].q);
+
+  }
+
+}
 
 
 fixCodes = function() {

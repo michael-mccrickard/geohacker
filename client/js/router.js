@@ -24,6 +24,17 @@ FlowRouter.route('/', {
 
 });
 
+FlowRouter.route('/globeMap', {
+
+  name: "globeMap",
+
+  action: function (params, queryParams) { 
+
+    BlazeLayout.render('layout', { content: "globeMap" } ) 
+  },
+
+});
+
 FlowRouter.route('/start', {
 
   name: "start",

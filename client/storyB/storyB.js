@@ -122,7 +122,7 @@ storyB = function() {
 
 				this.dancer.movable = 1;
 
-				this.showPrompt("Use the map to go back to the USA");
+				this.showPrompt("Use the globe to go back to the USA");
 
 				this._addInventoryItem( _name );
 
@@ -136,7 +136,7 @@ storyB = function() {
 
 			this.lib.movable = 1;
 
-			this.showPrompt("Use the map to return to Iceland")
+			this.showPrompt("Use the globe to return to Iceland")
 
 			this._addInventoryItem( _name );
 
@@ -150,7 +150,7 @@ storyB = function() {
 
 			this.bjork.movable = 1;
 
-			this.showPrompt("Use the map to return to Malawi")
+			this.showPrompt("Use the globe to return to Malawi")
 
 			this._addInventoryItem( _name );
 
@@ -165,7 +165,7 @@ storyB = function() {
 
 			this._addInventoryItem( _name );
 
-			this.showPrompt("Use the map to travel to South Korea")
+			this.showPrompt("Use the globe to travel to South Korea")
 
 			return;
 		}

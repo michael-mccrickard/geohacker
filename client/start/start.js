@@ -124,6 +124,8 @@ Session.set("isIOS", false);
 
   Session.set("sAllStorySoundsReady", false );
 
+  Session.set("sUpdateVisualEditor", false);
+
   //playing stories
 
   Session.set("sStoryReady", false );
@@ -183,8 +185,10 @@ Session.set("isIOS", false);
 
  Session.set("sMusicReady", false ); 
 
+//navigation
 
-    Session.set("sUpdateVisualEditor", false);
+ Session.set("sCodeFromGlobe","");
+
 
 //****************************************************************
 //                  STARTUP

@@ -24,6 +24,7 @@ if (Meteor.isDevelopment) {
   process.env.MAIL_URL = Meteor.settings.MAIL_URL;
   process.env.AWS_ACCESS_KEY_ID = Meteor.settings.AWS_ACCESS_KEY_ID;
   process.env.AWS_SECRET_ACCESS_KEY = Meteor.settings.AWS_SECRET_ACCESS_KEY;
+  process.env.GOOGLE_MAPS_KEY = Meteor.settings.GOOGLE_MAPS_KEY;
 }
 
 /*
@@ -66,6 +67,8 @@ AWS.config.update({
 Meteor.startup(
 
   function () {
+
+    Future = Npm.require('fibers/future');
 
     //temporarily allow all user deletes and updates
     Meteor.users.allow({remove: function (){ return true;}}); 
@@ -1128,6 +1131,52 @@ _index = 0;
   testImages2();
 },
 
+
+getCountryFromLatLng: function(_lat, _lng, _cb) {
+
+
+  var geo = new GeoCoder({
+
+    httpAdapter: "https",
+
+    apiKey: process.env.GOOGLE_MAPS_KEY
+  
+  });
+
+geo.reverse(_lat, _lng);
+
+
+  },
+
+  testread: function() {
+
+    var fs = Npm.require('fs');
+
+    // file originally saved as public/data/taxa.csv
+    
+    var data = fs.readFileSync(process.cwd() + '/../web.browser/app/centers.txt', 'utf8');
+    //console.log('data', data);
+
+    var arr = data.split(/\r?\n/);
+
+
+    for (var i = 0; i < arr.length; i++) {
+
+      var _arr = arr[i].split(/\b(\s)/);
+
+      var _code = _arr[0].trim();
+
+      var _lat = _arr[2].trim();
+
+      var _lng = _arr[4].trim();
+    
+      var res = ghC.update( {c: _code }, { $set: { cla: _lat, clo: _lng }  }); 
+    }
+
+
+
+  }
+
 });
 
 var apiCall = function (apiUrl, callback) {
@@ -1152,12 +1201,16 @@ var apiCall = function (apiUrl, callback) {
     callback(myError, null);
   }
 
+
+
 }
 
 
 //********************************************************************
 //      TEST CODE
 //********************************************************************
+
+
 
   var good = 0;
 
@@ -1215,3 +1268,7 @@ var _obj = arrImages[_index];
 
     testImages2();
 }
+
+
+
+

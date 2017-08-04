@@ -4,7 +4,7 @@ Template.scanning.helpers({
 
     nationsCount: function() {
 
-        return db.ghC.find( { d: 1 } ).fetch().length;
+        return db.ghC.find().fetch().length;
 
     },
 
