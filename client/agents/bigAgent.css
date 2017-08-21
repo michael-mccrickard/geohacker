@@ -12,8 +12,11 @@
 }
 
 .divBigAgentFlag {
+	position: relative;
 
-	
+ 
+
+	z-index: 100;
 
 }
 
@@ -21,24 +24,23 @@
 .divBigAgent {
     display: -webkit-flex;
     display: flex;
-    width: 830px;
+   width: 92%;
+   height: 10%;
     background-color: #2B3856;
     margin-bottom: 16px;
 margin-left: 16px;
     float: left;
+    padding: 1%;
 
     z-index: 5000;
 }
 
-.bigAgentItem {
-
-	margin: 8px;
-}
 
 .imgBigAgentAvatar {
 
-    width: 172px;
-    height: 172px;
+    width: 75%;
+    height: 75%;
+   /* height: 172px;  */
     background-color: #303030;
 
 }
@@ -47,7 +49,7 @@ margin-left: 16px;
 
 	font-family: Arial;
 	color: yellow;
-	font-size: 20px;
+	font-size: 2.0vh;
 	text-align: center;
 	text-transform: uppercase;
 }
@@ -80,22 +82,21 @@ margin-left: 16px;
 
 .divAgentFlag {
 
-	width: 212px;
+	/*width: 90%;*/
 	  cursor: pointer;
 
 }
 
 .bigAgentFlag {
-	height: 108px;
-	width: 200px;
+	/*height: 108px;*/
+	width: 75%;
 
 }
 
 .divAgentText {
 
-	width: 350px;
-	margin-left: auto;
-	margin-right: auto;
+	width: 58%;
+	margin-left: 5%;
 	padding-bottom: 16px;
 	overflow: hidden;
 	opacity: 1.0;
@@ -106,12 +107,12 @@ margin-left: 16px;
 .bigAgentText {
 
 	font-family: Arial;
-	font-size: 20px;
-	color: lightgrey;
-	margin-left: 8px;
-	margin-top: -192px;
+	font-size: 2.0vh;
+	/*margin-left: -5%;*/
+	/*margin-top: -35%*/
+	margin-top: 5%;
 	color: yellow;
-	width: 80%;
+	width: 75%;
 	opacity: 1.0;
 /*	height: 200px;  */
 	overflow: hidden;
@@ -119,45 +120,33 @@ margin-left: 16px;
 }
 
 .divBigAgentButton {
-	width: 36px;
+	width: 5%;
+}
+
+.divBigAgentFeaturedPic {
+position: absolute;
+	/*width: 50%;*/
 }
 
 
 .imgBigAgentFeaturedPic {
 
-	height: 188px;
-	position: relative;
-	left: -18px;
+	width: 62%;
+	height: 70%;
+	position: absolute;
+	left: 30%;
 	opacity: 0.35;
-	padding-bottom: 8px;
+	padding-bottom: 0.5%;
 
 }
 
 .imgBigAgentContactButton {
 
-	margin-top: 88px;
+	/*margin-top: 80%;*/
 
-	height: 58px;
-
-	width: 54px;
-	margin-left: -16px;
+	/*margin-left: -16px;*/
 
 	opacity: 0.66;
-}
-
-.imgBigAgentDeleteButton {
-
-	height: 72px;
-	padding: 4px;
-
-	width: 54px;
-	position: relative;
-	left: -12px;
-	top: -4px;
-
-	opacity: 0.66;
-
-	cursor: pointer;
 }
 
 

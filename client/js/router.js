@@ -35,6 +35,17 @@ FlowRouter.route('/globeMap', {
 
 });
 
+FlowRouter.route('/mapboxCongrats', {
+
+  name: "mapboxCongrats",
+
+  action: function (params, queryParams) { 
+
+    BlazeLayout.render('layout', { content: "mapboxCongrats" } ) 
+  },
+
+});
+
 FlowRouter.route('/start', {
 
   name: "start",

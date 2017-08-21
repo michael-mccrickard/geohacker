@@ -34,16 +34,26 @@ initializeGlobeMap = function() {
 
 var _accessToken = Meteor.settings.public.mapboxToken;
 
-var _style = "https://api.mapbox.com/styles/geohackergame/cj5vclxku03e22rph9e6wti30/tiles/256/{z}/{x}/{y}?access_token=" + _accessToken;
+
+var _style = "https://api.mapbox.com/styles/v1/geohackergame/cj5vc8wvg1fl52stl8mos906w/tiles/256/{z}/{x}/{y}?access_token=" + _accessToken;
+
+var _shapes = WE.tileLayer(_style, {} ).addTo(earth);
+
+
+//mapbox://styles/geohackergame/cj62d5e4k3dw82rlt7w7x4eef
+
+_style = "https://api.mapbox.com/styles/v1/geohackergame/cj62d5e4k3dw82rlt7w7x4eef/tiles/256/{z}/{x}/{y}?access_token=" + _accessToken;
 
 var _base = WE.tileLayer(_style,{
           
         }).addTo(earth);
 
+//mapbox://styles/geohackergame/cj62cdfmn3c3u2sl9z1j29x19
 
-_style = "https://api.mapbox.com/styles/v1/geohackergame/cj5vc8wvg1fl52stl8mos906w/tiles/256/{z}/{x}/{y}?access_token=" + _accessToken;
+_style = "https://api.mapbox.com/styles/v1/geohackergame/cj62cdfmn3c3u2sl9z1j29x19/tiles/256/{z}/{x}/{y}?access_token=" + _accessToken;
 
-var _shapes = WE.tileLayer(_style, {} ).addTo(earth);
+var _labels = WE.tileLayer(_style, {} ).addTo(earth);
+
 
 /*
 var arr = db.ghC.find().fetch();

@@ -814,14 +814,18 @@ c("doMapSuccess")
 
         var sideBorder = areaWidth * 0.015;
 
-        targHeight = (targWidth / this.imgSrc.width ) * this.imgSrc.height; 
+        //targHeight = (targWidth / this.imgSrc.width ) * this.imgSrc.height; 
+
+targHeight = areaHeight * 0.75;
 
         //Clamp the width if necessary and determine the position on the screen
 
         if (targHeight > areaHeight) targHeight = areaHeight;
 
+        areaTop = display.menuHeight - 10;
 
-        var top = areaTop + (areaHeight / 2 ) - (imageHeight / 2);
+
+        var top = (areaHeight / 2 ) - (imageHeight / 2);
 
         var left = areaLeft + (targWidth / 2) - (imageWidth / 2);
 
@@ -836,7 +840,7 @@ c("doMapSuccess")
 
         var deltaLeft = '+=' + ((targWidth / 2) + sideBorder) + 'px';
 
-        var deltaTop = "-=" + (targHeight / 2)  + "px";
+        var deltaTop = "-=" + ((targHeight / 2) + areaTop)  + "px";
 
         var deltaHeight = '+=' + (targHeight) + 'px';
 
@@ -869,85 +873,14 @@ c("doMapSuccess")
 
         $(".letterDropH1").css("opacity", 0);
 
-
         //remove the HACKED zooom-out element
 
         $("div#demo").css("display","none");
-/*
-        hacker.mapStatus.setThisAndType("INCOMING TRANSMISSION DETECTED");
-
-    //set the B roll to the avatar we want
-
-        var tvB = $(".tvContentB"); 
-
-        var _pic = hack.getWelcomeAgent().profile.av;
-
-        tvB.attr("src", _pic);
-
-        centerDivOnDiv(".divTVTextLower", ".divTVAndText" )
-
-        //get a reference to the whole div and zoom it in by scaling
-
-        var imgAll = $(".divTV");
-
-        var tl = new TimelineLite();
-
-        tl.add( () => { display.playEffect3("incoming.mp3"); } );
-
-        tl.to(imgAll, 1.5, { css:{ scaleX: 1, scaleY: 1 }, delay: 1 } );
-
-        //fade out the A roll (static)
-
-        var imgA = $(".tvContentA")  
-
-        tl.to(imgA, 1.5, { opacity: 0.0, ease:"Rough.easeOut" });
-
-        //reveal the text ...
-
-        var txtLower = $(".divTVTextLower");
-*/
-
-        var strWelcome = "YOU HACKED MY COUNTRY!";
-
-        var strWelcome2 = "WELCOME TO GEOHACKER " + hack.getCountryName() + "."
-
-        if (_ticket.count > 1) {
-
-            strWelcome = "YOU HACKED MY COUNTRY AGAIN!";
-
-            strWelcome2 = "KEEP UP THE GOOD WORK.";           
-        }
-/*
-        if (hack.welcomeAgentIsChief) {
-
-            strWelcome = "YOU HACKED " + hack.getCountryName() + "!";
-
-            if (_ticket.count > 1) strWelcome = "YOU HACKED " + hack.getCountryName() + " AGAIN!";
-        }
-
-        Meteor.setTimeout( function() { game.user.headline.setThisAndType( strWelcome ); }, 3200 );
-
-        Meteor.setTimeout( function() { 
-
-            txtLower.addClass("invisible");
-
-            txtLower.text( strWelcome2 );
-
-            centerDivOnDiv(".divTVTextLower", ".divTVAndText" );
-
-        }, 5200 );           
-
-        Meteor.setTimeout( function() { game.user.headline.setThisAndType( strWelcome2 ) }, 5300 );
-
-        //fade out the text and the TV
-
-        tl.to([txtLower, imgAll], 0.5, { opacity: 0.0, delay: 4.3 });    
-
 
         //If this is the first time they've hacked this country (ticket.count == 1) then
         //we add the welcoming agent to the user's network, BUT ...
         //if the country has no dedicated welcome agent; we default to the GIC
-/*
+
         if ( (_ticket.count == 1 && game.user.hasChiefInNetwork && hack.welcomeAgentIsChief) || _ticket.count > 1) {
 
 
@@ -957,10 +890,10 @@ c("doMapSuccess")
 
         }
         else {
-*/            
+         
             Meteor.setTimeout( function() { hacker.mapStatus.setThisAndType("NEW AGENT ADDED TO YOUR NETWORK"); }, 100 );
 
-  //      }
+      }
 
         //fade in the agent's snapshot
 

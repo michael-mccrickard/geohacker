@@ -160,6 +160,9 @@ Session.set("isIOS", false);
 
   Session.set("sDisplayReady", false); 
 
+  Session.set("sCongratsImageDataReady", false);
+
+  Session.set("sCongratsTextDataReady", false);
   
   //user's home area
 
@@ -267,7 +270,7 @@ Meteor.startup(function() {
 
  // Meteor.subscribe("ghTag", function() { Session.set("sTReady", true ) });  
 
-//  Meteor.subscribe("allTexts", function() { Session.set("sXReady", true ) });  
+//Meteor.subscribe("allTexts", function() { Session.set("sXReady", true ) });  
 
   Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
 

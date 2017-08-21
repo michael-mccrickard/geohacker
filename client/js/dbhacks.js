@@ -43,22 +43,24 @@ doLabels = function() {
     var newline = "\n\r";
 
 
-      var _s1 = '{' + newline + '"type": "FeatureCollection"' + newline + '"features": [' + newline + '{' +  newline + '{' + '"type": "Feature",' + newline + '"geometry": {' + newline + '"type": "Point",' + newline;
+      var _s0 = '{' + newline + '"type": "FeatureCollection",' + newline + '"features": [' + newline;
+
+      var _s1 = '{' + '"type": "Feature",' + newline + '"source": "composite",' + newline + '"geometry": {' + newline + '"type": "Point",' + newline;
 
       var _s2 = '"coordinates": [';
       
-      var _s3 = '],' + newline + '},' + newline + '"properties": {' + newline + '"name":';
+      var _s3 = ']' + newline + '},' + newline + '"properties": {' + newline + '"name":"';
 
-      var _s4 = newline + '}' + newline + '},' + newline;
+      var _s4 = '"' + newline + '}' + newline + '},' + newline;
 
       for (var i = 0; i < arr.length; i++) {
 
-        _s = _s1 + _s1 + _s2 + arr[i].cla + "," + arr[i].clo + _s3 + arr[i].n.toUpperCase() + _s4;
+        _s = _s + _s1 + _s2 + arr[i].cla + "," + arr[i].clo + _s3 + arr[i].n.toUpperCase() + _s4;
 
 
       }
 
-      var _s = _s + ']' + newline + '}';
+      _s = _s0 + _s + ']' + newline + '}';
 
 c(_s)
 

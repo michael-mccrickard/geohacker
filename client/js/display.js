@@ -20,6 +20,8 @@ this.unit = new Unit();
 
     this.featuredMeme = new Meme();
 
+    this.mapboxCongrats = null;
+
     //layout constants
 
     this.menuHeight = 50;

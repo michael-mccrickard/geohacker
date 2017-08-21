@@ -422,6 +422,21 @@ c("db is removing record for " + _code + " in the current mission.")
     }
   }
 
+  this.getLeaderPic = function( _code ) {
+
+    if (typeof db.ghImage.findOne( { cc: _code, dt: "ldr" } ) !== 'undefined') {
+
+      return db.ghImage.findOne( { cc: _code, dt: "ldr" } ).u;
+    }
+    else {
+
+      showMessage("No leader pic found for " + this.getCountryName( _code ));
+
+      return _code;
+    }
+  }
+
+
   this.getRegionRec = function(_code) {
 
     return ( this.ghR.findOne( { c: _code } ) );

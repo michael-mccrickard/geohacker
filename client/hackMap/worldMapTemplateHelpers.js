@@ -211,7 +211,7 @@ Template.worldMap.helpers({
       }
   },
 
-  mapWidth: function() { return Session.get("gWindowWidth") * 0.89},
+  mapWidth: function() { return Session.get("gWindowWidth") * 0.89 },
 
   mapHeight: function() { 
 

@@ -27,7 +27,7 @@ Editor = function() {
 
 	this.arrFieldDebrief = ["t","ta","tc"];
 
-	this.arrFieldCountry = ["n","c","r","co","d","ht"];  //name, code, region, color, dataFlag, homelandText
+	this.arrFieldCountry = ["n","c","r","co","d","ht","fc"];  //name, code, region, color, dataFlag, homelandText, five-color map color
 
 	this.scroll = 0;
 

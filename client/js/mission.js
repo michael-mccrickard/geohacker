@@ -420,9 +420,10 @@ Mission = function(_code) {
 
   var regions = Database.makeSingleElementArray( _arr, "c");
 
+
   //And make an array of all the countries with data
 
-  var countries = db.ghC.find( {d: 1} ).fetch();
+  var countries = db.ghC.find().fetch();
 
 
   //Now loop thru the countries and any of them that have a region code that's in our array get added
