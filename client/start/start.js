@@ -163,6 +163,8 @@ Session.set("isIOS", false);
   Session.set("sCongratsImageDataReady", false);
 
   Session.set("sCongratsTextDataReady", false);
+
+    Session.set("sCongratsAnthemDataReady", false);
   
   //user's home area
 

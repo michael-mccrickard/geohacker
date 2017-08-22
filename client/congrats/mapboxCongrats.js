@@ -4,7 +4,13 @@ Template.mapboxCongrats.rendered = function() {
 	//Create the ghMapbox object which will create the map object; then the
 	//on.load callback will call this.mapboxReady()
 
-	Meteor.setTimeout( function() { display.mapboxCongrats = new ghMapboxCongrats(); }, 1000 );	
+//simulate the mission object already having the correct sequence
+//the sequence object has a hardcoded mission object for now
+
+mission = new Mission();
+
+
+	Meteor.setTimeout( function() { display.mapboxCongrats = new ghMapboxCongrats( mission.sequence ); }, 1000 );	
 }
 
 Template.mapboxCongrats.helpers({
@@ -37,11 +43,27 @@ mapFeatureCongrats = function(_ID, _name, _type) {
 	if (_type) this.ID = _type;
 
 }
- 
 
- ghMapboxCongrats = function() {
+ghSequenceMove = function() {
 
- 	this.flashIndex = 0;
+ 	this.start = [10.523, 35.648];
+
+ 	this.finish =  [10.523, 35.648];
+
+ 	this.startZoom = 2.1;
+
+ 	this.finishZoom = 2.1;
+
+ 	this.startPitch = 0;
+
+ 	this.finishPitch = 0;
+
+ 	this.startBearing = 0;
+
+ 	this.finishBearing = 0;
+}
+
+ghMapboxSequence = function() {
 
  	this.continent = "";
 
@@ -53,6 +75,76 @@ mapFeatureCongrats = function(_ID, _name, _type) {
 
  	this.textType = 0;
 
+	this.iconWidth = 64;
+
+	this.iconHeight = 64;
+
+ 	this.move = [];
+
+ 	//***************
+
+	this.continent = "north_america";
+
+	this.region = "cam";
+
+	this.dt = "ldr";
+
+	this.textType = cCountry;
+
+	this.picType = cLeader;
+
+
+	//move 0
+
+	var _move = new ghSequenceMove();
+
+ 	_move.start = [-79, 9.5];
+
+ 	_move.finish = [-89.3, 17.2];
+
+ 	_move.startZoom = 6.8;
+
+ 	_move.finishZoom = 6.8;
+
+ 	_move.startBearing = -50.7;
+
+ 	_move.finishBearing = -50.8;
+
+ 	_move.startPitch = 60;
+
+ 	_move.finishPitch = 60;
+
+ 	this.move.push( _move );
+
+ 	//move 1
+/*
+	var _move = new ghSequenceMove();
+
+ 	_move.finish = [-84.6, 15.5];
+
+ 	_move.finishZoom = 5.17;
+
+ 	_move.finishBearing = -10.9;
+
+ 	_move.finishPitch = 60;
+
+ 	this.move.push( _move );
+*/
+
+}
+ 
+
+ ghMapboxCongrats = function(_seq) {
+
+ 	this.seq = _seq;
+
+ 	this.moveIndex = 0;
+
+ 	this.move = this.seq.move[0];
+
+ 	this.startDelay = 2000;
+
+ 	this.flashIndex = 0;
 
     mapboxgl.accessToken = Meteor.settings.public.mapboxToken;
 	
@@ -62,10 +154,15 @@ mapFeatureCongrats = function(_ID, _name, _type) {
 
     	style: 'mapbox://styles/geohackergame/cj6jgede667t62sqjhsgy8xft',
 
-    	center: [10.523, 35.648],
-    	zoom: 3.1, // starting zoom
+    	center: this.move.start,
 
-    	maxBounds: [ [-170, -90], [190, 90] ]
+    	zoom: this.move.startZoom, // starting zoom
+
+    	bearing: this.move.startBearing,
+
+    	pitch: this.move.startPitch  //,
+
+    	//maxBounds: [ [-170, -90], [190, 90] ]
 
     });
 
@@ -75,22 +172,28 @@ mapFeatureCongrats = function(_ID, _name, _type) {
 
 		var _map = display.mapboxCongrats;
 
-		_map.continent = "asia";
-
-		_map.region = "";
-
-		_map.dt = "ldr";
-
-		_map.textType = cLeader;
-
-		_map.picType = cLeader;
-
-		_map.iconWidth = 64;
-
-		_map.iconHeight = 64;
-
 		_map.subscribeToData();
 
+	});
+
+	this.map.on('moveend', function(e){
+
+		var _map = display.mapboxCongrats;
+
+		if (_map.moveIndex < _map.seq.move.length - 1) {
+
+			_map.startDelay = 0;
+
+			_map.moveIndex++;
+
+			_map.move = _map.seq.move[ _map.moveIndex ];
+
+			_map.fly();
+		}
+		else {
+
+			display.fadeOutElement("div#mmapOuterDiv", 1500);
+		}
 	});
 
 	this.subscribeToData = function() {
@@ -100,54 +203,97 @@ mapFeatureCongrats = function(_ID, _name, _type) {
 
 	Session.set("sCongratsTextDataReady", false);
 
-		Meteor.subscribe("congratsImages", this.continent, this.region, this.dt, function() { 
+	Session.set("sCongratsAnthemDataReady", false);
 
-c("data received for congrats images")
+		Meteor.subscribe("congratsImages", this.seq.continent, this.seq.region, this.seq.dt, function() { 
 
  			Session.set("sCongratsImageDataReady", true);
 
 		 });
 
-
-		Meteor.subscribe("congratsText", this.continent, this.region, this.dt, function() { 
-
-c("data received for congrats text")
+		Meteor.subscribe("congratsTexts", this.seq.continent, this.seq.region, this.seq.dt, function() { 
 
  			Session.set("sCongratsTextDataReady", true);
 
 		 });			
 	}
 
+	this.subscribeToAnthems = function() {
+
+		Session.set("sCongratsAnthemDataReady", false);
+
+		Meteor.subscribe("congratsAnthems", function() { 
+
+ 			Session.set("sCongratsAnthemDataReady", true);
+
+		 });
+
+	}
+
 	this.startSequence = function() {
 
+		game.pauseMusic();
+
+		var _arr = db.ghSound.find( { dt: "ant"} ).fetch();
+
+		var _url = Database.getRandomElement( _arr ).u;
+c(_url)
+		display.playEffect( _url );
+
+		this.showIcons();
+
+		display.fadeInElement("div#mmapOuterDiv", 1000);
+
+		this.fly();
+	}
+
+	this.fly = function() {
+
+		Meteor.setTimeout( function() { display.mapboxCongrats.map.flyTo({
+
+		        // These options control the ending camera position
+		        center: display.mapboxCongrats.move.finish,
+
+		        zoom: display.mapboxCongrats.move.finishZoom,
+
+				bearing: display.mapboxCongrats.move.finishBearing,
+
+		        speed: 0.1, // make the flying slow
+		        
+		        curve: 1, // change the speed at which it zooms out
+
+		        // This can be any easing function: it takes a number between
+		        // 0 and 1 and returns another number between 0 and 1.
+		        easing: function (t) {
+		            return Math.sin(t * Math.PI / 2);
+		        }
+		    });
+
+		}, this.startDelay);
 
 	}
 
 
 	this.showIcons = function() {
-c("showIcons")
-		var _arrRegion = db.ghR.find( { z: this.continent } ).fetch();
 
-		if (this.region.length) {
+		var _arrRegion = db.ghR.find( { z: this.seq.continent } ).fetch();
 
-			_arrRegion = [ this.region ];
+		if (this.seq.region.length) {
+
+			_arrRegion = [ this.seq.region ];
 		}
 		else {
 
 			_arrRegion = Database.makeSingleElementArray( _arrRegion, "c");
 		}
 
-c("arrRegion in showIcons follows")
-c(_arrRegion)
-
 		for (var i = 0; i < _arrRegion.length; i++) {
 
 			var _region = _arrRegion[i];
-c("region code in showICons is " + _region)
+
 
 			var _arr = db.ghC.find( { r: _region } ).fetch();
-c("arr of countries with region code " +  _region + " follows")
-c(_arr)
+
 
 			for (var j = 0; j < _arr.length; j++ ) {
 
@@ -161,28 +307,28 @@ c(_arr)
 
 				var _labelText = "";
 
-				if (this.textType == cLeader) _labelText = db.getLeaderName( _obj.c );
+				if (this.seq.textType == cLeader) _labelText = db.getLeaderName( _obj.c );
 
-				if (this.textType == cCountry) _labelText =_obj.n;				
+				if (this.seq.textType == cCountry) _labelText =_obj.n;				
 
 				this.addLabel( _obj.c, _lngLat, _labelText, "show", _obj.ll_co)
 
 				var _URL = "";
 
-				if (this.picType == cFlag) _URL  = db.getFlagPicByCode( _obj.c );
+				if (this.seq.picType == cFlag) _URL  = db.getFlagPicByCode( _obj.c );
 
-				if (this.picType == cLeader) _URL  = db.getLeaderPic( _obj.c );
+				if (this.seq.picType == cLeader) _URL  = db.getLeaderPic( _obj.c );
 
 				  // create a HTML element for each feature
 				  var el = document.createElement('div');
 				  el.className = 'marker';
 				  
-				  el.style = "background-size: cover; background-image: url(" + _URL + ");width: " + this.iconWidth + "px;height: " + this.iconHeight + "px;border-radius: 10%;cursor: pointer;";
+				  el.style = "background-size: cover; background-image: url(" + _URL + ");width: " + this.seq.iconWidth + "px;height: " + this.seq.iconHeight + "px;border-radius: 10%;cursor: pointer;";
 
 				  // make a marker for each feature and add to the map
-				  new mapboxgl.Marker(el, { offset: [-1 * this.iconWidth / 2, -1 * this.iconHeight / 2] })
-				  .setLngLat([_lon, _lat])
-				  .addTo(display.mapboxCongrats.map);
+				  new mapboxgl.Marker(el, { offset: [-1 * this.seq.iconWidth / 2, -1 * this.seq.iconHeight / 2] })
+				  .setLngLat( [_lon, _lat] )
+				  .addTo( display.mapboxCongrats.map );
 
 
 
@@ -358,13 +504,40 @@ Tracker.autorun( function(comp) {
 
   if (Session.get("sCongratsImageDataReady") && Session.get("sCongratsTextDataReady")) {
 
-          console.log("congrats map data ready")
-c("calling showIcons")
-		  display.mapboxCongrats.showIcons(); 
+        console.log("congrats map data ready")
+
+		if (typeof display === 'undefined') return;
+
+		console.log("calling subscribeToAnthems")
+
+//display.mapboxCongrats.startSequence();
+
+
+		  display.mapboxCongrats.subscribeToAnthems(); 
   } 
   else {
 
   	console.log("congrats map data not ready")
+
+  }
+
+});  
+
+Tracker.autorun( function(comp) {
+
+  if (Session.get("sCongratsAnthemDataReady")) {
+
+        console.log("congrats anthem data ready")
+
+		if (typeof display === 'undefined') return;
+
+		console.log("calling startSequence")
+
+		  display.mapboxCongrats.startSequence(); 
+  } 
+  else {
+
+  	console.log("congrats anthem data not ready")
 
   }
 

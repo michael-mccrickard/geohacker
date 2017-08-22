@@ -6,6 +6,8 @@ var countryCode;
 
 var featuredUserID;
 
+var arrCongrats = [];
+
 
 //*********************************************
 //      EMAIL SETTINGS
@@ -267,21 +269,29 @@ Meteor.startup(
     //map tags
     //accidentally deleted the publish function
 
-    //congrats images 
+    //congrats elements 
 
     Meteor.publish("congratsImages", function ( _continent, _region, _dt) {
 
-      var _arr = getCountryCodes(_continent, _region);
+      var _arrCongrats = getCountryCodes(_continent, _region);
 
-      return ghImage.find( { cc: { $in: _arr  }, dt: _dt });
+      arrCongrats = _arrCongrats;
+
+      return ghImage.find( { cc: { $in: _arrCongrats  }, dt: _dt });
 
     });
 
-    Meteor.publish("congratsText", function ( _continent, _region, _dt) {
+    Meteor.publish("congratsTexts", function ( _continent, _region, _dt) {
 
       var _arr = getCountryCodes(_continent, _region);
 
       return ghText.find( { cc: { $in: _arr  }, dt: _dt });
+
+    });
+
+    Meteor.publish("congratsAnthems", function () {
+
+      return ghSound.find( { cc: { $in: arrCongrats  }, dt: "ant" });
 
     });
 

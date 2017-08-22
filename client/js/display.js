@@ -209,6 +209,25 @@ this.unit = new Unit();
       
         return result;
     }
+
+  this.fadeInElement = function(_element, _val) {
+
+    var _duration = 500;
+
+    if (_val) _duration = _val;
+
+    if ( $(_element).css("opacity") == 0 ) $( _element).velocity( "fadeIn", { duration: _duration} );
+
+  }
+
+  this.fadeOutElement = function( _element, _val ) {
+    
+    var _duration = 500;
+
+    if (_val) _duration = _val;
+
+    $( _element ).velocity( "fadeOut", { duration: _duration} );
+  }
 }
 
 

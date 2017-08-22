@@ -20,6 +20,8 @@ Mission = function(_code) {
 
   this.items = [];
 
+  this.sequence = new ghMapboxSequence(); 
+
   //if we are only creating the mission object, but not initing it to a specific mission
   //then we're done
 
