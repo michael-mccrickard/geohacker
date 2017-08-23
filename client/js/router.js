@@ -19,7 +19,7 @@ FlowRouter.route('/', {
 
     action: function (params, queryParams) { 
 
-      BlazeLayout.render('layout', { content: "start" } ) 
+      BlazeLayout.render('layout', { content: "start" } )
     },
 
 });
@@ -42,6 +42,28 @@ FlowRouter.route('/mapboxCongrats', {
   action: function (params, queryParams) { 
 
     BlazeLayout.render('layout', { content: "mapboxCongrats" } ) 
+  },
+
+});
+
+FlowRouter.route('/mapboxCongrats0', {
+
+  name: "mapboxCongrats0",
+
+  action: function (params, queryParams) { 
+
+    BlazeLayout.render('layout', { content: "mapboxCongrats0" } ) 
+  },
+
+});
+
+FlowRouter.route('/mapboxCongrats1', {
+
+  name: "mapboxCongrats1",
+
+  action: function (params, queryParams) { 
+
+    BlazeLayout.render('layout', { content: "mapboxCongrats1" } ) 
   },
 
 });

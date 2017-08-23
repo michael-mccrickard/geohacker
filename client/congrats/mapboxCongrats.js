@@ -1,5 +1,5 @@
 //exercise.js
-Template.mapboxCongrats.rendered = function() {
+Template.mapboxCongrats0.rendered = function() {
 
 	//Create the ghMapbox object which will create the map object; then the
 	//on.load callback will call this.mapboxReady()
@@ -9,8 +9,29 @@ Template.mapboxCongrats.rendered = function() {
 
 mission = new Mission();
 
+	display.fadeInElement("#mbCongratsInfo", 1000);
 
-	Meteor.setTimeout( function() { display.mapboxCongrats = new ghMapboxCongrats( mission.sequence ); }, 1000 );	
+	Meteor.setTimeout( function() { display.fadeOutElement("#mbCongratsInfo", 1000);}, 4000 );	
+
+	Meteor.setTimeout( function() { FlowRouter.go("mapboxCongrats1") }, 4500)	
+
+	//Meteor.setTimeout( function() { $("#mbCongratsInfo").css("display", "none"); }, 4500)	
+
+	//Meteor.setTimeout( function() { display.mapboxCongrats = new ghMapboxCongrats( mission.sequence ); }, 4501 );	
+}
+
+Template.mapboxCongrats1.rendered = function() {
+
+	display.fadeInElement("#mbCongratsHeader2", 1000);
+
+	Meteor.setTimeout( function() { display.fadeOutElement("#mbCongratsHeader2", 1000);}, 2000 );	
+
+	Meteor.setTimeout( function() { FlowRouter.go("mapboxCongrats") }, 3501);	
+}
+
+Template.mapboxCongrats.rendered = function() {
+
+	display.mapboxCongrats = new ghMapboxCongrats( mission.sequence );
 }
 
 Template.mapboxCongrats.helpers({
@@ -98,17 +119,17 @@ ghMapboxSequence = function() {
 
 	var _move = new ghSequenceMove();
 
- 	_move.start = [-79, 9.5];
+ 	_move.start = [-79, 8.6];
 
- 	_move.finish = [-89.3, 17.2];
+ 	_move.finish = [-92.9, 21.4];
 
- 	_move.startZoom = 6.8;
+ 	_move.startZoom = 7.7;
 
- 	_move.finishZoom = 6.8;
+ 	_move.finishZoom = 7.7;
 
- 	_move.startBearing = -50.7;
+ 	_move.startBearing = -56.7;
 
- 	_move.finishBearing = -50.8;
+ 	_move.finishBearing = -56.7;
 
  	_move.startPitch = 60;
 
@@ -142,7 +163,7 @@ ghMapboxSequence = function() {
 
  	this.move = this.seq.move[0];
 
- 	this.startDelay = 2000;
+ 	this.startDelay = 1000;
 
  	this.flashIndex = 0;
 
@@ -192,7 +213,7 @@ ghMapboxSequence = function() {
 		}
 		else {
 
-			display.fadeOutElement("div#mmapOuterDiv", 1500);
+			//display.fadeOutElement("div#mmapOuterDiv", 2500);
 		}
 	});
 
@@ -232,12 +253,19 @@ ghMapboxSequence = function() {
 
 	this.startSequence = function() {
 
+		display.mapboxCongrats.finishSequence();
+
+		Meteor.setTimeout( function() { display.fadeOutElement("div#mmapOuterDiv", 500); }, 14000 );
+	}
+
+	this.finishSequence = function() {
+
 		game.pauseMusic();
 
 		var _arr = db.ghSound.find( { dt: "ant"} ).fetch();
 
 		var _url = Database.getRandomElement( _arr ).u;
-c(_url)
+
 		display.playEffect( _url );
 
 		this.showIcons();

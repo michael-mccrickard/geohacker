@@ -235,7 +235,7 @@ Template.login.events({
 
 //game.user.browseCountry( db.getRandomRec( db.ghC ).c, "newBrowse2" );
 
-FlowRouter.go("mapboxCongrats");
+FlowRouter.go("mapboxCongrats0");
 
 return;
 
