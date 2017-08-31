@@ -1,3 +1,16 @@
+fixmission = function()  {
+
+  game.user.assign.hacked = game.user.assign.pool;
+
+  game.user.assign.pool = [];
+
+  var _obj = game.user.assign.hacked.pop();
+
+  game.user.assign.pool.push( _obj );
+
+  game.user.startNextHack();
+}
+
 doColors = function() {
 
   var arr = db.ghC.find( {} ).fetch();

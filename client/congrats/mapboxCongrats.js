@@ -1,37 +1,46 @@
-//exercise.js
+
+var deadline = 0;
+
+
 Template.mapboxCongrats0.rendered = function() {
 
-	//Create the ghMapbox object which will create the map object; then the
-	//on.load callback will call this.mapboxReady()
+	//Create the ghMapbox object which will subscribe to the data
+	//Once the data has come in, the Tracker.autorun will switch templates
+	//and template.rendered will start the sequence
 
-//simulate the mission object already having the correct sequence
-//the sequence object has a hardcoded mission object for now
 
-mission = new Mission();
+mission = new Mission("pg");
+
+//move these two lines to the bottom after testing
+
+mission.sequence = new ghMapboxSequence( mission.code, cLeader, cCountry); 
+
+display.mapboxCongrats = new ghMapboxCongrats( mission.sequence );
+
+
+	$("#mbCongratsMission").text( mission.name.toUpperCase() );
+
+	var _s = game.user.assign.hacked.length + " countries hacked in " + (mission.finish - mission.start) + " seconds"
+
+	$("#mbCongratsStats").text( _s.toUpperCase() );	
+
+	$("#mbCongratsAgent").text( "AGENT " + game.user.name.toUpperCase() );	
+
+	$("#mbCongratsPic").attr("src", game.user.avatar() );	
 
 	display.fadeInElement("#mbCongratsInfo", 1000);
 
-	Meteor.setTimeout( function() { display.fadeOutElement("#mbCongratsInfo", 1000);}, 4000 );	
+	var _delay = 4500;
 
-	Meteor.setTimeout( function() { FlowRouter.go("mapboxCongrats1") }, 4500)	
+	deadline = _delay + Date.now();
 
-	//Meteor.setTimeout( function() { $("#mbCongratsInfo").css("display", "none"); }, 4500)	
 
-	//Meteor.setTimeout( function() { display.mapboxCongrats = new ghMapboxCongrats( mission.sequence ); }, 4501 );	
-}
 
-Template.mapboxCongrats1.rendered = function() {
-
-	display.fadeInElement("#mbCongratsHeader2", 1000);
-
-	Meteor.setTimeout( function() { display.fadeOutElement("#mbCongratsHeader2", 1000);}, 2000 );	
-
-	Meteor.setTimeout( function() { FlowRouter.go("mapboxCongrats") }, 3501);	
 }
 
 Template.mapboxCongrats.rendered = function() {
 
-	display.mapboxCongrats = new ghMapboxCongrats( mission.sequence );
+	display.mapboxCongrats.drawMap();
 }
 
 Template.mapboxCongrats.helpers({
@@ -55,105 +64,7 @@ Template.mapboxCongrats.helpers({
 });
 
 
-mapFeatureCongrats = function(_ID, _name, _type) {
 
-	if (_ID) this.ID = _ID;
-
-	if (_name) this._name = _name;
-
-	if (_type) this.ID = _type;
-
-}
-
-ghSequenceMove = function() {
-
- 	this.start = [10.523, 35.648];
-
- 	this.finish =  [10.523, 35.648];
-
- 	this.startZoom = 2.1;
-
- 	this.finishZoom = 2.1;
-
- 	this.startPitch = 0;
-
- 	this.finishPitch = 0;
-
- 	this.startBearing = 0;
-
- 	this.finishBearing = 0;
-}
-
-ghMapboxSequence = function() {
-
- 	this.continent = "";
-
- 	this.region = "";
-
- 	this.dt = "";
-
- 	this.picType = 0;
-
- 	this.textType = 0;
-
-	this.iconWidth = 64;
-
-	this.iconHeight = 64;
-
- 	this.move = [];
-
- 	//***************
-
-	this.continent = "north_america";
-
-	this.region = "cam";
-
-	this.dt = "ldr";
-
-	this.textType = cCountry;
-
-	this.picType = cLeader;
-
-
-	//move 0
-
-	var _move = new ghSequenceMove();
-
- 	_move.start = [-79, 8.6];
-
- 	_move.finish = [-92.9, 21.4];
-
- 	_move.startZoom = 7.7;
-
- 	_move.finishZoom = 7.7;
-
- 	_move.startBearing = -56.7;
-
- 	_move.finishBearing = -56.7;
-
- 	_move.startPitch = 60;
-
- 	_move.finishPitch = 60;
-
- 	this.move.push( _move );
-
- 	//move 1
-/*
-	var _move = new ghSequenceMove();
-
- 	_move.finish = [-84.6, 15.5];
-
- 	_move.finishZoom = 5.17;
-
- 	_move.finishBearing = -10.9;
-
- 	_move.finishPitch = 60;
-
- 	this.move.push( _move );
-*/
-
-}
- 
 
  ghMapboxCongrats = function(_seq) {
 
@@ -167,83 +78,114 @@ ghMapboxSequence = function() {
 
  	this.flashIndex = 0;
 
-    mapboxgl.accessToken = Meteor.settings.public.mapboxToken;
-	
-	this.map = new mapboxgl.Map({
-
-    	container: 'mmapCongrats',
-
-    	style: 'mapbox://styles/geohackergame/cj6jgede667t62sqjhsgy8xft',
-
-    	center: this.move.start,
-
-    	zoom: this.move.startZoom, // starting zoom
-
-    	bearing: this.move.startBearing,
-
-    	pitch: this.move.startPitch  //,
-
-    	//maxBounds: [ [-170, -90], [190, 90] ]
-
-    });
-
-	this.map.getCanvas().style.cursor = 'pointer';
-
-	this.map.on('load', function () { 
-
-		var _map = display.mapboxCongrats;
-
-		_map.subscribeToData();
-
-	});
-
-	this.map.on('moveend', function(e){
-
-		var _map = display.mapboxCongrats;
-
-		if (_map.moveIndex < _map.seq.move.length - 1) {
-
-			_map.startDelay = 0;
-
-			_map.moveIndex++;
-
-			_map.move = _map.seq.move[ _map.moveIndex ];
-
-			_map.fly();
-		}
-		else {
-
-			//display.fadeOutElement("div#mmapOuterDiv", 2500);
-		}
-	});
-
-	this.subscribeToData = function() {
-
-
  	Session.set("sCongratsImageDataReady", false);
 
 	Session.set("sCongratsTextDataReady", false);
 
 	Session.set("sCongratsAnthemDataReady", false);
 
-		Meteor.subscribe("congratsImages", this.seq.continent, this.seq.region, this.seq.dt, function() { 
+	this.arrCountries = Database.getCountryCodes( this.seq.code );
 
- 			Session.set("sCongratsImageDataReady", true);
+	Meteor.subscribe("congratsImages", this.arrCountries, this.seq.dt, function() { 
 
-		 });
+			Session.set("sCongratsImageDataReady", true);
 
-		Meteor.subscribe("congratsTexts", this.seq.continent, this.seq.region, this.seq.dt, function() { 
+	 });
 
- 			Session.set("sCongratsTextDataReady", true);
+	Meteor.subscribe("congratsTexts", this.arrCountries, this.seq.dt, function() { 
 
-		 });			
+			Session.set("sCongratsTextDataReady", true);
+
+	 });	
+
+	//write the headline based on the seq
+
+	this.headline = new Headline("mapboxCongrats")
+
+	this.headlineText = "";
+
+	var _s = "The "; 
+
+	if (this.seq.picType == cLeader) _s = _s + "leaders of ";
+
+	if (this.seq.picType == cCountry) _s = _s + "nations of ";
+
+	_s = _s + mission.congratsName;
+
+
+	this.headlineText = _s + " salute Agent " + game.user.name + "!"; 
+
+
+	this.drawMap = function() {
+
+	  mapboxgl.accessToken = Meteor.settings.public.mapboxToken;
+		
+		this.map = new mapboxgl.Map({
+
+	    	container: 'mmapCongrats',
+
+	    	style: 'mapbox://styles/geohackergame/cj6jgede667t62sqjhsgy8xft',
+
+	    	center: this.move.start,
+
+	    	zoom: this.move.startZoom, // starting zoom
+
+	    	bearing: this.move.startBearing,
+
+	    	pitch: this.move.startPitch  //,
+
+	    	//maxBounds: [ [-170, -90], [190, 90] ]
+
+	    });
+
+		this.map.getCanvas().style.cursor = 'pointer';
+
+		this.map.on('load', function () { 
+
+			var _map = display.mapboxCongrats;
+
+			_map.startSequence();
+
+
+		});
+
+		this.map.on('moveend', function(e){
+
+			var _map = display.mapboxCongrats;
+
+			_map.startDelay = 0;
+
+			_map.moveIndex++;
+
+			if (_map.moveIndex == _map.seq.move.length) {
+return;
+				Meteor.setTimeout( function() { display.fadeOutElement("div#mmapOuterDiv", 500); }, 1000 );
+
+				Meteor.setTimeout( function() { FlowRouter.go("/congrats") }, 1501 ) ;
+
+				return;					
+			}
+
+			_map.move = _map.seq.move[ _map.moveIndex ];
+
+			_map.fly();
+
+
+		});
+
+	}
+
+	this.subscribeToData = function() {
+
 	}
 
 	this.subscribeToAnthems = function() {
 
 		Session.set("sCongratsAnthemDataReady", false);
 
-		Meteor.subscribe("congratsAnthems", function() { 
+		var _arr = Database.getCountryCodes( this.seq.code );
+
+		Meteor.subscribe("congratsAnthems", this.arrCountries, function() { 
 
  			Session.set("sCongratsAnthemDataReady", true);
 
@@ -253,12 +195,14 @@ ghMapboxSequence = function() {
 
 	this.startSequence = function() {
 
-		display.mapboxCongrats.finishSequence();
+		display.fadeOutElement("#mbCongratsInfo", 1000);	
 
-		Meteor.setTimeout( function() { display.fadeOutElement("div#mmapOuterDiv", 500); }, 14000 );
+		display.mapboxCongrats.startSequence2();
+
+		Meteor.setTimeout( function() { display.mapboxCongrats.headline.setThisAndType( display.mapboxCongrats.headlineText ) }, 2000 );
 	}
 
-	this.finishSequence = function() {
+	this.startSequence2 = function() {
 
 		game.pauseMusic();
 
@@ -276,6 +220,7 @@ ghMapboxSequence = function() {
 	}
 
 	this.fly = function() {
+//return;
 
 		Meteor.setTimeout( function() { display.mapboxCongrats.map.flyTo({
 
@@ -286,14 +231,18 @@ ghMapboxSequence = function() {
 
 				bearing: display.mapboxCongrats.move.finishBearing,
 
-		        speed: 0.1, // make the flying slow
+		        speed: display.mapboxCongrats.move.speed, // make the flying slow
+
+		        pitch: display.mapboxCongrats.move.finishPitch,
 		        
 		        curve: 1, // change the speed at which it zooms out
 
 		        // This can be any easing function: it takes a number between
 		        // 0 and 1 and returns another number between 0 and 1.
+
 		        easing: function (t) {
-		            return Math.sin(t * Math.PI / 2);
+		        
+		            return t;
 		        }
 		    });
 
@@ -303,7 +252,7 @@ ghMapboxSequence = function() {
 
 
 	this.showIcons = function() {
-
+/*
 		var _arrRegion = db.ghR.find( { z: this.seq.continent } ).fetch();
 
 		if (this.seq.region.length) {
@@ -315,17 +264,17 @@ ghMapboxSequence = function() {
 			_arrRegion = Database.makeSingleElementArray( _arrRegion, "c");
 		}
 
-		for (var i = 0; i < _arrRegion.length; i++) {
+		for (var i = 0; i < this.arrCountries.length; i++) {
 
 			var _region = _arrRegion[i];
 
 
 			var _arr = db.ghC.find( { r: _region } ).fetch();
+*/
 
+			for (var j = 0; j < this.arrCountries.length; j++ ) {
 
-			for (var j = 0; j < _arr.length; j++ ) {
-
-				var _obj = db.ghC.findOne( { c: _arr[j].c } );
+				var _obj = db.ghC.findOne( { c: this.arrCountries[j] } );
 
 				var _lon = _obj.clo;
 
@@ -338,6 +287,21 @@ ghMapboxSequence = function() {
 				if (this.seq.textType == cLeader) _labelText = db.getLeaderName( _obj.c );
 
 				if (this.seq.textType == cCountry) _labelText =_obj.n;				
+
+this.seq.iconWidth = 64;
+
+this.seq.iconHeight = 64;
+
+var _arrBig = ["CA","US","MX","GL","AR","BR", "CN", "IN", "RU"];
+
+if ( _arrBig.indexOf( _obj.c ) != -1) {
+
+	this.seq.iconWidth = 128;
+
+	this.seq.iconHeight = 128;
+}
+
+
 
 				this.addLabel( _obj.c, _lngLat, _labelText, "show", _obj.ll_co)
 
@@ -353,6 +317,7 @@ ghMapboxSequence = function() {
 				  
 				  el.style = "background-size: cover; background-image: url(" + _URL + ");width: " + this.seq.iconWidth + "px;height: " + this.seq.iconHeight + "px;border-radius: 10%;cursor: pointer;";
 
+
 				  // make a marker for each feature and add to the map
 				  new mapboxgl.Marker(el, { offset: [-1 * this.seq.iconWidth / 2, -1 * this.seq.iconHeight / 2] })
 				  .setLngLat( [_lon, _lat] )
@@ -361,7 +326,7 @@ ghMapboxSequence = function() {
 
 
 			}
-		}
+		//}
 
 
 	}
@@ -445,6 +410,30 @@ ghMapboxSequence = function() {
 
 		if (_color !== undefined) _textColor = _color;
 
+		var _factor = 1;
+
+		var _offsetFactor = 1;
+
+		if (this.seq.iconWidth == 128) {
+
+			_factor = 2;
+
+			_offsetFactor = 1.25;
+
+var _arrFar = ["GL", "CA", "RU", "TR"];
+
+if ( _arrFar.indexOf(_id) != -1) {
+
+	_factor = 2.5;
+	
+	_offsetFactor = 2.1;
+
+	if (_id == "TR") _offsetFactor = 7.0;
+
+}
+
+		}
+
 		this.map.addLayer({
 
 			  "id": _layerID,
@@ -462,18 +451,18 @@ ghMapboxSequence = function() {
 			        "stops": [
 
 			          // zoom is 3 -> fontsize will 8px
-			          [3, 12],
+			          [3, 12 * _factor],
 
-			          [6, 16],
+			          [6, 16 * _factor],
 
-			          [9, 24],
+			          [9, 24 * _factor],
 
-			          [12, 36]
+			          [12, 36 * _factor]
 			        ]
 			      },
 			      "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
 			      "text-anchor": "center",
-			      "text-offset": [0, 2.5],
+			      "text-offset": [0, 2.5 * _offsetFactor],
 			      "text-anchor": "top",
 			      "visibility": _visibleFlag
 
@@ -538,8 +527,6 @@ Tracker.autorun( function(comp) {
 
 		console.log("calling subscribeToAnthems")
 
-//display.mapboxCongrats.startSequence();
-
 
 		  display.mapboxCongrats.subscribeToAnthems(); 
   } 
@@ -559,10 +546,43 @@ Tracker.autorun( function(comp) {
 
 		if (typeof display === 'undefined') return;
 
-		console.log("calling startSequence")
+//c("date now is: " + Date.now())
 
-		  display.mapboxCongrats.startSequence(); 
-  } 
+//c("deadline is " + deadline)
+
+//c("diff is " + (deadline - Date.now()));
+
+		if (Date.now() < deadline) {
+
+			//we still have a little time to kill ...
+
+			var _delay = deadline - Date.now();
+
+			if (_delay > 1000) {
+
+				Meteor.setTimeout( function() { display.fadeOutElement("#mbCongratsInfo", 1000);}, _delay - 1000 );	
+			}
+			else {
+				
+				display.fadeOutElement("#mbCongratsInfo", 1000);
+
+				_delay += 1000 - _delay;
+
+			}
+//c("recalced delay is " + _delay)
+			Meteor.setTimeout( function() { FlowRouter.go("/mapboxCongrats"); }, _delay);
+		}
+		else {
+
+//c("no recalc on delay, time is alreay up")
+
+			display.fadeOutElement("#mbCongratsHeader", 1000);
+
+			Meteor.setTimeout( function() { FlowRouter.go("/mapboxCongrats"); }, 1001);
+		}
+
+	}
+
   else {
 
   	console.log("congrats anthem data not ready")
@@ -570,6 +590,15 @@ Tracker.autorun( function(comp) {
   }
 
 });  
+
+mb = function() {
+
+	var _map = display.mapboxCongrats.map;
+
+	var _s = "lng: " + _map.transform._center.lng + "  lat: " + _map.transform._center.lat + "  zoom: " + _map.getZoom() + "   bearing: " + _map.getBearing()  + "   pitch: " + _map.getPitch(); 
+
+	console.log( _s );
+}
 
 /*
 				_map.addLayer({

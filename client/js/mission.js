@@ -3,6 +3,10 @@
 
 Mission = function(_code) {
 
+  this.start = Date.now();
+
+  this.finish = 0;
+
   this.status = msNone;
 	
   this.level = mlNone;
@@ -20,8 +24,6 @@ Mission = function(_code) {
 
   this.items = [];
 
-  this.sequence = new ghMapboxSequence(); 
-
   //if we are only creating the mission object, but not initing it to a specific mission
   //then we're done
 
@@ -36,6 +38,8 @@ Mission = function(_code) {
 
   	this.name = "Top Ten Earth"
 
+    this.congratsName = "The Ten Largest Nations On Earth";
+
     this.items = ["CN", "BD", "IN", "JP", "ID", "NG", "BR", "PK", "RU","US"]; 
 
     return;
@@ -48,6 +52,8 @@ Mission = function(_code) {
     this.type ="introAndQuiz";
 
     this.name = "Top Ten Africa";
+
+    this.congratsName = "The Ten Largest Nations In Africa";
 
     if (this.code == "africa_1") this.name = "Africa by population (1 - 10)";
 
@@ -130,6 +136,8 @@ Mission = function(_code) {
 
     this.name = "Top Ten Asia";
 
+    this.congratsName = "The Ten Largest Nations In Asia";
+
     if (this.code == "asia_1") this.name = "Asia by population (1 - 10)";
 
     this.shortName = "Asia 1";
@@ -210,6 +218,8 @@ Mission = function(_code) {
 
     this.name = "Top Ten Europe";
 
+    this.congratsName = "The Ten Largest Nations In Europe";
+
     if (this.code == "europe_1") this.name = "Europe by population (1 - 10)";
 
     this.type = "introAndQuiz";
@@ -276,6 +286,8 @@ Mission = function(_code) {
 
     this.name = "Top Ten America";
 
+    this.congratsName = "The Ten Largest Nations In The Americas";
+
     this.level = mlWorld;
 
     this.items = ["US","BR","MX","CO","AR","CA","PE","VE","CL","EC"]; 
@@ -290,6 +302,8 @@ Mission = function(_code) {
     this.type = "introAndQuiz";
 
     this.name = "Top Ten North America";
+
+    this.congratsName = "The Ten Largest Nations in North America"
 
     this.shortName = "North America 1";
 
@@ -322,6 +336,8 @@ Mission = function(_code) {
   if (this.code == "ttp_south_america" || this.code == "south_america_1") {
 
     this.type = "introAndQuiz";
+
+    this.congratsName = "The Ten Largest Nations in South America"
 
     this.name = "Top Ten South America";
 
@@ -359,6 +375,8 @@ Mission = function(_code) {
 
     this.name = "Top Seven Oceania";
 
+    this.congratsName = "The Seven Largest Nations In Oceania";
+
     this.mapCode = "oceania";
 
     this.shortName = "Oceania 1";
@@ -376,6 +394,8 @@ Mission = function(_code) {
 
   	this.name = "Persian Gulf";
 
+    this.congratsName = "The Persian Gulf Nations";
+
     this.level = mlWorld;
 
   	this.items = ["IL", "IR", "IQ", "EG", "LY", "SA", "SY", "JO", "KW","OM", "YE", "AE", "QA", "PS"]; 
@@ -388,6 +408,8 @@ Mission = function(_code) {
   if (this.code == "all") {
 
   	this.name = "Earth";
+
+    this.congratsName = "The Nations Of Earth";
 
     this.level = mlWorld;
 
@@ -416,6 +438,16 @@ Mission = function(_code) {
   	this.name = rec.n;
 
     //the map variables are set in user.assign (called by hack.startNew() )
+
+    if (this.name == "North America") {
+
+        //one sequence for now, but for a continent we should pick a random region from the continent or make a continent sequence
+        //also, we should randomly pick from: leader + countryname OR flag + countryname, etc.
+
+        //MapboxSequence = function( _continent, _region, _picType, _textType ) 
+
+        this.sequence = new ghMapboxSequence( "north_america", "cam", cLeader, cCountry); 
+    }
   }
 
   //Now make an array of just the region codes for this mission

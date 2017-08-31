@@ -30,6 +30,8 @@ Headline = function( _type ) {
 
     if (_type == "intro")  this.ele = ".divIntroHeadline";
 
+    if (_type == "mapboxCongrats") this.ele = "#congratsMapHeadlineStatus";
+
 
 
 	this.set = function( _text ) {
@@ -43,6 +45,8 @@ Headline = function( _type ) {
         if (this.hType == 'welcomeAgent') this.text = _text;      
 
         if (this.hType == 'intro') this.text = _text;     
+
+        if (this.hType == 'mapboxCongrats') this.text = _text;     
 	}
 
     this.setMap = function( _text ) {
@@ -192,6 +196,8 @@ Headline = function( _type ) {
         if (this.hType == "welcomeAgent") Meteor.setTimeout(function () { game.user.headline.typeMessage( ele ); }, 500 );
 
         if (this.hType == "intro") Meteor.setTimeout(function () { game.intro.headline.typeMessage( ele ); }, 500 );
+
+        if (this.hType == "mapboxCongrats") Meteor.setTimeout(function () { display.mapboxCongrats.headline.typeMessage( ele ); }, 500 );
     },
 
     this.typeMessage = function( _ele ) {
@@ -244,6 +250,8 @@ Headline = function( _type ) {
         if (this.hType == "welcomeAgent") Meteor.setTimeout(function () { game.user.headline.setChar( _ele ); }, 10 );     
 
         if (this.hType == "intro") Meteor.setTimeout(function () { game.intro.headline.setChar( _ele ); }, 10 );   
+
+        if (this.hType == "mapboxCongrats") Meteor.setTimeout(function () { display.mapboxCongrats.headline.setChar( _ele ); }, 10 );   
 
     },
 
@@ -299,9 +307,11 @@ Headline = function( _type ) {
 
 
         //status
-		if (this.hType == "status") {
+		if (this.hType == "status" || this.hType == "mapboxCongrats") {
 
 		    //if (_which != "window-resize") $( this.ele ).addClass("invisible");
+
+            if (this.hType == "mapboxCongrats") fullBackdropWidth = $(window).width();
 
 	        var divWidthStatusString =  $( this.ele ).css("width");
 

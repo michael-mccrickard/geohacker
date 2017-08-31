@@ -1,5 +1,11 @@
 /*mapboxCongrats.css*/
 
+.mapboxCongrats {
+
+	text-transform: uppercase;
+}
+
+
 #mbCongratsInfo {
 
 	width: 95%;
@@ -51,6 +57,9 @@
 	width: 50%;
 margin-right: auto;
 margin-left: auto;
+
+	margin-top: -1%;
+		margin-bottom: -1%;
 }
 
 #mbCongratsPic {

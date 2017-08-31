@@ -812,6 +812,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 			this.assign.completions = this.assign.completions + 1;
 
 			mission.status = msComplete;
+
+			mission.finish = Date.now();
 		}
 
 		//Save the assign object and update the missionList

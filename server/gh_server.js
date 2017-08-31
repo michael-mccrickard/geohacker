@@ -271,27 +271,21 @@ Meteor.startup(
 
     //congrats elements 
 
-    Meteor.publish("congratsImages", function ( _continent, _region, _dt) {
+    Meteor.publish("congratsImages", function ( _arr, _dt) {
 
-      var _arrCongrats = getCountryCodes(_continent, _region);
-
-      arrCongrats = _arrCongrats;
-
-      return ghImage.find( { cc: { $in: _arrCongrats  }, dt: _dt });
+      return ghImage.find( { cc: { $in: _arr  }, dt: _dt });
 
     });
 
-    Meteor.publish("congratsTexts", function ( _continent, _region, _dt) {
-
-      var _arr = getCountryCodes(_continent, _region);
+    Meteor.publish("congratsTexts", function ( _arr, _dt) {
 
       return ghText.find( { cc: { $in: _arr  }, dt: _dt });
 
     });
 
-    Meteor.publish("congratsAnthems", function () {
+    Meteor.publish("congratsAnthems", function (_arr) {
 
-      return ghSound.find( { cc: { $in: arrCongrats  }, dt: "ant" });
+      return ghSound.find( { cc: { $in: _arr }, dt: "ant" });
 
     });
 
@@ -1230,52 +1224,6 @@ var apiCall = function (apiUrl, callback) {
 
 
 
-}
-
-
-function makeSingleElementArray( _arr, _field) {
-
-  var arr = [];
-
-  for (var i = 0; i < _arr.length; i++) {
-
-    arr.push( _arr[i][ _field ] );
-  }
-
-//console.log(arr)
-
-  return arr;
-}
-
-function getCountryCodes(_continent, _region) {      
-
-      var _arr = [];
-
-      var _arrOut = [];
-
-      if (_region.length > 0) {
-
-          _arrOut = ghC.find( { r: _region } ).fetch();
-      }
-
-      else {
-
-          _arr = ghR.find( { z: _continent } ).fetch();
-
-          for (var i = 0; i < _arr.length; i++) {
-
-              var _regionCode = _arr[i].c;
-
-              var _arrCountry = ghC.find( { r: _regionCode} ).fetch();
-
-              for (var j = 0; j < _arrCountry.length; j++) {
-
-                  _arrOut.push( _arrCountry[j] );
-              }
-          }
-      }
-
-      return makeSingleElementArray(_arrOut, "c");
 }
 
 //********************************************************************

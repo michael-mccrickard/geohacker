@@ -6,6 +6,15 @@ Template.debrief.events = {
 
   		display.playEffect("new_feedback.mp3");
 
+      //if the mission is over, then we have a special congrats sequence
+
+      if (game.user.assign.pool.length == 0) {
+
+          FlowRouter.go("mapboxCongrats0");
+
+          return;
+      }
+
   		Meteor.setTimeout( function() { FlowRouter.go("/congrats") }, 100 ) ;
   	}
 

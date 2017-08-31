@@ -914,3 +914,62 @@ Database.getBlankUserProfile = function() {
 
     return _pro;
 }
+
+Database.getCountryCodes = function(_code) {     
+
+      var _arr = [];
+
+      var _arrOut = [];
+
+      var _type = "none";
+
+      //Is the code a continent?
+      var _rec = db.ghZ.findOne( { c: _code } );
+
+      if (_rec) _type = "continent";
+
+      if (!_rec) {
+
+        //is it a region?
+
+         _rec = db.ghR.findOne( { c: _code } );
+
+         if (_rec) _type = "region";
+
+         //neither region nor continent, so it must be custom
+
+          if (!_rec) return mission.items;
+      }
+
+      if (_type == "none") {
+
+          showMessage("Code passed to getCountryCodes not recognized: " + _code);
+
+          return;
+      } 
+
+
+      if ( _type == "region" ) {
+
+          _arrOut = db.ghC.find( { r: _code } ).fetch();
+      }
+
+      else {
+
+          _arr = db.ghR.find( { z: _code } ).fetch();
+
+          for (var i = 0; i < _arr.length; i++) {
+
+              var _regionCode = _arr[i].c;
+
+              var _arrCountry = db.ghC.find( { r: _regionCode} ).fetch();
+
+              for (var j = 0; j < _arrCountry.length; j++) {
+
+                  _arrOut.push( _arrCountry[j] );
+              }
+          }
+      }
+
+      return makeSingleElementArray(_arrOut, "c");
+}
