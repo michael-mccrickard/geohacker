@@ -2,6 +2,10 @@ Template.debrief.rendered = function () {
 
 	stopSpinner();
 
+	Meteor.setTimeout( function() { hacker.debrief.draw(); }, 500 );
+
+	Meteor.setTimeout( function() { hacker.debrief.checkAudio(); }, 501 );
+
   	Meteor.setTimeout( function() { hacker.debrief.changeHeadline("CLICK ANYWHERE TO CONTINUE") }, 2000 );
 
 }
@@ -181,9 +185,9 @@ Debrief = function( _meme ) {
         	//it takes a moment to create the off-screen image (for dimensioning)
         	//in the call the getImageFromFile() above
 
-        	Meteor.setTimeout( function() { hacker.debrief.draw(); }, 500 );
+        //	Meteor.setTimeout( function() { hacker.debrief.draw(); }, 500 );
 
-        	Meteor.setTimeout( function() { hacker.debrief.checkAudio(); }, 501 );
+        //	Meteor.setTimeout( function() { hacker.debrief.checkAudio(); }, 501 );
 
         });
 

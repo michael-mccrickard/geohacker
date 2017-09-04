@@ -41,7 +41,9 @@ Template.closeup.events = {
 
       if (hack.mode == mHackDone) {
 
-        FlowRouter.go("/debrief");
+        hacker.setDebrief();
+
+        hacker.debrief.show();
 
         return;
       }

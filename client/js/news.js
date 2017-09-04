@@ -207,7 +207,7 @@ News = function() {
 		}
 
 		this.class = this.arrClass.pop();
-c("new class is " + this.class)
+//c("new class is " + this.class)
 	}
 
 	this.start = function() {
@@ -256,14 +256,14 @@ c("new class is " + this.class)
 
 
 		if (this.class == ecWeather) {
-c("weather")
+//c("weather")
 			this.weather.show();
 
 			return;
 		}
 
 		if (this.class == ecLocal) {
-c("local")
+//c("local")
 			var _type = this.arrLocalType.pop();
 
 			if (this.arrLocalType.length == 0) {
@@ -273,12 +273,14 @@ c("local")
 
 
 			_item = new NewsItem( _type );
+//c("item created for network event follows")
+//c(_item)
 		}
 
 		if (this.class == ecNetwork)  {
-c("network")
+//c("network")
 			if (this.arrNetworkEvent.length == 0) {
-c("no network events")
+//c("no network events")
 				this.show();
 
 				return;
@@ -290,20 +292,23 @@ c("no network events")
 
 			if (_obj.u == game.user._id) {
 
-c("skipping network event b/c user is local")
+//c("skipping network event b/c user is local")
 
 				this.show();
 
 				return;
 			}	
-c("item created for network event follows")
-c(_item)
+			
 			_item = new NewsItem(_obj.t, _obj.u, _obj.p, _obj.n)
+
+//c("item created for network event follows")
+//c(_item)
+			
 
 		}
 
 		if (!_item) {
-c("calling news.show again b/c there's no item")
+//c("calling news.show again b/c there's no item")
 			this.show();
 
 			return;

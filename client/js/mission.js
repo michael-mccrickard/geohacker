@@ -437,6 +437,12 @@ Mission = function(_code) {
 
   	this.name = rec.n;
 
+    //temporarily make a [name]_1 mission object to get the congrats name
+    
+    var _mission = new Mission(_code + "_1");
+
+    this.congratsName = _mission.congratsName;
+
     //the map variables are set in user.assign (called by hack.startNew() )
 
     if (this.name == "North America") {
