@@ -605,6 +605,10 @@ c("doMapSuccess")
 
             game.hackTotalTime = (hackEndTime - game.hackStartTime) / 1000.0;
 
+            game.user.prevHackTime = game.hackTotalTime;
+
+            game.user.prevHackCountry = hack.countryCode;
+
             display.playEffect(this.map_country_success_sound);
 
             this.hackDone();

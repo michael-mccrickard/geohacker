@@ -56,6 +56,10 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this._id = "";
 
+    this.prevHackTime = 0;
+
+    this.prevHackCountry = "";
+
     this.deleteMeIfGuest = function() {
 
     	if (this.isGuest) {
@@ -67,6 +71,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 
     this.browseCountry = function( _code, _returnRoute ) {
+
+    Database.registerEvent( eExplore, game.user._id, _code);
 
      //the calling function passes _returnRoute as route to go back to 
      //with the RETURN TO XXXX button on the browse screen, and _returnName
@@ -751,6 +757,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	this.countryHacked = function( _code ) {
 
+		Database.registerEvent( eHackComplete, game.user._id, _code);
+
 		var _ticket = null;
 
 		//Add the hacked country code to the array
@@ -814,6 +822,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 			mission.status = msComplete;
 
 			mission.finish = Date.now();
+
+			Database.registerEvent( eMissionComplete, game.user._id, mission.code )
 		}
 
 		//Save the assign object and update the missionList

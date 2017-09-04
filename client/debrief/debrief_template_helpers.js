@@ -37,7 +37,7 @@ Template.debrief.helpers({
   		}
   		else {
 
-    		return "MISSION DEBRIEFING FOR STREAM " + hack.messageID;  			
+    		return "DEBRIEFING FOR AGENT " + game.user.name;  			
   		}
     }
 

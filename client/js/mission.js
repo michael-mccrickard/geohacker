@@ -469,6 +469,11 @@ Mission = function(_code) {
 
 }
 
+  Mission.getElapsedTime = function() {
+
+      return parseInt( (Date.now() - mission.start) / 1000 );
+  };
+
 Mission.addThisLesson = function( _code, _pro ) {
 
    var _len = LessonFactory[ _code ].length;

@@ -58,7 +58,7 @@ NewLoader = function() {
 
 		hack.mode = mDataFound;
 
-		if (this.totalClueCount == 1) hacker.status.setAndShow();
+//if (this.totalClueCount == 1) hacker.status.setAndShow();
 
 		hacker.cue.setAndShow();
 

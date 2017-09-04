@@ -197,6 +197,8 @@ Template.login.events({
 
             console.log("user logged in: " + email )
 
+            Database.registerEvent( eLogin, Meteor.userId() );
+
             analytics.identify( Meteor.userId(), {
               email: Meteor.user().emails[0].address,
               name: Meteor.user().profile.name
@@ -235,9 +237,9 @@ Template.login.events({
 
 //game.user.browseCountry( db.getRandomRec( db.ghC ).c, "newBrowse2" );
 
-FlowRouter.go("mapboxCongrats0");
+//FlowRouter.go("mapboxCongrats0");
 
-return;
+//return;
 
 //*************************************************************************************************************
 //*************************************************************************************************************
@@ -503,6 +505,8 @@ submitApplication = function(_t, _obj) {
                 game.user.msg.userID = Meteor.userId();
 
                 mission = null;
+
+                Database.registerEvent(eHire, game.user._id);
 
 
                 if (_obj) {

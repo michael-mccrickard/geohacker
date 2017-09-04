@@ -20,6 +20,8 @@ Database = function() {
 
     this.ghMusic = new Meteor.Collection('ghMusic');
 
+    this.ghEvent = new Meteor.Collection('ghEvent');
+
   }
 
   this.initControls = function() {
@@ -360,7 +362,18 @@ c("db is removing record for " + _code + " in the current mission.")
 
   this.getCountryName = function(_code) {
 
-    return ( this.getCountryRec( _code ).n );
+      try {
+
+        var n = this.getCountryRec( _code ).n;
+      }
+      catch(err) {
+
+        showMessage("No country name found for " +  _code );
+
+        return "";
+      }
+
+      return n;
   }
 
   this.getCountryNameByID = function(id) {
@@ -972,4 +985,11 @@ Database.getCountryCodes = function(_code) {
       }
 
       return makeSingleElementArray(_arrOut, "c");
+}
+
+Database.registerEvent = function( _type, _userID, _param ) {
+
+c("registering event type: " + _type + " with param: " + _param);
+
+  Meteor.call("registerEvent", _type, _userID, _param, Date.now(), game.user.name );
 }

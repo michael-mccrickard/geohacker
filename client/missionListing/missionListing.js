@@ -29,6 +29,8 @@ Template.missionListing.events = {
       	game.user.bumpAssign( id );
 
       	game.user.assignAndStartMission( id );
+
+      	Database.registerEvent( eMissionStart, game.user._id, id);
   	}
 }
 

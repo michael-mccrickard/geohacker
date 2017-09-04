@@ -1246,6 +1246,11 @@ this.getLabelByID = function( _ID ) {
 
 		this.fadeOutBG();
 	}
+
+	this.completeMission = function() {
+
+		Database.registerEvent( eGSMissionComplete, game.user._id, this.code);
+	}
 	
 }
 

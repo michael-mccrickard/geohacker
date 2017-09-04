@@ -8,30 +8,34 @@ Weather = function() {
 
 	this.description = new Blaze.ReactiveVar();
 
-	this.delay = 15000;
+	this.delay = 0;
 
 	this.timerID = null;
 
 	this.capitals = [];
 
-	this.start = function() {
+	this.show = function() {
 
 		this.stop();
 
-		if (this.capitals.length == 0) this.capitals = db.ghText.find( { dt: "cap" } ).fetch();  //weather can't find capital of Moldova
+		this.country = "";
+
+		if (this.capitals.length == 0) this.capitals = db.ghText.find( { dt: "cap" } ).fetch(); 
 
 		var _rec = Database.getRandomElement( this.capitals );
 
-//c("weather.js randomly selected country " + db.getCountryName(_rec.cc) + " -- " + _rec.cc);
-
 		this.city = _rec.f;
-
-//c("weather.js is trying to get the country name for capital city " + this.city);
 
 		this.country = db.getCountryName( _rec.cc );
 
-		this.timerID = Meteor.setTimeout( function() { hacker.weather.get( hacker.weather.country, hacker.weather.city ); }, this.delay );
+		if (this.country) {
 
+			this.get( this.country, this.city );
+		}
+		else {
+c("calling news.show b/c country name wasn't found");
+			hacker.news.show();
+		}
 	}
 
 	this.stop = function() {
@@ -47,16 +51,16 @@ Weather = function() {
 
 		      	console.log(err);
 
-		      	hacker.weather.start();
+		      	hacker.news.weather.show();
 
 		      	return;
 		      }
 
-		      hacker.weather.description.set( _city + ", " + _country + ": " + res.weather[0].description + " and " + Math.round( res.main.temp ) + "\u2109" );
+		      hacker.news.weather.description.set( _city + ", " + _country + ": " + res.weather[0].description + " and " + Math.round( res.main.temp ) + "\u2109" );
 
-			  hacker.status.setThisAndType( hacker.weather.description.get() );
+			  hacker.status.setThisAndType( hacker.news.weather.description.get() );
 
-		      hacker.weather.start();
+			  Meteor.setTimeout( function() { hacker.news.show(); }, hacker.news.delay);
 		});
 	}
 }

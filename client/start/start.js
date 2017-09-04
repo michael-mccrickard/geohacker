@@ -12,7 +12,7 @@ Blaze._allowJavascriptUrls();
 
 BlazeLayout.setRoot('body');
 
-//callback for the start-up from an emailed "resert password" link
+//callback for the start-up from an emailed "reset password" link
 
 Accounts.onResetPasswordLink( function(token) { 
 
@@ -38,6 +38,8 @@ Accounts.onLogin( function() {
   game.user = game.createGeohackerUser(); 
 
   LessonFactory.updateLessons();
+
+  Database.registerEvent( eLogin, Meteor.userId() );
 
 });
 
@@ -195,6 +197,7 @@ Session.set("isIOS", false);
  Session.set("sCodeFromGlobe","");
 
 
+
 //****************************************************************
 //                  STARTUP
 //****************************************************************
@@ -268,7 +271,7 @@ Meteor.startup(function() {
 
   Meteor.subscribe("country", function() { Session.set("sCReady", true ) });
 
-  Meteor.subscribe("allFlags", function() { Session.set("sFReady", true ) })
+  Meteor.subscribe("allFlags", function() { Session.set("sFReady", true ) });
 
  // Meteor.subscribe("ghTag", function() { Session.set("sTReady", true ) });  
 
@@ -286,6 +289,7 @@ Meteor.startup(function() {
 
   Meteor.subscribe("chiefUser", function() { Session.set("sChiefUserReady", true ) });  
 
+  Meteor.subscribe("allEvents");
 
 
   Tracker.autorun(function(){
@@ -321,7 +325,7 @@ Tracker.autorun( function(comp) {
       Session.get("sCapitalsReady") &&  
       Session.get("sCapitalsTextReady") && 
       Session.get("sMusicReady") &&
-      Session.get("sChiefUserReady") //&& 
+      Session.get("sChiefUserReady") 
       //Session.get("sEditImageReady")
        
   ) {

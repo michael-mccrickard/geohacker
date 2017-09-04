@@ -27,6 +27,7 @@ if (Meteor.isDevelopment) {
   process.env.AWS_ACCESS_KEY_ID = Meteor.settings.AWS_ACCESS_KEY_ID;
   process.env.AWS_SECRET_ACCESS_KEY = Meteor.settings.AWS_SECRET_ACCESS_KEY;
   process.env.GOOGLE_MAPS_KEY = Meteor.settings.GOOGLE_MAPS_KEY;
+  process.env.OPENWEATHERMAP_KEY = Meteor.settings.OPENWEATHERMAP_KEY;
 }
 
 /*
@@ -86,7 +87,7 @@ Meteor.startup(
     ghC = new Meteor.Collection('alCountry');    //n = name, c = code, r = region code
 
 
-//new collections
+//base collections
 
     ghImage = new Meteor.Collection('ghImage');
 
@@ -125,6 +126,11 @@ Meteor.startup(
     ghChat = new Meteor.Collection("ghChat")
 
     ghStorySound = new Meteor.Collection("ghStorySound")
+
+    //events collection
+
+    ghEvent = new Meteor.Collection("ghEvent");
+
 
     //country editing collections
 
@@ -184,7 +190,6 @@ Meteor.startup(
 
       return Meteor.users.find( { 'profile.ut': { $gt: 1 }  } );
     }); 
-
 
     //only for super-admin?
     Meteor.publish("registeredUsers", function () {
@@ -392,6 +397,11 @@ Meteor.startup(
     Meteor.publish("allMusic", function() {
       return ghMusic.find( {} );
     });
+
+    //events
+    Meteor.publish("allEvents", function() {
+      return ghEvent.find( {} );
+    });    
 
     ghStorySound.allow({
 
@@ -602,6 +612,19 @@ Meteor.startup(
     });
 
     ghTag.allow({
+
+      insert: function() {
+          return true;
+      },
+      update: function() {
+          return true;
+      },
+      remove: function() {
+          return true;
+      },
+    });
+
+    ghEvent.allow({
 
       insert: function() {
           return true;
@@ -1194,9 +1217,18 @@ geo.reverse(_lat, _lng);
       var res = ghC.update( {c: _code }, { $set: { cla: _lat, clo: _lng }  }); 
     }
 
+  },
 
+  registerEvent: function( _type, _userID, _param, _date, _name) {
 
+       if (!_param) _param = "";
+
+       ghEvent.insert( { t: _type, u: _userID, p: _param, d: _date, n: _name} );
   }
+
+
+
+
 
 });
 

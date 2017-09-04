@@ -32,7 +32,9 @@ StoryManager = function() {
 
 		eval( "story = new " + _name + "()" );
 
-		story._init( _code );		
+		story._init( _code );	
+
+		Database.registerEvent( eGSMissionStart, game.user._id, _code);	
 	}
 
 	this.startStoryFromEditor = function() {

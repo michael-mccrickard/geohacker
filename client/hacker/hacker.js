@@ -22,7 +22,9 @@ Hacker = function() {
 
     this.TV = new TV();
 
-    this.weather = new Weather();
+//    this.weather = new Weather();
+
+    this.news = new News();
 
     this.helper = new Helper();
 
@@ -285,12 +287,14 @@ Hacker = function() {
 
          this.scanner.hide();
 
-         this.weather.stop();
+         this.news.stop();
 
     }
 
 
     this.doHeadlines = function() {
+
+c("doHeadlines")
 
         this.status.setAndShow();
 

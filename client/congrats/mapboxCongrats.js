@@ -8,19 +8,21 @@ Template.mapboxCongrats0.rendered = function() {
 	//Once the data has come in, the Tracker.autorun will switch templates
 	//and template.rendered will start the sequence
 
-
+/*
 mission = new Mission("pg");
+*/
 
-//move these two lines to the bottom after testing
+	mission.sequence = new ghMapboxSequence( mission.code, cLeader, cCountry); 
 
-mission.sequence = new ghMapboxSequence( mission.code, cLeader, cCountry); 
+	display.mapboxCongrats = new ghMapboxCongrats( mission.sequence );
 
-display.mapboxCongrats = new ghMapboxCongrats( mission.sequence );
+	var _time = parseInt( (mission.finish - mission.start) / 1000 );
 
+	_time = _time.toFixed(2);
 
 	$("#mbCongratsMission").text( mission.name.toUpperCase() );
 
-	var _s = game.user.assign.hacked.length + " countries hacked in " + (mission.finish - mission.start) + " seconds"
+	var _s = game.user.assign.hacked.length + " countries hacked in " + (_time) + " seconds"
 
 	$("#mbCongratsStats").text( _s.toUpperCase() );	
 
@@ -33,8 +35,6 @@ display.mapboxCongrats = new ghMapboxCongrats( mission.sequence );
 	var _delay = 4500;
 
 	deadline = _delay + Date.now();
-
-
 
 }
 
@@ -124,7 +124,7 @@ Template.mapboxCongrats.helpers({
 
 	    	container: 'mmapCongrats',
 
-	    	style: 'mapbox://styles/geohackergame/cj6jgede667t62sqjhsgy8xft',
+	    	style: 'mapbox://styles/geohackergame/cj72b3kyb1h9f2rqna4gxk70b',
 
 	    	center: this.move.start,
 
@@ -158,7 +158,7 @@ Template.mapboxCongrats.helpers({
 			_map.moveIndex++;
 
 			if (_map.moveIndex == _map.seq.move.length) {
-return;
+
 				Meteor.setTimeout( function() { display.fadeOutElement("div#mmapOuterDiv", 500); }, 1000 );
 
 				Meteor.setTimeout( function() { FlowRouter.go("/congrats") }, 1501 ) ;
@@ -252,41 +252,23 @@ return;
 
 
 	this.showIcons = function() {
-/*
-		var _arrRegion = db.ghR.find( { z: this.seq.continent } ).fetch();
-
-		if (this.seq.region.length) {
-
-			_arrRegion = [ this.seq.region ];
-		}
-		else {
-
-			_arrRegion = Database.makeSingleElementArray( _arrRegion, "c");
-		}
-
-		for (var i = 0; i < this.arrCountries.length; i++) {
-
-			var _region = _arrRegion[i];
 
 
-			var _arr = db.ghC.find( { r: _region } ).fetch();
-*/
+		for (var j = 0; j < this.arrCountries.length; j++ ) {
 
-			for (var j = 0; j < this.arrCountries.length; j++ ) {
+			var _obj = db.ghC.findOne( { c: this.arrCountries[j] } );
 
-				var _obj = db.ghC.findOne( { c: this.arrCountries[j] } );
+			var _lon = _obj.clo;
 
-				var _lon = _obj.clo;
+			var _lat = _obj.cla;
 
-				var _lat = _obj.cla;
+			var _lngLat = [_lon, _lat];
 
-				var _lngLat = [_lon, _lat];
+			var _labelText = "";
 
-				var _labelText = "";
+			if (this.seq.textType == cLeader) _labelText = db.getLeaderName( _obj.c );
 
-				if (this.seq.textType == cLeader) _labelText = db.getLeaderName( _obj.c );
-
-				if (this.seq.textType == cCountry) _labelText =_obj.n;				
+			if (this.seq.textType == cCountry) _labelText =_obj.n;				
 
 this.seq.iconWidth = 64;
 
@@ -296,38 +278,36 @@ var _arrBig = ["CA","US","MX","GL","AR","BR", "CN", "IN", "RU"];
 
 if ( _arrBig.indexOf( _obj.c ) != -1) {
 
-	this.seq.iconWidth = 128;
+this.seq.iconWidth = 128;
 
-	this.seq.iconHeight = 128;
+this.seq.iconHeight = 128;
 }
 
 
 
-				this.addLabel( _obj.c, _lngLat, _labelText, "show", _obj.ll_co)
+			this.addLabel( _obj.c, _lngLat, _labelText, "show", _obj.ll_co)
 
-				var _URL = "";
+			var _URL = "";
 
-				if (this.seq.picType == cFlag) _URL  = db.getFlagPicByCode( _obj.c );
+			if (this.seq.picType == cFlag) _URL  = db.getFlagPicByCode( _obj.c );
 
-				if (this.seq.picType == cLeader) _URL  = db.getLeaderPic( _obj.c );
+			if (this.seq.picType == cLeader) _URL  = db.getLeaderPic( _obj.c );
 
-				  // create a HTML element for each feature
-				  var el = document.createElement('div');
-				  el.className = 'marker';
-				  
-				  el.style = "background-size: cover; background-image: url(" + _URL + ");width: " + this.seq.iconWidth + "px;height: " + this.seq.iconHeight + "px;border-radius: 10%;cursor: pointer;";
-
-
-				  // make a marker for each feature and add to the map
-				  new mapboxgl.Marker(el, { offset: [-1 * this.seq.iconWidth / 2, -1 * this.seq.iconHeight / 2] })
-				  .setLngLat( [_lon, _lat] )
-				  .addTo( display.mapboxCongrats.map );
+			  // create a HTML element for each feature
+			  var el = document.createElement('div');
+			  el.className = 'marker';
+			  
+			  el.style = "background-size: cover; background-image: url(" + _URL + ");width: " + this.seq.iconWidth + "px;height: " + this.seq.iconHeight + "px;border-radius: 10%;cursor: pointer;";
 
 
+			  // make a marker for each feature and add to the map
+			  new mapboxgl.Marker(el, { offset: [-1 * this.seq.iconWidth / 2, -1 * this.seq.iconHeight / 2] })
+			  .setLngLat( [_lon, _lat] )
+			  .addTo( display.mapboxCongrats.map );
 
-			}
-		//}
 
+
+		}
 
 	}
 
@@ -546,11 +526,6 @@ Tracker.autorun( function(comp) {
 
 		if (typeof display === 'undefined') return;
 
-//c("date now is: " + Date.now())
-
-//c("deadline is " + deadline)
-
-//c("diff is " + (deadline - Date.now()));
 
 		if (Date.now() < deadline) {
 
@@ -569,12 +544,10 @@ Tracker.autorun( function(comp) {
 				_delay += 1000 - _delay;
 
 			}
-//c("recalced delay is " + _delay)
+
 			Meteor.setTimeout( function() { FlowRouter.go("/mapboxCongrats"); }, _delay);
 		}
 		else {
-
-//c("no recalc on delay, time is alreay up")
 
 			display.fadeOutElement("#mbCongratsHeader", 1000);
 

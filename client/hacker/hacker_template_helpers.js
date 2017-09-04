@@ -295,11 +295,12 @@ Template.main.rendered = function () {
 
     hacker.redraw();
 
-    hacker.doHeadlines();
+//    hacker.doHeadlines();
 
     hacker.checkMainScreen();
 
-    hacker.weather.start();
+
+    hacker.news.start();
     
 
     if (hack.mode == mReady)  {

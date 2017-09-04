@@ -108,7 +108,7 @@ Template.congrats.helpers({
 
     //either STREAM HACKED or MISSION COMPLETE
 
-    if (game.user.assign.pool.length == 0) return "MISSION COMPLETE";
+    //if (game.user.assign.pool.length == 0) return "MISSION COMPLETE";
 
     return "STREAM HACKED";
   },
