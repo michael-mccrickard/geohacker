@@ -1224,9 +1224,12 @@ geo.reverse(_lat, _lng);
        if (!_param) _param = "";
 
        ghEvent.insert( { t: _type, u: _userID, p: _param, d: _date, n: _name} );
+  },
+
+  clearEvents: function() {
+
+       ghEvent.remove( { } );
   }
-
-
 
 
 

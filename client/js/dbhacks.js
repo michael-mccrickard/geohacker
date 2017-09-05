@@ -85,7 +85,7 @@ c(_s)
 
 
 
-countMemes = function() {
+countFlagMemes = function() {
 
   var count = 0;
 
@@ -98,20 +98,22 @@ countMemes = function() {
 
       var _obj = arr[i];
 
-      var _arrMeme = db.ghMeme.find( { cc: _obj.c } ).fetch();
+      var _arrMeme = db.ghMeme.find( { cc: _obj.c, dt: "flg" } ).fetch();
 
-if (_arrMeme.length < 7) count++;
+if (_arrMeme.length) console.log( db.getCountryName( _obj.c) + " has " + _arrMeme.length + " flag memes.")
 
-      arrCollection.insert( { q: _arrMeme.length, n: _obj.n } );
+      //arrCollection.insert( { q: _arrMeme.length, n: _obj.n } );
 
 //c( _obj.n + " -- " + _arrMeme.length);
 
   }
 
+c("done counting flag memes")
+
 //console.log(arrCollection);
 
 //return;
-
+/*
 c(count + " countries need additional memes.");
 
   var _arrSort = arrCollection.find({}, {sort: {  q: -1}}).fetch();
@@ -122,7 +124,7 @@ c(count + " countries need additional memes.");
     c(_arrSort[j].n + " -- " + _arrSort[j].q);
 
   }
-
+*/
 }
 
 

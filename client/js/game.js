@@ -169,6 +169,8 @@ Game = function() {
 
 			_user.setAtlas( Meteor.user().profile.h );
 
+			if (Meteor.user().profile.nsn) _user.lastNewsDate = Meteor.user().profile.nsn;
+
 			if ( Meteor.user().profile.ut ) _user.title = Meteor.user().profile.ut;
 
 			_user._id = Meteor.userId();

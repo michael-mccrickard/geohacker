@@ -70,7 +70,7 @@ Helper = function() {
 
 		this.pic.set( this.rec.profile.av );
 
-		this.title.set( arrUserTitle[ this.rec.profile.ut ] + db.getCountryName( this.rec.profile.cc ) );
+		this.title.set( arrUserTitle[ this.rec.profile.ut ] + ", " +  db.getCountryName( this.rec.profile.cc ) );
 
 		//format the name
 

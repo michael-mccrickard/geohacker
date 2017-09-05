@@ -2,7 +2,7 @@
 
 Template.intro.events = {
 
-  'click #introOK': function (evt, template) {
+  'click #btnCountryAssignOK': function (evt, template) {
 
  		game.user.mode = uHelp; 		 
 
@@ -168,7 +168,7 @@ Intro = function() {
 		tl.add( () => {  game.user.photoReady.set( true ); } );
 
 
-		tl.add( () => {  game.intro.headline.setThisAndType("INITIALIZING TRAINING MODULE") } );		
+tl.add( () => {  game.intro.headline.setThisAndType("") } );		
 
 	 
 		tl.add( () => {  $(".introText").text("Agent: " + game.user.name) } );
@@ -183,6 +183,21 @@ Intro = function() {
 
 		tl.to( this.text, 1.0, { opacity: 0.0 }, "-=2" );	
 
+		Meteor.setTimeout( function() { game.intro.assignCountry(); }, 2501);
+	}
+
+	this.assignCountry = function() {
+
+		$(".txtCountryAssign").text( "YOU HAVE BEEN ASSIGNED TO " + db.getCountryName( game.user.profile.cc ).toUpperCase() + ".");
+
+		$("#imgCountryAssignFlag").attr("src", db.getFlagPicByCode( game.user.profile.cc) );
+
+		display.fadeInElement( ".divCountryAssignment" ); 
+
+
+	}
+
+/*
 
 		var _text = "AT ANY TIME, CLICK YOUR PHOTO TO GO TO THE MENU. ";
 
@@ -209,8 +224,8 @@ Intro = function() {
 		tl.to( "#clickPhoto", 0.5, { opacity: 1.0, delay: 0.0 } );	
 
 		tl.to( "#introOK", 0.5, { opacity: 1.0, delay: 0.0 } );	
+*/
 
-	}
 
 }
 

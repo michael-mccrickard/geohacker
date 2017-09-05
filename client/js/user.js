@@ -60,6 +60,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     this.prevHackCountry = "";
 
+    this.lastNewsDate = 0;
+
     this.deleteMeIfGuest = function() {
 
     	if (this.isGuest) {
@@ -758,6 +760,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 	this.countryHacked = function( _code ) {
 
 		Database.registerEvent( eHackComplete, game.user._id, _code);
+
+		db.updateUserLastNewsDate( game.user.lastNewsDate);
 
 		var _ticket = null;
 

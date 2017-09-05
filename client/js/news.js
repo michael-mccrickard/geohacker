@@ -230,7 +230,7 @@ News = function() {
 
 		this.networkEventsStarted = true;
 
-		this.networkNewsCursor = db.ghEvent.find();
+		this.networkNewsCursor = db.ghEvent.find( { d: { $gt: game.user.lastNewsDate }, u: { $ne: game.user._id } });
 
 		this.networkNewsCursor.observe({
 
@@ -300,6 +300,8 @@ News = function() {
 			}	
 			
 			_item = new NewsItem(_obj.t, _obj.u, _obj.p, _obj.n)
+
+			game.user.lastNewsDate = _obj.d;
 
 //c("item created for network event follows")
 //c(_item)

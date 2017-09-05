@@ -59,7 +59,7 @@ Template.login.helpers({
 
   country: function() {
 
-    return db.ghC.find( {r: Session.get("sUserRegion"), d: 1 }, {sort: { n: 1 }} );
+    return db.ghC.find( {r: Session.get("sUserRegion") }, {sort: { n: 1 }} );
   },
 
   loginStatus:  function() {
@@ -395,7 +395,7 @@ submitApplication = function(_t, _obj) {
 
         if ( $("#chkFemale").prop("checked") ) _gender = "female";  
 
-        var _countryID = $( "#selectCountry option:selected" ).attr("id");   
+        var _countryID = db.getRandomCountryRec().c;
 
         _ut = utAgent;    
 
@@ -522,16 +522,16 @@ submitApplication = function(_t, _obj) {
 
                   stopSpinner();  
 
-                  FlowRouter.go("/help");
+                  //FlowRouter.go("/help");
 
                 }
                 else {
                   
                   game.user.makeAvatar( _gender );
 
-                  FlowRouter.go("/intro");
-
                 }
+
+                FlowRouter.go("/intro");
 
               }
               

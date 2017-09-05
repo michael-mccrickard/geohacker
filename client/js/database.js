@@ -132,7 +132,7 @@ this.updateUserStatus = function(_userID, _status, _lastSeen) {
 
        'profile.sn': _date,
 
-       'profile.st': _status,
+       'profile.st': _status
 
      }
 
@@ -148,6 +148,21 @@ this.updateUserLastSeen = function(_userID, _lastSeen) {
      {
 
        'profile.sn': _date
+
+     }
+
+   }); 
+}
+
+this.updateUserLastNewsDate = function(_userID, _lastDate) {
+
+  var _date = new Date( _lastDate );
+
+   var res =  Meteor.users.update( {_id: _userID }, { $set: 
+
+     {
+
+       'profile.nsn': _lastDate
 
      }
 
@@ -222,11 +237,11 @@ this.saveScroll = function(_val) {
 
   this.getRandomCountryRec = function() {
 
-      var count = this.ghC.find( { d: 1 } ).count();
+      var count = this.ghC.find( {} ).count();
 
       var num = Math.floor( Math.random()*count );
 
-      var arr = this.ghC.find( { d: 1 } ).fetch();
+      var arr = this.ghC.find( { } ).fetch();
 
       var rec = arr[num];
 
@@ -759,7 +774,7 @@ Database.getIndexWithNValue = function(_val, _arr) {
 
 Database.getIndexForCountryCode = function( _code )   {
 
-      var _arr = db.ghC.find( { d: 1 }, {sort: {n: 1} } ).fetch();
+      var _arr = db.ghC.find( {}, {sort: {n: 1} } ).fetch();
 
       var _index = -1;
 
@@ -778,7 +793,7 @@ Database.getIndexForCountryCode = function( _code )   {
 
 Database.getCountryCodeForIndex = function( _index ) {
 
-      var _arr = db.ghC.find( { d: 1 }, {sort: {n: 1} } ).fetch();
+      var _arr = db.ghC.find( {}, {sort: {n: 1} } ).fetch();
 
       return  _arr[_index].c;    
 }
