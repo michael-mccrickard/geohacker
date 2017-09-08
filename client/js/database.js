@@ -154,15 +154,21 @@ this.updateUserLastSeen = function(_userID, _lastSeen) {
    }); 
 }
 
-this.updateUserLastNewsDate = function(_userID, _lastDate) {
+this.updateUserLastNewsDate = function(_lastDate) {
+
+c("data value coming into users.update is " + _lastDate)
 
   var _date = new Date( _lastDate );
 
-   var res =  Meteor.users.update( {_id: _userID }, { $set: 
+c("data value going into users.update is " + _date)
+
+
+
+   var res =  Meteor.users.update( {_id: Meteor.userId() }, { $set: 
 
      {
 
-       'profile.nsn': _lastDate
+       'profile.nsn': _date
 
      }
 

@@ -206,19 +206,16 @@
 
     </div>
 
-    <div class="modal fade" id="countryNotListedModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
+    <div class="modal fade" id="helperAgentBio" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content" style="background-color:black">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title modalText">My country is not listed</h4>
+            <h4 class="modal-title modalText helperAgentBioName" style="color:lightgrey; text-align:center"></h4>
           </div>
-          <div class="modal-body">
-            <p class="modalText">         
-                We do not have data for all the countries of the world in this game yet.  
-                You may choose any country you like on this screen.  Choose the country of your birth or a country you are interested in, or pick one at random!
-            </p>
-          </div>
+
+          {{> bio }}
+
           <div class="modal-footer">
             <button type="button" class="btn btn-default modalText" data-dismiss="modal">CLOSE</button>
           </div>
@@ -235,10 +232,12 @@
                 <h4 class="modal-title modalText"></h4>
               </div>
               <div class="modal-body">
-                <div class="divImgZoomInModal">
-                    <img class="imgZoomInModal" src="" />
-                </div>
-                <p class="modalText"></p>
+
+                    <div class="divImgZoomInModal">
+                        <img class="imgZoomInModal" src="" />
+                    </div>
+                    <p class="modalText"></p>
+
               </div>
 
           <div class="modal-footer">

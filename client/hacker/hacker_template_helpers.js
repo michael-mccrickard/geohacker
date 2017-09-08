@@ -49,6 +49,12 @@ Template.main.helpers({
 
     },
 
+    helperAgentID: function() {
+
+        return "h" + hacker.helper.ID;
+
+    },
+
     helperAgentName: function() {
 
         return hacker.helper.name.get();
@@ -104,7 +110,31 @@ Template.main.helpers({
 
 });
 
+function goToAgent(_ID) {
+
+  var _id = _ID.substring(1);  //delete the leading "h" that was added to ensure a legal ID
+
+ Session.set("sProfiledUserID", _id );
+
+  $('#helperAgentBio').modal('show');
+
+  $('h4.modal-title.modalText.helperAgentBioName').text( hacker.helper.name.get().toUpperCase() );
+
+}
+
 Template.main.events({
+
+  'click .clsHelperAgentName': function(e) {
+
+      e.preventDefault();  
+
+      goToAgent(e.currentTarget.id);
+  },
+
+  'click .clsHelperAgentTitle': function(e) {
+
+
+  },
 
   'mouseenter #mapButton': function(e) {
 

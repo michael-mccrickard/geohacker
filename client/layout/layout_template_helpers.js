@@ -1,5 +1,13 @@
 Template.layout.helpers({
 
+    helperBio: function() {
+
+      if (Session.get("sProfiledUserID")) return true;
+
+      return false;
+    },
+
+
   windowSize: function() {
 
      return  "w: " + Session.get("gWindowWidth") + " -- h: " +Session.get("gWindowHeight");

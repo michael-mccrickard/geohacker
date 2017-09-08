@@ -14,6 +14,12 @@
 
 		{{> meme}}
 
+		{{#if helperBio}}
+		
+			{{> bio}}
+		
+		{{/if}}
+
 		<img class="featuredPic hidden"  src="" />
 
 
@@ -52,13 +58,16 @@
 
 		<div>
 
-			<div class="clsHelperAgent" id="btnHelperAgent">
+			<div class="clsHelperAgent">
 
-				<img class="clsHelperAgentButton" id="helperAgentButton" src="{{imgHelperAgent}}" />
+				<div id="btnHelperAgent">
+
+					<img class="clsHelperAgentButton"  src="{{imgHelperAgent}}" />
+				</div>
 				
-				<div class="clsHelperAgentName">{{helperAgentName}}</div>
+				<div class="clsHelperAgentName" id={{helperAgentID}}>{{helperAgentName}}</div>
 
-				<div class="clsHelperAgentTitle">{{helperAgentTitle}}</div>
+				<div class="clsHelperAgentTitle" id={{helperAgentID}}>{{helperAgentTitle}}</div>
 
 			</div>
 

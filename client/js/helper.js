@@ -65,6 +65,8 @@ Helper = function() {
 			this.rec = Database.getChiefRec();			
 		}
 
+		this.ID = this.rec._id;
+
 
 		//set the helper's picture and title
 
