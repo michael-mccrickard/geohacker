@@ -6,6 +6,12 @@ $(document).ready(function(){
 
 Template.main.helpers({
 
+    helperAgentID: function() {
+
+        return "h" + hacker.helper.ID;
+
+    },
+
     TVisVideo: function() {
 
         return hacker.TV.videoOn.get();
@@ -46,12 +52,6 @@ Template.main.helpers({
     imgHelperAgent: function() {
 
         return hacker.helper.pic.get();
-
-    },
-
-    helperAgentID: function() {
-
-        return "h" + hacker.helper.ID;
 
     },
 
@@ -110,30 +110,21 @@ Template.main.helpers({
 
 });
 
-function goToAgent(_ID) {
-
-  var _id = _ID.substring(1);  //delete the leading "h" that was added to ensure a legal ID
-
- Session.set("sProfiledUserID", _id );
-
-  $('#helperAgentBio').modal('show');
-
-  $('h4.modal-title.modalText.helperAgentBioName').text( hacker.helper.name.get().toUpperCase() );
-
-}
-
 Template.main.events({
 
   'click .clsHelperAgentName': function(e) {
 
       e.preventDefault();  
 
-      goToAgent(e.currentTarget.id);
+      hacker.helper.showModal();
+
   },
 
   'click .clsHelperAgentTitle': function(e) {
 
+      e.preventDefault();  
 
+      hacker.helper.showModal();
   },
 
   'mouseenter #mapButton': function(e) {
@@ -305,6 +296,7 @@ Template.main.events({
     },
 
 });
+
 
 
 function updateFeaturedContent() {

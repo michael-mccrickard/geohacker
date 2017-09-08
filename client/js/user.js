@@ -761,7 +761,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		Database.registerEvent( eHackComplete, game.user._id, _code);
 
-		db.updateUserLastNewsDate( game.user.lastNewsDate);
+		db.updateUserLastNewsDate( game.user._id, game.user.lastNewsDate);
 
 		var _ticket = null;
 

@@ -4,8 +4,17 @@
 
 /******************************/
 
+.clsHelperAgentName {
 
+    cursor: pointer;
 
+}
+
+.clsHelperAgentTitle {
+
+    cursor: pointer;
+
+}
 
 .noscroll {
 
@@ -124,7 +133,7 @@ img.featuredBackdrop {
     left: 85.75%; 
     width: 12.8%;
     height: 20%;
-    cursor: pointer;
+      cursor: pointer;
 }
 
 .clsMapButton {
@@ -137,18 +146,6 @@ img.featuredBackdrop {
     position: absolute;
     left: 87.75%; 
     width: 9%;
-
-}
-
-.clsHelperAgentName {
-
-    cursor: pointer;
-
-}
-
-.clsHelperAgentTitle {
-
-    cursor: pointer;
 
 }
 

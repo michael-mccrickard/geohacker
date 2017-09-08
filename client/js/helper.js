@@ -37,6 +37,8 @@ Helper = function() {
 
 	this.countryPool = [];
 
+	this.ID = "";
+;
 	this.init = function(_code) {
 
 		this.ZClue = 0;
@@ -65,8 +67,8 @@ Helper = function() {
 			this.rec = Database.getChiefRec();			
 		}
 
-		this.ID = this.rec._id;
 
+		this.ID = this.rec._id;
 
 		//set the helper's picture and title
 
@@ -200,5 +202,15 @@ Helper = function() {
 	this.getClueCount = function() {
 
 		return this.ZClue + this.RClue + this.CClue;
+	},
+
+	this.showModal = function() {
+
+ 		Session.set("sProfiledUserID", this.ID );
+
+  		$('#helperAgentBio').modal('show');
+
+  		$('h4.modal-title.modalText.helperAgentBioName').text( this.name.get().toUpperCase() );
+
 	}
 }
