@@ -32,8 +32,6 @@ mtMissionTotal	= 12;
 
 mtPrevHackTime  = 13;
 
-//mtHackTotalToday = 14;
-
 //event classes
 
 ecLocal = 1;
@@ -182,7 +180,7 @@ News = function() {
 
 	this.arrLocalType = [];
 
-	this.delay = 5000;
+	this.delay = 10000;
 
 	this.class = "weather";  //weather or user
 
@@ -213,6 +211,13 @@ News = function() {
 	this.start = function() {
 
 		if (!this.networkEventsStarted) this.listenForNetworkEvents();
+
+		if (this.active) {
+
+			c("returning from news.start b/c already active")
+
+			return;
+		}
 
 		this.active = 1;
 
@@ -248,7 +253,12 @@ News = function() {
 
 	this.show = function() {
 
-		if (this.active == 0) return;
+		if (this.active == 0) {
+
+			c("returning from show b/c not active")
+
+			return;
+		}
 
 		var _item = null;
 

@@ -138,8 +138,6 @@ FlowRouter.route('/missionSelect', {
 
   action: function (params, queryParams) { 
 
-   if (hacker) hacker.closeOutMain();
-
    BlazeLayout.render('layout', { content: "missionSelect" } ) 
 
  },

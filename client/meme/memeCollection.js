@@ -162,7 +162,7 @@ MemeCollection.getNextHelperItem = function( _arr ) {
 
 	if ( _item == null ) {
 
-		_item = MemeCollection.getNextItemWhereFalse( "usedByHelper", _arr );
+		_item = MemeCollection.getNextItemUnusedBy( "helper", _arr );
 	}
 
 	if ( _item ) MemeCollection.markMemeAsUsedBy(_item.code, "helper");
@@ -182,7 +182,7 @@ MemeCollection.getNextHackerItem = function( _arr ) {
 
 	if ( _item == null ) {
 
-		_item = MemeCollection.getNextItemWhereFalse( "usedByHacker", _arr );
+		_item = MemeCollection.getNextItemUnusedBy( "hacker", _arr );
 	}
 		
 	if ( _item ) MemeCollection.markMemeAsUsedBy(_item.code, "hacker");

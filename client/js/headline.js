@@ -74,14 +74,6 @@ Headline = function( _type ) {
 
         if (hack.mode == mReady) this.text = "Mission: " + game.user.assign.name;
 
-        if (hack.mode == mDataFound) {
-
-            if (hacker.loader.totalClueCount == 1) {
-
-                this.text = "STREAM " + hack.messageID;
-            }
-        }
-
         if (hack.mode == mHackDone) {
 
             this.text = "STREAM FROM " + hack.getCountryName() + " WAS HACKED."
@@ -104,32 +96,32 @@ Headline = function( _type ) {
 
         if (hack.mode == mScanning) {
 
-            if (hacker.loader.totalClueCount == 1)  this.text = 'Scanning for foreign transmissions ...';  
+            if (hacker.loader.totalClueCount == 1)  this.text = 'Scanning for incoming transmissions ...';  
 
-            if (hacker.loader.totalClueCount > 1) this.text  = 'Scanning for additional messages linked to this strean ...';
+            if (hacker.loader.totalClueCount > 1) this.text  = 'Accessing another message from stream ...';
         }
 
         if (hack.mode == mDataFound) {
 
             if (hacker.loader.totalClueCount == 1) {
 
-                this.text = ('Stream ' + hack.messageID + ' intercepted');  
+                var _date = new Date();
+
+                this.text = ('Stream intercepted at ' + _date.toLocaleString());  
             }
 
-             if (hacker.loader.totalClueCount > 1) this.text = 'Additional data found linked to stream ' + hack.messageID;
+             if (hacker.loader.totalClueCount > 1) this.text = 'Additional ' + hacker.feature.item.name.get() + ' data decrypted from stream';
         }
 
         if (hack.mode == mHackDone) {
 
-            this.text = "Intercepted stream successfully hacked.";
+            this.text = "Intercepted stream successfully hacked";
         }
 
         if (hacker.moreDataAvailable() == false) {
 
             this.text  = "Geo-locate the stream using the map ...";
         }
-
-        if (game.user.mode == uBrowseCountry) this.text = "All data linked to " + hack.getCountryName() + " is loaded. ";
 
         if (this.text  == "") this.text  = "Scan for more data or use the map to geo-locate the stream ..."
 

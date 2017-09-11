@@ -210,19 +210,19 @@ Template.main.events({
       updateFeaturedContent();
   },
 
-  'click #btnHelperAgent': function(e) {
+  'click img.clsHelperAgentButton': function(e) {
 
       e.preventDefault();
 
-      $('#btnHelperAgent').tooltip('destroy');
+      $('img.clsHelperAgentButton').tooltip('destroy');
 
       hacker.helper.setText();
 
       Meteor.setTimeout( function() {
 
-        $("#btnHelperAgent").tooltip({ delay:0, placement:"left", trigger:"manual", title: hacker.helper.text.get() });
+        $("img.clsHelperAgentButton").tooltip({ delay:0, placement:"left", trigger:"manual", title: hacker.helper.text.get() });
 
-        $('#btnHelperAgent').tooltip('show'); 
+        $('img.clsHelperAgentButton').tooltip('show'); 
 
       }, 200);
 
@@ -321,7 +321,7 @@ Template.main.rendered = function () {
 
     hacker.checkMainScreen();
 
-
+c("staring news from main.rendered")
     hacker.news.start();
     
 

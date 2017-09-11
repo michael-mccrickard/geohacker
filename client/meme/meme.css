@@ -23,6 +23,8 @@
 
     color: white;
     z-index: 990;
+
+    padding: 0.25%;
 }
 
 .memePicFrame {

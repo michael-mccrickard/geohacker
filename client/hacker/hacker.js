@@ -303,7 +303,7 @@ c("doHeadlines")
 
     this.hideAgentHint = function() {
 
-        $('#btnHelperAgent').tooltip('hide');
+        $('img.clsHelperAgentButton').tooltip('hide');
     }
 
     //*********************************************
