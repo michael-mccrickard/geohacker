@@ -13,6 +13,11 @@ Navigator = function() {
       game.user.goHome();
   }
 
+  this.goPrivacy = function()  {
+
+      FlowRouter.go("/privacy");
+  }
+
 	this.goAdmin = function( _which ) {
 
 		if (_which == "/selectCountry" || _which == "/editor" || _which == "/dataChecker") {

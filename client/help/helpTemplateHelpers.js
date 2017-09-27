@@ -9,5 +9,5 @@ Template.help.rendered = function() {
 
 	//assuming intro tab selected for now
 
-	display.help.playVideo( "INTRO" );
+	display.help.playVideo( "HACK" );
 }

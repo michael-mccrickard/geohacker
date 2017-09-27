@@ -1,3 +1,5 @@
+testvar = "123"
+
 Slingshot.createDirective("ghStoryPic", Slingshot.S3Storage, {
   bucket: "gh-resource",
 

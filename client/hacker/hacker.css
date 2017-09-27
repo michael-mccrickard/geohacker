@@ -147,12 +147,12 @@ img.featuredBackdrop {
     left: 87.75%; 
     width: 9%;
 
-        z-index: 10000;
+        z-index: 1000;
 
 }
 
 .ui-tooltip {
-    z-index: 10000;
+    z-index: 1000;
 }
 
   img.clsHelperAgentButton + .tooltip > .tooltip-inner {
@@ -169,7 +169,7 @@ img.clsHelperAgentButton {
     cursor: pointer;
     width: 100%;
 
-        z-index: 10000;
+        z-index: 1000;
 
 }
 

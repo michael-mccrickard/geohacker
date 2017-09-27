@@ -34,7 +34,6 @@ StoryManager = function() {
 
 		story._init( _code );	
 
-		Database.registerEvent( eGSMissionStart, game.user._id, _code);	
 	}
 
 	this.startStoryFromEditor = function() {

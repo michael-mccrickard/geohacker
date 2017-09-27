@@ -128,6 +128,14 @@ Unit = function(_type, _name, _src, _videoID) {
 
 	this.showModal = function() {
 
+     $("#modalTitle").text("");   
+
+    $("#modalText").css("display","none")
+
+    $("#clearEvents").css("display","none")
+
+    $(".imgZoomInModal").css("display","initial")
+
 		$(".imgZoomInModal").attr("src", display.unit.src);
 
 		$(".imgZoomInModal").css("width", display.unit.frame.width);
@@ -138,5 +146,24 @@ Unit = function(_type, _name, _src, _videoID) {
 
     $('#zoomInModal').modal('show');
 	}
+
+  this.showTextModal = function(_title, _text) {
+
+    $("#clearEvents").css("display","initial")
+
+    $(".imgZoomInModal").css("display","none")
+
+    $("#modalText").css("display","initial")
+
+     $("#modalTitle").text(_title);   
+
+    $("#modalText").text(_text);
+
+    $("#modalText").css("width", "95%");
+
+    $("#modalText").css("height", $(window).height() * 0.75);
+
+    $('#zoomInModal').modal('show');
+  }
 
 }

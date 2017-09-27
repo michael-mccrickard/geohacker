@@ -165,6 +165,16 @@ FlowRouter.route('/dataChecker', {
     },
 });  
 
+FlowRouter.route('/privacy', {
+
+    name: "dataChecker",
+
+    action: function (params, queryParams) { 
+
+      BlazeLayout.render('layout', { content: "privacy" } ) 
+    },
+});  
+
 FlowRouter.route('/story', {
 
     name: "story",

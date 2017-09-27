@@ -93,7 +93,15 @@ NewsItem = function(_type, _ID, _param, _name, _date) {
 		this.msg = _remoteName + " is exploring " + _countryName;
 	}
 
+	if (_type == eGSMissionStart) {
 
+		this.msg = _remoteName + " has started Geosquad Mission: " + _param;
+	}	
+
+	if (_type == eGSMissionComplete) {
+
+		this.msg = _remoteName + " has completed Geosquad Mission: " + _param;
+	}	
 
 	//local-only types
 
@@ -205,7 +213,7 @@ News = function() {
 		}
 
 		this.class = this.arrClass.pop();
-//c("new class is " + this.class)
+c("new class is " + this.class)
 	}
 
 	this.start = function() {
@@ -235,7 +243,9 @@ News = function() {
 
 		this.networkEventsStarted = true;
 
-		this.networkNewsCursor = db.ghEvent.find( { d: { $gt: game.user.lastNewsDate }, u: { $ne: game.user._id } });
+		var _date = new Date( game.user.lastNewsDate );
+
+		this.networkNewsCursor = db.ghEvent.find( { d: { $gt: _date.getTime() }, u: { $ne: game.user._id }} );
 
 		this.networkNewsCursor.observe({
 
@@ -266,14 +276,14 @@ News = function() {
 
 
 		if (this.class == ecWeather) {
-//c("weather")
+c("weather")
 			this.weather.show();
 
 			return;
 		}
 
 		if (this.class == ecLocal) {
-//c("local")
+c("local")
 			var _type = this.arrLocalType.pop();
 
 			if (this.arrLocalType.length == 0) {
@@ -283,14 +293,14 @@ News = function() {
 
 
 			_item = new NewsItem( _type );
-//c("item created for network event follows")
-//c(_item)
+c("item created for network event follows")
+c(_item)
 		}
 
 		if (this.class == ecNetwork)  {
-//c("network")
+c("network")
 			if (this.arrNetworkEvent.length == 0) {
-//c("no network events")
+c("no network events")
 				this.show();
 
 				return;
@@ -302,7 +312,7 @@ News = function() {
 
 			if (_obj.u == game.user._id) {
 
-//c("skipping network event b/c user is local")
+c("skipping network event b/c user is local")
 
 				this.show();
 
@@ -313,14 +323,14 @@ News = function() {
 
 			game.user.lastNewsDate = _obj.d;
 
-//c("item created for network event follows")
-//c(_item)
+c("item created for network event follows")
+c(_item)
 			
 
 		}
 
 		if (!_item) {
-//c("calling news.show again b/c there's no item")
+c("calling news.show again b/c there's no item")
 			this.show();
 
 			return;
@@ -331,7 +341,23 @@ News = function() {
 		Meteor.setTimeout( function() { hacker.news.show() }, this.delay);
 	}
 
+	this.clear = function() {
+
+		var txt;
+
+		var r = confirm("Clear all news events?");
+
+		if (r == true) {
+
+		    Meteor.call("clearEvents");
+		}
+	}
+
 	this.listAll = function() {
+
+		var _s = "";
+
+		var _newline = "\n";
 
 		var _arr = db.ghEvent.find().fetch();
 
@@ -343,11 +369,17 @@ News = function() {
 
 			var _date = new Date( _obj.d ).toString();
 
-			var _s = _date + ": " +	_item.msg;
+			var _s2 = _date + ": " +	_item.msg;
 
-console.log( _s);	
+			_s = _s + _s2 + _newline;
 
 		}
+
+		console.log( _s);	
+
+		var _unit = new Unit();
+
+		_unit.showTextModal("News Events", _s)
 	}
 
 

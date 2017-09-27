@@ -19,6 +19,7 @@
               <li><a href="javascript:void(0);" onclick="game.startMusic()">Music on</a></li>    
               
               <li class="divider"></li>
+              <li><a href="javascript:void(0);" onclick="nav.goPrivacy()">Privacy Policy</a></li>   
               <li><a href="http://geohackergame.weebly.com">Visit our website</a></li>   
 
               <li class="divider"></li>
@@ -26,11 +27,8 @@
               <!--this is a admin only function-->
               {{#if isAdmin}}
                   <li><a href="javascript:void(0);" onclick="nav.goAdmin('/userDirectory')">List all users</a></li>  
-             
-             {{/if}}
 
-
-                {{#if isAdmin}} 
+                  <li><a href="javascript:void(0);" onclick="hacker.news.listAll()">List all events</a></li>  
 
                   <li class="divider"></li>
 
@@ -39,7 +37,7 @@
                   <li><a href="javascript:void(0);" onclick="display.browser.restart()">Restart this browse</a></li> 
                   <li><a href="javascript:void(0);" onclick="nav.goAdmin('/dataChecker')">Check country data</a></li> 
                
-              <li class="divider"></li>
+                  <li class="divider"></li>
 
                    <li><a href="javascript:void(0);" onclick="storyManager.startEditor()">Story editor</a></li> 
                    <li><a href="javascript:void(0);" onclick="storyManager.startStoryFromEditor()">Test story</a></li>               

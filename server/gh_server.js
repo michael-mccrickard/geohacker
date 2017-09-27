@@ -1,3 +1,5 @@
+
+
 //*********************************************
 //      GEOHACKER SERVER
 //*********************************************
@@ -10,7 +12,7 @@ var arrCongrats = [];
 
 
 //*********************************************
-//      EMAIL SETTINGS
+//      ENVIRONMENT AND SETTINGS
 //*********************************************
 
 /*
@@ -19,7 +21,12 @@ console.log(process.env.MAIL_URL)
 console.log(process.env.AWS_ACCESS_KEY_ID)
 
 console.log(process.env.AWS_SECRET_ACCESS_KEY)
+
+console.log(process.env.INSTAGRAM_CLIENTID)
+
+console.log(process.env.INSTAGRAM_SECRET)
 */
+
 
 if (Meteor.isDevelopment) {
 
@@ -28,6 +35,9 @@ if (Meteor.isDevelopment) {
   process.env.AWS_SECRET_ACCESS_KEY = Meteor.settings.AWS_SECRET_ACCESS_KEY;
   process.env.GOOGLE_MAPS_KEY = Meteor.settings.GOOGLE_MAPS_KEY;
   process.env.OPENWEATHERMAP_KEY = Meteor.settings.OPENWEATHERMAP_KEY;
+
+  process.env.INSTAGRAM_CLIENTID = Meteor.settings.INSTAGRAM_CLIENTID;
+  process.env.INSTAGRAM_SECRET = Meteor.settings.INSTAGRAM_SECRET;
 }
 
 /*
@@ -37,7 +47,15 @@ console.log( Meteor.settings.AWS_ACCESS_KEY_ID)
 
 console.log( Meteor.settings.AWS_SECRET_ACCESS_KEY)
 
+console.log( Meteor.settings.INSTAGRAM_CLIENTID)
+
+console.log( Meteor.settings.INSTAGRAM_SECRET)
 */
+
+
+//*********************************************
+//      EMAIL SETTINGS
+//*********************************************
 
 Accounts.emailTemplates.siteName = "Geohacker";
 Accounts.emailTemplates.from = "Geohacker In Chief <mikemccrickard@gmail.com>";
@@ -73,6 +91,27 @@ Meteor.startup(
 
     Future = Npm.require('fibers/future');
 
+    ServiceConfiguration.configurations.remove({
+      service: 'instagram'
+    });
+    ServiceConfiguration.configurations.insert({
+      service: 'instagram',
+      scope: ['basic'],
+      clientId: process.env.INSTAGRAM_CLIENTID,
+      secret: process.env.INSTAGRAM_SECRET,
+    });
+/*
+    ig_config = {
+      client_id: process.env.INSTAGRAM_CLIENTID,       // required
+      client_secret: process.env.INSTAGRAM_SECRET,   // required  
+      redirect_uri: 'http://localhost:3000/_oauth/instagram',   // required
+      loginStyle: "popup",
+      scope: {
+        scope: ['basic', 'public_content'], // optional
+      }
+    }
+
+*/
     //temporarily allow all user deletes and updates
     Meteor.users.allow({remove: function (){ return true;}}); 
 
@@ -399,9 +438,12 @@ Meteor.startup(
     });
 
     //events
+    
     Meteor.publish("allEvents", function() {
       return ghEvent.find( {} );
     });    
+
+    //permissions
 
     ghStorySound.allow({
 
@@ -1223,17 +1265,57 @@ geo.reverse(_lat, _lng);
 
        if (!_param) _param = "";
 
+       if (isSameEventAsLast(  _type, _param, _name) ) return;
+
        ghEvent.insert( { t: _type, u: _userID, p: _param, d: _date, n: _name} );
   },
 
   clearEvents: function() {
 
        ghEvent.remove( { } );
+  },
+
+  getServices : function() {
+    try {
+      return Meteor.user().services;
+    } catch(e) {
+      return null;
+    }
+  },
+
+  readUserDataFromInstagram: function() {
+
+    var obj = {};
+
+    var _obj =  Meteor.user().services;
+
+        obj.email = _obj.id;  //standin for email
+
+        obj.password = _obj.id;
+
+        obj.name = _obj.fullname;
+
+        obj.gender = "none";
+
+        return obj;
   }
 
+  
 
 
 });
+
+function isSameEventAsLast(  _type, _param, _name) {
+
+    var _last = ghEvent.findOne({}, {sort: {d: -1, limit: 1}});
+
+    if (!_last) return false;
+
+    if (_last.n == _name && _last.t == _type && _last.p == _param) return true;
+
+    return false;
+}
+
 
 var apiCall = function (apiUrl, callback) {
   // try…catch allows you to handle errors 

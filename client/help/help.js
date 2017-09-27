@@ -19,9 +19,9 @@ Help = function() {
 
 	this.getVideoID = function( _which ) {
 
-		if (_which == "INTRO") return "04m-o9mine8";
+		//if (_which == "INTRO") return "BS1rWxgRdqM";
 
-		if (_which == "HACK") return "4xaH7b8HpAI";
+		if (_which == "HACK") return "BS1rWxgRdqM";
 
 		if (_which == "EXPLORE") return "3k01PSvD5F8";
 

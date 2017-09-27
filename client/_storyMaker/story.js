@@ -219,6 +219,10 @@ Story =  function() {
 
 		this.fullName = _rec.n;
 
+		//now that we have the fullName of the story, we can register this event
+
+		Database.registerEvent( eGSMissionStart, game.user._id, this.fullName);	
+
 		this.inventorySize = _rec.i;
 
 		if (this.inventorySize) this.makeInventoryArray( this.inventorySize );
@@ -1249,7 +1253,7 @@ this.getLabelByID = function( _ID ) {
 
 	this.completeMission = function() {
 
-		Database.registerEvent( eGSMissionComplete, game.user._id, this.code);
+		Database.registerEvent( eGSMissionComplete, game.user._id, story.fullName);
 	}
 	
 }

@@ -912,6 +912,8 @@ Database.getObjectIndexWithValueAdjacent = function( _arr, _field, _val, _offset
       return -1;
 }
 
+//these fields are documented in db_scheme.js
+
 Database.getBlankUserProfile = function() {
 
     var _pro = {
