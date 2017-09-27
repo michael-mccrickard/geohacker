@@ -437,8 +437,6 @@ function checkForFeature() {
 
 function doSelectCountryWindow() {
 
-  Meteor.defer( function() { editor.loadScroll(); })
-
   Meteor.defer( function() { conformButtons(); })  
 }
 

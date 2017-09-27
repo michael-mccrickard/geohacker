@@ -29,6 +29,14 @@
     margin-bottom: 2.0vh;
 }
 
+.applyForJobText {
+
+    position: relative;
+
+    margin: 2.0vh;
+    font-size: 24px;
+}
+
 .loginPrompt {
 
     font-size: 18px;

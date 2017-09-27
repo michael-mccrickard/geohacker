@@ -228,22 +228,6 @@ Editor = function() {
 	}
 
 
-  	this.saveScroll = function() {
-
-  		this.scroll = document.documentElement.scrollTop || document.body.scrollTop;
-
-  		db.saveScroll( this.scroll );
-
-  	}
-
-  	this.loadScroll = function() {
-
-  		if (game.user) this.scroll = game.user.scroll;
-
-  		document.documentElement.scrollTop = document.body.scrollTop = this.scroll;
-  	}
-
-
 	this.addThisRecord = function(_countryCode, _controlType, cb)  {
 
 		db.addRecord(_countryCode, _controlType, function(err, result) {

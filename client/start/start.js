@@ -33,13 +33,25 @@ Accounts.onLogin( function() {
   }
 */
 
+c("game.user in onlogin follows " + game.user)
+c(game.user)
+
+c("meteor user in onlogin follows " + Meteor.user())
+c(Meteor.user())
+
   console.log("creating game.user in Accounts.login")
 
   game.user = game.createGeohackerUser(); 
 
+  db.updateUserLastSeen( Meteor.userId(), Date.now());
+
+  db.updateUserHacks();
+
+  if (!game.user.profile.av) game.user.makeAvatar();
+
   LessonFactory.updateLessons();
 
-  Database.registerEvent( eLogin, Meteor.userId() );
+  //Database.registerEvent( eLogin, Meteor.userId() );
 
 });
 
@@ -403,11 +415,6 @@ Template.start.rendered = function () {
       game.user = game.createGeohackerUser();
 
       LessonFactory.updateLessons();
-  }
-  else {
-
-    console.log("game.user follows");
-    console.log(game.user);
   }
 }
 

@@ -82,6 +82,7 @@ Database = function() {
 
   this.updateUserHacks = function() {
 
+
       Meteor.users.update( { _id: Meteor.user()._id }, { $set: { 
 
         'profile.a': game.user.assigns, 
@@ -205,13 +206,6 @@ this.updateUserLessons = function() {
 }
 
 
-this.saveScroll = function(_val) {
-
-  game.user.scroll = _val;
-
-  Meteor.users.update( {_id: Meteor.userId() }, { $set: { 'profile.s': _val}  }); 
-
-}
 
   //************************************************************
   //          RANDOMIZED DATA FUNCTIONS
@@ -912,38 +906,6 @@ Database.getObjectIndexWithValueAdjacent = function( _arr, _field, _val, _offset
       return -1;
 }
 
-//these fields are documented in db_scheme.js
-
-Database.getBlankUserProfile = function() {
-
-    var _pro = {
-
-            createdAt: "",
-            a: [],
-            h: [],
-            c: "",
-            s: 0,
-            av: "",
-            cc: "",
-            cn: "",
-            f: "",
-            t: "",
-            p: "", 
-            pt: "",
-            ag: Database.getChiefID(),
-            st: 0,
-            ge: 0,
-            ex: 0,
-            sp: [0,0,0],
-            sc: [0,0,0],
-            in: [0,0,0],
-            ft: [0,0,0,0,0],
-            ut: 0
-
-        }
-
-    return _pro;
-}
 
 Database.getCountryCodes = function(_code) {     
 

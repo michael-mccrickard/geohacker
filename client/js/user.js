@@ -14,8 +14,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	this.msg = new Messaging();
 
-	this.scroll = 0;
-
 	this.assignCode = "0";  //last-started mission; game object sets this from db
 
 	this.assigns = [];   //the array of assign data objects, game object sets this from db
@@ -414,9 +412,9 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	//need to check and see if we have a logged-in user before trying to make this call
 
-	this.makeAvatar = function( _gender ) {
+	this.makeAvatar = function() {
 
-		Meteor.call("makeAvatar", _gender, Meteor.userId(), function(error, result) {
+		Meteor.call("makeAvatar", Meteor.userId(), function(error, result) {
 
 			  if(error){
 			    console.log(error.reason);

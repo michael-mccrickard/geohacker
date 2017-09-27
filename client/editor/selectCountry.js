@@ -190,8 +190,6 @@ Template.selectCountry.events = {
 
   'click .editCountryButton' : function(evt, template) {
 
-    editor.saveScroll();
-
   	editor.hack.countryCode = this.c;  
 
     editor.hack.index = Database.getIndexForCountryCode( editor.hack.countryCode);
@@ -201,10 +199,7 @@ Template.selectCountry.events = {
 
   'click #closeSelectCountry': function (evt, template) {
 
-     editor.saveScroll();
-
      nav.closeEditor();
-     
   },
 
   'click .updateCountryButton': function (evt, template) {

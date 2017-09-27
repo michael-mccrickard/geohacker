@@ -1128,7 +1128,7 @@ console.log(this.userId);
 
   },
 
-  makeAvatar: function(_gender, userID) {  
+  makeAvatar: function(userID) {  
 
 
     var email = Meteor.user().emails[0].address;

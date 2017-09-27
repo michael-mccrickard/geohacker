@@ -6,6 +6,9 @@ Accounts.onCreateUser((options, user) => {
 
   //console.log(user)
 
+  user.profile = options;
+
   return user;
+
 });
 

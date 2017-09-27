@@ -149,70 +149,40 @@ Game = function() {
 
 	this.createGeohackerUser = function() {
 
-		var _user = null;
-		
-		//for a newly-created user, the game.user object is already set;
-		//if it's not, then we need to read in the data from the db for this user
-		//and apply it to game.user
 
-		if (game.user == null)  {
+		var _user =	new User( Meteor.user().username); //name
 
-			_user =	new User( Meteor.user().username); //name
+		_user.profile = Meteor.user().profile;
 
-			_user.profile = Meteor.user().profile;
+		_user.assigns = Meteor.user().profile.a;
 
-			_user.assigns = Meteor.user().profile.a;
+		if (!_user.assigns.length) _user.createAssigns();
 
-			_user.scroll =  Meteor.user().profile.s; //scroll pos (for content editors)
+		_user.assignCode = Meteor.user().profile.c;
 
-			_user.assignCode = Meteor.user().profile.c;
+		_user.setAtlas( Meteor.user().profile.h );
 
-			_user.setAtlas( Meteor.user().profile.h );
+		if (Meteor.user().profile.nsn) _user.lastNewsDate = Meteor.user().profile.nsn;
 
-			if (Meteor.user().profile.nsn) _user.lastNewsDate = Meteor.user().profile.nsn;
+		if ( Meteor.user().profile.ut ) _user.title = Meteor.user().profile.ut;
 
-			if ( Meteor.user().profile.ut ) _user.title = Meteor.user().profile.ut;
+		_user._id = Meteor.userId();
 
-			_user._id = Meteor.userId();
+		//for the conversations object
 
-			_user.photoReady.set( true );
+		_user.msg.userID = Meteor.userId();
 
-		}
-		else {
-
-			//for the newly-created user, we take this opportunity
-			//to update their record in the database, so their mission
-			//list is saved
-
-			_user = game.user;
-
-			db.updateUserHacks();
-		}
+		if (Meteor.user().profile.av) _user.photoReady.set( true );
 
 		var _date = new Date();
-
-		db.updateUserLastSeen( Meteor.userId(), _date);
 
 		return _user;
 
 	}
 
-	this.closeOutGuest = function() {
-
-		if (this.user.isGuest) {
-
-			//if we decide to prevent creating the mixpanel analytics on guests
-			//then we could write an end time to our ghGuest record here (we are not creating it yet though)
-
-			this.user.deleteMeIfGuest();
-		}
-	}
-
 	this.logout = function() {
 
 		Meteor.logout( function( _err )  {
-
-				game.closeOutGuest();
 
 				game.user = null;
 

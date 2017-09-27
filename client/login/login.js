@@ -1,9 +1,6 @@
+//Login.js
 
-//****************************************************************
-//                  HELPERS
-//****************************************************************
-
-var resetPrompts = function() {
+resetPrompts = function() {
 
    Session.set("sLoginPrompt", "IF YOU ARE ALREADY AN AGENT, CLOCK IN ...");
 
@@ -18,14 +15,14 @@ var resetPrompts = function() {
   Session.set("sUserRegion", "");
 }
 
-var passwordTooShortError = function() {
+passwordTooShortError = function() {
 
    Session.set("sRegistrationPrompt", "ERROR: THE PASSWORD MUST BE AT LEAST 6 CHARACTERS ...");
 
    Session.set("sRegistrationPromptTextColor", "redText");
 }
 
-var emailExistsError = function( _email ) {
+emailExistsError = function( _email ) {
 
     Session.set("sRegistrationPrompt", "ERROR: EMAIL ALREADY EXISTS: " + _email );
 
@@ -40,125 +37,28 @@ customError = function(_which, _err) {
 }
 
 
-Template.login.helpers({
 
-  badPasswordEntered: function() {
+// trim helper
+var trimInput = function(val) {
 
-    return Session.get("sBadPasswordEntered");
-  },
+  return val.replace(/^\s*|\s*$/g, "");
 
-  continent: function() {
+}
 
-    return db.ghZ.find( {}, {sort: { n: 1 }} );
-  },
+isValidPassword = function(val) {
 
-  region: function() {
+  return val.length >= 6 ? true : false; 
+}
 
-    return db.ghR.find( { z: Session.get("sUserContinent") }, {sort: { n: 1 }} );
-  },
+function validateEmail(email) {
 
-  country: function() {
-
-    return db.ghC.find( {r: Session.get("sUserRegion") }, {sort: { n: 1 }} );
-  },
-
-  loginStatus:  function() {
-
-    if (Meteor.user() == null) return "this terminal available.";
-
-    return "agent " + Meteor.user().username + " is clocked in.";
-  },
-
-  loginNow: function() {
-
-    return Session.get("sLoginNow");
-  },
-
-  loginPrompt: function() {
-
-    return Session.get("sLoginPrompt");
-  },
-
-  loginPromptTextColor: function() {
-
-    return Session.get("sLoginPromptTextColor");
-  },
-
-  registrationPrompt: function() {
-
-    return Session.get("sRegistrationPrompt");
-  },
-
-  registrationPromptTextColor: function() {
-
-    return Session.get("sRegistrationPromptTextColor");
-  },
-
-  resetPassword : function(t) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   
-    return Session.get('sResetPassword');
-  },
+    return re.test(email);
+}
 
-  processingNow: function() {
+loginUser = function(t) {
 
-    return Session.get('sProcessingApplication');    
-  }
-
-})
-
-
-Template.login.events({
-
-    'click #countryNotListed': function(event, template) {
-
-          $('#countryNotListedModal').modal('show');
-      },
-
-    'change #selectContinent': function(event, template) {
-
-            var _code = $( "#selectContinent option:selected" ).attr("id")
-
-            Session.set("sUserContinent", _code);
-      },
-
-    'change #selectRegion': function(event, template) {
-
-            var _code = $( "#selectRegion option:selected" ).attr("id")
-
-            Session.set("sUserRegion", _code);
-      },
-
-    'click #createGuest': function(event, template) {
-
-        Meteor.call("createGuest", function(_err, _data){
-
-            if (_err) {
-
-              showMessage(_err);
-
-              return;
-            }
-
-            _data.results[0].ut = utAgent;
-
-            _data.results[0].st = usActive;  
-
-              doSpinner();
-
-            //we could create a guest record here in the db (ghGuest) and stamp with time started
-            //but currently all of that info and more is going into mixpanel, which we may want to prevent
-
-            submitApplication(null, _data.results[0]);         
-        });
-      
-      },
-
-    'submit #login-form' : function(e, t){
-
-      e.preventDefault();
-
-      doSpinner();
-      
       Meteor.setTimeout( function() {
 
         // retrieve the input field values
@@ -213,250 +113,63 @@ Template.login.events({
 
       });
 
-
-      return false; 
-
-    },
-
-    'click #goHack': function (e) { 
-
-      e.preventDefault();
-
-//*************************************************************************************************************
-//*************************************************************************************************************
-//                  CHANGE WHAT THE BIG START BUTTON DOES HERE
-//
-//      If everything in the block below is commented out, then the program proceeds normally
-//  
-//*************************************************************************************************************
-//*************************************************************************************************************
-
-//storyManager.startEditor();
-
-//testStory("A");
-
-//game.user.browseCountry( db.getRandomRec( db.ghC ).c, "newBrowse2" );
-
-//FlowRouter.go("mapboxCongrats0");
-
-//return;
-
-//*************************************************************************************************************
-//*************************************************************************************************************
-//                  END OF CHANGE WHAT THE BIG START BUTTON DOES HERE
-//  
-//*************************************************************************************************************
-//*************************************************************************************************************
-
-      //This is here b/c we were having instances where the onLogin event
-      //was apparently not firing ...
-
-      if (game.user == null) {
-
-        c("creating game.user in goHack button")
-
-        game.user = game.createGeohackerUser();
-
-        LessonFactory.updateLessons();
-
-      }
-
-      //Update the assigns with any newly-added or revised missions
-
-      Mission.updateAll( game.user );
-
-      //in case any changes were made in the updateAll function ...
-
-      db.updateUserHacks();  //updates the user's record in the database
-
-      //go to Continue / Select Mission screen
-
-      display.playEffect2("startButton.mp3");
-
-      game.user.goHome();
-
-    },
-
-    'click #goRegistration': function (e) { 
-
-      e.preventDefault();
-
-      Session.set("sLoginNow", false);
-
-    },
-
-    'click #submitApplication' : function(e, t) {
-
-         e.preventDefault();
-
-        submitApplication( t );
-
-    },
-
-    'click #updatePassword': function (e, t) { 
-
-        e.preventDefault();
-
-        var pw = t.find('#new-password').value;
-      
-        if ( isValidPassword(pw) ) {
-        
-          Accounts.resetPassword(Session.get('sResetPassword'), pw, function(err){
-        
-            if (err)
-        
-              customError(err.reason);
-        
-            else {
-        
-              Session.set('sResetPassword', null);
-            }
-        
-          });
-        }
-
-        return false; 
-    }
-  });
+  }
 
 
-// trim helper
-var trimInput = function(val) {
+submitApplication = function(_t) {
 
-  return val.replace(/^\s*|\s*$/g, "");
+      var _obj = {};
 
-}
+      _obj.email = "";
 
-isValidPassword = function(val) {
+      _obj.name = "";
 
-  return val.length >= 6 ? true : false; 
-}
+      _obj.password = "";
 
-function validateEmail(email) {
+      _obj.countryID = "";
 
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  
-    return re.test(email);
-}
+      _obj.ut = 0;
 
-submitApplication = function(_t, _obj) {
-
-      var email = "";
-
-      var name = "";
-
-      var password = "";
-
-      var _gender = "";
-
-      var _countryID = "";
-
-      var _ut = 0;
-
-      var _st = 0;
+      _obj.st = 0;
 
       Session.set("sProcessingApplication", true);
 
-      if ( _obj) {
+      _obj.email = _t.find('#registration-email').value
 
-        email = _obj.email;
+      if ( !validateEmail( _obj.email ) ) {
 
-        name = _obj.name.first + " " + _obj.name.last;
+          customError("Registration", "YOU MUST ENTER AN EMAIL ADDRESS.")
 
-        password = getRandomString() + getRandomString();
-
-        _gender = _obj.gender;
-
-        _countryID = _obj.nat;      
-
-        _ut = _obj.ut; 
-
-        _st = _obj.st;
-
+          return; 
       }
-      else {
 
-        var email = _t.find('#registration-email').value
+      _obj.name = _t.find('#registration-name').value
+      
+      _obj.password = _t.find('#registration-password').value
 
-        if ( !validateEmail( email ) ) {
+      _obj.countryID = db.getRandomCountryRec().c;
 
-            customError("Registration", "YOU MUST ENTER AN EMAIL ADDRESS.")
+     _obj.ut = utAgent;    
 
-            return; 
-        }
+      _obj.st = usActive;
 
-        var name = _t.find('#registration-name').value
-        
-        var password = _t.find('#registration-password').value
-
-        var _gender = "female";
-
-        if ( $("#chkMale").prop("checked") ) _gender = "male";
-
-        if ( $("#chkFemale").prop("checked") ) _gender = "female";  
-
-        var _countryID = db.getRandomCountryRec().c;
-
-        _ut = utAgent;    
-
-        _st = usActive;
-      }
 
       var _date = new Date().toLocaleString();
 
       var _index = _date.indexOf(",");
 
-      _date = _date.substring(0, _index);
+      _obj.date = _date.substring(0, _index);
 
 
-      if ( isValidPassword( password ) ) {
+      if ( isValidPassword( _obj.password ) ) {
       
-            game.user = new User( name, "0", 0); //name, id, scroll pos (for content editors)
+            //game.user = new User( _obj.name, "0", 0); //name, id, scroll pos (for content editors)
 
-            game.user.createAssigns();
+            //game.user.createAssigns();
 
-            var _text = "Agent, " + db.getCountryName( _countryID );
-
-            //var _text = "Geohacker Agent, " + db.getCountryName( _countryID );
-
-            var _pic = db.getCapitalPic( _countryID );
-
-            var _pt = db.getCapitalName( _countryID ) + " is the capital of " + db.getCountryName( _countryID ) + ".";
-
-            var _pro = Database.getBlankUserProfile();
-
-            _pro.createdAt = _date;
-
-            _pro.cc = _countryID;
-
-            _pro.cn = db.getCountryName( _countryID );
-
-            _pro.f = db.getFlagPicByCode( _countryID );
-
-            _pro.t = _text;
-
-            _pro.p = _pic;
-
-            _pro.pt = _pt;
-
-            _pro.st = _st;
-
-            _pro.ut = _ut;
-
-            var options = {
-
-                username: name,
-                
-                email: email,
-                
-                password: password,
-
-                //profile is the portion that we can update for the logged-in user
-                //(without rules or server methods)
-
-                profile: _pro
-            
-            };  //end options
+            var options = createUserOptions( _obj);
+  console.log("options follow")
+  console.log(options)      
 
             Accounts.createUser( options, function(err){
 
@@ -474,11 +187,11 @@ submitApplication = function(_t, _obj) {
                 
                 // log the error
 
-                console.log("account was not created: " + email + ".  " + err );
+                console.log("account was not created: " + _obj.email + ".  " + err );
 
                 if ( err.reason.indexOf("Email already exists") != -1) {
 
-                  emailExistsError( email );
+                  emailExistsError( _obj.email );
 
                 }
                 else {
@@ -494,42 +207,11 @@ submitApplication = function(_t, _obj) {
                 // Success. Account has been created and the user
                 // has logged in successfully. 
 
-                console.log("account successfully created: " + email);
-
-                game.user.profile = Meteor.user().profile;
-
-                game.user._id =  Meteor.userId();
-
-                //for the conversations object
-
-                game.user.msg.userID = Meteor.userId();
+                console.log("account successfully created: " + _obj.email);
 
                 mission = null;
 
-                Database.registerEvent(eHire, game.user._id);
-
-
-                if (_obj) {
-
-                  game.user.isGuest = true;
-
-                  game.user.updateAvatar( _obj.picture.medium );
-
-                  game.user.photoReady.set( true );
-
-
-                  game.user.mode = uHelp;    
-
-                  stopSpinner();  
-
-                  //FlowRouter.go("/help");
-
-                }
-                else {
-                  
-                  game.user.makeAvatar( _gender );
-
-                }
+                Database.registerEvent(eHire, Meteor.userId());
 
                 FlowRouter.go("/intro");
 

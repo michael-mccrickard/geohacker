@@ -29,14 +29,14 @@
 
 
 			 	{{#if loginNow}}
-					
-
-				    
-				    <form class="divLoginForm verticalLine" id="login-form" action="action">
 
 					<div class="applyForJob">
 					  <p class="help-block redText" style="font-size:4.0vh">BECOME A GEOHACKER AGENT!</p>
-					  <button type="button" class="btn btn-primary btn-lg applyForJobButton" id="goRegistration">APPLY FOR A JOB</button>
+					  <button type="button" class="btn btn-primary btn-lg applyForJobButton" id="goRegistration">REGISTER</button>
+
+					  <span class="applyForJobText"> OR </span>
+
+					  <button type="button" class="btn btn-success btn-lg applyForJobButton" id="loginInstagram">LOGIN WITH INSTAGRAM</button>
 					</div>
 
 					<div class="loginPrompt {{loginPromptTextColor}}">
@@ -50,6 +50,7 @@
 						{{/if}}
 					</div>
 
+					<form>
 						<div class="form-group loginRegistered">
 							<label for="inputEmailLogin">EMAIL ADDRESS</label>
 							<input type="email" class="form-control" id="login-email" placeholder="Enter email">
@@ -59,23 +60,10 @@
 							<input type="password" class="form-control" id="login-password" placeholder="Password">
 						</div>
 
-						<button type="submit" class="btn btn-default">CLOCK IN</button>
+						<button class="btn btn-default" id="clockIn">CLOCK IN</button>
 
 				   </form>
 
-				   <div class="divIncognito">
-
-				   		<button type="button" class="btn medButton btnIncognito" id="createGuest">INCOGNITO MODE</button>
-
-				   		<div class="incognitoList">
-
-					   		<ul>
-					   			<li>TRY OUT GEOHACKER IMMEDIATELY</li>
-					   			<li>YOUR PROGRESS IS <span class="redText">NOT</span> SAVED</li>
-					   		</ul>
-					   	</div>
-
-				   </div>
 
 				{{else}}
 
@@ -91,75 +79,6 @@
 							    <input type="text" class="form-control" id="registration-name" placeholder="Enter name">
 							  </div>
 
-							<div class="form-group">
-								<div class="checkbox">
-								  <label>
-								    <input type="checkbox" value="" id="chkMale">
-								    MALE
-								  </label>
-								</div>
-								<div class="checkbox">
-								  <label>
-								    <input type="checkbox" value="" id="chkFemale">
-								    FEMALE
-								  </label>
-								</div>
-							</div>
-<!--
-							<div class="form-group">
-
-								<label class="whiteText">CONTINENT</label>
-
-								<select class="form-control" id="selectContinent">
-
-							  		<option value="" selected disabled>Please select</option>
-
-							  		{{#each continent}}
-
-								  		<option id="{{c}}">{{n}}</option>
-
-								  	{{/each}}
-								
-								</select>
-							
-							</div>
-
-							<div class="form-group">
-
-								<label class="whiteText">REGION</label>
-
-								<select class="form-control" id="selectRegion">
-							  		
-							  		<option value="" selected disabled>Please select</option>
-							  								  		 
-							  		{{#each region}}
-
-								  		<option id="{{c}}">{{n}}</option>
-
-								  	{{/each}}
-								
-								</select>
-							
-							</div>
-
-							<div class="form-group">
-
-								<label class="whiteText">COUNTRY</label>
-
-								<select class="form-control" id="selectCountry">
-									
-							  		<option value="" selected disabled>Please select</option>
-							  		 
-							  		{{#each country}}
-
-								  		<option id="{{c}}">{{n}}</option>
-
-								  	{{/each}}
-								
-								</select>
-							
-							</div>
--->
 							  <div class="form-group">
 							    <label for="inputEmailRegistration">EMAIL ADDRESS</label>
 							    <input type="email" class="form-control" id="registration-email" placeholder="Enter email">
@@ -174,8 +93,7 @@
 							</form>
 					   
 					   	</form> 	
-						
-						<!--button class="btn btn-warning pull-right" id="countryNotListed">MY COUNTRY IS NOT LISTED</button-->
+
 
 					</div>
 
