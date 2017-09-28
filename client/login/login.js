@@ -229,25 +229,49 @@ loginWithService = function(_service) {
 
     Meteor.call("setLoginMethod", _service);
 
-//hard-coded for just instagram
 
-    Meteor.loginWithInstagram({
+    if (_service == "instagram") {
 
-        loginStyle: 'popup'
+       Meteor.loginWithInstagram({
+
+          loginStyle: 'popup'
+          
+          //loginStyle: 'redirect'  you can use redirect for mobile web app
         
-        //loginStyle: 'redirect'  you can use redirect for mobile web app
-      
-      }, function () {
+        }, function () {
 
 
-          // Success. Account has been created and the user
-          // has logged in successfully. 
+            // Success. Account has been created and the user
+            // has logged in successfully. 
 
-          console.log("account successfully created: " + _service);
+            console.log("account successfully created: " + _service);
 
-          Database.registerEvent(eHire, Meteor.userId());
+            Database.registerEvent(eHire, Meteor.userId());
 
-          FlowRouter.go("/intro");
-    });
+            FlowRouter.go("/intro");
+      });     
+    }
+
+    if (_service == "google") {
+
+       Meteor.loginWithGoogle({
+
+          loginStyle: 'popup'
+          
+          //loginStyle: 'redirect'  you can use redirect for mobile web app
+        
+        }, function () {
+
+
+            // Success. Account has been created and the user
+            // has logged in successfully. 
+
+            console.log("account successfully created: " + _service);
+
+            Database.registerEvent(eHire, Meteor.userId());
+
+            FlowRouter.go("/intro");
+      });     
+    }
 
 }

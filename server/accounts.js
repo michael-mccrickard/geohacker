@@ -8,7 +8,7 @@ console.log(options)
 
   if (loginMethod == "password") user.profile = options;
 
-  if (loginMethod == "instagram") {
+  if (loginMethod == "instagram" || loginMethod == "google" ) {
 
       var _obj = {};
 
@@ -35,16 +35,33 @@ console.log(options)
       _obj.date = _date.substring(0, _index);
 
       var _profile = createUserOptions( _obj );
+   }
+
+
+  if (loginMethod == "instagram") {
 
       user.profile = _profile;
 
   	  user.username = options.services.instagram.username;
 
-  	  user.profile.av = options.services.instagram.profile_picture;
+  	  user.profile.av = options.services.instagram.profile_picture;  	
+  }
+
+   if (loginMethod == "google") {
+
+      user.profile = _profile;
+
+  	  user.username = user.services.google.name;
+
+  	  user.email = user.services.google.email;
+
+  	  user.profile.av = user.services.google.picture;  	
+  }
+
 
 console.log("createdUserOptions follow")
 console.log(_profile)
-   }
+
 
   return user;
 

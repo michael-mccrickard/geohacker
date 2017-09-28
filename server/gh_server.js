@@ -39,6 +39,9 @@ if (Meteor.isDevelopment) {
 
   process.env.INSTAGRAM_CLIENTID = Meteor.settings.INSTAGRAM_CLIENTID;
   process.env.INSTAGRAM_SECRET = Meteor.settings.INSTAGRAM_SECRET;
+
+  process.env.GOOGLE_CLIENTID = Meteor.settings.GOOGLE_CLIENTID;
+  process.env.GOOGLE_SECRET = Meteor.settings.GOOGLE_SECRET;
 }
 
 /*
@@ -47,11 +50,9 @@ console.log( Meteor.settings.MAIL_URL)
 console.log( Meteor.settings.AWS_ACCESS_KEY_ID)
 
 console.log( Meteor.settings.AWS_SECRET_ACCESS_KEY)
-
-console.log( Meteor.settings.INSTAGRAM_CLIENTID)
-
-console.log( Meteor.settings.INSTAGRAM_SECRET)
 */
+
+
 
 
 //*********************************************
@@ -90,6 +91,11 @@ Meteor.startup(
 
   function () {
 
+console.log( Meteor.settings.GOOGLE_CLIENTID)
+
+console.log( Meteor.settings.GOOGLE_SECRET)
+
+
     db = new DB();
 
     Future = Npm.require('fibers/future');
@@ -103,18 +109,17 @@ Meteor.startup(
       clientId: process.env.INSTAGRAM_CLIENTID,
       secret: process.env.INSTAGRAM_SECRET,
     });
-/*
-    ig_config = {
-      client_id: process.env.INSTAGRAM_CLIENTID,       // required
-      client_secret: process.env.INSTAGRAM_SECRET,   // required  
-      redirect_uri: 'http://localhost:3000/_oauth/instagram',   // required
-      loginStyle: "popup",
-      scope: {
-        scope: ['basic', 'public_content'], // optional
-      }
-    }
 
-*/
+    ServiceConfiguration.configurations.remove({
+      service: 'google'
+    });
+    ServiceConfiguration.configurations.insert({
+      service: 'google',
+      requestPermissions: ['email','profile'],
+      clientId: process.env.GOOGLE_CLIENTID,
+      secret: process.env.GOOGLE_SECRET,
+    });
+
     //temporarily allow all user deletes and updates
     Meteor.users.allow({remove: function (){ return true;}}); 
 

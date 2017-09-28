@@ -98,7 +98,10 @@ Template.login.events({
         loginWithService("instagram");
     },
 
+    'click #loginGoogle': function(e,t) {
 
+        loginWithService("google");
+    },
 
     'click #clockIn' : function(e, t){
 

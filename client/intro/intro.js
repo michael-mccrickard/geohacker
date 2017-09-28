@@ -20,7 +20,7 @@ Template.intro.rendered = function() {
 
 	Meteor.call("getLoginMethod", function(err, res){
 
-		if (res == "instagram") game.intro.photoReady = true;
+		if (res != "password") game.intro.photoReady = true;
 	})
 
 
