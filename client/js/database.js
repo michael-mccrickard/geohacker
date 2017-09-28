@@ -226,9 +226,6 @@ this.updateUserLessons = function() {
 
   }
 
-
-  //Use the d field to select on the collection so that we only get countries with data in it
-
   this.getRandomCountryRec = function() {
 
       var count = this.ghC.find( {} ).count();

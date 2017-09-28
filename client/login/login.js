@@ -118,6 +118,8 @@ loginUser = function(t) {
 
 submitApplication = function(_t) {
 
+      Meteor.call("setLoginMethod", "password");
+
       var _obj = {};
 
       _obj.email = "";
@@ -162,14 +164,8 @@ submitApplication = function(_t) {
 
 
       if ( isValidPassword( _obj.password ) ) {
-      
-            //game.user = new User( _obj.name, "0", 0); //name, id, scroll pos (for content editors)
 
-            //game.user.createAssigns();
-
-            var options = createUserOptions( _obj);
-  console.log("options follow")
-  console.log(options)      
+            var options = createUserOptions( _obj);     
 
             Accounts.createUser( options, function(err){
 
@@ -209,8 +205,6 @@ submitApplication = function(_t) {
 
                 console.log("account successfully created: " + _obj.email);
 
-                mission = null;
-
                 Database.registerEvent(eHire, Meteor.userId());
 
                 FlowRouter.go("/intro");
@@ -229,4 +223,31 @@ submitApplication = function(_t) {
           passwordTooShortError();
 
         } //end if passwordOK else
+}
+
+loginWithService = function(_service) {
+
+    Meteor.call("setLoginMethod", _service);
+
+//hard-coded for just instagram
+
+    Meteor.loginWithInstagram({
+
+        loginStyle: 'popup'
+        
+        //loginStyle: 'redirect'  you can use redirect for mobile web app
+      
+      }, function () {
+
+
+          // Success. Account has been created and the user
+          // has logged in successfully. 
+
+          console.log("account successfully created: " + _service);
+
+          Database.registerEvent(eHire, Meteor.userId());
+
+          FlowRouter.go("/intro");
+    });
+
 }

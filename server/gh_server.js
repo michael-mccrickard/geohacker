@@ -10,6 +10,7 @@ var featuredUserID;
 
 var arrCongrats = [];
 
+loginMethod = "password";  //or google, facebook, instagram
 
 //*********************************************
 //      ENVIRONMENT AND SETTINGS
@@ -88,6 +89,8 @@ AWS.config.update({
 Meteor.startup(
 
   function () {
+
+    db = new DB();
 
     Future = Npm.require('fibers/future');
 
@@ -1298,7 +1301,17 @@ geo.reverse(_lat, _lng);
         obj.gender = "none";
 
         return obj;
-  }
+  },
+
+    setLoginMethod: function(_s) {
+
+      loginMethod = _s;
+    },
+
+     getLoginMethod: function() {
+
+       return loginMethod;
+    },
 
   
 

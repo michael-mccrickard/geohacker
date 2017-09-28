@@ -93,6 +93,11 @@ Template.login.events({
             Session.set("sUserRegion", _code);
       },
 
+    'click #loginInstagram': function(e,t) {
+
+        loginWithService("instagram");
+    },
+
 
 
     'click #clockIn' : function(e, t){

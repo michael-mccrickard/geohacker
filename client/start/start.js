@@ -33,13 +33,12 @@ Accounts.onLogin( function() {
   }
 */
 
-c("game.user in onlogin follows " + game.user)
-c(game.user)
-
 c("meteor user in onlogin follows " + Meteor.user())
 c(Meteor.user())
 
-  console.log("creating game.user in Accounts.login")
+  console.log("creating game.user in Accounts.onLogin")
+
+  mission = null;
 
   game.user = game.createGeohackerUser(); 
 
@@ -47,7 +46,15 @@ c(Meteor.user())
 
   db.updateUserHacks();
 
-  if (!game.user.profile.av) game.user.makeAvatar();
+  if (!game.user.profile.av) {
+
+    game.user.makeAvatar();
+  }
+  else {
+
+    game.user.photoReady.set(true);
+
+  }
 
   LessonFactory.updateLessons();
 

@@ -18,6 +18,11 @@ Template.intro.rendered = function() {
 
 	game.intro.photoReady = false;
 
+	Meteor.call("getLoginMethod", function(err, res){
+
+		if (res == "instagram") game.intro.photoReady = true;
+	})
+
 
 	_pic = $("#cameraCH");  
 
