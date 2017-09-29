@@ -10,8 +10,6 @@ Bio = function() {
 
 	this.tagUploader = new Slingshot.Upload("ghTag");  //only for curators initially
 
-	this.hasInstagram = new Blaze.ReactiveVar(false);
-
 
 	this.getImageHeight = function() {
 
@@ -57,7 +55,7 @@ Bio = function() {
 
 		//if wide
 
-		if (this.imageSrc.width >= this.imageSrc.height) {
+		if (this.imageSrc.width > this.imageSrc.height) {
 
 			var newWidth = this.imageSrc.width * availHeight / this.imageSrc.height;
 
@@ -115,14 +113,6 @@ Bio = function() {
 	  	}
 
 	}	
-
-	this.selectInstagramImage = function( _url ) {
-
-		$(".imgBioFeaturedPic").attr("src", _url);
-
-		game.user.bio.redraw();
-	
-	}
 
 
 }

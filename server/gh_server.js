@@ -50,11 +50,6 @@ console.log( Meteor.settings.MAIL_URL)
 console.log( Meteor.settings.AWS_ACCESS_KEY_ID)
 
 console.log( Meteor.settings.AWS_SECRET_ACCESS_KEY)
-
-console.log( Meteor.settings.GOOGLE_CLIENTID)
-
-console.log( Meteor.settings.GOOGLE_SECRET)
-
 */
 
 
@@ -95,6 +90,10 @@ AWS.config.update({
 Meteor.startup(
 
   function () {
+
+console.log( Meteor.settings.GOOGLE_CLIENTID)
+
+console.log( Meteor.settings.GOOGLE_SECRET)
 
 
     db = new DB();
@@ -1292,37 +1291,22 @@ geo.reverse(_lat, _lng);
     }
   },
 
-  isInstagramUserInSystem : function(_instagramID) {
+  readUserDataFromInstagram: function() {
 
-      var _user = Meteor.users().findOne( { "services.instagram.id": _instagramID } );
+    var obj = {};
 
-      if (!_user) return false;
+    var _obj =  Meteor.user().services;
 
-      return true;
+        obj.email = _obj.id;  //standin for email
+
+        obj.password = _obj.id;
+
+        obj.name = _obj.fullname;
+
+        obj.gender = "none";
+
+        return obj;
   },
-
-
-  getMediaFromInstagram: function(){
-
-      var myFuture = new Future();
-
-      var _token = Meteor.user().services.instagram.accessToken;
-
-      var url = "https://www.instagram.com/developer/endpoints/users/#get_users_media_recent?access_token=" + _token;
-
-      Meteor.http.get(url, function(error, results){
-          if(error){
-              myFuture.throw(error);
-          } else {
-              myFuture.return(results);
-          }
-      });
-
-      //console.log( myFuture.wait() );
-      return myFuture.wait();
-
-  },
-
 
     setLoginMethod: function(_s) {
 
