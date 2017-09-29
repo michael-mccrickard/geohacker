@@ -7,7 +7,7 @@
 			{{#with profile}}
 
 				<div class="flex-item-vert flex-rounded flexCenter">
-					<img class= "flex-rounded flex-image-vert" src="{{av}}" />
+					<img class= "imgBioAvatar flex-rounded flex-image-vert" src="{{av}}" />
 				</div>		
 
 				{{#if userEditMode}}
@@ -69,7 +69,7 @@
 			{{#with profile}}
 				<div class="flexCenter">
 
-					<img class="flex-rounded" id="flex-image-main" src="{{p}}">
+					<img class="imgBioFeaturedPic flex-rounded" id="flex-image-main" src="{{p}}">
 				</div>	
 			{{/with}}
 
@@ -81,6 +81,10 @@
 					</label>
 
 					<input id="featuredPicFileInput" type="file"/>
+					
+					{{#if hasInstagram}}
+						<img id="chooseFromInstagramAccount" src="instagram4.png"/>
+					{{/if}}
 				</div>
 			{{/if}}
 

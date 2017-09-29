@@ -58,7 +58,7 @@ c(Meteor.user())
 
   LessonFactory.updateLessons();
 
-  //Database.registerEvent( eLogin, Meteor.userId() );
+  Database.registerEvent( eLogin, Meteor.userId() );
 
 });
 

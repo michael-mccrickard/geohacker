@@ -42,7 +42,7 @@ console.log(options)
 
       user.profile = _profile;
 
-  	  user.username = options.services.instagram.username;
+  	  user.username = options.services.instagram.full_name;
 
   	  user.profile.av = options.services.instagram.profile_picture;  	
   }

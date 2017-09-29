@@ -246,9 +246,9 @@ loginWithService = function(_service) {
 
             console.log("account successfully created: " + _service);
 
-            Database.registerEvent(eHire, Meteor.userId());
+       //     Database.registerEvent(eHire, Meteor.userId());
 
-            FlowRouter.go("/intro");
+        //    FlowRouter.go("/intro");
       });     
     }
 
