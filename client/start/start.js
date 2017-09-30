@@ -42,9 +42,8 @@ c(Meteor.user())
 
   game.user = game.createGeohackerUser(); 
 
-  db.updateUserLastSeen( Meteor.userId(), Date.now());
-
-  db.updateUserHacks();
+  //if this is a newly created user that logged in by email,
+  //they won't have an avatar, so we'll create one
 
   if (!game.user.profile.av) {
 
@@ -56,9 +55,28 @@ c(Meteor.user())
 
   }
 
-  LessonFactory.updateLessons();
+  //No profile.sn (lastSeen) value means this is a brand-new user
+  //so we want to do a little housekeeping and then play the intro sequence
 
-  //Database.registerEvent( eLogin, Meteor.userId() );
+console.log("lastSeen follows")
+console.log(Meteor.user().profile.sn)
+
+  if ( Meteor.user().profile.sn == -1 ) {
+      
+      db.updateUserLastSeen( Meteor.userId(), Date.now());
+
+      db.updateUserHacks();
+
+      FlowRouter.go("/intro");     
+  
+  } else {
+
+      //not a new user, so update any changes to the lessons
+
+      LessonFactory.updateLessons();
+  }
+
+  Database.registerEvent( eLogin, Meteor.userId() );
 
 });
 

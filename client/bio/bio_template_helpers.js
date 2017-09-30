@@ -1,11 +1,24 @@
-Template.bio.rendered = function() {
 
-  display.scrollToTop();
-}
 
 Template.bio.rendered = function() {
 
   display.scrollToTop();
+
+  Meteor.call( "getServices", function(err, res){
+
+      if (err) {
+
+        console.log(err);
+
+        return;
+      }
+
+      if (res.instagram) {
+
+        game.user.bio.hasInstagram.set(true);
+      }
+
+  });
 }
 
 Template.bio.helpers({
@@ -32,7 +45,14 @@ Template.bio.helpers({
         if ( Session.get("sProfiledUserID") == Meteor.userId() ) return true;
     
         return false;
+    },
+
+    hasInstagram: function() {
+
+      return game.user.bio.hasInstagram.get();
     }
+
+
 }); 
 
 Template.bio.events({
@@ -124,6 +144,34 @@ Template.bio.events({
         }
       });
   }, 
+
+'click #chooseFromInstagramAccount': function( e, t) {
+
+
+      Meteor.call("getServices", function(err, res) {
+
+          if (err) {
+
+            console.log(err);
+
+            return;
+          }
+
+          $('#instafeed').html("");
+
+          $('#instagramPictures').modal('show');
+
+          var feed = new Instafeed({
+              get: 'user',
+              userId: parseInt(res.instagram.id),
+              accessToken: res.instagram.accessToken,
+              resolution: 'standard_resolution',
+              template: '<span class="instagram" id="i{{id}}" data-url="{{image}}"><img src="{{image}}" width="150" /></span>'
+          });
+          feed.run();
+
+      });
+  }
 
 
 });

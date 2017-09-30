@@ -238,18 +238,26 @@ loginWithService = function(_service) {
           
           //loginStyle: 'redirect'  you can use redirect for mobile web app
         
-        }, function () {
+        }, function (err) {
+
+            if (err)  {
+
+              alert("Sorry, we could not log you in using your Instagram account because: " + err.reason + "  Please try a different login method.")
+
+                console.log("account was not created: " + _service);
+
+              return;
+            }
+
 
 
             // Success. Account has been created and the user
             // has logged in successfully. 
 
             console.log("account successfully created: " + _service);
+         
 
-            Database.registerEvent(eHire, Meteor.userId());
-
-            FlowRouter.go("/intro");
-      });     
+           });   
     }
 
     if (_service == "google") {
@@ -260,7 +268,17 @@ loginWithService = function(_service) {
           
           //loginStyle: 'redirect'  you can use redirect for mobile web app
         
-        }, function () {
+        }, function (err) {
+
+
+            if (err)  {
+
+              alert("Sorry, we could not log you in using your Instagram account because: " + err.reason + "  Please try a different login method.")
+
+                console.log("account was not created: " + _service);
+
+              return;
+            }
 
 
             // Success. Account has been created and the user
@@ -268,10 +286,19 @@ loginWithService = function(_service) {
 
             console.log("account successfully created: " + _service);
 
-            Database.registerEvent(eHire, Meteor.userId());
-
-            FlowRouter.go("/intro");
       });     
     }
 
 }
+
+/*
+
+           Meteor.call("isInstagramUserInSystem", function(err, res) {
+
+                if (err) {
+                  console.log(err)
+                }
+                else{
+
+                    if (_res == false) {
+*/

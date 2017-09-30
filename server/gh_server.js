@@ -91,11 +91,6 @@ Meteor.startup(
 
   function () {
 
-console.log( Meteor.settings.GOOGLE_CLIENTID)
-
-console.log( Meteor.settings.GOOGLE_SECRET)
-
-
     db = new DB();
 
     Future = Npm.require('fibers/future');
@@ -1289,6 +1284,17 @@ geo.reverse(_lat, _lng);
     } catch(e) {
       return null;
     }
+  },
+
+isInstagramUserInSystem : function(_instagramID) {
+
+    var obj = {};
+      
+    var _user = Meteor.users().findOne( { "services.instagram.id": _instagramID } );
+    
+    if (!_user) return false;
+    
+    return true;
   },
 
   readUserDataFromInstagram: function() {
