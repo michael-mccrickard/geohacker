@@ -306,7 +306,7 @@ c("no network events")
 				return;
 			}			
 
-			var _obj = this.arrNetworkEvent.shift();
+			var _obj = this.arrNetworkEvent.pop();
 
 			//skip any network events for the current user
 
@@ -359,7 +359,7 @@ c("calling news.show again b/c there's no item")
 
 		var _newline = "\n";
 
-		var _arr = db.ghEvent.find().fetch();
+		var _arr = db.ghEvent.find( {}, {sort: {d: -1}}).fetch();
 
 		for (var i = 0; i < _arr.length; i++) {
 

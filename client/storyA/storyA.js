@@ -91,7 +91,13 @@ storyA = function() {
 
 			this.flags.has_passcode = true;
 
-			if (this.scene == "vanGogh") story.van.q();
+			if (this.scene == "userGetsPasscode") {
+
+				story.van.q();
+
+				Meteor.setTimeout( function(){ story.prompt("Click the globe to travel to France."); }, 500 );
+			}
+
 		}
 
 		if (_name == "mona") {
