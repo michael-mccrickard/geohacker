@@ -82,7 +82,9 @@ Meme = function( _rec, _type )  {
 
 	this.s = "";  //source, not used yet
 
-	this.element = "div.divMeme";
+	//this.element = "div.divMeme";
+
+	this.element = "img.memePicFrame"
 
 	this.textElement = "div.memeText";
 
@@ -216,8 +218,6 @@ Meme = function( _rec, _type )  {
 	}
 
 	this.preloadImagesForSidewall = function( _side ) {
-
-
 
 		var _preloadElement1 = "#imgDebrief";
 
@@ -376,6 +376,8 @@ c("calling show from preloadImagesForSidewall")
 
 	    var container = "img.featuredBackdrop";
 
+	    var leftMargin = $("img.featuredBackdrop").position().left;
+
 	    var fullBackdropWidth = $( container ).width();
 
 	    var maxWidth = fullBackdropWidth;
@@ -388,7 +390,7 @@ c("calling show from preloadImagesForSidewall")
 
 	    if (_width > maxWidth) _width = maxWidth;
 
-	    var _left = (maxWidth/2) - (_width / 2 );
+	    var _left = leftMargin + (maxWidth/2) - (_width / 2 );
 
 		var container = "img.memePicFrame";
 

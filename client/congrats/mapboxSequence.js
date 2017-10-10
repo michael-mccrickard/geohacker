@@ -122,6 +122,25 @@ ghMapboxSequence = function( _code, _picType, _textType ) {
 	 	this.move.push( _move );	
 	}
 
+	if (this.code == "nam") {
+
+		_move = new ghSequenceMove();
+
+
+	 	_move.start = [-97, 24];
+
+	 	_move.finish = [-86, 59];
+
+ 	_move.startZoom = 2.1;
+
+ 	_move.finishZoom = 3.0;
+
+ 	_move.speed = 0.25;
+
+	 	this.move.push( _move );	
+
+	 }
+
 
 	if (this.code == "south_america") {
 

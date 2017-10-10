@@ -326,7 +326,7 @@ c("db is removing record for " + _code + " in the current mission.")
 
   this.getContinentCodeForRegion = function( _code) {
 
-    var recRegion = this.getRegionRec(recCountry.r);    
+    var recRegion = this.getRegionRec(_code);    
 
     return recRegion.z;
   }

@@ -24,6 +24,10 @@ Mission = function(_code) {
 
   this.items = [];
 
+  //this.subMissions = [];
+
+
+
   //if we are only creating the mission object, but not initing it to a specific mission
   //then we're done
 
@@ -418,50 +422,68 @@ Mission = function(_code) {
   }
   else {
 
-  	//otherwise, currently assumed to be a continent mission
+  	//otherwise, either a continent or a region
 
-  	//(Later, we'll need to test the code against an array of the continent codes,
-  	//if found, then proceed as below, if not, assume it to be a region code, and proceed accordingly
+    if (Mission.isFullContinentMission( _code ) ) {
 
-  	this.level = mlContinent;
+      this.level = mlContinent;
+    }
+    else {
 
+      this.level = mlRegion;
+    }
+
+  	
     this.mapCode = _code;
 
     //make an array of all the regions for this continent  (continent code is the z field)
 
-  	_arr = db.ghR.find( { z: _code }).fetch();
+  	if (this.level == mlContinent) {
 
-    //get the continent rec and set the name of the mission
+        _arr = db.ghR.find( { z: _code }).fetch();
 
-  	var rec = db.getContinentRec( _code );
+        //get the continent rec and set the name of the mission
 
-  	this.name = rec.n;
+      	var rec = db.getContinentRec( _code );
 
-    //temporarily make a [name]_1 mission object to get the congrats name
-    
-    var _mission = new Mission(_code + "_1");
+  	     this.name = rec.n;
+    }
 
-    this.congratsName = _mission.congratsName;
+    if (this.level == mlRegion) {
+
+        _arr = db.ghC.find( { r: _code }).fetch();
+
+        //get the continent rec and set the name of the mission
+
+        var rec = db.getRegionRec( _code );
+
+         this.name = rec.n;
+    }    
+
+    //set the congrats name
+
+    this.congratsName = this.name;
 
     //the map variables are set in user.assign (called by hack.startNew() )
 
-    if (this.name == "North America") {
-
-        //one sequence for now, but for a continent we should pick a random region from the continent or make a continent sequence
-        //also, we should randomly pick from: leader + countryname OR flag + countryname, etc.
-
-        //MapboxSequence = function( _continent, _region, _picType, _textType ) 
-
-        this.sequence = new ghMapboxSequence( "north_america", "cam", cLeader, cCountry); 
-    }
   }
 
   //Now make an array of just the region codes for this mission
 
-  var regions = Database.makeSingleElementArray( _arr, "c");
+  var regions = [];
+
+  if (this.level == mlContinent) {
+
+    regions = Database.makeSingleElementArray( _arr, "c");
+
+  }
+  else {
+
+    regions.push(_code);
+  }
 
 
-  //And make an array of all the countries with data
+  //And make an array of all the countries
 
   var countries = db.ghC.find().fetch();
 
@@ -471,14 +493,23 @@ Mission = function(_code) {
   for (var i = 0; i < countries.length; i++) {
 
     if ( regions.indexOf( countries[i].r ) != -1) this.items.push( countries[i].c );
-  }  
+  } 
 
 }
 
-  Mission.getElapsedTime = function() {
+Mission.isFullContinentMission = function( _code) {
 
-      return parseInt( (Date.now() - mission.start) / 1000 );
-  };
+    var continents = ["africa","asia","europe","north_america","south_america","oceania"];
+
+  if (continents.indexOf( _code ) == -1) return false;
+
+  return true; 
+}
+
+Mission.getElapsedTime = function() {
+
+    return parseInt( (Date.now() - mission.start) / 1000 );
+};
 
 Mission.addThisLesson = function( _code, _pro ) {
 

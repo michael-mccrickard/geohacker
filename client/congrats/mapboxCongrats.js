@@ -124,7 +124,7 @@ Template.mapboxCongrats.helpers({
 
 	    	container: 'mmapCongrats',
 
-	    	style: 'mapbox://styles/geohackergame/cj72b3kyb1h9f2rqna4gxk70b',
+	    	style: 'mapbox://styles/geohackergame/cj6i2lukw3y722tqs6vvwswkh',
 
 	    	center: this.move.start,
 
@@ -545,13 +545,17 @@ Tracker.autorun( function(comp) {
 
 			}
 
-			Meteor.setTimeout( function() { FlowRouter.go("/mapboxCongrats"); }, _delay);
+			//Meteor.setTimeout( function() { FlowRouter.go("/mapboxCongrats"); }, _delay);
+
+			Meteor.setTimeout( function() { FlowRouter.go("/congrats"); }, _delay);
 		}
 		else {
 
 			display.fadeOutElement("#mbCongratsHeader", 1000);
 
-			Meteor.setTimeout( function() { FlowRouter.go("/mapboxCongrats"); }, 1001);
+			//Meteor.setTimeout( function() { FlowRouter.go("/mapboxCongrats"); }, 1001);
+
+			Meteor.setTimeout( function() { FlowRouter.go("/congrats"); }, 1001);
 		}
 
 	}

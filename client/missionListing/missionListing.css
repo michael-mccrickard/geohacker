@@ -25,6 +25,23 @@
 }
 
 
+.subMissionItem {
+
+  /*border: 2px solid; */
+  border-color: gray;
+  border-radius: 5px;
+
+  float: right; 
+  width: 90%;
+  background: #383838;
+
+  margin-right: 8px;
+  margin-bottom: 16px;
+  cursor: pointer;
+
+}
+
+
 .missionIcon {
 
     float: left;   
@@ -45,6 +62,12 @@
       text-transform: uppercase;
 }
 
+.subMissionInfo {
+
+    font-size: 4.0vh;
+     float: left;   
+      text-transform: uppercase;
+}
 .missionStats {
 
      float: left;   

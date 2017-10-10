@@ -268,11 +268,11 @@ FeaturedItem = function( ) {
 
         var fullBackdropWidth = $("img.featuredBackdrop").width();
 
-        var maxWidth = fullBackdropWidth * 0.9;
+        var maxWidth = fullBackdropWidth * 0.8;
 
         var fullHeight = $("img.featuredBackdrop").height();
 
-        var leftMargin = fullScreenWidth * 0.02;
+        var leftMargin = $("img.featuredBackdrop").position().left;
 
         var _height = fullHeight * 0.935;
 

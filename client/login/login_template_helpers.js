@@ -158,7 +158,7 @@ Template.login.events({
 
       //Update the assigns with any newly-added or revised missions
 
-      Mission.updateAll( game.user );
+//      Mission.updateAll( game.user );
 
       //in case any changes were made in the updateAll function ...
 

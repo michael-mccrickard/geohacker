@@ -156,7 +156,7 @@ Game = function() {
 
 		_user.assigns = Meteor.user().profile.a;
 
-		if (!_user.assigns.length) _user.createAssigns();
+		//if (!_user.assigns.length) _user.createAssigns();
 
 		_user.assignCode = Meteor.user().profile.c;
 

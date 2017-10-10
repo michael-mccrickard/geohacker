@@ -55,6 +55,7 @@ NewsItem = function(_type, _ID, _param, _name, _date) {
 
 	//network types
 
+
 	if (_type == eHire) {
 
 		this.msg = _remoteName + " was just hired as a Geohacker agent"
@@ -62,14 +63,14 @@ NewsItem = function(_type, _ID, _param, _name, _date) {
 
 	if (_type == eLogin) {
 
-		this.msg = _remoteName + " has logged into the Geohacker system"
+		this.msg = _remoteName + " logged into the Geohacker system"
 	}	
 
 	if (_type == eMissionStart) {
 
 		var _mission = new Mission( _param );
 
-		this.msg = _remoteName + " has started Mission: " + _mission.name;
+		this.msg = _remoteName + " started Mission " + _mission.name;
 	}	
 
 	if (_type == eHackComplete) {
@@ -83,7 +84,7 @@ NewsItem = function(_type, _ID, _param, _name, _date) {
 
 		var _mission = new Mission( _param );
 
-		this.msg = _remoteName + " has completed Mission: " + _mission.name;
+		this.msg = _remoteName + " completed Mission: " + _mission.name;
 	}	
 
 	if (_type == eExplore) {
@@ -95,12 +96,12 @@ NewsItem = function(_type, _ID, _param, _name, _date) {
 
 	if (_type == eGSMissionStart) {
 
-		this.msg = _remoteName + " has started Geosquad Mission: " + _param;
+		this.msg = _remoteName + " started Geosquad Mission: " + _param;
 	}	
 
 	if (_type == eGSMissionComplete) {
 
-		this.msg = _remoteName + " has completed Geosquad Mission: " + _param;
+		this.msg = _remoteName + " completed Geosquad Mission: " + _param;
 	}	
 
 	//local-only types
@@ -204,16 +205,13 @@ News = function() {
 
 	this.flipClass = function() {
 
-//this.class = "user";
-//return;
-
 		if (!this.arrClass.length) {
 
 			this.arrClass = this._arrClass.slice();
 		}
 
 		this.class = this.arrClass.pop();
-c("new class is " + this.class)
+
 	}
 
 	this.start = function() {
@@ -276,14 +274,14 @@ c("new class is " + this.class)
 
 
 		if (this.class == ecWeather) {
-c("weather")
+
 			this.weather.show();
 
 			return;
 		}
 
 		if (this.class == ecLocal) {
-c("local")
+
 			var _type = this.arrLocalType.pop();
 
 			if (this.arrLocalType.length == 0) {
@@ -293,14 +291,13 @@ c("local")
 
 
 			_item = new NewsItem( _type );
-c("item created for network event follows")
-c(_item)
+
 		}
 
 		if (this.class == ecNetwork)  {
-c("network")
+
 			if (this.arrNetworkEvent.length == 0) {
-c("no network events")
+
 				this.show();
 
 				return;
@@ -312,8 +309,6 @@ c("no network events")
 
 			if (_obj.u == game.user._id) {
 
-c("skipping network event b/c user is local")
-
 				this.show();
 
 				return;
@@ -323,14 +318,10 @@ c("skipping network event b/c user is local")
 
 			game.user.lastNewsDate = _obj.d;
 
-c("item created for network event follows")
-c(_item)
-			
-
 		}
 
 		if (!_item) {
-c("calling news.show again b/c there's no item")
+
 			this.show();
 
 			return;
@@ -359,7 +350,9 @@ c("calling news.show again b/c there's no item")
 
 		var _newline = "\n";
 
-		var _arr = db.ghEvent.find( {}, {sort: {d: -1}}).fetch();
+		//var _arr = db.ghEvent.find( {}, {sort: {d: -1}}).fetch();
+
+		var _arr = db.ghEvent.find( {} ).fetch();
 
 		for (var i = 0; i < _arr.length; i++) {
 

@@ -145,6 +145,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	if (_mode == uHack) {
 
+    		if (!this.assigns.length) this.createAssigns();
+
     		this.setGlobals("hack");
 
 	  		Meteor.defer( function() { $("#divHomeHackPic").css("border-color","gray") } );
@@ -476,6 +478,47 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 	/*
  	/***********************************************************************************************/
 
+ 	this.replaceAssigns = function() {
+
+ 		this.assigns = [];
+ 	
+ 		this.createAssigns();
+
+ 		Meteor.setTimeout( function() { db.updateUserHacks() }, 1000 );
+
+ 		showMessage("Updating user missions");
+ 	
+ 	}
+
+ 	this.getRootLevelAssigns = function() {
+
+ 		var _arr = [];
+
+ 		for (var i = 0; i < this.assigns.length; i++) {
+
+ 			if (this.assigns[i].level <= mlContinent) _arr.push( this.assigns[i] )
+ 		}
+
+ 		return _arr;
+ 	}
+
+ 	this.getSubAssignsForContinent = function( _code ) {
+
+  		var _arr = [];
+  		
+  		var _index = this.findAssignIndex( _code );
+
+ 		for (var i = 0; i < this.assigns.length; i++) {
+
+ 			if (this.assigns[i].level == mlRegion) {
+
+ 				if (this.assigns[i].selectedContinent == _code) _arr.push( this.assigns[i] );
+ 			}
+ 		}
+
+ 		return _arr;		
+ 	}
+
  	this.createAssigns = function() {
 
  		var _assign = null;
@@ -507,11 +550,22 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 			this.addNewAssign( _arr[i].c );			
 		}
 
+		//now the regions
+
+		var _arr = db.ghR.find().fetch();
+
+		for (i = 0; i < _arr.length; i++) {
+
+			this.addNewAssign( _arr[i].c );			
+		}
+
 		//now the last arbitrary ones
 
 		this.addNewAssign( "pg" );
 
 		this.addNewAssign( "all" );
+
+
 
 	}
 
@@ -606,7 +660,7 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 	this.createAssignDataObject = function( _assign ) {
 
-		var _a = { code: _assign.code, mapCode: _assign.mapCode, hacked: _assign.hacked, level: _assign.level, name: _assign.name, pool: _assign.pool, completions: _assign.completions };
+		var _a = { code: _assign.code, mapCode: _assign.mapCode, hacked: _assign.hacked, level: _assign.level, name: _assign.name, pool: _assign.pool, completions: _assign.completions, selectedContinent: _assign.selectedContinent };
 
 		return _a;
 
