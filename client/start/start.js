@@ -217,6 +217,8 @@ Session.set("isIOS", false);
 
   Session.set("sUserMessageTargetID","");
 
+  Session.set("sUserMissionsUpdated", false);
+
   //agents
   
   Session.set("sChiefUserReady", false);

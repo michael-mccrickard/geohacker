@@ -145,7 +145,28 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
     	if (_mode == uHack) {
 
-    		if (!this.assigns.length) this.createAssigns();
+    		if (!this.assigns.length) {
+
+    			this.createAssigns();
+
+c("creating assigns for the first time")
+    		
+    		}
+    		else {
+
+    			//Update the assigns with any newly-added or revised missions
+
+    			if ( Session.get("sUserMissionsUpdated") == false ) {
+c("updating assigns")
+	     			Mission.updateAll( game.user );
+
+	     			Session.set("sUserMissionsUpdated", true);
+	     		}
+	     		else {
+
+c("assigns are already up to date")
+	     		}
+    		}
 
     		this.setGlobals("hack");
 

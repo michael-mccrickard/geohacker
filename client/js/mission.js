@@ -417,8 +417,6 @@ Mission = function(_code) {
 
     this.level = mlWorld;
 
-    _arr = db.ghR.find().fetch();
-
   }
   else {
 
@@ -488,6 +486,15 @@ Mission = function(_code) {
   var countries = db.ghC.find().fetch();
 
 
+  //for the whole earth mission, we just use all the countries from the above query
+
+  if (this.code == "all")  {
+
+    this.items = countries;
+
+    return;
+  }
+
   //Now loop thru the countries and any of them that have a region code that's in our array get added
 
   for (var i = 0; i < countries.length; i++) {
@@ -529,7 +536,7 @@ Mission.addThisLesson = function( _code, _pro ) {
 
 Mission.updateAll = function( _user ) {
 
-    var _arrAssign = _user.profile.a;
+    var _arrAssign = _user.assigns;
 
     var _mission = new Mission();
 
@@ -545,9 +552,16 @@ Mission.updateAll = function( _user ) {
 
     var _list = _customList.concat( _arrContinents );
 
-    //LATER: also concatentate regions when we have those missions   
+    //Concatentate regions when we have those missions   
+
+    _arr = db.ghR.find().fetch();
+
+    var _arrRegions = Database.makeSingleElementArray( _arr, "c"); 
+
+    _list = _customList.concat( _arrRegions );
 
     var _completions = 0;
+
 
     //loop thru the mission codes
 
@@ -616,6 +630,8 @@ Mission.updateAll = function( _user ) {
         } //end else if mission wasn't found
 
      } //end looping thru custom list
+
+     db.updateUserHacks();
 
 } //end Mission.updateAll()
 

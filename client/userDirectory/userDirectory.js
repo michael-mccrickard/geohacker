@@ -76,7 +76,7 @@ return _users;
 
     var _title = arrUserTitle[ _val ];
 
-    if (_val == utGeohackerInChiefCountry || _val == utHonoraryGeohackerInChiefCountry) _title = _title + db.getCountryName( this.profile.cc );
+    if (_val == utGeohackerInChiefCountry || _val == utHonoraryGeohackerInChiefCountry) _title = _title + " " + db.getCountryName( this.profile.cc );
 
     return _title;
   },

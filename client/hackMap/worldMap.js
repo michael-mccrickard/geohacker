@@ -888,7 +888,7 @@ targHeight = areaHeight * 0.75;
         if ( (_ticket.count == 1 && game.user.hasChiefInNetwork && hack.welcomeAgentIsChief) || _ticket.count > 1) {
 
 
-            Meteor.setTimeout( function() { hacker.mapStatus.setThisAndType("AGENT " + hack.getWelcomeAgent().username.toUpperCase() + " IS ALREADY IN YOUR NETWORK"); }, 6500 );
+            Meteor.setTimeout( function() { hacker.mapStatus.setThisAndType("AGENT " + hack.getWelcomeAgent().username.toUpperCase() + " IS ALREADY IN YOUR NETWORK"); }, 100 );
 
             hackMap.setStateOnly( sMapDone );
 

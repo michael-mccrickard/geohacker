@@ -156,14 +156,6 @@ Template.login.events({
 
       }
 
-      //Update the assigns with any newly-added or revised missions
-
-//      Mission.updateAll( game.user );
-
-      //in case any changes were made in the updateAll function ...
-
-      db.updateUserHacks();  //updates the user's record in the database
-
       //go to Continue / Select Mission screen
 
       display.playEffect2("startButton.mp3");
