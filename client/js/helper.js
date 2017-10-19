@@ -38,7 +38,7 @@ Helper = function() {
 	this.countryPool = [];
 
 	this.ID = "";
-;
+
 	this.init = function(_code) {
 
 		this.ZClue = 0;
@@ -56,15 +56,31 @@ Helper = function() {
 
 		this.rec = null;		
 
-		var _arr =  Meteor.users.find( { 'profile.cc': { $ne: _code}, '_id': { $ne: Database.getChiefID()[0]  } } ).fetch();
+		Meteor.call("getAgentHelper", function(_err, _res) {
 
-		if (_arr.length) {
+			if (_err) {
 
-			this.rec = Database.getRandomElement( _arr );
+				console.log(_err);
+
+				return;
+			}
+
+			hacker.helper.finishInit( _res);
+
+		});
+	}
+
+	this.finishInit = function(_obj) {
+
+		if (!_obj) {
+
+			this.rec = Database.getChiefRec();			
 		}
 		else {
 
-			this.rec = Database.getChiefRec();			
+			Meteor.subscribe( "agentHelper" );  //we will need the data in the usual form for the bio screen
+
+			this.rec = _obj;
 		}
 
 
@@ -106,9 +122,10 @@ Helper = function() {
 			this.useRandomCountryClues = true;
 
 			this.makeCountryPool();
-		}
+		}	
 
-	} 
+	}
+
 
 	this.makeCountryPool = function() {
 

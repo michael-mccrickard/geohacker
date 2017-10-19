@@ -1,5 +1,13 @@
 //Login.js
 
+newUserObj = {};
+
+var mCapNameSub = null;
+
+var mCapPicSub = null;
+
+var mFlagPicSub = null;
+
 resetPrompts = function() {
 
    Session.set("sLoginPrompt", "IF YOU ARE ALREADY AN AGENT, CLOCK IN ...");
@@ -116,45 +124,109 @@ loginUser = function(t) {
   }
 
 
-submitApplication = function(_t) {
+submitApplication = function(_obj2) {
+
+      game.setLoginMethod( "email" );
+
+      newUserObj = {};
+
+      //pick the country for the new user assignment
+      //this will get changed below if _obj2 was passed in
+
+      var _countryCode = db.getRandomCountryRec().c;
 
       Meteor.call("setLoginMethod", "password");
 
-      var _obj = {};
+        var _obj = {};
 
-      _obj.email = "";
+        _obj.email = "";
 
-      _obj.name = "";
+        _obj.name = "";
 
-      _obj.password = "";
+        _obj.password = "";
 
-      _obj.countryID = "";
+        _obj.countryID = "";
 
-      _obj.ut = 0;
+        _obj.ut = 0;
 
-      _obj.st = 0;
+        _obj.st = 0;
 
-      Session.set("sProcessingApplication", true);
+        Session.set("sProcessingApplication", true);
 
-      _obj.email = _t.find('#registration-email').value
+        if (_obj2) {
 
-      if ( !validateEmail( _obj.email ) ) {
+          _obj.email = _obj2.email;
 
-          customError("Registration", "YOU MUST ENTER AN EMAIL ADDRESS.")
+          _obj.name = _obj2.name.first + " " + _obj2.name.last;
 
-          return; 
-      }
+          _obj.password = _obj2.password;
 
-      _obj.name = _t.find('#registration-name').value
-      
-      _obj.password = _t.find('#registration-password').value
+          _obj.countryID = _obj2.countryID;
 
-      _obj.countryID = db.getRandomCountryRec().c;
+          //set our local var also
 
-     _obj.ut = utAgent;    
+          _countryCode =  _obj2.countryID;
 
-      _obj.st = usActive;
+          _obj.ut = _obj2.ut;
 
+          _obj.st = _obj2.st;
+
+          if (_obj2.av) _obj.av =  _obj2.av;   
+        }
+        else {
+
+          _obj.email = $('input#registration-email').val();
+
+          if ( !validateEmail( _obj.email ) ) {
+
+              customError("Registration", "YOU MUST ENTER AN EMAIL ADDRESS.")
+
+              return; 
+          }
+
+          _obj.name = $('input#registration-name').val();
+          
+          _obj.password = $('input#registration-password').val();
+
+          _obj.countryID = _countryCode;
+
+         _obj.ut = utAgent;    
+
+          _obj.st = usActive;  
+
+        }
+
+        mNewUserObj = _obj;
+
+        subscribeToNewUserAssignmentData( _countryCode );
+}
+
+subscribeToNewUserAssignmentData = function(_countryCode) {
+
+        if (!_countryCode) _countryCode = db.getRandomCountryRec().c;
+
+        //subscribe to the data for country assignment
+
+      c("subbing to data for country " + _countryCode)
+
+      if (mCapNameSub) mCapNameSub.stop();
+
+      if (mCapPicSub) mCapPicSub.stop();
+
+      if (mFlagPicSub) mFlagPicSub.stop();
+
+        mCapNameSub = Meteor.subscribe("oneCapitalName", _countryCode, function() { Session.set("sNewUserCapitalName", true ) });
+
+        mCapPicSub = Meteor.subscribe("oneCapitalPic", _countryCode, function() { Session.set("sNewUserCapitalPic", true ) });
+
+        mFlagPicSub = Meteor.subscribe("oneFlagPic", _countryCode, function() { Session.set("sNewUserFlagPic", true ) });
+
+    }
+
+
+finishSubmission = function() {
+
+      var _obj = mNewUserObj;
 
       var _date = new Date().toLocaleString();
 
@@ -203,7 +275,7 @@ submitApplication = function(_t) {
                 // Success. Account has been created and the user
                 // has logged in successfully. 
 
-                console.log("account successfully created: " + _obj.email);
+                console.log("account successfully created from email: " + _obj.email);
 
                 Database.registerEvent(eHire, Meteor.userId());
 
@@ -227,8 +299,7 @@ submitApplication = function(_t) {
 
 loginWithService = function(_service) {
 
-    Meteor.call("setLoginMethod", _service);
-
+    game.setLoginMethod( _service );
 
     if (_service == "instagram") {
 
@@ -244,17 +315,15 @@ loginWithService = function(_service) {
 
               alert("Sorry, we could not log you in using your Instagram account because: " + err.reason + "  Please try a different login method.")
 
-                console.log("account was not created: " + _service);
+                console.log("account was not created with instagram: " + _service);
 
               return;
             }
 
-
-
             // Success. Account has been created and the user
             // has logged in successfully. 
 
-            console.log("account successfully created: " + _service);
+            console.log("account successfully created with instagram: " + _service);
          
 
            });   
@@ -273,9 +342,9 @@ loginWithService = function(_service) {
 
             if (err)  {
 
-              alert("Sorry, we could not log you in using your Instagram account because: " + err.reason + "  Please try a different login method.")
+              alert("Sorry, we could not log you in using your Google account because: " + err.reason + "  Please try a different login method.")
 
-                console.log("account was not created: " + _service);
+                console.log("account was not created with google: " + _service);
 
               return;
             }
@@ -284,21 +353,46 @@ loginWithService = function(_service) {
             // Success. Account has been created and the user
             // has logged in successfully. 
 
-            console.log("account successfully created: " + _service);
+            console.log("account successfully created with google: " + _service);
 
       });     
     }
 
 }
 
-/*
 
-           Meteor.call("isInstagramUserInSystem", function(err, res) {
+//****************************************************************
+//                  WAIT FOR  DATA
+//****************************************************************
 
-                if (err) {
-                  console.log(err)
-                }
-                else{
+Tracker.autorun( function(comp) {
 
-                    if (_res == false) {
-*/
+  if (Session.get("sNewUserFlagPic") && 
+      Session.get("sNewUserCapitalName") && 
+      Session.get("sNewUserCapitalPic")
+       
+  ) {
+
+  Session.set("sNewUserFlagPic", false);  //flag url for incoming new user
+
+  Session.set("sNewUserCapitalName", false);  //capital city name for incoming new user
+
+  Session.set("sNewUserCapitalPic", false);  //capital city pic for incoming new user
+  
+    c("new user country assignment data ready");
+
+    if (gLoginMethod == "email") {
+
+      finishSubmission();
+    }
+    else {
+
+      finishNewLogin();
+    }
+
+    return;
+  }
+
+  c("new user country assignment data not ready")
+
+});

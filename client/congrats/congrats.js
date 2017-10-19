@@ -45,7 +45,13 @@ Template.congrats.rendered = function () {
     
   }
 
-  Meteor.setTimeout( function() { hack.playAnthem(); }, 3000);
+  display.scrollToTop();
+
+  Meteor.setTimeout( function() { 
+
+  if (mission.status != msComplete)  hack.playAnthem(); 
+
+  }, 3000);
 
 
 }

@@ -1,4 +1,24 @@
+.modalForm {
 
+	padding-left: 2%;
+}
+
+.modalFormElement {
+
+	margin-top: 2%;
+}
+
+.modalFormText {
+
+	padding: 1%;
+
+	font-weight: bold;
+}
+
+.modalTextInput {
+
+	font-size: 18px;
+}
 
 .windowSize {
 

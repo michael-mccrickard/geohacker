@@ -150,7 +150,7 @@ Game = function() {
 	this.createGeohackerUser = function() {
 
 
-		var _user =	new User( Meteor.user().username); //name
+		var _user =	new User( Meteor.user().username ); //name
 
 		_user.profile = Meteor.user().profile;
 
@@ -253,5 +253,72 @@ Game = function() {
 
 		return this.user.name;
 	}
+
+	this.sendEmail = function() {
+
+		var _text = $("#contactUsBody").val();
+
+		Meteor.call(
+		  'sendEmail',
+		  'michael@mccrickard.net',
+		  'Geohacker Game <noreply@mccrickard.net>',
+		  'Message from Contact form',
+		  _text
+		);
+
+        $('#contactUsModal').modal('hide');
+	}
+
+	this.sendPhotoClaimEmail = function() {
+
+		var _text = $("#photoSourceComment").val();
+
+		var _permissionGranted = document.getElementById("permissionGranted").checked.toString();
+
+		var _permissionDenied = document.getElementById("permissionDenied").checked.toString();
+
+		var _name = $("#photographerName").val();
+
+		var _email = $("#photographerEmail").val();
+
+		var _url = $("#photoURL").text();
+
+		var _s = "Photo claim on: " + hacker.feature.item.imageFile + "\n\n" +
+
+				 "Country: " + db.getCountryName( hack.countryCode ) + "\n\n" +
+
+				 "Photo text: " + hacker.feature.item.text + "\n\n" +
+
+				 "Claimant: " + _name + "\n\n" +
+
+				 "Email: " + _email + "\n\n" +
+
+				 "URL: " + _url + "\n\n" +
+
+				 "Permission granted: " + _permissionGranted + "\n\n" +
+
+				 "Permission denied: " + _permissionDenied + "\n\n" +
+
+				 _text
+
+
+		Meteor.call(
+		  'sendEmail',
+		  'michael@mccrickard.net',
+		  "Geohacker Game <michael@mccrickar.org>",
+		  'Geohacker Photo Claim',
+		  _s
+		);
+
+        $('#sourceAttributionModal').modal('hide');
+	}
+
+	this.setLoginMethod = function( _type) {
+
+		gLoginMethod = _type;
+
+		Meteor.call("setLoginMethod", _type);
+	}
+
 
 }  //end game object

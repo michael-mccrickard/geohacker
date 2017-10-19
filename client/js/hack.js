@@ -188,7 +188,8 @@ this.debriefCollection = null;
 
        this.debriefSub =  Meteor.subscribe("ghMeme", function() { Session.set("sDebriefReady", true ) });     
 
-       this.agentsSub =  Meteor.subscribe("agentHelpers", function() { Session.set( "sAgentHelpersReady", true ) } );
+       this.agentsSub =  Meteor.subscribe("agentsInCountry", function() { Session.set( "sAgentsReady", true ) } );
+
     }
 
     this.cancelSubs = function() {
@@ -526,7 +527,7 @@ this.debriefCollection = null;
 
       if (!this.welcomeAgent) {
 
-        this.welcomeAgent = Meteor.users.findOne( { 'profile.cc': this.countryCode, '_id': { $ne: Database.getChiefID()[0]  } } );
+        this.welcomeAgent = Meteor.users.findOne( { _id: { $ne: Database.getChiefID()[0]  }, 'profile.cc': this.countryCode, 'profile.ut': { $in: [2,3] } } );
       }
 
       if (!this.welcomeAgent) {
@@ -557,7 +558,7 @@ Hack.resetDataFlags = function() {
 
       Session.set("sDebriefReady", false );
 
-      Session.set("sAgentHelpersReady", false );
+      Session.set("sAgentsReady", false );
  
 
 }
@@ -570,7 +571,7 @@ Tracker.autorun( function(comp) {
       Session.get("sWebReady") && 
       Session.get("sSoundReady") && 
       Session.get("sDebriefReady") && 
-      Session.get("sAgentHelpersReady") 
+      Session.get("sAgentsReady")  
 
       ) {
 

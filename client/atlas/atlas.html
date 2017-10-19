@@ -19,3 +19,21 @@
 </div>
 
 </template>
+
+
+<template name="atlas2">
+ 
+
+	{{#each country}}
+
+	  <div class="item2" id="{{this}}">
+
+	  	<img class="atlasPic2" src="{{flagPic this}}" />
+
+         <div class="atlasNameText2">{{countryName this}}</div>
+
+	  </div>
+
+	{{/each}}
+
+</template>

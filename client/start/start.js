@@ -3,6 +3,8 @@
 
 gHackPreselect = "";
 
+gLoginMethod = "";  //email or google or instagram
+
 //Meteor.subscribe("registeredUsers");  
 
 //****************************************************************
@@ -24,21 +26,19 @@ Accounts.onResetPasswordLink( function(token) {
 
 Accounts.onLogin( function() { 
 
-//not tested, modal not implemented either
-/*
-  if (Meteor.userId == "SWjqzgXy9rGCYvpRF")  {
-
-      //activate special modal here
-
-  }
-*/
-
-c("meteor user in onlogin follows " + Meteor.user())
-c(Meteor.user())
-
-  console.log("creating game.user in Accounts.onLogin")
+  c("meteor user in onlogin follows " + Meteor.user())
+  c(Meteor.user())
 
   mission = null;
+
+  finishLogin();
+});
+
+
+
+finishLogin = function() {
+
+  console.log("creating game.user in finishLogin")
 
   game.user = game.createGeohackerUser(); 
 
@@ -58,28 +58,43 @@ c(Meteor.user())
   //No profile.sn (lastSeen) value means this is a brand-new user
   //so we want to do a little housekeeping and then play the intro sequence
 
-console.log("lastSeen follows")
-console.log(Meteor.user().profile.sn)
-
   if ( Meteor.user().profile.sn == -1 ) {
-      
-      db.updateUserLastSeen( Meteor.userId(), Date.now());
 
-      db.updateUserHacks();
+          //if the new user used their social media account to log in,
+          //then we don't have the data for the their assigned country yet
 
-      FlowRouter.go("/intro");     
+          if (gLoginMethod != "email") {
+
+            subscribeToNewUserAssignmentData( Meteor.user().profile.cc );
+
+            return;
+          }
+
+     finishNewLogin();
   
   } else {
 
       //not a new user, so update any changes to the lessons
 
-      LessonFactory.updateLessons();
+      var _st = game.user.profile.st;
+
+      if (_st != usFake && _st != usVirtual) LessonFactory.updateLessons();
   }
 
   Database.registerEvent( eLogin, Meteor.userId() );
 
-});
+}
 
+finishNewLogin = function() {
+
+      db.updateUserLastSeen( Meteor.userId(), Date.now());
+
+      db.updateUserHacks();
+
+      Session.set("sProcessingApplication", true);  //redundant for email login only
+
+      FlowRouter.go("/intro");   
+}
 
 
  //determines what is displayed on the start screen: login or register
@@ -117,11 +132,19 @@ Session.set("isIOS", false);
 
   Session.set("sTReady", false);  //tags
 
-  Session.set("sXReady", false);  //all texts (to identify tags, also for capital name for new user wall)
+  Session.set("sXReady", false);  //all texts 
 
-  Session.set("sCapitalsReady", false);  //all capital images (in case the user is new; one will go on their wall) 
+  Session.set("sCapitalsReady", false);  //all capital images
 
-  Session.set("sCapitalsTextReady", false);  //all capital images (in case the user is new; one will go on their wall) 
+  Session.set("sCapitalsTextReady", false);  //all capital names
+
+  //new user country assignment data
+
+  Session.set("sNewUserFlagPic", false);  //flag url for incoming new user
+
+  Session.set("sNewUserCapitalName", false);  //capital city name for incoming new user
+
+ Session.set("sNewUserCapitalPic", false);  //capital city pic for incoming new user
 
 
   //country data editor
@@ -225,8 +248,6 @@ Session.set("isIOS", false);
 
   Session.set("sAgentsInNetworkReady", false);
 
-  Session.set("sAgentHelpersReady", false);
-
  //music
 
  Session.set("sMusicReady", false ); 
@@ -310,15 +331,15 @@ Meteor.startup(function() {
 
   Meteor.subscribe("country", function() { Session.set("sCReady", true ) });
 
-  Meteor.subscribe("allFlags", function() { Session.set("sFReady", true ) });
+ //Meteor.subscribe("allFlags", function() { Session.set("sFReady", true ) });
 
- // Meteor.subscribe("ghTag", function() { Session.set("sTReady", true ) });  
+ //Meteor.subscribe("ghTag", function() { Session.set("sTReady", true ) });  
 
 //Meteor.subscribe("allTexts", function() { Session.set("sXReady", true ) });  
 
-  Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
+  //Meteor.subscribe("allCapitals", function() { Session.set("sCapitalsReady", true ) });  
 
-  Meteor.subscribe("allCapitalsText", function() { Session.set("sCapitalsTextReady", true ) });  
+Meteor.subscribe("allCapitalsText", function() { Session.set("sCapitalsTextReady", true ) });  //for the weather reports
 
   //Meteor.subscribe("allImages", function() { Session.set("sEditImageReady", true ) });  
 
@@ -329,7 +350,6 @@ Meteor.startup(function() {
   Meteor.subscribe("chiefUser", function() { Session.set("sChiefUserReady", true ) });  
 
   Meteor.subscribe("allEvents");
-
 
   Tracker.autorun(function(){
       Meteor.subscribe("conversation");
@@ -358,10 +378,16 @@ Tracker.autorun( function(comp) {
   if (Session.get("sZReady") && 
       Session.get("sRReady") && 
       Session.get("sCReady") && 
+/*
+      Session.get("sNewUserFlagPic") && 
+      Session.get("sNewUserCapitalName") && 
+      Session.get("sNewUserCapitalPic") && 
+
       Session.get("sFReady") &&   
-  /*    Session.get("sTReady") &&   */ 
-   /*   Session.get("sXReady") &&  */
+      Session.get("sTReady") &&   
+     Session.get("sXReady") &&  
       Session.get("sCapitalsReady") &&  
+*/      
       Session.get("sCapitalsTextReady") && 
       Session.get("sMusicReady") &&
       Session.get("sChiefUserReady") 

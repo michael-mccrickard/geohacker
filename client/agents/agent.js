@@ -70,26 +70,7 @@ Template.agent.helpers({
 
 }); 
 
-Template.bigAgent.events( {
 
-    'click .imgBigAgentAvatar' : function(e) {
-
-      Session.set("sProfiledUserID", e.currentTarget.id);
-
-      $('#helperAgentBio').modal('show');
-
-      $('h4.modal-title.modalText.helperAgentBioName').text( hack.welcomeAgent.username.toUpperCase() );           
-    },
-
-    'click .bigAgentLabel' : function(e) {
-
-      Session.set("sProfiledUserID", e.currentTarget.id);
-
-      $('#helperAgentBio').modal('show');
-
-      $('h4.modal-title.modalText.helperAgentBioName').text( hack.welcomeAgent.username.toUpperCase() );           
-    }
-})
 
 
 Template.agent.events({

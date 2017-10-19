@@ -136,11 +136,20 @@
   height: 144px;
 }
 
+.countryLabel {
+    position: relative;
+    text-align: center;
+    font-family: Arial;
+    font-size: 1.2vw;
+    top: -6%;
+    pointer-events: none;
+}
+
 .badgeLabel {
     position: relative;
     text-align: center;
     font-family: Arial;
-    font-size: 0.72vw;
+    font-size: 0.7vw;
     top: -6%;
     pointer-events: none;
 }

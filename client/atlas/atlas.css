@@ -1,0 +1,73 @@
+.atlasPic {
+
+  max-width: 100px;
+  max-height: 75px;
+  padding: 4px;
+}
+
+
+.atlasNameText {
+
+  font-family: Arial;
+  font-size: 12px;
+  color: white;
+  padding: 8px;
+}
+
+.atlasHackedText {
+
+  font-family: Arial;
+  font-size: 12px;
+  
+  color: yellow;
+  padding: 4px;
+}
+
+
+
+
+.atlasPic2 {
+
+	max-width: 120px;
+	max-height: 80px;
+
+	padding: 4px;
+
+	margin-right: auto;
+	margin-left: auto;
+}
+
+
+.atlasNameText2 {
+
+  font-family: Arial;
+  font-size: 12px;
+  color: white;
+  padding: 2px;
+	text-align: center;
+}
+
+.atlasHackedText2 {
+
+	font-family: Arial;
+	font-size: 12px;
+	
+	color: yellow;
+	text-align: center;
+}
+
+.item2 {
+float: left;
+  width:  128px;
+  height: 108px;
+  background: #383838;
+  border: 2px solid #333;
+  border-color: lightGray;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  margin-left: 8px;	
+  position: relative;
+
+  opacity: 0;
+}
+

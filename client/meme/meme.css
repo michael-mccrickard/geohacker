@@ -36,3 +36,22 @@
     border-radius: 7px;
     z-index: 989;
 }
+
+
+
+.memeSourceText {
+
+  font-size: 2.0vh;
+
+  position: relative;
+
+  text-align: center;
+
+  top: 95%;
+
+  color: white;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+}

@@ -65,6 +65,9 @@
 					<div class="rounded">
 						<img class= "imgBigAgentAvatar bigAgentItem rounded" id="{{this._id}}" src="{{this.profile.av}}" />
 						<div class="bigAgentLabel agentNameLabel bigAgentItem" id="{{this._id}}">{{this.username}}</div>
+					  	<div class="bigAgentText bigAgentTitleText">
+					  		{{this.profile.t}}
+						</div>
 					</div>		
 
 				</div>
@@ -72,11 +75,11 @@
 				<div class="divBigAgentFlag">
 
 						<div class="centered">
-							<img class= "bigAgentFlag bigAgentItem rounded" src="{{this.profile.f}}" id="{{this.profile.cc}}"/>
-							<div class="bigAgentLabel agentFlagLabel bigAgentItem">{{agentCountry}}</div>
+							<img class= "bigAgentFlag  rounded" src="{{this.profile.f}}" id="{{this.profile.cc}}"/>
+							<div class="bigAgentLabel">{{agentCountry}}</div>
 						</div>
 
-						<div class='divAgentStats bigAgentLabel'>
+						<div class='divBigAgentStats bigAgentLabel'>
 							<span class="agentStatusText"> STATUS: {{agentStatus}}</span>
 							<div class="agentStatusText"> HACKS: {{hackCount}}</div>
 						</div>
@@ -90,9 +93,7 @@
 					  		<img class="imgBigAgentFeaturedPic bigAgentItem" src="{{this.profile.p}}" />
 						</div> 
 
-					  	<div class="bigAgentText">
-					  		{{this.profile.t}}
-						</div>
+
 
 				  </div>
 

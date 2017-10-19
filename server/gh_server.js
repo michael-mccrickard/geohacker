@@ -8,6 +8,8 @@ var countryCode;
 
 var featuredUserID;
 
+var helperID = "";
+
 var arrCongrats = [];
 
 loginMethod = "password";  //or google, facebook, instagram
@@ -228,11 +230,17 @@ Meteor.startup(
     });   
 
 
-     Meteor.publish("agentHelpers", function () {
+     Meteor.publish("agentHelper", function () {
 
-      return Meteor.users.find( { 'profile.ut': { $gt: 1 }  } );
+      return Meteor.users.find( { _id: helperID  } );
     }); 
 
+/*
+     Meteor.publish("welcomeAgent", function () {
+
+      return Meteor.users.findOne( { 'profile.cc': countryCode, 'profile.ut': { $in: [2,3] }  } );
+    }); 
+*/
     //only for super-admin?
     Meteor.publish("registeredUsers", function () {
 
@@ -313,8 +321,25 @@ Meteor.startup(
     });
 
 
-    //map tags
-    //accidentally deleted the publish function
+    //data elements for new incoming user
+
+    Meteor.publish("oneCapitalPic", function (_code) {
+
+      return ghImage.find( { dt: "cap", cc: _code });
+    
+    });
+
+    Meteor.publish("oneCapitalName", function (_code) {
+
+      return ghText.find( { dt: "cap", cc: _code });
+    
+    });
+
+    Meteor.publish("oneFlagPic", function (_code) {
+
+      return ghImage.find( { dt: "flg", cc: _code });
+    
+    });
 
     //congrats elements 
 
@@ -330,9 +355,9 @@ Meteor.startup(
 
     });
 
-    Meteor.publish("congratsAnthems", function (_arr) {
+    Meteor.publish("allFlagsForMission", function (_arr) {
 
-      return ghSound.find( { cc: { $in: _arr }, dt: "ant" });
+      return ghImage.find( { cc: { $in: _arr }, dt: "flg" });
 
     });
 
@@ -1201,6 +1226,8 @@ console.log(this.userId);
 
   updateRecordOnServerWithDataObject: function (_type, ID, data) {
 
+      console.log("update called on server for " + ID)
+
       var col = getCollectionForType( _type );
 
       var res = col.update( {_id: ID }, { $set: data  }); 
@@ -1220,9 +1247,20 @@ _index = 0;
   testImages2();
 },
 
+getAgentHelper: function() {
+
+    var _arr = Meteor.users.find( { 'profile.cc': { $ne: countryCode }, 'profile.ut': { $gt: 1 }  } ).fetch();
+
+    if (!_arr.length) return null;
+
+    var _helper = db.getRandomElement( _arr);
+
+    helperID = _helper._id;
+
+    return _helper;
+},
 
 getCountryFromLatLng: function(_lat, _lng, _cb) {
-
 
   var geo = new GeoCoder({
 
@@ -1324,10 +1362,24 @@ isInstagramUserInSystem : function(_instagramID) {
        return loginMethod;
     },
 
-  
 
+  sendEmail: function(to, from, subject, text) {
+
+    // Make sure that all arguments are strings.
+  
+    check([to, from, subject, text], [String]);
+  
+    // Let other method calls from the same client start running, without
+    // waiting for the email sending to complete.
+  
+    this.unblock();
+  
+    Email.send({ to, from, subject, text });
+  
+  }
 
 });
+ 
 
 function isSameEventAsLast(  _type, _param, _name) {
 

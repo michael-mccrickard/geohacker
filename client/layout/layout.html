@@ -265,6 +265,96 @@
       </div>
     </div>
 
+    <div class="modal modal-wide fade" id="contactUsModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+              <div class="modal-header">
+                
+                <div style="color:black; font-family: Arial; width: 100%; text-align: center; font-size: 18px"> SEND US AN EMAIL -- WRITE YOUR MESSAGE IN THE BOX BELOW</div>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modalText" id="modalTitle"></h4>
+              </div>
+              <div class="modal-body">
+
+                <textarea class="modalBody" id="contactUsBody" style="color:black; font-family: Arial; width: 100%;" rows="24"></textarea>
+              </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger modalText whiteText" style="float: left;" data-dismiss="modal">CANCEL</button>
+            <button type="button" class="btn btn-success modalText whiteText" onclick="game.sendEmail()">SEND</button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal modal-wide fade" id="sourceAttributionModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+
+              <div class="modal-header" style="color:black; font-family: Arial">
+                
+                <div style="width: 100%; text-align: center; font-size: 24px">PHOTOGRAPH OWNERSHIP CLAIM</div>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modalText" id="modalTitle"></h4>
+              </div>
+
+              <div style="color:black; font-family: Arial;">
+
+                <div class="modalFormText">According to our records, this photograph: <span id="s3PhotoURL"></span> belongs to: <span id="photoSource"></span></div>
+
+                <div class="modalFormText">To dispute this claim or make the initial claim on the photo, fill in this form.</div>
+                <hr>
+                <form class="form modalForm">
+                      <div class="modalFormElement">
+                        <label class="" for="photographerName">Name:</label>
+                        <div class="">
+                          <input type="text" class="" id="photographerName" placeholder="Enter name" size="125">
+                        </div>
+                      </div>
+
+                        <label class="modalFormElement" for="photographerEmail">Email:</label>
+                        <div class="">
+                          <input type="email modalTextInput" class="" id="photographerEmail" placeholder="Enter name" size="125">
+                        </div>
+
+                      <div class="modalFormElement">
+                        <label class="" for="photoURL">URL:</label>
+                        <div class=""> 
+                          <input type="text" class="modalTextInput" id="photoURL" placeholder="Enter URL where you or someone else posted the photo" size="110">
+                        </div>
+                      </div>
+                      <div class="modalFormElement"> 
+                        <div class="">
+                          <div class="checkbox">
+                            <label><input type="checkbox" id="permissionGranted">I grant Geohacker Games the right to use this photo in this game.</label>
+                          </div>
+                          <div class="checkbox">
+                            <label><input type="checkbox"  id="permissionDenied">Please remove this photo from the game.</label>
+                          </div>                      
+                        </div>
+                     </div>
+                </form>
+                <hr>
+                <div class="form modalForm">
+                  <label for="comment">Comment:</label>
+                  <textarea class="form-control" rows="5" id="photoSourceComment" placeholder="If you are granting permission to use your photo, please tell us how the credit should read and the URL, if any, we should link that credit to (your website, Instagram page, etc.)"></textarea>
+                </div>
+
+              </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger modalText whiteText" style="float: left;" data-dismiss="modal">CANCEL</button>
+            <button type="button" class="btn btn-success modalText whiteText" onclick="game.sendPhotoClaimEmail()">SEND</button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="modal fade" id="vedModal" tabindex="-1" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content" style="color:black; font-family: Arial;">

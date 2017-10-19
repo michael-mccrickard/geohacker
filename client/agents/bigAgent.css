@@ -1,4 +1,4 @@
-//agent.css
+
 
 
 .divAgentAvatar {
@@ -13,7 +13,7 @@
 
 .divBigAgentFlag {
 	position: relative;
-
+	width: 100%;
  
 
 	z-index: 100;
@@ -38,8 +38,11 @@ margin-left: 16px;
 
 .imgBigAgentAvatar {
 
-    width: 75%;
-    height: 75%;
+    width: 100%;
+    height: 100%;
+
+    max-width: 96px;
+    max-height: 96px;
    /* height: 172px;  */
     background-color: #303030;
 
@@ -48,28 +51,24 @@ margin-left: 16px;
 }
 
 .bigAgentLabel {
-
+	position: relative;
+margin-top: 5%;
 	font-family: Arial;
 	color: yellow;
-	font-size: 2.0vh;
+	font-size: 1.5vh;
 	text-align: center;
 	text-transform: uppercase;
 
-    cursor: pointer;	
+    pointer-events: none;	
 }
 
 .agentNameLabel {
   white-space: nowrap;
   overflow: hidden;
+  margin-top: 5%;
 }
 
-
-.agentFlagLabel {
-
-	margin-top: -2px;
-}
-
-.divAgentStats {
+.divBigAgentStats {
 
 	margin-top: 10px;
 }
@@ -92,8 +91,10 @@ margin-left: 16px;
 }
 
 .bigAgentFlag {
-	/*height: 108px;*/
-	width: 75%;
+
+	height: 48%;
+	width: 60%;
+	margin-left: 15%;
 
 }
 
@@ -111,10 +112,9 @@ margin-left: 16px;
 .bigAgentText {
 
 	font-family: Arial;
-	font-size: 2.0vh;
+	font-size: 1.5vh;
 	/*margin-left: -5%;*/
-	/*margin-top: -35%*/
-	margin-top: 5%;
+
 	color: yellow;
 	width: 75%;
 	opacity: 1.0;
@@ -123,13 +123,17 @@ margin-left: 16px;
 
 }
 
+.bigAgentTitleText {
+
+	padding-top: 5%;
+}
+
 .divBigAgentButton {
 	width: 5%;
 }
 
-.divBigAgentFeaturedPic {
-position: absolute;
-	/*width: 50%;*/
+.divAgentFeaturedPic {
+
 }
 
 

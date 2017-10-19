@@ -176,7 +176,7 @@ Template.login.events({
 
          e.preventDefault();
 
-        submitApplication( t );
+        submitApplication();
 
     },
 
@@ -207,33 +207,3 @@ Template.login.events({
   });
 
 
-
-
-
-/*
-
-    'click #createGuest': function(event, template) {
-
-        Meteor.call("createGuest", function(_err, _data){
-
-            if (_err) {
-
-              showMessage(_err);
-
-              return;
-            }
-
-            _data.results[0].ut = utAgent;
-
-            _data.results[0].st = usActive;  
-
-              doSpinner();
-
-            //we could create a guest record here in the db (ghGuest) and stamp with time started
-            //but currently all of that info and more is going into mixpanel, which we may want to prevent
-
-            submitApplication(null, _data.results[0]);         
-        });
-      
-      },
-*/

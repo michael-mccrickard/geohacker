@@ -1,3 +1,6 @@
+
+
+
 fixmission = function()  {
 
   game.user.assign.hacked = game.user.assign.pool;
@@ -10,6 +13,17 @@ fixmission = function()  {
 
   game.user.startNextHack();
 }
+
+fixgic = function() {
+
+  var _index = game.user.findAssignIndex( _code );
+
+  game.user.assigns.splice(_index);
+
+}
+
+
+
 
 doColors = function() {
 
@@ -193,57 +207,104 @@ var d2 = new Date(_startDate);
 }
 
 
+var _countryIndex = -1;
+
+var _arrCountries = [];
+
+
 dofake = function() {
 
+  Meteor.subscribe("registeredUsers", function() {
+
+          _arrCountries = db.ghC.find().fetch();
+
+          for (var i=0; i < _arrCountries.length; i++) {
+
+            var _code = _arrCountries[ i ].c;
+
+            var _agent = Meteor.users.findOne( { 'profile.cc': _arrCountries[ i ].c} );
+
+              if ( !_agent )  {
 
 
-  var _arr = db.ghC.find().fetch();
+                  c("no  agent in country " +  _arrCountries[ i ].n)
+              }
+              else {
 
-      for (var i = 0; i < _arr.length; i++) {
+                  c(" agent in " +  _arrCountries[ i ].n + " is " +  _agent.username);
 
+                  var _gicAgent = Meteor.users.findOne( { 'profile.cc': _arrCountries[ i ].c, 'profile.ut': utGeohackerInChiefCountry } );
 
-        if ( !Meteor.users.findOne( { 'profile.cc': _arr[i].c } ) ) {
+                  if (!_gicAgent) {
 
-          c("no agent in country " + _arr[i].n)
-        } 
+                     var _obj = {};
 
-        
+                     _obj.profile = _agent.profile;
 
-    }
+                     _obj.profile.ut = utGeohackerInChiefCountry;
 
-return;
+                     _obj.profile.t = "Geohacker-in-Chief, " + db.getCountryName( _arrCountries[ i ].c );
 
-var fakeCountry = _arr[i].c;
+c("promoting " + _agent.username + " to GIC for " + db.getCountryName( _arrCountries[ i ].c ))
 
-c("no agent in country " + _arr[i].n)
-
-        $.ajax({
-
-          url: 'http://api.randomuser.me/?inc=gender,name,nat,picture,id,email&noinfo',
-          
-          dataType: 'json',
-          
-          success: function(data) {
-
-            //console.log(data);
-
-            data.results[0].ut = utGeohackerInChiefCountry;
-
-            data.results[0].st = usFake;
-
-            data.results[0].nat = fakeCountry;
-
-
-            //we could create a guest record here in the db (ghGuest) and stamp with time started
-            //but currently all of that info and more is going into mixpanel, which we may want to prevent
-
-            submitApplication(null, data.results[0]);
-
+                     Meteor.call("updateRecordOnServerWithDataObject", cUser, _agent._id, _obj);
+                  }
+              }          
           }
-        });       
 
+
+
+      });
 
 }
+
+
+
+
+//var fakeCountry = _arr[i].c;
+
+
+doNextFake = function(  ) {
+
+          _countryIndex++;
+
+c("checking " + _arrCountries[ _countryIndex ].n)
+
+var _code = _arrCountries[ _countryIndex ].c; 
+
+
+                Meteor.call("createGuest", function(_err, data){
+
+                    if (_err) {
+
+                        console.log(_err);
+
+                        return;
+                    }
+        console.log(data);
+
+
+                    data.results[0].ut = utGeohackerInChiefCountry;
+
+                    data.results[0].st = usFake;
+
+                    data.results[0].countryID = _code;
+
+                    data.results[0].password = Meteor.settings.public.GENERAL_PASSWORD;
+
+                     data.results[0].av = data.results[0].picture.medium;                
+
+
+                    //we could create a guest record here in the db (ghGuest) and stamp with time started
+                    //but currently all of that info and more is going into mixpanel, which we may want to prevent
+
+                    submitApplication( data.results[0] );           
+
+                }); 
+
+}
+
+
 
 /*
 addfields = function() {
@@ -276,13 +337,100 @@ addfields = function() {
 
 fixFakes = function() {
 
+c("calling registeredUsers sub")
+
+  Meteor.subscribe("registeredUsers", function() {
+
+  var arr = Meteor.users.find({}).fetch();
+
+
+      for (var i = 0; i < arr.length; i++) {
+
+        var _obj = arr[i];
+
+        if (!_obj.emails) continue;
+
+        var email = _obj.emails[0].address;
+
+        if (!email) continue;
+
+        var _index = email.indexOf("@example.com");
+
+
+        if (_index != -1)  {
+
+          if (_obj.profile.ut == utAgent && _obj.profile.h.length == 0)
+
+          Meteor.users.remove( { _id: _obj._id } );
+
+          c("removed user " + _obj.username)
+
+          c(_obj.username + " -- " + _obj.profile.ut + " -- hacks = " + _obj.profile.h.length )
+
+        }
+  continue;
+
+        var _st = _obj.profile.st;
+
+
+
+            var data = {};
+
+            data.profile = _obj.profile;
+
+            if (data.profile.h.length == 0) {
+
+                data.profile.a = [];
+
+                data.profile.lesson = [];
+
+                Meteor.call("updateRecordOnServerWithDataObject", cUser, _obj._id, data);
+
+            }
+
+           continue;
+
+
+            data.profile.h = [];
+
+            delete data.profile.ag;
+
+            delete data.profile.ge;
+
+            delete data.profile.ex;
+
+            delete data.profile.sc;
+
+            delete data.profile.in;
+
+            delete data.profile.ft;
+
+            delete data.profile.sp;
+
+            
+
+c("updating " + _obj.username)
+            
+            Meteor.call("updateRecordOnServerWithDataObject", cUser, _obj._id, data)
+
+
+
+    }
+
+  });
+
+}
+
+fixFakes2 = function() {
+
 
   var arr = Meteor.users.find({}).fetch();
 
       for (var i = 0; i < arr.length; i++) {
 
+        var _st = arr[i].profile.st;
 
-        if (arr[i].profile.st == usActive ) {
+        if (_st == usFake ||  _st == usVirtual || _st == usHonorary ) {
 
           c("checking user " + i);
 
@@ -295,6 +443,7 @@ fixFakes = function() {
         }
     }
 }
+
 
 //remove dupes
 /*

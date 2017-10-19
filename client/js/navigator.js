@@ -6,6 +6,17 @@ Navigator = function() {
 
 	this.editRoute = "";
 
+  this.goContactUs = function() {
+
+    $('#contactUsModal').modal('show');
+  }
+
+  this.goFAQ = function()  {
+
+      FlowRouter.go("/faq");
+  }
+
+
   this.goHome = function()  {
 
       alert("You can also get to the Menu screen by clicking your photo in the upper-right corner.");

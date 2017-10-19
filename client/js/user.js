@@ -148,8 +148,6 @@ User = function( _name ) {  //name, scroll pos (for content editors)
     		if (!this.assigns.length) {
 
     			this.createAssigns();
-
-c("creating assigns for the first time")
     		
     		}
     		else {
@@ -157,15 +155,12 @@ c("creating assigns for the first time")
     			//Update the assigns with any newly-added or revised missions
 
     			if ( Session.get("sUserMissionsUpdated") == false ) {
-c("updating assigns")
+
 	     			Mission.updateAll( game.user );
 
 	     			Session.set("sUserMissionsUpdated", true);
 	     		}
-	     		else {
 
-c("assigns are already up to date")
-	     		}
     		}
 
     		this.setGlobals("hack");
@@ -698,9 +693,20 @@ c("assigns are already up to date")
 
 		var _index = this.findAssignIndex( _code );
 
-		if ( _index == -1) return;
+		if ( _index == -1) return;		
 
 		var _assign = this.assigns[ _index ];
+
+		//if we are bumping a region-level assign, then we need to bump the parent assign instead
+
+		if (_assign.level == mlRegion) {
+
+			_code = _assign.selectedContinent;
+
+			_index = this.findAssignIndex( _code );
+
+			_assign = this.assigns[ _index ];
+		}
 
 		this.assigns.splice(_index, 1);
 
@@ -882,6 +888,8 @@ c("assigns are already up to date")
 		if (_ticket.count == 1) {
 
 			var _id = hack.getWelcomeAgent()._id;
+
+if (!game.user.profile.ag) game.user.profile.ag = [];
 
 			if ( game.user.profile.ag.indexOf(_id) == -1 ) { 
 

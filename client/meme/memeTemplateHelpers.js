@@ -43,4 +43,19 @@ Template.meme.events({
 
   },
 
+  'click #closeUpSource': function( e ) {
+
+      e.preventDefault();  
+
+      $('#sourceAttributionModal').modal('show');
+
+      Meteor.setTimeout( function() {
+
+        $("#s3PhotoURL").text( hacker.feature.item.imageFile);
+
+        $("#photoSource").text( hacker.feature.item.source);        
+
+      }, 500);
+  }
+
   });

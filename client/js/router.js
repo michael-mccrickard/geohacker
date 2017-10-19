@@ -24,6 +24,26 @@ FlowRouter.route('/', {
 
 });
 
+FlowRouter.route('/dataChecker', {
+
+    name: "dataChecker",
+
+    action: function (params, queryParams) { 
+
+      BlazeLayout.render('layout', { content: "dataChecker" } ) 
+    },
+});
+
+FlowRouter.route('/faq', {
+
+    name: "dataChecker",
+
+    action: function (params, queryParams) { 
+
+      BlazeLayout.render('layout', { content: "faq" } ) 
+    },
+});  
+
 FlowRouter.route('/globeMap', {
 
   name: "globeMap",
@@ -34,60 +54,6 @@ FlowRouter.route('/globeMap', {
   },
 
 });
-
-FlowRouter.route('/mapboxCongrats', {
-
-  name: "mapboxCongrats",
-
-  action: function (params, queryParams) { 
-
-    BlazeLayout.render('layout', { content: "mapboxCongrats" } ) 
-  },
-
-});
-
-FlowRouter.route('/mapboxCongrats0', {
-
-  name: "mapboxCongrats0",
-
-  action: function (params, queryParams) { 
-
-    BlazeLayout.render('layout', { content: "mapboxCongrats0" } ) 
-  },
-
-});
-
-FlowRouter.route('/mapboxCongrats1', {
-
-  name: "mapboxCongrats1",
-
-  action: function (params, queryParams) { 
-
-    BlazeLayout.render('layout', { content: "mapboxCongrats1" } ) 
-  },
-
-});
-
-FlowRouter.route('/start', {
-
-  name: "start",
-
-  action: function (params, queryParams) { 
-
-    BlazeLayout.render('layout', { content: "start" } ) 
-  },
-
-});
-
-FlowRouter.route('/intro', {
-
-    action: function (params, queryParams) { 
-
-      BlazeLayout.render('layout', { content: "intro" } ) 
-    },
-
-});
-
 
 FlowRouter.route('/help', {
 
@@ -109,6 +75,15 @@ FlowRouter.route('/help2', {
       BlazeLayout.render('layout', { content: "help2" } )
 
     }
+});
+
+FlowRouter.route('/intro', {
+
+    action: function (params, queryParams) { 
+
+      BlazeLayout.render('layout', { content: "intro" } ) 
+    },
+
 });
 
 FlowRouter.route('/learnCountry', {
@@ -144,26 +119,38 @@ FlowRouter.route('/missionSelect', {
 
 });
 
-FlowRouter.route('/story_messaging', {
+FlowRouter.route('/mapboxCongrats', {
 
-  name: "story_messaging",
+  name: "mapboxCongrats",
 
   action: function (params, queryParams) { 
 
-    BlazeLayout.render('layout', { content: "story_messaging" } ) 
+    BlazeLayout.render('layout', { content: "mapboxCongrats" } ) 
   },
 
 });
 
-FlowRouter.route('/dataChecker', {
+FlowRouter.route('/missionCongrats', {
 
-    name: "dataChecker",
+  name: "missionCongrats",
 
-    action: function (params, queryParams) { 
+  action: function (params, queryParams) { 
 
-      BlazeLayout.render('layout', { content: "dataChecker" } ) 
-    },
-});  
+    BlazeLayout.render('layout', { content: "missionCongrats" } ) 
+  },
+
+});
+
+FlowRouter.route('/mapboxCongrats1', {
+
+  name: "mapboxCongrats1",
+
+  action: function (params, queryParams) { 
+
+    BlazeLayout.render('layout', { content: "mapboxCongrats1" } ) 
+  },
+
+});
 
 FlowRouter.route('/privacy', {
 
@@ -174,6 +161,17 @@ FlowRouter.route('/privacy', {
       BlazeLayout.render('layout', { content: "privacy" } ) 
     },
 });  
+
+FlowRouter.route('/start', {
+
+  name: "start",
+
+  action: function (params, queryParams) { 
+
+    BlazeLayout.render('layout', { content: "start" } ) 
+  },
+
+});
 
 FlowRouter.route('/story', {
 
@@ -199,6 +197,16 @@ FlowRouter.route('/storyManager', {
     }
 });
 
+FlowRouter.route('/story_messaging', {
+
+  name: "story_messaging",
+
+  action: function (params, queryParams) { 
+
+    BlazeLayout.render('layout', { content: "story_messaging" } ) 
+  },
+
+});
 
 
 //*********************************************

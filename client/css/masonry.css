@@ -23,32 +23,6 @@
 .item.h3 { height: 384px; }
 .item.h4 { height: 512px; }
 
-.atlasPic {
-
-	max-width: 100px;
-
-	padding: 4px;
-}
-
-
-.atlasNameText {
-
-  font-family: Arial;
-  font-size: 12px;
-  color: white;
-  padding: 8px;
-}
-
-.atlasHackedText {
-
-	font-family: Arial;
-	font-size: 12px;
-	
-	color: yellow;
-	padding: 4px;
-}
-
-
 
 
 

@@ -10,7 +10,7 @@ Template.debrief.events = {
 
       if (game.user.assign.pool.length == 0) {
 
-          FlowRouter.go("mapboxCongrats0");
+          FlowRouter.go("missionCongrats");
 
           return;
       }

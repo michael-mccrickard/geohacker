@@ -490,7 +490,7 @@ Mission = function(_code) {
 
   if (this.code == "all")  {
 
-    this.items = countries;
+    this.items = Database.makeSingleElementArray( countries, "c" );
 
     return;
   }

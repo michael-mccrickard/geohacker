@@ -105,6 +105,8 @@ this.unit = new Unit();
           youtube.hide();
       }
 
+      this.stopEffects();
+
     }
 
     this.soundEffectDone = function() {
