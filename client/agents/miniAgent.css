@@ -6,6 +6,24 @@
 
 }
 
+.divMiniAgentTitle {
+
+	text-align: center
+
+}
+
+
+.miniAgentTitle {
+
+	font-family: Arial;
+
+	font-size: 10px;
+
+	color: white;
+margin-left: 5%:;
+
+}
+
 .divAgentMini {
     display: -webkit-flex;
     display: flex;

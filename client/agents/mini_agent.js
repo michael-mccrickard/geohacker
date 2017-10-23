@@ -8,12 +8,12 @@ Template.miniAgent.helpers({
 
   agent: function() {
 
-    if (!Meteor.user()) return Meteor.users.findOne( { _id: Database.getChiefID()[0] } ); 
+    var _agent = hack.getWelcomeAgent();
 
+    if (_agent) return _agent;
 
-    //this could be the agent most recently added or interacted with
+    return Meteor.users.findOne( { _id: Database.getChiefID()[0] } ); 
 
-    return Meteor.users.findOne( { _id: { $in: Meteor.user().profile.ag  } } );
   },
   
   name: function() {
@@ -36,13 +36,15 @@ Template.miniAgent.helpers({
       return db.getCountryName( this.profile.cc )
     },
 
-    agentStatus: function() {
+    miniAgentTitle: function() {
 
-      _status = this.profile.st;
+      _val = this.profile.ut;
 
-      if (_status == usFake) _status = usActive;
+      if (_val == utHonoraryGeohackerInChiefCountry) return "Honorary GIC";
 
-      return arrUserStatus[ _status - 1 ];
+      if (_val == utGeohackerInChiefCountry) return "GIC";     
+
+      return "Agent"
 
     },
 
@@ -53,3 +55,16 @@ Template.miniAgent.helpers({
 
 
 }); 
+
+Template.miniAgent.events({
+
+
+  'click .divAgentMini' : function(e, t) {
+
+      var _id = t.find('.imgAgentAvatarMini').id;
+
+
+      display.browser.showAgentModal( _id)
+  }
+
+})

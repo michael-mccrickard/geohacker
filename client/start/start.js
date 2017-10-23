@@ -75,10 +75,9 @@ finishLogin = function() {
   } else {
 
       //not a new user, so update any changes to the lessons
+      
+      updateLessons();
 
-      var _st = game.user.profile.st;
-
-      if (_st != usFake && _st != usVirtual) LessonFactory.updateLessons();
   }
 
   Database.registerEvent( eLogin, Meteor.userId() );
@@ -87,6 +86,10 @@ finishLogin = function() {
 
 finishNewLogin = function() {
 
+      var _st = game.user.profile.st;
+
+      updateLessons();
+
       db.updateUserLastSeen( Meteor.userId(), Date.now());
 
       db.updateUserHacks();
@@ -94,6 +97,13 @@ finishNewLogin = function() {
       Session.set("sProcessingApplication", true);  //redundant for email login only
 
       FlowRouter.go("/intro");   
+}
+
+updateLessons = function() {
+
+       var _st = game.user.profile.st;
+
+      if (_st != usFake && _st != usVirtual) LessonFactory.updateLessons(); 
 }
 
 

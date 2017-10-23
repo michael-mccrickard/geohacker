@@ -1,5 +1,17 @@
 /*mapboxCongrats.css*/
 
+.divMissionCongratsAtlas {
+
+  width: 80%;
+
+  margin-left: 12%;
+
+  margin-top: 96px;
+
+}
+
+
+
 .missionCongrats {
 
 	text-transform: uppercase;

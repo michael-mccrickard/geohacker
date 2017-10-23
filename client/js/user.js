@@ -334,6 +334,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		display.suspendAllMedia();
 
+		display.stopEffects();
+
 		if (display.browser) display.browser.suspendRotation = true;
 
 

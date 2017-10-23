@@ -2,7 +2,7 @@ BadgeList = function() {
 
 	this.arr = [];
 
-	this.hackCompletePic = "hackComplete.png";
+	this.hackCompletePic = "hackComplete.jpg";
 
 	this.speedGold = 20;
 
@@ -28,28 +28,28 @@ BadgeList = function() {
 
 	this.investigatorText = [this.investigatorGold + " OR MORE MESSAGES", this.investigatorSilver + " OR MORE MESSAGES", this.investigatorBronze + " OR MORE MESSAGES"];
 
-	this.speedPic = ["speedster_gold.png", "speedster_silver.png", "speedster_bronze.png"];
+	this.speedPic = ["speedster_gold.jpg", "speedster_silver.jpg", "speedster_bronze.jpg"];
 
-	this.scholarPic = ["scholar_gold.png", "scholar_silver.png", "scholar_bronze.png"];
+	this.scholarPic = ["scholar_gold.jpg", "scholar_silver.jpg", "scholar_bronze.jpg"];
 
-	this.investigatorPic = ["investigator_gold.png", "investigator_silver.png", "investigator_bronze.png"];
+	this.investigatorPic = ["investigator_gold.jpg", "investigator_silver.jpg", "investigator_bronze.jpg"];
 
-	this.geniusPic = "genius.png";
+	this.geniusPic = "genius.jpg";
 
-	this.expertPic = "expert.png";
+	this.expertPic = "expert.jpg";
 
 	//these props not used, but left here for reference
 
 	/*
-	this.firstTimeCountryPic = "first_time_country.png";
+	this.firstTimeCountryPic = "first_time_country.jpg";
 
-	this.firstTimeRegionPic = "first_time_region.png";
+	this.firstTimeRegionPic = "first_time_region.jpg";
 
-	this.firstTimeContinentPic = "first_time_continent.png";
+	this.firstTimeContinentPic = "first_time_continent.jpg";
 
-	this.firstTimeMissionPic = "first_time_mission.png";
+	this.firstTimeMissionPic = "first_time_mission.jpg";
 
-	this.firstTimePlanetPic = "first_time_planet.png";
+	this.firstTimePlanetPic = "first_time_planet.jpg";
 
 	*/
 
@@ -131,7 +131,7 @@ BadgeList = function() {
 
 			obj.index = this.index;
 
-			obj.pic = "first_time_" + this.getLevelString(_level) + ".png";
+			obj.pic = "first_time_" + this.getLevelString(_level) + ".jpg";
 
 			obj.text = "";
 		}

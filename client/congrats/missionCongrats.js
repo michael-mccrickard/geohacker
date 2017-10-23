@@ -37,7 +37,7 @@ Tracker.autorun( function(comp) {
 
 			if (mission.status == msComplete)	{
 
-				var _num = Database.getRandomFromRange(0,8);
+				var _num = Database.getRandomFromRange(1,8);
 
 				display.playLoop( "congrats" + _num + ".mp3");
 
@@ -54,3 +54,30 @@ Tracker.autorun( function(comp) {
 
 });  
 
+sprayDivs = function() {
+
+	var _arr = game.user.assign.hacked;
+
+	var _delay = 0;
+
+	for (var i = 0; i < _arr.length; i++) {
+
+		_delay += 0.1;
+
+		var _item = "div#" + _arr[i];
+
+		var _top = -1 * $(_item).position().top - 128;
+
+		var _left = -1 * $(_item).position().left - 128;
+
+		$(_item).css("opacity", 1);
+
+		TweenLite.from(_item, 0.5, {opacity: 0, left:_left, top: _top, delay: _delay});
+
+		Meteor.setTimeout( function(){ display.scrollToBottom(); }, _delay*1000 + 1);
+
+	}
+	
+	Meteor.setTimeout( function(){ FlowRouter.go("/congrats"); }, _delay*1000 + 4000);
+
+} 

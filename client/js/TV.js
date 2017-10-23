@@ -4,9 +4,9 @@ TV = function() {
 
 	this.elementID = "#scanButtonContentA";
 
-	this.scanClips = ["purpleScan.gif", "multiColorScan.gif", "colorStatic.gif", "colorStatic2.gif", "scanStatic1.gif", "scanStatic2.gif"];
+	this.scanClips = ["scanStatic2.gif"];
 
-	this.idleClips = ["static.gif", "static_warning.gif", "static2.gif",  "static3.gif",  "static4.gif",  "static5.gif",  "static6.gif",  "static7.gif", "static8.gif", "static9.gif"];
+	this.idleClips = ["static_warning.gif", "static2.gif",  "static3.gif"];
 
 	this.scanPromptClip = "scan_click_here.gif";
 
