@@ -41,9 +41,20 @@ Template.selectCountry.helpers({
     	if (val == undefined || val == 0) return false;
 
     	return true;
+    },
+
+    globeFile: function() {
+
+        return( getS3FileFromPath( this.g ) );
     }
 
-})
+});
+
+Template.selectCountry.events = {
+
+
+
+}
 
 function updateEditScreen() {
 
@@ -209,6 +220,46 @@ Template.selectCountry.events = {
       doUpdateRecord( editor.recordID.get() );
 
   },
+
+'change input': function(event, template) {
+
+      //we only care about the file and checkbox input
+
+      var _type = $("#" + event.currentTarget.id).attr("type");
+
+      if ( _type != "file") {
+
+        return;
+      }
+
+      var _field = event.currentTarget.id.substr(0,1).toLowerCase();
+
+      var _recordID = event.currentTarget.id.substr(1);  //we prefixed a char (B,G,I,F, or P) to the ID in the template to make it a legal HTML element ID
+
+      if (_type == "file") {
+
+          var uploader = editor.countryRecordUploader;
+
+          var _file = event.target.files[0];
+
+          uploader.send(_file, function (error, downloadUrl) {
+
+            if (error) {
+             
+              // Log service detailed response.
+              console.log(error);
+
+            }
+            else {
+
+              editor.updateGlobeURL( downloadUrl, _recordID );
+
+            } 
+          });     
+
+      } //end if file type
+    },
+
 
 };
 

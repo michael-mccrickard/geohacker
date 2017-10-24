@@ -128,7 +128,7 @@ Unit = function(_type, _name, _src, _videoID) {
 
 	this.showModal = function() {
 
-     $("#modalTitle").text("");   
+     $("#modalTitle").text( display.unit.name );   
 
     $("#modalText").css("display","none")
 

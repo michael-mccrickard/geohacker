@@ -33,6 +33,11 @@ Template.newBrowse2.helpers({
     return hack.getCountryMapURL();
   },
 
+  locatorGlobeImage: function() {
+
+    return this.g;
+  },
+
 	homelandText: function() {
 
 		return this.ht;

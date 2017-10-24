@@ -151,11 +151,9 @@ Template.hacksAndBadges.events({
 
       e.preventDefault();  
 
-      Meteor.call( "setFeaturedUserID", e.currentTarget.id);
-
       Session.set("sProfiledUserID", e.currentTarget.id);
 
-      Meteor.subscribe("featuredUser", function() { 
+      Meteor.subscribe("featuredUser", e.currentTarget.id, function() { 
 
           game.user.setMode( uBio ); 
 

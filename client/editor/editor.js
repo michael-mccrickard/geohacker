@@ -27,7 +27,7 @@ Editor = function() {
 
 	this.arrFieldDebrief = ["t","ta","tc"];
 
-	this.arrFieldCountry = ["n","c","r","co","d","ht","fc"];  //name, code, region, color, dataFlag, homelandText, five-color map color
+	this.arrFieldCountry = ["n","c","r","co","d","ht","fc","g"];  //name, code, region, color, dataFlag, homelandText, five-color map color, globe map file
 
 	this.scroll = 0;
 
@@ -40,6 +40,8 @@ Editor = function() {
   	this.webUploader = new Slingshot.Upload("ghWeb");
 
   	this.videoUploader = new Slingshot.Upload("ghVideo");
+
+ 	this.countryRecordUploader = new Slingshot.Upload("ghC");
 
  	this.arrCodeText = [];
 
@@ -275,6 +277,13 @@ Editor = function() {
 			editor.newRecordID.set("0");
 
 		}); 
+
+	}
+
+	this.updateGlobeURL = function( _url, _id) {
+
+
+		Meteor.call("updateRecordOnServer", "g", cCountry, _id, _url );
 
 	}
 

@@ -86,6 +86,16 @@ AWS.config.update({
 
 
 //*********************************************
+//      FIELD LIMITING OBJECTS
+//*********************************************
+
+var bioFields = {
+
+  'username': 1, 'profile.f': 1, 'profile.cc': 1, 'profile.cn': 1, 'profile.av': 1, 'profile.t': 1, 'profile.pt': 1, 'profile.p': 1 
+}
+
+
+//*********************************************
 //      STARTUP
 //*********************************************
 
@@ -206,7 +216,7 @@ Meteor.startup(
 
     Meteor.publish("chiefUser", function () {
 
-      return Meteor.users.find( { _id: getChiefID2() } );
+      return Meteor.users.find( { _id: getChiefID2() }, bioFields );
     });
 
      Meteor.publish("agentsInNetwork", function () {
@@ -215,13 +225,13 @@ Meteor.startup(
 
         var _user = Meteor.users.findOne( { _id: this.userId } );
 
-        return Meteor.users.find( { _id: { $in: _user.profile.ag } } );
+        return Meteor.users.find( { _id: { $in: _user.profile.ag } }, { 'fields': { _id: 1 } } );
     
     });   
 
      Meteor.publish("agentsInCountry", function () {
 
-      return Meteor.users.find( { 'profile.cc': countryCode } );
+      return Meteor.users.find( { 'profile.cc': countryCode }, bioFields );
     });   
 
      Meteor.publish("agentsInThisCountry", function (_countryID) {
@@ -232,7 +242,7 @@ Meteor.startup(
 
      Meteor.publish("agentHelper", function () {
 
-      return Meteor.users.find( { _id: helperID  } );
+      return Meteor.users.find( { _id: helperID  }, bioFields );
     }); 
 
 /*
@@ -250,7 +260,7 @@ Meteor.startup(
     //featuredUser on the bio screen
     Meteor.publish("featuredUser", function () {
 
-      return Meteor.users.find( { _id: featuredUserID } );
+      return Meteor.users.find( { _id: featuredUserID }, bioFields );
     }); 
 
   //area collections

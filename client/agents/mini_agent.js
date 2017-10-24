@@ -8,11 +8,9 @@ Template.miniAgent.helpers({
 
   agent: function() {
 
-    var _agent = hack.getWelcomeAgent();
+    var _agentID = hack.browseAgentID.get();
 
-    if (_agent) return _agent;
-
-    return Meteor.users.findOne( { _id: Database.getChiefID()[0] } ); 
+    return Meteor.users.findOne( { _id: _agentID } );
 
   },
   
@@ -40,9 +38,9 @@ Template.miniAgent.helpers({
 
       _val = this.profile.ut;
 
-      if (_val == utHonoraryGeohackerInChiefCountry) return "Honorary GIC";
+      if (_val == utHonoraryGeohackerInChiefCountry) return "Honorary Chief";
 
-      if (_val == utGeohackerInChiefCountry) return "GIC";     
+      if (_val == utGeohackerInChiefCountry || _val == utGeohackerInChiefPlanet ) return "Chief Agent";     
 
       return "Agent"
 

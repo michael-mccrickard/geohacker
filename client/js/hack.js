@@ -33,6 +33,9 @@ this.debriefCollection = null;
   this.welcomeAgentIsChief = false;
 
 
+  this.browseAgentID = new Blaze.ReactiveVar("");
+
+
 //to do: change this to streamID throughout
   this.messageID = "(not set)";
 
@@ -93,6 +96,10 @@ this.debriefCollection = null;
         c( db.getCountryName( _code ) + ' was selected for browsing.');   
 
         this.index = Database.getIndexForCountryCode( _code );
+
+        this.welcomeAgent = null;
+
+        this.browseAgentID.set("");
 
         this.subscribeToData( _code );
 
@@ -232,6 +239,10 @@ this.debriefCollection = null;
     }
 
     this.startBrowsing = function() {
+
+        //set the agentID for (one of) our GIC(s) in this country
+
+        this.browseAgentID.set( this.getWelcomeAgent()._id );
 
         var map = browseMap.worldMap;
 
@@ -535,6 +546,12 @@ this.debriefCollection = null;
         this.welcomeAgentIsChief = true;
 
         this.welcomeAgent = Meteor.users.findOne( { _id: Database.getChiefID()[0] } );
+      }
+
+
+      if (display.browser) {
+
+        this.browseAgentID.set( this.welcomeAgent._id);
       }
 
       return this.welcomeAgent;

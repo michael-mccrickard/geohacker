@@ -275,7 +275,7 @@ Session.set("isIOS", false);
 Meteor.startup(function() {
 
   $(window).bind('beforeunload', function() {
-      game.closeOutGuest();
+      //game.closeOutGuest();
   });
 
   Session.set("gWindowHeight", $(window).height() );

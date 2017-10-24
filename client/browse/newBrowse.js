@@ -79,6 +79,7 @@ this.memeDelay = 2500;
 	this.defaultSmallFontSize = "1.5vw";
 
 
+
 	this.init = function( _code ) {
 
 		if (!editor) editor = new Editor();
@@ -281,12 +282,13 @@ this.memeDelay = 2500;
 
 	this.show = function() {
 
+/*
 c("browser.show()")
 
 c("browser.show, this.leftMeme.loaded = " + this.leftMeme.loaded)
 
 c("browser.show, this.rightMeme.loaded = " + this.rightMeme.loaded)
-
+*/
 		if (this.loaded) return;
 
 		if (!this.leftMeme.loaded || !this.rightMeme.loaded) return;
@@ -321,7 +323,7 @@ if (game.user.mode == uEdit) return;
 
 	this.startMemeRotation = function() {
 
-c("browser.startMemeRotation")
+//c("browser.startMemeRotation")
 
 		//Nothing to rotate if we only have two memes (and we should always have at least two ...)
 		
@@ -364,7 +366,7 @@ c("browser.startMemeRotation")
 
 	this.nextMeme = function( _id ) {
 
-c("browser.nextMeme")
+//c("browser.nextMeme")
 
 		if (_id != this.ID ) return;
 
@@ -421,7 +423,7 @@ c("browser.nextMeme")
 
 	this.drawNextMeme = function() {
 
-c("browser.drawNextMeme")
+//c("browser.drawNextMeme")
 
 //c("meme (right) in drawNextMeme is " + this.meme)
 
@@ -450,7 +452,7 @@ c("browser.drawNextMeme")
 
 
     this.setFontSize = function( _element, _meme ) {
-c("browser.setFontSize")
+//c("browser.setFontSize")
     	if (!_element) _element = this.textElement;
 
     	if (!_meme) _meme = this.meme;
@@ -483,12 +485,12 @@ c("browser.setFontSize")
 
 			_fontSize = _fontSize + "vw";
 
-c("adjusted fontsize for " + this.whichSide + " meme is " + _fontSize)
+//c("adjusted fontsize for " + this.whichSide + " meme is " + _fontSize)
 
 		}
 		else {
 
-c("default fontsize for " + this.whichSide + " meme is " + _fontSize)
+//c("default fontsize for " + this.whichSide + " meme is " + _fontSize)
 		}
 
     	$( _element ).css("font-size", _fontSize);
@@ -768,6 +770,13 @@ c("default fontsize for " + this.whichSide + " meme is " + _fontSize)
 		display.unit.preloadImage();
 	}
 
+	this.showGlobalPosition = function() {
+
+		display.unit = new Unit("modal", hack.getCountryName(), db.getCountryRec( hack.countryCode ).g );
+
+		display.unit.preloadImage();
+	}
+
     this.soundEffectDone = function() {
 
     	this.setSoundText("");
@@ -790,7 +799,7 @@ c("default fontsize for " + this.whichSide + " meme is " + _fontSize)
 
 	this.editNextMeme = function( _val ) {
 
-c("browser.editNextMeme")
+//c("browser.editNextMeme")
 
 		var _fontSize = 0;
 
@@ -826,13 +835,17 @@ c("browser.editNextMeme")
 
 	this.showAgentModal = function(_ID) {
 
- 		Session.set("sProfiledUserID", _ID );
+      Session.set("sProfiledUserID", _ID);
+
+      Meteor.subscribe("featuredUser", _ID, function() { 
 
   		$('#helperAgentBio').modal('show');
 
   		var _agent = Meteor.users.findOne( { _id: _ID });
 
   		$('h4.modal-title.modalText.helperAgentBioName').text( _agent.username.toUpperCase() );
+
+      }); 
 
 	}
 }
