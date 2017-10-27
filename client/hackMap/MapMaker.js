@@ -43,7 +43,7 @@ MapMaker = function() {
 
       var s = '[';
 
-      if (_level == mlWorld) {
+   //   if (_level == mlWorld) {
 
         //get an array of the continents
 
@@ -53,11 +53,13 @@ MapMaker = function() {
 
             _rec = arr[i];
 
-            s = s + this.getJSONForContinent(_rec.c, mlWorld, lockMap);
+            s = s + this.getJSONForContinent(_rec.c, _level, lockMap, _code);
 
         }
 
-      } 
+ //     } 
+
+/*
 
       if (_level == mlContinent) {
 
@@ -69,6 +71,7 @@ MapMaker = function() {
         s = s + this.getJSONForContinent(_code, mlRegion, lockMap);
       }
 
+*/
 
       s = s.substr(0, s.length - 1);
 
@@ -80,6 +83,7 @@ MapMaker = function() {
 
         s = '[]';
       }
+
 
       return JSON.parse(s);
 
@@ -119,7 +123,7 @@ MapMaker = function() {
     */
 
 
-    this.getJSONForContinent = function(_code, _level, lockMap) {
+    this.getJSONForContinent = function(_code, _level, lockMap, _code2) {
 
       var arrR = [];
 
@@ -142,7 +146,7 @@ MapMaker = function() {
       var s = '';
 
 
-      if (_level == mlWorld || _level == mlContinent) {
+   //   if (_level == mlWorld || _level == mlContinent) {
 
           //set the continent-level properties from the continent record
 
@@ -180,22 +184,30 @@ MapMaker = function() {
 
               if (_level == mlContinent) s = s + this.getJSONForRegion(_level, _regionName, _regionID, _areaID, _areaName, _rec.z1, _rec.z2, _rec.z3, _rec.co, lockMap );
 
+              if (_level == mlRegion) {
+
+c("getting region data for " + _regionName)
+
+                s = s + this.getJSONForRegion(_level, _regionName, _regionID, _areaID, _areaName, 0,0,0, _rec.co, lockMap, _code2 );
+
+              }
+
           }  
 
-       }
-
+   //    }
+/*
        if (_level == mlRegion) {
 
-          arrR[0] = db.getRegionRec( _code );
+          arrR[0] = db.getRegionRec( _code2 );
 
           s = s + this.getJSONForRegion(_level, arrR[0].n, arrR[0].c, '0', '0', 0,0,0, arrR[0].co, lockMap );
        }
-
+*/
       return s;
     }
 
 
-    this.getJSONForRegion = function(_level, _regionName, _regionID, _areaID, _areaName, _zoomLevel, _zoomLatitude, _zoomLongitude, _color, lockMap) {
+    this.getJSONForRegion = function(_level, _regionName, _regionID, _areaID, _areaName, _zoomLevel, _zoomLatitude, _zoomLongitude, _color, lockMap, _code2) {
 
           var newline = "\n\r";
 
@@ -261,10 +273,14 @@ MapMaker = function() {
             //and not the color of their larger group
             
             if (_level == mlRegion) {
+
+              var _color2 = getColor( arr[i].fc );
+
+              if (_regionID != _code2) _color2 = ColorLuminance(_color2, -0.6);
               
               s = s + '"customData"' +  ': "' + arr[i].n + '", ' + newline; 
 
-              s = s + '"color"' +  ': "' +  arr[i].co + '"' + newline;            
+              s = s + '"color"' +  ': "' +   _color2 + '"' + newline;              //arr[i].co + '"' + newline;            
             }
             else {
 
@@ -276,8 +292,55 @@ MapMaker = function() {
 
           }
 
+
         return s;
     }
+}
+
+function getColor( _n ) {
+
+    var _c = "";
+
+    if (_n == "B") _c = "#6495ED";
+
+    if (_n == "G") _c = "#228B22";
+
+    if (_n == "R") _c = "#FF0000";
+
+    if (_n == "P") _c = "#DA70D6";
+
+    if (_n == "N") _c = "#CD853F";
+
+    if (_n == "O") _c = "#FFA500";
+
+    return _c;
+}
+
+function ColorLuminance(hex, lum) {
+
+  // validate hex string
+  hex = String(hex).replace(/[^0-9a-f]/gi, '');
+
+  if (hex.length < 6) {
+  
+    hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+  }
+  
+  lum = lum || 0;
+
+  // convert to decimal and change luminosity
+  var rgb = "#", c, i;
+  
+  for (i = 0; i < 3; i++) {
+  
+    c = parseInt(hex.substr(i*2,2), 16);
+  
+    c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+  
+    rgb += ("00"+c).substr(c.length);
+  }
+
+  return rgb;
 }
 
 
