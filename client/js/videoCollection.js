@@ -10,7 +10,11 @@ VideoCollection = function(  _parent ) {
 
 	      	//screen out the ones used as primaries in the newBrowser
 
-	    this.items = this.collection.find( { cc: _countryCode, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } } ).fetch();
+	    //this.items = this.collection.find( { cc: _countryCode, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } } ).fetch();
+
+//no primaries any more
+
+this.items = this.collection.find( { cc: _countryCode } ).fetch();
 
 	    for (var i = 0; i < this.items.length; i++) {
 

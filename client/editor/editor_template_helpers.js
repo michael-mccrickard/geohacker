@@ -135,7 +135,7 @@ Template.editor.helpers({
 
       var _type = editor.controlType.get();
 
-      if (_type == cSound) return "URL";
+      if (_type == cSound || _type == cImage) return "URL";
 
       if (_type == cVideo) return "YOUTUBE";
     },
@@ -145,7 +145,7 @@ Template.editor.helpers({
 
       var _type = editor.controlType.get();
 
-      if (_type == cSound || _type == cVideo) return true;
+      if (_type == cSound || _type == cVideo || _type == cImage) return true;
 
       return false;
     },
@@ -568,13 +568,29 @@ editor.video.play();
 
           var data = {};
 
-          data["f"] = _val;
+          //For the images, a click on this button will always specify an external URL
 
-          data["u"] = _val;
+          var _type = editor.controlType.get();
+
+          if ( _type == cImage) {
+
+              data["f"] = "(ext)";  //reminds us, when viewing the data table, that the file is external (not on our server)
+
+              data["u"] = _val;  
+
+          }
+          else {   //Honestly not sure why both of these fields are getting the same value, but this would be for cSound and cVideo
+
+              data["f"] = _val;
+
+              data["u"] = _val;           
+          }
+
 
           Meteor.call("updateRecordOnServerWithDataObject", editor.controlType.get(), editor.newRecordID.get(), data, function(err, result) {
 
               if (err) {
+
                 showMessage(err.reason);
               }
               else {

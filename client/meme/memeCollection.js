@@ -10,6 +10,8 @@ MemeCollection = function(  _parent ) {
 
 	this.arrNonClue = [ "lng", "lng_i","lng_o","lng_om" ];
 
+	this.arrNonDebrief = [ "clu" ];
+
 	this.parent = _parent;
 
 	var _rec = null;
@@ -27,6 +29,8 @@ MemeCollection = function(  _parent ) {
 		if (this.parent == "hacker") _exclude = this.arrNonClue;
 
 		if (this.parent == "helper") _exclude = this.arrNonHelpers;
+
+		if (this.parent == "debrief") _exclude = this.arrNonDebrief;
 
 		this.items = [];
 

@@ -38,6 +38,8 @@ common -- used by all countries
 
 optional -- used by some countries
 
+	clu         -- like "cus" (custom), could be anything, but this one is only used as a clue (non-helper, non-debrief)
+
 	cus, cus[X] -- "custom" meme (could be anything)/ (image or web) + meme (image or web = pic file, meme text = caption text)
 
 	hqt, hqt[X] --  "headquarters" meme / businesses headquartered in the country / (image or web) + meme (image or web = pic file, meme text = caption text)
