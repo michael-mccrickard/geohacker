@@ -1,3 +1,5 @@
+//TO DO:  Check these comments against new map scheme
+
 //*************************************************************************//
 /*
               MAP DATA OBJECT
@@ -34,44 +36,37 @@ MapMaker = function() {
 
     lockMap = false, write zoom data to the areas
     lockMap = true, don't write zoom data (locks the map down)
+
+    drawHackAreaOnly = false (default), draw all the countries on the globe
+    drawHackAreaOnly = true, depending on the map level, draw only the continent or region specified by the hack
+
     */
 
 
-    this.getJSONForMap = function(_code, _level, lockMap) {
+    this.getJSONForMap = function(_code, _level, _lockMap, _drawHackAreaOnly) {
 
       var _rec = null;
 
       var s = '[';
 
-   //   if (_level == mlWorld) {
+      var arr = db.ghZ.find( {} ).fetch();
 
-        //get an array of the continents
+      for (var i = 0; i < arr.length; i++) {  
 
-        var arr = db.ghZ.find( {} ).fetch();
+          _rec = arr[i];
 
-        for (var i = 0; i < arr.length; i++) {  
+          //if the user clicked on a incorrect continent (after the continent has already been established)
+          //the we use this option to redraw the map with only the correct continent colored in
 
-            _rec = arr[i];
+          if ( _drawHackAreaOnly ) {
 
-            s = s + this.getJSONForContinent(_rec.c, _level, lockMap, _code);
+            if (_level == mlContinent && _rec.c != hack.continentCode) continue;
 
-        }
+          }
 
- //     } 
+          s = s + this.getJSONForContinent(_rec.c, _level, _lockMap, _code, _drawHackAreaOnly);
 
-/*
-
-      if (_level == mlContinent) {
-
-        s = s + this.getJSONForContinent(_code, mlContinent, lockMap);
       }
-
-      if (_level == mlRegion) {
-
-        s = s + this.getJSONForContinent(_code, mlRegion, lockMap);
-      }
-
-*/
 
       s = s.substr(0, s.length - 1);
 
@@ -83,7 +78,6 @@ MapMaker = function() {
 
         s = '[]';
       }
-
 
       return JSON.parse(s);
 
@@ -123,7 +117,7 @@ MapMaker = function() {
     */
 
 
-    this.getJSONForContinent = function(_code, _level, lockMap, _code2) {
+this.getJSONForContinent = function(_code, _level, _lockMap, _code2, _drawHackAreaOnly) {
 
       var arrR = [];
 
@@ -146,65 +140,65 @@ MapMaker = function() {
       var s = '';
 
 
-   //   if (_level == mlWorld || _level == mlContinent) {
+      //set the continent-level properties from the continent record
 
-          //set the continent-level properties from the continent record
+       rec = db.getContinentRec(_code);
 
-           rec = db.getContinentRec(_code);
+      _areaID = _code;
 
-          _areaID = _code;
+      _areaName = rec.n;
 
-          _areaName = rec.n;
+      _customData = rec.n;
 
-          _customData = rec.n;
-
-          _color = rec.co;
+      _color = rec.co;
 
 
-          _zoomLevel = rec.z1;
+      _zoomLevel = rec.z1;
 
-          _zoomLatitude = rec.z2;
+      _zoomLatitude = rec.z2;
 
-          _zoomLongitude = rec.z3;
+      _zoomLongitude = rec.z3;
 
 
-        //get an array of the regions for this continent
+    //get an array of the regions for this continent
 
-          arrR = db.ghR.find( {z: _areaID } ).fetch();
+      arrR = db.ghR.find( {z: _areaID } ).fetch();
 
-          for (var i = 0; i < arrR.length; i++) {  
+      for (var i = 0; i < arrR.length; i++) {  
 
-              var _rec = arrR[i];
+          var _rec = arrR[i];
 
-              var _regionName = _rec.n;
+          var _regionName = _rec.n;
 
-              var _regionID = _rec.c;
+          var _regionID = _rec.c;
 
-              if (_level == mlWorld) s = s + this.getJSONForRegion(_level, _regionName, _regionID, _areaID, _areaName, _zoomLevel, _zoomLatitude, _zoomLongitude, _color, lockMap );
+          if (_level == mlWorld) s = s + this.getJSONForRegion(_level, _regionName, _regionID, _areaID, _areaName, _zoomLevel, _zoomLatitude, _zoomLongitude, _color, _lockMap );
 
-              if (_level == mlContinent) s = s + this.getJSONForRegion(_level, _regionName, _regionID, _areaID, _areaName, _rec.z1, _rec.z2, _rec.z3, _rec.co, lockMap );
+          if (_level == mlContinent) {
 
-              if (_level == mlRegion) {
+            s = s + this.getJSONForRegion(_level, _regionName, _regionID, _areaID, _areaName, _rec.z1, _rec.z2, _rec.z3, _rec.co, _lockMap, _code2 );
 
-c("getting region data for " + _regionName)
+          }
 
-                s = s + this.getJSONForRegion(_level, _regionName, _regionID, _areaID, _areaName, 0,0,0, _rec.co, lockMap, _code2 );
+          if (_level == mlRegion) {
 
-              }
+            //if the user clicked on a incorrect region (after the region has already been established)
+            //the we use this option to redraw the map with only the correct region colored in
 
-          }  
+            if ( _drawHackAreaOnly ) {
 
-   //    }
-/*
-       if (_level == mlRegion) {
+              if (_rec.c != hack.regionCode) continue;
 
-          arrR[0] = db.getRegionRec( _code2 );
+            }
 
-          s = s + this.getJSONForRegion(_level, arrR[0].n, arrR[0].c, '0', '0', 0,0,0, arrR[0].co, lockMap );
-       }
-*/
-      return s;
-    }
+            s = s + this.getJSONForRegion(_level, _regionName, _regionID, _areaID, _areaName, 0,0,0, _rec.co, _lockMap, _code2 );
+
+          }
+
+      }  
+
+  return s;
+}
 
 
     this.getJSONForRegion = function(_level, _regionName, _regionID, _areaID, _areaName, _zoomLevel, _zoomLatitude, _zoomLongitude, _color, lockMap, _code2) {
@@ -219,18 +213,6 @@ c("getting region data for " + _regionName)
 
           for (var i = 0; i < arr.length; i++) { 
 
-//disabling this for the time being, this conflicts with browsing during learn mode (browsing countries you haven't hacked before)
-
-            //normally we only show the user the countries they have hacked (when browsing)
-/*
-            if (game.user.mode == uBrowseMap || game.user.mode == uBrowseCountry) {
-
-              if (gUserCountriesOnlyMode) {
-
-                if ( game.user.isCountryInAtlas( arr[i].c ) == -1) continue;
-              }              
-            }
-*/
             s = s + '{' + newline;
 
             s = s + '"title"' + ': "' + arr[i].n + '", ' + newline; 
@@ -272,9 +254,12 @@ c("getting region data for " + _regionName)
             //the region level is the only one where the countries use their specified color,
             //and not the color of their larger group
             
+            var _color2 = getColor( arr[i].fc );
+
             if (_level == mlRegion) {
 
-              var _color2 = getColor( arr[i].fc );
+              //at the region level, we color in all the countries individually, but those in the non-target regions
+              //will have reduced brightness
 
               if (_regionID != _code2) _color2 = ColorLuminance(_color2, -0.6);
               
@@ -284,13 +269,31 @@ c("getting region data for " + _regionName)
             }
             else {
 
-              s = s + '"color"' +  ': "' +  _color + '"' + newline;  
+              //at the world level, all the continents are colored equally brightly,
+              //but at the continent level, we reduce the brightness of the non-target continents
+
+              //if this is a non-target country, then dim it
+
+              if (_level == mlContinent && (_areaID != _code2)) {
+
+                  _color2 = ColorLuminance(_color, -0.6);
+
+                  s = s + '"color"' +  ': "' +  _color2 + '"' + newline;  
+              }
+              else {
+
+                 //at this point, we are down to the target countries in continent level
+                 //(they all get the region color)
+
+                 s = s + '"color"' +  ': "' +  _color + '"' + newline;                
+              }
+
             }
             
 
             s = s + "},"
 
-          }
+          }  //end of loop
 
 
         return s;

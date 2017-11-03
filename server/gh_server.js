@@ -161,6 +161,8 @@ Meteor.startup(
 
     ghMusic = new Meteor.Collection("ghMusic")
 
+    ghSea = new Meteor.Collection("ghSea");
+
     //story collections
 
     ghStory =  new Meteor.Collection("ghStory")
@@ -276,6 +278,11 @@ Meteor.startup(
     Meteor.publish("region", function () {
       return ghR.find();
     });
+
+    Meteor.publish("sea", function () {
+      return ghSea.find();
+    });
+
 
     //other collections
 
@@ -691,7 +698,7 @@ Meteor.startup(
       }
     });
 
-    ghTag.allow({
+    ghSea.allow({
 
       insert: function() {
           return true;
@@ -716,6 +723,8 @@ Meteor.startup(
           return true;
       },
     });
+
+
 
     Conversation.allow({
 
@@ -765,6 +774,8 @@ function getCollectionForType(_type) {
     if (_type == cRegion) col = ghR;
 
     if (_type == cContinent) col = ghZ;
+
+    if (_type == cSea) col = ghSea;
 
     //data controls
 

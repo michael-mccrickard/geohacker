@@ -230,6 +230,66 @@ this.unit = new Unit();
 
     $( _element ).velocity( "fadeOut", { duration: _duration} );
   }
+
+
+  this.goToImageSource = function() {
+
+    var _imageFile = "";
+
+    var _source = "";
+
+    var _mode = game.user.mode;
+
+    if (_mode == uBrowseCountry) _source = display.featuredMeme.source;
+
+    if (_mode == uHack) _source = hacker.feature.item.source;  
+
+    //if the source is a link, go to it
+
+    if (_source.substr(0,4) == "http") {
+
+        window.open(_source);
+    }
+    else {
+
+       this.showPhotoClaimForm();
+    }
+  } 
+
+  this.showPhotoClaimForm = function() {
+
+      var _imageFile = "";
+
+      var _source = "";
+
+      var _mode = game.user.mode;
+
+      if (_mode == uBrowseCountry) {
+
+        _source = display.featuredMeme.source;
+
+        _imageFile = display.featuredMeme.image;
+      }
+
+      if (_mode == uHack) {
+
+        _source = hacker.feature.item.source;
+
+        _imageFile = hacker.feature.item.imageFile;
+      }   
+
+      if (!_source) _source == "UNKNOWN";
+
+      $('#sourceAttributionModal').modal('show');
+
+      Meteor.setTimeout( function() {
+
+        $("#s3PhotoURL").text( _imageFile);
+
+        $("#photoSource").text( _source );        
+
+      }, 500);
+  }
 }
 
 

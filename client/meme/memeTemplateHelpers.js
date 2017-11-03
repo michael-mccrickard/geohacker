@@ -8,6 +8,15 @@ Template.meme.helpers({
   memeText: function()  {
 
       return display.browser.featuredMeme.text;
+  },
+
+  isCloseUp: function() {
+
+    var _name = FlowRouter.current().route.name;
+
+    if (_name == "meme") return true;
+
+    return false;
   }
 
 });
@@ -47,15 +56,17 @@ Template.meme.events({
 
       e.preventDefault();  
 
-      $('#sourceAttributionModal').modal('show');
+      display.goToImageSource(); 
+  },
 
-      Meteor.setTimeout( function() {
+  'click .questionButton':  function( e ) {
 
-        $("#s3PhotoURL").text( hacker.feature.item.imageFile);
+      e.preventDefault();  
 
-        $("#photoSource").text( hacker.feature.item.source);        
+      display.showPhotoClaimForm(); 
 
-      }, 500);
   }
 
-  });
+
+
+});

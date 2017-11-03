@@ -100,6 +100,8 @@ Meme = function( _rec, _type )  {
 
 	this.loaded = false;
 
+	this.source = "";
+
 
 	this.init = function() {
 
@@ -108,6 +110,7 @@ Meme = function( _rec, _type )  {
 		this.setText();
 
 		this.setImage();
+
 	}
 
 	this.setImage = function() {
@@ -123,6 +126,17 @@ Meme = function( _rec, _type )  {
 		if (this.code == "cap")  this.image = hack.getCapitalPic();
 
 		if (!this.image.length) this.image = hack.getCustomPic( this.rec.dt );		
+
+		var _rec = db.ghImage.findOne( { cc: this.rec.cc, dt: this.code } );
+
+		if (_rec) {
+
+			this.source = _rec.s;
+		}
+		else {
+
+			this.source = Meme.sourceUnknownText;
+		}
 
 	} 
 
@@ -326,6 +340,12 @@ c("calling show from preloadImagesForSidewall")
 
 		if (this.text) $("div.memeText").text( this.text );
 
+		var _source = Meme.sourceUnknownText;
+
+		if (this.source) _source = this.source;
+
+		$("#closeUpSource").text( _source );
+
 	    var fullScreenWidth = $(window).width();
 
 	    var fullScreenHeight = $(window).height();
@@ -432,5 +452,6 @@ c("calling show from preloadImagesForSidewall")
 
 	}
 
-
 }
+
+Meme.sourceUnknownText = "Source: Unknown";

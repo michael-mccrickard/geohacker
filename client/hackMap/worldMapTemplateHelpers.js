@@ -426,7 +426,9 @@ Template.worldMap.events = {
 
     if (evt.ctrlKey || evt.shiftKey) {
 
-        updateLabelPosition(evt);
+        //updateLabelPosition(evt);
+    
+        putLabel( evt );
     }
   },
 
@@ -479,6 +481,73 @@ updateLabel = function() {
     }
 
 }
+
+function putLabel(ev) {
+
+
+      ev.preventDefault();
+
+      var map = hackMap.worldMap.map;
+
+      var x = 0;
+      var y = 0;
+
+    if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+         
+      x = ev.layerX;
+      y = ev.layerY;
+    }
+    else {
+
+      x = ev.offsetX;
+      y = ev.offsetY;
+    }
+
+    var _rot = 0;
+
+
+    var _fontSize = HackMap.seaFontHeightRatio * $(window).height();
+
+    var _name = prompt("Ocean / sea full name?");
+
+    hackMap.worldMap.map.addLabel(x, y, _name, "middle", _fontSize, "yellow");
+
+
+    var _rec = db.ghSea.findOne( { n: _name } );
+
+
+    if (!_rec) {
+
+        alert("No sea record found for " + _name);
+
+        return;
+    }
+
+     //var x = map.allLabels[0].x;
+
+     // var y = map.allLabels[0].y;
+
+      var loc = map.stageXYToCoordinates(x, y);
+
+      var _long = loc.longitude;
+
+      var _lat = loc.latitude; 
+
+      var _obj = { x: _long, y: _lat };
+
+      if (_rec.r) _obj.r = _rec.r;
+
+      var _level = hackMap.level.get();
+
+      if (_level == mlWorld) db.updateRecord2( cSea, "world", _rec._id, _obj);
+
+      if (_level == mlContinent) db.updateRecord2( cSea, hackMap.worldMap.selectedContinent, _rec._id, _obj);
+
+      if (_level == mlRegion) db.updateRecord2( cSea, hackMap.worldMap.selectedRegion, _rec._id, _obj);
+
+      db.updateRecord2( cSea, "s", _rec._id, _fontSize);
+
+  }
 
 
 dm = function() {

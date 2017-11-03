@@ -258,6 +258,8 @@ FlowRouter.route('/main', {
 
     action: function (params, queryParams) { 
 
+      name: "main",
+
       $('body').addClass('noscroll'); 
 
       BlazeLayout.render('layout', { content: "main" } ) 

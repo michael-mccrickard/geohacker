@@ -22,6 +22,8 @@ Database = function() {
 
     this.ghEvent = new Meteor.Collection('ghEvent');
 
+    this.ghSea = new Meteor.Collection('ghSea');
+
   }
 
   this.initControls = function() {
@@ -530,6 +532,11 @@ c("db is removing record for " + _code + " in the current mission.")
   //          CONTROL TYPE < > MONGO COLLECTION 
   //************************************************************
 
+  //This has an identical (hopefully) twin in ghServer.js
+
+  //Can we incorporate this into the pseudo-database object on the server  (userOptions.js)?
+  
+
   this.getCollectionForType = function(_type) {
 
     var col = null;
@@ -541,6 +548,8 @@ c("db is removing record for " + _code + " in the current mission.")
     if (_type == cRegion) col = this.ghR;
 
     if (_type == cContinent) col = this.ghZ;
+
+    if (_type == cSea) col = ghSea;
 
     //data controls
 

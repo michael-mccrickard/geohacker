@@ -140,7 +140,7 @@ Session.set("isIOS", false);
 
   Session.set("sFReady", false);  //flags (for stats screen)
 
-  Session.set("sTReady", false);  //tags
+  Session.set("sSeaReady", false);  //seas and oceans
 
   Session.set("sXReady", false);  //all texts 
 
@@ -343,7 +343,7 @@ Meteor.startup(function() {
 
  //Meteor.subscribe("allFlags", function() { Session.set("sFReady", true ) });
 
- //Meteor.subscribe("ghTag", function() { Session.set("sTReady", true ) });  
+ Meteor.subscribe("sea", function() { Session.set("sSeaReady", true ) });  
 
 //Meteor.subscribe("allTexts", function() { Session.set("sXReady", true ) });  
 
@@ -388,6 +388,7 @@ Tracker.autorun( function(comp) {
   if (Session.get("sZReady") && 
       Session.get("sRReady") && 
       Session.get("sCReady") && 
+      Session.get("sSeaReady") && 
 /*
       Session.get("sNewUserFlagPic") && 
       Session.get("sNewUserCapitalName") && 

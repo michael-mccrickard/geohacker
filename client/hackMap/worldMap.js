@@ -76,7 +76,7 @@ WorldMap = function( _mapCtl ) {
 
     worldMap = this;
 
-    this.doCurrentMap = function( _which ) {
+    this.doCurrentMap = function( _drawHackAreaOnly ) {
 
 c("doCurrentMap");
 
@@ -99,22 +99,40 @@ c("doCurrentMap");
 
         if (level == mlContinent) {
 
-            this.doMap( this.selectedContinent, level);
+            if (_drawHackAreaOnly) {
 
-            this.mapCtl.setState( sIDRegion );  
+                this.mapCtl.setState( sReIDContinent );   //i.e., remind the user of the previously establishd continent
 
+            }
+            else {
+
+                this.mapCtl.setState( sIDRegion ); 
+            }
+
+            this.doMap( this.selectedContinent, level, _drawHackAreaOnly);
         }
+        
 
         if (level == mlRegion) {
-
-            this.doMap( this.selectedRegion, level );
         
-            this.mapCtl.setState( sIDCountry );             
+            if (_drawHackAreaOnly) {
+
+                this.mapCtl.setState( sReIDRegion );  //i.e., remind the user of the previously established region
+
+            }
+            else {
+
+                this.mapCtl.setState( sIDCountry );  
+            }
+
+            this.doMap( this.selectedRegion, level, _drawHackAreaOnly );
+                       
         }
 
         if (level == mlCountry) {  //this is just a replay of the map zooming in on the correct country (browse mode)
 
            this.doMap( this.selectedRegion, mlRegion);
+
 
            //reset level back to country, so that the label uses the correct coords
 
@@ -131,7 +149,7 @@ c("doCurrentMap");
 
 
 
-    this.doMap = function(_code, _level) {
+    this.doMap = function(_code, _level, _drawHackAreaOnly) {
 
         //initialize variables related to the map
 
@@ -165,7 +183,7 @@ c("doCurrentMap");
 
         //Set the map areas based on map level
 
-        this.dp.areas = this.mm.getJSONForMap(_code, _level, lockMap);
+        this.dp.areas = this.mm.getJSONForMap(_code, _level, lockMap, _drawHackAreaOnly);
 
         if (_level == mlContinent) rec = db.getContinentRec(_code);
 
@@ -192,6 +210,8 @@ c("doCurrentMap");
         this.map.zoomControl.panControlEnabled = false;
 
         this.map.zoomControl.homeButtonEnabled = false;
+
+//this.map.mouseWheelZoomEnabled = true;
 
         this.map.addClassNames = true;
 
@@ -236,6 +256,15 @@ c("doCurrentMap");
     //label the clicked map object and pos it appropriately
 
     this.labelMapObject = function(_fontSize, _col, _x, _y) {
+
+
+        var _state = this.mapCtl.getState();
+
+        
+        //special case where the labeling is basically done in the headline
+
+        if (_state == sReIDContinent || _state == sReIDRegion ) return;
+
 
         var level = this.mapCtl.level.get();
 
@@ -366,6 +395,90 @@ c("doCurrentMap");
     }
 
 
+    this.labelSeas = function() {
+
+        //this needs to happen with each re-draw, so the labels aren't duplicated, but doing it here wipes out the area label
+
+        //this.map.clearLabels();
+
+        var _level = this.mapCtl.level.get();
+
+        var _align = "middle";
+
+        var _arr = db.ghSea.find().fetch();
+
+        var _obj = null;
+
+        var _loc = null;
+
+        var _rot = 0;
+
+
+        for (var i = 0; i < _arr.length; i++) {
+
+            _obj = null;
+
+            _rot = 0;
+
+            _loc = null;
+
+            var _rec = _arr[i];
+
+            var _col = "yellow";
+
+            var _name = filterName( _rec.n );
+
+            
+
+            if (_level == mlWorld) {
+
+                if (_rec["world"] ) {
+                    
+                    _obj = this.map.coordinatesToStageXY( _rec.world.x, _rec.world.y );
+
+                    if (_rec["world"].r) _obj.r = _rec["world"].r;
+                            
+                }
+                
+            }
+
+            if (_level == mlContinent) {
+
+                var _continent = this.selectedContinent;
+
+                if ( _rec[ _continent ] ) {
+
+                    _loc = _rec[ _continent ];
+                    
+                    _obj = this.map.coordinatesToStageXY( _loc.x, _loc.y );
+
+                    if (_rec[ _continent ].r) _obj.r = _rec[ _continent ].r;
+           
+                }
+                
+            }
+
+            if (_level == mlRegion) {
+
+                var _region = this.selectedRegion;
+
+                if ( _rec[ _region ] ) {
+
+                    _loc = _rec[ _region ];
+                    
+                    _obj = this.map.coordinatesToStageXY( _loc.x, _loc.y );
+
+                    if (_rec[ _region ].r) _obj.r = _rec[ _region ].r;                   
+           
+                }
+                
+            }
+
+            if (_obj) hackMap.worldMap.map.addLabel(_obj.x, _obj.y, _name, _align, _rec.s, _col, _obj.r);   
+        }
+
+    }
+
     //**********************************************************************************
     //                      BACKUP THE MAP (move to previous level)
     //**********************************************************************************
@@ -494,9 +607,11 @@ c("doCurrentMap");
             }
             else {
 
-                this.doMapFail();
+                var _val = this.doMapFail();
 
-                this.mapCtl.setState( sRegionBad );       
+                //if _val comes back true, then doMapFail is handling the state change
+
+                if (!_val) this.mapCtl.setState( sRegionBad );       
             }
         }
 
@@ -517,9 +632,13 @@ c("doCurrentMap");
             }
             else {
 
-                this.doMapFail();
+                var _val = this.doMapFail();
 
-                this.mapCtl.setState( sCountryBad );         
+                //if _val comes back true, then doMapFail is handling the state change
+
+                if (!_val) this.mapCtl.setState( sCountryBad ); 
+
+      
             }
         }
 
@@ -619,6 +738,44 @@ c("doMapSuccess")
     this.doMapFail = function() {
 
         display.playEffect(this.map_fail_sound);
+
+        var _state = this.mapCtl.getState();
+
+        if (_state == sTestRegion) {
+
+            //it's possible to click on the wrong continent entirely when trying to pick the right region ...
+
+            var _continentOfSelection = db.getContinentCodeForCountry( worldMap.mapObjectClicked );
+
+            //... if the user does this, redraw the map with _drawHackAreaOnly flag = true to emphasize the correct continent
+
+            if ( _continentOfSelection != hack.continentCode) {
+
+                this.mapCtl.level.set( mlContinent );
+
+                this.doCurrentMap( true );
+
+                return true;  //let checkSelectedArea know we are handling the state change (in doCurrentMap() )
+            }
+        }
+
+        if (_state == sTestCountry) {
+
+            //it's possible to click on the wrong region entirely when trying to pick the right country ...
+
+            var _regionOfSelection = db.getRegionCodeForCountry( worldMap.mapObjectClicked );
+
+            if ( _regionOfSelection != hack.regionCode) {
+
+                this.mapCtl.level.set( mlRegion );
+
+                this.doCurrentMap( true );
+
+                return true;  //let checkSelectedArea know we are handling the state change (in doCurrentMap() )
+            }
+        }
+
+        return false;
         
     }
 
@@ -630,7 +787,7 @@ c("doMapSuccess")
 
     //After doing the proper updates, we go back to the main screen
 
-    this.nextMapState = function() {
+    this.nextMapState = function( _dontReturnToMainFlag ) {
 
         //Essentially we just have to update the map state so that the map object knows what the user
         //will need to do on their next trip to the map.
@@ -678,6 +835,8 @@ c("doMapSuccess")
 
             this.selectedCountry.set( "" );
         }
+
+        if (_dontReturnToMainFlag) return;
 
 
         FlowRouter.go("/main");
@@ -790,7 +949,7 @@ c("doMapSuccess")
             //we will have to wait for the map to finish loading, so set the
             //flag that indicates that we are ready and then return
 
-            hackMap.worldMap.animatonDone = true;
+            hackMap.worldMap.animationDone = true;
 
             return;
         }
@@ -946,13 +1105,13 @@ function handleClick(_event) {
 
     display.playEffect( worldMap.map_sound );
 
-    hacker.updateContent();  //foce the icons to update
+    hacker.updateContent();  //force the icons to update
 
     worldMap.zoomDone = false;
 
     worldMap.map.clearLabels();
 
-    worldMap.mapObjectClicked = _event.mapObject.id;
+   worldMap.mapObjectClicked = _event.mapObject.id;
 
 
     //Once an area has tested OK, user can keep on clicking on the map (drill down),
@@ -1044,18 +1203,65 @@ function handleClick(_event) {
 
 function handleZoomCompleted() { 
 
+c("hZC")
+c("state is " + worldMap.mapCtl.getState())
+
     var _rec;
 
     var _code;
-
-    //this event can fire on it's own as a result of the map being drawn the first time
-
-    if (worldMap.zoomDone == true) return;
 
 
     var state = worldMap.mapCtl.getState();
 
     var level = worldMap.mapCtl.level.get();
+
+
+    if (state == sReIDContinent) {
+
+        worldMap.mapCtl.setStateOnly(sIDRegion);
+
+        Meteor.setTimeout( function() { 
+
+            worldMap.map.clearLabels();
+
+            worldMap.labelSeas();
+
+        }, 500);
+
+
+c("retting from hZC b/c sReIDContinent")
+        
+        return;
+    }
+
+    if (state == sReIDRegion) {
+
+c("retting from hZC b/c sReIDRegion")
+
+        worldMap.mapCtl.setStateOnly(sIDCountry);
+
+        Meteor.setTimeout( function() { 
+
+            worldMap.map.clearLabels();
+
+            worldMap.labelSeas();
+
+        }, 500);
+
+        return;
+    }
+
+    //this event can fire on it's own as a result of the map being drawn the first time
+
+    if (worldMap.zoomDone == true) {
+
+        worldMap.labelSeas();
+
+c("retting from hZC b/c zoomDone is true")
+
+        return;
+    }
+
 
     //this is only true when we are doing a "replay" of the map solving 
     //(user is re-visiting map after hacking successfully)
@@ -1072,6 +1278,8 @@ function handleZoomCompleted() {
 
         return;
     }
+
+
 
     //possibly the user might click on a country after correctly id'ing the "hacked" country
 
@@ -1094,6 +1302,8 @@ function handleZoomCompleted() {
 
         worldMap.labelMapObject();
 
+        worldMap.labelSeas();
+
         refreshMap();
 
         worldMap.checkSelectedArea();
@@ -1112,6 +1322,8 @@ function handleZoomCompleted() {
         _code = db.getRegionCodeForCountry( worldMap.mapObjectClicked );   //in data_handling.js
 
         worldMap.doMap(_code, mlRegion);
+
+        worldMap.labelSeas();
 
         worldMap.labelMapObject();
 
@@ -1158,6 +1370,15 @@ function handleZoomCompleted() {
 
 function refreshMap() {
     Meteor.setTimeout( function() { hackMap.finishDraw(); }, 250);
+}
+
+function filterName(_s) {
+
+    var _index = _s.indexOf("_");
+
+    if (_index != -1) _s = _s.substr(0, _index);
+
+    return _s;
 }
 
 
@@ -1218,3 +1439,5 @@ $.fn.letterDrop = function() {
   });
 
 }
+
+

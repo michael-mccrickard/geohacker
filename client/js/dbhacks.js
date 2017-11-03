@@ -24,6 +24,32 @@ fixgic = function() {
 
 
 
+doSeas = function() {
+
+  var sea = new Sea();
+
+  var _arr = db.ghSea.find().fetch();
+
+  for (var i = 0; i < _arr.length; i++) {
+
+        var _rec = _arr[i];
+
+        //var _obj = { n: _rec.n, x: 0, y: 0 };
+
+        //db.ghSea.insert( _obj );
+
+        db.ghSea.update( { _id: _rec._id }, { $unset: { x:0, y:0 } } )
+
+//c("inserting " + _rec.n);
+
+  }
+
+c("done")
+
+}
+
+
+
 
 doColors = function() {
 

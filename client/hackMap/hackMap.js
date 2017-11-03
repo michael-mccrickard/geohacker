@@ -19,11 +19,6 @@ HackMap = function() {
       return this.state.get();
     }
 
-    this.setState = function(_val) {
-
-      this.state.set( _val );
-    }
-
     this.init = function() {
 
       this.index = new Blaze.ReactiveVar(0);
@@ -74,18 +69,40 @@ HackMap = function() {
 
       if (_state == sTestRegion) s= "Testing map coordinates ...";
       
-      if (_state == sRegionBad) s= "Geo-location of region failed.";
+      if (_state == sRegionBad) {
+
+        s= "Geo-location of region failed.";
+
+        this.worldMap.nextMapState( true );
+      }
 
       if (_state == sRegionOK) s= "Region correctly identified!";
 
       if (_state == sRegionFeatured) s= "Region geo-located: " + hack.getRegionName();
+
+      if (_state == sReIDContinent) {
+
+        s = "Stream is coming from " +  hack.getContinentName();
+
+      }
+
+       if (_state == sReIDRegion) {
+
+        s = "Stream is coming from " +  hack.getRegionName();
+
+      }     
 
 
       if (_state == sIDCountry) s= "Click a country ...";
 
       //if (_state == sTestCountry) s= "Testing map coordinates ...";
       
-      if (_state == sCountryBad) s = "Geo-location of country failed.";
+      if (_state == sCountryBad) {
+
+        s = "Geo-location of country failed.";
+        
+        this.worldMap.nextMapState( true );
+      }
 
       if (_state == sCountryOK) s = "Country correctly identified!";
 
@@ -234,7 +251,7 @@ HackMap = function() {
 
           hackMap.worldMap.mapLoaded = true;
 
-          if (hackMap.worldMap.animatonDone) hackMap.worldMap.hackDone4(); 
+          if (hackMap.worldMap.animationDone) hackMap.worldMap.hackDone4(); 
 
         });
 
@@ -287,3 +304,6 @@ HackMap = function() {
 
 
 }//end HackMap constructor
+
+
+HackMap.seaFontHeightRatio = 12/950;
