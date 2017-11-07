@@ -31,17 +31,19 @@
 
 		<img class="navButton navPrev invisible"  src="nav_prev2.png" />	
 
-		<img class="navButton navNext invisible"  src="nav_next2.png" />				
+		<img class="navButton navNext invisible"  src="nav_next2.png" />	
 
-		{{#each control}}
 
-			<div  class="control" id="{{this}}">
 
-				<img class="stretch" id="ctlBG_{{this}}"  src="featuredBackdrop.jpg" />
+		{{#each clue}}
+
+			<div  class="control r0" id="m{{@index}}">
+
+				<img class="stretch" id="b_{{this._id}}"  src="featuredBackdrop.jpg" />
 				
-				<img class="controlPic  {{opacityClass}}" id="pic{{this}}" src="{{controlPic}}" />	
+				<img class="memePicFrameRow" src="{{this.u}}" />
 
-				<div class="controlLabel whiteText {{opacityClass}}">{{this}}</div>	
+				<div class="memeTextRow">{{this.t}}</div>
 
 			</div>	
 		

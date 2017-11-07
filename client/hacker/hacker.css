@@ -274,30 +274,52 @@ div.control {
 
     position: absolute;
 
-    top: 71.5%;
+   /* top: 5.5%; */
 
     width: 19.75%;
-    height: 20.5%;
+    height: 21%;
 
       cursor: pointer;
 
 }
 
-#SOUND {
+#m0, #m4, #m8, #m12 {
     left: 2%;      
 }
 
-#MEME {
+#m1, #m5, #m9, #m13 {
     left: 22.7%;      
 }
 
-#VIDEO {
+#m2, #m6, #m10, #m14 {
     left: 43.4%;      
 }
 
-#WEB {
+#m3, #m7, #m11, #m15 {
     left: 64.1%;      
 }
+
+.r0 {
+
+    top: 71.5%;
+}
+
+.r1 {
+
+    top: 49.5%;
+}
+
+.r2 {
+
+    top: 27.5%;
+}
+
+.r3 {
+
+    top: 5.5%;
+}
+
+
 
 .controlPic {
     position: absolute;

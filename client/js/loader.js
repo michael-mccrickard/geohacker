@@ -8,6 +8,8 @@ NewLoader = function() {
 
 	this.totalClueCount = 0;
 
+	this.columnCount = 4;
+
 
 	this.go = function() {
 
@@ -33,9 +35,9 @@ NewLoader = function() {
 
 		hack.mode = mScanning;
 
-		hacker.setControls( sScanning );
+		//hacker.setControls( sScanning );
 
-		Meteor.defer( function(){ hacker.dimensionControls(); });  //the aspect ratio is likely to be 
+		//Meteor.defer( function(){ hacker.dimensionControls(); });  //the aspect ratio is likely to be 
 																	//different (loaded control pic vs. scan pic)
 		hacker.cue.setAndShow();
 
@@ -54,7 +56,7 @@ NewLoader = function() {
 
 		c("in loader.showLoadedControl, newControl name is " + this.newControl.name)
 
-	    hacker.ctl[ this.newControl.name ].setControlPicSource();
+	    //hacker.ctl[ this.newControl.name ].setControlPicSource();
 
 		hack.mode = mDataFound;
 
@@ -65,17 +67,17 @@ NewLoader = function() {
 
 		//here we set the unloaded controls to sIcon and the loaded ones back to sLoaded
 
-		hacker.resetControls();
+		//hacker.resetControls();
 
-		hacker.dimensionControls();
+		//hacker.dimensionControls();
 
 		//this.newControl was set by this.go() before the loading sequence began
 			
-		this.newControl.setState ( sLoaded );
+		//this.newControl.setState ( sLoaded );
 
-		this.newControl.setPicDimensions();
+		//this.newControl.setPicDimensions();
 
-		this.newControl.hilite();
+		//this.newControl.hilite();
 
 
 		//set the timer if we're on the first clue
@@ -85,6 +87,37 @@ NewLoader = function() {
 			game.hackStartTime = new Date().getTime();
 			
 		}
+
+		//do we need to bump any rows up?
+
+		if (this.totalClueCount > this.columnCount)  {
+
+			if (this.totalClueCount % this.columnCount == 1) {
+
+				var _tempClueCount = this.totalClueCount - 1;
+
+				while (_tempClueCount) {
+
+					var newRowForPrev = (_tempClueCount / this.columnCount);
+
+					var prevRow = newRowForPrev - 1;
+
+					$(".control.r" + prevRow).addClass("r" + newRowForPrev);
+
+					_tempClueCount = _tempClueCount - this.columnCount;
+
+				}
+
+				//prevent the new control from jumping up with the prev row
+
+				$("#m" + (this.totalClueCount - 1)).addClass( "r" + prevRow );
+
+				$("#m" + (this.totalClueCount - 1)).removeClass( "r" + newRowForPrev );
+			}
+		}
+
+
+
 
 		//see if any buttons need enabling / disabling
 
@@ -128,6 +161,8 @@ NewLoader = function() {
 			var _meme = MemeCollection.getNextHackerItem( randomControl.memeCollection.items );
 
 			randomControl.meme = _meme;
+
+			hacker.clues.insert( { u: _meme.image, t: _meme.text } );
 
 			randomControl.addToSequence( randomControl.getMemeIndex() );
 		}

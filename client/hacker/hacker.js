@@ -71,6 +71,7 @@ Hacker = function() {
 
     this.loader = new NewLoader();
 
+    this.clues = new Meteor.Collection(null);
 
     //*********************************************
     //      Startup functions

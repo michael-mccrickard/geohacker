@@ -6,6 +6,11 @@ $(document).ready(function(){
 
 Template.main.helpers({
 
+    clue: function() {
+
+        return hacker.clues.find();
+    },
+
     helperAgentID: function() {
 
         return "h" + hacker.helper.ID;

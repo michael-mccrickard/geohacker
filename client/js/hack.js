@@ -166,6 +166,8 @@ this.debriefCollection = null;
 
         this.setMessageID();
 
+        hacker.clues.remove({});
+
         this.subscribeToData( this.countryCode );
       };
 
