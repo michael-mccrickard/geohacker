@@ -587,6 +587,8 @@ MemeCtl = function() {
       _item.fileToLoad = _item.imageFile;
 
       _item.text = this.meme.text;
+
+      _item.source = this.meme.source;
   }
 
   this.setItems = function() {

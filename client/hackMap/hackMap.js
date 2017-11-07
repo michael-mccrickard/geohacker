@@ -58,7 +58,13 @@ HackMap = function() {
 
       if (_state == sTestContinent) s= "Testing map coordinates ...";
       
-      if (_state == sContinentBad) s= "Geo-location of continent failed.";
+      if (_state == sContinentBad) {
+
+          s= "Geo-location of continent failed.";
+      
+          this.worldMap.nextMapState( true );
+
+      }
 
       if (_state == sContinentOK) s= "Continent correctly identified!";
 
@@ -74,6 +80,7 @@ HackMap = function() {
         s= "Geo-location of region failed.";
 
         this.worldMap.nextMapState( true );
+
       }
 
       if (_state == sRegionOK) s= "Region correctly identified!";
@@ -102,6 +109,8 @@ HackMap = function() {
         s = "Geo-location of country failed.";
         
         this.worldMap.nextMapState( true );
+
+this.worldMap.mapCtl.level.set( mlCountry );
       }
 
       if (_state == sCountryOK) s = "Country correctly identified!";

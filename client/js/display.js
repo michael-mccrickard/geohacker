@@ -246,6 +246,8 @@ this.unit = new Unit();
 
     //if the source is a link, go to it
 
+
+
     if (_source.substr(0,4) == "http") {
 
         window.open(_source);

@@ -1,4 +1,32 @@
 
+findAudio = function() {
+
+var newline = "\n\r";
+
+var _s = "";
+
+  var arr = db.ghSound.find().fetch();
+
+      for (var i = 0; i < arr.length; i++) {
+
+        var _f = arr[i].f;
+
+        if (!_f || !arr[i].cc) continue;
+
+          c("checking file for " + arr[i].cc);
+
+        if ( _f.substr(0, 7) == "http://" ) {
+
+
+            _s = _s + db.getCountryName( arr[i].cc ) + " -- " + _f + newline;
+
+            
+        }
+    }
+
+    console.log(_s)
+}
+
 
 
 fixmission = function()  {
@@ -445,29 +473,6 @@ c("updating " + _obj.username)
 
   });
 
-}
-
-fixFakes2 = function() {
-
-
-  var arr = Meteor.users.find({}).fetch();
-
-      for (var i = 0; i < arr.length; i++) {
-
-        var _st = arr[i].profile.st;
-
-        if (_st == usFake ||  _st == usVirtual || _st == usHonorary ) {
-
-          c("checking user " + i);
-
-          if ( arr[i].emails[0].address.indexOf("example.com") != -1) {
-
-                Meteor.users.update( {_id: arr[i]._id}, { $set: { 'profile.st': usFake } } ) ;
-          }
-
-            
-        }
-    }
 }
 
 

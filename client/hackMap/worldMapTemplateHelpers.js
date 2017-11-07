@@ -299,7 +299,7 @@ Template.worldMap.events = {
           hackMap.backupMapToRegion();         
 
           return;
-       }
+      }
     }
 
 
