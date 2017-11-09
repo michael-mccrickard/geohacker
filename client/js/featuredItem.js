@@ -119,18 +119,20 @@ FeaturedItem = function( ) {
 			return;
 		}
 
-		if ( $(".featuredPic").css("opacity") == "1" ) $(".featuredPic" ).velocity( { opacity: 0.3, duration: _time });
+if ( $(".featuredPic").css("opacity") == "1" ) $(".featuredPic" ).velocity( { opacity: 0.0, duration: _time });
 	}
 
    /*****************************************************************
     /				LOADING AND PRELOADING
     /****************************************************************/
 
-    this.load = function( _name ) {
+    this.load = function( _name, _index ) {
 
     	this.setName( _name );
 
 		this.ctl = hacker.ctl[ _name ];
+
+if (_index) this.ctl.setIndex( _index )
 
 		this.ctl.setData( this );    	
     }
@@ -189,6 +191,10 @@ FeaturedItem = function( ) {
 		//set this reactive var, so that the scanner knows the image is ready when it finishes.
 
 		this.isLoaded.set( true );
+
+c("calling feature switchToNext in item.fileIsLoaded")
+
+hacker.feature.switchToNext();
 
 	}
 

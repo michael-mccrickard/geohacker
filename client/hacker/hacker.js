@@ -220,11 +220,11 @@ Hacker = function() {
 
         this.dimensionControls();
 
-        if (hack.mode == mReady || hack.mode == mScanning) this.scanner.draw();
+        //if (hack.mode == mReady || hack.mode == mScanning) this.scanner.draw();
 
         if (this.feature.on() ) {
 
-            this.scanner.hide();
+            //this.scanner.hide();
 
             this.feature.item.show();
         }

@@ -9,7 +9,7 @@
 
 		<img class="featuredBackdrop" src="featuredBackdrop.jpg" />
 
-		{{> scanning}}
+		<!--{{> scanning}}-->
 
 
 		{{> meme}}
@@ -29,19 +29,19 @@
 		
 		{{/if}}
 
-		<img class="navButton navPrev invisible"  src="nav_prev2.png" />	
+		<!--img class="navButton navPrev invisible"  src="nav_prev2.png" />	
 
-		<img class="navButton navNext invisible"  src="nav_next2.png" />	
+		<img class="navButton navNext invisible"  src="nav_next2.png" /-->	
 
 
 
 		{{#each clue}}
 
-			<div  class="control r0" id="m{{@index}}">
+			<div  class="control r0" id="m{{@index}}" data-index={{this.i}} data-name="{{this.n}}">
 
 				<img class="stretch" id="b_{{this._id}}"  src="featuredBackdrop.jpg" />
 				
-				<img class="memePicFrameRow" src="{{this.u}}" />
+				<img class="memePicFrameRow" src="{{this.f}}" />
 
 				<div class="memeTextRow">{{this.t}}</div>
 

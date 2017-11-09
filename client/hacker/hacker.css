@@ -61,7 +61,7 @@ img.featuredBackdrop {
     width: 83.3%;
     height: 63.8%;
 
-    z-index: 5;
+   /* z-index: 5;  */
 }
 
 .featuredPic {
@@ -279,23 +279,25 @@ div.control {
     width: 19.75%;
     height: 21%;
 
+    opacity: 0;
+
       cursor: pointer;
 
 }
 
-#m0, #m4, #m8, #m12 {
+#m0, #m4, #m8, #m12, #m16 {
     left: 2%;      
 }
 
-#m1, #m5, #m9, #m13 {
+#m1, #m5, #m9, #m13, #m17 {
     left: 22.7%;      
 }
 
-#m2, #m6, #m10, #m14 {
+#m2, #m6, #m10, #m14, #m18 {
     left: 43.4%;      
 }
 
-#m3, #m7, #m11, #m15 {
+#m3, #m7, #m11, #m15, #m19 {
     left: 64.1%;      
 }
 

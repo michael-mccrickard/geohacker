@@ -59,10 +59,16 @@ Feature = function() {
 
    		this.item = this.nextItem;
 
-   		this.item.show();
+Meteor.setTimeout( function() { hacker.feature.item.show(); }, 250 );
+
+hacker.loader.showLoadedControl();  //shows the appropriate pic in the control button
+
+   		Meme.showControl( hacker.loader.totalClueCount - 1);
+
+   		Meme.dimBGControls( hacker.loader.totalClueCount - 1);
    }
 
-   this.switchTo = function( _name ) {
+   this.switchTo = function( _name, _index ) {
 
    		if (this.item) this.prevItem = this.item;		
 
@@ -70,7 +76,7 @@ Feature = function() {
 
    		this.nextItem = new FeaturedItem();
 
-   		this.nextItem.load( _name );
+   		this.nextItem.load( _name, _index );
 
    		hacker.suspendMedia();
 

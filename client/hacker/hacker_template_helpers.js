@@ -239,6 +239,7 @@ Template.main.events({
 
       e.preventDefault();
 
+/*
       if (hacker.cue.state == sPlaying) {
 
           display.playEffect( hacker.locked_sound_file );
@@ -252,7 +253,7 @@ Template.main.events({
 
           return;
       }
-
+*/
       if ( hacker.moreDataAvailable() == false ) {
 
           display.playEffect( hacker.locked_sound_file );
@@ -274,8 +275,11 @@ Template.main.events({
 
       game.playMusic();
 
-      hacker.scanner.startScan( mode );
+      //hacker.scanner.startScan( mode );
+
+hack.mode = mReady;
       
+hacker.loader.go();
     },
 
     'click img.featuredPic': function(e) {
@@ -297,7 +301,12 @@ Template.main.events({
       
       e.preventDefault();
 
-      Control.switchTo( e.currentTarget.id );
+      var _index = $( "#" + e.currentTarget.id).data("index");
+
+      var _name =  $( "#" + e.currentTarget.id).data("name");
+
+
+      Control.switchTo( _name, _index );
     },
 
 });
@@ -334,9 +343,9 @@ c("staring news from main.rendered")
 
       if ( hacker.feature.off() ) {
 
-        hacker.scanner.show();
+        //hacker.scanner.show();
 
-        Meteor.setTimeout(function() { hacker.scanner.startIdle(); }, 502 ); 
+        //Meteor.setTimeout(function() { hacker.scanner.startIdle(); }, 502 ); 
 
         hacker.TV.set( TV.scanPrompt );  
    

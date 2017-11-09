@@ -116,9 +116,6 @@ NewLoader = function() {
 			}
 		}
 
-
-
-
 		//see if any buttons need enabling / disabling
 
 		hacker.checkMainScreen();
@@ -162,7 +159,10 @@ NewLoader = function() {
 
 			randomControl.meme = _meme;
 
-			hacker.clues.insert( { u: _meme.image, t: _meme.text } );
+			//totalClueCount has not yet been incremented to reflect this newest control load,
+			//so we can just use the value as is, rather than decrementing it (the arrays are zero-based)
+
+			hacker.clues.insert( { u: _meme.image, f: _meme.image, t: _meme.text, n: 'MEME', i: this.totalClueCount } );
 
 			randomControl.addToSequence( randomControl.getMemeIndex() );
 		}
@@ -171,6 +171,7 @@ NewLoader = function() {
 			this.getNonMemeControl( tmp );  //this will add the potential clues to the tmp array
 
 			randomControl =  Database.getRandomElement(tmp);
+
 		}
 
 
@@ -199,6 +200,8 @@ if (this.totalClueCount == 4) randomControl = hacker.ctl["MEME"];
 			randomControl.loadedCount = newCount;
 
 			randomControl.setIndex( randomControl.loadedCount - 1);
+
+			if (randomControl.name != "MEME") hacker.clues.insert( { u: randomControl.getFile(), f: randomControl.getControlPic(), t: "", n: randomControl.name, i: newCount - 1 } );
 
 
 //If we need to force a certain clue on a control, this is the place to do it
