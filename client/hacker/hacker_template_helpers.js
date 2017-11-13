@@ -335,7 +335,7 @@ Template.main.rendered = function () {
 
     hacker.checkMainScreen();
 
-c("staring news from main.rendered")
+c("starting news from main.rendered")
     hacker.news.start();
     
 
@@ -355,3 +355,7 @@ c("staring news from main.rendered")
 
 }
 
+Template.main.onDestroyed(function () {
+
+  c("hacker template destroryed")
+});

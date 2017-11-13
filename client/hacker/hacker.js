@@ -73,6 +73,8 @@ Hacker = function() {
 
     this.clues = new Meteor.Collection(null);
 
+    this.arrClues = [];  //the parallel array to this.clues, use it to rebuild the collection between jumps to the map / home screen, etc.
+
     //*********************************************
     //      Startup functions
     //*********************************************
@@ -228,6 +230,8 @@ Hacker = function() {
 
             this.feature.item.show();
         }
+
+        this.restoreClues();
     }
 
     this.redimension = function() {
@@ -445,6 +449,35 @@ c("doHeadlines")
               ctl.setState( sLoaded );           
             }
         }    
+    }
+
+     //*********************************************
+    //     Clues
+    //*********************************************   
+
+
+
+    this.addClue = function( _obj ) {
+
+        this.clues.insert( _obj );
+
+    }
+
+    this.restoreClues = function() {
+
+        var _len = this.clues.find().fetch().length;
+
+       if ( _len) {
+
+
+            for (i = 0; i < _len; i++) {
+
+                $("div#m" + i).velocity( "fadeIn", {duration: 250} );
+
+            }
+
+            this.loader.arrangeRows();
+        }
     }
 
 }

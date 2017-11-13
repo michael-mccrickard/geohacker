@@ -23,6 +23,8 @@ NewLoader = function() {
 		  return;
 		}
 
+		this.arrangeRows();
+
 		this.newControl = this.loadRandomControl();
 
 		if (!this.newControl) {
@@ -88,7 +90,33 @@ NewLoader = function() {
 			
 		}
 
+	//	this.arrangeRows();
+
+		//see if any buttons need enabling / disabling
+
+		hacker.checkMainScreen();
+
+	},
+
+	this.arrangeRows = function() {
+
 		//do we need to bump any rows up?
+
+		var _rem = this.totalClueCount % this.columnCount;
+
+		for (var i = 0; i < this.totalClueCount; i++) {
+   
+			var _newIndex = Math.abs( i - this.totalClueCount + 1);
+
+			if ( _newIndex < (this.totalClueCount % this.columnCount )) continue;   
+
+			var rowNum = Math.floor(( _newIndex - _rem ) / this.columnCount);
+
+			$("div#m" + i).addClass( "r" + (rowNum + 1) );
+
+		}
+
+/*
 
 		if (this.totalClueCount > this.columnCount)  {
 
@@ -96,13 +124,15 @@ NewLoader = function() {
 
 				var _tempClueCount = this.totalClueCount - 1;
 
-				while (_tempClueCount) {
+				while (_tempClueCount) { 
 
 					var newRowForPrev = (_tempClueCount / this.columnCount);
 
 					var prevRow = newRowForPrev - 1;
 
 					$(".control.r" + prevRow).addClass("r" + newRowForPrev);
+
+//$(".control.r" + prevRow).removeClass("r" + prevRow);
 
 					_tempClueCount = _tempClueCount - this.columnCount;
 
@@ -115,12 +145,9 @@ NewLoader = function() {
 				$("#m" + (this.totalClueCount - 1)).removeClass( "r" + newRowForPrev );
 			}
 		}
+*/
 
-		//see if any buttons need enabling / disabling
-
-		hacker.checkMainScreen();
-
-	},
+	}
 
 
 	/*  Decide which control to randomly display as a result of the Scan button being clicked
@@ -162,7 +189,7 @@ NewLoader = function() {
 			//totalClueCount has not yet been incremented to reflect this newest control load,
 			//so we can just use the value as is, rather than decrementing it (the arrays are zero-based)
 
-			hacker.clues.insert( { u: _meme.image, f: _meme.image, t: _meme.text, n: 'MEME', i: this.totalClueCount } );
+			hacker.addClue( { u: _meme.image, f: _meme.image, t: _meme.text, n: 'MEME', i: this.totalClueCount } );
 
 			randomControl.addToSequence( randomControl.getMemeIndex() );
 		}
@@ -201,7 +228,7 @@ if (this.totalClueCount == 4) randomControl = hacker.ctl["MEME"];
 
 			randomControl.setIndex( randomControl.loadedCount - 1);
 
-			if (randomControl.name != "MEME") hacker.clues.insert( { u: randomControl.getFile(), f: randomControl.getControlPic(), t: "", n: randomControl.name, i: newCount - 1 } );
+			if (randomControl.name != "MEME") hacker.addClue( { u: randomControl.getFile(), f: randomControl.getControlPic(), t: "", n: randomControl.name, i: newCount - 1 } );
 
 
 //If we need to force a certain clue on a control, this is the place to do it

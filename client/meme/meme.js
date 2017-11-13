@@ -489,7 +489,11 @@ Meme.dimBGControls = function( _index ) {
 
 		var _lastIndex = hacker.loader.totalClueCount - (_index % hacker.loader.columnCount) - 1;
 
+c("lastindex in dim is " + _lastIndex)
+
 		for (var i = 0; i < _lastIndex; i++ ) {
+
+c("dimming index " + i)
 
 			Meme.dimControl( i );
 		}

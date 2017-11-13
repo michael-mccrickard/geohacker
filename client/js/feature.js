@@ -66,6 +66,8 @@ hacker.loader.showLoadedControl();  //shows the appropriate pic in the control b
    		Meme.showControl( hacker.loader.totalClueCount - 1);
 
    		Meme.dimBGControls( hacker.loader.totalClueCount - 1);
+
+Meteor.setTimeout( function() { hacker.loader.go(); }, 5000 );
    }
 
    this.switchTo = function( _name, _index ) {
