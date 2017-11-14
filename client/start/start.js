@@ -34,7 +34,8 @@ Accounts.onLogin( function() {
   finishLogin();
 });
 
-
+var metaInfo = {name: "google-site-verification", content: "TbVETxO06rLhuz8wF9F_aXKod1SVc67uWJOtlBmskHY"};
+DocHead.addMeta(metaInfo);
 
 finishLogin = function() {
 
