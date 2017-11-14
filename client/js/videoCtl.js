@@ -66,6 +66,7 @@ VideoCtl = function() {
 	//return the pic that should be displayed in the small control box
 	//based on state
 
+/*
 	this.getControlPic = function() {
 
 	  var pic = "";
@@ -83,6 +84,7 @@ VideoCtl = function() {
 	  return pic;
 
 	}, //end getControlPic
+*/
 
 	this.setItems = function() {
 

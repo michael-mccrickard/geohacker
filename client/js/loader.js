@@ -8,8 +8,33 @@ NewLoader = function() {
 
 	this.totalClueCount = 0;
 
+	this.columnCount = 4;
+
+	this.state = "stop";  //also play and pause
+
+	this.start = function() {
+
+		this.state = "play";
+
+		this.go();
+	}
+
+	this.pause = function() {
+
+		this.state = "pause";
+	}
+
+	this.stop = function() {
+
+		this.state = "stop";
+	}
+
 
 	this.go = function() {
+
+		if (this.state != "play") return;
+
+		doSpinner();
 
 		var mode = hack.mode;
 
@@ -21,9 +46,13 @@ NewLoader = function() {
 		  return;
 		}
 
+		this.arrangeRows();
+
 		this.newControl = this.loadRandomControl();
 
 		if (!this.newControl) {
+
+			stopSpinner();
 
 			console.log("No more controls to load in loader");
 
@@ -33,9 +62,9 @@ NewLoader = function() {
 
 		hack.mode = mScanning;
 
-		hacker.setControls( sScanning );
+		//hacker.setControls( sScanning );
 
-		Meteor.defer( function(){ hacker.dimensionControls(); });  //the aspect ratio is likely to be 
+		//Meteor.defer( function(){ hacker.dimensionControls(); });  //the aspect ratio is likely to be 
 																	//different (loaded control pic vs. scan pic)
 		hacker.cue.setAndShow();
 
@@ -43,7 +72,11 @@ NewLoader = function() {
 		//which will allow feature.dimension() to size it accurately
 		//this also sets the name and ctl for the feature
 
-	    hacker.feature.loadNextItem( this.newControl.name );	
+		var _delay = 0;
+
+		if (this.totalClueCount == 1) _delay = 2000;
+
+	    Meteor.setTimeout( function() { hacker.feature.loadNextItem( hacker.loader.newControl.name );	}, _delay );
 
 
 	}
@@ -54,7 +87,7 @@ NewLoader = function() {
 
 		c("in loader.showLoadedControl, newControl name is " + this.newControl.name)
 
-	    hacker.ctl[ this.newControl.name ].setControlPicSource();
+	    //hacker.ctl[ this.newControl.name ].setControlPicSource();
 
 		hack.mode = mDataFound;
 
@@ -65,17 +98,17 @@ NewLoader = function() {
 
 		//here we set the unloaded controls to sIcon and the loaded ones back to sLoaded
 
-		hacker.resetControls();
+		//hacker.resetControls();
 
-		hacker.dimensionControls();
+		//hacker.dimensionControls();
 
 		//this.newControl was set by this.go() before the loading sequence began
 			
-		this.newControl.setState ( sLoaded );
+		//this.newControl.setState ( sLoaded );
 
-		this.newControl.setPicDimensions();
+		//this.newControl.setPicDimensions();
 
-		this.newControl.hilite();
+		//this.newControl.hilite();
 
 
 		//set the timer if we're on the first clue
@@ -86,11 +119,64 @@ NewLoader = function() {
 			
 		}
 
+	//	this.arrangeRows();
+
 		//see if any buttons need enabling / disabling
 
 		hacker.checkMainScreen();
 
 	},
+
+	this.arrangeRows = function() {
+
+		//do we need to bump any rows up?
+
+		var _rem = this.totalClueCount % this.columnCount;
+
+		for (var i = 0; i < this.totalClueCount; i++) {
+   
+			var _newIndex = Math.abs( i - this.totalClueCount + 1);
+
+			if ( _newIndex < (this.totalClueCount % this.columnCount )) continue;   
+
+			var rowNum = Math.floor(( _newIndex - _rem ) / this.columnCount);
+
+			$("div#m" + i).addClass( "r" + (rowNum + 1) );
+
+		}
+
+/*
+
+		if (this.totalClueCount > this.columnCount)  {
+
+			if (this.totalClueCount % this.columnCount == 1) {
+
+				var _tempClueCount = this.totalClueCount - 1;
+
+				while (_tempClueCount) { 
+
+					var newRowForPrev = (_tempClueCount / this.columnCount);
+
+					var prevRow = newRowForPrev - 1;
+
+					$(".control.r" + prevRow).addClass("r" + newRowForPrev);
+
+//$(".control.r" + prevRow).removeClass("r" + prevRow);
+
+					_tempClueCount = _tempClueCount - this.columnCount;
+
+				}
+
+				//prevent the new control from jumping up with the prev row
+
+				$("#m" + (this.totalClueCount - 1)).addClass( "r" + prevRow );
+
+				$("#m" + (this.totalClueCount - 1)).removeClass( "r" + newRowForPrev );
+			}
+		}
+*/
+
+	}
 
 
 	/*  Decide which control to randomly display as a result of the Scan button being clicked
@@ -129,6 +215,11 @@ NewLoader = function() {
 
 			randomControl.meme = _meme;
 
+			//totalClueCount has not yet been incremented to reflect this newest control load,
+			//so we can just use the value as is, rather than decrementing it (the arrays are zero-based)
+
+			hacker.addClue( { u: _meme.image, f: _meme.image, t: _meme.text, n: 'MEME', i: this.totalClueCount } );
+
 			randomControl.addToSequence( randomControl.getMemeIndex() );
 		}
 		else {
@@ -136,6 +227,7 @@ NewLoader = function() {
 			this.getNonMemeControl( tmp );  //this will add the potential clues to the tmp array
 
 			randomControl =  Database.getRandomElement(tmp);
+
 		}
 
 
@@ -164,6 +256,8 @@ if (this.totalClueCount == 4) randomControl = hacker.ctl["MEME"];
 			randomControl.loadedCount = newCount;
 
 			randomControl.setIndex( randomControl.loadedCount - 1);
+
+			if (randomControl.name != "MEME") hacker.addClue( { u: randomControl.getFile(), f: randomControl.getControlPic(), t: "", n: randomControl.name, i: newCount - 1 } );
 
 
 //If we need to force a certain clue on a control, this is the place to do it

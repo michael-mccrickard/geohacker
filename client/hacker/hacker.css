@@ -56,12 +56,35 @@ img.featuredBackdrop {
     left: 0px;
 
     left: 2%;
-    top: 6.5%;
+    top: 5%;
 
     width: 83.3%;
-    height: 63.8%;
+    height: 65.5%;
 
-    z-index: 5;
+    opacity: 0;   /* currently used as a positioning guide */
+
+   /* z-index: 5;  */
+}
+
+div.divLogoBackdrop {
+    position: fixed;
+
+    top: 0px;
+    left: 0px;
+
+    left: 25%;
+    top: 11%;
+
+    z-index: 0;
+        
+}
+
+img.logoBackdrop {
+
+    width: 50%;
+    height: 35%;
+
+
 }
 
 .featuredPic {
@@ -274,30 +297,63 @@ div.control {
 
     position: absolute;
 
-    top: 71.5%;
+   /* top: 5.5%; */
 
     width: 19.75%;
-    height: 20.5%;
+    height: 21%;
+
+    opacity: 0;
 
       cursor: pointer;
 
 }
 
-#SOUND {
+#m0, #m4, #m8, #m12, #m16 {
     left: 2%;      
 }
 
-#MEME {
+#m1, #m5, #m9, #m13, #m17 {
     left: 22.7%;      
 }
 
-#VIDEO {
+#m2, #m6, #m10, #m14, #m18 {
     left: 43.4%;      
 }
 
-#WEB {
+#m3, #m7, #m11, #m15, #m19 {
     left: 64.1%;      
 }
+
+.r0 {
+
+    top: 71.5%;
+}
+
+.r1 {
+
+    top: 49.5%;
+}
+
+.r2 {
+
+    top: 27.5%;
+}
+
+.r3 {
+
+    top: 5.5%;
+}
+
+.r4 {
+
+    top: -16.5%;
+}
+
+.r4 {
+
+    top: -38.5%;
+}
+
 
 .controlPic {
     position: absolute;

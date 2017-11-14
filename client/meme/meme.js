@@ -295,7 +295,7 @@ c("calling show from preloadImagesForSidewall")
 
 	this.dim = function() {
 
-		if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).velocity( { opacity: 0.3, duration: 300 });
+if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).velocity( { opacity: 0.0, duration: 300 });
 
 		$( this.textElement ).css("opacity", 0);
 
@@ -327,6 +327,7 @@ c("calling show from preloadImagesForSidewall")
 		}
 
 	}
+
 
 	this.hide = function() {
 
@@ -418,9 +419,9 @@ c("calling show from preloadImagesForSidewall")
 
 		$( container ).css("left",  _left + "px" );  
 
-		$( container ).css("top", _top + fullHeight * 0.03 + "px");
+		$( container ).css("top", _top + "px");
 
-		$( container ).attr("height", fullHeight * 0.94 );
+		$( container ).attr("height", fullHeight);
 
 		$( container ).attr("width", _width );  
 
@@ -455,3 +456,54 @@ c("calling show from preloadImagesForSidewall")
 }
 
 Meme.sourceUnknownText = "Source: Unknown";
+
+
+Meme.showControl = function(_index) {
+
+	var container = "div#m" + _index;
+
+	if ( $( container ).css("opacity") == 0 ) $( container ).velocity("fadeIn", { duration: 500, display: "auto" });	
+
+}
+
+Meme.dimControl = function(_index) {
+
+	var container = "div#m" + _index;
+
+	if ( $( container ).css("opacity") == "1" ) $( container ).velocity( { opacity: 0.3, duration: 300 });
+
+}
+
+Meme.hideControl = function(_index) {
+
+	var container = "div#m" + _index;
+
+	$( container ).css("opacity", 0);
+}
+
+Meme.dimBGControls = function( _index ) {
+
+	if ( _index > hacker.loader.columnCount - 1) {
+
+		//we want to dim all the controls except for those on the bottom-most row
+
+		var _lastIndex = hacker.loader.totalClueCount - (_index % hacker.loader.columnCount) - 1;
+
+		for (var i = 0; i < _lastIndex; i++ ) {
+
+			Meme.dimControl( i );
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
