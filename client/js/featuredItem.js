@@ -272,15 +272,17 @@ hacker.feature.switchToNext();
 
         var fullScreenHeight = $(window).height();
 
-        var fullBackdropWidth = $("img.featuredBackdrop").width();
+        var container = "img.featuredBackdrop";
+
+        var fullBackdropWidth = $( container ).width();
 
         var maxWidth = fullBackdropWidth * 0.8;
 
-        var fullHeight = $("img.featuredBackdrop").height();
+        var fullHeight = $(container).height();
 
-        var leftMargin = $("img.featuredBackdrop").position().left;
+        var leftMargin = $(container).position().left;
 
-        var _height = fullHeight * 0.935;
+        var _height = fullHeight;
 
         var menuHeight = 50;
 
@@ -303,7 +305,7 @@ hacker.feature.switchToNext();
 
         if (_width > maxWidth) _width = maxWidth;
 
-        var _top = fullScreenHeight * 0.09;
+        var _top = $(container).position().top;
 
         var _left = leftMargin + (fullBackdropWidth/2) - (_width/2);
 

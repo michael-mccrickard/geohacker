@@ -10,8 +10,31 @@ NewLoader = function() {
 
 	this.columnCount = 4;
 
+	this.state = "stop";  //also play and pause
+
+	this.start = function() {
+
+		this.state = "play";
+
+		this.go();
+	}
+
+	this.pause = function() {
+
+		this.state = "pause";
+	}
+
+	this.stop = function() {
+
+		this.state = "stop";
+	}
+
 
 	this.go = function() {
+
+		if (this.state != "play") return;
+
+		doSpinner();
 
 		var mode = hack.mode;
 
@@ -28,6 +51,8 @@ NewLoader = function() {
 		this.newControl = this.loadRandomControl();
 
 		if (!this.newControl) {
+
+			stopSpinner();
 
 			console.log("No more controls to load in loader");
 
@@ -47,7 +72,11 @@ NewLoader = function() {
 		//which will allow feature.dimension() to size it accurately
 		//this also sets the name and ctl for the feature
 
-	    hacker.feature.loadNextItem( this.newControl.name );	
+		var _delay = 0;
+
+		if (this.totalClueCount == 1) _delay = 2000;
+
+	    Meteor.setTimeout( function() { hacker.feature.loadNextItem( hacker.loader.newControl.name );	}, _delay );
 
 
 	}

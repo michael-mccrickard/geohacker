@@ -56,12 +56,35 @@ img.featuredBackdrop {
     left: 0px;
 
     left: 2%;
-    top: 6.5%;
+    top: 5%;
 
     width: 83.3%;
-    height: 63.8%;
+    height: 65.5%;
+
+    opacity: 0;   /* currently used as a positioning guide */
 
    /* z-index: 5;  */
+}
+
+div.divLogoBackdrop {
+    position: fixed;
+
+    top: 0px;
+    left: 0px;
+
+    left: 25%;
+    top: 11%;
+
+    z-index: 0;
+        
+}
+
+img.logoBackdrop {
+
+    width: 50%;
+    height: 35%;
+
+
 }
 
 .featuredPic {

@@ -55,6 +55,8 @@ Feature = function() {
 
    this.switchToNext = function() {
 
+   		stopSpinner();
+
    		this.hideMeme();
 
    		this.item = this.nextItem;

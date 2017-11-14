@@ -280,6 +280,8 @@ Hacker = function() {
           //now that the images are loaded, go to main and the template.rendered event
           //will call this.redraw()
 
+          hacker.loader.state = "pause";  //set this so that template.rendered will start up the loader
+
           FlowRouter.go("/main");
 
         });

@@ -419,9 +419,9 @@ if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).veloci
 
 		$( container ).css("left",  _left + "px" );  
 
-		$( container ).css("top", _top + fullHeight * 0.03 + "px");
+		$( container ).css("top", _top + "px");
 
-		$( container ).attr("height", fullHeight * 0.94 );
+		$( container ).attr("height", fullHeight);
 
 		$( container ).attr("width", _width );  
 
@@ -489,11 +489,7 @@ Meme.dimBGControls = function( _index ) {
 
 		var _lastIndex = hacker.loader.totalClueCount - (_index % hacker.loader.columnCount) - 1;
 
-c("lastindex in dim is " + _lastIndex)
-
 		for (var i = 0; i < _lastIndex; i++ ) {
-
-c("dimming index " + i)
 
 			Meme.dimControl( i );
 		}

@@ -279,7 +279,7 @@ Template.main.events({
 
 hack.mode = mReady;
       
-hacker.loader.go();
+hacker.loader.start();
     },
 
     'click img.featuredPic': function(e) {
@@ -340,6 +340,8 @@ c("starting news from main.rendered")
     
 
     if (hack.mode == mReady)  {
+
+      if ( hacker.loader.state == "pause") hacker.loader.start();
 
       if ( hacker.feature.off() ) {
 
