@@ -42,7 +42,7 @@
     
 
     //This supplies the appropriate picture file for the control
-
+/*
   	this.getControlPic = function() {
 
 	    var pic = "";
@@ -56,8 +56,8 @@
 	    if (this.getState() == sScanning) pic = this.scanningPic;
 
 	    return pic;
-  	},
-
+  	}
+*/
 
 	this.play = function() {
 

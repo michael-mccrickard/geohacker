@@ -26,9 +26,9 @@ YouTube = function()  {
 
    this.play = function( _file ) {
 
-      if ( ytplayer.g.g.video_id )  {
+      if ( ytplayer.getVideoData() )  {
 
-        var _currentFile = ytplayer.g.g.video_id;
+        var _currentFile = ytplayer.getVideoData()['video_id'];
 
         if (_currentFile == _file) {
 

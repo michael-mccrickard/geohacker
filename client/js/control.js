@@ -111,26 +111,29 @@ Control = {
   //the image for the control buttons
 
   getControlPic: function() {
-    
-    var pic = "";
 
-    if (this.getState() == sIcon) pic = this.iconPic;
+  var pic = "";
 
-    if (this.getState() == sScanning) pic = this.scanningPic;
+    if (this.name == "MEME") pic = this.items[ this.getIndex() ].image;
 
-    if (pic == "") {
+    if (this.name == "SOUND") pic = this.soundPlayingPic;
 
-      if (this.name == "MEME") {
+    if (this.name == "VIDEO") {
 
-          pic = this.items[ this.getIndex() ].image;
+      var _file = this.items[ this.getIndex() ].u;
+
+      if ( youtube.isFile( _file) ) {
+
+        _file = this.items[ this.getIndex() ].f;
+
+         return ("http://img.youtube.com/vi/" + _file + "/default.jpg");
       }
-      else {
+    }
 
-        pic = this.items[ this.getIndex() ].u;
-      }
-    } 
+    if (!pic) pic = this.items[ this.getIndex() ].u;
 
-    return pic;
+
+  return pic;
   },
 
   setControlPicSource: function() {
@@ -307,31 +310,18 @@ Control = {
 //            CONTROL  (static functions)
 //************************************************************
 
-Control.switchTo = function( _id ) {
-
-    if (hacker.scanner.mode == "scan" || hacker.scanner.mode == "rescan") {
-
-        display.playEffect( hacker.locked_sound_file );
-
-        return;
-    }
+Control.switchTo = function( _name, _index ) {
 
     hacker.cue.set();
 
-
-
-    if ( hacker.ctl[ _id ].getState() < sLoaded ) {
-
-        display.playEffect( hacker.locked_sound_file );
-
-        return;
-    }
 
     display.playEffect( hacker.fb_sound_file );  
 
     //for the media controls, we are either clicking to toggle
     //the state (ctl is already active) 
     //or we are clicking to make active and play
+
+    /*
 
     var _name = hacker.feature.item.getName();
 
@@ -348,12 +338,15 @@ Control.switchTo = function( _id ) {
 
      }
 
+    */
+
+
   c("'click control' is calling feature.switch")
 
-    hacker.feature.switchTo( _id );
+    hacker.feature.switchTo( _name, _index );
 
 
-    if (_id == "VIDEO") {
+    if (_name == "VIDEO") {
 
       hacker.cue.setAndShow();
     }
