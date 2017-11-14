@@ -119,20 +119,18 @@ FeaturedItem = function( ) {
 			return;
 		}
 
-if ( $(".featuredPic").css("opacity") == "1" ) $(".featuredPic" ).velocity( { opacity: 0.0, duration: _time });
+		if ( $(".featuredPic").css("opacity") == "1" ) $(".featuredPic" ).velocity( { opacity: 0.3, duration: _time });
 	}
 
    /*****************************************************************
     /				LOADING AND PRELOADING
     /****************************************************************/
 
-    this.load = function( _name, _index ) {
+    this.load = function( _name ) {
 
     	this.setName( _name );
 
 		this.ctl = hacker.ctl[ _name ];
-
-if (_index) this.ctl.setIndex( _index )
 
 		this.ctl.setData( this );    	
     }
@@ -191,10 +189,6 @@ if (_index) this.ctl.setIndex( _index )
 		//set this reactive var, so that the scanner knows the image is ready when it finishes.
 
 		this.isLoaded.set( true );
-
-c("calling feature switchToNext in item.fileIsLoaded")
-
-hacker.feature.switchToNext();
 
 	}
 
@@ -272,17 +266,15 @@ hacker.feature.switchToNext();
 
         var fullScreenHeight = $(window).height();
 
-        var container = "img.featuredBackdrop";
-
-        var fullBackdropWidth = $( container ).width();
+        var fullBackdropWidth = $("img.featuredBackdrop").width();
 
         var maxWidth = fullBackdropWidth * 0.8;
 
-        var fullHeight = $(container).height();
+        var fullHeight = $("img.featuredBackdrop").height();
 
-        var leftMargin = $(container).position().left;
+        var leftMargin = $("img.featuredBackdrop").position().left;
 
-        var _height = fullHeight;
+        var _height = fullHeight * 0.935;
 
         var menuHeight = 50;
 
@@ -305,7 +297,7 @@ hacker.feature.switchToNext();
 
         if (_width > maxWidth) _width = maxWidth;
 
-        var _top = $(container).position().top;
+        var _top = fullScreenHeight * 0.09;
 
         var _left = leftMargin + (fullBackdropWidth/2) - (_width/2);
 

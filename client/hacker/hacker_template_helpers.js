@@ -6,11 +6,6 @@ $(document).ready(function(){
 
 Template.main.helpers({
 
-    clue: function() {
-
-        return hacker.clues.find();
-    },
-
     helperAgentID: function() {
 
         return "h" + hacker.helper.ID;
@@ -239,7 +234,6 @@ Template.main.events({
 
       e.preventDefault();
 
-/*
       if (hacker.cue.state == sPlaying) {
 
           display.playEffect( hacker.locked_sound_file );
@@ -253,7 +247,7 @@ Template.main.events({
 
           return;
       }
-*/
+
       if ( hacker.moreDataAvailable() == false ) {
 
           display.playEffect( hacker.locked_sound_file );
@@ -275,11 +269,8 @@ Template.main.events({
 
       game.playMusic();
 
-      //hacker.scanner.startScan( mode );
-
-hack.mode = mReady;
+      hacker.scanner.startScan( mode );
       
-hacker.loader.start();
     },
 
     'click img.featuredPic': function(e) {
@@ -301,12 +292,7 @@ hacker.loader.start();
       
       e.preventDefault();
 
-      var _index = $( "#" + e.currentTarget.id).data("index");
-
-      var _name =  $( "#" + e.currentTarget.id).data("name");
-
-
-      Control.switchTo( _name, _index );
+      Control.switchTo( e.currentTarget.id );
     },
 
 });
@@ -335,19 +321,17 @@ Template.main.rendered = function () {
 
     hacker.checkMainScreen();
 
-c("starting news from main.rendered")
+c("staring news from main.rendered")
     hacker.news.start();
     
 
     if (hack.mode == mReady)  {
 
-      if ( hacker.loader.state == "pause") hacker.loader.start();
-
       if ( hacker.feature.off() ) {
 
-        //hacker.scanner.show();
+        hacker.scanner.show();
 
-        //Meteor.setTimeout(function() { hacker.scanner.startIdle(); }, 502 ); 
+        Meteor.setTimeout(function() { hacker.scanner.startIdle(); }, 502 ); 
 
         hacker.TV.set( TV.scanPrompt );  
    
@@ -357,7 +341,3 @@ c("starting news from main.rendered")
 
 }
 
-Template.main.onDestroyed(function () {
-
-  c("hacker template destroryed")
-});

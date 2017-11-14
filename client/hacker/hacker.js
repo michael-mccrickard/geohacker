@@ -71,9 +71,6 @@ Hacker = function() {
 
     this.loader = new NewLoader();
 
-    this.clues = new Meteor.Collection(null);
-
-    this.arrClues = [];  //the parallel array to this.clues, use it to rebuild the collection between jumps to the map / home screen, etc.
 
     //*********************************************
     //      Startup functions
@@ -222,16 +219,14 @@ Hacker = function() {
 
         this.dimensionControls();
 
-        //if (hack.mode == mReady || hack.mode == mScanning) this.scanner.draw();
+        if (hack.mode == mReady || hack.mode == mScanning) this.scanner.draw();
 
         if (this.feature.on() ) {
 
-            //this.scanner.hide();
+            this.scanner.hide();
 
             this.feature.item.show();
         }
-
-        this.restoreClues();
     }
 
     this.redimension = function() {
@@ -279,8 +274,6 @@ Hacker = function() {
           
           //now that the images are loaded, go to main and the template.rendered event
           //will call this.redraw()
-
-          hacker.loader.state = "pause";  //set this so that template.rendered will start up the loader
 
           FlowRouter.go("/main");
 
@@ -451,35 +444,6 @@ c("doHeadlines")
               ctl.setState( sLoaded );           
             }
         }    
-    }
-
-     //*********************************************
-    //     Clues
-    //*********************************************   
-
-
-
-    this.addClue = function( _obj ) {
-
-        this.clues.insert( _obj );
-
-    }
-
-    this.restoreClues = function() {
-
-        var _len = this.clues.find().fetch().length;
-
-       if ( _len) {
-
-
-            for (i = 0; i < _len; i++) {
-
-                $("div#m" + i).velocity( "fadeIn", {duration: 250} );
-
-            }
-
-            this.loader.arrangeRows();
-        }
     }
 
 }

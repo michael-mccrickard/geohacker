@@ -31,10 +31,6 @@ HackMap = function() {
     //(this part is a little convoluted b/c we formerly immediately showed the featured content
     //when a control was featured by the loader (random selection) and we also handled the auto-featured map clues differently
 
-        stopSpinner();
-
-        hacker.loader.pause();
-
         Meteor.defer( function() { display.playEffect("mapButton.mp3"); });
 
         hacker.worldMapTemplateReady = false;
