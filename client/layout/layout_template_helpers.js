@@ -143,11 +143,6 @@ Template.layout.helpers({
     return false;
   },
 
-  waitingOnDatabase : function() {
-
-      return ( Session.get("sWaitingOnDatabase") );
-  },
-
   vedSelectStoryMode : function() {
 
     var _flag = Session.get("sUpdateVisualEditor");
@@ -164,23 +159,6 @@ Template.layout.helpers({
     var _flag = Session.get("sUpdateVisualEditor");
     
     return ved.modalTemplate.get();
-  },
-
-  zoomInModalTitle: function() {
-
-      return hacker.unit.name;
-  },
-
-  srcImgZoomInModal: function() {
-
-      hacker.updateFlag.get();
-
-      return hacker.unit.src;
-  },
-
-  zoomInModalText: function() {
-
-      return hacker.unit.text;
   }
 
 });

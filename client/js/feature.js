@@ -55,24 +55,14 @@ Feature = function() {
 
    this.switchToNext = function() {
 
-   		stopSpinner();
-
    		this.hideMeme();
 
    		this.item = this.nextItem;
 
-Meteor.setTimeout( function() { hacker.feature.item.show(); }, 250 );
-
-hacker.loader.showLoadedControl();  //shows the appropriate pic in the control button
-
-   		Meme.showControl( hacker.loader.totalClueCount - 1);
-
-   		Meme.dimBGControls( hacker.loader.totalClueCount - 1);
-
-Meteor.setTimeout( function() { hacker.loader.go(); }, 5000 );
+   		this.item.show();
    }
 
-   this.switchTo = function( _name, _index ) {
+   this.switchTo = function( _name ) {
 
    		if (this.item) this.prevItem = this.item;		
 
@@ -80,7 +70,7 @@ Meteor.setTimeout( function() { hacker.loader.go(); }, 5000 );
 
    		this.nextItem = new FeaturedItem();
 
-   		this.nextItem.load( _name, _index );
+   		this.nextItem.load( _name );
 
    		hacker.suspendMedia();
 

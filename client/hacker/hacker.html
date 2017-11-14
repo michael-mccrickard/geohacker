@@ -9,11 +9,7 @@
 
 		<img class="featuredBackdrop" src="featuredBackdrop.jpg" />
 
-		<div class="divLogoBackdrop">
-			<img class="logoBackdrop" src="geohacker_newLogo2.png" />
-		</div>
-
-		<!--{{> scanning}}-->
+		{{> scanning}}
 
 
 		{{> meme}}
@@ -33,21 +29,19 @@
 		
 		{{/if}}
 
-		<!--img class="navButton navPrev invisible"  src="nav_prev2.png" />	
+		<img class="navButton navPrev invisible"  src="nav_prev2.png" />	
 
-		<img class="navButton navNext invisible"  src="nav_next2.png" /-->	
+		<img class="navButton navNext invisible"  src="nav_next2.png" />				
 
+		{{#each control}}
 
+			<div  class="control" id="{{this}}">
 
-		{{#each clue}}
-
-			<div  class="control r0" id="m{{@index}}" data-index={{this.i}} data-name="{{this.n}}">
-
-				<img class="stretch" id="b_{{this._id}}"  src="featuredBackdrop.jpg" />
+				<img class="stretch" id="ctlBG_{{this}}"  src="featuredBackdrop.jpg" />
 				
-				<img class="memePicFrameRow" src="{{this.f}}" />
+				<img class="controlPic  {{opacityClass}}" id="pic{{this}}" src="{{controlPic}}" />	
 
-				<div class="memeTextRow">{{this.t}}</div>
+				<div class="controlLabel whiteText {{opacityClass}}">{{this}}</div>	
 
 			</div>	
 		
@@ -87,7 +81,7 @@
 
 		{{else}}
 
-			<div><img class="clsScanButtonContent scanContentA" id="scanButtonContentA" src="static2.gif" /></div>
+			<div><img class="clsScanButtonContent scanContentA" id="scanButtonContentA" src="" /></div>
 
 			<!--div><img class="clsScanButtonContent scanContentB" id="scanButtonContentB" src="static.gif" /></div-->
 
