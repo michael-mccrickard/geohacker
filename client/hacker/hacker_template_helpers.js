@@ -78,6 +78,13 @@ Template.main.helpers({
 
     },
 
+    isMeme: function( _name) {
+
+       if (_name == "MEME") return true;
+
+       return false;
+    },
+
     opacityClass: function() {
 
       if (hacker.ctl[ this ].getState() <= sIcon) return "faded";
@@ -189,31 +196,6 @@ Template.main.events({
   
     },
 
-  'click img.navPrev': function(e) {
-
-      e.preventDefault();
-
-      var _index = hacker.feature.item.ctl.getIndex();
-
-      if (hacker.feature.item.getName() == "MEME") _index = hacker.feature.item.ctl.getRealIndex();
-
-      hacker.feature.item.ctl.setIndex( _index - 1);
-
-      updateFeaturedContent();
-  },
-
-  'click img.navNext': function(e) {
-
-      e.preventDefault();
-
-      var _index = hacker.feature.item.ctl.getIndex();
-
-      if (hacker.feature.item.getName() == "MEME") _index = hacker.feature.item.ctl.getRealIndex();
-
-      hacker.feature.item.ctl.setIndex( _index + 1);
-
-      updateFeaturedContent();
-  },
 
   'click img.clsHelperAgentButton': function(e) {
 
@@ -239,47 +221,25 @@ Template.main.events({
 
       e.preventDefault();
 
-/*
-      if (hacker.cue.state == sPlaying) {
+      hack.mode = mReady;
+            
+      if (hacker.loader.state == "pause") {
 
-          display.playEffect( hacker.locked_sound_file );
+          if ( hacker.moreDataAvailable() == false ) {
 
-          return;
+              display.playEffect( hacker.locked_sound_file );
+
+              hacker.setScanButtonImage( hacker.pauseControlPic );
+
+              return; 
+          }
+
+          hacker.playSequence();
       }
+      else {
 
-      if (hacker.scanner.mode == "scan" || hacker.scanner.mode == "rescan") {
-
-          display.playEffect( hacker.locked_sound_file );
-
-          return;
+          hacker.pauseSequence();
       }
-*/
-      if ( hacker.moreDataAvailable() == false ) {
-
-          display.playEffect( hacker.locked_sound_file );
-
-          return; 
-      }
-
-      if (hacker.feature.item) hacker.feature.item.dim();
-
-      Control.unhiliteAll();
-
-      Control.hideNavButtons();
-
-      var mode = "rescan";
-
-      if (hacker.loader.totalClueCount == 0) mode = "scan";
-
-      hacker.suspendMedia();
-
-      game.playMusic();
-
-      //hacker.scanner.startScan( mode );
-
-hack.mode = mReady;
-      
-hacker.loader.start();
     },
 
     'click img.featuredPic': function(e) {
@@ -304,7 +264,6 @@ hacker.loader.start();
       var _index = $( "#" + e.currentTarget.id).data("index");
 
       var _name =  $( "#" + e.currentTarget.id).data("name");
-
 
       Control.switchTo( _name, _index );
     },
@@ -341,7 +300,7 @@ c("starting news from main.rendered")
 
     if (hack.mode == mReady)  {
 
-      if ( hacker.loader.state == "pause") hacker.loader.start();
+      if ( hacker.loader.state == "play") hacker.playSequence();
 
       if ( hacker.feature.off() ) {
 
@@ -349,7 +308,7 @@ c("starting news from main.rendered")
 
         //Meteor.setTimeout(function() { hacker.scanner.startIdle(); }, 502 ); 
 
-        hacker.TV.set( TV.scanPrompt );  
+        //hacker.TV.set( TV.scanPrompt );  
    
       }
 

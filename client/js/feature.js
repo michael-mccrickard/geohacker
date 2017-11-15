@@ -4,7 +4,9 @@ Feature = function() {
 
     this.nextItem = null;  //the specific control record that is being pre-loaded as the next feature
 
-    this.prevItem = null;
+    this.delayTime = 5000;
+
+    this.ele = "img.featuredPic";
 
    /*****************************************************************
    /				BASIC METHODS
@@ -40,13 +42,11 @@ Feature = function() {
    /				LOADING
    /****************************************************************/
 
-   this.loadNextItem = function( _name ) {
+   this.preload = function( _name ) {
 
-   		if (this.item) this.prevItem = this.item;
+   		this.nextItem = new FeaturedItem( _name);  
 
-   		this.nextItem = new FeaturedItem();
-
-   		this.nextItem.preload( _name );
+   		this.nextItem.preload();
    }
 
    /*****************************************************************
@@ -55,34 +55,40 @@ Feature = function() {
 
    this.switchToNext = function() {
 
-   		stopSpinner();
+		hack.mode = mDataFound;
 
-   		this.hideMeme();
+		hacker.cue.setAndShow();
 
-   		this.item = this.nextItem;
+		//set the timer if we're on the first clue
 
-Meteor.setTimeout( function() { hacker.feature.item.show(); }, 250 );
+		if (hacker.loader.totalClueCount == 1) {
 
-hacker.loader.showLoadedControl();  //shows the appropriate pic in the control button
+			game.hackStartTime = new Date().getTime();
+			
+		}
 
-   		Meme.showControl( hacker.loader.totalClueCount - 1);
+		//see if any buttons need enabling / disabling
 
-   		Meme.dimBGControls( hacker.loader.totalClueCount - 1);
+		hacker.checkMainScreen();
 
-Meteor.setTimeout( function() { hacker.loader.go(); }, 5000 );
+		Meme.showControl( hacker.loader.totalClueCount - 1);
+
+		Meme.dimBGControls( hacker.loader.totalClueCount - 1);
+
+		this.switch();
+
+//if (hacker.loader.totalClueCount == 4) return;
+
+Meteor.setTimeout( function() { hacker.loader.go(); }, 3000 );
    }
 
-   this.switchTo = function( _name, _index ) {
+   this.switchTo = function( _name, _index  ) {	
 
-   		if (this.item) this.prevItem = this.item;		
+   		hacker.pauseSequence();
 
-   		this.hideMeme();
+   		this.nextItem = new FeaturedItem( _name );
 
-   		this.nextItem = new FeaturedItem();
-
-   		this.nextItem.load( _name, _index );
-
-   		hacker.suspendMedia();
+   		this.nextItem.load( _index );
 
  		Meteor.defer( function() { hacker.feature.switch(); } );
 
@@ -90,7 +96,11 @@ Meteor.setTimeout( function() { hacker.loader.go(); }, 5000 );
 
 	this.switch = function() {
 
-		c("feature.js: switch() from " + this.item.getName() + " to " + this.nextItem.getName() )
+		stopSpinner();
+
+		hacker.suspendMedia();
+
+		this.hide();
 
 		this.item = this.nextItem;
 
@@ -101,7 +111,8 @@ Meteor.setTimeout( function() { hacker.loader.go(); }, 5000 );
 		
 		this.ctl = hacker.ctl[ _name ];
 
-		if (_name == "IMAGE" || _name == "WEB" ||  _name == "MEME") {		
+
+		if (_name != "VIDEO" ) {		
 
 			c("'feature.switch()' is calling setImageSource")
 
@@ -114,10 +125,6 @@ Meteor.setTimeout( function() { hacker.loader.go(); }, 5000 );
 			game.pauseMusic();
 
 			if (this.item.ctl.getState() == sLoaded) this.item.ctl.setState( sPlaying );
-
-			console.log("feature.switch() is calling setImageSource('SOUND')")
-
-			this.item.setImageSource();
 		}
 
 		if (_name == "VIDEO") {
@@ -136,11 +143,18 @@ Meteor.setTimeout( function() { hacker.loader.go(); }, 5000 );
 
 	}
 
-	this.hideMeme = function() {
+	this.hide = function() {
 
 		if (this.item) {
 
-   			if (this.item.getName() == "MEME") this.item.ctl.hide();
+   			if (this.item.getName() == "MEME") {
+
+   				this.item.ctl.hide();
+   			}
+   			else {
+
+   				$( this.ele ).css("opacity", 0);
+   			}
    		}
 	}
 

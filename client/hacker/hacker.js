@@ -47,6 +47,11 @@ Hacker = function() {
 
     this.soundPlayingPic = "vu_meter1.gif";  //used as the image by debrief when the type is language
 
+    this.playControlPic = "play_icon.png";
+
+    this.pauseControlPic = "pause_icon.png";
+
+
     //misc
 
     this.mainTemplateReady = false;
@@ -189,6 +194,27 @@ Hacker = function() {
         }
     },
 
+    this.playSequence = function() {
+
+        this.loader.state = "play";
+
+        this.setScannerButtonImage( this.pauseControlPic );
+
+        this.loader.go();
+    }
+
+    this.pauseSequence = function() {
+
+        this.loader.state = "pause";
+
+        this.setScannerButtonImage( this.playControlPic );
+    }
+    
+    this.setScannerButtonImage = function( _url ) {
+
+        $("img#scanButtonContentA").attr("src", _url);
+    }
+
 
     //*********************************************
     //      Utility functions
@@ -280,7 +306,7 @@ Hacker = function() {
           //now that the images are loaded, go to main and the template.rendered event
           //will call this.redraw()
 
-          hacker.loader.state = "pause";  //set this so that template.rendered will start up the loader
+          hacker.loader.state = "play";  //set this so that template.rendered will start up the loader
 
           FlowRouter.go("/main");
 

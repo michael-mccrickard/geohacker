@@ -62,8 +62,6 @@ NewLoader = function() {
 
 		hack.mode = mScanning;
 
-		//hacker.setControls( sScanning );
-
 		//Meteor.defer( function(){ hacker.dimensionControls(); });  //the aspect ratio is likely to be 
 																	//different (loaded control pic vs. scan pic)
 		hacker.cue.setAndShow();
@@ -76,10 +74,11 @@ NewLoader = function() {
 
 		if (this.totalClueCount == 1) _delay = 2000;
 
-	    Meteor.setTimeout( function() { hacker.feature.loadNextItem( hacker.loader.newControl.name );	}, _delay );
+	    Meteor.setTimeout( function() { hacker.feature.preload( hacker.loader.newControl.name );	}, _delay );
 
 
 	}
+
 
 	this.showLoadedControl = function() {
 
@@ -87,28 +86,13 @@ NewLoader = function() {
 
 		c("in loader.showLoadedControl, newControl name is " + this.newControl.name)
 
-	    //hacker.ctl[ this.newControl.name ].setControlPicSource();
+	    hacker.ctl[ this.newControl.name ].setControlPicSource();
 
 		hack.mode = mDataFound;
 
-//if (this.totalClueCount == 1) hacker.status.setAndShow();
-
 		hacker.cue.setAndShow();
 
-
-		//here we set the unloaded controls to sIcon and the loaded ones back to sLoaded
-
-		//hacker.resetControls();
-
-		//hacker.dimensionControls();
-
-		//this.newControl was set by this.go() before the loading sequence began
-			
-		//this.newControl.setState ( sLoaded );
-
-		//this.newControl.setPicDimensions();
-
-		//this.newControl.hilite();
+		this.newControl.setPicDimensions();
 
 
 		//set the timer if we're on the first clue
@@ -119,13 +103,12 @@ NewLoader = function() {
 			
 		}
 
-	//	this.arrangeRows();
-
 		//see if any buttons need enabling / disabling
 
 		hacker.checkMainScreen();
 
 	},
+
 
 	this.arrangeRows = function() {
 
@@ -144,37 +127,6 @@ NewLoader = function() {
 			$("div#m" + i).addClass( "r" + (rowNum + 1) );
 
 		}
-
-/*
-
-		if (this.totalClueCount > this.columnCount)  {
-
-			if (this.totalClueCount % this.columnCount == 1) {
-
-				var _tempClueCount = this.totalClueCount - 1;
-
-				while (_tempClueCount) { 
-
-					var newRowForPrev = (_tempClueCount / this.columnCount);
-
-					var prevRow = newRowForPrev - 1;
-
-					$(".control.r" + prevRow).addClass("r" + newRowForPrev);
-
-//$(".control.r" + prevRow).removeClass("r" + prevRow);
-
-					_tempClueCount = _tempClueCount - this.columnCount;
-
-				}
-
-				//prevent the new control from jumping up with the prev row
-
-				$("#m" + (this.totalClueCount - 1)).addClass( "r" + prevRow );
-
-				$("#m" + (this.totalClueCount - 1)).removeClass( "r" + newRowForPrev );
-			}
-		}
-*/
 
 	}
 
@@ -201,7 +153,8 @@ NewLoader = function() {
 
 		//this is the temporary array to determine which control to enable
 		
-		var tmp = [];
+		var tmp = [];	
+
 
 		//use all the memes first
 
@@ -232,22 +185,60 @@ NewLoader = function() {
 
 
 //if we need to force a certain control for any reason, this is the place to do it
+//ALSO:  uncomment the "if meme" block below and the alternate version of hacker.addClue() 
+//in the "if randomControl" block below that
 
 /*
+
 
 if (this.totalClueCount == 0) randomControl = hacker.ctl["MEME"]; 
 
 if (this.totalClueCount == 1) randomControl = hacker.ctl["MEME"];
 
-if (this.totalClueCount == 2) randomControl = hacker.ctl["MEME"];
+if (this.totalClueCount == 2) randomControl = hacker.ctl["SOUND"];
 
 if (this.totalClueCount == 3) randomControl = hacker.ctl["MEME"];
 
-if (this.totalClueCount == 4) randomControl = hacker.ctl["MEME"];
+if (this.totalClueCount == 4) randomControl = hacker.ctl["VIDEO"];
+
+if (this.totalClueCount == 5) randomControl = hacker.ctl["MEME"]; 
+
+if (this.totalClueCount == 6) randomControl = hacker.ctl["WEB"];
+
+if (this.totalClueCount == 7) randomControl = hacker.ctl["VIDEO"];
+
+if (this.totalClueCount == 8) randomControl = hacker.ctl["MEME"];
+
+if (this.totalClueCount == 9) randomControl = hacker.ctl["VIDEO"];
+
+if (this.totalClueCount == 10) randomControl = hacker.ctl["MEME"]; 
+
+if (this.totalClueCount == 11) randomControl = hacker.ctl["MEME"];
+
+if (this.totalClueCount == 12) randomControl = hacker.ctl["MEME"];
+
+if (this.totalClueCount == 13) randomControl = hacker.ctl["MEME"];
+*/
+			var _text = "";
+
+/*
+
+if (randomControl.name == "MEME") {
+
+var _meme = MemeCollection.getNextHackerItem( randomControl.memeCollection.items );
+
+randomControl.meme = _meme;
+
+_text = _meme.text;
+
+randomControl.addToSequence( randomControl.getMemeIndex() );
+}
+
 */
 
-
 		//Bump up the loadedCount on this control and return the name
+
+		
 
 		if (randomControl) {
 
@@ -259,6 +250,7 @@ if (this.totalClueCount == 4) randomControl = hacker.ctl["MEME"];
 
 			if (randomControl.name != "MEME") hacker.addClue( { u: randomControl.getFile(), f: randomControl.getControlPic(), t: "", n: randomControl.name, i: newCount - 1 } );
 
+//hacker.addClue( { u: randomControl.getFile(), f: randomControl.getControlPic(), t: _text, n: randomControl.name, i: newCount - 1 } );
 
 //If we need to force a certain clue on a control, this is the place to do it
 //(Comment out the Database.shuffle() command in control.setItems() if you need to do this.

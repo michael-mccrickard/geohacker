@@ -322,7 +322,6 @@ Control.switchTo = function( _name, _index ) {
     //or we are clicking to make active and play
 
     /*
-
     var _name = hacker.feature.item.getName();
 
     if ((_id == "SOUND" && _name == "SOUND") || (_id == "VIDEO" && _name == "VIDEO")) {

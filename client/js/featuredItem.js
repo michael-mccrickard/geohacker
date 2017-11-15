@@ -1,6 +1,6 @@
-FeaturedItem = function( ) {
+FeaturedItem = function( _name ) {
 	
-	this.name = new Blaze.ReactiveVar("");
+	this.name = new Blaze.ReactiveVar( _name );
 
 	this.isLoaded = new Blaze.ReactiveVar( false );
 
@@ -17,6 +17,7 @@ FeaturedItem = function( ) {
 	this.text = "";
 
 	this.source = "UNKNOWN";  //for images or any other element that might have a URL (for credit purposes)
+
 
 	this.getName = function() {
 
@@ -43,8 +44,6 @@ FeaturedItem = function( ) {
 
 
 	this.show = function() {
- 
-		this.hide();
 
 		this.ctl.hilite();
 
@@ -96,21 +95,7 @@ FeaturedItem = function( ) {
 
 	}
 
-	this.hide = function() {
-
-		$("img.featuredPic").addClass("hidden");	
-
-		if (this.prevItem) {
-
-			if (this.prevItem.getName() == "MEME") {
-
-				this.prevItem.ctl.meme.fadeOut();
-			}			
-		}
-
-	}
-
-	this.dim = function( _time ) {
+	this.dim = function() {
 
 		if (this.getName() == "MEME") {
 
@@ -126,27 +111,23 @@ if ( $(".featuredPic").css("opacity") == "1" ) $(".featuredPic" ).velocity( { op
     /				LOADING AND PRELOADING
     /****************************************************************/
 
-    this.load = function( _name, _index ) {
+    this.load = function( _index ) {
 
-    	this.setName( _name );
+		this.ctl = hacker.ctl[ this.getName() ];
 
-		this.ctl = hacker.ctl[ _name ];
-
-if (_index) this.ctl.setIndex( _index )
+		this.ctl.setIndex( _index );
 
 		this.ctl.setData( this );    	
     }
 
 
-	this.preload = function( _name ) {
+	this.preload = function() {
 
-		console.log("preloading =" + _name)
+		console.log("preloading =" + this.name.get() )
 
-		this.setName( _name );
+		this.ctl = hacker.ctl[ this.name.get() ];
 
-		this.ctl = hacker.ctl[ _name ];
-
-		this.ctl.setData( this );
+		this.ctl.setData( this );  //get the filename, etc from the control
 
 		if ( _name == "VIDEO") {
 
@@ -177,7 +158,9 @@ if (_index) this.ctl.setIndex( _index )
 
 		c("featuredItem.fileIsLoaded()");
 
+		//To do, gut the scanner code
 
+/*
 		//if the scanner is still running, it's possible that it is still waiting on the image to load
 
 		if ( hacker.scanner.centerState == "scan" || hacker.scanner.centerState == "rescan") {
@@ -186,6 +169,7 @@ if (_index) this.ctl.setIndex( _index )
 
 			if (hacker.scanner.checkScan("feature") == true) { hacker.scanner.stopScan(); }
 		}
+*/
 
 		//if checkScan above returned false, then the scanner is still running, so we just
 		//set this reactive var, so that the scanner knows the image is ready when it finishes.

@@ -338,7 +338,7 @@ if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).veloci
 
 
 	this.drawFeatured = function( ) {
-
+c("drawFeatured in meme")
 		if (this.text) $("div.memeText").text( this.text );
 
 		var _source = Meme.sourceUnknownText;
@@ -361,15 +361,24 @@ if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).veloci
 
 	    var _left = (maxWidth/2) - (_width / 2 );
 
+	    var outerContainer = "img.featuredBackdrop";
+
+	    var _height = $( outerContainer).outerHeight();
+
+	    var _width = $( outerContainer ).outerWidth();
+
 		var container = "img.memePicFrame";
 
-		$( container ).css("left",  _left + "px" );  
+		$( container ).attr("height", fullHeight * 0.9 );
+
+		$( container ).attr("width", _width * 0.9 );  
+
+		$( container ).css("left",  _left * 1.1 + "px" );  
 
 		$( container ).css("top", "65px");
 
-		$( container ).attr("height", fullHeight );
+$( outerContainer ).attr("width", _width * 1.2 ); 
 
-		$( container ).attr("width", _width );  
 
 		$( container ).attr("src", this.image );
 

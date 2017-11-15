@@ -61,9 +61,9 @@ img.featuredBackdrop {
     width: 83.3%;
     height: 65.5%;
 
-    opacity: 0;   /* currently used as a positioning guide */
+    opacity: 1;   
 
-   /* z-index: 5;  */
+  /*  z-index: 5;  */
 }
 
 div.divLogoBackdrop {
@@ -90,7 +90,7 @@ img.logoBackdrop {
 .featuredPic {
     position: absolute;
     top: 6%;
-    z-index: 990;
+    z-index: 1100;
     cursor: pointer;
 }
 
