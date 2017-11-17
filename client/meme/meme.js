@@ -92,6 +92,10 @@ Meme = function( _rec, _type )  {
 
 	this.imageElement = "img.memePicFrame";
 
+	this.frameElement = "img.memeOuterFrame";
+
+	this.buttonElement = ".memeCloseButton";
+
 	this.returnRoute = "";
 
 	this.usedByHacker = false;
@@ -307,38 +311,52 @@ if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).veloci
 
 		$( this.textElement ).velocity( { opacity: 0.0, duration: 100 });
 
+		$( this.frameElement ).velocity( { opacity: 0.0, duration: 100 });
+
+		$( this.buttonElement ).velocity( { opacity: 0.0, duration: 100 });
 	}
 
 	this.show = function() {
 
 		container = "img.memePicFrame";
 
-		if ( $( container ).css("opacity") == 0 ) $( container ).velocity("fadeIn", { duration: 500, display: "auto" });	
+		if ( $( container ).css("opacity") == 0 ) $( container ).velocity("fadeIn", { duration: 500, display: "inline" });	
+
+		container = "img.memeOuterFrame";
+
+		if ( $( container ).css("opacity") == 0 ) $( container ).velocity("fadeIn", { duration: 500, display: "inline" });	
 
 		container = "div.memeText";
 
 		if (this.text) {
 
-			if ( $( container ).css("opacity") == 0 ) $( container ).velocity("fadeIn", { duration: 500, display: "auto" });	
+			if ( $( container ).css("opacity") == 0 ) $( container ).velocity("fadeIn", { duration: 500, display: "inline" });	
 		}
 		else {
 
 			$( container ).css("opacity", 0);
 		}
 
+		$( this.buttonElement ).velocity("fadeIn", { duration: 500, display: "inline" });	
+
 	}
 
 
 	this.hide = function() {
 
-		$( this.imageElement ).css("opacity", 0);
+		$( this.imageElement ).velocity("fadeOut", { duration: 0, display: "none" });	
 
-		$( this.textElement ).css("opacity", 0);
+		$( this.textElement ).velocity("fadeOut", { duration: 0, display: "none" });	
+
+		$( this.frameElement ).velocity("fadeOut", { duration: 0, display: "none" });	
+
+		$( this.buttonElement ).velocity("fadeOut", { duration: 0, display: "none" });	
+
 	}
 
 
 	this.drawFeatured = function( ) {
-c("drawFeatured in meme")
+
 		if (this.text) $("div.memeText").text( this.text );
 
 		var _source = Meme.sourceUnknownText;
@@ -414,15 +432,31 @@ $( outerContainer ).attr("width", _width * 1.2 );
 
 	    var maxWidth = fullBackdropWidth;
 
-        var fullHeight = $(container).height();
+		var fullHeight = $(container).height() * 0.9;
+		
 
-        var _top = $(container).position().top;
+		var _top = $(container).position().top + fullHeight * 0.05;
 
 	    var _width = (fullHeight / this.imageSrc.height ) * this.imageSrc.width; 
 
 	    if (_width > maxWidth) _width = maxWidth;
 
+ 		_width = _width * 0.9;
+
 	    var _left = leftMargin + (maxWidth/2) - (_width / 2 );
+
+		_left = _left + _width * 0.05;
+
+
+		var _outerLeft = leftMargin + (maxWidth/2) - (_width / 2 );  //should match declaration of _left abvoe
+
+		var _outerTop = $(container).position().top; 
+
+		var _outerHeight = $(container).height();
+
+		var _outerWidth = (fullHeight / this.imageSrc.height ) * this.imageSrc.width;   //should match declaration of _width abvoe
+
+		
 
 		var container = "img.memePicFrame";
 
@@ -435,6 +469,38 @@ $( outerContainer ).attr("width", _width * 1.2 );
 		$( container ).attr("width", _width );  
 
 		$( container ).attr("src", this.image );
+
+//now the outer frame
+
+		container = "img.memeOuterFrame";
+
+		$( container ).css("left",  _outerLeft + "px" );  
+
+		$( container ).css("top", _outerTop + "px");
+
+		$( container ).attr("height", _outerHeight);
+
+		$( container ).attr("width", _outerWidth );  
+
+//close button
+
+		container = ".memeCloseButton";
+
+		var _btnWidth = _outerWidth * 0.075;
+
+		var _btnHeight = _outerHeight * 0.05
+
+		$( container ).css("left",  _outerLeft + _outerWidth - _btnWidth / 2 + "px" );  
+
+		$( container ).css("top", _outerTop + (_outerHeight * 0.01) + "px");
+
+		$( container ).attr("height",  _btnHeight+ "px");
+
+		$( container ).attr("width", _btnWidth + "px" ); 		
+
+
+$( container ).css("opacity", 1);  
+	
 		
 		if (this.text) {
 
@@ -503,6 +569,18 @@ Meme.dimBGControls = function( _index ) {
 			Meme.dimControl( i );
 		}
 	}
+}
+
+Meme.restoreControls = function( _index ) {
+
+
+	for (var i = 0; i < hacker.loader.totalClueCount; i++ ) {
+
+		var container = "div#m" + i;
+
+		$( container ).velocity("fadeIn", { duration: 100, display: "auto" });
+	}
+
 }
 
 

@@ -47,9 +47,9 @@ Hacker = function() {
 
     this.soundPlayingPic = "vu_meter1.gif";  //used as the image by debrief when the type is language
 
-    this.playControlPic = "play_icon.png";
+    this.playControlPic = "play_icon_square.jpg";
 
-    this.pauseControlPic = "pause_icon.png";
+    this.pauseControlPic = "pause_icon_square.jpg";
 
 
     //misc

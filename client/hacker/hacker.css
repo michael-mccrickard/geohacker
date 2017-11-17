@@ -61,7 +61,7 @@ img.featuredBackdrop {
     width: 83.3%;
     height: 65.5%;
 
-    opacity: 1;   
+    opacity: 0;   
 
   /*  z-index: 5;  */
 }
@@ -92,6 +92,32 @@ img.logoBackdrop {
     top: 6%;
     z-index: 1100;
     cursor: pointer;
+}
+
+.featuredPicOuterFrame {
+
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+    border-radius: 13px;
+    z-index: 999;
+}
+
+.featuredPicCloseButton {
+
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+
+
+    border-radius: 5px;
+    z-index: 1001;
+
+    background: red;
+
+    font-size: 28px;
 }
 
 .featuredText {

@@ -65,8 +65,18 @@ Template.meme.events({
 
       display.showPhotoClaimForm(); 
 
-  }
+  },
 
+  'click .memeCloseButton':  function( e ) {
+
+      e.preventDefault();  
+
+      hacker.feature.hide();
+
+      hacker.pauseSequence();
+
+      Meme.restoreControls();
+  }
 
 
 });

@@ -61,9 +61,7 @@ FeaturedItem = function( _name ) {
 
 				//in ctl check to see if already playing?
 
-				this.ctl.play();
-
-				return;					
+				this.ctl.play();			
 			}
 		}
 
@@ -83,16 +81,37 @@ FeaturedItem = function( _name ) {
 			return;
 		}
 
-		//check here to see if the file has actually changed?
+		//don't show the featuredPic or Meme on top of the video
+
+		if (this.getName() == "VIDEO") {
+
+			this.fadeOutStillFeature();
+		}
+		else {
+
+			this.fadeInStillFeature();
+		}
+
+	}
+
+	//the meme features will handle their own visibility
+
+	this.fadeInStillFeature = function() {
 
 		$("img.featuredPic").attr("src", this.imageFile );
 
 		$("img.featuredPic").css("opacity", "0");
 
-		$("img.featuredPic").removeClass("hidden");
-
 		$("img.featuredPic" ).velocity("fadeIn", { duration: 500, display: "auto" });	
+	}
 
+	this.fadeOutStillFeature = function() {
+
+		$("img.featuredPic").attr("src", this.imageFile );
+
+		$("img.featuredPic").css("opacity", "0");
+
+		$("img.featuredPic" ).velocity("fadeOut", { duration: 500, display: "auto" });	
 	}
 
 	this.dim = function() {
@@ -262,11 +281,11 @@ hacker.feature.switchToNext();
 
         var maxWidth = fullBackdropWidth * 0.8;
 
-        var fullHeight = $(container).height();
+        var _fullHeight = $(container).height();
 
         var leftMargin = $(container).position().left;
 
-        var _height = fullHeight;
+        var _height = _fullHeight;
 
         var menuHeight = 50;
 
@@ -281,7 +300,7 @@ hacker.feature.switchToNext();
         }
         else {
 
-            if (_src) _width = (fullHeight / _src.height ) * _src.width; 
+            if (_src) _width = (_fullHeight / _src.height ) * _src.width; 
 
         }
 
@@ -289,9 +308,55 @@ hacker.feature.switchToNext();
 
         if (_width > maxWidth) _width = maxWidth;
 
+var _fullWidth = _width;
+
+_width =_width * 0.9;
+
         var _top = $(container).position().top;
 
+_top = _top + (_fullHeight * 0.05);
+
         var _left = leftMargin + (fullBackdropWidth/2) - (_width/2);
+
+_left = _left + ( _fullWidth * 0.05 );
+
+_height = _fullHeight - (_fullHeight * 0.1);
+
+        //size the frame
+
+		var _outerLeft = leftMargin + (fullBackdropWidth/2) - (_width/2); //should match declaration of _left above
+
+		var _outerTop = $(container).position().top; 
+
+		var _outerHeight = $(container).height();
+
+		var _outerWidth = _fullWidth;   //should match declaration of _width above
+
+		container = ".featuredPicOuterFrame";
+
+		$( container ).css("left",  _outerLeft + "px" );  
+
+		$( container ).css("top", _outerTop + "px");
+
+		$( container ).attr("height", _outerHeight);
+
+		$( container ).attr("width", _outerWidth );  
+
+//close button
+
+		container = ".featuredPicCloseButton";
+
+		var _btnWidth = _outerWidth * 0.075;
+
+		var _btnHeight = _outerHeight * 0.05
+
+		$( container ).css("left",  _outerLeft + _outerWidth - _btnWidth / 2 + "px" );  
+
+		$( container ).css("top", _outerTop + (_outerHeight * 0.01) + "px");
+
+		$( container ).attr("height",  _btnHeight+ "px");
+
+		$( container ).attr("width", _btnWidth + "px" ); 
 
         //if an _obj was passed, then populate it ...
 

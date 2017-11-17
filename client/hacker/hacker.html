@@ -13,12 +13,15 @@
 			<img class="logoBackdrop" src="geohacker_newLogo2.png" />
 		</div>
 
-		<!--{{> scanning}}-->
+
+		<img class="featuredPicOuterFrame hidden" src="featuredBackdrop.jpg" />
+
+		<img class="featuredPic hidden"  src="" />
+
+		<span class="glyphicon glyphicon-remove featuredPicCloseButton hidden" ></span>
 
 
 		{{> meme}}
-
-		<img class="featuredPic hidden"  src="" />
 
 
 		<!-- the YouTube API writes the youtube player into this div when appropriate -->
@@ -32,11 +35,6 @@
 			</div>
 		
 		{{/if}}
-
-		<!--img class="navButton navPrev invisible"  src="nav_prev2.png" />	
-
-		<img class="navButton navNext invisible"  src="nav_next2.png" /-->	
-
 
 
 		{{#each clue}}

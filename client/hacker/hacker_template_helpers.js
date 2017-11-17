@@ -11,6 +11,20 @@ Template.main.helpers({
         return hacker.clues.find();
     },
 
+    memeIsNotFeatured: function() {
+
+      if (hacker.feature.item.getName() == "MEME") return false;
+
+      return true;
+    },
+
+    memeIsFeatured: function() {
+
+      if (hacker.feature.item.getName() == "MEME") return true;
+
+      return false;
+    },
+
     helperAgentID: function() {
 
         return "h" + hacker.helper.ID;
@@ -267,6 +281,18 @@ Template.main.events({
 
       Control.switchTo( _name, _index );
     },
+
+
+  'click .featuredPicCloseButton':  function( e ) {
+
+      e.preventDefault();  
+
+      hacker.feature.hide();
+
+      hacker.pauseSequence();
+
+      Meme.restoreControls();
+  }
 
 });
 

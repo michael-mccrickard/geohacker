@@ -90,7 +90,7 @@ Headline = function( _type ) {
 
         if (hack.mode == mReady && hacker.loader.totalClueCount == 0) {
 
-            this.text = "CLICK THE SCAN BUTTON TO BEGIN HACKING ..." 
+            this.text = "Preparing mission ..." 
         
         }
 
@@ -110,7 +110,14 @@ Headline = function( _type ) {
                 this.text = ('Stream intercepted at ' + _date.toLocaleString());  
             }
 
-             if (hacker.loader.totalClueCount > 1) this.text = 'Additional ' + hacker.feature.item.name.get() + ' data decrypted from stream';
+            var _name = "";
+
+            if (hacker.feature.item) {
+
+                _name = hacker.feature.item.name.get()
+            }
+
+             if (hacker.loader.totalClueCount > 1) this.text = 'Additional ' + _name  + ' data decrypted from stream';
         }
 
         if (hack.mode == mHackDone) {
@@ -123,7 +130,7 @@ Headline = function( _type ) {
             this.text  = "Geo-locate the stream using the map ...";
         }
 
-        if (this.text  == "") this.text  = "Scan for more data or use the map to geo-locate the stream ..."
+        if (this.text  == "") this.text  = "Click the globe if you know which country this is ..."
 
         $( this.ele ).addClass("invisible");
 

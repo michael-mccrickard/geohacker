@@ -4,7 +4,7 @@ Feature = function() {
 
     this.nextItem = null;  //the specific control record that is being pre-loaded as the next feature
 
-    this.delayTime = 5000;
+    this.delayTime = 7000;
 
     this.ele = "img.featuredPic";
 
@@ -35,7 +35,21 @@ Feature = function() {
 	this.clear = function() {
 
 		this.item = null;
+
+		//this.deactivate();
 	}
+
+/*
+	this.activate = function() {
+
+		this.active.set( true );
+	}
+
+	this.deactivate = function() {
+
+		this.active.set( false );
+	}	
+*/
 
 
    /*****************************************************************
@@ -73,8 +87,6 @@ Feature = function() {
 
 		Meme.showControl( hacker.loader.totalClueCount - 1);
 
-		Meme.dimBGControls( hacker.loader.totalClueCount - 1);
-
 		this.switch();
 
 //if (hacker.loader.totalClueCount == 4) return;
@@ -101,6 +113,8 @@ Meteor.setTimeout( function() { hacker.loader.go(); }, 3000 );
 		hacker.suspendMedia();
 
 		this.hide();
+
+		Meme.dimBGControls( hacker.loader.totalClueCount - 1);
 
 		this.item = this.nextItem;
 
@@ -135,6 +149,16 @@ Meteor.setTimeout( function() { hacker.loader.go(); }, 3000 );
 
 		}
 
+		if (_name == "MEME") {
+
+			this.hideNonMemeFeature();	
+
+		}
+		else {
+
+			this.showNonMemeFeature();
+		}
+
 		c("feature.switch() is calling this.item.show()")
 		
 		//Need a slight delay here to ensure that the imageSource is ready
@@ -150,12 +174,33 @@ Meteor.setTimeout( function() { hacker.loader.go(); }, 3000 );
    			if (this.item.getName() == "MEME") {
 
    				this.item.ctl.hide();
+
    			}
    			else {
 
-   				$( this.ele ).css("opacity", 0);
+   				this.hideNonMemeFeature();
    			}
    		}
+	}
+
+	this.showNonMemeFeature = function() {
+
+		$(".featuredPic").removeClass("hidden")
+
+		$(".featuredPicOuterFrame").removeClass("hidden")
+
+		$(".featuredPicCloseButton").removeClass("hidden")			
+	}
+
+	this.hideNonMemeFeature = function() {
+
+		$(".featuredPic").addClass("hidden")
+
+		$(".featuredPicOuterFrame").addClass("hidden")
+
+		$(".featuredPicCloseButton").addClass("hidden")		
+
+   		if (this.item.getName() == "VIDEO")  hacker.ctl["VIDEO"].suspend();
 	}
 
 } //end feature constructor

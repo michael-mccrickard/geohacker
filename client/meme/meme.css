@@ -94,7 +94,31 @@ text-align: center;
     z-index: 1000;
 }
 
+.memeOuterFrame {
 
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+    border-radius: 13px;
+    z-index: 999;
+}
+
+.memeCloseButton {
+
+    position: absolute;
+    top: 0px;
+    left: 0px;
+
+
+
+    border-radius: 5px;
+    z-index: 1001;
+
+    background: red;
+
+    font-size: 28px;
+}
 
 .memeSourceText {
 
