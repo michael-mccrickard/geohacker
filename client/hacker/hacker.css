@@ -52,11 +52,8 @@ img.featuredBackdrop {
 
     position: fixed;
 
-    top: 0px;
-    left: 0px;
-
     left: 2%;
-    top: 5%;
+    top: 50px;
 
     width: 83.3%;
     height: 65.5%;

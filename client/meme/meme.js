@@ -354,7 +354,7 @@ if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).veloci
 
 	}
 
-
+/*
 	this.drawFeatured = function( ) {
 
 		if (this.text) $("div.memeText").text( this.text );
@@ -415,48 +415,58 @@ $( outerContainer ).attr("width", _width * 1.2 );
 
 		this.show();
 	}
+*/
 
 	this.dimensionForHack = function( ) {
+
+
+		var _btnWidth = 32;
+
+		var _btnHeight = 32;
+
+		var _btnMargin = 4;
+
+		var _btnDimension = 2 * (_btnWidth + _btnMargin);
+
 
 		this.imageSrc = hacker.feature.item.imageSrc;
 
 		if (this.text) $("div.memeText").text( this.text );
 
-	    var fullScreenWidth = $(window).width();
+c(this.text)
 
 	    var container = "img.featuredBackdrop";
 
-	    var leftMargin = $("img.featuredBackdrop").position().left;
+	    var leftMargin = $( container ).position().left;
 
 	    var fullBackdropWidth = $( container ).width();
 
 	    var maxWidth = fullBackdropWidth;
 
-		var fullHeight = $(container).height() * 0.9;
+		var fullHeight = $(container).height() - _btnDimension;
 		
-
-		var _top = $(container).position().top + fullHeight * 0.05;
+		var _top = $(container).position().top + _btnDimension/2;
 
 	    var _width = (fullHeight / this.imageSrc.height ) * this.imageSrc.width; 
 
 	    if (_width > maxWidth) _width = maxWidth;
 
- 		_width = _width * 0.9;
+	    var _fullWidth = _width;
 
-	    var _left = leftMargin + (maxWidth/2) - (_width / 2 );
+ 		_width = _width - _btnDimension;
 
-		_left = _left + _width * 0.05;
+	    var _left = leftMargin + ( maxWidth / 2 ) - ( _width / 2 );
 
+c("left margin is " + leftMargin)
 
-		var _outerLeft = leftMargin + (maxWidth/2) - (_width / 2 );  //should match declaration of _left abvoe
+c("maxWidth is " + maxWidth)
 
-		var _outerTop = $(container).position().top; 
+c("width is " + _width)
 
-		var _outerHeight = $(container).height();
+	    var _fullLeft = _left;
 
-		var _outerWidth = (fullHeight / this.imageSrc.height ) * this.imageSrc.width;   //should match declaration of _width abvoe
+		_left = _left + _btnDimension / 2;
 
-		
 
 		var container = "img.memePicFrame";
 
@@ -470,7 +480,19 @@ $( outerContainer ).attr("width", _width * 1.2 );
 
 		$( container ).attr("src", this.image );
 
+
 //now the outer frame
+
+		container = "img.featuredBackdrop";
+
+		var _outerLeft = _fullLeft; 
+
+		var _outerTop = $(container).position().top; 
+
+		var _outerHeight = $(container).height();
+
+		var _outerWidth = _fullWidth;   
+
 
 		container = "img.memeOuterFrame";
 
@@ -486,15 +508,26 @@ $( outerContainer ).attr("width", _width * 1.2 );
 
 		container = ".memeCloseButton";
 
-		var _btnWidth = _outerWidth * 0.075;
 
-		var _btnHeight = _outerHeight * 0.05
 
-		$( container ).css("left",  _outerLeft + _outerWidth - _btnWidth / 2 + "px" );  
+//do we have enough space for the button?
 
-		$( container ).css("top", _outerTop + (_outerHeight * 0.01) + "px");
+		if ( _outerWidth - _width < _btnDimension ) {
 
-		$( container ).attr("height",  _btnHeight+ "px");
+			//how much do we lack?
+			
+			var _diff = _outerWidth - _width - _btnDimension;
+
+			_outerWidth += Math.abs( _diff );
+
+			$( "img.memeOuterFrame" ).attr("width", _outerWidth );  
+		}
+
+		$( container ).css("left",  _outerLeft + _outerWidth - (_btnWidth + _btnMargin) + "px" );  
+
+		$( container ).css("top", _outerTop + _btnMargin + "px");
+
+		$( container ).attr("height",  _btnHeight + "px");
 
 		$( container ).attr("width", _btnWidth + "px" ); 		
 
