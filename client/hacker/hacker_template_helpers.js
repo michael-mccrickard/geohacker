@@ -13,12 +13,16 @@ Template.main.helpers({
 
     memeIsNotFeatured: function() {
 
-      return !hacker.memeIsFeatured.get();
+      if (hacker.feature.item.getName() == "MEME") return false;
+
+      return true;
     },
 
     memeIsFeatured: function() {
 
-      return hacker.memeIsFeatured.get();
+      if (hacker.feature.item.getName() == "MEME") return true;
+
+      return false;
     },
 
     helperAgentID: function() {
@@ -31,6 +35,43 @@ Template.main.helpers({
 
         return hacker.TV.videoOn.get();
         
+    },
+
+    control: function() {
+
+      return hacker.ctlName;
+    },
+
+    controlPic: function() {
+
+        return hacker.ctl[ this ].getControlPic();
+    },
+
+    controlPicLeft: function() {
+
+      return hacker.ctl[ this ].picFrame.left;
+    },
+
+    controlPicTop: function() {
+
+      return hacker.ctl[ this ].picFrame.top;
+    },
+
+    controlPicWidth: function() {
+
+      return hacker.ctl[ this ].picFrame.width;
+    },
+
+    controlPicHeight: function() {
+
+      return hacker.ctl[ this ].picFrame.height;
+    },
+
+
+    imgHelperAgent: function() {
+
+        return hacker.helper.pic.get();
+
     },
 
     helperAgentName: function() {
@@ -83,6 +124,10 @@ Template.main.helpers({
       return hack.status;
     },
 
+    memeIsFeatured: function() {
+
+      return hacker.memeIsFeatured.get();
+    },
 
     youTubeWaiting: function() {
 
@@ -150,16 +195,13 @@ Template.main.events({
 
       e.preventDefault();  
 
-
       if ( $("#mapButton").hasClass("faded") ) {
 
           display.playEffect( hacker.locked_sound_file );
 
           return; 
       }    
-
-      if (hacker.loader.state == "play") hacker.autoPauseSequence();
-
+      
       if (hacker.feature.item.getName() == "VIDEO") hacker.suspendMedia();
 
       if (hacker.feature.item.getName() != "SOUND") game.playMusic();     
@@ -193,18 +235,18 @@ Template.main.events({
 
       e.preventDefault();
 
-      if ( hacker.moreDataAvailable() == false ) {
-
-          display.playEffect( hacker.locked_sound_file );
-
-          hacker.setScanButtonImage( hacker.staticPic );
-
-          return; 
-      }
-
       hack.mode = mReady;
             
-      if (hacker.loader.state == "pause" || hacker.loader.state == "autoPause") {
+      if (hacker.loader.state == "pause") {
+
+          if ( hacker.moreDataAvailable() == false ) {
+
+              display.playEffect( hacker.locked_sound_file );
+
+              hacker.setScanButtonImage( hacker.pauseControlPic );
+
+              return; 
+          }
 
           hacker.playSequence();
       }
@@ -216,13 +258,11 @@ Template.main.events({
 
     'click img.featuredPic': function(e) {
 
-      if (hacker.loader.state == "play") hacker.autoPauseSequence();  //we are leaving the screen, so consider this a temporary pause
-
       var _name = hacker.feature.item.getName();
 
       if (_name == "SOUND" || _name == "VIDEO") {
 
-         Set.switchTo( _name );
+         Control.switchTo( _name );
 
          return;
       }
@@ -235,15 +275,11 @@ Template.main.events({
       
       e.preventDefault();
 
-c("click .control in hacker template")
-
-      if (hacker.loader.state == "play") hacker.pauseSequence();  //since we're not leaving the screen, consider this an explicit pause
-
       var _index = $( "#" + e.currentTarget.id).data("index");
 
       var _name =  $( "#" + e.currentTarget.id).data("name");
 
-      Set.switchTo( _name, _index );
+      Control.switchTo( _name, _index );
     },
 
 
@@ -253,7 +289,7 @@ c("click .control in hacker template")
 
       hacker.feature.hide();
 
-      if (hacker.loader.state == "autoPause") hacker.playSequence();
+      hacker.pauseSequence();
 
       Meme.restoreControls();
   }
@@ -280,23 +316,27 @@ Template.main.rendered = function () {
 
     hacker.redraw();
 
+//    hacker.doHeadlines();
+
     hacker.checkMainScreen();
 
+c("starting news from main.rendered")
     hacker.news.start();
     
 
     if (hack.mode == mReady)  {
 
-      if ( hacker.loader.state == "play" || hacker.loader.state == "autoPause" ) {
+      if ( hacker.loader.state == "play") hacker.playSequence();
 
-        hacker.playSequence();
+      if ( hacker.feature.off() ) {
 
+        //hacker.scanner.show();
+
+        //Meteor.setTimeout(function() { hacker.scanner.startIdle(); }, 502 ); 
+
+        //hacker.TV.set( TV.scanPrompt );  
+   
       }
-      else {
-
-        hacker.pauseSequence();
-      }
-
 
     }
 
@@ -304,5 +344,5 @@ Template.main.rendered = function () {
 
 Template.main.onDestroyed(function () {
 
-
+  c("hacker template destroryed")
 });

@@ -1,0 +1,81 @@
+<template name="scanning">
+
+	<div class="scanScreen">
+
+		<div class="scanBackdrop"><img class="imgScanBackdrop" src="scannerBG.png" /></div> 
+
+		<!--div class="scrollTextBG"><span class="scrollTextBGText"></span></div--> 
+		
+		<div class="scanTopLeft">
+			<img class="scanTopLeftImg" src="scanTopLeft_static.gif">		
+		</div>
+		<span class="scanTopLeftText" id="scanTopLeftTextID">top left text</span>
+
+		<div class="scanTopRight">
+			<img class="scanTopRightImg" id="imgTopRight" src="scanTopRight_static.gif" />
+			<span class="scanTopRightText scanFont">top right text</span>
+		</div> 
+		
+		<div class="divAnalyzeStream scanBG scanFont">
+			<div class="analyzeStreamText analyzeStreamTextTitle centered">ANALYZING STREAM</div>
+			<div class="analyzeStreamText topRow" id="streamAnalyzerID">(no streams detected)</div>
+		</div>
+
+		<div class="scanCenter">
+
+				<div class="divScanCenterImg auto">
+
+					{{#if scanningNow}}
+						
+						<div class="scanCenterImg">
+							{{>SvgCircleProgress radius=86 total=360 progress=getProgress bgColor="black" progressColor="white"}}
+						</div>
+
+					{{else}}
+
+						<img class="scanCenterImg" src="{{getScannerCenterImage}}">	
+					
+					{{/if}}
+				
+				</div>	
+				
+				<div class="scanFont2 scanCenterText yellowText" id="scanCenterTextID">{{centerText}}</div>
+		
+		</div>
+
+		<div class="scanBottomLeft  scanBG">
+			<img class="scanLowerLeftImg" src="scanLowerLeft_static.gif">
+			<span class="scanBottomText scanLowerLeftText scanFont2">ANALYZING PORT USAGE</span>
+
+		</div>
+
+		<div class="scanBottomCenter">
+			<img class="scanBottomCenterImg" src="scanBottomCenter_static.gif">
+			<div class="scanBottomText scanBottomCenterText scanFont2 centered">INCOMING SATTELLITE SIGNALS</div>
+
+		</div>
+
+		<div class="scanBottomRight  scanBG">
+			<img class="scanBottomRightImg" src="scanBottomRight_static.gif">
+			<span class="scanBottomText scanBottomRightText scanFont2">SECURING OPEN SOCKETS</span>
+			
+		</div>
+
+		<div class="divScanGridGlobe scanBG">
+			
+			<div class="scanFont gridGlobeText centered">NETWORK INTEGRITY:</div>
+			<div class="scanFont gridGlobeTextLower centered" id="gridGlobeTextID">{{networkIntegrity}}%</div>
+		</div> 
+
+		<img class="imgScanGridGlobe" id="imgGridGlobe" src="gridGlobe.gif" />
+
+		<div class="divNormalGlobe">
+			<div class="divImgNormalGlobe auto"><img class="imgNormalGlobe" src="testGlobe.gif"></div>	
+			<div class="scanFont normalGlobeText centered">MONITORING INCOMING TRAFFIC</div>
+			<div class="scanFont normalGlobeText centered">FROM {{nationsCount}} NATIONS</div>		
+		</div>
+
+	</div>
+
+</template>
+

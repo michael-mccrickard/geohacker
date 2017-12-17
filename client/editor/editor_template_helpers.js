@@ -483,7 +483,7 @@ Template.editor.events = {
      
   },
 
-  'change .form-Set.dt' : function( evt, template) {
+  'change .form-control.dt' : function( evt, template) {
 
       var _id = evt.target.id;
 

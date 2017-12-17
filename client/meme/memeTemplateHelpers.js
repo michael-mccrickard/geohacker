@@ -25,9 +25,7 @@ Template.meme.events({
 
   'click img.memePicFrame': function(e) {
 
-      e.preventDefault(); 
-
-      //is there a featured meme already in closeup mode? 
+      e.preventDefault();  
 
       if (display.featuredMeme) {
 
@@ -41,12 +39,7 @@ Template.meme.events({
           }
       }
 
-
-      //if we made it this far, we are either hacking or browsing
-
       if ( game.user.mode == uHack) {
-
-          if (hacker.loader.state == "play") hacker.autoPauseSequence();  //we are leaving the screen, so consider this a temporary pause
 
           display.featuredMeme = hacker.feature.item.ctl.meme;
 
@@ -80,7 +73,7 @@ Template.meme.events({
 
       hacker.feature.hide();
 
-      if (hacker.loader.state == "play") hacker.pauseSequence();
+      hacker.pauseSequence();
 
       Meme.restoreControls();
   }

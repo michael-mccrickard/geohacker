@@ -56,7 +56,7 @@ img.featuredBackdrop {
     top: 50px;
 
     width: 83.3%;
-    height: 64%;
+    height: 65.5%;
 
     opacity: 0;   
 
@@ -94,7 +94,7 @@ img.logoBackdrop {
 .featuredPicOuterFrame {
 
     position: absolute;
-    top: 8px;
+    top: 0px;
     left: 0px;
 
     border-radius: 13px;
@@ -292,7 +292,7 @@ img.clsHelperAgentButton {
 
 .divStatus {
     position: absolute;
-    top: 12px;
+    top: 2%;
     z-index: 1050;
     text-transform: uppercase;
 

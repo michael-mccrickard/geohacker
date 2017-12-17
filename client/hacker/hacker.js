@@ -18,6 +18,8 @@ Hacker = function() {
 
     this.mapStatus = new Headline( "map" );
 
+    this.scanner = new Scanner();
+
     this.TV = new TV();
 
 //    this.weather = new Weather();
@@ -49,13 +51,14 @@ Hacker = function() {
 
     this.pauseControlPic = "pause_icon_square.jpg";
 
-    this.staticPic = "static2.gif";
 
     //misc
 
     this.mainTemplateReady = false;
 
     this.worldMapTemplateReady = false;
+
+    this.loadedControlName = new Blaze.ReactiveVar( "" );
 
     this.updateFlag = new Blaze.ReactiveVar(false);
 
@@ -122,6 +125,10 @@ Hacker = function() {
             if (this.ctl[ _name ] == undefined) {
 
                 if (_name == "WEB") this.ctl[ _name ] = new Web();
+                
+                if (_name == "IMAGE") this.ctl[ _name ] = new ghImageCtl();       
+
+                if (_name == "TEXT") this.ctl[ _name ] = new Text(); 
 
                 if (_name == "MEME") this.ctl[ _name ] = new MemeCtl(); 
 
@@ -137,6 +144,8 @@ Hacker = function() {
             this.ctl[ _name ].init();
 
             if (col) this.ctl[ _name ].setCountry(_code, col);
+
+            this.ctl[ _name ].setState( sIcon );
 
         }
     }
@@ -169,8 +178,19 @@ Hacker = function() {
 
         if (this.moreDataAvailable() == false) {
 
-            this.setScannerButtonImage( this.staticPic );
+            $("img#scanButton").attr("src", "./tvScannerGray.png");
 
+            this.TV.stopIdle();
+
+        }
+
+        if (this.loader.totalClueCount == 0) {
+
+            hackMap.disableButton();
+        }
+        else {
+
+            hackMap.enableButton();            
         }
     },
 
@@ -189,13 +209,10 @@ Hacker = function() {
 
         this.setScannerButtonImage( this.playControlPic );
     }
+    
+    this.setScannerButtonImage = function( _url ) {
 
-    this.autoPauseSequence = function() {
-
-        this.loader.state = "autoPause";
-
-        this.setScannerButtonImage( this.playControlPic );
-
+        $("img#scanButtonContentA").attr("src", _url);
     }
 
 
@@ -212,14 +229,30 @@ Hacker = function() {
 
     this.reset = function() {
 
+        this.loadedControlName.set( "" );
+
+        this.scanner.show();
+
+        //We do this when the scanner is first created
+        //and again whenever we start a new mission.
+        //We don't do it in startIdle, b/c most of the time
+        //there will a control loaded into the center when idle starts up
+
+        this.scanner.centerState.set( "idle" )
+
         this.feature.reset();
+
     }
 
     this.redraw = function() {
 
-        //this.dimensionControls();
+        this.dimensionControls();
+
+        //if (hack.mode == mReady || hack.mode == mScanning) this.scanner.draw();
 
         if (this.feature.on() ) {
+
+            //this.scanner.hide();
 
             this.feature.item.show();
         }
@@ -253,16 +286,39 @@ Hacker = function() {
 
     this.loadMain = function() {
 
-        hacker.loader.state = "play";  //set this so that template.rendered will start up the loader
+        for (i=0; i < this.ctlName.length; i++) {
 
-        FlowRouter.go("/main");
- 
+            var _name = this.ctlName[i];
+
+            var ctl = this.ctl[ _name ];
+
+            //assign the src value for the icon
+
+            $("#p" +_name).attr("src", ctl.iconPic);
+
+             //assign the src value for the scanning gif
+
+            $("#p" +_name + "2").attr("src", ctl.scanningPic);           
+        }
+
+        imagesLoaded( document.querySelector('#preloadMain'), function( instance ) {
+          
+          //now that the images are loaded, go to main and the template.rendered event
+          //will call this.redraw()
+
+          hacker.loader.state = "play";  //set this so that template.rendered will start up the loader
+
+          FlowRouter.go("/main");
+
+        });
     }
 
 
     this.closeOutMain = function() {
 
          $('body').removeClass('noscroll');
+
+         this.scanner.hide();
 
          this.news.stop();
 
@@ -350,6 +406,78 @@ c("doHeadlines")
         }
     }
 
+
+    this.setControls = function( _state) {
+
+        //have to use ctlName array for the length, b/c ctl is an associative array with length = 0
+
+        for (i=0; i < this.ctlName.length; i++) {
+
+            this.ctl[ this.ctlName[i] ].setState( _state );
+        }
+        
+    }
+
+    //the loader calls this to reset already loaded controls back to their loaded state
+    //after we run the scanning animations
+
+    this.resetControls = function() {
+
+        //have to use ctlName array for the length, b/c ctl is an associative array with length = 0
+
+        for (i=0; i < this.ctlName.length; i++) {
+
+            var _name = this.ctlName[i];
+
+
+            if (this.ctl[ _name ].loadedCount == 0) {
+
+                this.ctl[ _name ].setState( sIcon );
+            }
+            else {
+
+                if (_name == "SOUND" || _name == "VIDEO") {
+ 
+                   this.ctl[ _name ].setState( sPaused );                       
+                }
+                else {
+
+                    //loadCount > 1 and not a media type
+
+                    this.ctl[ _name ].setState( sLoaded )
+                }
+                
+            }
+
+        }
+    }
+
+    this.fullyLoadControls = function() {
+
+        //load up the controls
+
+        var i = 0;
+
+        for (i = 0; i < this.ctlName.length; i++) {        
+
+            var _name = this.ctlName[i];
+
+            var ctl = this.ctl[ _name ];
+
+            ctl.loadedCount = ctl.fullCount;
+
+            ctl.setIndex( 0 );
+
+            if ( _name == "SOUND" || _name == "VIDEO") {
+
+                ctl.setState( sPaused );
+            }
+            else {
+
+              ctl.setState( sLoaded );           
+            }
+        }    
+    }
 
      //*********************************************
     //     Clues

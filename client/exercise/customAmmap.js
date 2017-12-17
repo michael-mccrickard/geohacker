@@ -64,11 +64,11 @@ CustomAmmap = function() {
 
         this.map.creditsPosition = "top-left";
 
-		this.map.zoomSet.zoomControlEnabled = false;
+		this.map.zoomControl.zoomControlEnabled = false;
 
-		this.map.zoomSet.panControlEnabled = false;
+		this.map.zoomControl.panControlEnabled = false;
 
-		this.map.zoomSet.homeButtonEnabled = false;
+		this.map.zoomControl.homeButtonEnabled = false;
 
         this.map.addClassNames = true;
 

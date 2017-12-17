@@ -113,11 +113,11 @@ WorldMenu = function( _lessonFactory) {
 
         this.map.creditsPosition = "bottom-left";
 
-        this.map.zoomSet.zoomControlEnabled = false;
+        this.map.zoomControl.zoomControlEnabled = false;
 
-        this.map.zoomSet.panControlEnabled = false;
+        this.map.zoomControl.panControlEnabled = false;
 
-        this.map.zoomSet.homeButtonEnabled = false;
+        this.map.zoomControl.homeButtonEnabled = false;
 
         this.map.addClassNames = true;
 

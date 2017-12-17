@@ -318,8 +318,6 @@ if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).veloci
 
 	this.show = function() {
 
-		Meteor.setTimeout( function() { stopSpinner(); }, 2000);  //catch any stray spinner commands from loader
-
 		container = "img.memePicFrame";
 
 		if ( $( container ).css("opacity") == 0 ) $( container ).velocity("fadeIn", { duration: 500, display: "inline" });	
@@ -356,7 +354,7 @@ if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).veloci
 
 	}
 
-
+/*
 	this.drawFeatured = function( ) {
 
 		if (this.text) $("div.memeText").text( this.text );
@@ -373,20 +371,23 @@ if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).veloci
 
 	    var maxWidth = fullScreenWidth;
 
-	    var _fullHeight = fullScreenHeight * 0.85;
+	    var fullHeight = fullScreenHeight * 0.85;
 
-	    var _width = (_fullHeight / this.imageSrc.height ) * this.imageSrc.width; 
-
+	    var _width = (fullHeight / this.imageSrc.height ) * this.imageSrc.width; 
 
 	    if (_width > maxWidth) _width = maxWidth;
 
 	    var _left = (maxWidth/2) - (_width / 2 );
 
+	    var outerContainer = "img.featuredBackdrop";
 
+	    var _height = $( outerContainer).outerHeight();
+
+	    var _width = $( outerContainer ).outerWidth();
 
 		var container = "img.memePicFrame";
 
-		$( container ).attr("height", _fullHeight * 0.9 );
+		$( container ).attr("height", fullHeight * 0.9 );
 
 		$( container ).attr("width", _width * 0.9 );  
 
@@ -394,9 +395,7 @@ if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).veloci
 
 		$( container ).css("top", "65px");
 
-	    var outerContainer = "img.featuredBackdrop";
-
-		$( outerContainer ).attr("width", _width * 1.2 ); 
+$( outerContainer ).attr("width", _width * 1.2 ); 
 
 
 		$( container ).attr("src", this.image );
@@ -416,7 +415,7 @@ if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).veloci
 
 		this.show();
 	}
-
+*/
 
 	this.dimensionForHack = function( ) {
 
@@ -457,6 +456,12 @@ c(this.text)
  		_width = _width - _btnDimension;
 
 	    var _left = leftMargin + ( maxWidth / 2 ) - ( _width / 2 );
+
+c("left margin is " + leftMargin)
+
+c("maxWidth is " + maxWidth)
+
+c("width is " + _width)
 
 	    var _fullLeft = _left;
 

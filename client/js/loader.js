@@ -12,6 +12,12 @@ NewLoader = function() {
 
 	this.state = "stop";  //also play and pause
 
+	this.start = function() {
+
+		this.state = "play";
+
+		this.go();
+	}
 
 	this.pause = function() {
 
@@ -60,26 +66,15 @@ NewLoader = function() {
 																	//different (loaded control pic vs. scan pic)
 		hacker.cue.setAndShow();
 
-		var _delay = 0;
-
-		if (this.totalClueCount == 1) _delay = 2000;
-
 	    //if this control has a still image, load it into memory
 		//which will allow feature.dimension() to size it accurately
 		//this also sets the name and ctl for the feature
 
-	    Meteor.setTimeout( function() { 
+		var _delay = 0;
 
-	    	if (hacker.loader.state != "play") {
+		if (this.totalClueCount == 1) _delay = 2000;
 
-	    		stopSpinner();
-
-	    		return;
-	    	}
-
-	    	hacker.feature.preload( hacker.loader.newSet.name );	
-
-	    }, _delay );
+	    Meteor.setTimeout( function() { hacker.feature.preload( hacker.loader.newControl.name );	}, _delay );
 
 
 	}
@@ -89,15 +84,15 @@ NewLoader = function() {
 
 		 //Have the control object dimension the small version of the picture
 
-		c("in loader.showLoadedControl, newControl name is " + this.newSet.name)
+		c("in loader.showLoadedControl, newControl name is " + this.newControl.name)
 
-	    hacker.ctl[ this.newSet.name ].setControlPicSource();
+	    hacker.ctl[ this.newControl.name ].setControlPicSource();
 
 		hack.mode = mDataFound;
 
 		hacker.cue.setAndShow();
 
-		this.newSet.setPicDimensions();
+		this.newControl.setPicDimensions();
 
 
 		//set the timer if we're on the first clue
@@ -169,20 +164,16 @@ NewLoader = function() {
 
 			randomControl = _ctl;
 
-			var _meme = MemeCollection.getNextHackerItem( randomSet.memeCollection.items );
+			var _meme = MemeCollection.getNextHackerItem( randomControl.memeCollection.items );
 
-			randomSet.meme = _meme;
+			randomControl.meme = _meme;
 
 			//totalClueCount has not yet been incremented to reflect this newest control load,
 			//so we can just use the value as is, rather than decrementing it (the arrays are zero-based)
 
 			hacker.addClue( { u: _meme.image, f: _meme.image, t: _meme.text, n: 'MEME', i: this.totalClueCount } );
 
-			//the collection of meme items includes items for the helper agent to use, and the meme control object
-			//needs to be able to refer to the hacker clue items by index, so we create a sequence array of the hacker clue meme indices from
-			//the full meme collection
-
-			randomSet.addToSequence( randomSet.getMemeIndex() );
+			randomControl.addToSequence( randomControl.getMemeIndex() );
 		}
 		else {
 
@@ -232,15 +223,15 @@ if (this.totalClueCount == 13) randomControl = hacker.ctl["MEME"];
 
 /*
 
-if (randomSet.name == "MEME") {
+if (randomControl.name == "MEME") {
 
-var _meme = MemeCollection.getNextHackerItem( randomSet.memeCollection.items );
+var _meme = MemeCollection.getNextHackerItem( randomControl.memeCollection.items );
 
-randomSet.meme = _meme;
+randomControl.meme = _meme;
 
 _text = _meme.text;
 
-randomSet.addToSequence( randomSet.getMemeIndex() );
+randomControl.addToSequence( randomControl.getMemeIndex() );
 }
 
 */
@@ -251,23 +242,23 @@ randomSet.addToSequence( randomSet.getMemeIndex() );
 
 		if (randomControl) {
 
-			newCount = randomSet.loadedCount + 1;
+			newCount = randomControl.loadedCount + 1;
 			
-			randomSet.loadedCount = newCount;
+			randomControl.loadedCount = newCount;
 
-			randomSet.setIndex( randomSet.loadedCount - 1);
+			randomControl.setIndex( randomControl.loadedCount - 1);
 
-			if (randomSet.name != "MEME") hacker.addClue( { u: randomSet.getFile(), f: randomSet.getControlPic(), t: "", n: randomSet.name, i: newCount - 1 } );
+			if (randomControl.name != "MEME") hacker.addClue( { u: randomControl.getFile(), f: randomControl.getControlPic(), t: "", n: randomControl.name, i: newCount - 1 } );
 
-//hacker.addClue( { u: randomSet.getFile(), f: randomSet.getControlPic(), t: _text, n: randomSet.name, i: newCount - 1 } );
+//hacker.addClue( { u: randomControl.getFile(), f: randomControl.getControlPic(), t: _text, n: randomControl.name, i: newCount - 1 } );
 
 //If we need to force a certain clue on a control, this is the place to do it
-//(Comment out the Database.shuffle() command in Set.setItems() if you need to do this.
+//(Comment out the Database.shuffle() command in control.setItems() if you need to do this.
 //	ghImageCtl overrides setItems, so comment it out there also, to use clues in a particular order)
 /*
-if (this.totalClueCount == 0) randomSet.setIndex( 8 );
+if (this.totalClueCount == 0) randomControl.setIndex( 8 );
 
-if (hack.countryCode == "CU") randomSet.setIndex( 1 );
+if (hack.countryCode == "CU") randomControl.setIndex( 1 );
 */
 			this.totalClueCount++;
 
@@ -333,7 +324,7 @@ if (hack.countryCode == "CU") randomSet.setIndex( 1 );
 
 		//if all the control are equally loaded, no need to do anything more except pick one at random
 
-		if ( Set.allLoadsAreEqual() == false ) {
+		if ( Control.allLoadsAreEqual() == false ) {
 
 			//if any of the control data counts are higher than the low, remove them
 

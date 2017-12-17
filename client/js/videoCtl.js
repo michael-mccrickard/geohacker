@@ -1,27 +1,32 @@
-/*
-class VideoCtl extends Set {
+VideoCtl = function() {
 
-	constructor( _name ) {
+	this.name = "VIDEO";
 
-		super("VIDEO");
+	this.playControlPic = Video.playControlPic;
 
-		this.name = "VIDEO";
+	this.pauseControlPic = Video.pauseControlPic;
 
-		this.video = null;
+	this.iconPic = "video_icon2.png"; 
 
-		this.items = [];
+	this.scanningPic = "anim_video.gif"
 
-		this.collection = db.ghVideo;
+	this.video = null;
 
-		this.element = "img.featuredPic";		
+	this.items = [];
+
+	this.collection = db.ghVideo;
+
+	this.element = "img.featuredPic";
+
+
+	this.init = function() {
 
 		this.index = new Blaze.ReactiveVar(0);
 
 		this.state = new Blaze.ReactiveVar(0);
 	}
 
-
-	setData( _item) {
+	this.setData = function( _item) {
 
 		_item.setName( this.name );
 
@@ -41,7 +46,7 @@ class VideoCtl extends Set {
 		this.text = "";
 	}
 
-	suspend() {
+	 this.suspend = function() {
 
 	 	if (this.getState() == sPlaying) {
 
@@ -53,7 +58,7 @@ class VideoCtl extends Set {
 	 	}
 	 }
 
-	hide() {
+	this.hide = function() {
 
 		this.video.hide();
 	}
@@ -61,7 +66,7 @@ class VideoCtl extends Set {
 	//return the pic that should be displayed in the small control box
 	//based on state
 
-
+/*
 	this.getControlPic = function() {
 
 	  var pic = "";
@@ -79,9 +84,9 @@ class VideoCtl extends Set {
 	  return pic;
 
 	}, //end getControlPic
+*/
 
-
-	setItems() {
+	this.setItems = function() {
 
 	  	//screen out the ones used as primaries in the newBrowser
 
@@ -89,13 +94,13 @@ class VideoCtl extends Set {
 
 	    this.fullCount = this.items.length;
 
-	}
+	},
 
 	//Used to get the file to display in featured area.
 	//Usually this returns the content, but if animated gif is paused
 	//it returns the big play button
 
-	getFile() {
+	this.getFile = function() {
 
 		var file = null;
 
@@ -105,12 +110,12 @@ class VideoCtl extends Set {
 	}
 
 
-    show() {
+    this.show = function() {
 
     	this.video.show();
     }
 
-	pause() {
+	this.pause = function(){
 
 		this.setState( sPaused );
 
@@ -119,7 +124,7 @@ class VideoCtl extends Set {
 	}
 
 
-	play( _id ) {
+	this.play = function( _id ) {
 
 		this.setState( sPlaying );
 
@@ -146,5 +151,6 @@ class VideoCtl extends Set {
 	}// end play
 
 
-}  //end Video object
-*/
+}  //end Video constructor
+
+VideoCtl.prototype = Control;

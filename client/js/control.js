@@ -1,24 +1,15 @@
 
 //************************************************************
-//    Set  ( clue type; primarily a collection object )
+//    CONTROL  (parent object of the individual controls)
 //************************************************************
 
-class Set {
+Control = {
 
-  constructor( _name) {
-
-    this.name = _name;
-  }
-
-
- //********************************************
+  //********************************************
   //          Low-level functions
   //********************************************
 
-    getIndex() {
-
-      //the meme items include clues for the helper agent, so we maintain a sequence array
-      //of just the indices for the hacker clue items, and then get the index from there
+    getIndex : function() {
 
       if ( this.name == "MEME") {
 
@@ -26,25 +17,30 @@ class Set {
       }
 
       return this.index.get();
-    }
+    },
 
-    setIndex(_val) {
+    setIndex : function(_val) {
 
       this.index.set( _val );
 
-    }
+    },
 
-    getState() {
+    getState : function() {
 
       return this.state.get();
-    }
+    },
 
-    setState(_val) {
+    setState : function(_val) {
 
       this.state.set( _val );
-    }
+    },
 
-    getFile() {
+    getItem : function() {
+
+      return this.items[ this.getIndex() ];
+    },
+
+    getFile : function() {
 
       if ( ! this.items.length ) {
 
@@ -54,18 +50,18 @@ class Set {
       }
 
       return this.items[ this.getIndex() ].u;
-    }
+    },
 
-  featuredBackdrop() { return  "featuredBackdrop.jpg"; }
+  featuredBackdrop : function() { return  "featuredBackdrop.jpg"; },
 
-  hilitedBackdrop() { return  "hilitedBackdrop.jpg"; }
+  hilitedBackdrop : function() { return  "hilitedBackdrop.jpg"; },
 
 
   //*******************************************************************
   //  Use data collection to create item array-related properties
   //********************************************************************
 
-  setCountry(_countryCode, _collection) {
+  setCountry : function(_countryCode, _collection) {
 
     this.collection = _collection;
 
@@ -88,7 +84,7 @@ class Set {
     }
 
 
-      this.items = [];
+    this.items = [];
 
       //***************************************************
       //      Set the items array (process and shuffle)
@@ -100,13 +96,13 @@ class Set {
 
       this.items = Database.shuffle(this.items);   
     
-  } //end setCountry
+  }, //end setCountry
 
-  setItems() {
+  setItems: function() {
 
     this.items = this.collection.find( { cc: this.countryCode } ).fetch();
 
-  }
+  },
 
   //********************************************
   //   Control Button drawing / dimensioning
@@ -114,8 +110,7 @@ class Set {
 
   //the image for the control buttons
 
-
-  getControlPic() {
+  getControlPic: function() {
 
   var pic = "";
 
@@ -139,10 +134,9 @@ class Set {
 
 
   return pic;
-  }
+  },
 
-/*
-  setControlPicSource = function() {
+  setControlPicSource: function() {
 
     if ( !this.items[ this.getIndex() ]) return;
 
@@ -160,9 +154,8 @@ class Set {
     this.src = display.getImageFromFile( pic );
 
   },
-*/
 
-  setPicDimensions() {
+  setPicDimensions: function() {
 
 //c("set pic dims is doing " + this.name)
 
@@ -247,16 +240,69 @@ class Set {
     $(sel).css("height",  this.picFrame.height);
 
     $(sel).css("top",  this.picFrame.top);
-  }
+  },
 
-  hilite() {
+  hilite : function() {
 
-    Set.unhiliteAll();
+    Control.unhiliteAll();
 
     $("#ctlBG_" + this.name ).attr("src", this.hilitedBackdrop() );
-  }
+  },
 
-}
+  //********************************************
+  //          Nav button functions
+  //********************************************
+
+  doNavButtons : function() {
+
+    if (this.loadedCount > this.getIndex() + 1) {
+
+      $("img.navButton.navNext").removeClass("invisible");
+    }
+    else {
+
+       $("img.navButton.navNext").addClass("invisible");     
+    }
+
+
+    if (this.getIndex() > 0) {
+
+      $("img.navButton.navPrev").removeClass("invisible");
+    }
+    else {
+
+       $("img.navButton.navPrev").addClass("invisible");     
+    }
+    
+  },
+  //********************************************
+  //          Media functions
+  //********************************************
+
+  toggleMedia: function() {
+
+    if (this.getState() == sPaused) {
+
+        c("control.toggleMediaState is playing the media")
+
+        this.play();
+
+        return;
+
+    }
+
+    if (this.getState() == sPlaying) {
+
+          c("control.toggleMediaState is pausing the media")
+
+          this.pause();
+
+          return;
+    }
+
+  },
+
+}  //end Control constructor
 
 
 
@@ -264,12 +310,34 @@ class Set {
 //            CONTROL  (static functions)
 //************************************************************
 
-Set.switchTo = function( _name, _index ) {
+Control.switchTo = function( _name, _index ) {
 
     hacker.cue.set();
 
 
     display.playEffect( hacker.fb_sound_file );  
+
+    //for the media controls, we are either clicking to toggle
+    //the state (ctl is already active) 
+    //or we are clicking to make active and play
+
+    /*
+    var _name = hacker.feature.item.getName();
+
+    if ((_id == "SOUND" && _name == "SOUND") || (_id == "VIDEO" && _name == "VIDEO")) {
+        
+        c("'click control' is calling toggleMedia")
+
+        hacker.feature.item.ctl.toggleMedia(); 
+
+        //the feature did not change, only the state of the control,
+        //so we're done here
+
+        return;
+
+     }
+
+    */
 
 
   c("'click control' is calling feature.switch")
@@ -292,13 +360,24 @@ Set.switchTo = function( _name, _index ) {
 //        UTILITIES
 //***********************************************************************
 
-Set.unhiliteAll = function() {
+Control.hideNavButtons = function() {
 
-  c("Unhilite all needs to be rewritten")
+  $("img.navButton.navNext").addClass("invisible");     
+  $("img.navButton.navPrev").addClass("invisible");     
 }
 
 
-Set.allLoadsAreEqual = function() {
+Control.unhiliteAll = function() {
+
+      $("#ctlBG_SOUND" ).attr("src", this.featuredBackdrop() );
+      $("#ctlBG_VIDEO" ).attr("src", this.featuredBackdrop() );
+      $("#ctlBG_MEME" ).attr("src", this.featuredBackdrop()) ;
+      $("#ctlBG_WEB" ).attr("src", this.featuredBackdrop() );
+      $("#ctlBG_IMAGE" ).attr("src", this.featuredBackdrop() );
+  },
+
+
+Control.allLoadsAreEqual = function() {
 
   var _loadCount = 0;
 
@@ -308,7 +387,7 @@ Set.allLoadsAreEqual = function() {
 
       var _ctl  = hacker.ctl[ _arr[i] ];
 
-      if (_ctl.name == "MEME") continue;  //memes have already been used, at this point
+      if (_ctl.name == "MEME") continue;
 
       if (i == 0) _loadCount = _ctl.loadedCount;
 
@@ -331,25 +410,97 @@ Set.allLoadsAreEqual = function() {
 // CONTROL CHILD OBJECTS  (SOUND, VIDEO IN SEPARATE FILES)
 //*****************************************************************
 
+ghImageCtl = function() {
 
-class Web extends Set {
+  this.name = "IMAGE";
 
-  constructor() {
+  this.iconPic = "image_icon2.png";    
 
-    super("WEB")
+  this.scanningPic = "anim_image.gif";
 
-    this.name = "WEB";
+  this.init = function() {
 
     this.index = new Blaze.ReactiveVar(0);
 
     this.state = new Blaze.ReactiveVar(0);
   }
 
-  suspend() {
+  this.setItems = function() {
 
+      if (game.user.mode == uBrowseCountry) {
+
+        this.items = this.collection.find( { cc: this.countryCode, dt: { $ne: "rmp"} } ).fetch();
+      }
+      else {
+
+        this.items = this.collection.find( { cc: this.countryCode, dt: { $ne: "cmp"} } ).fetch();        
+      }
+
+      this.fullCount = this.items.length;
   }
 
-  setData( _item) {
+  this.setData = function( _item) {
+
+      _item.setName( this.name );
+
+      _item.imageFile = this.items[ this.getIndex() ].u;
+
+      _item.soundFile = "";
+
+      _item.videoFile = null;
+
+      _item.fileToLoad = _item.imageFile;
+
+      _item.text = "";
+  }
+
+  this.setCountry = function(_countryCode, _collection) {
+
+      this.collection = _collection;
+
+      this.countryCode = _countryCode;
+
+      this.loadedCount = 0;
+
+      this.items = [];
+
+      //***************************************************
+      //      Set the items array (process and shuffle)
+      //***************************************************
+
+      this.setItems();
+      
+      //process items here
+
+      this.items = Database.shuffle(this.items); 
+    }
+
+    this.suspend = function() {
+
+    }
+
+}
+
+
+Web = function() {
+
+  this.name = "WEB";
+
+  this.iconPic = "web_icon2.png"; 
+
+  this.scanningPic = "anim_web.gif";
+
+  this.init = function() {
+
+    this.index = new Blaze.ReactiveVar(0);
+
+    this.state = new Blaze.ReactiveVar(0);
+  }
+
+  this.suspend = function() {
+
+  }
+  this.setData = function( _item) {
 
       _item.imageFile = this.items[ this.getIndex() ].u;
 
@@ -363,42 +514,37 @@ class Web extends Set {
   }
 }
 
-class MemeCtl extends Set {
+MemeCtl = function() {
+
+  this.name = "MEME";
+
+  this.iconPic = "text_icon2.png";   
+
+  this.scanningPic = "anim_text.gif";
+
+  this.memeCollection = null;
+
+  this.meme = null;
+
+  this.sequence = [];
 
 
-  constructor() {
-
-    super("MEME");
-
-    this.name = "MEME";
-
-    this.memeCollection = null;
-
-    this.meme = null;
-
-    this.sequence = [];
+  this.init = function() {
 
     this.index = new Blaze.ReactiveVar(0);
 
     this.state = new Blaze.ReactiveVar(0);
 
-    /* our collection of meme items includes:
-
-      --the regular hacker clues
-      --the clues for the helper agent
-
-    Whenever is clue is needed (by loader or the the helper) we just pick one randomly.
-
-    However, we need to be able to refer to the hacker clues by their index, so we keep a separate
-    array called "sequence" of just those indices, and return the value from that array when we need a hacker clue by index
-
-    */
-
     this.sequence = [];
 
   }
 
-  getMemeIndex() {
+  this.getRealIndex = function() {
+
+     return this.index.get();
+  }
+
+  this.getMemeIndex = function() {
 
       for (var i = 0; i < this.memeCollection.items.length; i++)  {
 
@@ -408,12 +554,13 @@ class MemeCtl extends Set {
       return i;
   }
 
-  addToSequence( _val ) {
+  this.addToSequence = function( _val ) {
 
       this.sequence.push( _val );
   }
 
-  setData( _item) {
+
+  this.setData = function( _item) {
 
        //redundant to set the meme, except when navigating between memes on hacker screen
 
@@ -436,7 +583,7 @@ class MemeCtl extends Set {
       _item.source = this.meme.source;
   }
 
-  setItems() {
+  this.setItems = function() {
 
     this.memeCollection = new MemeCollection( "hacker" );
 
@@ -447,275 +594,33 @@ class MemeCtl extends Set {
     this.fullCount = this.items.length;
   }
 
-  dimension() {
+  this.dimension = function() {
 
       Meteor.setTimeout( function() {hacker.ctl["MEME"].meme.dimensionForHack(); }, 250);
   }
 
-  show() {
+  this.show = function() {
+
+    c("calling meme.show")
 
     if (this.meme) this.meme.show();
 
   }
 
-  hide() {
+  this.hide = function() {
 
     if (this.meme) this.meme.hide();
   }
 
-  suspend() {
+  this.suspend = function() {
+
 
   }
 
 }
 
+ghImageCtl.prototype = Control;
 
-class VideoCtl extends Set {
+MemeCtl.prototype = Control;
 
-  constructor( _name ) {
-
-    super("VIDEO");
-
-    this.name = "VIDEO";
-
-    this.video = null;
-
-    this.items = [];
-
-    this.collection = db.ghVideo;
-
-    this.element = "img.featuredPic";   
-
-    this.index = new Blaze.ReactiveVar(0);
-
-    this.state = new Blaze.ReactiveVar(0);
-  }
-
-
-  setData( _item) {
-
-    _item.setName( this.name );
-
-    _item.imageFile = "";
-
-    _item.soundFile = "";
-
-    this.video = new Video( this.getFile(), this );
-
-    if ( this.video.isGIF ) {
-
-      _item.imageFile = this.video.file;
-
-      _item.fileToLoad = this.video.file;
-    }
-    
-    this.text = "";
-  }
-
-  suspend() {
-
-    if (this.getState() == sPlaying) {
-
-      c("videoctl is suspending the video")
-
-      this.pause();
-
-      this.hide()
-    }
-   }
-
-  hide() {
-
-    this.video.hide();
-  }
-
-  //return the pic that should be displayed in the small control box
-  //based on state
-
-/*
-  this.getControlPic = function() {
-
-    var pic = "";
-   
-    var _state = this.getState();
-
-    if (_state == sIcon) pic = this.iconPic;
-
-    if (_state == sScanning) pic = this.scanningPic;
-
-    if (_state == sLoaded || _state == sPaused) pic = this.playControlPic;
-
-    if (_state == sPlaying) pic = this.pauseControlPic;
-
-    return pic;
-
-  }, //end getControlPic
-*/
-
-  setItems() {
-
-      //screen out the ones used as primaries in the newBrowser
-
-      this.items = this.collection.find( { cc: this.countryCode, dt: { $nin: ["gn","sd","tt"] },  s: { $nin: ["p"] } } ).fetch();
-
-      this.fullCount = this.items.length;
-
-  }
-
-  //Used to get the file to display in featured area.
-  //Usually this returns the content, but if animated gif is paused
-  //it returns the big play button
-
-  getFile() {
-
-    var file = null;
-
-    var _file = this.items[ this.getIndex() ].u;
-
-    return _file;
-  }
-
-
-    show() {
-
-      this.video.show();
-    }
-
-  pause() {
-
-    this.setState( sPaused );
-
-    this.video.pause();
-
-  }
-
-
-  play( _id ) {
-
-    this.setState( sPlaying );
-
-    var _file = this.getFile();
-
-    if (_id) _file = _id;
-
-    if (this.video) {
-
-      if (this.video.file == _file) {
-
-        this.video.play();
-
-        return;
-      }
-    }
-
-    c("new video in videoCtl with " + _file)
-
-    this.video = new Video(_file, this);
-
-    this.video.play();
-
-  }// end play
-
-
-}  //end Video object
-
- class Sound extends Set {
-
-    constructor() {
-
-      super("SOUND");
-
-    this.name = "SOUND";
-
-    this.soundPlayingPic = "vu_meter1.gif";
-
-      this.soundPausedPic = "vu_meter1_static.gif"
-
-
-    this.index = new Blaze.ReactiveVar(0);
-
-    this.state = new Blaze.ReactiveVar(0);
-  }
-
-
-  setData( _item) {
-
-    _item.setName( this.name );
-
-    _item.imageFile = this.soundPlayingPic;
-
-    _item.soundFile = this.items[ this.getIndex() ].u;
-
-    _item.videoFile = null;
-
-    _item.fileToLoad = this.soundPlayingPic;
-
-    this.text = "";
-  }
-
-  play() {
-
-    if (this.getState() == sPaused) hacker.feature.item.changeImage( this.soundPlayingPic )
-
-    this.setState( sPlaying );
-
-    this.playMedia();
-
-  }
-
-
-  pause() {
-
-    c("SOUND pausing")
-
-    this.setState( sPaused );
-
-    hacker.feature.item.changeImage( this.soundPausedPic );
-
-      document.getElementById("soundPlayer").pause();
-
-  }
-
-    playMedia() {
-
-    var _file = this.getFile();
-
-    if (_file == $("#soundPlayer").attr("src")) {
-
-      c("sound.playMedia() is resuming sound play")
-    
-      document.getElementById("soundPlayer").play();
-
-    }
-    else {
-      
-      c("sound.playMedia() is playing new file")
-      
-      $("#soundPlayer").attr("src", _file);
-
-      Meteor.setTimeout( function() { document.getElementById("soundPlayer").play(); }, 250);   
-
-      game.setSoundControlListener();   
-
-    }
-  }
-
-
-  setItems() {
-
-    //don't use the anthems
-
-    this.items = this.collection.find( { cc: this.countryCode, dt: { $ne: "ant" } } ).fetch();
-
-    this.fullCount = this.items.length;
-  }
-
-
-  suspend() {
-
-    if (this.getState() == sPlaying) {
-
-      this.pause();
-    }
-  }
-}
+Web.prototype = Control;

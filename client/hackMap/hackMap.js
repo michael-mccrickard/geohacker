@@ -33,6 +33,8 @@ HackMap = function() {
 
         stopSpinner();
 
+        hacker.loader.pause();
+
         Meteor.defer( function() { display.playEffect("mapButton.mp3"); });
 
         hacker.worldMapTemplateReady = false;

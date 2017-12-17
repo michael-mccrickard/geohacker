@@ -304,7 +304,7 @@ Editor = function() {
 
 	this.getDTValue = function( _id ) {
 
-		var sel = "select#" + _id + ".form-Set.dt";
+		var sel = "select#" + _id + ".form-control.dt";
 
 		var val = $(sel).prop("selectedIndex");
 

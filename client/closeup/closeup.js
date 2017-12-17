@@ -55,8 +55,14 @@ Template.closeup.events = {
 
       e.preventDefault();
 
-      display.goToImageSource(); 
+      if (hacker.closeUp.source == "0") {
 
+        alert("Go to Unknown Source page here.")
+      }
+      else {
+
+        window.open(hacker.closeUp.source);
+      }
     },
 
     'click #btnFinishCrop': function(e) {
