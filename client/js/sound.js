@@ -1,23 +1,17 @@
+/*
 
+  class Sound extends Set {
 
-  Sound = function() {
+  	constructor() {
 
-	this.name = "SOUND";
+  		super("SOUND");
 
-	this.iconPic = "sound_icon2.png"; 
+		this.name = "SOUND";
 
-	this.scanningPic = "anim_sound.gif"
+		this.soundPlayingPic = "vu_meter1.gif";
 
-	this.soundPlayingPic = "vu_meter1.gif";
+	    this.soundPausedPic = "vu_meter1_static.gif"
 
-    this.soundPausedPic = "vu_meter1_static.gif"
-
-    this.playControlPic = "play_icon.png";
-
-    this.pauseControlPic = "pause_icon.png";
-
-
-	this.init = function() {
 
 		this.index = new Blaze.ReactiveVar(0);
 
@@ -25,7 +19,7 @@
 	}
 
 
-	this.setData = function( _item) {
+	setData( _item) {
 
 	  _item.setName( this.name );
 
@@ -39,27 +33,8 @@
 
 	  this.text = "";
 	}
-    
 
-    //This supplies the appropriate picture file for the control
-/*
-  	this.getControlPic = function() {
-
-	    var pic = "";
-	     
-	    if (this.getState() == sLoaded || this.getState() == sPaused) pic = this.playControlPic;
-
-	    if (this.getState() == sPlaying) pic = this.pauseControlPic;
-
-	    if (this.getState() == sIcon) pic = this.iconPic;
-
-	    if (this.getState() == sScanning) pic = this.scanningPic;
-
-	    return pic;
-  	}
-*/
-
-	this.play = function() {
+	play() {
 
 		if (this.getState() == sPaused) hacker.feature.item.changeImage( this.soundPlayingPic )
 
@@ -67,10 +42,10 @@
 
 		this.playMedia();
 
-	},
+	}
 
 
-	this.pause = function() {
+	pause() {
 
 		c("SOUND pausing")
 
@@ -80,9 +55,9 @@
 
 	    document.getElementById("soundPlayer").pause();
 
-	},
+	}
 
-  	this.playMedia = function() {
+  	playMedia() {
 
 		var _file = this.getFile();
 
@@ -104,26 +79,26 @@
 			game.setSoundControlListener();   
 
 		}
-	},
+	}
 
 
-	this.setItems = function() {
+	setItems() {
 
 		//don't use the anthems
 
 		this.items = this.collection.find( { cc: this.countryCode, dt: { $ne: "ant" } } ).fetch();
 
 		this.fullCount = this.items.length;
-	},
+	}
 
 
-	this.suspend = function() {
-c("sound suspend")
+	suspend() {
+
 		if (this.getState() == sPlaying) {
-c("calling pause()")
+
 			this.pause();
 		}
 	}
 }
 
-Sound.prototype = Control;
+*/

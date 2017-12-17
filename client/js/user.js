@@ -330,6 +330,8 @@ User = function( _name ) {  //name, scroll pos (for content editors)
 
 		if ( display.homeButtonDisabled() ) return;
 
+      if (hacker.loader.state == "play") hacker.autoPauseSequence();
+
 		game.mode.set( gmNormal );
 
 		display.suspendAllMedia();

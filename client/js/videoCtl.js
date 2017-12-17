@@ -1,32 +1,27 @@
-VideoCtl = function() {
+/*
+class VideoCtl extends Set {
 
-	this.name = "VIDEO";
+	constructor( _name ) {
 
-	this.playControlPic = Video.playControlPic;
+		super("VIDEO");
 
-	this.pauseControlPic = Video.pauseControlPic;
+		this.name = "VIDEO";
 
-	this.iconPic = "video_icon2.png"; 
+		this.video = null;
 
-	this.scanningPic = "anim_video.gif"
+		this.items = [];
 
-	this.video = null;
+		this.collection = db.ghVideo;
 
-	this.items = [];
-
-	this.collection = db.ghVideo;
-
-	this.element = "img.featuredPic";
-
-
-	this.init = function() {
+		this.element = "img.featuredPic";		
 
 		this.index = new Blaze.ReactiveVar(0);
 
 		this.state = new Blaze.ReactiveVar(0);
 	}
 
-	this.setData = function( _item) {
+
+	setData( _item) {
 
 		_item.setName( this.name );
 
@@ -46,7 +41,7 @@ VideoCtl = function() {
 		this.text = "";
 	}
 
-	 this.suspend = function() {
+	suspend() {
 
 	 	if (this.getState() == sPlaying) {
 
@@ -58,7 +53,7 @@ VideoCtl = function() {
 	 	}
 	 }
 
-	this.hide = function() {
+	hide() {
 
 		this.video.hide();
 	}
@@ -66,7 +61,7 @@ VideoCtl = function() {
 	//return the pic that should be displayed in the small control box
 	//based on state
 
-/*
+
 	this.getControlPic = function() {
 
 	  var pic = "";
@@ -84,9 +79,9 @@ VideoCtl = function() {
 	  return pic;
 
 	}, //end getControlPic
-*/
 
-	this.setItems = function() {
+
+	setItems() {
 
 	  	//screen out the ones used as primaries in the newBrowser
 
@@ -94,13 +89,13 @@ VideoCtl = function() {
 
 	    this.fullCount = this.items.length;
 
-	},
+	}
 
 	//Used to get the file to display in featured area.
 	//Usually this returns the content, but if animated gif is paused
 	//it returns the big play button
 
-	this.getFile = function() {
+	getFile() {
 
 		var file = null;
 
@@ -110,12 +105,12 @@ VideoCtl = function() {
 	}
 
 
-    this.show = function() {
+    show() {
 
     	this.video.show();
     }
 
-	this.pause = function(){
+	pause() {
 
 		this.setState( sPaused );
 
@@ -124,7 +119,7 @@ VideoCtl = function() {
 	}
 
 
-	this.play = function( _id ) {
+	play( _id ) {
 
 		this.setState( sPlaying );
 
@@ -151,6 +146,5 @@ VideoCtl = function() {
 	}// end play
 
 
-}  //end Video constructor
-
-VideoCtl.prototype = Control;
+}  //end Video object
+*/

@@ -209,14 +209,18 @@ width: 8.5%;
 .soundText {
 	
 	position: absolute;
-	top: 8%;
+	top: 20px;
 	left: 65%;
-	width: 15%;
-  height: 9%;
+
+
 
   font-family: Arial;
 
   font-size: 1.75vh;
+
+  z-index:3000;
+
+  text-align: center;
 
 }
 

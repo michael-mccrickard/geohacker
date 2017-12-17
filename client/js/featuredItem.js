@@ -45,9 +45,9 @@ FeaturedItem = function( _name ) {
 
 	this.show = function() {
 
-		this.ctl.hilite();
+		//this.ctl.hilite();
 
-		this.ctl.doNavButtons();
+		//this.ctl.doNavButtons();
 
 		this.redimension();
 
@@ -81,16 +81,15 @@ FeaturedItem = function( _name ) {
 			return;
 		}
 
-		//don't show the featuredPic or Meme on top of the video
+		//don't show the featuredPic on top of the YT video
 
 		if (this.getName() == "VIDEO") {
 
-			this.fadeOutStillFeature();
+			if ( this.ctl.video.isYouTube ) this.fadeOutStillFeature();
 		}
-		else {
 
-			this.fadeInStillFeature();
-		}
+		this.fadeInStillFeature();
+
 
 	}
 
@@ -106,8 +105,6 @@ FeaturedItem = function( _name ) {
 	}
 
 	this.fadeOutStillFeature = function() {
-
-		$("img.featuredPic").attr("src", this.imageFile );
 
 		$("img.featuredPic").css("opacity", "0");
 
@@ -177,27 +174,11 @@ if ( $(".featuredPic").css("opacity") == "1" ) $(".featuredPic" ).velocity( { op
 
 		c("featuredItem.fileIsLoaded()");
 
-		//To do, gut the scanner code
-
-/*
-		//if the scanner is still running, it's possible that it is still waiting on the image to load
-
-		if ( hacker.scanner.centerState == "scan" || hacker.scanner.centerState == "rescan") {
-
-			//this returns true if the scanner has finished running all the way through (100% progress)
-
-			if (hacker.scanner.checkScan("feature") == true) { hacker.scanner.stopScan(); }
-		}
-*/
-
-		//if checkScan above returned false, then the scanner is still running, so we just
-		//set this reactive var, so that the scanner knows the image is ready when it finishes.
-
 		this.isLoaded.set( true );
 
-c("calling feature switchToNext in item.fileIsLoaded")
+		c("calling feature switchToNext in item.fileIsLoaded")
 
-hacker.feature.switchToNext();
+		hacker.feature.switchToNext();
 
 	}
 
@@ -271,17 +252,21 @@ hacker.feature.switchToNext();
 
     this.dimension = function( _type, _obj, _src ) {
 
-        var fullScreenWidth = $(window).width();
+		var _btnWidth = 32;
 
-        var fullScreenHeight = $(window).height();
+		var _btnHeight = 32;
+
+		var _btnMargin = 4;
+
+		var _btnDimension = 2 * (_btnWidth + _btnMargin);
 
         var container = "img.featuredBackdrop";
 
         var fullBackdropWidth = $( container ).width();
 
-        var maxWidth = fullBackdropWidth * 0.8;
+        var maxWidth = fullBackdropWidth;
 
-        var _fullHeight = $(container).height();
+        var _fullHeight = $(container).height() - _btnDimension;
 
         var leftMargin = $(container).position().left;
 
@@ -289,7 +274,6 @@ hacker.feature.switchToNext();
 
         var menuHeight = 50;
 
-        var _width = 0;
 
         //Use the widescreen ratio for video, and the normal proportions for others
 
@@ -306,31 +290,35 @@ hacker.feature.switchToNext();
 
         //Clamp the width if necessary and determine the position on the screen
 
-        if (_width > maxWidth) _width = maxWidth;
+	    if (_width > maxWidth) _width = maxWidth;
 
-var _fullWidth = _width;
+	    var _fullWidth = _width;
 
-_width =_width * 0.9;
+ 		_width = _width - _btnDimension;
 
-        var _top = $(container).position().top;
+        var _top = $(container).position().top + _btnDimension/2;
 
-_top = _top + (_fullHeight * 0.05);
 
-        var _left = leftMargin + (fullBackdropWidth/2) - (_width/2);
+	    var _left = leftMargin + ( maxWidth / 2 ) - ( _width / 2 );
 
-_left = _left + ( _fullWidth * 0.05 );
+	    var _fullLeft = _left;
 
-_height = _fullHeight - (_fullHeight * 0.1);
+		_left = _left + _btnDimension / 2;
+
+
 
         //size the frame
 
-		var _outerLeft = leftMargin + (fullBackdropWidth/2) - (_width/2); //should match declaration of _left above
+//now the outer frame
+
+		var _outerLeft = _fullLeft; 
 
 		var _outerTop = $(container).position().top; 
 
 		var _outerHeight = $(container).height();
 
-		var _outerWidth = _fullWidth;   //should match declaration of _width above
+		var _outerWidth = _fullWidth;   
+
 
 		container = ".featuredPicOuterFrame";
 
@@ -346,29 +334,41 @@ _height = _fullHeight - (_fullHeight * 0.1);
 
 		container = ".featuredPicCloseButton";
 
-		var _btnWidth = _outerWidth * 0.075;
+//do we have enough space for the button?
 
-		var _btnHeight = _outerHeight * 0.05
+		if ( _outerWidth - _width < _btnDimension ) {
 
-		$( container ).css("left",  _outerLeft + _outerWidth - _btnWidth / 2 + "px" );  
+			//how much do we lack?
+			
+			var _diff = _outerWidth - _width - _btnDimension;
 
-		$( container ).css("top", _outerTop + (_outerHeight * 0.01) + "px");
+			_outerWidth += Math.abs( _diff );
 
-		$( container ).attr("height",  _btnHeight+ "px");
+			$( "img.memeOuterFrame" ).attr("width", _outerWidth );  
+		}
 
-		$( container ).attr("width", _btnWidth + "px" ); 
+		$( container ).css("left",  _outerLeft + _outerWidth - (_btnWidth + _btnMargin) + "px" );  
+
+		$( container ).css("top", _outerTop + _btnMargin + "px");
+
+		$( container ).attr("height",  _btnHeight + "px");
+
+		$( container ).attr("width", _btnWidth + "px" ); 	
 
         //if an _obj was passed, then populate it ...
 
         if (_obj) {
           
-          _obj.width = _width;
+			_obj.left =  _left + "px";  
 
-          _obj.height = _height;
+			_obj.top = _top + "px";
 
-          _obj.top = _top
+			_obj.height = _fullHeight;
 
-          _obj.left = _left
+			_obj.width = _width;  
+
+			_obj.src = this.fileToLoad;
+
         }
 
         //...otherwise we are dimming a YT video
@@ -381,8 +381,15 @@ _height = _fullHeight - (_fullHeight * 0.1);
 
           $("iframe#ytplayer").css("height", _height );
 
-          $("iframe#ytplayer").css("width", _width );    
+          $("iframe#ytplayer").css("width", _width );   
 
+          container = ".featuredPicOuterFrame";
+
+          $( container ).removeClass("hidden"); 
+
+			container = ".featuredPicCloseButton";
+
+          $( container ).removeClass("hidden"); 
         }
 
     }

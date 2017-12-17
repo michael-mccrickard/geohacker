@@ -4,7 +4,7 @@ Feature = function() {
 
     this.nextItem = null;  //the specific control record that is being pre-loaded as the next feature
 
-    this.delayTime = 7000;
+    this.delayTime = 4000;
 
     this.ele = "img.featuredPic";
 
@@ -35,21 +35,8 @@ Feature = function() {
 	this.clear = function() {
 
 		this.item = null;
-
-		//this.deactivate();
 	}
 
-/*
-	this.activate = function() {
-
-		this.active.set( true );
-	}
-
-	this.deactivate = function() {
-
-		this.active.set( false );
-	}	
-*/
 
 
    /*****************************************************************
@@ -91,12 +78,10 @@ Feature = function() {
 
 //if (hacker.loader.totalClueCount == 4) return;
 
-Meteor.setTimeout( function() { hacker.loader.go(); }, 3000 );
+		Meteor.setTimeout( function() { hacker.loader.go(); }, hacker.feature.delayTime  );
    }
 
    this.switchTo = function( _name, _index  ) {	
-
-   		hacker.pauseSequence();
 
    		this.nextItem = new FeaturedItem( _name );
 
@@ -141,14 +126,6 @@ Meteor.setTimeout( function() { hacker.loader.go(); }, 3000 );
 			if (this.item.ctl.getState() == sLoaded) this.item.ctl.setState( sPlaying );
 		}
 
-		if (_name == "VIDEO") {
-
-			game.pauseMusic();
-	
-			hacker.suspendBGSound();  //in case a sound file is playing in bg
-
-		}
-
 		if (_name == "MEME") {
 
 			this.hideNonMemeFeature();	
@@ -158,6 +135,16 @@ Meteor.setTimeout( function() { hacker.loader.go(); }, 3000 );
 
 			this.showNonMemeFeature();
 		}
+
+		if (_name == "VIDEO") {
+
+			game.pauseMusic();
+	
+			hacker.suspendBGSound();  //in case a sound file is playing in bg
+
+		}
+
+
 
 		c("feature.switch() is calling this.item.show()")
 		

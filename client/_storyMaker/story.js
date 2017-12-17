@@ -1150,7 +1150,7 @@ this.getLabelByID = function( _ID ) {
 
 		var _sel = "img#storyButton" + _name + ".imgStoryButton.imgStoryButtonBG";
 
-		$( _sel ).attr("src", Control.hilitedBackdrop());
+		$( _sel ).attr("src", Set.hilitedBackdrop());
 
 		this.storyButton = _name;
 		
@@ -1162,7 +1162,7 @@ this.getLabelByID = function( _ID ) {
 
 			var _sel = this.storyButtonBGElements[i];
 
-			$( _sel ).attr("src", Control.featuredBackdrop());
+			$( _sel ).attr("src", Set.featuredBackdrop());
 		}
 		
 	}
