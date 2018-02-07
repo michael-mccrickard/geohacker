@@ -1,4 +1,81 @@
 
+doNewData = function() {
+
+
+  var arrC = db.ghC.find( {} ).fetch();
+
+  var arrM = db.ghMeme.find( {} ).fetch();
+
+  var arrI = db.ghImage.find( {} ).fetch();
+
+  var arrT = db.ghText.find( {} ).fetch();
+
+  var _s = "";
+
+  var newline = "\n\r";
+
+  var newData = { d: [] };
+
+
+    for (var i = 0; i < arrC.length; i++) {
+
+        var _obj = arrC[i];
+
+console.log("checking " + _obj.c)
+
+        var _new = {};
+
+         _new.c = _obj.c
+
+         _new.cla = _obj.cla;
+
+         _new.clo = _obj.clo;
+
+         _new.d = _obj.d;
+
+         _new.fc = _obj.fc
+
+         _new.ht = _obj.ht;
+
+         _new.n = _obj.n
+
+        _new.g = _obj.g
+
+
+        newData.d.push( _new );
+
+
+    }
+
+    console.log(JSON.stringify( newData ));
+
+    Meteor.call("writeFile", JSON.stringify( newData ), "newData.json")
+
+}
+
+
+/*
+
+c(count, " records")
+
+console.log(JSON.stringify( newData ));
+
+Meteor.call("writeFile", JSON.stringify( newData ), "newData.json")
+
+
+
+}
+
+          var _capName = db.ghText.findOne( { cc: _obj.c, dt: "cap"} ).f;
+
+          var _capImage = db.ghImage.findOne( { cc: _obj.c, dt: "cap"} ).u;
+
+          var _flagImage  = db.ghImage.findOne( { cc: _obj.c, dt: "flg"} ).u;
+
+          var _globeImage = _obj.g;
+*/
+
+
 findAudio = function() {
 
 var newline = "\n\r";

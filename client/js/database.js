@@ -875,6 +875,7 @@ Database.makeSingleElementArray = function( _arr, _field) {
   return arr;
 }
 
+
 Database.getObjectIndexWithValue = function( _arr, _field, _val) {
 
     var _obj = null;
@@ -888,6 +889,23 @@ Database.getObjectIndexWithValue = function( _arr, _field, _val) {
 
       return -1;
 }
+
+Database.getObjectsWithValue = function( _arr, _field, _val) {
+
+    var _out = [];
+
+    var _obj = null;
+
+     for (var i = 0; i < _arr.length; i++) {
+
+          _obj = _arr[i];
+
+          if ( _obj[ _field ] == _val) _out.push( _obj) 
+      } 
+
+      return _out;
+}
+
 
 Database.getObjectIndexWithValueAdjacent = function( _arr, _field, _val, _offset) {
 

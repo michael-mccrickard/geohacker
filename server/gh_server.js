@@ -1295,31 +1295,43 @@ geo.reverse(_lat, _lng);
 
 
   },
-
+//
   testread: function() {
 
     var fs = Npm.require('fs');
-
-    // file originally saved as public/data/taxa.csv
     
-    var data = fs.readFileSync(process.cwd() + '/../web.browser/app/centers.txt', 'utf8');
+    var text = fs.readFileSync(process.cwd() + '/../web.browser/app/pop.txt', 'utf8');
     //console.log('data', data);
-
-    var arr = data.split(/\r?\n/);
-
-
-    for (var i = 0; i < arr.length; i++) {
-
-      var _arr = arr[i].split(/\b(\s)/);
-
-      var _code = _arr[0].trim();
-
-      var _lat = _arr[2].trim();
-
-      var _lng = _arr[4].trim();
+    var a = []; 
     
-      var res = ghC.update( {c: _code }, { $set: { cla: _lat, clo: _lng }  }); 
+    a = text.split(/\r?\n/)
+
+
+    var a2 = {};
+
+
+    for (var i = 0; i < a.length; i++)  {
+
+      var tmp = a[i];
+
+        var tmp2 = tmp.split(',');
+
+        var obj = {};
+
+        a2[tmp2[1]] = {};
+
+        a2[tmp2[1]].n = tmp2[0];
+
+        a2[tmp2[1]].p = tmp2[2];
     }
+
+
+
+    var p = "/Users/michaelmccrickard/Desktop/";
+
+//return( JSON.stringify(a2) );
+
+    fs.writeFileSync(p +"pop.js", JSON.stringify(a2));
 
   },
 
