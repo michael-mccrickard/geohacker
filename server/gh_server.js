@@ -18,9 +18,9 @@ loginMethod = "password";  //or google, facebook, instagram
 //      ENVIRONMENT AND SETTINGS
 //*********************************************
 
-/*
-console.log(process.env.MAIL_URL)
 
+
+/*
 console.log(process.env.AWS_ACCESS_KEY_ID)
 
 console.log(process.env.AWS_SECRET_ACCESS_KEY)
@@ -102,6 +102,8 @@ var bioFields = {
 Meteor.startup(
 
   function () {
+
+console.log(process.env.MONGO_URL)
 
     db = new DB();
 
