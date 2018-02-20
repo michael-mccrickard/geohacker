@@ -9,9 +9,9 @@ adrianliaw:youtube-iframe-api@1.3.122
 alanning:roles@1.2.16
 allow-deny@1.1.0
 autoupdate@1.4.0
-babel-compiler@7.0.3
+babel-compiler@7.0.4
 babel-runtime@1.2.2
-base64@1.0.10
+base64@1.0.11
 binary-heap@1.0.10
 blaze@2.3.2
 blaze-html-templates@1.1.2
@@ -33,9 +33,9 @@ ddp-server@2.1.2
 deps@1.0.12
 diff-sequence@1.1.0
 dynamic-import@0.3.0
-ecmascript@0.10.3
+ecmascript@0.10.4
 ecmascript-runtime@0.5.0
-ecmascript-runtime-client@0.6.1
+ecmascript-runtime-client@0.6.2
 ecmascript-runtime-server@0.5.0
 edgee:slingshot@0.7.1
 ejson@1.1.0
@@ -71,8 +71,8 @@ meteor-base@1.3.0
 meteorhacks:aggregate@1.3.0
 meteorhacks:collection-utils@1.2.0
 mikemccrickard:ammap@1.0.15
-minifier-css@1.3.0
-minifier-js@2.3.1
+minifier-css@1.3.1
+minifier-js@2.3.2
 minimongo@1.4.3
 mobile-experience@1.0.5
 mobile-status-bar@1.0.14
@@ -92,9 +92,9 @@ ordered-dict@1.1.0
 peerlibrary:aws-sdk@2.4.9_1
 peerlibrary:blocking@0.5.2
 praxie:canvas-to-blob@1.1.1
-promise@0.10.1
+promise@0.10.2
 random@1.1.0
-rate-limit@1.0.8
+rate-limit@1.0.9
 reactive-dict@1.2.0
 reactive-var@1.0.11
 reload@1.2.0
@@ -112,8 +112,8 @@ socket-stream-client@0.1.0
 spacebars@1.0.15
 spacebars-compiler@1.1.3
 srp@1.0.10
-standard-minifier-css@1.4.0
-standard-minifier-js@2.3.1
+standard-minifier-css@1.4.1
+standard-minifier-js@2.3.2
 stevezhu:lodash@3.10.1
 templating@1.3.2
 templating-compiler@1.3.3

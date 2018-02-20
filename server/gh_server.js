@@ -750,9 +750,9 @@ Meteor.startup(
 
 function getChiefID2() {
 
-  var res = Meteor.users.findOne( { username: "Mac Sea" } );
+  //var res = Meteor.users.findOne( { username: "Mac Sea" } );
 
-  return res._id;
+  return "SWjqzgXy9rGCYvpRF";
 }
 
 //A function with the same name is available to the client thru the db object;
