@@ -103,8 +103,6 @@ Meteor.startup(
 
   function () {
 
-console.log(process.env.MONGO_URL)
-
     db = new DB();
 
     Future = Npm.require('fibers/future');

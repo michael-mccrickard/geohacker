@@ -338,7 +338,7 @@ loginWithService = function(_service) {
           //loginStyle: 'redirect'  you can use redirect for mobile web app
         
         }, function (err) {
-
+console.log(err);
 
             if (err)  {
 
