@@ -89,7 +89,11 @@ NewsItem = function(_type, _ID, _param, _name, _date) {
 
 	if (_type == eExplore) {
 
-		var _countryName = db.ghC.findOne( { c: _param } ).n;
+		var _countryName = "Unknown";
+
+		if (_param) {	
+			_countryName = db.ghC.findOne( { c: _param } ).n;
+		}
 
 		this.msg = _remoteName + " is exploring " + _countryName;
 	}
