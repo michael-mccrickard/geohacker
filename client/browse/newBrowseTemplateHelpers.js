@@ -212,16 +212,15 @@ Template.newBrowse2.helpers({
 Template.newBrowse2.events({
 
     'click img.bigPic': function(e) {
-
+return;
         display.featuredMeme  = display.browser.leftMeme;
-                
-        display.browser.showFeatured();      
 
+        display.browser.showFeatured();      
 
     },
 
     'click img.smallPic': function(e) {
-
+return;
         display.featuredMeme = display.browser.rightMeme;
                 
         display.browser.showFeatured();      

@@ -14,6 +14,8 @@ NewLoader = function() {
 
 	this.start = function() {
 
+		hack.mode = mReady;
+
 		this.state = "play";
 
 		this.go();
@@ -39,17 +41,17 @@ NewLoader = function() {
 		var mode = hack.mode;
 
 
-		if (mode != mReady) {
-         
-          display.playEffect( hacker.locked_sound_file );
+		//if (mode != mReady) {
+//c('exiting loader b/c hack.mode is not ready')
+         // display.playEffect( hacker.locked_sound_file );
 		
-		  return;
-		}
-
+		 // return;
+		//}
+c("b4 arrangeRows")
 		this.arrangeRows();
 
 		this.newControl = this.loadRandomControl();
-
+console.log(this.newControl)
 		if (!this.newControl) {
 
 			stopSpinner();
@@ -73,7 +75,7 @@ NewLoader = function() {
 		var _delay = 0;
 
 		if (this.totalClueCount == 1) _delay = 2000;
-
+console.log("new control name is ", hacker.loader.newControl.name)
 	    Meteor.setTimeout( function() { hacker.feature.preload( hacker.loader.newControl.name );	}, _delay );
 
 

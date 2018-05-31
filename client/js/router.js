@@ -333,6 +333,8 @@ FlowRouter.route('/debrief', {
 
 FlowRouter.route('/closeup', {
 
+    name: "closeup",
+
     action: function (params, queryParams) { 
 
     BlazeLayout.render('layout', { content: "closeup" } ) 

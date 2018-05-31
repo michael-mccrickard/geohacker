@@ -26,7 +26,7 @@ Template.meme.events({
   'click img.memePicFrame': function(e) {
 
       e.preventDefault();  
-
+return;
       if (display.featuredMeme) {
 
           if (display.featuredMeme.returnRoute) {
@@ -43,12 +43,17 @@ Template.meme.events({
 
           display.featuredMeme = hacker.feature.item.ctl.meme;
 
+          hacker.loader.pause();
+            
+          FlowRouter.go("closeup");
+          
+          Meteor.setTimeout( () => { stopSpinner() , 1000});
+
           display.featuredMeme.preloadImageForFeature( "/main");
 
           return;
       }
 
-      if ( game.user.mode == uBrowseCountry) FlowRouter.go("/newBrowse2");
 
   },
 

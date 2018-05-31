@@ -342,7 +342,4 @@ c("starting news from main.rendered")
 
 }
 
-Template.main.onDestroyed(function () {
 
-  c("hacker template destroryed")
-});

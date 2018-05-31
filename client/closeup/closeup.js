@@ -4,6 +4,7 @@ Template.closeup.rendered = function() {
 
   stopSpinner();
 
+
   hacker.closeUp.draw();
 }
 
@@ -47,6 +48,10 @@ Template.closeup.events = {
 
         return;
       }
+
+      hack.mode = mReady;
+
+      hacker.loader.state = "play";
 
   		FlowRouter.go("/main");
   	},
@@ -115,6 +120,8 @@ CloseUp = function() {
 
         img = display.getImageFromFile( _filename );
       }
+
+      if (!img) img = display.getImageFromFile(display.feature.item.imageFile);
 
       var fullScreenWidth = $(window).width();
 

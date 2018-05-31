@@ -709,7 +709,7 @@ if (game.user.mode == uEdit) return;
 
 		this.video.hide();
 
-		display.featuredMeme.preloadImageForFeature();
+		display.featuredMeme.preloadImageForDebrief();
 	}
 
 	this.updateContent = function() {

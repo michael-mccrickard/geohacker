@@ -231,7 +231,9 @@ Meme = function( _rec, _type )  {
 			//it takes a moment to create the off-screen image (for dimensioning)
 			//in the call the getImageFromFile() above
 
-			Meteor.setTimeout( function() { display.featuredMeme.drawFeatured(); }, 200 );
+			if (game.user.mode === uHack) Meteor.setTimeout( function() { display.featuredMeme.drawFeatured(); }, 200 );
+
+			if (game.user.mode === uBrowseCountry) Meteor.setTimeout( function() { display.featuredMeme.drawCloseup(); }, 200 );
 
 		});
 
@@ -354,14 +356,14 @@ if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).veloci
 
 	}
 
-/*
+
 	this.drawFeatured = function( ) {
 
 		if (this.text) $("div.memeText").text( this.text );
 
 		var _source = Meme.sourceUnknownText;
 
-		if (this.source) _source = this.source;
+		if (this.source) _source = this.source; 
 
 		$("#closeUpSource").text( _source );
 
@@ -379,7 +381,11 @@ if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).veloci
 
 	    var _left = (maxWidth/2) - (_width / 2 );
 
-	    var outerContainer = "img.featuredBackdrop";
+		var outerContainer = "img.featuredBackdrop";
+		
+	    var _height = $( outerContainer).outerHeight();
+		
+		var _width = $( outerContainer ).outerWidth();
 
 	    var _height = $( outerContainer).outerHeight();
 
@@ -395,7 +401,7 @@ if ( $( this.imageElement).css("opacity") == "1" ) $("img.memePicFrame" ).veloci
 
 		$( container ).css("top", "65px");
 
-$( outerContainer ).attr("width", _width * 1.2 ); 
+		$( outerContainer ).attr("width", _width * 1.2 ); 
 
 
 		$( container ).attr("src", this.image );
@@ -415,7 +421,7 @@ $( outerContainer ).attr("width", _width * 1.2 );
 
 		this.show();
 	}
-*/
+
 
 	this.dimensionForHack = function( ) {
 
@@ -432,8 +438,6 @@ $( outerContainer ).attr("width", _width * 1.2 );
 		this.imageSrc = hacker.feature.item.imageSrc;
 
 		if (this.text) $("div.memeText").text( this.text );
-
-c(this.text)
 
 	    var container = "img.featuredBackdrop";
 
@@ -456,12 +460,6 @@ c(this.text)
  		_width = _width - _btnDimension;
 
 	    var _left = leftMargin + ( maxWidth / 2 ) - ( _width / 2 );
-
-c("left margin is " + leftMargin)
-
-c("maxWidth is " + maxWidth)
-
-c("width is " + _width)
 
 	    var _fullLeft = _left;
 
@@ -507,8 +505,6 @@ c("width is " + _width)
 //close button
 
 		container = ".memeCloseButton";
-
-
 
 //do we have enough space for the button?
 

@@ -160,14 +160,14 @@ Headline = function( _type ) {
     },
 
     this.setAndType = function() {
-        
+      
         this.set();
 
         this.type();
     },
 
     this.setThisAndType = function( _str ) {
-        
+       
         this.set( _str );
 
         this.type();
