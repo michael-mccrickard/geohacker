@@ -21,7 +21,7 @@ Help = function() {
 
 		//if (_which == "INTRO") return "BS1rWxgRdqM";
 
-		if (_which == "HACK") return "BS1rWxgRdqM";
+		if (_which == "HACK") return "xWMzzysh44s";
 
 		if (_which == "EXPLORE") return "3k01PSvD5F8";
 

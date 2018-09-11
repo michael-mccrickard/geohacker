@@ -1,55 +1,34 @@
 
-doNewData = function() {
-
-
-  var arrC = db.ghC.find( {} ).fetch();
-
-  var arrM = db.ghMeme.find( {} ).fetch();
+findig = function() {
 
   var arrI = db.ghImage.find( {} ).fetch();
 
-  var arrT = db.ghText.find( {} ).fetch();
-
-  var _s = "";
+  var s = "";
 
   var newline = "\n\r";
 
   var newData = { d: [] };
 
 
-    for (var i = 0; i < arrC.length; i++) {
+    for (var i = 0; i < arrI.length; i++) {
 
-        var _obj = arrC[i];
+        var _obj = arrI[i];
 
-console.log("checking " + _obj.c)
+        if (!_obj.u) continue;
 
-        var _new = {};
-
-         _new.c = _obj.c
-
-         _new.cla = _obj.cla;
-
-         _new.clo = _obj.clo;
-
-         _new.d = _obj.d;
-
-         _new.fc = _obj.fc
-
-         _new.ht = _obj.ht;
-
-         _new.n = _obj.n
-
-        _new.g = _obj.g
+        var _url = _obj.u.toLowerCase();
 
 
-        newData.d.push( _new );
+        if ( _url.indexOf("instagram") !== -1) {
+          
+console.log(_obj.cc);
 
+          s = s + _obj.cc +  " -- " + _obj.dt + " -- " + _obj.u + newline;
+        }
 
     }
 
-    console.log(JSON.stringify( newData ));
-
-    Meteor.call("writeFile", JSON.stringify( newData ), "newData.json")
+    Meteor.call("writeFile", s, "igFiles.json")
 
 }
 
