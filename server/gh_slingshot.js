@@ -7,6 +7,7 @@ Slingshot.createDirective("ghC", Slingshot.S3Storage, {
 
   AWSAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
   AWSSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: "us-east-1",
 
   authorize: function () {
 
@@ -35,7 +36,7 @@ Slingshot.createDirective("ghStoryPic", Slingshot.S3Storage, {
 
   AWSAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
   AWSSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-
+  region: "us-east-1",
   authorize: function () {
 
     //Deny uploads if user is not logged in.
@@ -62,7 +63,7 @@ Slingshot.createDirective("ghSound", Slingshot.S3Storage, {
 
   AWSAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
   AWSSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-
+  region: "us-east-1",
   authorize: function () {
 
     //Deny uploads if user is not logged in.
@@ -89,7 +90,7 @@ Slingshot.createDirective("ghVideo", Slingshot.S3Storage, {
 
   AWSAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
   AWSSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-
+  region: "us-east-1",
   authorize: function () {
 
     //Deny uploads if user is not logged in.
@@ -116,7 +117,7 @@ Slingshot.createDirective("ghImage", Slingshot.S3Storage, {
 
   AWSAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
   AWSSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-
+  region: "us-east-1",
   authorize: function () {
 
     //Deny uploads if user is not logged in.
@@ -144,7 +145,7 @@ Slingshot.createDirective("ghWeb", Slingshot.S3Storage, {
 
   AWSAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
   AWSSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-
+  region: "us-east-1",
   authorize: function () {
 
     //Deny uploads if user is not logged in.
@@ -172,7 +173,7 @@ Slingshot.createDirective("ghAvatar", Slingshot.S3Storage, {
 
   AWSAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
   AWSSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-
+  region: "us-east-1",
   authorize: function () {
 
     //Deny uploads if user is not logged in.
@@ -199,7 +200,7 @@ Slingshot.createDirective("ghTag", Slingshot.S3Storage, {
 
   AWSAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
   AWSSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-
+  region: "us-east-1",
   authorize: function () {
 
     //Deny uploads if user is not logged in.
@@ -226,9 +227,9 @@ Slingshot.createDirective("ghUserFeaturedPic", Slingshot.S3Storage, {
 
   acl: "public-read",
 
-  AWSAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  AWSSecretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-
+  AWSAccessKeyId: Meteor.settings.AWS_ACCESS_KEY_ID,
+  AWSSecretAccessKey: Meteor.settings.AWS_SECRET_ACCESS_KEY,
+  region: "us-east-1",
   authorize: function () {
 
     //Deny uploads if user is not logged in.
